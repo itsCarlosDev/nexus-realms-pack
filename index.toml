@@ -10,7 +10,7 @@ hash = "e107506460ea9e8cf52860d327df2d7099008a6736adf595f25ab048f945b8e4"
 
 [[files]]
 file = "README.md"
-hash = "b61470af06f040c49222d67184c8e9c27ad05252163eef15e7194069b6b5f421"
+hash = "e7a01922460a9ecf107d1dfbf7cf3d3a7c662dc0f45c5aa027dfe6e902033ea3"
 
 [[files]]
 file = "TODO.md"
@@ -22,7 +22,7 @@ hash = "2139d9dc64c852c87973a735dfb69c13fd633e56b13683f06d1ba236536d2329"
 
 [[files]]
 file = "docs/client-installation-prism.md"
-hash = "1192a0ef9f8324610636a616abb9ffafba413cf4e18fd0805f587307ff494efe"
+hash = "655d3c66b2dda99f7a7cc7e35ad644e25e36b55e5167c4286407db498cf6f692"
 
 [[files]]
 file = "docs/mod-list-plan.md"
@@ -34,7 +34,7 @@ hash = "713cb9647d0b69494be025e5816d4db214f2f5ac9b64da1a01183e3249caf75f"
 
 [[files]]
 file = "docs/server-installation.md"
-hash = "a176d951c38967a613ef1031093133a4cc52c3d141b669be728ce99ae170bd3a"
+hash = "f74e200e5959416c59a8706fc22b87f3ad3ec4743b44739a8f3dc30898ed1de2"
 
 [[files]]
 file = "docs/update-workflow.md"
@@ -50,4 +50,4 @@ hash = "a42d4d9f162eea263aaa1ce52b97881a1ae1c13beb6e2c8eb1970202a8b54c6c"
 
 [[files]]
 file = "scripts/update-server.sh"
-hash = "570af171e7b1cf22f186a2c093eed5dba13334812430f07ba7bfaa8e24e4ec77"
+hash = "a446987003ad7fd9f624e30e97c56586b096b9356bcc005760641821497bd292"
