@@ -57,6 +57,14 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - Corpse - `both`
 - Traveler's Backpack - `both`
 
+## Pack 4 - Magic
+
+- Iron's Spells 'n Spellbooks - `both`
+- Iron's Lib - `both`
+- Curios API - `both`
+- GeckoLib - `both`
+- playerAnimator - `both`
+
 ## Initial candidate list
 
 - ModernFix
