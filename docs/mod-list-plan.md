@@ -39,6 +39,16 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - Controlling - `client`
 - Searchables - `client`
 
+## Block 3 - World structures
+
+- YUNG's Better Strongholds - `both`
+- YUNG's Better Nether Fortresses - `both`
+- YUNG's Better Ocean Monuments - `both`
+- YUNG's Better Desert Temples - `both`
+- YUNG's Better Jungle Temples - `both`
+- YUNG's Better Witch Huts - `both`
+- YUNG's Better End Island - `both`
+
 ## Initial candidate list
 
 - ModernFix
