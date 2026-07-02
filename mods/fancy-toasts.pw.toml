@@ -1,0 +1,13 @@
+name = "Fancy Toasts | Better Advancements"
+filename = "fancytoasts-forge-1.20.1-1.4.7.jar"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/eUziWqPC/versions/ZZLFzqe2/fancytoasts-forge-1.20.1-1.4.7.jar"
+hash-format = "sha512"
+hash = "571677cee05d0b6083b81a801b4237c03a64ea9f5847ede1149534a559a67a697b2b13336cc9be4be4bc8363c9c881ca525203e80e6df491e103ff9de4cb935f"
+
+[update]
+[update.modrinth]
+mod-id = "eUziWqPC"
+version = "ZZLFzqe2"
