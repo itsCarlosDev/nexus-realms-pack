@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PACK_URL="https://USUARIO.github.io/nexus-realms-pack/pack.toml"
+PACK_URL="https://itscarlosdev.github.io/nexus-realms-pack/pack.toml"
 
 if [ ! -f "packwiz-installer-bootstrap.jar" ]; then
   echo "Missing packwiz-installer-bootstrap.jar in the current server folder."

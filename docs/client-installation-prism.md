@@ -14,7 +14,7 @@ This guide is for friends joining Nexus Realms.
 Final URL format:
 
 ```txt
-https://USUARIO.github.io/nexus-realms-pack/pack.toml
+https://itscarlosdev.github.io/nexus-realms-pack/pack.toml
 ```
 
 ## Option A: import a prepared instance
@@ -40,7 +40,7 @@ If Carlos provides a prepared Prism instance, import it into Prism Launcher and 
 Replace `URL_DEL_PACK_TOML` with:
 
 ```txt
-https://USUARIO.github.io/nexus-realms-pack/pack.toml
+https://itscarlosdev.github.io/nexus-realms-pack/pack.toml
 ```
 
 ## Updating

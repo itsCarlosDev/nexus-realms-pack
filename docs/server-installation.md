@@ -20,7 +20,7 @@ java -jar packwiz-installer-bootstrap.jar -g -s server URL_DEL_PACK_TOML
 Example final URL format:
 
 ```txt
-https://USUARIO.github.io/nexus-realms-pack/pack.toml
+https://itscarlosdev.github.io/nexus-realms-pack/pack.toml
 ```
 
 The `-s server` option downloads only mods marked as:
@@ -36,7 +36,7 @@ It skips client-only mods such as shaders, minimaps, camera tools, and visual op
 #!/usr/bin/env bash
 set -euo pipefail
 
-PACK_URL="https://USUARIO.github.io/nexus-realms-pack/pack.toml"
+PACK_URL="https://itscarlosdev.github.io/nexus-realms-pack/pack.toml"
 
 java -jar packwiz-installer-bootstrap.jar -g -s server "$PACK_URL"
 java -Xms4G -Xmx8G -jar forge-server.jar nogui
