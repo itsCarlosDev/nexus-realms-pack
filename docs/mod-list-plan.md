@@ -39,7 +39,7 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - Controlling - `client`
 - Searchables - `client`
 
-## Block 3 - World structures
+## Block 3 - World structures, exploration and multiplayer utilities
 
 - YUNG's Better Strongholds - `both`
 - YUNG's Better Nether Fortresses - `both`
@@ -48,6 +48,14 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - YUNG's Better Jungle Temples - `both`
 - YUNG's Better Witch Huts - `both`
 - YUNG's Better End Island - `both`
+- Lootr - `both`
+- Waystones - `both`
+- Balm - `both`
+- Nature's Compass - `both`
+- Xaero's Minimap - `client`
+- Xaero's World Map - `client`
+- Corpse - `both`
+- Traveler's Backpack - `both`
 
 ## Initial candidate list
 
