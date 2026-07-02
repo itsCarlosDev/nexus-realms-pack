@@ -26,6 +26,11 @@ hash = "4063abe583282834b2f78e3b3e6b9ee4d231a680f74c020e405a4ef196f21ee4"
 metafile = true
 
 [[files]]
+file = "mods/coroutil.pw.toml"
+hash = "b2c7739b56ef71f50a86658cfa67375796beafd391c4dbe26a5de8cd92b9b685"
+metafile = true
+
+[[files]]
 file = "mods/corpse.pw.toml"
 hash = "d62480bc696affd0a714d4cd74b5dc64a072b9d67d505b52df87ebcdf9650a79"
 metafile = true
@@ -51,8 +56,23 @@ hash = "5ec0c37f3f4ad07a40c10376668bca80334ddb7ad2bab06eb4de8f7aac339c8e"
 metafile = true
 
 [[files]]
+file = "mods/entity-model-features.pw.toml"
+hash = "b6bad0dc31bec26203bced18c111495357a1708404d21c4ce71ead00142aa5ad"
+metafile = true
+
+[[files]]
 file = "mods/entityculling.pw.toml"
 hash = "fbad2488da791994cbb4a0541e2dd22c536dbe6ca8f7edfdd9af12120e283fd2"
+metafile = true
+
+[[files]]
+file = "mods/entitytexturefeatures.pw.toml"
+hash = "aa2a1abbccb92ccc4ba3a5a70d24edcd1e39a035f15fb9ba49c27f270a5e74e3"
+metafile = true
+
+[[files]]
+file = "mods/fancy-toasts.pw.toml"
+hash = "25644d1e49befc15ea303fa14491d04c3e8a116c85e44184ba4a1ff0992b0bb6"
 metafile = true
 
 [[files]]
@@ -63,6 +83,11 @@ metafile = true
 [[files]]
 file = "mods/ferrite-core.pw.toml"
 hash = "902bac905b93271f02bd0951a22bac06a3da24f5c237fcaeb469e14a7679e508"
+metafile = true
+
+[[files]]
+file = "mods/fwa.pw.toml"
+hash = "f4c2535e8b6e5bed303a9062aadddf9c71372431acbc17017f1214b62aa98288"
 metafile = true
 
 [[files]]
@@ -121,8 +146,28 @@ hash = "b52622122c19a3894e62fc5506d7c3332d202504fd406d6718be646f979feb40"
 metafile = true
 
 [[files]]
+file = "mods/punchy-fpa.pw.toml"
+hash = "db45d5c44ae36a39ae5a86ab9a05dc887e67a79318bc8fc06618fcea0837f8d4"
+metafile = true
+
+[[files]]
 file = "mods/searchables.pw.toml"
 hash = "b8c7497acbf4890b4609b6b20de7affdd3482fc99af975d9ff6b29c075e1d8a7"
+metafile = true
+
+[[files]]
+file = "mods/shoulder-surfing-reloaded.pw.toml"
+hash = "456a859062a859ff69cffe95b2ecdc9636d389ffc92e9176fe6975a0015fd615"
+metafile = true
+
+[[files]]
+file = "mods/status-effect-bars-reforged.pw.toml"
+hash = "9d4682b34e59eab9183ac89ff20c4d45b854e15b051453e752f4d953789ac02c"
+metafile = true
+
+[[files]]
+file = "mods/stellara.pw.toml"
+hash = "81a15645346319c38be74dd5ca27ce7100e3eac1fd3b978fb7ac0bf40fe9386e"
 metafile = true
 
 [[files]]
@@ -131,8 +176,18 @@ hash = "9196de9e5063a507cba85361ec1172254a500fc63e0df94671f43227df96904a"
 metafile = true
 
 [[files]]
+file = "mods/visuality-forge.pw.toml"
+hash = "736738062381bec4d55b726546b4fab7443bea0e5983e8af65b90c56da72da06"
+metafile = true
+
+[[files]]
 file = "mods/waystones.pw.toml"
 hash = "5ab6f2a4a50bd53506496d3da0c2c09d5a3ca363c3ebc7ca8641ecd3f7104365"
+metafile = true
+
+[[files]]
+file = "mods/what-are-they-up-to.pw.toml"
+hash = "c557d1b26559ef987c229187d2f2705616e78179ce04fa1c96cc3d76a1cdf1b5"
 metafile = true
 
 [[files]]
@@ -143,6 +198,16 @@ metafile = true
 [[files]]
 file = "mods/xaeros-world-map.pw.toml"
 hash = "c470d4257aa9ba4e89e95f03effe79a411ae22999b5b4c5535affe11859f4a74"
+metafile = true
+
+[[files]]
+file = "mods/ydms-weapon-master.pw.toml"
+hash = "c4968d2539190a1a2e2623814db027d8229fd75800f58f76b51a39f25e7ea3b2"
+metafile = true
+
+[[files]]
+file = "mods/you-died.pw.toml"
+hash = "a254c92a353dbc91edbc33208086f3fba32c8e21f1f613ea2e49c57ef70cef3b"
 metafile = true
 
 [[files]]
@@ -193,4 +258,9 @@ metafile = true
 [[files]]
 file = "mods/yungs-better-witch-huts.pw.toml"
 hash = "2eb3e909cc46e39d8b9e762f39c36b0579744118d619beb6a174d264951d6248"
+metafile = true
+
+[[files]]
+file = "resourcepacks/fresh-animations.pw.toml"
+hash = "6a1556a0e4fcb411b33efafc3382b4abd9a6e671f140dc0d42e9aad2808e24f3"
 metafile = true

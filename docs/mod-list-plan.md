@@ -65,6 +65,33 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - GeckoLib - `both`
 - playerAnimator - `both`
 
+## Pack 6 - Visual / immersion / UI
+
+### Mods added
+
+- Entity Texture Features - `client`
+- Entity Model Features - `client`
+- Punchy! - `client`
+- Shoulder Surfing Reloaded - `client`
+- Visuality: Reforged - `client`
+- What Are They Up To (WATUT) - `both`
+- CoroUtil - `both`, dependency for WATUT
+- You Died - `client`
+- Fancy World Animations - `client`
+- Fancy Toasts - `client`
+- Stellara - `client`
+- Status Effect Bars Reforged - `client`
+- YDM's Weapon Master - `both`
+- Fresh Animations - `client` resource pack, managed by packwiz metadata
+
+### Mods pending
+
+- Immersive Hotbar - packwiz did not find a valid version for the current Forge 1.20.1 pack settings. Recheck later if Forge support appears.
+
+### Mods omitted
+
+- Epic Fight, Better Combat, Cataclysm, TaCZ, Alex's Mobs, Alex's Delight, Mystic's Biomes, Cult of Azazel, Chef's Delight, Create Better FPS, Arsenal RPG Series, Clavis, Superior RPG, and Mushoku Tensei remain intentionally excluded from Pack 6.
+
 ## Initial candidate list
 
 - ModernFix
@@ -103,6 +130,6 @@ Important: Better Combat and Epic Fight should not be mixed without heavy testin
 
 - Do not use Arsenal RPG Series for now because it does not fit the Forge 1.20.1 target well enough.
 - Do not use Clavis for now because it does not fit the Forge 1.20.1 target well enough.
-- Do not use Immersive Hotbar for now because it does not fit the Forge 1.20.1 target well enough.
+- Do not use Immersive Hotbar for now because packwiz did not find a valid Forge 1.20.1 version for the current pack settings.
 - Use Superior RPG only as inspiration for class progression and RPG pacing.
 - Use Mushoku Tensei only as inspiration for magic/class fantasy and presentation.
