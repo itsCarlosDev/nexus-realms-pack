@@ -1,0 +1,53 @@
+hash-format = "sha256"
+
+[[files]]
+file = "CHANGELOG.md"
+hash = "a8fcecb57d7b1cd93d831602864c40ab5a05b645059a88befbba7f3e597da29b"
+
+[[files]]
+file = "CONTRIBUTING.md"
+hash = "e107506460ea9e8cf52860d327df2d7099008a6736adf595f25ab048f945b8e4"
+
+[[files]]
+file = "README.md"
+hash = "b61470af06f040c49222d67184c8e9c27ad05252163eef15e7194069b6b5f421"
+
+[[files]]
+file = "TODO.md"
+hash = "9372744a9628b77d34fe7456edddf8d0091631ca07420f951e90e52d51d86ee4"
+
+[[files]]
+file = "docs/branch-strategy.md"
+hash = "2139d9dc64c852c87973a735dfb69c13fd633e56b13683f06d1ba236536d2329"
+
+[[files]]
+file = "docs/client-installation-prism.md"
+hash = "1192a0ef9f8324610636a616abb9ffafba413cf4e18fd0805f587307ff494efe"
+
+[[files]]
+file = "docs/mod-list-plan.md"
+hash = "75fc59760acbed78dc923dfcaa389b40c94b032a89b56e66208c0a53e683db8f"
+
+[[files]]
+file = "docs/mod-side-rules.md"
+hash = "713cb9647d0b69494be025e5816d4db214f2f5ac9b64da1a01183e3249caf75f"
+
+[[files]]
+file = "docs/server-installation.md"
+hash = "a176d951c38967a613ef1031093133a4cc52c3d141b669be728ce99ae170bd3a"
+
+[[files]]
+file = "docs/update-workflow.md"
+hash = "1948b0624ceeccd93953996b1a9e2bca55f517d32b7170f1a7e5d42f29377fc6"
+
+[[files]]
+file = "scripts/dev-check.sh"
+hash = "f74261e6b63bd9ee7e7723a625994c9a36cd16be7e4abb0140de8c83ff89bba0"
+
+[[files]]
+file = "scripts/refresh-pack.sh"
+hash = "a42d4d9f162eea263aaa1ce52b97881a1ae1c13beb6e2c8eb1970202a8b54c6c"
+
+[[files]]
+file = "scripts/update-server.sh"
+hash = "570af171e7b1cf22f186a2c093eed5dba13334812430f07ba7bfaa8e24e4ec77"

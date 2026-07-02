@@ -1,0 +1,12 @@
+name = "Nexus Realms"
+author = "Carlos"
+version = "0.1.0"
+pack-format = "packwiz:1.1.0"
+
+[index]
+file = "index.toml"
+hash-format = "sha256"
+hash = "5cbe5c0f6056c9fd69a316fd9646db243a3bf15d4889774ebb9cb66ce9cefb2a"
+
+[versions]
+minecraft = "1.20.1"

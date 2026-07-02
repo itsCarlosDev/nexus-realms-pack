@@ -1,0 +1,48 @@
+# macOS
+.DS_Store
+
+# Minecraft local/runtime data
+logs/
+crash-reports/
+saves/
+screenshots/
+options.txt
+servers.dat
+usercache.json
+usernamecache.json
+launcher_profiles.json
+realms_persistence.json
+
+# Pack exports and archives
+*.mrpack
+*.zip
+
+# Manual mod jars should not be committed unless there is a specific reason.
+# Prefer packwiz metadata from Modrinth/CurseForge.
+mods/*.jar
+
+# Java and Minecraft generated files
+*.log
+*.tmp
+*.bak
+*.old
+hs_err_pid*
+replay_recordings/
+
+# IDE/editor temporary files
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+*.swo
+*~
+
+# OS/editor metadata
+Thumbs.db
+Desktop.ini
+
+# Local secrets or environment files
+.env
+.env.*
+secrets/
+
