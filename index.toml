@@ -1,6 +1,10 @@
 hash-format = "sha256"
 
 [[files]]
+file = ".vscode/settings.json"
+hash = "798e486400119e727d34beebd34efe9c554df128dac56044d037997d1a21347a"
+
+[[files]]
 file = "CHANGELOG.md"
 hash = "a8fcecb57d7b1cd93d831602864c40ab5a05b645059a88befbba7f3e597da29b"
 
