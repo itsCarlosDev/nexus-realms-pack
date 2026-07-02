@@ -28,6 +28,17 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 | Quests / classes / progression | FTB Quests, KubeJS | Usually `both`. Use for class progression and onboarding. Superior RPG and Mushoku Tensei are inspiration only, not full imports. |
 | Resource packs / shaders | Resource packs, shader packs | Usually `client`. Keep optional unless required for UI or identity. |
 
+## Block 2 - QoL/UI
+
+- Just Enough Items (JEI) - `client`
+- Jade - `both`
+- AppleSkin - `both`
+- Mouse Tweaks - `client`
+- BetterF3 - `client`
+- Cloth Config API - `client`
+- Controlling - `client`
+- Searchables - `client`
+
 ## Initial candidate list
 
 - ModernFix
