@@ -1,50 +1,6 @@
 hash-format = "sha256"
 
 [[files]]
-file = ".vscode/settings.json"
-hash = "798e486400119e727d34beebd34efe9c554df128dac56044d037997d1a21347a"
-
-[[files]]
-file = "CHANGELOG.md"
-hash = "a8fcecb57d7b1cd93d831602864c40ab5a05b645059a88befbba7f3e597da29b"
-
-[[files]]
-file = "CONTRIBUTING.md"
-hash = "e107506460ea9e8cf52860d327df2d7099008a6736adf595f25ab048f945b8e4"
-
-[[files]]
-file = "README.md"
-hash = "e7a01922460a9ecf107d1dfbf7cf3d3a7c662dc0f45c5aa027dfe6e902033ea3"
-
-[[files]]
-file = "TODO.md"
-hash = "9372744a9628b77d34fe7456edddf8d0091631ca07420f951e90e52d51d86ee4"
-
-[[files]]
-file = "docs/branch-strategy.md"
-hash = "2139d9dc64c852c87973a735dfb69c13fd633e56b13683f06d1ba236536d2329"
-
-[[files]]
-file = "docs/client-installation-prism.md"
-hash = "655d3c66b2dda99f7a7cc7e35ad644e25e36b55e5167c4286407db498cf6f692"
-
-[[files]]
-file = "docs/mod-list-plan.md"
-hash = "75fc59760acbed78dc923dfcaa389b40c94b032a89b56e66208c0a53e683db8f"
-
-[[files]]
-file = "docs/mod-side-rules.md"
-hash = "713cb9647d0b69494be025e5816d4db214f2f5ac9b64da1a01183e3249caf75f"
-
-[[files]]
-file = "docs/server-installation.md"
-hash = "f74e200e5959416c59a8706fc22b87f3ad3ec4743b44739a8f3dc30898ed1de2"
-
-[[files]]
-file = "docs/update-workflow.md"
-hash = "1948b0624ceeccd93953996b1a9e2bca55f517d32b7170f1a7e5d42f29377fc6"
-
-[[files]]
 file = "mods/create.pw.toml"
 hash = "9d7971a7af2ff4a96a0e5aede76f9cf8dc978da601e2754f79d6ec8631125bb9"
 metafile = true
@@ -93,15 +49,3 @@ metafile = true
 file = "mods/yungs-better-mineshafts-forge.pw.toml"
 hash = "e0d77569aa19c6b72d30cb895cef575837a5740bee489d3ae537edf40a900ab1"
 metafile = true
-
-[[files]]
-file = "scripts/dev-check.sh"
-hash = "f74261e6b63bd9ee7e7723a625994c9a36cd16be7e4abb0140de8c83ff89bba0"
-
-[[files]]
-file = "scripts/refresh-pack.sh"
-hash = "a42d4d9f162eea263aaa1ce52b97881a1ae1c13beb6e2c8eb1970202a8b54c6c"
-
-[[files]]
-file = "scripts/update-server.sh"
-hash = "a446987003ad7fd9f624e30e97c56586b096b9356bcc005760641821497bd292"
