@@ -30,7 +30,7 @@ packwiz manages Minecraft modpacks as text metadata. Instead of uploading every 
 This repo is prepared for packwiz, GitHub Pages, and Prism Launcher. Friends can update automatically from:
 
 ```txt
-https://USUARIO.github.io/nexus-realms-pack/pack.toml
+https://itscarlosdev.github.io/nexus-realms-pack/pack.toml
 ```
 
 ## Install packwiz
@@ -151,11 +151,11 @@ Create an empty GitHub repository named `nexus-realms-pack`, then run:
 
 ```bash
 git branch -M main
-git remote add origin https://github.com/USUARIO/nexus-realms-pack.git
+git remote add origin https://github.com/itsCarlosDev/nexus-realms-pack.git
 git push -u origin main
 ```
 
-Replace `USUARIO` with your GitHub username.
+This repository URL is configured for the GitHub user `itsCarlosDev`.
 
 ## Activate GitHub Pages
 
@@ -171,16 +171,17 @@ In GitHub:
 Expected URL:
 
 ```txt
-https://USUARIO.github.io/nexus-realms-pack/pack.toml
+https://itscarlosdev.github.io/nexus-realms-pack/pack.toml
 ```
 
 Use that URL in Prism Launcher and on the server.
 
-## Placeholders to replace
+## Values to review
 
-- `USUARIO`: your GitHub username.
-- `nexus-realms-pack`: your GitHub repo name, if you choose a different one.
-- `URL_DEL_PACK_TOML`: the final GitHub Pages URL for `pack.toml`.
+- GitHub user: `itsCarlosDev`.
+- Repository name: `nexus-realms-pack`, unless you choose a different one.
+- Pack URL: `https://itscarlosdev.github.io/nexus-realms-pack/pack.toml`.
+- Replace any remaining `URL_DEL_PACK_TOML` examples with the final Pack URL above.
 
 ## Private pack note
 
