@@ -10,4 +10,4 @@ hash = "53c45cfb641c79d23a6ccc4448276815c70e3ccaff9f8b084cf152022f68b215"
 
 [versions]
 forge = "47.4.10"
-minecraft = "1.20.1"
+minecraft = "1.20.1" 
