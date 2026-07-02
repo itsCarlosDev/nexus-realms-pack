@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Added the Magic class block in `dev` with Iron's Spells 'n Spellbooks and required libraries.
 - Added the structures, exploration, and multiplayer utilities block in `dev`.
 - Added the QoL/UI block in `dev`: JEI, Jade, AppleSkin, Mouse Tweaks, BetterF3, Cloth Config API, Controlling, and Searchables.
 - Initial Nexus Realms packwiz repository structure.
