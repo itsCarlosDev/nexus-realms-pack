@@ -1,0 +1,13 @@
+name = "MB-3D Items Pack"
+filename = "MB-3D Items Pack 1.10.0.zip"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/jZM0fp9Q/versions/KSHOlO8N/MB-3D%20Items%20Pack%201.10.0.zip"
+hash-format = "sha512"
+hash = "a6435e8877e2898e863d50af89dd4fd8743cdba0663d4229caa4faaa3904ec79097af4859d6ceb65b4ba67beead1984632d5a782c5d6562fba297f02fd9c9463"
+
+[update]
+[update.modrinth]
+mod-id = "jZM0fp9Q"
+version = "KSHOlO8N"

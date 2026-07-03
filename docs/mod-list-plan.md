@@ -132,6 +132,25 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - Immersive Damage Indicators, Status Effect Bars Reforged, and You Died can saturate the HUD in combat. Test regular mobs, boss-like fights, death flow, and multiplayer visibility.
 - Visual Workbench is installed as `both`; test it in Prism and on a server instance before promoting to `main`.
 
+## Pack 6.3 - 3D Items / resourcepack compatibility
+
+### Resourcepacks added
+
+- MB-3D Items Pack - `client` resource pack, managed by packwiz metadata, added as a test candidate for 3D item compatibility.
+
+### Compatibility tests required in Prism
+
+- Test MB-3D Items Pack with Punchy! in first person.
+- Test MB-3D Items Pack with YDM's Weapon Master in third person.
+
+### Pending or omitted candidates
+
+- Jofi's 3D Apples remains omitted because Minecraft showed it in red/incompatible in the resource pack UI.
+- 3D Apples remains omitted because it is not compatible with Minecraft 1.20.1.
+- Fresh Food remains pending because it requires additional mods.
+- Fusion 3D Items remains pending because it requires Fusion.
+- Better 3D Food remains an alternative if MB-3D Items Pack looks bad in Prism.
+
 ## Initial candidate list
 
 - ModernFix
