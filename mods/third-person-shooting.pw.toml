@@ -1,0 +1,13 @@
+name = "Third Person Shooting: Zero"
+filename = "tp_shooting-forge-1.20.1-tacz1.1.8-ssr5-6.0.0.jar"
+side = "client"
+
+[download]
+hash-format = "sha1"
+hash = "f705e294aaa0ca6113a6ee4f68f22400596198ec"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 8325229
+project-id = 969378
