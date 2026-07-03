@@ -1,0 +1,13 @@
+name = "CinematicZoom Original"
+filename = "cinematiczoom-1.0.0k.jar"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/p4yw0BYs/versions/zyZOLg7h/cinematiczoom-1.0.0k.jar"
+hash-format = "sha512"
+hash = "b704817d364f0c345d39c55a3598f0b8f3623c360c334307e0a7f5be14ec75506f3ea00706e8573e651218b29b083b42224a560c499c3c25d1ddd827e477b907"
+
+[update]
+[update.modrinth]
+mod-id = "p4yw0BYs"
+version = "zyZOLg7h"

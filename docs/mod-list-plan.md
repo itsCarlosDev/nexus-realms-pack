@@ -150,6 +150,51 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - Fusion 3D Items remains pending because it requires Fusion.
 - Better 3D Food remains an alternative if MB-3D Items Pack looks bad in Prism.
 
+## Pack 6.4 - DiosesMC-inspired visual polish
+
+DiosesMC - Official is a Fabric 1.21.8 modpack, so its list is used only as visual inspiration. Pack 6.4 uses Forge 1.20.1-compatible equivalents managed by packwiz.
+
+### Mods added
+
+- Chat Heads - `client`, Forge 1.20.1 equivalent for DiosesMC `chat_head`
+- Chat Animation - `client`, Forge 1.20.1 equivalent for DiosesMC `chatanimation`
+- CinematicZoom Original - `client`, Forge 1.20.1 equivalent for DiosesMC `cinematiczoom`; review keybinds with Shoulder Surfing Reloaded and Controlling
+- Immersive UI - `client`, Forge 1.20.1 equivalent for DiosesMC `ImmersiveUI`; test with Advancement Plaques, Fancy Toasts, and HUD mods
+
+### Resourcepacks added
+
+- Torches Reimagined - `client` resource pack, managed by packwiz metadata; test together with Better Lanterns
+- Enchant Icons - `client` resource pack, managed by packwiz metadata
+- Low On Fire - `client` resource pack, managed by packwiz metadata
+
+### DiosesMC entries already covered
+
+- Entity Model Features, Entity Texture Features, Fresh Animations, Inventory Particles, Perception, Visuality: Reforged, Jade, Entity Culling, Cloth Config API, Architectury API, and ShatterLib / OctoLib are already present in Nexus Realms.
+
+### Pending or discarded DiosesMC entries
+
+- Hold My Items remains pending. Keep Punchy! for now; only compare Hold My Items in a separate dev test if Carlos asks for it.
+- FirItemZoom remains discarded because the available candidate is Fabric 1.21.8 only.
+- Cinematic Zoom remains discarded because the direct candidate is NeoForge 1.21+; use CinematicZoom Original instead.
+- Toggle Nametags, GUI Scale Splitter, and GUIScaleSplitter remain discarded because the available candidates are Fabric/Quilt-only for this target.
+- Gamma Utils remains discarded for now because no Forge 1.20.1 version was confirmed, and fullbright-style vision can affect intended lighting balance.
+- Subtle Effects remains pending because it overlaps heavily with Visuality, Particular Reforged, Perception, Pretty Rain, and Inventory Particles.
+- Font++ remains pending until a clear packwiz-manageable resource pack candidate is identified.
+- Complementary Shaders - Unbound remains documentation-only for now; do not install shaders in Pack 6.4.
+- 3D Items-Vanillaism, Actually 3D Blocks & Items, Better 3D Food, and 3D FOOD remain pending for a later 3D items / apples pass.
+- Jofi's 3D Apples and 3D Apples remain discarded for the reasons recorded in Pack 6.3.
+- MB-3D Items Pack remains removed and must not be reinstalled.
+
+### Prism validation
+
+- Test chat with multiple players to validate Chat Heads and Chat Animation.
+- Test CinematicZoom Original keybinds against Shoulder Surfing Reloaded and Controlling.
+- Open inventory, chests, enchanting table, anvil, and furnace screens to review Immersive UI, Enchant Icons, and Inventory Particles together.
+- Test torches, lanterns, caves, and low-light areas with Torches Reimagined and Better Lanterns.
+- Stand in fire or lava briefly to confirm Low On Fire improves visibility without hurting combat readability.
+- Fight in first person with Punchy! and in third person with YDM's Weapon Master to confirm hands, weapons, HUD, and particles remain readable.
+- Recheck rain, mining, combat, and dense particle scenes before promoting this pack to `main`.
+
 ## Initial candidate list
 
 - ModernFix
