@@ -83,7 +83,6 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - Status Effect Bars Reforged - `client`
 - YDM's Weapon Master - `both`
 - Fresh Animations - `client` resource pack, managed by packwiz metadata
-- Jofi's 3D Apples - `client` resource pack, managed by packwiz metadata
 
 ### Mods pending
 
@@ -108,6 +107,7 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 ### Resourcepacks added
 
 - Better Lanterns - `client` resource pack, managed by packwiz metadata
+- Fresh Animations remains enabled from Pack 6 - `client` resource pack, managed by packwiz metadata
 
 ### Automatic dependencies
 
@@ -121,7 +121,7 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 
 ### Mods pending or omitted
 
-- Jofi's 3D Apples was already installed in Pack 6 and was not reinstalled.
+- Jofi's 3D Apples / 3D Golden Apple was removed from the pack. Modrinth metadata declares Minecraft 1.20.1 support, but Minecraft shows it in red/incompatible in the resource pack UI, so it stays pending until a clearly compatible version is available.
 - Immersive Hotbar remains pending because packwiz did not find a valid Forge 1.20.1 version for the current pack settings.
 - TreeChop, FallingTree, Epic Fight, Better Combat, Cataclysm, TaCZ, Alex's Mobs, Mystic's Biomes, Cult of Azazel, Chef's Delight, Create Better FPS, Arsenal RPG Series, and Clavis remain intentionally excluded from Pack 6.1.
 
