@@ -83,6 +83,7 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - Status Effect Bars Reforged - `client`
 - YDM's Weapon Master - `both`
 - Fresh Animations - `client` resource pack, managed by packwiz metadata
+- Jofi's 3D Apples - `client` resource pack, managed by packwiz metadata
 
 ### Mods pending
 

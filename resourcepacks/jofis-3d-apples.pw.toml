@@ -1,0 +1,13 @@
+name = "Jofi's 3D Apples"
+filename = "§e3d Golden Apple.zip"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/Vn4OiPIO/versions/GIEOuVC2/%C2%A7e3d%20Golden%20Apple.zip"
+hash-format = "sha512"
+hash = "b5f1e6a0e98e391d33e22b134eb017a9f3141b5702e97b0da5f3c5e9c4afc8835500fbd32b8562fc52b8888d63269f251a6ab3b1fb98b456cb6e2bca5c3be243"
+
+[update]
+[update.modrinth]
+mod-id = "Vn4OiPIO"
+version = "GIEOuVC2"

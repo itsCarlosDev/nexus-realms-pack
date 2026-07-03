@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Added Jofi's 3D Apples as a Pack 6 managed resource pack.
 - Added the Pack 6 visual / immersion / UI block in `dev`, including visual animation, camera, HUD, and Fresh Animations resource pack support.
 - Added the Magic class block in `dev` with Iron's Spells 'n Spellbooks and required libraries.
 - Added the structures, exploration, and multiplayer utilities block in `dev`.
