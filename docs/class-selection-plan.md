@@ -86,6 +86,14 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 - The visual GUI must not give items directly. Its buttons only call `/nexus_select warrior`, `/nexus_select mage`, or `/nexus_select gunslinger`.
 - If FancyMenu or the Custom GUI fails to open, the chat-command fallback remains available.
 
+## Pack 16.2 - Class quest progression foundation
+
+- FTB Quests will provide the class progression layer.
+- KubeJS remains the source of truth for class selection and persistence.
+- The existing class tags are the bridge for quest visibility/progression: `nexus_class_warrior`, `nexus_class_mage`, and `nexus_class_gunslinger`.
+- Recipe balance and class restrictions are not implemented yet.
+- Epic Fight is not touched in this pack.
+
 ## Future Epic Fight integration
 
 Epic Fight integration should only be revisited if the combat stack is fixed and promoted out of experiment branches. Pack 16.0 does not add Epic Fight logic, recipes, skills, or class gating.
