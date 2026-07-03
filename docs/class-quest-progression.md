@@ -60,6 +60,7 @@ Para jugadores con tag: `nexus_class_mage`
 Temas:
 
 - Iron's Spells;
+- T.O Magic 'n Extras;
 - grimorios;
 - pergaminos;
 - mana;
@@ -151,7 +152,7 @@ Pistolero:
 
 Pack 16.3:
 
-- Class UI polish/final art.
+- Mage class expansion with T.O Magic 'n Extras while keeping Iron's Spells as the main magic system.
 
 Pack 16.4:
 

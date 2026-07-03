@@ -94,6 +94,14 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 - Recipe balance and class restrictions are not implemented yet.
 - Epic Fight is not touched in this pack.
 
+## Pack 16.3 - Mage class expansion
+
+- Iron's Spells remains the primary magic system for the Mago class.
+- T.O Magic 'n Extras is added as an Iron's Spells addon for more mage progression content.
+- No other large magic system is added in this pack.
+- The Mago starter kit remains placeholder until real item IDs are verified with `/kubejs hand`.
+- `/nexus_select` and `/nexus_resetclass` are unchanged.
+
 ## Future Epic Fight integration
 
 Epic Fight integration should only be revisited if the combat stack is fixed and promoted out of experiment branches. Pack 16.0 does not add Epic Fight logic, recipes, skills, or class gating.
