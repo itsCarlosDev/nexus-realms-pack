@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Added Pack 7 performance diagnostics core in `dev` with spark, ServerCore, Clumps, and Alternate Current.
 - Replaced the JourneyMap 6.0.0 beta build in `dev` with stable JourneyMap 5.10.3 after a load crash.
 - Removed ImmediatelyFast from `dev` after a startup crash with Oculus/Embeddium.
 - Removed Stellara, replaced Xaero's maps with JourneyMap, and added the Pack 6.5 sound/ambient block in `dev`.
