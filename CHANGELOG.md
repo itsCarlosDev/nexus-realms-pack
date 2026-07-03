@@ -39,3 +39,8 @@
 - Initial Nexus Realms packwiz repository structure.
 - Added documentation for Prism Launcher, server installation, branch strategy, update workflow, and mod side rules.
 - Added helper scripts for refreshing, server updates, and development checks.
+
+## Experimental - Class Selection FancyMenu template
+- Added functional FancyMenu class selection template.
+- Buttons successfully call KubeJS class commands.
+- Visual design is still placeholder/template and will be polished later.
