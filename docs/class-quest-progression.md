@@ -155,10 +155,7 @@ Pack 16.3:
 
 Pack 16.4:
 
-- Class starter kits real modded:
-  - Simply Swords
-  - Iron's Spells
-  - TaCZ
+- Class starter kits real modded with Simply Swords, Iron's Spells, and TaCZ. FTB Quests still must not grant the main starter kit directly.
 
 Pack 16.5:
 
