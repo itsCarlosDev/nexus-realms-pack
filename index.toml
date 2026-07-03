@@ -78,7 +78,7 @@ hash = "3d7d4cda73d6bde134a568ccbe4e8d2e7fbe701570012b71fa45acdb2258c823"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "fc2fc61e9b0b7de6de82835b669924370250098b566d64c7cc69b1f72e35ac16"
+hash = "3d6c0659a638730d5ff1289094ae637f10ee31266b36e91d4707514ff66ac1eb"
 
 [[files]]
 file = "mods/advancement-plaques.pw.toml"

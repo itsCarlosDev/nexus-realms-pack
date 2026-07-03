@@ -40,6 +40,15 @@ NBT usado:
 - FancyMenu solo llama a `/nexus_select`.
 - FTB Quests no entrega la clase ni el starter kit principal.
 
+## Pack 16.4.2 - Delivery fix
+
+- La entrega usa `nexusCreateKitItem(entry)` para soportar NBT opcional.
+- Los items con NBT intentan primero `Item.of(id, nbt).withCount(count)`.
+- Si esa sintaxis falla, se prueba `Item.of(id, count, nbt)`.
+- Cada item entregado queda registrado en el log.
+- Si un item falla, el resto del kit se sigue intentando entregar.
+- Si hay fallos parciales, el jugador recibe un aviso en chat.
+
 ## Como verificar futuros items
 
 En Prism:

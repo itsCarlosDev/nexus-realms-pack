@@ -108,6 +108,14 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 - Starter kit item NBT is handled in KubeJS with per-item error logging.
 - FancyMenu and FTB Quests still do not grant starter kits directly.
 
+## Pack 16.4.2 - Starter kit delivery fix
+
+- `nexusGiveStarterKit` now creates each stack through `nexusCreateKitItem`.
+- Optional NBT is supported with a fallback item creation path.
+- Every delivered item is logged.
+- Failed items are reported without stopping the rest of the kit.
+- `/nexus_select` still locks the class before trying to deliver items.
+
 ## Future Epic Fight integration
 
 Epic Fight integration should only be revisited if the combat stack is fixed and promoted out of experiment branches. Pack 16.0 does not add Epic Fight logic, recipes, skills, or class gating.
