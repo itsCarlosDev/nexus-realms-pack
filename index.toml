@@ -406,6 +406,11 @@ hash = "fee498cb6d037ca6130755d9e3d42d16f08e208d9a510525dbe55797ca98f30a"
 metafile = true
 
 [[files]]
+file = "mods/shoulder-surfing-reloaded-camera-fixes-additions.pw.toml"
+hash = "94d040812ac6df18b162fd9070e19a101aea5952509e8807264ef6782967b869"
+metafile = true
+
+[[files]]
 file = "mods/shoulder-surfing-reloaded.pw.toml"
 hash = "456a859062a859ff69cffe95b2ecdc9636d389ffc92e9176fe6975a0015fd615"
 metafile = true

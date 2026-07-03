@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Kept Punchy and added TaCZ/Shoulder Surfing compatibility cleanup with SSR Camera Fixes and documented Punchy blacklist/keybind configuration.
 - Added Firearms Foundation with TaCZ for the future Pistolero/Biohazard progression.
 - Removed Immersive Damage Indicators to fix duplicated boss health bars before the Firearms pack.
 - Added Fishing Guild Foundation with Starcatcher, The Fisherman House, FTB Quests, FTB Library, FTB Teams and Quests Additions.

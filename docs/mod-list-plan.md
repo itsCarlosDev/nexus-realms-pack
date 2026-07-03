@@ -617,6 +617,35 @@ Pack 13 adds the technical foundation for a future Fishing Guild progression lay
 - Check sound behavior with Sound Physics Remastered, AmbientSounds, Presence Footsteps, and other audio mods.
 - Do not add extra gunpacks, NPC gun mods, Create integrations, quests, loot tables, or KubeJS balance until this base passes Prism testing.
 
+## Pack 14.1 - TaCZ + Punchy Compatibility / Biohazard Camera Cleanup
+
+### Changes
+
+- Kept Punchy installed.
+- Punchy is already on a Forge 1.20.1 version with regex blacklist support.
+- Added Shoulder Surfing Reloaded: Camera Fixes & Additions to improve TaCZ crosshair/camera behavior with Shoulder Surfing.
+- Planned Punchy item exclusion for TaCZ using regex `^tacz:.*$` if the real config schema is available.
+- Documented Biohazard-style Shoulder Surfing camera tuning.
+- Documented keybind cleanup.
+
+### Notes
+
+- Punchy must stay installed.
+- TaCZ must stay installed.
+- The double AK render should be fixed by excluding `tacz:*` items from Punchy, not by removing Punchy.
+- Codex could not verify a Punchy config schema in the repo, so config must be done manually in Prism first and then exported/copied later.
+- Final Default Options export is still postponed until the pack is closed because no `config/defaultoptions` keybinding structure exists in the repo yet.
+- Shoulder Surfing camera tuning should be done manually in Prism because no real Shoulder Surfing config file exists in the repo yet.
+
+### Prism validation
+
+- Add `^tacz:.*$` to the Punchy item blacklist/exclusion if the Punchy menu exposes it.
+- Confirm TaCZ no longer double-renders AKs or other guns in first person while Punchy remains enabled.
+- Tune Shoulder Surfing to right shoulder, medium-close distance, visible character, visible weapon, and usable crosshair.
+- Confirm SSR Camera Fixes aligns TaCZ shots with the crosshair in shoulder camera.
+- Clean keybinds so `R` is only TaCZ Reload, Combat Roll is `Left Alt`, and Oculus Reload Shaders is `F8` or `F10`.
+- After final controls are accepted, export keys later with `/defaultoptions saveKeys`.
+
 ## Initial candidate list
 
 - ModernFix
