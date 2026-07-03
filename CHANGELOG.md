@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Experimental: fixed class starter kit delivery with NBT item creation fallback and per-item logs.
 - Experimental: updated Warrior, Mage and Gunslinger starter kits with verified modded items and NBT.
 - Experimental: reverted T.O Magic 'n Extras pending a cleaner Mage expansion.
 - Experimental: fixed Mage expansion dependency chain for T.O Magic 'n Extras.

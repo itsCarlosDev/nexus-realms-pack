@@ -78,16 +78,41 @@ function nexusOpenClassSelector(player) {
   })
 }
 
-function nexusGiveStarterKit(player, classId) {
-  NEXUS_CLASS_DATA[classId].kit.forEach(entry => {
+function nexusCreateKitItem(entry) {
+  const count = entry.count || 1
+
+  if (entry.nbt) {
     try {
-      const stack = entry.nbt ? Item.of(entry.id, entry.count, entry.nbt) : Item.of(entry.id, entry.count)
-      player.give(stack)
+      return Item.of(entry.id, entry.nbt).withCount(count)
     } catch (error) {
-      console.error(`Nexus Realms: failed to give starter kit item ${entry.id} to ${player.username}`)
-      console.error(error)
+      console.warn(`Nexus Realms: Item.of(id, nbt).withCount(count) failed for ${entry.id}; trying Item.of(id, count, nbt).`)
+      return Item.of(entry.id, count, entry.nbt)
+    }
+  }
+
+  return Item.of(entry.id, count)
+}
+
+function nexusGiveStarterKit(player, classId) {
+  const classData = NEXUS_CLASS_DATA[classId]
+  let failedItems = 0
+
+  classData.kit.forEach(entry => {
+    try {
+      const count = entry.count || 1
+      const stack = nexusCreateKitItem(entry)
+      player.give(stack)
+      console.info(`Nexus Realms: gave starter item ${entry.id} x${count} to ${player.username}`)
+    } catch (error) {
+      failedItems++
+      console.error(`Nexus Realms: failed to give starter item ${entry.id} to ${player.username}: ${error}`)
+      player.tell(`No se pudo entregar un objeto del kit: ${entry.id}`)
     }
   })
+
+  if (failedItems > 0) {
+    player.tell('Algunos objetos del kit no pudieron entregarse. Revisa el log.')
+  }
 }
 
 function nexusClearClassTags(player) {
