@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Added Pack 9 Prehistoric Wildlife & Oceans in `dev` with dinosaurs, sharks, Megalodon, and dangerous fauna.
 - Added Kotlin for Forge in `dev` as the missing Create Slice & Dice dependency.
 - Added Pack 8 Create production integration in `dev` with Create Crafts & Additions and Create Slice & Dice.
 - Added Pack 7 performance diagnostics core in `dev` with spark, ServerCore, Clumps, and Alternate Current.

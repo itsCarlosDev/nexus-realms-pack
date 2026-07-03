@@ -6,6 +6,11 @@ hash = "7f243cdb7d52214593d8155a12de24d4992a781a94597eb09bf3ffb3396e5eb5"
 metafile = true
 
 [[files]]
+file = "mods/alexs-mobs.pw.toml"
+hash = "5e1239fd67c97c042d09cf38664698c9d1a3cfbc50d779fc550c461cf6aeb565"
+metafile = true
+
+[[files]]
 file = "mods/alternate-current.pw.toml"
 hash = "54e171ca3f1f39eba38186a9a5ce6901eb12be05341d76956adff63805d79225"
 metafile = true
@@ -31,6 +36,11 @@ hash = "fe46309d954710019e07813bcdc6db2c775b07795f3628cb559610adcb129a9a"
 metafile = true
 
 [[files]]
+file = "mods/bens-sharks.pw.toml"
+hash = "b2f03cfde6bf4642eea41b5a23e36e97c19cdb8c9d0dde64fe25681e43edd2d2"
+metafile = true
+
+[[files]]
 file = "mods/betterf3.pw.toml"
 hash = "28358fe53c22695b3bf1f93ac2225c46fe3525918b7b993ac36e68a7f0a16fe8"
 metafile = true
@@ -48,6 +58,11 @@ metafile = true
 [[files]]
 file = "mods/cinematiczoom-original.pw.toml"
 hash = "25b892417090a964bf120a312c0db2a3cdf170048ce4be6663c0234dd4983627"
+metafile = true
+
+[[files]]
+file = "mods/citadel.pw.toml"
+hash = "5a4b03567f23fe0aac7806bd7cc9734138bf5fc098e98c1bb552d5b288bef258"
 metafile = true
 
 [[files]]
@@ -236,6 +251,11 @@ hash = "54376a2e67fdd97cee71042aba6fd7c870c46611e68c06ce2ab12182c2543036"
 metafile = true
 
 [[files]]
+file = "mods/patchouli.pw.toml"
+hash = "2242b76f7c4ee6d7f396a2d1380bee615d78408d00bff5cca38e4df777b18dc5"
+metafile = true
+
+[[files]]
 file = "mods/perception.pw.toml"
 hash = "c289c64b7d30cc2288508fe26dca04f4e2b15c5009bb31baaa72f32bf6f2dd9c"
 metafile = true
@@ -313,6 +333,11 @@ metafile = true
 [[files]]
 file = "mods/txnilib.pw.toml"
 hash = "c2df41a37fec3a93afc4e2866705bf9e457d506ce8cd02e61c2f610d4f6a7617"
+metafile = true
+
+[[files]]
+file = "mods/unusual-prehistory-2.pw.toml"
+hash = "be3e8e2fd9cdecc81366d69e588d396d7a7ab3da1d3cb4205b4083df5bce6abd"
 metafile = true
 
 [[files]]
