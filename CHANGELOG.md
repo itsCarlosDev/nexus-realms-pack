@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Added Pack 11 Combat foundation in `dev` with Better Combat, Simply Swords, and Combat Roll.
 - Added Pack 10 Worldgen / Settlements / Exploration in `dev` with CTOV, Mystic's Biomes, TerraBlender, and Explorer's Compass.
 - Added Pack 9 Prehistoric Wildlife & Oceans in `dev` with dinosaurs, sharks, Megalodon, and dangerous fauna.
 - Added Kotlin for Forge in `dev` as the missing Create Slice & Dice dependency.
