@@ -211,6 +211,21 @@ hash = "902bac905b93271f02bd0951a22bac06a3da24f5c237fcaeb469e14a7679e508"
 metafile = true
 
 [[files]]
+file = "mods/ftb-library-forge.pw.toml"
+hash = "efa75ee4aae90dea11316b6e61aecaf9433eeb3d0821f78b4eca41acbbd73e8f"
+metafile = true
+
+[[files]]
+file = "mods/ftb-quests-forge.pw.toml"
+hash = "7b2cc450f553b82439ae9422b8c2b4406dae1af3c48f7ce791a3576acff1d122"
+metafile = true
+
+[[files]]
+file = "mods/ftb-teams-forge.pw.toml"
+hash = "efda76423b21f9bfab4ad8d0411f0b06a199ab7e3e12ca16dc0586c1828b8f07"
+metafile = true
+
+[[files]]
 file = "mods/fwa.pw.toml"
 hash = "f4c2535e8b6e5bed303a9062aadddf9c71372431acbc17017f1214b62aa98288"
 metafile = true
@@ -371,6 +386,11 @@ hash = "4dd7038889da90e145f9d074bec64a61aaae12dc57c875aa7ad99b8b2e07979b"
 metafile = true
 
 [[files]]
+file = "mods/quests-additions.pw.toml"
+hash = "d9e13a1c9bb74d5b456ffd7541627f5cf700a5949c3994c2a6673df7046bfb27"
+metafile = true
+
+[[files]]
 file = "mods/raids-enhanced.pw.toml"
 hash = "c75ec0f13a06a0bf503dab32ab604cc19e52a65238ccbe08575a74b83ab7b2a2"
 metafile = true
@@ -416,6 +436,11 @@ hash = "0be4976227df8e261fd362889bf8e85b93e224d1b1c3cd2a11b73a9de3b64083"
 metafile = true
 
 [[files]]
+file = "mods/starcatcher.pw.toml"
+hash = "bb51013af24f2c483155f7a250ca24189b4cdaa23f995f9573c5af97f111885e"
+metafile = true
+
+[[files]]
 file = "mods/status-effect-bars-reforged.pw.toml"
 hash = "9d4682b34e59eab9183ac89ff20c4d45b854e15b051453e752f4d953789ac02c"
 metafile = true
@@ -423,6 +448,11 @@ metafile = true
 [[files]]
 file = "mods/terrablender.pw.toml"
 hash = "14117b94c456598c9acece143c7a0da3cf56d13182d035a74a2da8a52dd19cbd"
+metafile = true
+
+[[files]]
+file = "mods/the-fisherman-house.pw.toml"
+hash = "298d8ba281c26cd5c3691f0c866cd139973d75482a0bdfc26cff3f07041e65db"
 metafile = true
 
 [[files]]
