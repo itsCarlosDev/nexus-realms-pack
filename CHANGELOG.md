@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Replaced the JourneyMap 6.0.0 beta build in `dev` with stable JourneyMap 5.10.3 after a load crash.
 - Removed ImmediatelyFast from `dev` after a startup crash with Oculus/Embeddium.
 - Removed Stellara, replaced Xaero's maps with JourneyMap, and added the Pack 6.5 sound/ambient block in `dev`.
 - Added the Pack 6.4 DiosesMC-inspired visual polish block in `dev`, including chat, zoom, UI, torch, enchant icon, and low-fire visibility polish.

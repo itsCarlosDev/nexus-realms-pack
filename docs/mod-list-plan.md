@@ -205,10 +205,11 @@ Pack 6.5 continues the DiosesMC-inspired visual alignment on Forge 1.20.1 withou
 - Xaero's Minimap was removed and replaced by JourneyMap.
 - Xaero's World Map was removed and replaced by JourneyMap.
 - MB-3D Items Pack remains removed; no Pack 6.5 install was needed because it was not present.
+- JourneyMap 6.0.0-beta.2 was rejected after a startup crash: `ClassMetadataNotFoundException: journeymap.client.render.map.GridRenderer`.
 
 ### Mods added
 
-- JourneyMap - `both`, replaces Xaero's Minimap and Xaero's World Map.
+- JourneyMap 5.10.3 - `both`, stable Forge 1.20.1 release replacing Xaero's Minimap and Xaero's World Map.
 - AmbientSounds 6 - `both`, adds ambient sound polish.
 - Sound Physics Remastered - `both`, adds environmental sound behavior.
 - Presence Footsteps - `both`, adds footstep sound detail.
@@ -236,6 +237,7 @@ Pack 6.5 continues the DiosesMC-inspired visual alignment on Forge 1.20.1 withou
 ### Prism validation
 
 - Confirm JourneyMap opens correctly, creates a minimap, and replaces the Xaero workflow cleanly.
+- Confirm the installed JourneyMap version is `journeymap-1.20.1-5.10.3-forge.jar`, not the rejected `6.0.0-beta.2` build.
 - Check keybind conflicts after removing Xaero and adding JourneyMap.
 - Test caves, forests, villages, rain, water, mining, and combat with AmbientSounds 6, Sound Physics Remastered, and Presence Footsteps.
 - Confirm CreativeCore does not introduce server/client mismatch warnings.
