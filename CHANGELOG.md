@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Added the Pack 6.4 DiosesMC-inspired visual polish block in `dev`, including chat, zoom, UI, torch, enchant icon, and low-fire visibility polish.
 - Removed MB-3D Items Pack from `dev`.
 - Added MB-3D Items Pack in `dev` as a managed resource pack for 3D item testing.
 - Removed Jofi's 3D Apples from Pack 6.1 after Minecraft showed it as visually incompatible in the resource pack UI.

@@ -26,6 +26,21 @@ hash = "28358fe53c22695b3bf1f93ac2225c46fe3525918b7b993ac36e68a7f0a16fe8"
 metafile = true
 
 [[files]]
+file = "mods/chat-heads.pw.toml"
+hash = "1266de6a7663cdee095f6640f972e804d9794f1d467b88a6669ecac966a6798c"
+metafile = true
+
+[[files]]
+file = "mods/chatanimation.pw.toml"
+hash = "aac40b70828c624076ca02d3c904d6ae743bbd469c88dfa20a14cd67668b4ccb"
+metafile = true
+
+[[files]]
+file = "mods/cinematiczoom-original.pw.toml"
+hash = "25b892417090a964bf120a312c0db2a3cdf170048ce4be6663c0234dd4983627"
+metafile = true
+
+[[files]]
 file = "mods/cloth-config.pw.toml"
 hash = "10ad81feaa9aae206b640ef1ed5fff723d7a1aac317c59ddb4e2a682e588c097"
 metafile = true
@@ -118,6 +133,11 @@ metafile = true
 [[files]]
 file = "mods/immersive-messages-api.pw.toml"
 hash = "0fc131b61967727753c9133231eb5ef70557af3f3f2e91ceb8498b4609177f32"
+metafile = true
+
+[[files]]
+file = "mods/immersive-ui.pw.toml"
+hash = "db67b75db18d2ce8bebe92b72f5d5a3f64de4077edfd4439e8f633517c6f53c1"
 metafile = true
 
 [[files]]
@@ -336,6 +356,21 @@ hash = "120a936d5345b58a613ce793b0ce4bd6527aec7125eed4b6177f45d6e8602fb5"
 metafile = true
 
 [[files]]
+file = "resourcepacks/enchant-icons-countxd.pw.toml"
+hash = "d9e7e86ddb96102cedc1173006459c1cb4338698087bf16258abb23dd7889219"
+metafile = true
+
+[[files]]
 file = "resourcepacks/fresh-animations.pw.toml"
 hash = "6a1556a0e4fcb411b33efafc3382b4abd9a6e671f140dc0d42e9aad2808e24f3"
+metafile = true
+
+[[files]]
+file = "resourcepacks/low-on-fire.pw.toml"
+hash = "0ce41000cbbb72e9c03ae3738500aae1056f1102ddc4e5a46784ec18cabf6ca7"
+metafile = true
+
+[[files]]
+file = "resourcepacks/torches-reimagined.pw.toml"
+hash = "f5708ca47dbd5693b0df54f34a18fe684e52d000fec76f85899a6d9d3da3f372"
 metafile = true
