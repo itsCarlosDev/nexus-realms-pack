@@ -576,6 +576,22 @@ Pack 13 adds the technical foundation for a future Fishing Guild progression lay
 - Open the FTB Quests UI and confirm Quests Additions loads without requiring KubeJS, Item Filters, or FTB XMod Compat.
 - Test with Farmer's Delight installed before creating final fishing quests.
 
+## Pack 13.1 - Bossbar UI Cleanup
+
+### Changes
+
+- Removed Immersive Damage Indicators because it caused duplicated/inaccurate boss health bars when testing Frostmaw.
+- Boss mods remain installed.
+- Boss Checklist remains installed.
+- This is a visual cleanup pack before Firearms/TaCZ.
+
+### Notes
+
+- Test required in Prism: spawn or locate Frostmaw and verify only one boss health bar appears.
+- Check that the remaining boss bar decreases correctly when damaging the boss.
+- Also test Cataclysm/Bosses'Rise boss bars if possible.
+- If duplicate bossbars still appear, next investigation should focus on Boss Checklist/configs or bossbar resource packs, not on adding new mods.
+
 ## Initial candidate list
 
 - ModernFix

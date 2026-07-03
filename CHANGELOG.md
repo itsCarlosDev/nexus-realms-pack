@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Removed Immersive Damage Indicators to fix duplicated boss health bars before the Firearms pack.
 - Added Fishing Guild Foundation with Starcatcher, The Fisherman House, FTB Quests, FTB Library, FTB Teams and Quests Additions.
 - Added FA: Player Extension Compat as a client-side fix for Fresh Animations: Player Extension and Better Combat compatibility.
 - Added FA: Player Extension X Better Combat to fix the visual conflict between Fresh Animations: Player Extension and Better Combat.
