@@ -26,6 +26,11 @@ hash = "793693a85f3c87d4e899ee0c58deabc53690bf5a70f17343f28fd5063ce8a1e1"
 metafile = true
 
 [[files]]
+file = "mods/aquamirae.pw.toml"
+hash = "2831af0f7eb16d4155be85bd770381f2fb9524e0e2b64bfea9c84ae4c7493320"
+metafile = true
+
+[[files]]
 file = "mods/architectury-api.pw.toml"
 hash = "5e9edd1fd2395f14a0c8a4acbdbdd61e1047be1f0033deb3140d2ce0d093e9d8"
 metafile = true
@@ -61,8 +66,18 @@ hash = "b179a1351967b57e80ca4e884e45101373b359e32c2ea47f0e9cd540bfbc3df6"
 metafile = true
 
 [[files]]
+file = "mods/bosses-of-mass-destruction-forge.pw.toml"
+hash = "a748351943c09e8cb6e90e56b7419c9420d76072c822a2c8c7b0f7f6f636648c"
+metafile = true
+
+[[files]]
 file = "mods/bossesrise.pw.toml"
 hash = "b66345a42cf78fc591a935a17907d135370348a015125fd06de6aba168240362"
+metafile = true
+
+[[files]]
+file = "mods/cerbons-api.pw.toml"
+hash = "b04f3690005952fb2f0d93b742a00d4b25547cbb4e2975aaca89fb0af58a9539"
 metafile = true
 
 [[files]]
@@ -181,6 +196,11 @@ hash = "d7139e5db4b5a9b5d80330854bb23ce2cd197009b6d8e3636aa017434066b830"
 metafile = true
 
 [[files]]
+file = "mods/fdlib.pw.toml"
+hash = "d9085cd7cbf2812c660aeb292b50a34453a798de0c4e9494a864f28b6cc0b609"
+metafile = true
+
+[[files]]
 file = "mods/ferrite-core.pw.toml"
 hash = "902bac905b93271f02bd0951a22bac06a3da24f5c237fcaeb469e14a7679e508"
 metafile = true
@@ -192,7 +212,7 @@ metafile = true
 
 [[files]]
 file = "mods/geckolib.pw.toml"
-hash = "898fd2704dd260ae8f3dc20b4416439751f0a9e76367c4f0bbdac886b6987802"
+hash = "7ffae05c3b8101588b231db8116c34b36a77a0c6e6d7e6af867ae1c5b47e4d10"
 metafile = true
 
 [[files]]
@@ -281,6 +301,11 @@ hash = "679fa8f3b49b9ed3fbcb29d6ccdb99bce465faa01f9cec000464ac8d4fbe134f"
 metafile = true
 
 [[files]]
+file = "mods/mowzies-mobs.pw.toml"
+hash = "69c100deb9011e828b3f11a0df754316829b751833ac30bc4726710c082f9808"
+metafile = true
+
+[[files]]
 file = "mods/mystics-biomes.pw.toml"
 hash = "c32e0be2066c263fe2b309e69a814db04fbe764ea26e7b4b7d7fae0f3d1b8060"
 metafile = true
@@ -288,6 +313,11 @@ metafile = true
 [[files]]
 file = "mods/natures-compass.pw.toml"
 hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
+metafile = true
+
+[[files]]
+file = "mods/obscure-api.pw.toml"
+hash = "3c3d256dbe9e2de78426ca571528ee3a9d43cd71d95c3abc93bd12d2f71430ec"
 metafile = true
 
 [[files]]
@@ -333,6 +363,11 @@ metafile = true
 [[files]]
 file = "mods/puzzles-lib.pw.toml"
 hash = "4dd7038889da90e145f9d074bec64a61aaae12dc57c875aa7ad99b8b2e07979b"
+metafile = true
+
+[[files]]
+file = "mods/raids-enhanced.pw.toml"
+hash = "c75ec0f13a06a0bf503dab32ab604cc19e52a65238ccbe08575a74b83ab7b2a2"
 metafile = true
 
 [[files]]
