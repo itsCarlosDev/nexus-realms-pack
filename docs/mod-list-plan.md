@@ -243,6 +243,42 @@ Pack 6.5 continues the DiosesMC-inspired visual alignment on Forge 1.20.1 withou
 - Confirm CreativeCore does not introduce server/client mismatch warnings.
 - Confirm no Stellara sky styling remains active.
 
+## Pack 7 - Performance / diagnostics core
+
+Pack 7 adds a conservative performance and diagnostics layer before larger content passes such as mobs, bosses, worldgen, Better Combat, TaCZ, quests, or economy systems.
+
+### Mods added
+
+- spark - `both`, profiler for client and server diagnostics.
+- ServerCore - `server`, server-side optimization layer for ticking and entity behavior.
+- Clumps - `both`, groups XP orbs to reduce entity pressure.
+- Alternate Current - `server`, optimized redstone implementation.
+
+### Pending or omitted candidates
+
+- Let Me Despawn remains pending because it requires Almanac and the Forge 1.20.1 Almanac build is currently beta.
+- Observable remains pending because spark covers initial profiling needs.
+- Canary remains pending because it is a deep Lithium-style optimization layer and can conflict with Create, ModernFix, or Forge behavior.
+- Starlight remains pending because it replaces the lighting engine and should be tested separately.
+- Create Better FPS remains pending until a clear packwiz-manageable slug or URL is identified.
+- AI Improvements remains omitted for now because Pack 7 prioritizes ServerCore and more targeted optimizations.
+- Krypton remains omitted for now because no clear Forge 1.20.1 candidate was confirmed.
+
+### Prism validation
+
+- Confirm the client starts and joins a world with spark and Clumps installed.
+- Test XP orb drops, XP pickup, mending, and XP-heavy fights with Clumps.
+- Test Create belts, shafts, contraptions, funnels, deployers, mechanical arms, and trains with Alternate Current present.
+- Test redstone clocks, doors, farms, hoppers, observers, pistons, and comparator contraptions.
+- Confirm JourneyMap, Embeddium, Oculus, AmbientSounds, Sound Physics Remastered, and Presence Footsteps still behave normally.
+
+### Server validation
+
+- Start a local or dedicated Forge 47.4.10 server with the pack.
+- Run basic spark profiling commands and confirm profiler output is generated.
+- Check TPS under exploration, combat, XP drops, Create machinery, redstone, and mob farms.
+- Review ServerCore behavior around mob activation, despawn, and spawn-heavy areas before adding larger content packs.
+
 ## Initial candidate list
 
 - ModernFix
