@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Added FA: Player Extension X Better Combat to fix the visual conflict between Fresh Animations: Player Extension and Better Combat.
 - Added Fresh Animations: Player Extension as a managed resource pack in `dev`.
 - Added Pack 12.1 Bosses expansion / Raids / Ocean threats in `dev` with Mowzie's Mobs, Bosses of Mass Destruction, Raids:Enhanced, and Aquamirae.
 - Added Pack 12 Bosses / Rise / Endgame progression in `dev` with Cataclysm, Bosses'Rise, Boss Checklist, and Boss Checklist Addon.
