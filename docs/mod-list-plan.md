@@ -741,3 +741,19 @@ Important: Better Combat and Epic Fight should not be mixed without heavy testin
 - Do not use Immersive Hotbar for now because packwiz did not find a valid Forge 1.20.1 version for the current pack settings.
 - Use Superior RPG only as inspiration for class progression and RPG pacing.
 - Use Mushoku Tensei only as inspiration for magic/class fantasy and presentation.
+
+## Experimental Branch - Warrior Epic Fight Experiment
+
+Includes:
+- Epic Fight: soulslike combat system for testing the advanced Warrior role.
+- EpicFight-Nightfall: NightfallCraft-inspired combat/moveset addon.
+- Epic Fight: Skill Tree: skill tree progression for Warrior.
+- Epic Fight - Invincible Lib: required dependency for EpicFight-Nightfall.
+- Epic Fight - Avalon: required dependency for EpicFight-Nightfall.
+- AAA Particles: required dependency for EpicFight-Nightfall visual effects.
+
+Notes:
+- This is not part of stable dev yet.
+- This is only for the experimental warrior branch.
+- Better Combat, Combat Roll, TaCZ, Punchy and Shoulder Surfing are not removed yet.
+- Do not merge to dev until tested in Prism.

@@ -1,6 +1,11 @@
 hash-format = "sha256"
 
 [[files]]
+file = "mods/aaa-particles.pw.toml"
+hash = "6afa3f36ed7ac38548b305500a96776266bd578b781cffab82fda03c6340497b"
+metafile = true
+
+[[files]]
 file = "mods/advancement-plaques.pw.toml"
 hash = "7f243cdb7d52214593d8155a12de24d4992a781a94597eb09bf3ffb3396e5eb5"
 metafile = true
@@ -178,6 +183,31 @@ metafile = true
 [[files]]
 file = "mods/entitytexturefeatures.pw.toml"
 hash = "aa2a1abbccb92ccc4ba3a5a70d24edcd1e39a035f15fb9ba49c27f270a5e74e3"
+metafile = true
+
+[[files]]
+file = "mods/epic-fight-avalon.pw.toml"
+hash = "57978220b6eced9ad3629371773eb378ec46646bf5cfa79e3d905d486bf50b14"
+metafile = true
+
+[[files]]
+file = "mods/epic-fight-invincible.pw.toml"
+hash = "ff857cf46ebf12d87fa3561fbea5e00e578269df54980aaae8a803a306043e21"
+metafile = true
+
+[[files]]
+file = "mods/epic-fight-mod.pw.toml"
+hash = "cc04a459af3ff21b2aa09cde7ab562f33eb13c9d6d158c71d09cb4bc0bdee325"
+metafile = true
+
+[[files]]
+file = "mods/epic-fight-skill-tree.pw.toml"
+hash = "de03bc879a02c86d91d8a7453186809651dec7c64955c6f0f391add7ff9c6854"
+metafile = true
+
+[[files]]
+file = "mods/epicfight-nightfall.pw.toml"
+hash = "ecedd6b10563309671203dc50e80fb2825ab31991d039c2aab98065e508a0b4b"
 metafile = true
 
 [[files]]

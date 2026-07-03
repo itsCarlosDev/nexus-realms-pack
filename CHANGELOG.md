@@ -35,3 +35,6 @@
 - Initial Nexus Realms packwiz repository structure.
 - Added documentation for Prism Launcher, server installation, branch strategy, update workflow, and mod side rules.
 - Added helper scripts for refreshing, server updates, and development checks.
+
+## Experimental - Warrior Epic Fight Experiment
+- Added Epic Fight, EpicFight-Nightfall, Epic Fight Skill Tree, Invincible Lib, Avalon and AAA Particles on the warrior experiment branch.
