@@ -50,17 +50,14 @@ Resultado:
 
 ## Starter kit del Mago
 
-No cerrar kit real todavia hasta verificar IDs con:
+Pack 16.4 usa un starter kit real verificado con `/kubejs hand`:
 
-`/kubejs hand`
+- `irons_spellbooks:copper_spell_book`
+- hechizo inicial: `irons_spellbooks:acupuncture` level 1
+- `minecraft:amethyst_shard` x8
+- `minecraft:bread` x16
 
-Kit objetivo futuro:
-
-- spell book basico si existe.
-- hechizo ofensivo basico.
-- hechizo defensivo/utilidad ligero si existe.
-- comida.
-- nada de hechizos avanzados, AoE fuerte, invocaciones potentes ni equipo avanzado al inicio.
+No se dan hechizos avanzados, AoE fuerte, invocaciones potentes ni equipo avanzado al inicio.
 
 ## IDs reales ya verificados para Pack 16.4
 
@@ -75,7 +72,7 @@ Pistolero:
 
 Pendiente:
 
-- verificar item inicial del Mago con `/kubejs hand`.
+- validar en Prism que el libro conserva el hechizo y abre correctamente el spell wheel.
 
 ## Pruebas en Prism
 

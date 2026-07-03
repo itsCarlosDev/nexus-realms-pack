@@ -36,33 +36,31 @@ FancyMenu is intentionally not installed in Pack 16.0. The visual class screen s
 - `/nexus_select gunslinger`
 - `/nexus_resetclass <player>`: operator level 2 admin command. It clears class tags and class persistent data, but does not clear inventory.
 
-## Current placeholder kits
+## Current starter kits
 
 Guerrero:
 
-- `minecraft:iron_sword` x1
+- `simplyswords:iron_glaive` x1
 - `minecraft:shield` x1
 - `minecraft:bread` x16
 
 Mago:
 
-- `minecraft:book` x1
+- `irons_spellbooks:copper_spell_book` x1 with `irons_spellbooks:acupuncture` level 1
 - `minecraft:amethyst_shard` x8
 - `minecraft:bread` x16
 
 Pistolero:
 
-- `minecraft:crossbow` x1
-- `minecraft:arrow` x16
+- `tacz:modern_kinetic_gun` x1 with `GunId:"tacz:taurus9"`
+- `tacz:ammo` x16 with `AmmoId:"tacz:9mm"`
 - `minecraft:bread` x16
 
-## Future modded kits
+## Starter kit notes
 
-Do not use unverified modded item IDs in the backend yet.
-
-- TODO Guerrero: replace placeholder weapon with a verified Simply Swords item.
-- TODO Mago: replace placeholder items with verified Iron's Spells 'n Spellbooks starter items.
-- TODO Pistolero: replace crossbow placeholder with verified TaCZ starter weapon and ammo IDs.
+- Pack 16.4 uses verified IDs/NBT from `/kubejs hand`.
+- KubeJS still marks `nexus_class_chosen` before giving items to avoid kit duplication.
+- If a starter kit item fails, KubeJS logs the item error and keeps the class locked in.
 
 ## Future FTB Quests integration
 
@@ -100,8 +98,15 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 - T.O Magic 'n Extras was tested and then reverted because it continued to fail in Prism after pulling in Alex's Caves, Apothic Attributes/AttributesLib, Placebo, and L_Ender's Cataclysm.
 - Mage expansion is postponed until a cleaner Iron's Spells addon or a safer version is validated.
 - No other large standalone magic system is added in this pack.
-- The Mago starter kit remains placeholder until real item IDs are verified with `/kubejs hand`.
 - `/nexus_select` and `/nexus_resetclass` are unchanged.
+
+## Pack 16.4 - Real class starter kits
+
+- Warrior starts with `simplyswords:iron_glaive`, shield, and bread.
+- Mage starts with `irons_spellbooks:copper_spell_book` containing `irons_spellbooks:acupuncture` level 1, amethyst shards, and bread.
+- Gunslinger starts with `tacz:modern_kinetic_gun` using `tacz:taurus9`, `tacz:ammo` 9mm, and bread.
+- Starter kit item NBT is handled in KubeJS with per-item error logging.
+- FancyMenu and FTB Quests still do not grant starter kits directly.
 
 ## Future Epic Fight integration
 

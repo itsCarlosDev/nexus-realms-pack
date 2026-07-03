@@ -108,7 +108,7 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - Iron's Spells remains the main magic system.
 - T.O Magic 'n Extras is rejected temporarily because the dependency chain added caves/bosses content and still failed Prism validation.
 - Mage expansion is postponed until a cleaner addon or safer version is validated.
-- Mage starter kit IDs are still pending verification with `/kubejs hand`.
+- Mage starter kit now uses a verified Iron's Spells copper spell book with `irons_spellbooks:acupuncture` in Pack 16.4.
 
 ### Intentionally excluded from Pack 16.3
 
@@ -121,6 +121,23 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - No Mobbility.
 - No Monsters & Spellbooks.
 - No KubeJS Iron's Spells addon.
+- No GameStages.
+- No OpenLoader or Paxi.
+- No Epic Fight.
+
+## Pack 16.4 - Real Class Starter Kits
+
+### Backend updated
+
+- KubeJS starter kits now support item objects with optional NBT.
+- Warrior kit uses Simply Swords.
+- Mage kit uses Iron's Spells with a real spell book NBT payload.
+- Gunslinger kit uses TaCZ gun and ammo NBT.
+- Class state is still saved before item delivery to avoid duplication.
+
+### No new mods
+
+- Uses already-installed Simply Swords, Iron's Spells, and TaCZ.
 - No GameStages.
 - No OpenLoader or Paxi.
 - No Epic Fight.

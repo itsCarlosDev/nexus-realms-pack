@@ -3,27 +3,39 @@ const NEXUS_CLASS_DATA = {
     displayName: 'Guerrero',
     tag: 'nexus_class_warrior',
     kit: [
-      ['minecraft:iron_sword', 1],
-      ['minecraft:shield', 1],
-      ['minecraft:bread', 16]
+      { id: 'simplyswords:iron_glaive', count: 1 },
+      { id: 'minecraft:shield', count: 1 },
+      { id: 'minecraft:bread', count: 16 }
     ]
   },
   mage: {
     displayName: 'Mago',
     tag: 'nexus_class_mage',
     kit: [
-      ['minecraft:book', 1],
-      ['minecraft:amethyst_shard', 8],
-      ['minecraft:bread', 16]
+      {
+        id: 'irons_spellbooks:copper_spell_book',
+        count: 1,
+        nbt: '{"irons_spellbooks:spell_container":{data:[{id:"irons_spellbooks:acupuncture",index:0,level:1}],maxSpells:5,mustEquip:1b,spellWheel:1b}}'
+      },
+      { id: 'minecraft:amethyst_shard', count: 8 },
+      { id: 'minecraft:bread', count: 16 }
     ]
   },
   gunslinger: {
     displayName: 'Pistolero',
     tag: 'nexus_class_gunslinger',
     kit: [
-      ['minecraft:crossbow', 1],
-      ['minecraft:arrow', 16],
-      ['minecraft:bread', 16]
+      {
+        id: 'tacz:modern_kinetic_gun',
+        count: 1,
+        nbt: '{GunCurrentAmmoCount:0,GunFireMode:"SEMI",GunId:"tacz:taurus9",HasBulletInBarrel:1b}'
+      },
+      {
+        id: 'tacz:ammo',
+        count: 16,
+        nbt: '{AmmoId:"tacz:9mm"}'
+      },
+      { id: 'minecraft:bread', count: 16 }
     ]
   }
 }
@@ -68,7 +80,13 @@ function nexusOpenClassSelector(player) {
 
 function nexusGiveStarterKit(player, classId) {
   NEXUS_CLASS_DATA[classId].kit.forEach(entry => {
-    player.give(Item.of(entry[0], entry[1]))
+    try {
+      const stack = entry.nbt ? Item.of(entry.id, entry.count, entry.nbt) : Item.of(entry.id, entry.count)
+      player.give(stack)
+    } catch (error) {
+      console.error(`Nexus Realms: failed to give starter kit item ${entry.id} to ${player.username}`)
+      console.error(error)
+    }
   })
 }
 
@@ -151,8 +169,4 @@ ServerEvents.commandRegistry(event => {
   )
 })
 
-// TODO Pack 16.1+: connect this backend to FancyMenu buttons.
-// TODO Replace placeholder kits after verifying stable item IDs:
-// - Guerrero: Simply Swords.
-// - Mago: Iron's Spells 'n Spellbooks.
-// - Pistolero: TaCZ.
+// TODO Pack 16.5+: add recipe/loot restrictions once class progression is stable.

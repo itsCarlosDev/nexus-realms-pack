@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Experimental: updated Warrior, Mage and Gunslinger starter kits with verified modded items and NBT.
 - Experimental: reverted T.O Magic 'n Extras pending a cleaner Mage expansion.
 - Experimental: fixed Mage expansion dependency chain for T.O Magic 'n Extras.
 - Experimental: added T.O Magic 'n Extras as an Iron's Spells addon to expand the Mage class.
