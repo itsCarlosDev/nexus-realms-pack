@@ -279,6 +279,39 @@ Pack 7 adds a conservative performance and diagnostics layer before larger conte
 - Check TPS under exploration, combat, XP drops, Create machinery, redstone, and mob farms.
 - Review ServerCore behavior around mob activation, despawn, and spawn-heavy areas before adding larger content packs.
 
+## Pack 8 - Create production integration
+
+Pack 8 adds a small Create production block focused on automation and technical progression. Create addons are tested in small batches because Create 6.x compatibility can be sensitive.
+
+### Mods added
+
+- Create Crafts & Additions - `both`, bridges electrical energy and Create kinetic power with motors, alternators, and technical progression options.
+- Create Slice & Dice - `both`, integrates Create with Farmer's Delight for automated cooking and food production.
+- Kotlin for Forge - `both`, dependency added because Create Slice & Dice requires `kotlinforforge` 4.3.0 or above.
+
+### Pending Create addons
+
+- Create Steam 'n' Rails remains pending for a dedicated train/rail pass.
+- Create Deco remains pending for a decorative Create pass.
+- Create Design n' Decor remains pending for a decorative Create pass.
+- Create Power Loader remains pending until chunk loading policy is defined for the server.
+- Create Enchantment Industry for Create 6 remains pending for a later magic/progression pass involving XP and enchanting.
+- Create Connected remains pending until core Create production is stable.
+- Create Copycats+ remains pending until core Create production is stable.
+- Create Utilities remains pending until its scope is reviewed separately.
+- Create Diesel Generators remains pending for a later power/industry pass.
+- Create Big Cannons remains pending because it changes combat and siege balance.
+- Create New Age remains pending for a later power/industry pass.
+- Advanced storage remains pending so storage balance does not bypass Create progression too early.
+
+### Prism validation
+
+- Confirm the client starts and joins a world with Create, Create Crafts & Additions, Create Slice & Dice, and Kotlin for Forge installed.
+- Test motors, alternators, connectors, accumulators, and Create kinetic/electric conversion loops.
+- Test Farmer's Delight integration with Create Slice & Dice, including cutting, cooking, and automated food workflows.
+- Test JEI recipes for Create Crafts & Additions and Create Slice & Dice.
+- Test Create contraptions, belts, funnels, deployers, mechanical arms, and redstone with Alternate Current still enabled.
+
 ## Initial candidate list
 
 - ModernFix
