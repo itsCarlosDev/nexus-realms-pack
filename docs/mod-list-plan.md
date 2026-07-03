@@ -93,6 +93,33 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - No OpenLoader or Paxi.
 - No Epic Fight.
 
+## Pack 16.3 - Mage Class Expansion
+
+### Mods added
+
+- T.O Magic 'n Extras - Iron's Spells Addon - `both`, CurseForge metadata, file `traveloptics-6.3.0-1.20.1.jar`.
+
+### Mage direction
+
+- Iron's Spells remains the main magic system.
+- T.O Magic 'n Extras expands the Mage class without adding a second large magic progression.
+- Mage starter kit IDs are still pending verification with `/kubejs hand`.
+
+### Intentionally excluded from Pack 16.3
+
+- No Ars Nouveau.
+- No Occultism.
+- No Forbidden & Arcanus.
+- No Botania.
+- No Malum.
+- No Hexerei.
+- No Mobbility.
+- No Monsters & Spellbooks.
+- No KubeJS Iron's Spells addon.
+- No GameStages.
+- No OpenLoader or Paxi.
+- No Epic Fight.
+
 ## Block 2 - QoL/UI
 
 - Just Enough Items (JEI) - `client`

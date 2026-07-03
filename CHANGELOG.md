@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Experimental: added T.O Magic 'n Extras as an Iron's Spells addon to expand the Mage class.
 - Experimental: documented FTB Quests class progression foundation for Warrior, Mage and Gunslinger paths.
 - Experimental: added FancyMenu UI foundation for class selection with placeholder class images and KubeJS open-gui bridge.
 - Experimental: removed Epic Fight experiment entries from the class selection branch to keep Pack 16.1 isolated.
