@@ -77,3 +77,23 @@ Rutas:
 - Exportar layout real desde FancyMenu.
 - Conectar FTB Quests por tags en Pack 16.2.
 - No integrar Epic Fight todavia.
+
+## Current template status
+
+A first functional FancyMenu template has been created manually in Prism.
+
+Status:
+- The GUI opens.
+- Buttons work.
+- Buttons call:
+  - `/nexus_select warrior`
+  - `/nexus_select mage`
+  - `/nexus_select gunslinger`
+- KubeJS remains the only system that saves the class, gives kits and assigns tags.
+- The current layout is a template, not final art.
+
+Pending:
+- Replace placeholder visuals.
+- Improve full-screen layout.
+- Add final class illustrations.
+- Add confirmation step before choosing a class.
