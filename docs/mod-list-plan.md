@@ -671,6 +671,35 @@ Pack 13 adds the technical foundation for a future Fishing Guild progression lay
 - Set R only to TaCZ Reload, Combat Roll to Left Alt, Oculus Reload Shaders to F10 or Unbound, and JourneyMap fullscreen to J.
 - Export final tested controls later with `/defaultoptions saveKeys`.
 
+## Pack 14.3 - Biohazard Gunplay Alignment
+
+### Mods added
+
+- Third Person Shooting: Zero - `client`, integrates TaCZ with Shoulder Surfing 5 for third-person shooting/camera behavior in a Biohazard-style setup.
+- TaCZ Tweaks - `both`, QoL improvements and adjustments for TaCZ 1.1.8.
+- TaCZ Ammo Query - `client`, JEI improvement showing which weapons use each ammunition type.
+- YetAnotherConfigLib - `client`, automatic dependency for TaCZ Tweaks.
+
+### Notes
+
+- Punchy remains installed.
+- TaCZ remains installed.
+- Shoulder Surfing Reloaded base remains installed.
+- SSR Camera Fixes/Additions remains excluded because it broke camera/WASD/mouse behavior.
+- TaCZ Additions is postponed for a future Pack 14.4 if this pack works well.
+- No extra gunpacks are added.
+- No armed NPCs are added.
+- No Create integration is added yet.
+- Test camera, recoil, ADS, hip-fire, Shoulder Surfing, Punchy blacklist, and keybinds carefully.
+
+### Prism validation
+
+- Test TaCZ ADS and hip-fire with Shoulder Surfing base and Third Person Shooting: Zero.
+- Check whether third-person projectiles and crosshair feel aligned.
+- Confirm TaCZ Ammo Query exposes ammunition-to-weapon information in JEI.
+- Review TaCZ Tweaks options and only change gameplay balance after separate testing.
+- Keep Punchy's TaCZ blacklist active with `^tacz:.*$` or manual TaCZ item entries.
+
 ## Initial candidate list
 
 - ModernFix

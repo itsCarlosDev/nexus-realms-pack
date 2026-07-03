@@ -46,6 +46,18 @@
 - Shoulder Surfing Swap Shoulder: free key or extra mouse button if available.
 - JourneyMap fullscreen: J.
 
+## Pack 14.3 Biohazard Gunplay
+
+- Third Person Shooting should improve TaCZ + Shoulder Surfing behavior.
+- Keep TaCZ Reload on R.
+- Keep Punchy menu/config on F8.
+- Keep Combat Roll on Left Alt.
+- Oculus Reload Shaders should remain F10 or Unbound.
+- Do not use SSR Camera Fixes.
+- Test Shoulder Surfing with TaCZ ADS and hip-fire.
+- Test whether projectiles/crosshair feel aligned in third person.
+- If camera still feels wrong, tune Shoulder Surfing base settings manually before adding more mods.
+
 ## Default Options
 
 - Do not commit root options.txt.

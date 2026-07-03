@@ -441,6 +441,16 @@ hash = "9d4682b34e59eab9183ac89ff20c4d45b854e15b051453e752f4d953789ac02c"
 metafile = true
 
 [[files]]
+file = "mods/tacz-ammo-query.pw.toml"
+hash = "a055bfa9442c993c5c455233090116a1a323c60fbb701dc4a4c0d13a6b2df77d"
+metafile = true
+
+[[files]]
+file = "mods/tacz-tweaks.pw.toml"
+hash = "b4d15c5213b212c0cbefbb5f426ec29a1ac0e051b7f41bd463b5c5a203d8ae8b"
+metafile = true
+
+[[files]]
 file = "mods/terrablender.pw.toml"
 hash = "14117b94c456598c9acece143c7a0da3cf56d13182d035a74a2da8a52dd19cbd"
 metafile = true
@@ -448,6 +458,11 @@ metafile = true
 [[files]]
 file = "mods/the-fisherman-house.pw.toml"
 hash = "298d8ba281c26cd5c3691f0c866cd139973d75482a0bdfc26cff3f07041e65db"
+metafile = true
+
+[[files]]
+file = "mods/third-person-shooting.pw.toml"
+hash = "e1d77732cbf4237c49993569c32d794e7895c6f015f35b7b90a49cb459da3d29"
 metafile = true
 
 [[files]]
@@ -488,6 +503,11 @@ metafile = true
 [[files]]
 file = "mods/what-are-they-up-to.pw.toml"
 hash = "c557d1b26559ef987c229187d2f2705616e78179ce04fa1c96cc3d76a1cdf1b5"
+metafile = true
+
+[[files]]
+file = "mods/yacl.pw.toml"
+hash = "762c770cb36100828cf5f861574847ecff3d9988ffa617056708a1077993460c"
 metafile = true
 
 [[files]]

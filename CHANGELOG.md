@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Added Biohazard gunplay alignment with Third Person Shooting: Zero, TaCZ Tweaks and TaCZ Ammo Query.
 - Stabilized TaCZ/Punchy integration by keeping Punchy, removing problematic SSR Camera Fixes if present, and documenting TaCZ blacklist plus keybind cleanup.
 - Kept Punchy and added TaCZ/Shoulder Surfing compatibility cleanup with SSR Camera Fixes and documented Punchy blacklist/keybind configuration.
 - Added Firearms Foundation with TaCZ for the future Pistolero/Biohazard progression.
