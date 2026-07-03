@@ -390,6 +390,50 @@ Pack 10 adds a conservative world, settlement, biome, and exploration block befo
 - Use Explorer's Compass to locate vanilla and modded structures, then compare with JourneyMap and Nature's Compass workflows.
 - Watch world creation time, chunk generation time, server TPS, and entity density before adding Terralith, Regions Unexplored, Prehistoric Fauna, or Alex's Caves.
 
+## Pack 11 - Combat foundation / Nightfall style
+
+Pack 11 adds the combat foundation for a darker RPG/soulslike feel without adding bosses, firearms, quests, economy, or an extreme animation overhaul.
+
+### Mods added
+
+- Better Combat - `both`, RPG/soulslike combat foundation with animations, combos, and hitboxes.
+- Simply Swords - `both`, medieval and fantasy weapon variety for the Warrior role.
+- Combat Roll - `both`, dodge/roll defensive mobility for soulslike combat.
+
+### Pending combat and boss candidates
+
+- Boss Checklist remains pending for a later boss tracking pass.
+- Boss Checklist Addon remains pending for a later boss tracking pass.
+- Cataclysm remains pending for a dedicated bosses pack.
+- Bosses Rise remains pending for a dedicated bosses pack.
+- Raids Enhanced remains pending.
+- Cult of Azazel remains pending.
+- TaCZ remains pending for a later firearms/survival tension pack.
+- Better Combat compat/configs remain pending after Prism validation.
+- KubeJS balance remains pending for later progression and combat tuning.
+- Default Options final keybinds remain pending until combat, JourneyMap, spells, and future firearms controls are reviewed together.
+
+### Discarded for now
+
+- Epic Fight remains discarded for now because it can conflict more heavily with armor, Iron's Spells, TaCZ, and render/animation mods.
+- Better Combat Particle remains discarded because it is not a clear Forge 1.20.1 candidate for this pack.
+- Mobbility remains discarded for now.
+- ParCool remains discarded for now.
+
+### Notes
+
+- This pack only adds the combat foundation.
+- Bosses and boss tracking will be added in a later pack.
+- TaCZ will be added later, and its controls should be resolved through Default Options.
+- Review keybind conflicts between Combat Roll, JourneyMap, CinematicZoom Original, Shoulder Surfing Reloaded, Iron's Spells, and future TaCZ controls.
+
+### Prism validation
+
+- Confirm the client starts and joins a world with Better Combat, Simply Swords, Combat Roll, and playerAnimator installed.
+- Test first-person and third-person melee attacks with vanilla weapons, Simply Swords weapons, shields, and Iron's Spells equipment.
+- Test Combat Roll keybinds against JourneyMap, CinematicZoom Original, Shoulder Surfing Reloaded, Controlling, and spell controls.
+- Test multiplayer hit registration, stamina/mobility feel, weapon animations, and server TPS before adding bosses or firearms.
+
 ## Initial candidate list
 
 - ModernFix
