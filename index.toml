@@ -1,8 +1,20 @@
 hash-format = "sha256"
 
 [[files]]
+file = "config/fancymenu/assets/nexus/class_selection/gunslinger.png"
+hash = "19c0ab190e17e0fabc11cf111b5a89ad746eaf9217d1a17155d913fd97deeb6c"
+
+[[files]]
+file = "config/fancymenu/assets/nexus/class_selection/mage.png"
+hash = "51a7f512a556d0d8cf063061b194ceda3d03e3e33917ebc97ff0cacefe6da795"
+
+[[files]]
+file = "config/fancymenu/assets/nexus/class_selection/warrior.png"
+hash = "3973f8dae8a52665d087126cbe084ae97efea402e72af2008a1895caab31a3e4"
+
+[[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "8154dd34cdea9b97d6e06678d095aa52a8be104863305c8d66e7c2b5d22cc4c7"
+hash = "754be18081cdd32048a37df809c736824254a75c02c0977c2cf42f66f866a151"
 
 [[files]]
 file = "mods/advancement-plaques.pw.toml"
@@ -185,31 +197,6 @@ hash = "aa2a1abbccb92ccc4ba3a5a70d24edcd1e39a035f15fb9ba49c27f270a5e74e3"
 metafile = true
 
 [[files]]
-file = "mods/epic-fight-avalon.pw.toml"
-hash = "57978220b6eced9ad3629371773eb378ec46646bf5cfa79e3d905d486bf50b14"
-metafile = true
-
-[[files]]
-file = "mods/epic-fight-invincible.pw.toml"
-hash = "ff857cf46ebf12d87fa3561fbea5e00e578269df54980aaae8a803a306043e21"
-metafile = true
-
-[[files]]
-file = "mods/epic-fight-mod.pw.toml"
-hash = "cc04a459af3ff21b2aa09cde7ab562f33eb13c9d6d158c71d09cb4bc0bdee325"
-metafile = true
-
-[[files]]
-file = "mods/epic-fight-skill-tree.pw.toml"
-hash = "de03bc879a02c86d91d8a7453186809651dec7c64955c6f0f391add7ff9c6854"
-metafile = true
-
-[[files]]
-file = "mods/epicfight-nightfall.pw.toml"
-hash = "ecedd6b10563309671203dc50e80fb2825ab31991d039c2aab98065e508a0b4b"
-metafile = true
-
-[[files]]
 file = "mods/explorers-compass.pw.toml"
 hash = "8d11358dfd1f3591ee0ce8728d6a3234e1edef5db39c52fe68264ecf7684968d"
 metafile = true
@@ -222,6 +209,11 @@ metafile = true
 [[files]]
 file = "mods/fancy-toasts.pw.toml"
 hash = "25644d1e49befc15ea303fa14491d04c3e8a116c85e44184ba4a1ff0992b0bb6"
+metafile = true
+
+[[files]]
+file = "mods/fancymenu.pw.toml"
+hash = "0189f27ab57f4dfa8ff5255e109f1cdffa6145f0992c73b4c382663231d87f29"
 metafile = true
 
 [[files]]
@@ -310,6 +302,11 @@ hash = "664a573384edf644e9b788c7c29fe32593917ac8283bb794cc46b471a0a6504a"
 metafile = true
 
 [[files]]
+file = "mods/konkrete.pw.toml"
+hash = "90a70141bcec839b6a1aa647c91f97bb7b33b6b9e6ce6b3b18a4113aa7dff636"
+metafile = true
+
+[[files]]
 file = "mods/kotlin-for-forge.pw.toml"
 hash = "1678327ac50408273c1828b631929128d3fdfd54cda7b2e823ce9352495a68ff"
 metafile = true
@@ -332,6 +329,11 @@ metafile = true
 [[files]]
 file = "mods/lootr.pw.toml"
 hash = "e8b4876d403b4f4daab64bad9704a5b271a33031d1ff8d19d23ebd1e3b8dd39a"
+metafile = true
+
+[[files]]
+file = "mods/melody.pw.toml"
+hash = "8def80b33354bc9525033d543925d45cddf54c1ad8b5b943e567cc2b1749d337"
 metafile = true
 
 [[files]]

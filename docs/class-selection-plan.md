@@ -78,6 +78,14 @@ Pack 16.1 should add FancyMenu and Konkrete, then build a full-screen class sele
 
 The menu must still rely on the KubeJS backend to prevent duplicate choices and duplicate kits.
 
+## Pack 16.1 - FancyMenu frontend foundation
+
+- FancyMenu is the visual frontend for class selection.
+- KubeJS remains the source of truth for class selection, validation, tags, persistence, and starter kits.
+- The selected class is still saved in player `persistentData` with `nexus_class_chosen` and `nexus_class`.
+- The visual GUI must not give items directly. Its buttons only call `/nexus_select warrior`, `/nexus_select mage`, or `/nexus_select gunslinger`.
+- If FancyMenu or the Custom GUI fails to open, the chat-command fallback remains available.
+
 ## Future Epic Fight integration
 
 Epic Fight integration should only be revisited if the combat stack is fixed and promoted out of experiment branches. Pack 16.0 does not add Epic Fight logic, recipes, skills, or class gating.

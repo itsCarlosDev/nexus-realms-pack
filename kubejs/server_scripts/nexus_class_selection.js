@@ -29,6 +29,7 @@ const NEXUS_CLASS_DATA = {
 }
 
 const NEXUS_CLASS_TAGS = Object.values(NEXUS_CLASS_DATA).map(classData => classData.tag)
+const NEXUS_CLASS_GUI_ID = 'nexus_class_selection'
 
 function nexusHasClass(player) {
   return player.persistentData.getBoolean('nexus_class_chosen') === true
@@ -40,6 +41,29 @@ function nexusShowClassSelector(player) {
   player.tell('/nexus_select warrior - Guerrero')
   player.tell('/nexus_select mage - Mago')
   player.tell('/nexus_select gunslinger - Pistolero')
+}
+
+function nexusRunServerCommand(server, command) {
+  try {
+    server.runCommandSilent(command)
+    return true
+  } catch (error) {
+    console.warn(`Nexus Realms: command failed: ${command}`)
+    console.warn(error)
+    return false
+  }
+}
+
+function nexusOpenClassSelector(player) {
+  nexusShowClassSelector(player)
+
+  player.server.scheduleInTicks(40, callback => {
+    if (nexusHasClass(player)) {
+      return
+    }
+
+    nexusRunServerCommand(player.server, `openguiscreen ${NEXUS_CLASS_GUI_ID} ${player.username}`)
+  })
 }
 
 function nexusGiveStarterKit(player, classId) {
@@ -56,7 +80,7 @@ PlayerEvents.loggedIn(event => {
   const player = event.player
 
   if (!nexusHasClass(player)) {
-    nexusShowClassSelector(player)
+    nexusOpenClassSelector(player)
   }
 })
 
@@ -92,6 +116,7 @@ ServerEvents.commandRegistry(event => {
             nexusClearClassTags(player)
             player.addTag(classData.tag)
             nexusGiveStarterKit(player, classId)
+            nexusRunServerCommand(player.server, `closeguiscreen ${player.username}`)
 
             player.tell(`Clase elegida: ${classData.displayName}. Tu kit inicial ha sido entregado.`)
             return 1
