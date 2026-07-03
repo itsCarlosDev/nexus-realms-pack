@@ -2,6 +2,8 @@
 
 ## 0.1.0
 
+- Experimental: added FancyMenu UI foundation for class selection with placeholder class images and KubeJS open-gui bridge.
+- Experimental: removed Epic Fight experiment entries from the class selection branch to keep Pack 16.1 isolated.
 - Experimental: added initial KubeJS class selection backend with persistent player class state, class tags, starter kits and admin reset command.
 - Experimental: added Epic Fight, EpicFight-Nightfall and Epic Fight Skill Tree on warrior experiment branch.
 - Added Biohazard gunplay alignment with Third Person Shooting: Zero, TaCZ Tweaks and TaCZ Ammo Query.

@@ -50,6 +50,27 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - No OpenLoader or Paxi.
 - No new Epic Fight work in `dev`; combat-class integration stays experimental until compatibility is fixed.
 
+## Pack 16.1 - Class Selection FancyMenu UI
+
+### Mods added
+
+- FancyMenu - `client`, visual frontend for the class selector.
+- Konkrete - `client`, FancyMenu dependency.
+- Melody - `client`, FancyMenu dependency.
+
+### UI foundation added
+
+- Placeholder class images for Guerrero, Mago, and Pistolero under `config/fancymenu/assets/nexus/class_selection/`.
+- KubeJS bridge that keeps the chat fallback and attempts to open the planned Custom GUI `nexus_class_selection`.
+- The visual GUI is expected to call `/nexus_select <class>` and must not give items directly.
+- Pre-existing Epic Fight experiment entries were removed from this branch so the class selection UI remains isolated from combat experiments.
+
+### Intentionally excluded from Pack 16.1
+
+- No GameStages.
+- No OpenLoader or Paxi.
+- No Epic Fight integration or replacement mods.
+
 ## Block 2 - QoL/UI
 
 - Just Enough Items (JEI) - `client`
