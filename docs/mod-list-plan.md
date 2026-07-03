@@ -98,11 +98,16 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 ### Mods added
 
 - T.O Magic 'n Extras - Iron's Spells Addon - `both`, CurseForge metadata, file `traveloptics-6.3.0-1.20.1.jar`.
+- Alex's Caves - `both`, required by T.O Magic 'n Extras.
+- Apothic Attributes - `both`, required by T.O Magic 'n Extras.
+- Placebo - `both`, required by Apothic Attributes.
+- L_Ender's Cataclysm - `both`, required at runtime by T.O Magic 'n Extras.
 
 ### Mage direction
 
 - Iron's Spells remains the main magic system.
 - T.O Magic 'n Extras expands the Mage class without adding a second large magic progression.
+- T.O Magic 'n Extras is experimental and requires Prism validation because its dependency chain adds caves/bosses content.
 - Mage starter kit IDs are still pending verification with `/kubejs hand`.
 
 ### Intentionally excluded from Pack 16.3

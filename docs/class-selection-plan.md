@@ -98,7 +98,8 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 
 - Iron's Spells remains the primary magic system for the Mago class.
 - T.O Magic 'n Extras is added as an Iron's Spells addon for more mage progression content.
-- No other large magic system is added in this pack.
+- The addon now requires Prism startup validation because it pulls in Alex's Caves, Apothic Attributes/AttributesLib, Placebo, and L_Ender's Cataclysm.
+- No other large standalone magic system is added in this pack.
 - The Mago starter kit remains placeholder until real item IDs are verified with `/kubejs hand`.
 - `/nexus_select` and `/nexus_resetclass` are unchanged.
 
