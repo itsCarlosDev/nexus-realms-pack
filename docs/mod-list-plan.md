@@ -490,6 +490,10 @@ Pack 12.1 expands the boss and special-threat layer with more bosses, mini-bosse
 - FDLib - `both`, dependency added automatically for Raids:Enhanced.
 - Obscure API [Forge Edition] - `both`, dependency added automatically for Aquamirae.
 
+### Resourcepacks added
+
+- Fresh Animations: Player Extension - `both`, resource pack for player animations in the Fresh Animations style.
+
 ### Pending boss, raid, and progression candidates
 
 - Daily Boss remains pending.
@@ -522,12 +526,16 @@ Pack 12.1 expands the boss and special-threat layer with more bosses, mini-bosse
 - Test this pack in a new world before promoting it to `main`.
 - Review performance because Mowzie's Mobs, Aquamirae, Cataclysm, and Bosses'Rise together can increase entity, AI, and structure-generation load.
 - Check whether Boss Checklist detects the new bosses automatically; if not, leave checklist configuration for a later pass.
+- Fresh Animations: Player Extension requires EMF and ETF.
+- Test Fresh Animations: Player Extension visually with Better Combat, Combat Roll, Shoulder Surfing Reloaded, YDM's Weapon Master, and Punchy.
+- If Fresh Animations: Player Extension looks wrong, remove this resource pack before testing Fresh Moves.
 
 ### Prism validation
 
 - Confirm the client starts and joins a new world with Mowzie's Mobs, Bosses of Mass Destruction Forge, Raids:Enhanced, Aquamirae, and their dependencies installed.
 - Test Mowzie's Mobs encounters, Bosses of Mass Destruction structures, Aquamirae ocean/Ship Graveyard content, and Raids:Enhanced invasion events in a disposable world.
 - Check Boss Checklist and Boss Checklist Addon entries for the new bosses.
+- Test player animations with Fresh Animations: Player Extension in first person and third person.
 - Watch TPS, chunk generation, entity counts, raid difficulty, loot balance, and ocean exploration difficulty before adding Daily Boss, Cult of Azazel, TaCZ, quests, or KubeJS balance.
 
 ## Initial candidate list
