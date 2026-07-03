@@ -1,13 +1,13 @@
 name = "Fresh Animations: Player Extension"
 filename = "FA+Player-v1.1.zip"
-side = "both"
+side = "client"
 
 [download]
-hash-format = "sha1"
-hash = "122e397af111e3dc5fb6b60004aad9464980f13a"
-mode = "metadata:curseforge"
+url = "https://cdn.modrinth.com/data/TAIMVZCL/versions/Wj7NeGjP/FA%2BPlayer-v1.1.zip"
+hash-format = "sha512"
+hash = "d2a5c46ae53e4bb6355604a1ade253ab49f1deb205f5ee69085014965241d3c9623204951ab174a5dbdaf24d9b25ecae9a1638cc6a13d780b398a6d70d157a4e"
 
 [update]
-[update.curseforge]
-file-id = 8245230
-project-id = 1281029
+[update.modrinth]
+mod-id = "TAIMVZCL"
+version = "Wj7NeGjP"
