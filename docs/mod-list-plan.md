@@ -544,6 +544,38 @@ Pack 12.1 expands the boss and special-threat layer with more bosses, mini-bosse
 - Test the FA: Player Extension Compat client mod with Better Combat / playerAnimator attacks.
 - Watch TPS, chunk generation, entity counts, raid difficulty, loot balance, and ocean exploration difficulty before adding Daily Boss, Cult of Azazel, TaCZ, quests, or KubeJS balance.
 
+## Pack 13 - Fishing Guild Foundation
+
+Pack 13 adds the technical foundation for a future Fishing Guild progression layer without adding final quest content, economy, KubeJS scripting, or extra large worldgen beyond The Fisherman House.
+
+### Mods added
+
+- Starcatcher - `both`, main fishing expansion with rare fish and fishing catalog/progression support.
+- The Fisherman House - `both`, fisherman structures in oceans/beaches to give the future fishing guild a physical world anchor.
+- FTB Quests - `both`, base quest system for future fishing commissions and general pack progression.
+- FTB Library - `both`, Forge 1.20.1 dependency for FTB Quests.
+- FTB Teams - `both`, Forge 1.20.1 dependency for FTB Quests team-based progression.
+- Quests Additions - `both`, Forge 1.20.1 addon for expanded tasks/rewards and repeatable quests.
+
+### Notes
+
+- This pack installs the technical foundation, but it does not create the final quests yet.
+- Fishing quests will be created in a later content/config pack.
+- FTB XMod Compat is not installed yet.
+- Item Filters is not installed unless it becomes necessary later.
+- Watch that FTB Library, FTB Teams, and FTB Quests remain Forge 1.20.1 files even though CurseForge displays their project titles as NeoForge.
+- Future ideas: deliver common fish, deliver rare fish, night fishing, rain fishing, visit The Fisherman House, cook fish with Farmer's Delight, and reward food, experience, or future currency.
+- Watch The Fisherman House generation in a new world.
+- Watch Starcatcher compatibility with Farmer's Delight.
+
+### Prism validation
+
+- Confirm the client starts and joins a new world with Starcatcher, The Fisherman House, FTB Quests, FTB Library, FTB Teams, and Quests Additions installed.
+- Check Starcatcher fishing, catalog/progression UI, rare fish behavior, and loot integration.
+- Locate or spawn-test The Fisherman House structures in a disposable world.
+- Open the FTB Quests UI and confirm Quests Additions loads without requiring KubeJS, Item Filters, or FTB XMod Compat.
+- Test with Farmer's Delight installed before creating final fishing quests.
+
 ## Initial candidate list
 
 - ModernFix

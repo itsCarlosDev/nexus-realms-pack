@@ -1,0 +1,13 @@
+name = "The Fisherman House"
+filename = "fisherman_house-1.0.0-forge-1.20.1.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/Dku9hJfB/versions/Uxhy4IiI/fisherman_house-1.0.0-forge-1.20.1.jar"
+hash-format = "sha512"
+hash = "638b4b47a013d480abf667a102815d571e38a8af9a3559044732874b195c76b08aa7c31e5b908db347150172400744af5d234b7b6368a781d37872c6e46ba253"
+
+[update]
+[update.modrinth]
+mod-id = "Dku9hJfB"
+version = "Uxhy4IiI"
