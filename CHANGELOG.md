@@ -2,7 +2,8 @@
 
 ## 0.1.0
 
-- Removed Stellara, replaced Xaero's maps with JourneyMap, and added the Pack 6.5 sound/ambient block plus ImmediatelyFast in `dev`.
+- Removed ImmediatelyFast from `dev` after a startup crash with Oculus/Embeddium.
+- Removed Stellara, replaced Xaero's maps with JourneyMap, and added the Pack 6.5 sound/ambient block in `dev`.
 - Added the Pack 6.4 DiosesMC-inspired visual polish block in `dev`, including chat, zoom, UI, torch, enchant icon, and low-fire visibility polish.
 - Removed MB-3D Items Pack from `dev`.
 - Added MB-3D Items Pack in `dev` as a managed resource pack for 3D item testing.
