@@ -212,7 +212,6 @@ Pack 6.5 continues the DiosesMC-inspired visual alignment on Forge 1.20.1 withou
 - AmbientSounds 6 - `both`, adds ambient sound polish.
 - Sound Physics Remastered - `both`, adds environmental sound behavior.
 - Presence Footsteps - `both`, adds footstep sound detail.
-- ImmediatelyFast - `client`, adds rendering/UI performance polish; the selected Modrinth version supports Minecraft 1.20.1.
 - CreativeCore - `both`, dependency added automatically for AmbientSounds 6.
 
 ### DiosesMC entries already covered by Nexus Realms
@@ -232,6 +231,7 @@ Pack 6.5 continues the DiosesMC-inspired visual alignment on Forge 1.20.1 withou
 - Gamma Utils remains pending/discarded unless a clear Forge 1.20.1 candidate is confirmed and Carlos accepts the lighting-balance impact.
 - Hold My Items remains pending; keep Punchy! unless Carlos asks for a direct comparison.
 - Fadeless remains pending until a clear Forge 1.20.1 candidate is confirmed.
+- ImmediatelyFast was removed after Pack 6.5 testing because Minecraft crashed on startup with Oculus/Embeddium in this configuration: `Failed to initialize Iris compatibility` / `ClassNotFoundException net.coderbot.iris.vertices.ImmediateState`.
 
 ### Prism validation
 
@@ -239,8 +239,6 @@ Pack 6.5 continues the DiosesMC-inspired visual alignment on Forge 1.20.1 withou
 - Check keybind conflicts after removing Xaero and adding JourneyMap.
 - Test caves, forests, villages, rain, water, mining, and combat with AmbientSounds 6, Sound Physics Remastered, and Presence Footsteps.
 - Confirm CreativeCore does not introduce server/client mismatch warnings.
-- Test inventories, chat suggestions, JEI, and high-item screens with ImmediatelyFast enabled.
-- Recheck Embeddium and Oculus rendering after adding ImmediatelyFast.
 - Confirm no Stellara sky styling remains active.
 
 ## Initial candidate list

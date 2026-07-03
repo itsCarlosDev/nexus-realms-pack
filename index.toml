@@ -136,11 +136,6 @@ hash = "c21d061d9c22b9bcdad2ac9f9823355fcab00f2ea05469b76d5ddf6ccf518479"
 metafile = true
 
 [[files]]
-file = "mods/immediatelyfast.pw.toml"
-hash = "835bd8b05a05ce6c0981ddc37c49e4c476aa0414cc2a5321fd9f8994193b6feb"
-metafile = true
-
-[[files]]
 file = "mods/immersive-damage-indicators.pw.toml"
 hash = "d5a6ba6bb1d790e2d36657d54f0924ba1011738d39c320d882065ee06977b824"
 metafile = true
