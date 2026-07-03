@@ -1,0 +1,13 @@
+name = "Boss Checklist Addon"
+filename = "boss_checklist_addon-2.4.0-forge-1.20.1.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "a1b54c416f9bdf6e5dec531c85a6200d6d500b69"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 7884589
+project-id = 1426397

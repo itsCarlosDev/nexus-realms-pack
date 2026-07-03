@@ -434,6 +434,52 @@ Pack 11 adds the combat foundation for a darker RPG/soulslike feel without addin
 - Test Combat Roll keybinds against JourneyMap, CinematicZoom Original, Shoulder Surfing Reloaded, Controlling, and spell controls.
 - Test multiplayer hit registration, stamina/mobility feel, weapon animations, and server TPS before adding bosses or firearms.
 
+## Pack 12 - Bosses / Rise / Endgame progression
+
+Pack 12 adds the first real boss/endgame block and a visual boss progression list without adding firearms, quests, economy, extra worldgen packs, or general mob packs.
+
+### Mods added
+
+- L_Ender's Cataclysm - `both`, bosses, dungeons, structures, and endgame rewards.
+- Bosses'Rise - `both`, soulslike bosses in its own dungeons.
+- Boss Checklist - `both`, boss list/progression UI for players.
+- Boss Checklist Addon - `both`, expanded boss entries for the checklist.
+- Lionfish API - `both`, dependency added automatically for L_Ender's Cataclysm.
+
+### Pending boss, raid, and progression candidates
+
+- Bosses of Mass Destruction remains pending.
+- Raids Enhanced remains pending for a later raids/illagers pass.
+- Cult of Azazel remains pending because it may affect Nether/worldgen.
+- Mowzie's Mobs remains pending.
+- Aquamirae remains pending.
+- Daily Boss remains pending.
+- Daily Boss X Bosses Rise remains pending.
+- TaCZ remains pending for a later Biohazard/Pistolero pack.
+- KubeJS balance remains pending for progression and reward tuning.
+- FTB Quests remains pending for structured progression.
+- Custom rewards remain pending until KubeJS/quests are added.
+
+### Discarded for now
+
+- Epic Fight remains discarded for now.
+- Better Combat Particle remains discarded for now.
+- Boss mods not verified for Forge 1.20.1 remain discarded for now.
+
+### Notes
+
+- This pack adds base bosses and boss tracking, but reward balance will be handled later with KubeJS and quests.
+- Do not create the definitive world yet.
+- Test this pack in a new world before promoting it to `main`.
+
+### Prism validation
+
+- Confirm the client starts and joins a new world with Cataclysm, Bosses'Rise, Boss Checklist, Boss Checklist Addon, and Lionfish API installed.
+- Check the Boss Checklist UI and confirm entries appear for installed bosses.
+- Locate or spawn-test early boss structures in a disposable world and verify no worldgen/load errors appear.
+- Test boss combat with Better Combat, Simply Swords, Combat Roll, Iron's Spells, Alex's Mobs, and existing HUD mods.
+- Watch TPS, entity counts, loot balance, and difficulty spikes before adding raids, quests, firearms, or additional boss packs.
+
 ## Initial candidate list
 
 - ModernFix

@@ -27,7 +27,7 @@ metafile = true
 
 [[files]]
 file = "mods/architectury-api.pw.toml"
-hash = "4e81241ba2da06f425efc5e09fb6b38470125c1581c39e1310c5843a0b96ec76"
+hash = "5e9edd1fd2395f14a0c8a4acbdbdd61e1047be1f0033deb3140d2ce0d093e9d8"
 metafile = true
 
 [[files]]
@@ -48,6 +48,21 @@ metafile = true
 [[files]]
 file = "mods/betterf3.pw.toml"
 hash = "28358fe53c22695b3bf1f93ac2225c46fe3525918b7b993ac36e68a7f0a16fe8"
+metafile = true
+
+[[files]]
+file = "mods/boss-checklist-addon.pw.toml"
+hash = "5194501b02b8bf2a820353c83c28368d4337435ffef4a580fc896fba8d999c0b"
+metafile = true
+
+[[files]]
+file = "mods/boss-checklist.pw.toml"
+hash = "b179a1351967b57e80ca4e884e45101373b359e32c2ea47f0e9cd540bfbc3df6"
+metafile = true
+
+[[files]]
+file = "mods/bossesrise.pw.toml"
+hash = "b66345a42cf78fc591a935a17907d135370348a015125fd06de6aba168240362"
 metafile = true
 
 [[files]]
@@ -233,6 +248,16 @@ metafile = true
 [[files]]
 file = "mods/kotlin-for-forge.pw.toml"
 hash = "1678327ac50408273c1828b631929128d3fdfd54cda7b2e823ce9352495a68ff"
+metafile = true
+
+[[files]]
+file = "mods/lendercataclysm.pw.toml"
+hash = "fbf967b492d575d65f066941652400dc32b998a16ac477a4b8f0efc2f681296a"
+metafile = true
+
+[[files]]
+file = "mods/lionfish-api.pw.toml"
+hash = "300eb043e53e956e58c9ff56d261d2473b473a387eef3dcfec44324c8d330a39"
 metafile = true
 
 [[files]]
