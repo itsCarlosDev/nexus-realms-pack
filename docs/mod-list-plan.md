@@ -93,6 +93,45 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 
 - Epic Fight, Better Combat, Cataclysm, TaCZ, Alex's Mobs, Alex's Delight, Mystic's Biomes, Cult of Azazel, Chef's Delight, Create Better FPS, Arsenal RPG Series, Clavis, Superior RPG, and Mushoku Tensei remain intentionally excluded from Pack 6.
 
+## Pack 6.1 - Visual polish / UI extra
+
+### Mods added
+
+- Perception - `client`
+- Pretty Rain - `client`
+- Visual Workbench - `both`
+- Particular Reforged - `client`
+- Inventory Particles - `client`
+- Advancement Plaques - `client`
+- Immersive Damage Indicators - `client`
+
+### Resourcepacks added
+
+- Better Lanterns - `client` resource pack, managed by packwiz metadata
+
+### Automatic dependencies
+
+- Architectury API - `both`, dependency for Perception
+- ShatterLib / OctoLib - `both`, dependency for Perception
+- Puzzles Lib - `both`, dependency for Visual Workbench
+- MossyLib - `client`, dependency for Inventory Particles
+- Iceberg - `both`, dependency for Advancement Plaques
+- TxniLib - `both`, dependency for Immersive Damage Indicators
+- Immersive Messages API - `both`, dependency for Immersive Damage Indicators
+
+### Mods pending or omitted
+
+- Jofi's 3D Apples was already installed in Pack 6 and was not reinstalled.
+- Immersive Hotbar remains pending because packwiz did not find a valid Forge 1.20.1 version for the current pack settings.
+- TreeChop, FallingTree, Epic Fight, Better Combat, Cataclysm, TaCZ, Alex's Mobs, Mystic's Biomes, Cult of Azazel, Chef's Delight, Create Better FPS, Arsenal RPG Series, and Clavis remain intentionally excluded from Pack 6.1.
+
+### Visual overlaps to review in Prism
+
+- Advancement Plaques and Fancy Toasts can overlap visually. Keep both for now; if they clash, prefer Advancement Plaques for achievement presentation and remove or disable Fancy Toasts only after Carlos confirms.
+- Visuality, Particular Reforged, Pretty Rain, Perception, and Inventory Particles can increase particle density. Test rain, combat, mining, inventory screens, and low-end client performance.
+- Immersive Damage Indicators, Status Effect Bars Reforged, and You Died can saturate the HUD in combat. Test regular mobs, boss-like fights, death flow, and multiplayer visibility.
+- Visual Workbench is installed as `both`; test it in Prism and on a server instance before promoting to `main`.
+
 ## Initial candidate list
 
 - ModernFix

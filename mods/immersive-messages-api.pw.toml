@@ -1,0 +1,13 @@
+name = "Immersive Messages API"
+filename = "immersivemessages-forge-1.0.18-1.20.1.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/6xvrmbjn/versions/4JWF2yfv/immersivemessages-forge-1.0.18-1.20.1.jar"
+hash-format = "sha512"
+hash = "50f4318f81712293bf7079e6d4e58261d5564117717485f83c0064eb06442a3f1fc8fbe6d4fc9b5379ca561b592269829b840c7cf3cfb720bbbf39b373cd51b6"
+
+[update]
+[update.modrinth]
+mod-id = "6xvrmbjn"
+version = "4JWF2yfv"

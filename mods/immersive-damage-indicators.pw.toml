@@ -1,0 +1,13 @@
+name = "Immersive Damage Indicators"
+filename = "immersivedamageindicators-forge-1.0.0-1.20.1.jar"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/tTKSJOdG/versions/gZg7V1Sn/immersivedamageindicators-forge-1.0.0-1.20.1.jar"
+hash-format = "sha512"
+hash = "be03eb172c3f32f4f1fb5b1a47f5e330829e5d73d32d75ec51160d299cd5acd0202d7d83d39b831df3c673292b2f4ceeb592021bce02836e2cb5a00613f1f355"
+
+[update]
+[update.modrinth]
+mod-id = "tTKSJOdG"
+version = "gZg7V1Sn"
