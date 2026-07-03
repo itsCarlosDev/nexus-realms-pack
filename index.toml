@@ -6,6 +6,11 @@ hash = "7f243cdb7d52214593d8155a12de24d4992a781a94597eb09bf3ffb3396e5eb5"
 metafile = true
 
 [[files]]
+file = "mods/alternate-current.pw.toml"
+hash = "54e171ca3f1f39eba38186a9a5ce6901eb12be05341d76956adff63805d79225"
+metafile = true
+
+[[files]]
 file = "mods/ambientsounds.pw.toml"
 hash = "73c8f00ddae69b929cfdc313b808ce547e610b8336dbe54660b62d258c5e3a01"
 metafile = true
@@ -48,6 +53,11 @@ metafile = true
 [[files]]
 file = "mods/cloth-config.pw.toml"
 hash = "10ad81feaa9aae206b640ef1ed5fff723d7a1aac317c59ddb4e2a682e588c097"
+metafile = true
+
+[[files]]
+file = "mods/clumps.pw.toml"
+hash = "903352ffbd84d4b95fed905893f4715d9c3f88ec9fff6fb06f6e359e0b839dc3"
 metafile = true
 
 [[files]]
@@ -251,6 +261,11 @@ hash = "b8c7497acbf4890b4609b6b20de7affdd3482fc99af975d9ff6b29c075e1d8a7"
 metafile = true
 
 [[files]]
+file = "mods/servercore.pw.toml"
+hash = "874a064efc37398f5818a38666ea31263bd65ed0478b519b819f7a361bd0893e"
+metafile = true
+
+[[files]]
 file = "mods/shatterbyte-lib.pw.toml"
 hash = "fee498cb6d037ca6130755d9e3d42d16f08e208d9a510525dbe55797ca98f30a"
 metafile = true
@@ -263,6 +278,11 @@ metafile = true
 [[files]]
 file = "mods/sound-physics-remastered.pw.toml"
 hash = "ee2d9154be68ef20293596a3f65810111fd35a802f1e8292e9ba8872de463a14"
+metafile = true
+
+[[files]]
+file = "mods/spark.pw.toml"
+hash = "0be4976227df8e261fd362889bf8e85b93e224d1b1c3cd2a11b73a9de3b64083"
 metafile = true
 
 [[files]]
