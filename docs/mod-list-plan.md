@@ -71,6 +71,28 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - No OpenLoader or Paxi.
 - No Epic Fight integration or replacement mods.
 
+## Pack 16.2 - Class Quest Progression Foundation
+
+### Existing mods used
+
+- FTB Quests - already present, used as the future class progression layer.
+- FTB Teams - already present, review team/shared quest progress carefully before enabling class-critical rewards.
+- FTB Library - already present, required by the FTB stack.
+- Quests Additions - already present, available for quest tooling if needed.
+
+### Foundation added
+
+- Documented Warrior, Mage, and Gunslinger quest paths.
+- Prepared the progression model around existing KubeJS class tags.
+- No active FTB Quests SNBT files were created because this repo does not yet contain a verified quest file format to copy.
+
+### Intentionally excluded from Pack 16.2
+
+- No new mods installed.
+- No GameStages.
+- No OpenLoader or Paxi.
+- No Epic Fight.
+
 ## Block 2 - QoL/UI
 
 - Just Enough Items (JEI) - `client`
