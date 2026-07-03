@@ -489,6 +489,7 @@ Pack 12.1 expands the boss and special-threat layer with more bosses, mini-bosse
 - CERBON's API - `both`, dependency added automatically for Bosses of Mass Destruction Forge.
 - FDLib - `both`, dependency added automatically for Raids:Enhanced.
 - Obscure API [Forge Edition] - `both`, dependency added automatically for Aquamirae.
+- FA: Player Extension Compat - `client`, client-side mod required so FA: Player Extension X Better Combat can detect playerAnimator / Better Combat attack animations and avoid visual conflicts with the player model.
 
 ### Resourcepacks added
 
@@ -530,8 +531,8 @@ Pack 12.1 expands the boss and special-threat layer with more bosses, mini-bosse
 - Fresh Animations: Player Extension requires EMF and ETF.
 - Test Fresh Animations: Player Extension visually with Better Combat, Combat Roll, Shoulder Surfing Reloaded, YDM's Weapon Master, and Punchy.
 - Recommended resource pack order: FA: Player Extension X Better Combat, Fresh Animations: Player Extension, Fresh Animations, other visual resource packs, Default.
-- Test FA: Player Extension X Better Combat in third person with Better Combat, Simply Swords, Combat Roll, Shoulder Surfing Reloaded, YDM's Weapon Master, and Punchy.
-- If attacking still looks frozen or wrong, remove Fresh Animations: Player Extension before testing Fresh Moves.
+- Test FA: Player Extension X Better Combat and FA: Player Extension Compat in third person with a vanilla sword, Simply Swords weapons, Better Combat, Combat Roll, Shoulder Surfing Reloaded, YDM's Weapon Master, and Punchy.
+- If attacking still looks frozen or wrong, remove Fresh Animations: Player Extension and FA: Player Extension X Better Combat before testing Fresh Moves.
 
 ### Prism validation
 
@@ -540,6 +541,7 @@ Pack 12.1 expands the boss and special-threat layer with more bosses, mini-bosse
 - Check Boss Checklist and Boss Checklist Addon entries for the new bosses.
 - Test player animations with Fresh Animations: Player Extension in first person and third person.
 - Test Better Combat attacks with FA: Player Extension X Better Combat above Fresh Animations: Player Extension in the resource pack order.
+- Test the FA: Player Extension Compat client mod with Better Combat / playerAnimator attacks.
 - Watch TPS, chunk generation, entity counts, raid difficulty, loot balance, and ocean exploration difficulty before adding Daily Boss, Cult of Azazel, TaCZ, quests, or KubeJS balance.
 
 ## Initial candidate list
