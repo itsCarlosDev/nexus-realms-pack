@@ -4,17 +4,21 @@
 
 Reforzar la clase Mago sin anadir otro sistema magico gigante.
 
-## Mod anadido
+## Estado
+
+T.O Magic 'n Extras queda rechazado temporalmente. Pack 16.3 se revierte porque el addon siguio fallando en Prism incluso tras anadir las dependencias detectadas.
+
+## Mod probado y revertido
 
 - T.O Magic 'n Extras - Iron's Spells Addon
-- Archivo esperado: `traveloptics-6.3.0-1.20.1.jar`
+- Archivo probado: `traveloptics-6.3.0-1.20.1.jar`
 - Minecraft 1.20.1
 - Forge
 - Side: both
 
-## Motivo
+## Motivo original
 
-El Mago usa Iron's Spells como sistema principal. T.O Magic 'n Extras amplia Iron's Spells con mas hechizos, armas, equipo, curios, boss y contenido RPG sin abrir una segunda progresion magica grande.
+El Mago usa Iron's Spells como sistema principal. T.O Magic 'n Extras parecia una forma de ampliar Iron's Spells con mas hechizos, armas, equipo, curios, boss y contenido RPG sin abrir una segunda progresion magica grande.
 
 ## Dependency chain discovered
 
@@ -27,10 +31,11 @@ La validacion en Prism mostro que `traveloptics` no funciona como addon pequeno 
 
 Esto convierte Pack 16.3 en una expansion de magia + caves/bosses, no solo en un addon pequeno de Iron's Spells.
 
-Criterio de decision:
+Resultado:
 
-- Si arranca en Prism y el contenido encaja con Nexus Realms, se mantiene como expansion experimental del Mago.
-- Si sigue generando dependencias grandes, incompatibilidades o crashes, se revierte T.O Magic 'n Extras y se aplaza la expansion del Mago.
+- Tras resolver la cadena inicial, `traveloptics` siguio apareciendo como `ERROR` en Forge.
+- El cliente acabo crasheando durante la pantalla de error.
+- La expansion del Mago queda aplazada hasta encontrar un addon mas limpio o validar manualmente otra version.
 
 ## Mods aplazados
 
@@ -78,16 +83,13 @@ Pendiente:
 2. Crear mundo nuevo.
 3. Elegir clase Mago desde FancyMenu.
 4. Confirmar que `/nexus_select` sigue funcionando.
-5. Buscar contenido de T.O Magic 'n Extras en JEI/EMI.
-6. Probar hechizos basicos.
-7. Revisar `latest.log` buscando:
-   - `traveloptics`
-   - `alexscaves`
-   - `attributeslib`
-   - `cataclysm`
+5. Confirmar que T.O Magic 'n Extras ya no aparece en la lista de mods.
+6. Confirmar que Alex's Caves, Apothic Attributes y Placebo ya no aparecen por esta expansion.
+7. Confirmar que Iron's Spells base sigue cargando.
+8. Revisar `latest.log` buscando:
    - `irons_spellbooks`
+   - `traveloptics`
    - `error`
    - `exception`
    - `mixin`
-8. Revisar FPS en combate magico.
 9. Confirmar que no se ha instalado ningun mod de magia grande adicional.

@@ -86,11 +86,6 @@ hash = "7f243cdb7d52214593d8155a12de24d4992a781a94597eb09bf3ffb3396e5eb5"
 metafile = true
 
 [[files]]
-file = "mods/alexs-caves.pw.toml"
-hash = "413b1fde8c61f2cfdd2436c181fa2d80ddf9119f30a1160ae6e34872cc9abab9"
-metafile = true
-
-[[files]]
 file = "mods/alexs-mobs.pw.toml"
 hash = "5e1239fd67c97c042d09cf38664698c9d1a3cfbc50d779fc550c461cf6aeb565"
 metafile = true
@@ -103,11 +98,6 @@ metafile = true
 [[files]]
 file = "mods/ambientsounds.pw.toml"
 hash = "73c8f00ddae69b929cfdc313b808ce547e610b8336dbe54660b62d258c5e3a01"
-metafile = true
-
-[[files]]
-file = "mods/apothic-attributes.pw.toml"
-hash = "5f3996f32795f87086cd2e34ac1d7cc281411fe0c8799cb589706680107171ee"
 metafile = true
 
 [[files]]
@@ -466,11 +456,6 @@ hash = "c289c64b7d30cc2288508fe26dca04f4e2b15c5009bb31baaa72f32bf6f2dd9c"
 metafile = true
 
 [[files]]
-file = "mods/placebo.pw.toml"
-hash = "045d582e2c534c5bb96d7336b4ae2cd12692c6de29b19ae5f1dbfd8759c03b03"
-metafile = true
-
-[[files]]
 file = "mods/playeranimator.pw.toml"
 hash = "765987a78e5d8c782d0da2de99998b43b5907d6c41347d3804045ad109e4a586"
 metafile = true
@@ -588,11 +573,6 @@ metafile = true
 [[files]]
 file = "mods/timeless-and-classics-zero.pw.toml"
 hash = "733b8967d6f263e9cc7ca2f001067be6ed8e21c214d73afb4e7fb418fa3e4364"
-metafile = true
-
-[[files]]
-file = "mods/to-tweaks-irons-spells.pw.toml"
-hash = "09b1a3642bd10d41e58ed24a511a3e95eff165f70bd1dd65e716f3ed40c81686"
 metafile = true
 
 [[files]]
