@@ -195,6 +195,54 @@ DiosesMC - Official is a Fabric 1.21.8 modpack, so its list is used only as visu
 - Fight in first person with Punchy! and in third person with YDM's Weapon Master to confirm hands, weapons, HUD, and particles remain readable.
 - Recheck rain, mining, combat, and dense particle scenes before promoting this pack to `main`.
 
+## Pack 6.5 - DiosesMC visual alignment + JourneyMap + sound
+
+Pack 6.5 continues the DiosesMC-inspired visual alignment on Forge 1.20.1 without adding Fabric-only mods, Sinytra Connector, manual `.jar` files, or manual `.zip` files.
+
+### Mods removed
+
+- Stellara was removed because its sky presentation felt too forced for Nexus Realms.
+- Xaero's Minimap was removed and replaced by JourneyMap.
+- Xaero's World Map was removed and replaced by JourneyMap.
+- MB-3D Items Pack remains removed; no Pack 6.5 install was needed because it was not present.
+
+### Mods added
+
+- JourneyMap - `both`, replaces Xaero's Minimap and Xaero's World Map.
+- AmbientSounds 6 - `both`, adds ambient sound polish.
+- Sound Physics Remastered - `both`, adds environmental sound behavior.
+- Presence Footsteps - `both`, adds footstep sound detail.
+- ImmediatelyFast - `client`, adds rendering/UI performance polish; the selected Modrinth version supports Minecraft 1.20.1.
+- CreativeCore - `both`, dependency added automatically for AmbientSounds 6.
+
+### DiosesMC entries already covered by Nexus Realms
+
+- Sodium is covered by Embeddium.
+- Iris is covered by Oculus.
+- FerriteCore Fabric is covered by FerriteCore Forge.
+- EMF and ETF are installed.
+- Visuality, Inventory Particles, Perception, Chat Heads, ChatAnimation, Immersive UI, Jade, and JEI are already covered.
+
+### Pending or omitted DiosesMC-inspired candidates
+
+- JourneyMap Web Map remains pending until Carlos explicitly wants the browser map component.
+- Item Zoomer remains pending as a possible FirItemZoom-style equivalent.
+- Subtle Effects remains pending because it can add too many particles alongside Visuality, Particular Reforged, Perception, Pretty Rain, and Inventory Particles.
+- Inventory HUD Forge remains pending because Nexus Realms already has many HUD elements.
+- Gamma Utils remains pending/discarded unless a clear Forge 1.20.1 candidate is confirmed and Carlos accepts the lighting-balance impact.
+- Hold My Items remains pending; keep Punchy! unless Carlos asks for a direct comparison.
+- Fadeless remains pending until a clear Forge 1.20.1 candidate is confirmed.
+
+### Prism validation
+
+- Confirm JourneyMap opens correctly, creates a minimap, and replaces the Xaero workflow cleanly.
+- Check keybind conflicts after removing Xaero and adding JourneyMap.
+- Test caves, forests, villages, rain, water, mining, and combat with AmbientSounds 6, Sound Physics Remastered, and Presence Footsteps.
+- Confirm CreativeCore does not introduce server/client mismatch warnings.
+- Test inventories, chat suggestions, JEI, and high-item screens with ImmediatelyFast enabled.
+- Recheck Embeddium and Oculus rendering after adding ImmediatelyFast.
+- Confirm no Stellara sky styling remains active.
+
 ## Initial candidate list
 
 - ModernFix

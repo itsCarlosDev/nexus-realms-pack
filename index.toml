@@ -6,6 +6,11 @@ hash = "7f243cdb7d52214593d8155a12de24d4992a781a94597eb09bf3ffb3396e5eb5"
 metafile = true
 
 [[files]]
+file = "mods/ambientsounds.pw.toml"
+hash = "73c8f00ddae69b929cfdc313b808ce547e610b8336dbe54660b62d258c5e3a01"
+metafile = true
+
+[[files]]
 file = "mods/appleskin.pw.toml"
 hash = "793693a85f3c87d4e899ee0c58deabc53690bf5a70f17343f28fd5063ce8a1e1"
 metafile = true
@@ -63,6 +68,11 @@ metafile = true
 [[files]]
 file = "mods/create.pw.toml"
 hash = "9d7971a7af2ff4a96a0e5aede76f9cf8dc978da601e2754f79d6ec8631125bb9"
+metafile = true
+
+[[files]]
+file = "mods/creativecore.pw.toml"
+hash = "47736af1584283072d721e4f2700929a0fabe67b36e2175fc48b0964db70ab8b"
 metafile = true
 
 [[files]]
@@ -126,6 +136,11 @@ hash = "c21d061d9c22b9bcdad2ac9f9823355fcab00f2ea05469b76d5ddf6ccf518479"
 metafile = true
 
 [[files]]
+file = "mods/immediatelyfast.pw.toml"
+hash = "835bd8b05a05ce6c0981ddc37c49e4c476aa0414cc2a5321fd9f8994193b6feb"
+metafile = true
+
+[[files]]
 file = "mods/immersive-damage-indicators.pw.toml"
 hash = "d5a6ba6bb1d790e2d36657d54f0924ba1011738d39c320d882065ee06977b824"
 metafile = true
@@ -163,6 +178,11 @@ metafile = true
 [[files]]
 file = "mods/jei.pw.toml"
 hash = "8c1ab613f90a43da2442b0ccec473ab4e25821620d497ab7ec1378286de5d045"
+metafile = true
+
+[[files]]
+file = "mods/journeymap.pw.toml"
+hash = "93e18ffae412c9df6412f884172c6262cfcb4b6d6a5188eb35658c1f7010987a"
 metafile = true
 
 [[files]]
@@ -211,6 +231,11 @@ hash = "b52622122c19a3894e62fc5506d7c3332d202504fd406d6718be646f979feb40"
 metafile = true
 
 [[files]]
+file = "mods/presence-footsteps-forge.pw.toml"
+hash = "fc6fbe4edaef15637092d30600743dec1bc9bf6055f71a5ff026df108fa2b532"
+metafile = true
+
+[[files]]
 file = "mods/pretty-rain.pw.toml"
 hash = "b9ec4ecd23b415b2ec3b4dca7b5efbe3b7918944e890362eecf6c90270399d30"
 metafile = true
@@ -241,13 +266,13 @@ hash = "456a859062a859ff69cffe95b2ecdc9636d389ffc92e9176fe6975a0015fd615"
 metafile = true
 
 [[files]]
-file = "mods/status-effect-bars-reforged.pw.toml"
-hash = "9d4682b34e59eab9183ac89ff20c4d45b854e15b051453e752f4d953789ac02c"
+file = "mods/sound-physics-remastered.pw.toml"
+hash = "ee2d9154be68ef20293596a3f65810111fd35a802f1e8292e9ba8872de463a14"
 metafile = true
 
 [[files]]
-file = "mods/stellara.pw.toml"
-hash = "81a15645346319c38be74dd5ca27ce7100e3eac1fd3b978fb7ac0bf40fe9386e"
+file = "mods/status-effect-bars-reforged.pw.toml"
+hash = "9d4682b34e59eab9183ac89ff20c4d45b854e15b051453e752f4d953789ac02c"
 metafile = true
 
 [[files]]
@@ -278,16 +303,6 @@ metafile = true
 [[files]]
 file = "mods/what-are-they-up-to.pw.toml"
 hash = "c557d1b26559ef987c229187d2f2705616e78179ce04fa1c96cc3d76a1cdf1b5"
-metafile = true
-
-[[files]]
-file = "mods/xaeros-minimap.pw.toml"
-hash = "23599b46208c1c5709eb5febc8940d5842df15c3a48b4b3a5ad042a36f4251b9"
-metafile = true
-
-[[files]]
-file = "mods/xaeros-world-map.pw.toml"
-hash = "c470d4257aa9ba4e89e95f03effe79a411ae22999b5b4c5535affe11859f4a74"
 metafile = true
 
 [[files]]
