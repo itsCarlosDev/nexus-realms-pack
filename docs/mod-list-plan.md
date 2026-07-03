@@ -312,6 +312,46 @@ Pack 8 adds a small Create production block focused on automation and technical 
 - Test JEI recipes for Create Crafts & Additions and Create Slice & Dice.
 - Test Create contraptions, belts, funnels, deployers, mechanical arms, and redstone with Alternate Current still enabled.
 
+## Pack 9 - Prehistoric Wildlife & Oceans
+
+Pack 9 adds the first prehistoric wildlife and hostile ocean block without adding heavy dimensions, large worldgen passes, quest systems, economy, extra bosses, or broad combat overhauls.
+
+### Mods added
+
+- Unusual Prehistory 2 - `both`, fossils, prehistoric creatures, plants, and progression for reviving dinosaurs.
+- Ben's Sharks - `both`, sharks, ocean creatures, and Megalodon.
+- Alex's Mobs - `both`, dangerous fauna and a livelier survival world.
+- Patchouli - `both`, guide/book support and documentation dependency.
+- Citadel - `both`, required dependency for Alex's Mobs.
+
+### Pending prehistoric and related candidates
+
+- Prehistoric Fauna remains pending because it adds dimensions/worldgen and should be evaluated only after Pack 9 is stable.
+- Jurassic Saga remains pending as a separate DNA/Jurassic Park-style system.
+- Alex's Caves remains pending for a future caves/worldgen block, not this pack.
+- Alex's Delight remains pending for a later food/cooking block.
+- Prehistoric Nature remains pending.
+- Ancient Nature remains pending.
+- Primitive Invasion remains pending.
+
+### Discarded for now
+
+- Jurassic Reborn remains discarded for now.
+
+### Notes
+
+- Do not add several large prehistoric mods at once; this avoids duplicated fossils, mobs, spawns, worldgen, and performance problems.
+- Prehistoric Fauna is a possible Pack 9.1 candidate if Pack 9 is stable in Prism and server testing.
+- Alex's Caves belongs in a future caves/worldgen pack instead of this wildlife and ocean block.
+
+### Prism validation
+
+- Confirm the client starts and joins a world with Unusual Prehistory 2, Ben's Sharks, Alex's Mobs, Patchouli, Citadel, and existing GeckoLib installed.
+- Test dinosaur/fossil progression from Unusual Prehistory 2 and confirm Patchouli content opens without missing dependency errors.
+- Test ocean exploration and Megalodon/shark spawns from Ben's Sharks.
+- Test Alex's Mobs spawns, AI behavior, drops, and server tick impact in forests, caves, oceans, deserts, and villages.
+- Watch entity density and main-thread performance before adding Prehistoric Fauna, Alex's Caves, or additional mob packs.
+
 ## Initial candidate list
 
 - ModernFix
