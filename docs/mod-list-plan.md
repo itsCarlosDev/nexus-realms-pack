@@ -134,14 +134,13 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 
 ## Pack 6.3 - 3D Items / resourcepack compatibility
 
-### Resourcepacks added
+### Resourcepacks removed
 
-- MB-3D Items Pack - `client` resource pack, managed by packwiz metadata, added as a test candidate for 3D item compatibility.
+- MB-3D Items Pack was removed from the pack. Carlos does not want it for Nexus Realms, and it may be too invasive with Punchy! and YDM's Weapon Master.
 
-### Compatibility tests required in Prism
+### Pending
 
-- Test MB-3D Items Pack with Punchy! in first person.
-- Test MB-3D Items Pack with YDM's Weapon Master in third person.
+- Search for visual alternatives inspired by DiosesMC for 3D items and 3D apples.
 
 ### Pending or omitted candidates
 

@@ -339,8 +339,3 @@ metafile = true
 file = "resourcepacks/fresh-animations.pw.toml"
 hash = "6a1556a0e4fcb411b33efafc3382b4abd9a6e671f140dc0d42e9aad2808e24f3"
 metafile = true
-
-[[files]]
-file = "resourcepacks/mb3d-items-pack.pw.toml"
-hash = "a2c28d81da1663aa33e329f3b9b6c8ab88b7c6ec84f0e175d714cc1d469c4b4e"
-metafile = true

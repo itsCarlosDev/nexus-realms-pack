@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Removed MB-3D Items Pack from `dev`.
 - Added MB-3D Items Pack in `dev` as a managed resource pack for 3D item testing.
 - Removed Jofi's 3D Apples from Pack 6.1 after Minecraft showed it as visually incompatible in the resource pack UI.
 - Added the Pack 6.1 visual polish / UI extra block in `dev`, including extra particles, visual workbench support, advancement plaques, damage indicators, and Better Lanterns.
