@@ -592,6 +592,31 @@ Pack 13 adds the technical foundation for a future Fishing Guild progression lay
 - Also test Cataclysm/Bosses'Rise boss bars if possible.
 - If duplicate bossbars still appear, next investigation should focus on Boss Checklist/configs or bossbar resource packs, not on adding new mods.
 
+## Pack 14 - Firearms Foundation / TaCZ Base
+
+### Mods added
+
+- [TaCZ] Timeless and Classics Zero Guns - `both`, base for the future Pistolero/Biohazard role with firearms, ammunition, attachments, and modern combat.
+
+### Notes
+
+- This pack only installs the technical firearms foundation.
+- No armed NPCs are added yet.
+- No extra gunpacks are added yet.
+- No Create integration is added yet.
+- Ammo, recipes, loot, and progression balance will be handled later with KubeJS/quests/config.
+- Test visual compatibility with Better Combat, Combat Roll, Shoulder Surfing Reloaded, YDM's Weapon Master, Punchy, and player animation mods.
+- Watch sound, recoil, zoom, keybinds, and FPS.
+- Watch compatibility with Sound Physics Remastered and AmbientSounds.
+
+### Prism validation
+
+- Confirm the client starts and joins a world with TaCZ installed.
+- Check basic gun handling, reloads, attachments, ammo behavior, recoil, zoom, sounds, and keybind conflicts.
+- Test first-person and third-person visuals with Better Combat, Combat Roll, Shoulder Surfing Reloaded, YDM's Weapon Master, Punchy, Fresh Animations, and playerAnimator.
+- Check sound behavior with Sound Physics Remastered, AmbientSounds, Presence Footsteps, and other audio mods.
+- Do not add extra gunpacks, NPC gun mods, Create integrations, quests, loot tables, or KubeJS balance until this base passes Prism testing.
+
 ## Initial candidate list
 
 - ModernFix
