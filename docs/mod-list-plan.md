@@ -448,11 +448,7 @@ Pack 12 adds the first real boss/endgame block and a visual boss progression lis
 
 ### Pending boss, raid, and progression candidates
 
-- Bosses of Mass Destruction remains pending.
-- Raids Enhanced remains pending for a later raids/illagers pass.
 - Cult of Azazel remains pending because it may affect Nether/worldgen.
-- Mowzie's Mobs remains pending.
-- Aquamirae remains pending.
 - Daily Boss remains pending.
 - Daily Boss X Bosses Rise remains pending.
 - TaCZ remains pending for a later Biohazard/Pistolero pack.
@@ -479,6 +475,60 @@ Pack 12 adds the first real boss/endgame block and a visual boss progression lis
 - Locate or spawn-test early boss structures in a disposable world and verify no worldgen/load errors appear.
 - Test boss combat with Better Combat, Simply Swords, Combat Roll, Iron's Spells, Alex's Mobs, and existing HUD mods.
 - Watch TPS, entity counts, loot balance, and difficulty spikes before adding raids, quests, firearms, or additional boss packs.
+
+## Pack 12.1 - Bosses expansion / Raids / Ocean threats
+
+Pack 12.1 expands the boss and special-threat layer with more bosses, mini-bosses, dangerous raids, and hostile ocean exploration without adding TaCZ, quests, economy, KubeJS balance, or extra resource packs.
+
+### Mods added
+
+- Mowzie's Mobs - `both`, enemies and bosses with advanced AI, quality animations, and magical rewards.
+- Bosses of Mass Destruction Forge - `both`, additional bosses tied to structures and endgame exploration.
+- Raids:Enhanced - `both`, mini-bosses and extra threats during raids.
+- Aquamirae [Forge Edition] - `both`, hostile ocean content, Ship Graveyard, enemies, and dark exploration atmosphere.
+- CERBON's API - `both`, dependency added automatically for Bosses of Mass Destruction Forge.
+- FDLib - `both`, dependency added automatically for Raids:Enhanced.
+- Obscure API [Forge Edition] - `both`, dependency added automatically for Aquamirae.
+
+### Pending boss, raid, and progression candidates
+
+- Daily Boss remains pending.
+- Daily Boss x Bosses'Rise remains pending.
+- Daily Boss - More Bosses remains pending.
+- Cult of Azazel remains pending.
+- Alex's Caves remains pending for a later caves/worldgen pass.
+- Mowzie's compat packs remain pending unless a specific compatibility need appears.
+- Aquamirae Delight remains pending for a later food/cooking pass if needed.
+- KubeJS balance remains pending.
+- FTB Quests remains pending.
+- Custom rewards remain pending.
+- Spawn and difficulty configuration remains pending.
+- Boss Checklist configuration remains pending if any new boss is not detected automatically.
+
+### Discarded for now
+
+- Ice and Fire remains discarded for now because it is large and can overlap with dragons, bosses, and worldgen.
+- The Graveyard remains discarded for now.
+- Born in Chaos remains discarded for now.
+- Mutant Monsters remains discarded for now.
+- Fresh Moves remains discarded for now.
+- Trailer Player Animations remains discarded for now.
+- Detailed Animations remains discarded for now.
+
+### Notes
+
+- This pack expands bosses and special threats, but fine balance will be handled later with KubeJS and quests.
+- Do not create the definitive world yet.
+- Test this pack in a new world before promoting it to `main`.
+- Review performance because Mowzie's Mobs, Aquamirae, Cataclysm, and Bosses'Rise together can increase entity, AI, and structure-generation load.
+- Check whether Boss Checklist detects the new bosses automatically; if not, leave checklist configuration for a later pass.
+
+### Prism validation
+
+- Confirm the client starts and joins a new world with Mowzie's Mobs, Bosses of Mass Destruction Forge, Raids:Enhanced, Aquamirae, and their dependencies installed.
+- Test Mowzie's Mobs encounters, Bosses of Mass Destruction structures, Aquamirae ocean/Ship Graveyard content, and Raids:Enhanced invasion events in a disposable world.
+- Check Boss Checklist and Boss Checklist Addon entries for the new bosses.
+- Watch TPS, chunk generation, entity counts, raid difficulty, loot balance, and ocean exploration difficulty before adding Daily Boss, Cult of Azazel, TaCZ, quests, or KubeJS balance.
 
 ## Initial candidate list
 

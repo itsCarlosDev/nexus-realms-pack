@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Added Pack 12.1 Bosses expansion / Raids / Ocean threats in `dev` with Mowzie's Mobs, Bosses of Mass Destruction, Raids:Enhanced, and Aquamirae.
 - Added Pack 12 Bosses / Rise / Endgame progression in `dev` with Cataclysm, Bosses'Rise, Boss Checklist, and Boss Checklist Addon.
 - Added Pack 11 Combat foundation in `dev` with Better Combat, Simply Swords, and Combat Roll.
 - Added Pack 10 Worldgen / Settlements / Exploration in `dev` with CTOV, Mystic's Biomes, TerraBlender, and Explorer's Compass.
