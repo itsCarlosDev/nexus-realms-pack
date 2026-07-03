@@ -16,6 +16,22 @@ Reforzar la clase Mago sin anadir otro sistema magico gigante.
 
 El Mago usa Iron's Spells como sistema principal. T.O Magic 'n Extras amplia Iron's Spells con mas hechizos, armas, equipo, curios, boss y contenido RPG sin abrir una segunda progresion magica grande.
 
+## Dependency chain discovered
+
+La validacion en Prism mostro que `traveloptics` no funciona como addon pequeno aislado. La cadena real de dependencias incluye:
+
+- Alex's Caves, requerido por `traveloptics`.
+- Apothic Attributes / AttributesLib, requerido por `traveloptics`.
+- Placebo, dependencia transitiva de Apothic Attributes.
+- L_Ender's Cataclysm, requerido en runtime por clases usadas desde `traveloptics`.
+
+Esto convierte Pack 16.3 en una expansion de magia + caves/bosses, no solo en un addon pequeno de Iron's Spells.
+
+Criterio de decision:
+
+- Si arranca en Prism y el contenido encaja con Nexus Realms, se mantiene como expansion experimental del Mago.
+- Si sigue generando dependencias grandes, incompatibilidades o crashes, se revierte T.O Magic 'n Extras y se aplaza la expansion del Mago.
+
 ## Mods aplazados
 
 - Ars Nouveau: posible expansion futura de archimago/artifice arcano.
@@ -66,6 +82,9 @@ Pendiente:
 6. Probar hechizos basicos.
 7. Revisar `latest.log` buscando:
    - `traveloptics`
+   - `alexscaves`
+   - `attributeslib`
+   - `cataclysm`
    - `irons_spellbooks`
    - `error`
    - `exception`
