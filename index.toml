@@ -196,6 +196,11 @@ hash = "664a573384edf644e9b788c7c29fe32593917ac8283bb794cc46b471a0a6504a"
 metafile = true
 
 [[files]]
+file = "mods/kotlin-for-forge.pw.toml"
+hash = "1678327ac50408273c1828b631929128d3fdfd54cda7b2e823ce9352495a68ff"
+metafile = true
+
+[[files]]
 file = "mods/lootr.pw.toml"
 hash = "e8b4876d403b4f4daab64bad9704a5b271a33031d1ff8d19d23ebd1e3b8dd39a"
 metafile = true

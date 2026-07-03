@@ -287,6 +287,7 @@ Pack 8 adds a small Create production block focused on automation and technical 
 
 - Create Crafts & Additions - `both`, bridges electrical energy and Create kinetic power with motors, alternators, and technical progression options.
 - Create Slice & Dice - `both`, integrates Create with Farmer's Delight for automated cooking and food production.
+- Kotlin for Forge - `both`, dependency added because Create Slice & Dice requires `kotlinforforge` 4.3.0 or above.
 
 ### Pending Create addons
 
@@ -305,7 +306,7 @@ Pack 8 adds a small Create production block focused on automation and technical 
 
 ### Prism validation
 
-- Confirm the client starts and joins a world with Create, Create Crafts & Additions, and Create Slice & Dice installed.
+- Confirm the client starts and joins a world with Create, Create Crafts & Additions, Create Slice & Dice, and Kotlin for Forge installed.
 - Test motors, alternators, connectors, accumulators, and Create kinetic/electric conversion loops.
 - Test Farmer's Delight integration with Create Slice & Dice, including cutting, cooking, and automated food workflows.
 - Test JEI recipes for Create Crafts & Additions and Create Slice & Dice.
