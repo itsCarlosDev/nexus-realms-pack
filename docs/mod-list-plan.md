@@ -28,6 +28,28 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 | Quests / classes / progression | FTB Quests, KubeJS | Usually `both`. Use for class progression and onboarding. Superior RPG and Mushoku Tensei are inspiration only, not full imports. |
 | Resource packs / shaders | Resource packs, shader packs | Usually `client`. Keep optional unless required for UI or identity. |
 
+## Pack 16.0 - Class Selection Logic
+
+### Mods added
+
+- KubeJS - `both`, backend scripting for first class selection logic.
+- Rhino - `both`, installed as a KubeJS dependency.
+- Architectury API - `both`, already present and confirmed as a KubeJS dependency.
+
+### Backend added
+
+- Initial class selection backend with persistent player state, class tags, starter kits, and an operator reset command.
+- Classes covered in the first logic pass: Guerrero, Mago, and Pistolero.
+- The current selector is chat-command based: `/nexus_select warrior`, `/nexus_select mage`, or `/nexus_select gunslinger`.
+
+### Intentionally excluded from Pack 16.0
+
+- No FancyMenu yet. The full-screen class menu belongs in Pack 16.1 after this backend is validated.
+- No Konkrete yet, because FancyMenu is not installed in this pack.
+- No GameStages.
+- No OpenLoader or Paxi.
+- No new Epic Fight work in `dev`; combat-class integration stays experimental until compatibility is fixed.
+
 ## Block 2 - QoL/UI
 
 - Just Enough Items (JEI) - `client`
