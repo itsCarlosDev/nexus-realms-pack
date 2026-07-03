@@ -1,8 +1,18 @@
 hash-format = "sha256"
 
 [[files]]
+file = "mods/advancement-plaques.pw.toml"
+hash = "7f243cdb7d52214593d8155a12de24d4992a781a94597eb09bf3ffb3396e5eb5"
+metafile = true
+
+[[files]]
 file = "mods/appleskin.pw.toml"
 hash = "793693a85f3c87d4e899ee0c58deabc53690bf5a70f17343f28fd5063ce8a1e1"
+metafile = true
+
+[[files]]
+file = "mods/architectury-api.pw.toml"
+hash = "4e81241ba2da06f425efc5e09fb6b38470125c1581c39e1310c5843a0b96ec76"
 metafile = true
 
 [[files]]
@@ -96,6 +106,26 @@ hash = "898fd2704dd260ae8f3dc20b4416439751f0a9e76367c4f0bbdac886b6987802"
 metafile = true
 
 [[files]]
+file = "mods/iceberg.pw.toml"
+hash = "c21d061d9c22b9bcdad2ac9f9823355fcab00f2ea05469b76d5ddf6ccf518479"
+metafile = true
+
+[[files]]
+file = "mods/immersive-damage-indicators.pw.toml"
+hash = "d5a6ba6bb1d790e2d36657d54f0924ba1011738d39c320d882065ee06977b824"
+metafile = true
+
+[[files]]
+file = "mods/immersive-messages-api.pw.toml"
+hash = "0fc131b61967727753c9133231eb5ef70557af3f3f2e91ceb8498b4609177f32"
+metafile = true
+
+[[files]]
+file = "mods/inventory-particles.pw.toml"
+hash = "47346406ef5538b8d3b8eba6b1b84eea83984533e566122de59d54f41d5c4cdc"
+metafile = true
+
+[[files]]
 file = "mods/irons-lib.pw.toml"
 hash = "d088e252d73788a36d179161308ac884f979201fb4ee880473aeb22ede59947a"
 metafile = true
@@ -126,6 +156,11 @@ hash = "0d2ccd5f845ceb01ff78b093d9adc8686550513cce37cb052045fab8cbc03263"
 metafile = true
 
 [[files]]
+file = "mods/mossylib.pw.toml"
+hash = "da21b44346758b1a5620a9f94493e5664fee10eee36a1b9f956125db7e8990b4"
+metafile = true
+
+[[files]]
 file = "mods/mouse-tweaks.pw.toml"
 hash = "679fa8f3b49b9ed3fbcb29d6ccdb99bce465faa01f9cec000464ac8d4fbe134f"
 metafile = true
@@ -141,8 +176,23 @@ hash = "f83b253ca6a8e6f2f847952704da0e1fb00e65cbb10b7c9cb15d1a1780618da0"
 metafile = true
 
 [[files]]
+file = "mods/particular-reforged.pw.toml"
+hash = "54376a2e67fdd97cee71042aba6fd7c870c46611e68c06ce2ab12182c2543036"
+metafile = true
+
+[[files]]
+file = "mods/perception.pw.toml"
+hash = "c289c64b7d30cc2288508fe26dca04f4e2b15c5009bb31baaa72f32bf6f2dd9c"
+metafile = true
+
+[[files]]
 file = "mods/playeranimator.pw.toml"
 hash = "b52622122c19a3894e62fc5506d7c3332d202504fd406d6718be646f979feb40"
+metafile = true
+
+[[files]]
+file = "mods/pretty-rain.pw.toml"
+hash = "b9ec4ecd23b415b2ec3b4dca7b5efbe3b7918944e890362eecf6c90270399d30"
 metafile = true
 
 [[files]]
@@ -151,8 +201,18 @@ hash = "db45d5c44ae36a39ae5a86ab9a05dc887e67a79318bc8fc06618fcea0837f8d4"
 metafile = true
 
 [[files]]
+file = "mods/puzzles-lib.pw.toml"
+hash = "4dd7038889da90e145f9d074bec64a61aaae12dc57c875aa7ad99b8b2e07979b"
+metafile = true
+
+[[files]]
 file = "mods/searchables.pw.toml"
 hash = "b8c7497acbf4890b4609b6b20de7affdd3482fc99af975d9ff6b29c075e1d8a7"
+metafile = true
+
+[[files]]
+file = "mods/shatterbyte-lib.pw.toml"
+hash = "fee498cb6d037ca6130755d9e3d42d16f08e208d9a510525dbe55797ca98f30a"
 metafile = true
 
 [[files]]
@@ -173,6 +233,16 @@ metafile = true
 [[files]]
 file = "mods/travelers-backpack.pw.toml"
 hash = "9196de9e5063a507cba85361ec1172254a500fc63e0df94671f43227df96904a"
+metafile = true
+
+[[files]]
+file = "mods/txnilib.pw.toml"
+hash = "c2df41a37fec3a93afc4e2866705bf9e457d506ce8cd02e61c2f610d4f6a7617"
+metafile = true
+
+[[files]]
+file = "mods/visual-workbench.pw.toml"
+hash = "873f24b47799ee61989b4d381e4cfab62c2735d2e3b6c940d18747f8ef1645ca"
 metafile = true
 
 [[files]]
@@ -258,6 +328,11 @@ metafile = true
 [[files]]
 file = "mods/yungs-better-witch-huts.pw.toml"
 hash = "2eb3e909cc46e39d8b9e762f39c36b0579744118d619beb6a174d264951d6248"
+metafile = true
+
+[[files]]
+file = "resourcepacks/better-lanterns.pw.toml"
+hash = "120a936d5345b58a613ce793b0ce4bd6527aec7125eed4b6177f45d6e8602fb5"
 metafile = true
 
 [[files]]
