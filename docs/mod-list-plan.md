@@ -700,6 +700,26 @@ Pack 13 adds the technical foundation for a future Fishing Guild progression lay
 - Review TaCZ Tweaks options and only change gameplay balance after separate testing.
 - Keep Punchy's TaCZ blacklist active with `^tacz:.*$` or manual TaCZ item entries.
 
+## Experimental Branch - Warrior Epic Fight Experiment
+
+### Mods added
+
+- Epic Fight - `both`, soulslike combat system for testing an advanced Warrior role.
+- EpicFight-Nightfall - `both`, movement/combat addon inspired by NightfallCraft.
+- Epic Fight: Skill Tree - `both`, skill tree progression for the Warrior role.
+- Epic Fight - Invincible Lib - `both`, dependency required by EpicFight-Nightfall in this experiment.
+- Epic Fight - Avalon - `both`, dependency required by EpicFight-Nightfall in this experiment.
+
+### Notes
+
+- This is not part of stable `dev` yet.
+- This is a test on an experimental branch.
+- Better Combat is not removed yet.
+- Combat Roll is not removed yet.
+- TaCZ, Punchy, and Shoulder Surfing are not removed.
+- The goal is to verify whether Epic Fight can coexist with the current stack or whether classes/systems need separation.
+- If it breaks TaCZ, Punchy, Better Combat, Combat Roll, or player animations, do not merge this branch to `dev`.
+
 ## Initial candidate list
 
 - ModernFix
