@@ -339,8 +339,3 @@ metafile = true
 file = "resourcepacks/fresh-animations.pw.toml"
 hash = "6a1556a0e4fcb411b33efafc3382b4abd9a6e671f140dc0d42e9aad2808e24f3"
 metafile = true
-
-[[files]]
-file = "resourcepacks/jofis-3d-apples.pw.toml"
-hash = "9228a3913d12a8089a37ce9c49f62b7fc2701352f0414269c49d6256df60b61c"
-metafile = true
