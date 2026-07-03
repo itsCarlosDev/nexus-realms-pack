@@ -646,6 +646,31 @@ Pack 13 adds the technical foundation for a future Fishing Guild progression lay
 - Clean keybinds so `R` is only TaCZ Reload, Combat Roll is `Left Alt`, and Oculus Reload Shaders is `F8` or `F10`.
 - After final controls are accepted, export keys later with `/defaultoptions saveKeys`.
 
+## Pack 14.2 - TaCZ Punchy Stabilization
+
+### Changes
+
+- Punchy is kept installed.
+- TaCZ is kept installed.
+- SSR Camera Fixes/Additions is removed because it caused broken Shoulder Surfing camera/mouse/WASD behavior.
+- TaCZ weapons must be excluded from Punchy through Punchy's Item Blacklist, preferably with regex `^tacz:.*$`.
+- Keybind plan updated: R only for TaCZ Reload, Combat Roll on Left Alt, Oculus Reload Shaders on F10/Unbound, Punchy menu on F8.
+
+### Notes
+
+- Shoulder Surfing Reloaded base remains installed.
+- Do not add gunpacks, weapon NPCs, Create TaCZ integration, KubeJS, CraftTweaker, custom mixins, or replacement camera mods in this stabilization pack.
+- No root `options.txt` is committed.
+- Default Options keybind export remains postponed until controls are tested in Prism.
+
+### Prism validation
+
+- Open Punchy with F8 and add `^tacz:.*$` to Item Blacklist if regex is supported; otherwise add TaCZ weapons/items manually.
+- Confirm normal tools still use Punchy but TaCZ guns no longer double-render.
+- Confirm Shoulder Surfing base no longer has the broken Camera Fixes WASD/mouse behavior.
+- Set R only to TaCZ Reload, Combat Roll to Left Alt, Oculus Reload Shaders to F10 or Unbound, and JourneyMap fullscreen to J.
+- Export final tested controls later with `/defaultoptions saveKeys`.
+
 ## Initial candidate list
 
 - ModernFix
