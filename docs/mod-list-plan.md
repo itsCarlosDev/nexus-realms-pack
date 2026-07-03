@@ -352,6 +352,44 @@ Pack 9 adds the first prehistoric wildlife and hostile ocean block without addin
 - Test Alex's Mobs spawns, AI behavior, drops, and server tick impact in forests, caves, oceans, deserts, and villages.
 - Watch entity density and main-thread performance before adding Prehistoric Fauna, Alex's Caves, or additional mob packs.
 
+## Pack 10 - Worldgen / Settlements / Exploration
+
+Pack 10 adds a conservative world, settlement, biome, and exploration block before deciding the final world generation stack.
+
+### Mods added
+
+- ChoiceTheorem's Overhauled Village - `server`, improved villages and pillager outposts.
+- Mystic's Biomes - `both`, new Overworld biomes.
+- TerraBlender - `both`, biome library required for biome generation.
+- Explorer's Compass - `both`, structure location utility that complements Nature's Compass.
+
+### Pending worldgen and structure candidates
+
+- Terralith remains pending because it is a large worldgen overhaul.
+- Regions Unexplored remains pending because it is a large biome/worldgen expansion.
+- Biomes O' Plenty remains pending because it is a large biome/worldgen expansion.
+- Repurposed Structures remains pending.
+- Towns and Towers remains pending.
+- Dungeons and Taverns remains pending.
+- When Dungeons Arise remains pending.
+- Prehistoric Fauna remains pending so prehistoric worldgen is not mixed into this block.
+- Alex's Caves remains pending for a later caves/worldgen pass.
+- Jurassic Saga remains pending as a separate prehistoric progression system.
+- CTOV compat packs remain pending until the final worldgen stack is known.
+
+### Notes
+
+- Do not add large worldgen overhauls in this pack; this avoids too many terrain, biome, and structure changes at once.
+- Test this pack in a new world before promoting it to `main`.
+- Do not create the definitive world yet.
+
+### Prism validation
+
+- Create a new test world and confirm CTOV villages and pillager outposts generate correctly.
+- Explore multiple Overworld regions and confirm Mystic's Biomes and TerraBlender load without generation errors.
+- Use Explorer's Compass to locate vanilla and modded structures, then compare with JourneyMap and Nature's Compass workflows.
+- Watch world creation time, chunk generation time, server TPS, and entity density before adding Terralith, Regions Unexplored, Prehistoric Fauna, or Alex's Caves.
+
 ## Initial candidate list
 
 - ModernFix
