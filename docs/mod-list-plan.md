@@ -175,6 +175,21 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - No GameStages.
 - No OpenLoader or Paxi.
 
+## Pack 16.5.1 - Remove Better Combat compatibility leftover
+
+### Mods and resourcepacks removed
+
+- FA: Player Extension Compat was removed because it installs `fape_compat-0.5.jar`.
+- FA: Player Extension X Better Combat was removed because it is only useful with Better Combat.
+
+### Crash fixed
+
+- Prism crashed during startup at `fape_compat.mixins.json:BCAttackAdjustmentMixin`.
+- The crash happened because `fape_compat` tried to mix into Better Combat classes after Better Combat was removed.
+- Better Combat and Combat Roll remain removed.
+- Epic Fight remains the Warrior combat foundation.
+- Fresh Animations and Fresh Animations: Player Extension remain available as visual resource packs.
+
 ## Block 2 - QoL/UI
 
 - Just Enough Items (JEI) - `client`
@@ -636,12 +651,12 @@ Pack 12.1 expands the boss and special-threat layer with more bosses, mini-bosse
 - CERBON's API - `both`, dependency added automatically for Bosses of Mass Destruction Forge.
 - FDLib - `both`, dependency added automatically for Raids:Enhanced.
 - Obscure API [Forge Edition] - `both`, dependency added automatically for Aquamirae.
-- FA: Player Extension Compat - `client`, client-side mod required so FA: Player Extension X Better Combat can detect playerAnimator / Better Combat attack animations and avoid visual conflicts with the player model.
+- FA: Player Extension Compat - removed in Pack 16.5.1 because it installed `fape_compat-0.5.jar` and crashed after Better Combat was removed.
 
 ### Resourcepacks added
 
 - Fresh Animations: Player Extension - `both`, resource pack for player animations in the Fresh Animations style.
-- FA: Player Extension X Better Combat - `client`, compatibility resource pack for Fresh Animations: Player Extension and Better Combat / playerAnimator attack animations.
+- FA: Player Extension X Better Combat - removed in Pack 16.5.1 because Better Combat is no longer installed.
 
 ### Pending boss, raid, and progression candidates
 

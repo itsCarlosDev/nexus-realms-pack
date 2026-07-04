@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Experimental: removed fape_compat and Better Combat compatibility resource pack after Better Combat removal to fix the BCAttackAdjustmentMixin startup crash.
 - Experimental: integrated Epic Fight warrior combat stack and replaced Better Combat/Combat Roll as the Warrior combat foundation.
 - Experimental: fixed class starter kit delivery with NBT item creation fallback and per-item logs.
 - Experimental: updated Warrior, Mage and Gunslinger starter kits with verified modded items and NBT.

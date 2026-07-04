@@ -286,11 +286,6 @@ hash = "8d11358dfd1f3591ee0ce8728d6a3234e1edef5db39c52fe68264ecf7684968d"
 metafile = true
 
 [[files]]
-file = "mods/fa-player-extension-compat.pw.toml"
-hash = "b00109b9852e3b1289541662662ffa339de4b5ab6c944abf896a224b96a5df77"
-metafile = true
-
-[[files]]
 file = "mods/fancy-toasts.pw.toml"
 hash = "25644d1e49befc15ea303fa14491d04c3e8a116c85e44184ba4a1ff0992b0bb6"
 metafile = true
@@ -703,11 +698,6 @@ metafile = true
 [[files]]
 file = "resourcepacks/enchant-icons-countxd.pw.toml"
 hash = "d9e7e86ddb96102cedc1173006459c1cb4338698087bf16258abb23dd7889219"
-metafile = true
-
-[[files]]
-file = "resourcepacks/fa-player-extension-x-better-combat.pw.toml"
-hash = "135fea42667366e9eaad1fa0df56eb014fbc7223f7166704218377c74388dfa6"
 metafile = true
 
 [[files]]

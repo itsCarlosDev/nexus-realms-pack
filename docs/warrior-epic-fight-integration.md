@@ -18,7 +18,9 @@ Usar Epic Fight como sistema principal del Guerrero.
 - Better Combat eliminado.
 - Combat Roll eliminado.
 - Simply Swords se mantiene.
-- `FA: Player Extension X Better Combat` queda pendiente de revision manual en Prism porque es un resource pack explicitamente relacionado con Better Combat.
+- `FA: Player Extension Compat` eliminado porque instala `fape_compat-0.5.jar` y depende de mixins de Better Combat.
+- `FA: Player Extension X Better Combat` eliminado porque es un resource pack de compatibilidad exclusivo para Better Combat.
+- Pack 16.5.1 corrige el crash de arranque `fape_compat.mixins.json:BCAttackAdjustmentMixin` causado por la ausencia de Better Combat.
 
 ## Arquitectura de clases
 
