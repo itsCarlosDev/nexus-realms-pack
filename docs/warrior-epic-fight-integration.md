@@ -76,6 +76,14 @@ Pistolero:
 
 La primera version usa eventos de click derecho de item. El bloqueo de ataques basicos, click izquierdo o acciones internas de mods puede necesitar eventos/configuracion adicional si KubeJS no los expone de forma fiable.
 
+Pack 16.5.3 refuerza esta capa:
+
+- `epicskills:*`, `epic_fight_avalon:*` e `invincible:*` tambien quedan reservados al Guerrero.
+- `PlayerEvents.tick` revisa mano principal/offhand de forma ligera cada ~1 segundo por jugador.
+- El guardia no borra ni mueve items; solo avisa y apoya el bloqueo de eventos.
+- `/nexus_class_debug` permite comprobar el namespace y la clase requerida del item en mano.
+- Battle Mode de Epic Fight sigue siendo una limitacion tecnica: no se encontro una API fiable desde KubeJS `server_scripts` para forzarlo solo a Guerrero.
+
 ## Pack 16.5.2 - Starter kit backend fix
 
 - El fallo de entrega de kits no venia de Epic Fight, IDs ni NBT.

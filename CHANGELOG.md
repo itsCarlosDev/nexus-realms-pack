@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Experimental: fixed Gunslinger starter gun NBT, hardened class item restrictions for Warrior, Mage and Gunslinger systems, and added class restriction debug tooling.
 - Experimental: fixed class starter kit delivery after Epic Fight integration by removing the KubeJS count redeclaration and making FancyMenu the primary login selector.
 - Experimental: removed fape_compat and Better Combat compatibility resource pack after Better Combat removal to fix the BCAttackAdjustmentMixin startup crash.
 - Experimental: integrated Epic Fight warrior combat stack and replaced Better Combat/Combat Roll as the Warrior combat foundation.

@@ -28,7 +28,7 @@ const NEXUS_CLASS_DATA = {
       {
         id: 'tacz:modern_kinetic_gun',
         count: 1,
-        nbt: '{GunCurrentAmmoCount:0,GunFireMode:"SEMI",GunId:"tacz:taurus9",HasBulletInBarrel:1b}'
+        special: 'gunslinger_starter_gun'
       },
       {
         id: 'tacz:ammo',
@@ -82,6 +82,10 @@ function nexusOpenClassSelector(player) {
 function nexusCreateKitItem(entry) {
   const itemCount = entry.count || 1
 
+  if (entry.special === 'gunslinger_starter_gun') {
+    return nexusCreateGunslingerStarterGun()
+  }
+
   if (entry.nbt) {
     try {
       return Item.of(entry.id, entry.nbt).withCount(itemCount)
@@ -96,6 +100,10 @@ function nexusCreateKitItem(entry) {
   }
 
   return Item.of(entry.id, itemCount)
+}
+
+function nexusCreateGunslingerStarterGun() {
+  return Item.of('tacz:modern_kinetic_gun', '{GunCurrentAmmoCount:0,GunFireMode:"SEMI",GunId:"tacz:taurus9",HasBulletInBarrel:1b}')
 }
 
 function nexusPlayerName(player) {

@@ -126,6 +126,15 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 - `/nexus_class_help` is the manual fallback for command instructions.
 - `/nexus_class_menu` reopens the visual selector for players without a class.
 
+## Pack 16.5.3 - Gunslinger gun and class system enforcement
+
+- Fixed the Gunslinger starter gun by creating the Taurus 9 with the exact TaCZ `GunId` NBT.
+- `tacz:modern_kinetic_gun` without NBT is only a generic TaCZ item and should not be used in kits.
+- Hardened class restrictions by namespace for Warrior, Mage, and Gunslinger systems.
+- Added a lightweight hand/offhand guard so restricted items warn even when a mod does not pass through the right-click event.
+- Added `/nexus_class_debug` for checking class tags, held item namespace, required class, and restriction result.
+- Epic Fight Battle Mode could not be disabled reliably from KubeJS `server_scripts`; mitigation is item/progression restriction.
+
 ## Pack 16.5 - Warrior Epic Fight integration
 
 - Epic Fight becomes the Warrior combat foundation.
