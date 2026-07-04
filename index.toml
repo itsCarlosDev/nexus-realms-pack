@@ -74,11 +74,11 @@ hash = "3d7d4cda73d6bde134a568ccbe4e8d2e7fbe701570012b71fa45acdb2258c823"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_restrictions.js"
-hash = "5af9123b434a88bf4c97d172c43a34a617952b56b612b2f27cbba1bba97eee33"
+hash = "c5265997723c60f7e6d4efb24b4478c5d618fe3431188a65e3f935dd194965fd"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "2048001fdfabeaf84d624375177a66908f036f37ba7221019629894046b44006"
+hash = "27d99b5b06236d741d6ee4ba62dd4ae1f79185f881cc3d8824e53d030e52157a"
 
 [[files]]
 file = "mods/aaa-particles.pw.toml"

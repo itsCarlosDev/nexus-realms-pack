@@ -30,7 +30,8 @@ const NEXUS_RESTRICTED_ITEM_NAMESPACES = {
   tacz: 'gunslinger'
 }
 
-const NEXUS_RESTRICTION_WARNING_COOLDOWN_MS = 2000
+const NEXUS_RESTRICTION_WARNING_COOLDOWN_MS = 5000
+const NEXUS_RESTRICTION_NO_CLASS_COOLDOWN_MS = 10000
 const NEXUS_RESTRICTION_HAND_CHECK_INTERVAL_MS = 1000
 const nexusRestrictionWarningTimes = {}
 const nexusRestrictionHandCheckTicks = {}
@@ -103,27 +104,80 @@ function nexusIsRestrictedForPlayer(player, itemId) {
   return !nexusRestrictionPlayerHasClass(player, requiredClass)
 }
 
-function nexusRestrictedWarningKey(player) {
-  return String(player.uuid)
+function nexusRestrictedWarningKey(player, reason) {
+  return `${player.uuid}:${reason}`
+}
+
+function nexusEscapeJsonText(message) {
+  return String(message).replace(/\\/g, '\\\\').replace(/"/g, '\\"')
+}
+
+function nexusRestrictionRunCommand(player, command) {
+  try {
+    player.server.runCommandSilent(command)
+    return true
+  } catch (error) {
+    console.warn(`Nexus Realms: restriction command failed: ${command}`)
+    console.warn(error)
+    return false
+  }
+}
+
+function nexusActionbar(player, message, color) {
+  const json = `{"text":"${nexusEscapeJsonText(message)}","color":"${color || 'red'}"}`
+  return nexusRestrictionRunCommand(player, `title ${player.username} actionbar ${json}`)
+}
+
+function nexusPlayWarningSound(player) {
+  return nexusRestrictionRunCommand(player, `execute at ${player.username} run playsound minecraft:block.note_block.bass master ${player.username} ~ ~ ~ 0.45 0.8`)
+}
+
+function nexusNotifyRestriction(player, message, sound, color) {
+  const usedActionbar = nexusActionbar(player, message, color || 'red')
+
+  if (sound) {
+    nexusPlayWarningSound(player)
+  }
+
+  if (!usedActionbar) {
+    player.tell(message)
+  }
 }
 
 function nexusWarnRestricted(player, requiredClass) {
+  const detectedClass = nexusGetPlayerClass(player)
+  const isClassless = detectedClass === 'none'
   const classRule = NEXUS_RESTRICTED_CLASS_RULES[requiredClass]
 
+  if (isClassless) {
+    const nowNoClass = Date.now()
+    const noClassKey = nexusRestrictedWarningKey(player, 'no_class')
+    const lastNoClassWarningAt = nexusRestrictionWarningTimes[noClassKey] || 0
+
+    if (nowNoClass - lastNoClassWarningAt < NEXUS_RESTRICTION_NO_CLASS_COOLDOWN_MS) {
+      return false
+    }
+
+    nexusRestrictionWarningTimes[noClassKey] = nowNoClass
+    nexusNotifyRestriction(player, 'Elige una clase para activar tu equipo.', true, 'gold')
+    return true
+  }
+
   if (!classRule) {
-    return
+    return false
   }
 
   const now = Date.now()
-  const key = nexusRestrictedWarningKey(player)
+  const key = nexusRestrictedWarningKey(player, requiredClass)
   const lastWarningAt = nexusRestrictionWarningTimes[key] || 0
 
   if (now - lastWarningAt < NEXUS_RESTRICTION_WARNING_COOLDOWN_MS) {
-    return
+    return false
   }
 
   nexusRestrictionWarningTimes[key] = now
-  player.tell(classRule.message)
+  nexusNotifyRestriction(player, classRule.message, true, 'red')
+  return true
 }
 
 function nexusHandleRestrictedItemUse(event, player, stack, source) {
@@ -134,13 +188,16 @@ function nexusHandleRestrictedItemUse(event, player, stack, source) {
     return false
   }
 
-  nexusWarnRestricted(player, requiredClass)
+  const didNotify = nexusWarnRestricted(player, requiredClass)
 
   if (event && event.cancel) {
     event.cancel()
   }
 
-  console.info(`Nexus Realms: blocked restricted ${source} item ${itemId} for ${player.username}; required class: ${requiredClass}.`)
+  if (didNotify || (event && event.cancel)) {
+    console.info(`Nexus Realms: blocked restricted ${source} item ${itemId} for ${player.username}; required class: ${requiredClass}.`)
+  }
+
   return true
 }
 
@@ -156,6 +213,24 @@ function nexusCheckRestrictedHands(player) {
   nexusRestrictionHandCheckTicks[key] = now
   nexusHandleRestrictedItemUse(null, player, player.mainHandItem, 'main_hand_guard')
   nexusHandleRestrictedItemUse(null, player, player.offHandItem, 'off_hand_guard')
+}
+
+function nexusGetStackNbtSummary(stack) {
+  try {
+    const nbtText = String(stack.nbt || '')
+
+    if (!nbtText || nbtText === 'null' || nbtText === 'undefined') {
+      return 'none'
+    }
+
+    if (nbtText.length > 160) {
+      return `${nbtText.substring(0, 160)}...`
+    }
+
+    return nbtText
+  } catch (error) {
+    return 'unavailable'
+  }
 }
 
 ItemEvents.rightClicked(event => {
@@ -190,13 +265,20 @@ ServerEvents.commandRegistry(event => {
         const requiredClass = nexusGetRequiredClassForItem(mainHandItemId) || 'none'
         const detectedClass = nexusGetPlayerClass(player)
         const isBlocked = nexusIsRestrictedForPlayer(player, mainHandItemId)
+        const nbtSummary = nexusGetStackNbtSummary(player.mainHandItem)
 
         player.tell(`Clase detectada: ${detectedClass}`)
         player.tell(`Tags: warrior=${nexusRestrictionHasTag(player, 'nexus_class_warrior')}, mage=${nexusRestrictionHasTag(player, 'nexus_class_mage')}, gunslinger=${nexusRestrictionHasTag(player, 'nexus_class_gunslinger')}`)
         player.tell(`Item mano principal: ${mainHandItemId || 'empty'}`)
+        player.tell(`NBT: ${nbtSummary}`)
         player.tell(`Namespace: ${namespace || 'none'}`)
         player.tell(`Clase requerida: ${requiredClass}`)
         player.tell(`Resultado: ${isBlocked ? 'bloqueado' : 'permitido'}`)
+
+        if (detectedClass === 'none') {
+          player.tell('Sin clase: restricciones activas solo como aviso con cooldown, sin spam.')
+        }
+
         return 1
       })
   )

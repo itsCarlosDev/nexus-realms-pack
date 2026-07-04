@@ -193,6 +193,23 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - Epic Fight Battle Mode could not be force-disabled from KubeJS `server_scripts` with a verified API in this pack.
 - Separation is enforced through items, kits, tags, quests, and progression.
 
+## Pack 16.5.4 - Restriction UX and Epic Fight unarmed review
+
+### Backend updated
+
+- Restriction warnings now use vanilla actionbar commands when possible.
+- Warning sound uses a short `minecraft:block.note_block.bass` playsound.
+- Chat is only a fallback with cooldown.
+- Classless players get a long-cooldown prompt instead of repeated restriction spam.
+- Reset flow now uses cleaner messaging and attempts to reopen FancyMenu.
+
+### Investigation notes
+
+- TaCZ Taurus 9 starter gun keeps `GunId:"tacz:taurus9"`; no NBT change was made.
+- If the TaCZ icon remains purple/black while `/kubejs hand` shows the correct GunId, treat it as a TaCZ inventory icon/render issue until the creative item proves extra NBT is required.
+- No versioned Epic Fight config/API was found in the repo to disable unarmed/empty-hand Battle Mode safely.
+- No clear Punchy config file was found; Punchy blacklist remains manual through its UI.
+
 ## Pack 16.5.1 - Remove Better Combat compatibility leftover
 
 ### Mods and resourcepacks removed

@@ -68,6 +68,13 @@ NBT usado:
 - La municion mantiene:
   `Item.of('tacz:ammo', 16, '{AmmoId:"tacz:9mm"}')`
 
+## Pack 16.5.4 - TaCZ icon review
+
+- `/kubejs hand` confirma que la pistola entregada conserva `GunId:"tacz:taurus9"`.
+- No se encontro en el repo una configuracion local de TaCZ que indique NBT extra para el icono de inventario.
+- Si el modelo en mano/disparo funciona pero el icono de hotbar/inventario sigue morado/negro, se trata como problema visual de render/icono de TaCZ y no como perdida de NBT.
+- No se cambia el NBT de Taurus 9 sin comparar antes con el output exacto del item creativo real.
+
 ## Como verificar futuros items
 
 En Prism:

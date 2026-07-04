@@ -135,6 +135,17 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 - Added `/nexus_class_debug` for checking class tags, held item namespace, required class, and restriction result.
 - Epic Fight Battle Mode could not be disabled reliably from KubeJS `server_scripts`; mitigation is item/progression restriction.
 
+## Pack 16.5.4 - Restriction UX and Epic Fight unarmed mitigation
+
+- Restriction warnings now prefer actionbar messages with a short vanilla sound.
+- Chat fallback is only used if the actionbar command fails.
+- Classless players no longer receive restriction spam every second; they get a long-cooldown prompt to choose a class.
+- Reset messaging is cleaner and tries to reopen FancyMenu automatically.
+- TaCZ Taurus 9 NBT is left unchanged because `/kubejs hand` confirms the correct `GunId`.
+- The remaining purple/black TaCZ icon is documented as likely inventory render/icon behavior unless the creative item proves extra NBT is required.
+- No reliable versioned Epic Fight config/API was found to disable unarmed/empty-hand Battle Mode from KubeJS.
+- Punchy blacklist remains manual because no clear Punchy config file exists in the repo.
+
 ## Pack 16.5 - Warrior Epic Fight integration
 
 - Epic Fight becomes the Warrior combat foundation.
