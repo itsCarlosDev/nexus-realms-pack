@@ -188,7 +188,7 @@ ServerEvents.commandRegistry(event => {
             }
 
             if (nexusHasClass(player)) {
-              player.tell('Ya elegiste una clase. Pide a un admin que use /nexus_resetclass <player> si necesitas cambiarla.')
+              player.tell('Ya elegiste una clase. Pide a un admin que reinicie tu camino si necesitas cambiarla.')
               return 0
             }
 
@@ -236,7 +236,7 @@ ServerEvents.commandRegistry(event => {
         }
 
         if (nexusHasClass(player)) {
-          player.tell('Ya elegiste una clase. Pide a un admin que use /nexus_resetclass <player> si necesitas cambiarla.')
+          player.tell('Ya elegiste una clase. Pide a un admin que reinicie tu camino si necesitas cambiarla.')
           return 0
         }
 
@@ -302,7 +302,8 @@ ServerEvents.commandRegistry(event => {
             target.persistentData.putBoolean('nexus_class_chosen', false)
             target.persistentData.remove('nexus_class')
 
-            target.tell('Tu clase de Nexus Realms fue reiniciada por un admin. Vuelve a elegir con /nexus_select <class>.')
+            target.tell('Tu clase fue reiniciada. Abre el selector para elegir un nuevo camino.')
+            nexusOpenClassSelector(target)
 
             if (admin) {
               admin.tell(`Clase reiniciada para ${target.username}.`)

@@ -84,6 +84,14 @@ Pack 16.5.3 refuerza esta capa:
 - `/nexus_class_debug` permite comprobar el namespace y la clase requerida del item en mano.
 - Battle Mode de Epic Fight sigue siendo una limitacion tecnica: no se encontro una API fiable desde KubeJS `server_scripts` para forzarlo solo a Guerrero.
 
+Pack 16.5.4 mejora la UX:
+
+- Los avisos de restriccion usan actionbar y un sonido corto de nota cuando los comandos vanilla funcionan.
+- El chat solo queda como fallback con cooldown.
+- Jugadores sin clase reciben un aviso espaciado para elegir clase, no spam por el guardia de mano.
+- Se reviso el repo buscando config de Epic Fight para unarmed/empty-hand, pero no hay archivo versionado claro para desactivar ese comportamiento sin inventar formato.
+- Guerrero mantiene Epic Fight con armas; Mago y Pistolero quedan mitigados por bloqueo de items/progresion hasta encontrar API/config fiable para Battle Mode.
+
 ## Pack 16.5.2 - Starter kit backend fix
 
 - El fallo de entrega de kits no venia de Epic Fight, IDs ni NBT.
