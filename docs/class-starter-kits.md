@@ -44,11 +44,20 @@ NBT usado:
 ## Pack 16.4.2 - Delivery fix
 
 - La entrega usa `nexusCreateKitItem(entry)` para soportar NBT opcional.
-- Los items con NBT intentan primero `Item.of(id, nbt).withCount(count)`.
-- Si esa sintaxis falla, se prueba `Item.of(id, count, nbt)`.
+- Los items con NBT intentan primero `Item.of(id, nbt).withCount(itemCount)`.
+- Si esa sintaxis falla, se prueba `Item.of(id, itemCount, nbt)`.
 - Cada item entregado queda registrado en el log.
 - Si un item falla, el resto del kit se sigue intentando entregar.
 - Si hay fallos parciales, el jugador recibe un aviso en chat.
+
+## Pack 16.5.2 - Kit delivery fix
+
+- Se corrigio el fallo `TypeError: redeclaration of var count` evitando reutilizar `count` en la creacion y entrega de items.
+- La entrega usa `itemCount` y no usa `var`.
+- `/nexus_givekit <class> [player]` permite probar kits como operador sin cambiar la clase.
+- Los kits siguen soportando NBT para Iron's Spells y TaCZ.
+- FancyMenu sigue siendo el selector principal.
+- `/nexus_class_help` queda como fallback manual para ver comandos.
 
 ## Como verificar futuros items
 

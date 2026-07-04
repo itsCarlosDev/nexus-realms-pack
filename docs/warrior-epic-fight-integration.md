@@ -76,6 +76,15 @@ Pistolero:
 
 La primera version usa eventos de click derecho de item. El bloqueo de ataques basicos, click izquierdo o acciones internas de mods puede necesitar eventos/configuracion adicional si KubeJS no los expone de forma fiable.
 
+## Pack 16.5.2 - Starter kit backend fix
+
+- El fallo de entrega de kits no venia de Epic Fight, IDs ni NBT.
+- La causa era `TypeError: redeclaration of var count` en el script de seleccion de clase.
+- `nexusCreateKitItem` y `nexusGiveKitItem` usan `itemCount` para evitar la redeclaracion en Rhino/KubeJS.
+- El fallback automatico de comandos por chat se elimina; FancyMenu queda como selector principal.
+- `/nexus_class_help` queda disponible como ayuda manual.
+- `/nexus_givekit <class> [player]` queda disponible para pruebas de operador.
+
 ## Punchy
 
 Punchy se mantiene.
