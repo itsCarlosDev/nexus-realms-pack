@@ -116,9 +116,16 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 - Failed items are reported without stopping the rest of the kit.
 - `/nexus_select` still locks the class before trying to deliver items.
 
-## Future Epic Fight integration
+## Pack 16.5 - Warrior Epic Fight integration
 
-Epic Fight integration should only be revisited if the combat stack is fixed and promoted out of experiment branches. Pack 16.0 does not add Epic Fight logic, recipes, skills, or class gating.
+- Epic Fight becomes the Warrior combat foundation.
+- EpicFight-Nightfall, Epic Fight: Skill Tree, Invincible Lib, Avalon, and AAA Particles are added for the Warrior stack.
+- Better Combat and Combat Roll are removed from this branch.
+- KubeJS remains the source of truth for class selection, persistent data, tags, and starter kits.
+- `nexus_class_warrior`, `nexus_class_mage`, and `nexus_class_gunslinger` now also drive conservative item-use restrictions.
+- FancyMenu still only calls `/nexus_select <class>`.
+- FTB Quests still provides progression later and does not assign the class.
+- The restriction layer uses item interaction events first; basic attack blocking may need more work if Epic Fight/TaCZ expose no reliable KubeJS event.
 
 ## Prism test checklist
 
