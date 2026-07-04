@@ -175,6 +175,24 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - No GameStages.
 - No OpenLoader or Paxi.
 
+## Pack 16.5.3 - Gunslinger gun and class restrictions
+
+### Backend updated
+
+- Gunslinger starter gun now uses the exact TaCZ Taurus 9 NBT path.
+- `tacz:modern_kinetic_gun` without `GunId:"tacz:taurus9"` is treated as a generic/broken starter item and should not be used.
+- Warrior restrictions now include `simplyswords`, `epicfight`, `epicfight_nightfall`, `efn`, `nightfall`, `epicskills`, `epic_fight_avalon`, and `invincible`.
+- Mage restrictions include `irons_spellbooks` and future-proof `traveloptics`.
+- Gunslinger restrictions include `tacz`.
+- `ItemEvents.rightClicked` blocks direct use when available.
+- `PlayerEvents.tick` adds a lightweight main hand/offhand warning guard.
+- `/nexus_class_debug` was added for class restriction diagnostics.
+
+### Limitation
+
+- Epic Fight Battle Mode could not be force-disabled from KubeJS `server_scripts` with a verified API in this pack.
+- Separation is enforced through items, kits, tags, quests, and progression.
+
 ## Pack 16.5.1 - Remove Better Combat compatibility leftover
 
 ### Mods and resourcepacks removed

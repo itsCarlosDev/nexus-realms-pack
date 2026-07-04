@@ -59,6 +59,15 @@ NBT usado:
 - FancyMenu sigue siendo el selector principal.
 - `/nexus_class_help` queda como fallback manual para ver comandos.
 
+## Pack 16.5.3 - Gunslinger gun fix
+
+- La pistola inicial del Pistolero se crea con una ruta especial para no perder el NBT de TaCZ.
+- `tacz:modern_kinetic_gun` sin `GunId` aparece como item generico y no sirve como Taurus 9 real.
+- La llamada usada para el arma es:
+  `Item.of('tacz:modern_kinetic_gun', '{GunCurrentAmmoCount:0,GunFireMode:"SEMI",GunId:"tacz:taurus9",HasBulletInBarrel:1b}')`
+- La municion mantiene:
+  `Item.of('tacz:ammo', 16, '{AmmoId:"tacz:9mm"}')`
+
 ## Como verificar futuros items
 
 En Prism:
