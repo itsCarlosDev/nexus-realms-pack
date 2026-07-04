@@ -48,11 +48,12 @@ function nexusHasClass(player) {
 }
 
 function nexusShowClassSelector(player) {
-  player.tell('=== Nexus Realms: seleccion de clase ===')
-  player.tell('Elige una sola clase. Esta eleccion queda guardada.')
+  player.tell('=== Nexus Realms: ayuda de clase ===')
+  player.tell('FancyMenu es el selector principal. Si necesitas elegir manualmente, usa uno de estos comandos:')
   player.tell('/nexus_select warrior - Guerrero')
   player.tell('/nexus_select mage - Mago')
   player.tell('/nexus_select gunslinger - Pistolero')
+  player.tell('/nexus_class_menu - reabrir el selector visual')
 }
 
 function nexusRunServerCommand(server, command) {
@@ -67,7 +68,7 @@ function nexusRunServerCommand(server, command) {
 }
 
 function nexusOpenClassSelector(player) {
-  nexusShowClassSelector(player)
+  player.tell('Elige tu camino para comenzar.')
 
   player.server.scheduleInTicks(40, callback => {
     if (nexusHasClass(player)) {
@@ -79,18 +80,39 @@ function nexusOpenClassSelector(player) {
 }
 
 function nexusCreateKitItem(entry) {
-  const count = entry.count || 1
+  const itemCount = entry.count || 1
 
   if (entry.nbt) {
     try {
-      return Item.of(entry.id, entry.nbt).withCount(count)
-    } catch (error) {
-      console.warn(`Nexus Realms: Item.of(id, nbt).withCount(count) failed for ${entry.id}; trying Item.of(id, count, nbt).`)
-      return Item.of(entry.id, count, entry.nbt)
+      return Item.of(entry.id, entry.nbt).withCount(itemCount)
+    } catch (errorA) {
+      try {
+        return Item.of(entry.id, itemCount, entry.nbt)
+      } catch (errorB) {
+        console.error(`Nexus Realms: failed to create NBT item ${entry.id}: ${String(errorA)} / ${String(errorB)}`)
+        throw errorB
+      }
     }
   }
 
-  return Item.of(entry.id, count)
+  return Item.of(entry.id, itemCount)
+}
+
+function nexusPlayerName(player) {
+  if (player.username) {
+    return String(player.username)
+  }
+
+  return String(player.name)
+}
+
+function nexusGiveKitItem(player, entry) {
+  const itemCount = entry.count || 1
+  const stack = nexusCreateKitItem(entry)
+
+  player.give(stack)
+  console.info(`Nexus Realms: gave starter item ${entry.id} x${itemCount} to ${nexusPlayerName(player)}`)
+  return true
 }
 
 function nexusGiveStarterKit(player, classId) {
@@ -99,24 +121,33 @@ function nexusGiveStarterKit(player, classId) {
 
   classData.kit.forEach(entry => {
     try {
-      const count = entry.count || 1
-      const stack = nexusCreateKitItem(entry)
-      player.give(stack)
-      console.info(`Nexus Realms: gave starter item ${entry.id} x${count} to ${player.username}`)
-    } catch (error) {
+      nexusGiveKitItem(player, entry)
+    } catch (kitError) {
       failedItems++
-      console.error(`Nexus Realms: failed to give starter item ${entry.id} to ${player.username}: ${error}`)
+      console.error(`Nexus Realms: failed to give starter item ${entry.id} to ${nexusPlayerName(player)}: ${kitError}`)
       player.tell(`No se pudo entregar un objeto del kit: ${entry.id}`)
     }
   })
 
   if (failedItems > 0) {
     player.tell('Algunos objetos del kit no pudieron entregarse. Revisa el log.')
+  } else {
+    player.tell('Kit inicial entregado.')
   }
+
+  return failedItems
 }
 
 function nexusClearClassTags(player) {
   NEXUS_CLASS_TAGS.forEach(tag => player.removeTag(tag))
+}
+
+function nexusResolveOptionalTarget(ctx, Arguments) {
+  try {
+    return Arguments.PLAYER.getResult(ctx, 'player')
+  } catch (ignored) {
+    return ctx.source.player
+  }
 }
 
 PlayerEvents.loggedIn(event => {
@@ -158,12 +189,95 @@ ServerEvents.commandRegistry(event => {
             player.persistentData.putString('nexus_class', classId)
             nexusClearClassTags(player)
             player.addTag(classData.tag)
-            nexusGiveStarterKit(player, classId)
+            const failedItems = nexusGiveStarterKit(player, classId)
             nexusRunServerCommand(player.server, `closeguiscreen ${player.username}`)
 
-            player.tell(`Clase elegida: ${classData.displayName}. Tu kit inicial ha sido entregado.`)
+            if (failedItems > 0) {
+              player.tell(`Clase elegida: ${classData.displayName}. Algunos objetos del kit no pudieron entregarse. Revisa el log.`)
+            } else {
+              player.tell(`Clase elegida: ${classData.displayName}. Kit inicial entregado.`)
+            }
+
             return 1
           })
+      )
+  )
+
+  event.register(
+    Commands.literal('nexus_class_help')
+      .executes(ctx => {
+        const player = ctx.source.player
+
+        if (!player) {
+          console.info('Nexus Realms class commands: /nexus_select warrior, /nexus_select mage, /nexus_select gunslinger')
+          return 0
+        }
+
+        nexusShowClassSelector(player)
+        return 1
+      })
+  )
+
+  event.register(
+    Commands.literal('nexus_class_menu')
+      .executes(ctx => {
+        const player = ctx.source.player
+
+        if (!player) {
+          return 0
+        }
+
+        if (nexusHasClass(player)) {
+          player.tell('Ya elegiste una clase. Pide a un admin que use /nexus_resetclass <player> si necesitas cambiarla.')
+          return 0
+        }
+
+        nexusOpenClassSelector(player)
+        return 1
+      })
+  )
+
+  event.register(
+    Commands.literal('nexus_givekit')
+      .requires(source => source.hasPermission(2))
+      .then(
+        Commands.argument('class', Arguments.STRING.create(event))
+          .executes(ctx => {
+            const classId = Arguments.STRING.getResult(ctx, 'class').toLowerCase()
+            const classData = NEXUS_CLASS_DATA[classId]
+            const target = ctx.source.player
+
+            if (!classData || !target) {
+              return 0
+            }
+
+            const failedItems = nexusGiveStarterKit(target, classId)
+            target.tell(`Kit de prueba entregado: ${classData.displayName}. Fallos: ${failedItems}.`)
+            return failedItems > 0 ? 0 : 1
+          })
+          .then(
+            Commands.argument('player', Arguments.PLAYER.create(event))
+              .executes(ctx => {
+                const classId = Arguments.STRING.getResult(ctx, 'class').toLowerCase()
+                const classData = NEXUS_CLASS_DATA[classId]
+                const target = nexusResolveOptionalTarget(ctx, Arguments)
+                const admin = ctx.source.player
+
+                if (!classData || !target) {
+                  return 0
+                }
+
+                const failedItems = nexusGiveStarterKit(target, classId)
+
+                if (admin) {
+                  admin.tell(`Kit de prueba ${classData.displayName} entregado a ${nexusPlayerName(target)}. Fallos: ${failedItems}.`)
+                } else {
+                  console.info(`Nexus Realms: debug kit ${classId} delivered to ${nexusPlayerName(target)}. Failed items: ${failedItems}.`)
+                }
+
+                return failedItems > 0 ? 0 : 1
+              })
+          )
       )
   )
 

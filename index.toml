@@ -78,7 +78,7 @@ hash = "6eb9d0e558c24fdf27254e29bdaac8895a1fe7b9b3723fd82fc6579e25c488d5"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "3d6c0659a638730d5ff1289094ae637f10ee31266b36e91d4707514ff66ac1eb"
+hash = "f755c3080caae35ede4d3c48ce650b7a7444c43ed804a8865e9c503b9965a882"
 
 [[files]]
 file = "mods/aaa-particles.pw.toml"

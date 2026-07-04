@@ -116,6 +116,16 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 - Failed items are reported without stopping the rest of the kit.
 - `/nexus_select` still locks the class before trying to deliver items.
 
+## Pack 16.5.2 - Kit delivery and chat UX fix
+
+- Fixed the KubeJS/Rhino `TypeError: redeclaration of var count` kit delivery failure.
+- Kit creation now uses `itemCount` consistently and keeps NBT support.
+- Added `/nexus_givekit <class> [player]` for operator kit testing without changing class state.
+- Removed the automatic command-list chat fallback on login.
+- FancyMenu remains the primary class selector.
+- `/nexus_class_help` is the manual fallback for command instructions.
+- `/nexus_class_menu` reopens the visual selector for players without a class.
+
 ## Pack 16.5 - Warrior Epic Fight integration
 
 - Epic Fight becomes the Warrior combat foundation.
