@@ -1,0 +1,125 @@
+# Pack 16.5 - Warrior Epic Fight Integration
+
+## Objetivo
+
+Usar Epic Fight como sistema principal del Guerrero.
+
+## Mods añadidos
+
+- Epic Fight
+- EpicFight-Nightfall
+- Epic Fight: Skill Tree
+- Epic Fight - Invincible Lib
+- Epic Fight - Avalon
+- AAA Particles
+
+## Mods sustituidos
+
+- Better Combat eliminado.
+- Combat Roll eliminado.
+- Simply Swords se mantiene.
+- `FA: Player Extension X Better Combat` queda pendiente de revision manual en Prism porque es un resource pack explicitamente relacionado con Better Combat.
+
+## Arquitectura de clases
+
+Guerrero:
+
+- Epic Fight
+- EpicFight-Nightfall
+- Skill Tree
+- Simply Swords
+
+Mago:
+
+- Iron's Spells base
+- T.O Magic permanece rechazado/postergado hasta validar una opcion mas limpia
+
+Pistolero:
+
+- TaCZ
+- Shoulder Surfing
+
+## Limitacion
+
+Epic Fight se carga globalmente.
+No se puede cargar solo para Guerrero.
+La separacion se hace mediante:
+
+- kits;
+- tags;
+- restricciones KubeJS;
+- quests;
+- progresion.
+
+## Restricciones KubeJS
+
+`kubejs/server_scripts/nexus_class_restrictions.js` bloquea usos de item por namespace cuando el jugador no tiene el tag de clase correcto.
+
+Guerrero:
+
+- `simplyswords:*`
+- `epicfight:*`
+- `epicfight_nightfall:*`
+- `efn:*`
+- `nightfall:*`
+
+Mago:
+
+- `irons_spellbooks:*`
+- `traveloptics:*` como future-proofing, aunque T.O Magic no esta instalado.
+
+Pistolero:
+
+- `tacz:*`
+
+La primera version usa eventos de click derecho de item. El bloqueo de ataques basicos, click izquierdo o acciones internas de mods puede necesitar eventos/configuracion adicional si KubeJS no los expone de forma fiable.
+
+## Punchy
+
+Punchy se mantiene.
+Blacklist manual recomendada:
+
+- `^tacz:.*$`
+- `^simplyswords:.*$`
+- `^epicfight:.*$`
+- `^epicfight_nightfall:.*$`
+- `^efn:.*$`
+- `^nightfall:.*$`
+
+## Keybinds recomendadas
+
+- Epic Fight Battle Mode: X
+- TaCZ Reload: R
+- Punchy Menu: F8
+- JourneyMap: J
+- Oculus Reload Shaders: F10 o Unbound
+- Epic Fight Dodge/Skill: revisar manualmente
+
+## Riesgos
+
+- Epic Fight puede afectar TaCZ.
+- Epic Fight puede afectar Punchy.
+- Epic Fight puede afectar magia.
+- Hay que probar Pistolero disparando.
+- Hay que probar Mago casteando.
+- Hay que probar Guerrero en Battle Mode.
+
+## Checklist Prism
+
+1. Arrancar instancia.
+2. Crear mundo nuevo.
+3. Elegir Guerrero.
+4. Probar iron glaive.
+5. Activar Battle Mode de Epic Fight.
+6. Abrir Skill Tree.
+7. Probar arma Simply Swords.
+8. Resetear clase.
+9. Elegir Mago.
+10. Probar Copper Spell Book.
+11. Confirmar que Epic Fight no rompe magia.
+12. Resetear clase.
+13. Elegir Pistolero.
+14. Probar Taurus 9 y municion 9mm.
+15. Confirmar que disparar no activa ataques raros.
+16. Probar Shoulder Surfing.
+17. Revisar latest.log.

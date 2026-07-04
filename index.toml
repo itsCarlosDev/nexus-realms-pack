@@ -33,10 +33,6 @@ file = "config/fancymenu/legacy_checklist.txt"
 hash = "9a25d3dc708e43eabafce5479a13c02dae15bc7f673afb2745b8b2ba48a97dc0"
 
 [[files]]
-file = "config/fancymenu/options.txt"
-hash = "0b5b40a2846d23e3d343e4cb330cc80010b02d5905d9e990b5d67c48eee8006a"
-
-[[files]]
 file = "config/fancymenu/ui_themes/cherry_blossom.json"
 hash = "993c16664fe2d1b9e8ad107bf1c19c1dbb244729c403ed058ca2e54616dc5452"
 
@@ -77,8 +73,17 @@ file = "config/fancymenu/user_variables.db"
 hash = "3d7d4cda73d6bde134a568ccbe4e8d2e7fbe701570012b71fa45acdb2258c823"
 
 [[files]]
+file = "kubejs/server_scripts/nexus_class_restrictions.js"
+hash = "6eb9d0e558c24fdf27254e29bdaac8895a1fe7b9b3723fd82fc6579e25c488d5"
+
+[[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
 hash = "3d6c0659a638730d5ff1289094ae637f10ee31266b36e91d4707514ff66ac1eb"
+
+[[files]]
+file = "mods/aaa-particles.pw.toml"
+hash = "3c0461086c5aa1dd89f197aabcd68580161b66ce6486eb99dce4028b3540904c"
+metafile = true
 
 [[files]]
 file = "mods/advancement-plaques.pw.toml"
@@ -123,11 +128,6 @@ metafile = true
 [[files]]
 file = "mods/bens-sharks.pw.toml"
 hash = "b2f03cfde6bf4642eea41b5a23e36e97c19cdb8c9d0dde64fe25681e43edd2d2"
-metafile = true
-
-[[files]]
-file = "mods/better-combat.pw.toml"
-hash = "52b4f29eb4a4392ef085617292842dc9fc84d86c318da5ce470b24eab77f6bdc"
 metafile = true
 
 [[files]]
@@ -188,11 +188,6 @@ metafile = true
 [[files]]
 file = "mods/clumps.pw.toml"
 hash = "903352ffbd84d4b95fed905893f4715d9c3f88ec9fff6fb06f6e359e0b839dc3"
-metafile = true
-
-[[files]]
-file = "mods/combat-roll.pw.toml"
-hash = "d6a121d9d5077c45622f94bcf146e1bc5a2e06dd9ab3f6cdebfd0778e0c0c45c"
 metafile = true
 
 [[files]]
@@ -258,6 +253,31 @@ metafile = true
 [[files]]
 file = "mods/entitytexturefeatures.pw.toml"
 hash = "aa2a1abbccb92ccc4ba3a5a70d24edcd1e39a035f15fb9ba49c27f270a5e74e3"
+metafile = true
+
+[[files]]
+file = "mods/epic-fight-avalon.pw.toml"
+hash = "57978220b6eced9ad3629371773eb378ec46646bf5cfa79e3d905d486bf50b14"
+metafile = true
+
+[[files]]
+file = "mods/epic-fight-invincible.pw.toml"
+hash = "ff857cf46ebf12d87fa3561fbea5e00e578269df54980aaae8a803a306043e21"
+metafile = true
+
+[[files]]
+file = "mods/epic-fight-mod.pw.toml"
+hash = "cc04a459af3ff21b2aa09cde7ab562f33eb13c9d6d158c71d09cb4bc0bdee325"
+metafile = true
+
+[[files]]
+file = "mods/epic-fight-skill-tree.pw.toml"
+hash = "de03bc879a02c86d91d8a7453186809651dec7c64955c6f0f391add7ff9c6854"
+metafile = true
+
+[[files]]
+file = "mods/epicfight-nightfall.pw.toml"
+hash = "ecedd6b10563309671203dc50e80fb2825ab31991d039c2aab98065e508a0b4b"
 metafile = true
 
 [[files]]

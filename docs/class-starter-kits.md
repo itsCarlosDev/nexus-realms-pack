@@ -39,6 +39,7 @@ NBT usado:
 - Reset admin no borra inventario.
 - FancyMenu solo llama a `/nexus_select`.
 - FTB Quests no entrega la clase ni el starter kit principal.
+- Pack 16.5 mantiene estos kits y añade restricciones de uso por clase sin cambiar la entrega.
 
 ## Pack 16.4.2 - Delivery fix
 
@@ -57,3 +58,11 @@ En Prism:
 2. Ponerlo en la mano.
 3. Ejecutar: `/kubejs hand`
 4. Copiar ID y NBT exacto.
+
+## Pack 16.5 - Warrior combat integration
+
+- El kit del Guerrero conserva `simplyswords:iron_glaive` como arma inicial.
+- Epic Fight se integra como sistema de combate del Guerrero, pero no cambia el kit.
+- Los items `simplyswords:*`, `epicfight:*`, `epicfight_nightfall:*`, `efn:*` y `nightfall:*` quedan reservados al tag `nexus_class_warrior` cuando el evento KubeJS de uso de item lo permite.
+- El kit del Mago conserva Iron's Spells base.
+- El kit del Pistolero conserva TaCZ.

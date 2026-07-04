@@ -142,6 +142,39 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - No OpenLoader or Paxi.
 - No Epic Fight.
 
+## Pack 16.5 - Warrior Epic Fight Integration
+
+### Mods added
+
+- Epic Fight - `both`, Warrior combat foundation.
+- EpicFight-Nightfall - `both`, Warrior combat expansion.
+- Epic Fight: Skill Tree - `both`, Warrior progression layer.
+- Epic Fight - Invincible Lib - `both`, dependency for Nightfall.
+- Epic Fight - Avalon - `both`, dependency for Nightfall.
+- AAA Particles - `both`, Nightfall particle dependency.
+
+### Mods removed
+
+- Better Combat was removed because Epic Fight is now the primary Warrior combat system.
+- Combat Roll was removed because Epic Fight handles the Warrior combat movement layer.
+
+### Mods preserved
+
+- Simply Swords remains installed for Warrior weapons.
+- Punchy remains installed and needs manual blacklist review.
+- TaCZ and Shoulder Surfing remain installed for Pistolero.
+- Iron's Spells remains installed for Mago.
+- T.O Magic remains rejected/postponed from Pack 16.3 and is not reinstalled here.
+
+### Backend updated
+
+- `kubejs/server_scripts/nexus_class_restrictions.js` adds conservative item-use restrictions by class tag.
+- Warrior namespaces: `simplyswords`, `epicfight`, `epicfight_nightfall`, `efn`, `nightfall`.
+- Mage namespaces: `irons_spellbooks`, `traveloptics`.
+- Gunslinger namespace: `tacz`.
+- No GameStages.
+- No OpenLoader or Paxi.
+
 ## Block 2 - QoL/UI
 
 - Just Enough Items (JEI) - `client`
