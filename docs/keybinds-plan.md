@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Evitar conflictos entre TaCZ, Iron's Spells y Epic Fight.
+Evitar conflictos entre TaCZ, Iron's Spells, Epic Fight, JEI y JourneyMap.
 
 Regla principal:
 
@@ -14,36 +14,36 @@ Regla principal:
 
 ### TaCZ
 
-- Reload: `R`
-- Aim: Right Mouse Button
 - Fire: Left Mouse Button
+- Aim: Right Mouse Button
+- Reload: `R`
 - Attachments: `F4`
 
 ### Iron's Spells
 
-- Spell Wheel Hold: `Z` o `V`
+- Spell Wheel Hold: `Z`
 - Cast Spell: mantener default si no choca.
 - Next/Previous Spell: mantener defaults si no chocan.
 
 ### Epic Fight
 
-- Toggle Battle/Mining Mode: `G` o Not Bound
+- Toggle Battle/Mining Mode: Not Bound
 - Skill Tree GUI: `K`
-- Weapon Innate Skill: `Left Alt`
 - Open Configuration Screen: Not Bound
 - Open Skill Editor: Not Bound salvo debug/admin.
+- Weapon Innate Skill: `Left Alt` o tecla segura, pendiente de prueba.
 
 Notas:
 
-- Guerrero puede aprovechar `G` para alternar Battle/Mining Mode, o dejar la tecla sin asignar si Epic Tweaks cubre el autoswitch.
+- La tecla manual de Epic Fight debe quedar sin asignar.
+- Epic Fight deberia controlarse por item/autoswitch, no por tecla manual.
 - Mago y Pistolero deben quedar en Mining/Vanilla Mode por Epic Tweaks cuando usen mano vacia, spellbook o TaCZ.
-- KubeJS conserva un fallback por comando desactivado por defecto; no debe ser la solucion principal.
+- Si Gemini confirma que hace falta otra solucion para Battle Mode por clase, este plan se ajustara en un pack posterior.
 
 ### JEI
 
-- Show Recipe: `U` si `R` interfiere con TaCZ.
+- Show Recipe: `U`
 - Show Uses: `Y`
-- Si JEI solo usa `R` dentro de GUI y no rompe TaCZ, se puede revisar en Prism, pero el objetivo final es que `R` no tenga conflictos de combate.
 
 ### Punchy
 
@@ -65,6 +65,7 @@ Notas:
 ### Otros
 
 - JourneyMap fullscreen: `J`
+- Minimap presets: mantener default si no choca.
 - Oculus Reload Shaders: `F10` o Unbound
 - Shoulder Surfing Toggle Perspective: tecla libre, evitando `R`, `G`, `J`, `K`, `Z`, `Left Alt`
 - Shoulder Surfing Swap Shoulder: tecla libre o boton extra de raton
@@ -77,6 +78,8 @@ Notas:
 - Exportar keybinds finales solo desde Prism, despues de probarlos:
   `/defaultoptions saveAll`
 - Solo commitear `config/defaultoptions/keybindings.txt` si fue generado por el mod en una instancia probada.
+- Si `/defaultoptions saveAll` no existe en esta version, probar `/defaultoptions saveKeys`.
+- El commit de archivos generados debe hacerse en Pack 16.6.1, no en este pack.
 
 ## Checklist Prism
 
@@ -84,9 +87,9 @@ Notas:
 2. Buscar `Reload`.
 3. Dejar `R` solo en TaCZ Reload.
 4. Buscar `Spell Wheel`.
-5. Poner Iron's Spells Spell Wheel Hold en `Z` o `V`.
+5. Poner Iron's Spells Spell Wheel Hold en `Z`.
 6. Buscar `Battle`.
-7. Poner Epic Fight Toggle Battle/Mining Mode en `G` o Not Bound.
+7. Poner Epic Fight Toggle Battle/Mining Mode en Not Bound.
 8. Buscar `Skill Tree`.
 9. Poner Epic Fight Skill Tree GUI en `K`.
 10. Poner Epic Fight Weapon Innate Skill en `Left Alt`.
@@ -94,6 +97,6 @@ Notas:
 12. Confirmar Punchy en `F8`.
 13. Confirmar Oculus Reload Shaders en `F10` o Unbound.
 14. Probar Pistolero: apuntar, disparar y recargar con Glock 17.
-15. Probar Mago: abrir Spell Wheel con `Z` o `V` y lanzar hechizo.
-16. Probar Guerrero: alternar Epic Fight con `G` si esta asignado, o confirmar autoswitch de Epic Tweaks con arma.
+15. Probar Mago: abrir Spell Wheel con `Z` y lanzar hechizo.
+16. Probar Guerrero: confirmar autoswitch de Epic Tweaks con arma.
 17. Cuando todo este validado, exportar con `/defaultoptions saveAll`.

@@ -92,6 +92,9 @@ Limitacion actual:
 - La mitigacion actual bloquea items, skills/progresion por namespace y quests.
 - Pack 16.5.5 tambien cancela daño melee/unarmed para no-Guerreros, pero no garantiza apagar la animacion cliente.
 - Pack 16.5.6 delega el control de estado a Epic Tweaks. El comando `/epicfight mode mining <player>` queda solo como fallback desactivado.
+- Pack 16.6 no intenta resolver Battle Mode por clase; prepara Default Options para dejar la tecla manual de Epic Fight como Not Bound.
+- `canSwitchPlayerMode=false` no se usa como solucion final porque bloquea tambien al Guerrero.
+- `canSwitchPlayerMode=true` permite cambio manual si una tecla sigue asignada, por eso Default Options debe limpiar el keybind.
 - Si Epic Fight expone una API o comando fiable mas adelante, se puede agregar un bloqueo directo para no-Guerreros.
 - No hay config versionada clara en este repo para desactivar unarmed/empty-hand de Epic Fight sin inventar formato.
 - Resultado actual recomendado: Mago y Pistolero usan Punchy/brazos normales como objetivo de diseno, pero la separacion tecnica se apoya en items/progresion hasta encontrar una config/API fiable.

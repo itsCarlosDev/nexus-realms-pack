@@ -76,6 +76,7 @@ NBT usado:
 - El starter oficial del Pistolero usa Glock 17 desde Pack 16.5.5.
 - El plan de keybinds reserva `R` solo para recargar TaCZ, para que Glock 17 no abra Spell Wheel ni cambie Battle Mode.
 - Epic Tweaks debe mantener al Pistolero en Vanilla/Mining Mode al usar TaCZ, para no romper apuntado ni recarga.
+- Pack 16.6 mantiene Glock 17 como starter oficial y no vuelve a Taurus 9.
 
 ## Como verificar futuros items
 

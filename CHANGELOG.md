@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Pack 16.6 - Default Options and Keybind Foundation: documented Default Options support, Balm dependency, final combat keybind plan, Default Options workflow, Gunslinger Glock 17 starter, and left Epic Fight class-mode enforcement pending deeper research.
 - Experimental: added Epic Tweaks to enforce Epic Fight mode by held item, disabled aggressive KubeJS mining-mode command enforcement, documented the TaCZ/Iron's/Epic Fight keybind plan, and kept Gunslinger on Glock 17.
 - Experimental: forced non-Warrior classes back to Epic Fight mining mode, documented combat keybinds to avoid TaCZ/Iron's/Epic Fight conflicts, and kept Gunslinger on Glock 17.
 - Experimental: blocked unarmed melee damage for non-Warrior classes to mitigate Epic Fight Battle Mode leakage and switched the Gunslinger starter gun to Glock 17.

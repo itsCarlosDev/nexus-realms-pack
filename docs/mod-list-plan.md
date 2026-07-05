@@ -257,6 +257,31 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - Epic Fight Skill Tree GUI uses `K`.
 - JEI Show Recipe uses `U`; Show Uses uses `Y`.
 
+## Pack 16.6 - Default Options and Keybind Foundation
+
+### Mods present
+
+- Default Options - `client`, Forge 1.20.1, managed by packwiz.
+- Balm - `both`, Forge 1.20.1, managed by packwiz.
+
+### Scope
+
+- No `options.txt` root file is generated or versioned.
+- No manual `keybindings.txt` is invented.
+- Generated Default Options files are postponed to Pack 16.6.1 after Prism validation.
+- Epic Tweaks remains installed.
+- Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
+- Battle Mode per-class enforcement remains pending deeper research.
+
+### Keybind target
+
+- TaCZ Reload: `R`.
+- Iron's Spells Spell Wheel Hold: `Z`.
+- Epic Fight Toggle Battle/Mining Mode: Not Bound.
+- Epic Fight Skill Tree GUI: `K`.
+- JEI Show Recipe: `U`.
+- JEI Show Uses: `Y`.
+
 ## Pack 16.5.1 - Remove Better Combat compatibility leftover
 
 ### Mods and resourcepacks removed

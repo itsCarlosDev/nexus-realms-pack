@@ -171,6 +171,20 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 - KubeJS remains responsible for class item restrictions, actionbar warnings, and unarmed damage mitigation.
 - Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
 
+## Pack 16.6 - Default Options and keybind foundation
+
+- Default Options and Balm are present through packwiz.
+- This pack documents how to generate default keybinds without committing root `options.txt`.
+- Final keybind plan:
+  - TaCZ Reload: `R`
+  - Iron's Spells Spell Wheel Hold: `Z`
+  - Epic Fight Toggle Battle/Mining Mode: Not Bound
+  - Epic Fight Skill Tree GUI: `K`
+  - JEI Recipe/Uses: `U`/`Y`
+- Battle/Mining Mode control per class remains under research and is not solved in this pack.
+- `canSwitchPlayerMode=false` is not used because it also blocks Warrior.
+- Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
+
 ## Pack 16.5 - Warrior Epic Fight integration
 
 - Epic Fight becomes the Warrior combat foundation.
