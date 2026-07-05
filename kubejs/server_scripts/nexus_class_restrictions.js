@@ -33,6 +33,7 @@ const NEXUS_RESTRICTED_ITEM_NAMESPACES = {
 const NEXUS_RESTRICTION_WARNING_COOLDOWN_MS = 5000
 const NEXUS_RESTRICTION_NO_CLASS_COOLDOWN_MS = 10000
 const NEXUS_RESTRICTION_HAND_CHECK_INTERVAL_MS = 1000
+const NEXUS_FORCE_EPICFIGHT_MINING_WITH_COMMAND = false
 const NEXUS_EPIC_FIGHT_MINING_MODE_INTERVAL_TICKS = 20
 const NEXUS_EPIC_FIGHT_MINING_MODE_WARNING_COOLDOWN_MS = 10000
 const NEXUS_EPIC_FIGHT_COMMAND_FAILURE_COOLDOWN_MS = 60000
@@ -272,7 +273,7 @@ function nexusForceEpicFightMiningMode(player) {
 }
 
 function nexusShouldEnforceEpicFightMiningMode(player) {
-  return !nexusRestrictionPlayerHasClass(player, 'warrior')
+  return NEXUS_FORCE_EPICFIGHT_MINING_WITH_COMMAND && !nexusRestrictionPlayerHasClass(player, 'warrior')
 }
 
 function nexusShouldRunEpicFightMiningModeTick(player) {
@@ -583,6 +584,7 @@ ServerEvents.commandRegistry(event => {
         player.tell(`Melee sin arma permitido: ${unarmedAllowed}`)
         player.tell(`Epic Fight Mining Mode enforcement: ${miningModeEnforced}`)
         player.tell(`Mining Mode interval ticks: ${NEXUS_EPIC_FIGHT_MINING_MODE_INTERVAL_TICKS}`)
+        player.tell(`Mining Mode command fallback enabled: ${NEXUS_FORCE_EPICFIGHT_MINING_WITH_COMMAND}`)
         player.tell('Starter Pistolero: GunId tacz:glock_17')
 
         if (detectedClass === 'none') {

@@ -218,8 +218,8 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - Warrior remains allowed to use unarmed/Epic Fight melee.
 - Damage with a held item that belongs to another class is also cancelled.
 - The visual Epic Fight Battle Mode may still activate client-side; the server-side mitigation blocks damage.
-- Non-Warriors are now forced back to Epic Fight Mining Mode every 20 ticks with `/epicfight mode mining <player>`.
-- Warrior is excluded from Mining Mode enforcement.
+- Non-Warriors were initially forced back to Epic Fight Mining Mode every 20 ticks with `/epicfight mode mining <player>`.
+- Pack 16.5.6 replaces that command loop with Epic Tweaks and leaves the KubeJS command path disabled by default.
 - Gunslinger starter gun remains Glock 17 with `GunId:"tacz:glock_17"`.
 
 ### Keybind plan
@@ -229,6 +229,33 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - `G` is Epic Fight Battle/Mining Toggle.
 - `K` is Epic Fight Skill Tree GUI.
 - Default Options and Balm are already installed, but no generated keybind files are committed until tested in Prism.
+
+## Pack 16.5.6 - Epic Tweaks mode enforcement
+
+### Mod added
+
+- Epic Tweaks - `both`, Forge 1.20.1, installed with packwiz.
+
+### Mode control
+
+- Epic Tweaks becomes the primary controller for Epic Fight Battle/Mining Mode.
+- `canSwitchPlayerMode=false` is not used as the final solution because it also blocks Warrior.
+- `canSwitchPlayerMode` should stay true; use `/gamerule canSwitchPlayerMode true` in Prism test worlds if it was changed.
+- Desired generated Epic Tweaks config:
+  - `autoswitch_mode = true`
+  - `enforce_mode = true`
+  - `filter_animation_first_person = true`
+- KubeJS command enforcement with `/epicfight mode mining <player>` is disabled by default.
+- KubeJS still handles class item restrictions, actionbar warnings, and unarmed melee damage mitigation.
+- Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
+
+### Keybind plan
+
+- `R` is TaCZ Reload.
+- Iron's Spells Spell Wheel Hold moves to `Z` or `V`.
+- Epic Fight Battle/Mining Toggle moves to `G` or Not Bound.
+- Epic Fight Skill Tree GUI uses `K`.
+- JEI Show Recipe uses `U`; Show Uses uses `Y`.
 
 ## Pack 16.5.1 - Remove Better Combat compatibility leftover
 

@@ -74,7 +74,7 @@ hash = "3d7d4cda73d6bde134a568ccbe4e8d2e7fbe701570012b71fa45acdb2258c823"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_restrictions.js"
-hash = "edb6e3b63342c674aaac6bf1a0a3da7fb5cc483b9e66138e62d31e994cfa49c7"
+hash = "c46759534fd96c428e4c550bdf2069c368d113aa356146df1699920232c00ca3"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
@@ -273,6 +273,11 @@ metafile = true
 [[files]]
 file = "mods/epic-fight-skill-tree.pw.toml"
 hash = "de03bc879a02c86d91d8a7453186809651dec7c64955c6f0f391add7ff9c6854"
+metafile = true
+
+[[files]]
+file = "mods/epic-tweaks.pw.toml"
+hash = "620c59cdb9248352446eb21b349251dc10458bffef391f2789c9f0a4ec78a3c5"
 metafile = true
 
 [[files]]

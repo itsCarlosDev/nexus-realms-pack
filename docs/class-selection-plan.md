@@ -154,10 +154,22 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 - Damage with another class's restricted held item is cancelled at damage level.
 - Spell, projectile, TaCZ, mob, and environmental damage are not intentionally blocked.
 - Epic Fight Battle Mode may still activate visually on the client; this pack blocks the gameplay damage path.
-- No-Guerreros are also forced back to Epic Fight Mining Mode every 20 ticks with `/epicfight mode mining <player>`.
-- Guerrero is excluded from Mining Mode enforcement.
-- Combat keybind plan: `R` is TaCZ Reload, `Z` is Iron's Spells Spell Wheel, `G` is Epic Fight Battle/Mining toggle.
+- The direct KubeJS command enforcement was replaced in Pack 16.5.6 by Epic Tweaks.
+- Combat keybind plan: `R` is TaCZ Reload, `Z` or `V` is Iron's Spells Spell Wheel, `G` or Not Bound is Epic Fight Battle/Mining toggle.
 - Default Options and Balm are installed, but final keybind export remains a Prism-tested future step.
+
+## Pack 16.5.6 - Epic Tweaks mode enforcement
+
+- Epic Tweaks is added to control Epic Fight Battle/Mining Mode based on held item.
+- `canSwitchPlayerMode=false` is not a valid final solution because it also blocks Warrior.
+- `canSwitchPlayerMode` should stay `true`; Prism test worlds can run `/gamerule canSwitchPlayerMode true` if needed.
+- Desired Epic Tweaks config after first launch:
+  - `autoswitch_mode = true`
+  - `enforce_mode = true`
+  - `filter_animation_first_person = true`
+- KubeJS no longer forces `/epicfight mode mining <player>` every second by default.
+- KubeJS remains responsible for class item restrictions, actionbar warnings, and unarmed damage mitigation.
+- Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
 
 ## Pack 16.5 - Warrior Epic Fight integration
 
