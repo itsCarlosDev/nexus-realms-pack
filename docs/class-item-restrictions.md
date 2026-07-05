@@ -125,13 +125,31 @@ Comando:
 
 Muestra:
 
+- clase detectada por `persistentData`;
+- si `nexus_class_chosen` esta activo;
 - clase detectada;
 - tags actuales;
 - item en mano principal;
 - namespace;
+- NBT resumido;
+- GunId si el item en mano es TaCZ;
 - clase requerida;
 - si el item estaria permitido o bloqueado.
 - si Epic Fight Mining Mode command fallback esta activo;
 - intervalo del fallback si se activa;
 - si el fallback por comando esta habilitado;
 - starter oficial del Pistolero: `GunId tacz:glock_17`.
+- nota de que Battle Mode de Epic Fight sigue pendiente de investigacion externa.
+
+## QA commands
+
+- `/nexus_class_status [player]` muestra el estado de clase sin modificar datos.
+- `/nexus_testkit <class> [player]` entrega un kit de prueba sin cambiar clase.
+- `/nexus_resetclass_clean <player>` reinicia clase y limpia inventario para pruebas controladas.
+
+## Progresion
+
+- FTB Quests sera el frontend de progresion por clase.
+- KubeJS sigue siendo la fuente de verdad para clase, tags, kits y restricciones por item.
+- No se crean quests definitivas en Pack 16.8.
+- Battle Mode sigue pendiente de research externo.

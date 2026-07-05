@@ -125,6 +125,14 @@ Pack 16.6 prepara Default Options:
 - La solucion candidata sigue siendo Epic Tweaks, keybind manual sin asignar y posible datapack/config segun el resultado del research.
 - Default Options se prepara para distribuir Epic Fight Toggle como Not Bound.
 
+Pack 16.7 pule QA:
+
+- No intenta resolver Battle Mode por clase.
+- `/nexus_class_debug` recuerda que Battle Mode sigue pendiente de investigacion externa.
+- `/nexus_class_status` permite revisar clase persistente y tags.
+- `/nexus_testkit` y `/nexus_givekit` permiten probar kits sin cambiar clase.
+- Glock 17 sigue siendo el starter oficial del Pistolero.
+
 ## Pack 16.5.2 - Starter kit backend fix
 
 - El fallo de entrega de kits no venia de Epic Fight, IDs ni NBT.
@@ -133,6 +141,8 @@ Pack 16.6 prepara Default Options:
 - El fallback automatico de comandos por chat se elimina; FancyMenu queda como selector principal.
 - `/nexus_class_help` queda disponible como ayuda manual.
 - `/nexus_givekit <class> [player]` queda disponible para pruebas de operador.
+- `/nexus_testkit <class> [player]` queda disponible como alias de QA.
+- `/nexus_class_status [player]` muestra estado de clase sin modificar datos.
 
 ## Punchy
 

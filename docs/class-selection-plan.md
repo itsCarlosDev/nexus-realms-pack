@@ -185,6 +185,29 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 - `canSwitchPlayerMode=false` is not used because it also blocks Warrior.
 - Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
 
+## Pack 16.7 - Class System QA and polish
+
+- `/nexus_class_status [player]` reports persistent class state, chosen flag, class tags, and path text.
+- `/nexus_testkit <class> [player]` is an operator alias for quick kit testing without changing class state.
+- `/nexus_resetclass_clean <player>` resets class state and clears inventory for test runs.
+- `/nexus_class_debug` now includes persistentData, held item NBT summary, TaCZ GunId when present, and the Battle Mode research note.
+- Class selection messages are shorter and class-flavored.
+- Glock 17 remains the official Gunslinger starter.
+- Battle Mode per-class enforcement remains pending external research and is not solved in this pack.
+
+## Pack 16.8 - Class progression foundation
+
+- FTB Quests is the planned frontend for class progression.
+- KubeJS remains the source of truth for class choice, starter kits, tags, and reset/debug commands.
+- No definitive quest files are created until the repo has a verified FTB Quests structure or the chapters are exported from Prism.
+- Progression docs added:
+  - `docs/class-progression-plan.md`
+  - `docs/ftb-quests-class-design.md`
+  - `docs/class-balance-notes.md`
+  - `docs/class-progression-testing.md`
+- Battle Mode remains pending external research.
+- Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
+
 ## Pack 16.5 - Warrior Epic Fight integration
 
 - Epic Fight becomes the Warrior combat foundation.
@@ -200,11 +223,12 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 
 - Start a new test world or join with a player that has no class data.
 - Confirm the chat selector appears on first login.
-- Run `/nexus_select warrior` and confirm the player receives iron sword, shield, and bread.
+- Run `/nexus_select warrior` and confirm the player receives `simplyswords:iron_glaive`, shield, and bread.
 - Confirm the player gets `nexus_class_warrior`.
 - Try `/nexus_select mage` after choosing warrior and confirm it is rejected.
 - Repeat with a fresh/reset player for `mage` and `gunslinger`.
 - As an operator, run `/nexus_resetclass <player>`.
 - Confirm class tags are removed and the player can choose again.
 - Confirm reset does not clear inventory.
+- Use `/nexus_resetclass_clean <player>` only for clean QA runs where inventory clearing is intended.
 - Restart the world/server and confirm the selected class remains saved.

@@ -282,6 +282,44 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - JEI Show Recipe: `U`.
 - JEI Show Uses: `Y`.
 
+## Pack 16.7 - Class System QA and Polish
+
+### Backend
+
+- Adds `/nexus_class_status [player]` for class state checks.
+- Adds `/nexus_testkit <class> [player]` as a QA kit command that does not change class.
+- Adds `/nexus_resetclass_clean <player>` for controlled clean test runs.
+- Improves `/nexus_class_debug` with persistentData, NBT summary, TaCZ GunId, and Battle Mode research note.
+- Keeps Gunslinger starter on Glock 17 with `GunId:"tacz:glock_17"`.
+- Does not solve Epic Fight Battle Mode per-class enforcement.
+
+### QA
+
+- Adds `docs/class-testing-checklist.md`.
+- Keeps Default Options/keybind export as a separate Prism-generated step.
+
+## Pack 16.8 - Class Progression Foundation
+
+### FTB Quests status
+
+- FTB Quests is present in the pack and will be the class progression frontend.
+- FTB Library and FTB Teams are present.
+- Quests Additions is present.
+
+### Scope
+
+- KubeJS remains the source of truth for class state, kits, tags, and reset/debug commands.
+- No final FTB Quests files are created in this pack.
+- No Battle Mode solution is attempted in this pack.
+- Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
+
+### Docs added
+
+- `docs/class-progression-plan.md`
+- `docs/ftb-quests-class-design.md`
+- `docs/class-balance-notes.md`
+- `docs/class-progression-testing.md`
+
 ## Pack 16.5.1 - Remove Better Combat compatibility leftover
 
 ### Mods and resourcepacks removed

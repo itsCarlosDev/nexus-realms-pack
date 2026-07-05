@@ -529,6 +529,33 @@ function nexusGetStackNbtSummary(stack) {
   }
 }
 
+function nexusGetPersistentClassDebug(player) {
+  try {
+    const persistentClass = String(player.persistentData.getString('nexus_class') || '')
+    return persistentClass || 'none'
+  } catch (error) {
+    return 'unavailable'
+  }
+}
+
+function nexusGetClassChosenDebug(player) {
+  try {
+    return player.persistentData.getBoolean('nexus_class_chosen') === true
+  } catch (error) {
+    return false
+  }
+}
+
+function nexusExtractGunIdFromNbtText(nbtText) {
+  const match = String(nbtText || '').match(/GunId:"([^"]+)"/)
+
+  if (match && match[1]) {
+    return match[1]
+  }
+
+  return 'none'
+}
+
 ItemEvents.rightClicked(event => {
   nexusHandleRestrictedItemUse(event, event.player, event.item, 'right_click')
 })
@@ -571,7 +598,12 @@ ServerEvents.commandRegistry(event => {
         const unarmedAllowed = nexusUnarmedMeleeAllowed(player)
         const miningModeEnforced = nexusShouldEnforceEpicFightMiningMode(player)
         const nbtSummary = nexusGetStackNbtSummary(player.mainHandItem)
+        const persistentClass = nexusGetPersistentClassDebug(player)
+        const classChosen = nexusGetClassChosenDebug(player)
+        const gunId = namespace === 'tacz' ? nexusExtractGunIdFromNbtText(nbtSummary) : 'not_tacz'
 
+        player.tell(`Clase persistentData: ${persistentClass}`)
+        player.tell(`nexus_class_chosen: ${classChosen}`)
         player.tell(`Clase detectada: ${detectedClass}`)
         player.tell(`Tags: warrior=${nexusRestrictionHasTag(player, 'nexus_class_warrior')}, mage=${nexusRestrictionHasTag(player, 'nexus_class_mage')}, gunslinger=${nexusRestrictionHasTag(player, 'nexus_class_gunslinger')}`)
         player.tell(`Item mano principal: ${mainHandItemId || 'empty'}`)
@@ -581,11 +613,13 @@ ServerEvents.commandRegistry(event => {
         player.tell(`Namespace: ${namespace || 'none'}`)
         player.tell(`Clase requerida: ${requiredClass}`)
         player.tell(`Resultado: ${isBlocked ? 'bloqueado' : 'permitido'}`)
+        player.tell(`TaCZ GunId: ${gunId}`)
         player.tell(`Melee sin arma permitido: ${unarmedAllowed}`)
         player.tell(`Epic Fight Mining Mode enforcement: ${miningModeEnforced}`)
         player.tell(`Mining Mode interval ticks: ${NEXUS_EPIC_FIGHT_MINING_MODE_INTERVAL_TICKS}`)
         player.tell(`Mining Mode command fallback enabled: ${NEXUS_FORCE_EPICFIGHT_MINING_WITH_COMMAND}`)
         player.tell('Starter Pistolero: GunId tacz:glock_17')
+        player.tell('Battle Mode de Epic Fight sigue pendiente de investigación externa.')
 
         if (detectedClass === 'none') {
           player.tell('Sin clase: restricciones activas solo como aviso con cooldown, sin spam.')

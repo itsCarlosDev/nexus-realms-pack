@@ -2,6 +2,8 @@
 
 ## 0.1.0
 
+- Pack 16.8 - Class Progression Foundation: documented FTB Quests class progression architecture, class chapter design, initial balance notes, progression testing, kept KubeJS as source of truth, kept Gunslinger Glock 17, and left Battle Mode research untouched.
+- Pack 16.7 - Class System QA and Polish: added class status/debug improvements, added test kit commands, improved class selection and kit messages, added class testing checklist, kept Gunslinger starter Glock 17, and left Epic Fight Battle Mode class enforcement pending research.
 - Pack 16.6 - Default Options and Keybind Foundation: documented Default Options support, Balm dependency, final combat keybind plan, Default Options workflow, Gunslinger Glock 17 starter, and left Epic Fight class-mode enforcement pending deeper research.
 - Experimental: added Epic Tweaks to enforce Epic Fight mode by held item, disabled aggressive KubeJS mining-mode command enforcement, documented the TaCZ/Iron's/Epic Fight keybind plan, and kept Gunslinger on Glock 17.
 - Experimental: forced non-Warrior classes back to Epic Fight mining mode, documented combat keybinds to avoid TaCZ/Iron's/Epic Fight conflicts, and kept Gunslinger on Glock 17.
