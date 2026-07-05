@@ -38,7 +38,8 @@ Notas:
 - La tecla manual de Epic Fight debe quedar sin asignar.
 - Epic Fight deberia controlarse por item/autoswitch, no por tecla manual.
 - Mago y Pistolero deben quedar en Mining/Vanilla Mode por Epic Tweaks cuando usen mano vacia, spellbook o TaCZ.
-- Si Gemini confirma que hace falta otra solucion para Battle Mode por clase, este plan se ajustara en un pack posterior.
+- Air / `minecraft:air` debe estar como Preferred Tool en Epic Fight Item Preferences para que mano vacia sea herramienta/vanilla.
+- `canSwitchPlayerMode` debe quedar en `true`; no usar `false` porque tambien bloquea al Guerrero.
 
 ### JEI
 
@@ -76,10 +77,12 @@ Notas:
 - No se crea `options.txt` raiz.
 - No se crean archivos de `config/defaultoptions/` manualmente.
 - Exportar keybinds finales solo desde Prism, despues de probarlos:
+  `/defaultoptions saveKeys`
+  o:
   `/defaultoptions saveAll`
 - Solo commitear `config/defaultoptions/keybindings.txt` si fue generado por el mod en una instancia probada.
 - Si `/defaultoptions saveAll` no existe en esta version, probar `/defaultoptions saveKeys`.
-- El commit de archivos generados debe hacerse en Pack 16.6.1, no en este pack.
+- No crear `options.txt` raiz ni inventar `config/defaultoptions/keybindings.txt`.
 
 ## Checklist Prism
 
@@ -99,4 +102,6 @@ Notas:
 14. Probar Pistolero: apuntar, disparar y recargar con Glock 17.
 15. Probar Mago: abrir Spell Wheel con `Z` y lanzar hechizo.
 16. Probar Guerrero: confirmar autoswitch de Epic Tweaks con arma.
-17. Cuando todo este validado, exportar con `/defaultoptions saveAll`.
+17. Ejecutar `/gamerule canSwitchPlayerMode true` en el mundo de prueba.
+18. Configurar Air / `minecraft:air` como Preferred Tool en Epic Fight Item Preferences.
+19. Cuando todo este validado, exportar con `/defaultoptions saveKeys` o `/defaultoptions saveAll`.

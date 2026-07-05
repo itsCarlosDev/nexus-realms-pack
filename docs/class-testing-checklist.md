@@ -22,7 +22,8 @@
 - Recibe escudo y pan.
 - No usa spellbook.
 - No usa TaCZ.
-- Epic Fight Battle Mode sigue pendiente de research externo.
+- Arma Simply Swords debe entrar en Battle Mode automaticamente.
+- Mano vacia idealmente vuelve a Mining/Vanilla Mode si Air esta como Preferred Tool.
 
 ## Pruebas Mago
 
@@ -30,7 +31,9 @@
 - Puede lanzar hechizo.
 - No usa Simply Swords.
 - No usa TaCZ.
-- No debe depender de Battle Mode.
+- Mano vacia debe quedar Mining/Vanilla.
+- Spellbook debe quedar Mining/Vanilla.
+- No deberia poder mantener Battle Mode si Air esta Preferred Tool y Epic Fight Toggle esta Not Bound.
 
 ## Pruebas Pistolero
 
@@ -38,8 +41,20 @@
 - `/kubejs hand` muestra `GunId:"tacz:glock_17"`.
 - Recibe `AmmoId:"tacz:9mm"`.
 - Puede apuntar, disparar y recargar tras configurar keybinds.
+- Glock 17/TaCZ debe quedar Mining/Vanilla.
+- `R` debe recargar y no abrir Spell Wheel.
+- No deberia poder mantener Battle Mode.
 - No usa spellbook.
 - No usa Simply Swords.
+
+## Configuracion previa en Prism
+
+- Ejecutar `/gamerule canSwitchPlayerMode true`.
+- Configurar Air / `minecraft:air` como Preferred Tool en Epic Fight Item Preferences.
+- Configurar Epic Fight Toggle Battle/Mining Mode como Not Bound.
+- Configurar TaCZ Reload en `R`.
+- Configurar Iron's Spells Spell Wheel en `V` o `Z`.
+- Guardar Default Options con `/defaultoptions saveKeys` o `/defaultoptions saveAll`.
 
 ## Consistencia
 
@@ -66,6 +81,6 @@
 Comando recomendado:
 
 ```bash
-grep -RniE "Nexus Realms|nexus_class|nexus_givekit|nexus_testkit|failed|error|exception|glock_17|tacz|irons_spellbooks|simplyswords" \
+grep -RniE "Nexus Realms|nexus_class|epicfight|epictweaks|autoswitch|enforce|minecraft:air|Preferred|tacz|glock_17|irons_spellbooks|simplyswords|error|exception" \
 "/Users/carlosmoralesartes/Library/Application Support/PrismLauncher/instances/Nexus Realms DEV/minecraft/logs/latest.log" | tail -220
 ```

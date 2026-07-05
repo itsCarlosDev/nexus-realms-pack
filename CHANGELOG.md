@@ -1,10 +1,20 @@
 # Changelog
 
+## Pack 16.10 - Epic Fight Air Tool and Mode Enforcement
+
+- Prepared the final Epic Fight mode architecture using Epic Tweaks and Epic Fight item preferences.
+- Kept `canSwitchPlayerMode` as `true`; `false` is not a valid final solution because it also blocks Warrior.
+- Disabled aggressive KubeJS `/epicfight mode mining` command enforcement by default if present.
+- Documented the requirement to set Air / `minecraft:air` as Preferred Tool.
+- Documented the Default Options keybind workflow for disabling the manual Epic Fight Battle/Mining toggle.
+- Kept Gunslinger starter as Glock 17.
+- Did not invent Epic Fight client configs or datapack overrides when generated configs were missing.
+
 ## 0.1.0
 
-- Pack 16.8 - Class Progression Foundation: documented FTB Quests class progression architecture, class chapter design, initial balance notes, progression testing, kept KubeJS as source of truth, kept Gunslinger Glock 17, and left Battle Mode research untouched.
-- Pack 16.7 - Class System QA and Polish: added class status/debug improvements, added test kit commands, improved class selection and kit messages, added class testing checklist, kept Gunslinger starter Glock 17, and left Epic Fight Battle Mode class enforcement pending research.
-- Pack 16.6 - Default Options and Keybind Foundation: documented Default Options support, Balm dependency, final combat keybind plan, Default Options workflow, Gunslinger Glock 17 starter, and left Epic Fight class-mode enforcement pending deeper research.
+- Pack 16.8 - Class Progression Foundation: documented FTB Quests class progression architecture, class chapter design, initial balance notes, progression testing, kept KubeJS as source of truth, kept Gunslinger Glock 17, and deferred final Battle Mode handling to Pack 16.10.
+- Pack 16.7 - Class System QA and Polish: added class status/debug improvements, added test kit commands, improved class selection and kit messages, added class testing checklist, kept Gunslinger starter Glock 17, and prepared debug output for the Pack 16.10 Epic Tweaks mode plan.
+- Pack 16.6 - Default Options and Keybind Foundation: documented Default Options support, Balm dependency, final combat keybind plan, Default Options workflow, Gunslinger Glock 17 starter, and prepared the keybind path completed in Pack 16.10.
 - Experimental: added Epic Tweaks to enforce Epic Fight mode by held item, disabled aggressive KubeJS mining-mode command enforcement, documented the TaCZ/Iron's/Epic Fight keybind plan, and kept Gunslinger on Glock 17.
 - Experimental: forced non-Warrior classes back to Epic Fight mining mode, documented combat keybinds to avoid TaCZ/Iron's/Epic Fight conflicts, and kept Gunslinger on Glock 17.
 - Experimental: blocked unarmed melee damage for non-Warrior classes to mitigate Epic Fight Battle Mode leakage and switched the Gunslinger starter gun to Glock 17.

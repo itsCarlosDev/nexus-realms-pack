@@ -72,6 +72,17 @@ El guardia no borra items, no los tira al suelo y no intenta moverlos para evita
   `NEXUS_FORCE_EPICFIGHT_MINING_WITH_COMMAND = false`
 - KubeJS mantiene restricciones de items, avisos actionbar y bloqueo de dano unarmed; no controla la tecla de Battle Mode como solucion principal.
 
+## Pack 16.10 - Epic Fight Air Tool and Mode Enforcement
+
+- Arquitectura final: KubeJS bloquea items por clase y Epic Tweaks controla Battle/Mining Mode por preferencias de item.
+- `canSwitchPlayerMode` debe quedar en `true`; `false` no sirve porque tambien bloquea al Guerrero.
+- Air / `minecraft:air` debe configurarse desde la UI de Epic Fight como Preferred Tool.
+- Epic Fight Toggle Battle/Mining Mode debe quedar Not Bound con Default Options cuando Prism genere `config/defaultoptions/keybindings.txt`.
+- Mago y Pistolero deben mantener mano vacia, spellbook y TaCZ en Mining/Vanilla Mode.
+- Guerrero debe entrar en Battle Mode automaticamente al equipar armas compatibles.
+- Punchy se conserva para construccion, mineria, pesca y acciones vanilla normales.
+- No se versionan configs inventadas de Epic Fight, Epic Tweaks ni Default Options.
+
 ## Pack 16.5.4 - UX de restricciones
 
 - Los avisos de restriccion usan `title <player> actionbar` cuando el comando vanilla funciona.
@@ -84,20 +95,13 @@ El guardia no borra items, no los tira al suelo y no intenta moverlos para evita
 
 ## Battle Mode de Epic Fight
 
-No se encontro una API fiable desde `server_scripts` de KubeJS para forzar o desactivar Battle Mode de Epic Fight.
+La solucion final no es forzar comandos desde KubeJS. El estado Battle/Mining queda delegado a Epic Tweaks y a las preferencias de item de Epic Fight:
 
-Limitacion actual:
-
-- Battle Mode puede seguir siendo un estado/keybind cliente.
-- La mitigacion actual bloquea items, skills/progresion por namespace y quests.
-- Pack 16.5.5 tambien cancela daño melee/unarmed para no-Guerreros, pero no garantiza apagar la animacion cliente.
-- Pack 16.5.6 delega el control de estado a Epic Tweaks. El comando `/epicfight mode mining <player>` queda solo como fallback desactivado.
-- Pack 16.6 no intenta resolver Battle Mode por clase; prepara Default Options para dejar la tecla manual de Epic Fight como Not Bound.
-- `canSwitchPlayerMode=false` no se usa como solucion final porque bloquea tambien al Guerrero.
-- `canSwitchPlayerMode=true` permite cambio manual si una tecla sigue asignada, por eso Default Options debe limpiar el keybind.
-- Si Epic Fight expone una API o comando fiable mas adelante, se puede agregar un bloqueo directo para no-Guerreros.
-- No hay config versionada clara en este repo para desactivar unarmed/empty-hand de Epic Fight sin inventar formato.
-- Resultado actual recomendado: Mago y Pistolero usan Punchy/brazos normales como objetivo de diseno, pero la separacion tecnica se apoya en items/progresion hasta encontrar una config/API fiable.
+- Air / `minecraft:air` debe ser Preferred Tool para que mano vacia sea herramienta/vanilla.
+- Epic Fight Toggle Battle/Mining Mode debe quedar Not Bound para evitar cambios manuales accidentales.
+- `canSwitchPlayerMode=true` permite que Epic Tweaks haga autoswitch/enforce.
+- El comando `/epicfight mode mining <player>` queda solo como fallback apagado.
+- Si las configs generadas no existen, Carlos debe crearlas desde Prism y versionarlas despues de validarlas.
 
 ## Punchy
 
@@ -139,7 +143,9 @@ Muestra:
 - intervalo del fallback si se activa;
 - si el fallback por comando esta habilitado;
 - starter oficial del Pistolero: `GunId tacz:glock_17`.
-- nota de que Battle Mode de Epic Fight sigue pendiente de investigacion externa.
+- nota de que Epic Tweaks es el controlador esperado de Battle/Mining Mode.
+- nota de que Air / `minecraft:air` debe ser Preferred Tool.
+- nota de que Epic Fight Toggle Battle/Mining Mode debe ser Not Bound.
 
 ## QA commands
 
@@ -152,4 +158,4 @@ Muestra:
 - FTB Quests sera el frontend de progresion por clase.
 - KubeJS sigue siendo la fuente de verdad para clase, tags, kits y restricciones por item.
 - No se crean quests definitivas en Pack 16.8.
-- Battle Mode sigue pendiente de research externo.
+- Epic Tweaks y Epic Fight Item Preferences son la solucion final de Battle/Mining Mode.

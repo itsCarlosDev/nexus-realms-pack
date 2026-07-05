@@ -117,21 +117,33 @@ Pack 16.5.6 anade Epic Tweaks:
 
 Pack 16.6 prepara Default Options:
 
-- El control final de Battle/Mining Mode por clase sigue pendiente de investigacion.
-- Este pack no intenta resolver Battle Mode por clase.
+- Pack 16.10 cierra el control final de Battle/Mining Mode por clase con Epic Tweaks y preferencias de item.
+- Este pack prepara Default Options para desactivar la tecla manual de Epic Fight.
 - KubeJS bloquea items por clase y cancela algunos casos de dano, pero no controla el estado cliente de Epic Fight.
 - `canSwitchPlayerMode=false` bloquea tambien al Guerrero, asi que no sirve como solucion final.
 - `canSwitchPlayerMode=true` permite el cambio manual si la tecla existe.
-- La solucion candidata sigue siendo Epic Tweaks, keybind manual sin asignar y posible datapack/config segun el resultado del research.
+- La solucion final usa Epic Tweaks, keybind manual sin asignar y Air / `minecraft:air` como Preferred Tool.
 - Default Options se prepara para distribuir Epic Fight Toggle como Not Bound.
 
 Pack 16.7 pule QA:
 
-- No intenta resolver Battle Mode por clase.
-- `/nexus_class_debug` recuerda que Battle Mode sigue pendiente de investigacion externa.
+- Prepara QA para comprobar la arquitectura final de Battle/Mining Mode.
+- `/nexus_class_debug` recuerda que Epic Tweaks es el controlador esperado de Battle/Mining Mode.
 - `/nexus_class_status` permite revisar clase persistente y tags.
 - `/nexus_testkit` y `/nexus_givekit` permiten probar kits sin cambiar clase.
 - Glock 17 sigue siendo el starter oficial del Pistolero.
+
+Pack 16.10 cierra la arquitectura de modo Epic Fight:
+
+- KubeJS bloquea items por clase.
+- Epic Tweaks controla Battle/Mining Mode segun preferencias de item.
+- `canSwitchPlayerMode` debe quedar en `true`.
+- Air / `minecraft:air` debe configurarse como Preferred Tool desde Epic Fight Item Preferences.
+- Epic Fight Toggle Battle/Mining Mode debe quedar Not Bound con Default Options.
+- Mago y Pistolero usan Punchy/vanilla, Iron's Spells o TaCZ sin entrar en Battle Mode con mano vacia.
+- Guerrero conserva Epic Fight con armas de Guerrero y Simply Swords.
+- El fallback `/epicfight mode mining <player>` queda desactivado por defecto.
+- Si no existen configs generadas en `config/`, se documenta el flujo manual de Prism y no se inventan archivos.
 
 ## Pack 16.5.2 - Starter kit backend fix
 

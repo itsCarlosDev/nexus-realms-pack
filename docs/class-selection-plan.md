@@ -155,7 +155,7 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 - Spell, projectile, TaCZ, mob, and environmental damage are not intentionally blocked.
 - Epic Fight Battle Mode may still activate visually on the client; this pack blocks the gameplay damage path.
 - The direct KubeJS command enforcement was replaced in Pack 16.5.6 by Epic Tweaks.
-- Combat keybind plan: `R` is TaCZ Reload, `Z` or `V` is Iron's Spells Spell Wheel, `G` or Not Bound is Epic Fight Battle/Mining toggle.
+- Combat keybind plan: `R` is TaCZ Reload, `Z` or `V` is Iron's Spells Spell Wheel, and Epic Fight Battle/Mining toggle is Not Bound.
 - Default Options and Balm are installed, but final keybind export remains a Prism-tested future step.
 
 ## Pack 16.5.6 - Epic Tweaks mode enforcement
@@ -181,7 +181,7 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
   - Epic Fight Toggle Battle/Mining Mode: Not Bound
   - Epic Fight Skill Tree GUI: `K`
   - JEI Recipe/Uses: `U`/`Y`
-- Battle/Mining Mode control per class remains under research and is not solved in this pack.
+- Pack 16.10 resolves Battle/Mining Mode with Epic Tweaks, Epic Fight item preferences, Air as Preferred Tool, and Epic Fight Toggle set to Not Bound.
 - `canSwitchPlayerMode=false` is not used because it also blocks Warrior.
 - Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
 
@@ -190,10 +190,10 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 - `/nexus_class_status [player]` reports persistent class state, chosen flag, class tags, and path text.
 - `/nexus_testkit <class> [player]` is an operator alias for quick kit testing without changing class state.
 - `/nexus_resetclass_clean <player>` resets class state and clears inventory for test runs.
-- `/nexus_class_debug` now includes persistentData, held item NBT summary, TaCZ GunId when present, and the Battle Mode research note.
+- `/nexus_class_debug` now includes persistentData, held item NBT summary, TaCZ GunId when present, and the Epic Tweaks mode-control note.
 - Class selection messages are shorter and class-flavored.
 - Glock 17 remains the official Gunslinger starter.
-- Battle Mode per-class enforcement remains pending external research and is not solved in this pack.
+- Pack 16.10 supersedes the research note with Epic Tweaks plus Epic Fight item preferences.
 
 ## Pack 16.8 - Class progression foundation
 
@@ -205,7 +205,7 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
   - `docs/ftb-quests-class-design.md`
   - `docs/class-balance-notes.md`
   - `docs/class-progression-testing.md`
-- Battle Mode remains pending external research.
+- Pack 16.10 defines the final Epic Fight mode architecture.
 - Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
 
 ## Pack 16.5 - Warrior Epic Fight integration
