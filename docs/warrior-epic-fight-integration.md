@@ -115,6 +115,16 @@ Pack 16.5.6 anade Epic Tweaks:
 - Guerrero debe entrar en Epic Fight/Battle Mode con armas de combate.
 - KubeJS sigue encargado de restricciones por clase, no de controlar la tecla directamente.
 
+Pack 16.6 prepara Default Options:
+
+- El control final de Battle/Mining Mode por clase sigue pendiente de investigacion.
+- Este pack no intenta resolver Battle Mode por clase.
+- KubeJS bloquea items por clase y cancela algunos casos de dano, pero no controla el estado cliente de Epic Fight.
+- `canSwitchPlayerMode=false` bloquea tambien al Guerrero, asi que no sirve como solucion final.
+- `canSwitchPlayerMode=true` permite el cambio manual si la tecla existe.
+- La solucion candidata sigue siendo Epic Tweaks, keybind manual sin asignar y posible datapack/config segun el resultado del research.
+- Default Options se prepara para distribuir Epic Fight Toggle como Not Bound.
+
 ## Pack 16.5.2 - Starter kit backend fix
 
 - El fallo de entrega de kits no venia de Epic Fight, IDs ni NBT.
@@ -138,9 +148,9 @@ Blacklist manual recomendada:
 
 ## Keybinds recomendadas
 
-- Epic Fight Battle/Mining Toggle: G
+- Epic Fight Battle/Mining Toggle: Not Bound
 - TaCZ Reload: R
-- Iron's Spells Spell Wheel Hold: Z o V
+- Iron's Spells Spell Wheel Hold: Z
 - Punchy Menu: F8
 - JourneyMap: J
 - Oculus Reload Shaders: F10 o Unbound
