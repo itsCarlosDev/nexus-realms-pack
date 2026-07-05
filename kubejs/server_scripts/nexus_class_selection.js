@@ -43,8 +43,31 @@ const NEXUS_CLASS_DATA = {
 const NEXUS_CLASS_TAGS = Object.values(NEXUS_CLASS_DATA).map(classData => classData.tag)
 const NEXUS_CLASS_GUI_ID = 'nexus_class_selection'
 
+const NEXUS_CLASS_PATH_MESSAGES = {
+  warrior: '⚔️ Guerrero elegido. Tu senda marcial comienza.',
+  mage: '✨ Mago elegido. El poder arcano despierta.',
+  gunslinger: '🔫 Pistolero elegido. Munición lista.'
+}
+
+const NEXUS_CLASS_STATUS_MESSAGES = {
+  warrior: '⚔️ Senda marcial.',
+  mage: '✨ Senda arcana.',
+  gunslinger: '🔫 Senda balística.',
+  none: 'Elige una clase con el selector.'
+}
+
 function nexusHasClass(player) {
   return player.persistentData.getBoolean('nexus_class_chosen') === true
+}
+
+function nexusGetPersistentClass(player) {
+  const classId = String(player.persistentData.getString('nexus_class') || '')
+
+  if (NEXUS_CLASS_DATA[classId]) {
+    return classId
+  }
+
+  return 'none'
 }
 
 function nexusShowClassSelector(player) {
@@ -65,6 +88,11 @@ function nexusRunServerCommand(server, command) {
     console.warn(error)
     return false
   }
+}
+
+function nexusTellActionbar(player, message, color) {
+  const json = `{"text":"${String(message).replace(/\\/g, '\\\\').replace(/"/g, '\\"')}","color":"${color || 'gold'}"}`
+  nexusRunServerCommand(player.server, `title ${player.username} actionbar ${json}`)
 }
 
 function nexusOpenClassSelector(player) {
@@ -123,7 +151,7 @@ function nexusGiveKitItem(player, entry) {
   return true
 }
 
-function nexusGiveStarterKit(player, classId) {
+function nexusGiveStarterKit(player, classId, suppressSuccessMessage) {
   const classData = NEXUS_CLASS_DATA[classId]
   let failedItems = 0
 
@@ -139,7 +167,7 @@ function nexusGiveStarterKit(player, classId) {
 
   if (failedItems > 0) {
     player.tell('Algunos objetos del kit no pudieron entregarse. Revisa el log.')
-  } else {
+  } else if (!suppressSuccessMessage) {
     player.tell('Kit inicial entregado.')
   }
 
@@ -148,6 +176,24 @@ function nexusGiveStarterKit(player, classId) {
 
 function nexusClearClassTags(player) {
   NEXUS_CLASS_TAGS.forEach(tag => player.removeTag(tag))
+}
+
+function nexusResetClassState(target) {
+  nexusClearClassTags(target)
+  target.persistentData.putBoolean('nexus_class_chosen', false)
+  target.persistentData.remove('nexus_class')
+}
+
+function nexusTellClassStatus(viewer, target) {
+  const classChosen = target.persistentData.getBoolean('nexus_class_chosen') === true
+  const persistentClass = nexusGetPersistentClass(target)
+  const statusMessage = NEXUS_CLASS_STATUS_MESSAGES[persistentClass] || NEXUS_CLASS_STATUS_MESSAGES.none
+
+  viewer.tell(`Jugador: ${nexusPlayerName(target)}`)
+  viewer.tell(`Clase persistentData: ${persistentClass}`)
+  viewer.tell(`Clase elegida: ${classChosen}`)
+  viewer.tell(`Tags: warrior=${target.tags.contains('nexus_class_warrior')}, mage=${target.tags.contains('nexus_class_mage')}, gunslinger=${target.tags.contains('nexus_class_gunslinger')}`)
+  viewer.tell(statusMessage)
 }
 
 function nexusResolveOptionalTarget(ctx, Arguments) {
@@ -197,13 +243,16 @@ ServerEvents.commandRegistry(event => {
             player.persistentData.putString('nexus_class', classId)
             nexusClearClassTags(player)
             player.addTag(classData.tag)
-            const failedItems = nexusGiveStarterKit(player, classId)
+            const failedItems = nexusGiveStarterKit(player, classId, true)
             nexusRunServerCommand(player.server, `closeguiscreen ${player.username}`)
 
             if (failedItems > 0) {
-              player.tell(`Clase elegida: ${classData.displayName}. Algunos objetos del kit no pudieron entregarse. Revisa el log.`)
+              player.tell(NEXUS_CLASS_PATH_MESSAGES[classId] || `Clase elegida: ${classData.displayName}.`)
+              player.tell('Algunos objetos del kit no pudieron entregarse. Revisa latest.log.')
             } else {
-              player.tell(`Clase elegida: ${classData.displayName}. Kit inicial entregado.`)
+              nexusTellActionbar(player, NEXUS_CLASS_PATH_MESSAGES[classId] || `Clase elegida: ${classData.displayName}.`, 'gold')
+              player.tell(NEXUS_CLASS_PATH_MESSAGES[classId] || `Clase elegida: ${classData.displayName}.`)
+              player.tell('Kit inicial entregado.')
             }
 
             return 1
@@ -224,10 +273,41 @@ ServerEvents.commandRegistry(event => {
         nexusShowClassSelector(player)
         return 1
       })
-  )
+	  )
 
-  event.register(
-    Commands.literal('nexus_class_menu')
+	  event.register(
+	    Commands.literal('nexus_class_status')
+	      .executes(ctx => {
+	        const player = ctx.source.player
+	
+	        if (!player) {
+	          console.info('Nexus Realms: /nexus_class_status must be run by a player unless a player argument is provided.')
+	          return 0
+	        }
+	
+	        nexusTellClassStatus(player, player)
+	        return 1
+	      })
+	      .then(
+	        Commands.argument('player', Arguments.PLAYER.create(event))
+	          .requires(source => source.hasPermission(2))
+	          .executes(ctx => {
+	            const viewer = ctx.source.player
+	            const target = Arguments.PLAYER.getResult(ctx, 'player')
+	
+	            if (viewer) {
+	              nexusTellClassStatus(viewer, target)
+	            } else {
+	              console.info(`Nexus Realms: ${nexusPlayerName(target)} class=${nexusGetPersistentClass(target)} chosen=${target.persistentData.getBoolean('nexus_class_chosen') === true}`)
+	            }
+	
+	            return 1
+	          })
+	      )
+	  )
+	
+	  event.register(
+	    Commands.literal('nexus_class_menu')
       .executes(ctx => {
         const player = ctx.source.player
 
@@ -243,21 +323,89 @@ ServerEvents.commandRegistry(event => {
         nexusOpenClassSelector(player)
         return 1
       })
-  )
+	  )
 
-  event.register(
-    Commands.literal('nexus_givekit')
+	  event.register(
+	    Commands.literal('nexus_testkit')
+	      .requires(source => source.hasPermission(2))
+	      .then(
+	        Commands.argument('class', Arguments.STRING.create(event))
+	          .executes(ctx => {
+	            const classId = Arguments.STRING.getResult(ctx, 'class').toLowerCase()
+	            const classData = NEXUS_CLASS_DATA[classId]
+	            const target = ctx.source.player
+	
+	            if (!classData) {
+	              if (target) {
+	                target.tell('Clase no valida para testkit. Usa: warrior, mage o gunslinger.')
+	              }
+	              return 0
+	            }
+	
+	            if (!target) {
+	              return 0
+	            }
+	
+	            const failedItems = nexusGiveStarterKit(target, classId)
+	            target.tell(`Test kit ${classData.displayName} entregado. Fallos: ${failedItems}.`)
+	            return failedItems > 0 ? 0 : 1
+	          })
+	          .then(
+	            Commands.argument('player', Arguments.PLAYER.create(event))
+	              .executes(ctx => {
+	                const classId = Arguments.STRING.getResult(ctx, 'class').toLowerCase()
+	                const classData = NEXUS_CLASS_DATA[classId]
+	                const target = Arguments.PLAYER.getResult(ctx, 'player')
+	                const admin = ctx.source.player
+	
+	                if (!classData) {
+	                  if (admin) {
+	                    admin.tell('Clase no valida para testkit. Usa: warrior, mage o gunslinger.')
+	                  } else {
+	                    console.info('Nexus Realms: invalid /nexus_testkit class. Use warrior, mage or gunslinger.')
+	                  }
+	                  return 0
+	                }
+	
+	                if (!target) {
+	                  return 0
+	                }
+	
+	                const failedItems = nexusGiveStarterKit(target, classId)
+	                const message = `Test kit ${classData.displayName} entregado a ${nexusPlayerName(target)}. Fallos: ${failedItems}.`
+	
+	                if (admin) {
+	                  admin.tell(message)
+	                } else {
+	                  console.info(`Nexus Realms: ${message}`)
+	                }
+	
+	                return failedItems > 0 ? 0 : 1
+	              })
+	          )
+	      )
+	  )
+	
+	  event.register(
+	    Commands.literal('nexus_givekit')
       .requires(source => source.hasPermission(2))
       .then(
         Commands.argument('class', Arguments.STRING.create(event))
           .executes(ctx => {
             const classId = Arguments.STRING.getResult(ctx, 'class').toLowerCase()
-            const classData = NEXUS_CLASS_DATA[classId]
-            const target = ctx.source.player
-
-            if (!classData || !target) {
-              return 0
-            }
+	            const classData = NEXUS_CLASS_DATA[classId]
+	            const target = ctx.source.player
+	
+	            if (!classData) {
+	              if (target) {
+	                target.tell('Clase no valida para givekit. Usa: warrior, mage o gunslinger.')
+	              }
+	              return 0
+	            }
+	
+	            if (!target) {
+	              return 0
+	            }
 
             const failedItems = nexusGiveStarterKit(target, classId)
             target.tell(`Kit de prueba entregado: ${classData.displayName}. Fallos: ${failedItems}.`)
@@ -268,12 +416,21 @@ ServerEvents.commandRegistry(event => {
               .executes(ctx => {
                 const classId = Arguments.STRING.getResult(ctx, 'class').toLowerCase()
                 const classData = NEXUS_CLASS_DATA[classId]
-                const target = nexusResolveOptionalTarget(ctx, Arguments)
-                const admin = ctx.source.player
-
-                if (!classData || !target) {
-                  return 0
-                }
+	                const target = nexusResolveOptionalTarget(ctx, Arguments)
+	                const admin = ctx.source.player
+	
+	                if (!classData) {
+	                  if (admin) {
+	                    admin.tell('Clase no valida para givekit. Usa: warrior, mage o gunslinger.')
+	                  } else {
+	                    console.info('Nexus Realms: invalid /nexus_givekit class. Use warrior, mage or gunslinger.')
+	                  }
+	                  return 0
+	                }
+	
+	                if (!target) {
+	                  return 0
+	                }
 
                 const failedItems = nexusGiveStarterKit(target, classId)
 
@@ -289,8 +446,8 @@ ServerEvents.commandRegistry(event => {
       )
   )
 
-  event.register(
-    Commands.literal('nexus_resetclass')
+	  event.register(
+	    Commands.literal('nexus_resetclass')
       .requires(source => source.hasPermission(2))
       .then(
         Commands.argument('player', Arguments.PLAYER.create(event))
@@ -298,9 +455,7 @@ ServerEvents.commandRegistry(event => {
             const target = Arguments.PLAYER.getResult(ctx, 'player')
             const admin = ctx.source.player
 
-            nexusClearClassTags(target)
-            target.persistentData.putBoolean('nexus_class_chosen', false)
-            target.persistentData.remove('nexus_class')
+	            nexusResetClassState(target)
 
             target.tell('Tu clase fue reiniciada. Abre el selector para elegir un nuevo camino.')
             nexusOpenClassSelector(target)
@@ -314,7 +469,32 @@ ServerEvents.commandRegistry(event => {
             return 1
           })
       )
-  )
-})
+	  )
+	
+	  event.register(
+	    Commands.literal('nexus_resetclass_clean')
+	      .requires(source => source.hasPermission(2))
+	      .then(
+	        Commands.argument('player', Arguments.PLAYER.create(event))
+	          .executes(ctx => {
+	            const target = Arguments.PLAYER.getResult(ctx, 'player')
+	            const admin = ctx.source.player
+	
+	            nexusResetClassState(target)
+	            nexusRunServerCommand(target.server, `clear ${target.username}`)
+	            target.tell('Tu clase e inventario de prueba fueron reiniciados. Abre el selector para elegir un nuevo camino.')
+	            nexusOpenClassSelector(target)
+	
+	            if (admin) {
+	              admin.tell(`Clase e inventario de prueba reiniciados para ${target.username}.`)
+	            } else {
+	              console.info(`Nexus Realms: clean class reset for ${target.username}.`)
+	            }
+	
+	            return 1
+	          })
+	      )
+	  )
+	})
 
 // TODO Pack 16.5+: add recipe/loot restrictions once class progression is stable.

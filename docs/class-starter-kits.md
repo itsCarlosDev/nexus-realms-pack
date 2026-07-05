@@ -55,6 +55,8 @@ NBT usado:
 - Se corrigio el fallo `TypeError: redeclaration of var count` evitando reutilizar `count` en la creacion y entrega de items.
 - La entrega usa `itemCount` y no usa `var`.
 - `/nexus_givekit <class> [player]` permite probar kits como operador sin cambiar la clase.
+- `/nexus_testkit <class> [player]` es alias de QA para probar kits rapidamente sin cambiar la clase.
+- `/nexus_resetclass_clean <player>` reinicia clase y limpia inventario solo para pruebas controladas.
 - Los kits siguen soportando NBT para Iron's Spells y TaCZ.
 - FancyMenu sigue siendo el selector principal.
 - `/nexus_class_help` queda como fallback manual para ver comandos.
@@ -77,6 +79,9 @@ NBT usado:
 - El plan de keybinds reserva `R` solo para recargar TaCZ, para que Glock 17 no abra Spell Wheel ni cambie Battle Mode.
 - Epic Tweaks debe mantener al Pistolero en Vanilla/Mining Mode al usar TaCZ, para no romper apuntado ni recarga.
 - Pack 16.6 mantiene Glock 17 como starter oficial y no vuelve a Taurus 9.
+- Pack 16.7 mantiene Glock 17 y anade comandos de QA para verificar kits rapidamente.
+- Pack 16.8 mantiene los kits en KubeJS. FTB Quests no debe entregar los starter kits principales para evitar duplicacion.
+- La progresion futura puede dar recompensas avanzadas, pero debe respetar `GunId:"tacz:glock_17"` como starter oficial del Pistolero.
 
 ## Como verificar futuros items
 
