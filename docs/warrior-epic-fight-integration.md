@@ -98,6 +98,8 @@ Pack 16.5.5 bloquea el daño melee sin arma:
 - Guerrero conserva el daño unarmed/Epic Fight.
 - Si un jugador golpea con un item de otra clase, el daño tambien se bloquea.
 - Battle Mode puede seguir visualmente activo en cliente; el servidor bloquea la parte jugable del daño.
+- No-Guerreros son forzados a Mining Mode con `/epicfight mode mining <player>` cada 20 ticks.
+- Guerrero queda excluido y puede usar Battle Mode.
 
 ## Pack 16.5.2 - Starter kit backend fix
 
@@ -122,8 +124,9 @@ Blacklist manual recomendada:
 
 ## Keybinds recomendadas
 
-- Epic Fight Battle Mode: X
+- Epic Fight Battle/Mining Toggle: G
 - TaCZ Reload: R
+- Iron's Spells Spell Wheel Hold: Z
 - Punchy Menu: F8
 - JourneyMap: J
 - Oculus Reload Shaders: F10 o Unbound

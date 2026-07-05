@@ -33,8 +33,13 @@ const NEXUS_RESTRICTED_ITEM_NAMESPACES = {
 const NEXUS_RESTRICTION_WARNING_COOLDOWN_MS = 5000
 const NEXUS_RESTRICTION_NO_CLASS_COOLDOWN_MS = 10000
 const NEXUS_RESTRICTION_HAND_CHECK_INTERVAL_MS = 1000
+const NEXUS_EPIC_FIGHT_MINING_MODE_INTERVAL_TICKS = 20
+const NEXUS_EPIC_FIGHT_MINING_MODE_WARNING_COOLDOWN_MS = 10000
+const NEXUS_EPIC_FIGHT_COMMAND_FAILURE_COOLDOWN_MS = 60000
 const nexusRestrictionWarningTimes = {}
 const nexusRestrictionHandCheckTicks = {}
+const nexusEpicFightMiningModeTickCounters = {}
+const nexusEpicFightCommandFailureTimes = {}
 
 function nexusRestrictionHasTag(player, tag) {
   return player && player.tags && player.tags.contains(tag)
@@ -212,6 +217,87 @@ function nexusWarnUnarmedCombat(player) {
   nexusRestrictionWarningTimes[key] = now
   nexusNotifyRestriction(player, nexusGetUnarmedCombatMessage(player), true, playerClass === 'none' ? 'gold' : 'red')
   return true
+}
+
+function nexusGetEpicFightMiningModeMessage(player) {
+  const playerClass = nexusGetPlayerClass(player)
+
+  if (playerClass === 'mage') {
+    return '✨ Mantengo la mente clara. No necesito modo batalla.'
+  }
+
+  if (playerClass === 'gunslinger') {
+    return '🔫 Mantengo la distancia. Nada de combate cuerpo a cuerpo.'
+  }
+
+  return 'Elige una clase antes de combatir.'
+}
+
+function nexusWarnEpicFightMiningMode(player) {
+  const now = Date.now()
+  const key = nexusRestrictedWarningKey(player, `epicfight_mining_${nexusGetPlayerClass(player)}`)
+  const lastWarningAt = nexusRestrictionWarningTimes[key] || 0
+
+  if (now - lastWarningAt < NEXUS_EPIC_FIGHT_MINING_MODE_WARNING_COOLDOWN_MS) {
+    return false
+  }
+
+  nexusRestrictionWarningTimes[key] = now
+  nexusNotifyRestriction(player, nexusGetEpicFightMiningModeMessage(player), true, nexusGetPlayerClass(player) === 'none' ? 'gold' : 'red')
+  return true
+}
+
+function nexusLogEpicFightCommandFailure(player, error) {
+  const now = Date.now()
+  const key = String(player.uuid)
+  const lastFailureAt = nexusEpicFightCommandFailureTimes[key] || 0
+
+  if (now - lastFailureAt < NEXUS_EPIC_FIGHT_COMMAND_FAILURE_COOLDOWN_MS) {
+    return
+  }
+
+  nexusEpicFightCommandFailureTimes[key] = now
+  console.warn(`Nexus Realms: Epic Fight mining mode command failed or is unavailable for ${player.username}.`)
+  console.warn(error)
+}
+
+function nexusForceEpicFightMiningMode(player) {
+  try {
+    player.server.runCommandSilent(`epicfight mode mining ${player.username}`)
+    return true
+  } catch (error) {
+    nexusLogEpicFightCommandFailure(player, error)
+    return false
+  }
+}
+
+function nexusShouldEnforceEpicFightMiningMode(player) {
+  return !nexusRestrictionPlayerHasClass(player, 'warrior')
+}
+
+function nexusShouldRunEpicFightMiningModeTick(player) {
+  const key = String(player.uuid)
+  const currentCounter = (nexusEpicFightMiningModeTickCounters[key] || 0) + 1
+
+  if (currentCounter >= NEXUS_EPIC_FIGHT_MINING_MODE_INTERVAL_TICKS) {
+    nexusEpicFightMiningModeTickCounters[key] = 0
+    return true
+  }
+
+  nexusEpicFightMiningModeTickCounters[key] = currentCounter
+  return false
+}
+
+function nexusEnforceEpicFightMiningMode(player) {
+  if (!nexusShouldEnforceEpicFightMiningMode(player) || !nexusShouldRunEpicFightMiningModeTick(player)) {
+    return
+  }
+
+  const commandSucceeded = nexusForceEpicFightMiningMode(player)
+
+  if (commandSucceeded && nexusIsEmptyStack(player.mainHandItem)) {
+    nexusWarnEpicFightMiningMode(player)
+  }
 }
 
 function nexusHandleRestrictedItemUse(event, player, stack, source) {
@@ -457,6 +543,7 @@ PlayerEvents.tick(event => {
     return
   }
 
+  nexusEnforceEpicFightMiningMode(player)
   nexusCheckRestrictedHands(player)
 })
 
@@ -481,6 +568,7 @@ ServerEvents.commandRegistry(event => {
         const isBlocked = nexusIsRestrictedForPlayer(player, mainHandItemId)
         const isMainHandEmpty = nexusIsEmptyStack(player.mainHandItem)
         const unarmedAllowed = nexusUnarmedMeleeAllowed(player)
+        const miningModeEnforced = nexusShouldEnforceEpicFightMiningMode(player)
         const nbtSummary = nexusGetStackNbtSummary(player.mainHandItem)
 
         player.tell(`Clase detectada: ${detectedClass}`)
@@ -493,6 +581,9 @@ ServerEvents.commandRegistry(event => {
         player.tell(`Clase requerida: ${requiredClass}`)
         player.tell(`Resultado: ${isBlocked ? 'bloqueado' : 'permitido'}`)
         player.tell(`Melee sin arma permitido: ${unarmedAllowed}`)
+        player.tell(`Epic Fight Mining Mode enforcement: ${miningModeEnforced}`)
+        player.tell(`Mining Mode interval ticks: ${NEXUS_EPIC_FIGHT_MINING_MODE_INTERVAL_TICKS}`)
+        player.tell('Starter Pistolero: GunId tacz:glock_17')
 
         if (detectedClass === 'none') {
           player.tell('Sin clase: restricciones activas solo como aviso con cooldown, sin spam.')

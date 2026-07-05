@@ -1,81 +1,99 @@
 # Nexus Realms Keybind Plan
 
-## TaCZ / Firearms
+## Objetivo
 
-- TaCZ Reload: R
-- R must be used only for TaCZ Reload.
+Evitar conflictos entre TaCZ, Iron's Spells y Epic Fight.
 
-## Punchy
+Regla principal:
 
-- Punchy config/menu: F8
-- Punchy stays installed.
-- Punchy Item Blacklist must exclude TaCZ weapons.
-- Preferred blacklist regex: `^tacz:.*$`
-- Manual steps:
-  1. Equip a TaCZ weapon.
-  2. Press F8.
-  3. Open Item Blacklist.
-  4. Add `^tacz:.*$` if regex is supported.
-  5. If regex is not supported, add each TaCZ weapon/item manually.
-  6. Press Save Profile.
-  7. Test that normal tools still use Punchy but TaCZ guns do not duplicate.
+- `R` debe quedar solo para TaCZ Reload.
+- `R` no debe abrir Spell Wheel.
+- `R` no debe alternar Battle/Mining Mode.
 
-## Combat
+## Plan recomendado
 
-- Combat Roll: Left Alt
-- Better Combat: keep default attack behavior.
-- Do not use R for roll.
+### TaCZ
 
-## Shaders
+- Reload: `R`
+- Aim: Right Mouse Button
+- Fire: Left Mouse Button
+- Attachments: `F4`
 
-- Oculus Reload Shaders: F10 or Unbound.
-- Do not use F8 because F8 opens Punchy config/menu.
+### Iron's Spells
 
-## Camera
+- Spell Wheel Hold: `Z`
+- Cast Spell: mantener default si no choca.
+- Next/Previous Spell: mantener defaults si no chocan.
 
-- Shoulder Surfing Reloaded base stays installed.
-- Do not use SSR Camera Fixes for now because it caused broken camera/mouse/WASD behavior.
-- Configure Biohazard-style camera manually:
-  - right shoulder;
-  - medium-close distance;
-  - character visible;
-  - weapon visible without duplication;
-  - usable crosshair;
-  - mouse camera must remain responsive.
-- Shoulder Surfing Toggle Perspective: free key, avoid R/J/Left Alt.
-- Shoulder Surfing Swap Shoulder: free key or extra mouse button if available.
-- JourneyMap fullscreen: J.
+### Epic Fight
 
-## Pack 14.3 Biohazard Gunplay
+- Toggle Battle/Mining Mode: `G`
+- Skill Tree GUI: `K`
+- Weapon Innate Skill: `Left Alt`
+- Open Configuration Screen: Not Bound
+- Open Skill Editor: Not Bound salvo debug/admin.
 
-- Third Person Shooting should improve TaCZ + Shoulder Surfing behavior.
-- Keep TaCZ Reload on R.
-- Keep Punchy menu/config on F8.
-- Keep Combat Roll on Left Alt.
-- Oculus Reload Shaders should remain F10 or Unbound.
-- Do not use SSR Camera Fixes.
-- Test Shoulder Surfing with TaCZ ADS and hip-fire.
-- Test whether projectiles/crosshair feel aligned in third person.
-- If camera still feels wrong, tune Shoulder Surfing base settings manually before adding more mods.
+Notas:
+
+- Guerrero puede aprovechar `G` para alternar Battle/Mining Mode.
+- Mago y Pistolero son forzados a Mining Mode por KubeJS cada 20 ticks.
+- Si Mago/Pistolero activan Battle Mode visualmente, el servidor lo corrige periodicamente.
+
+### JEI
+
+- Show Recipe: `U` si `R` interfiere con TaCZ.
+- Show Uses: `Y`
+- Si JEI solo usa `R` dentro de GUI y no rompe TaCZ, se puede revisar en Prism, pero el objetivo final es que `R` no tenga conflictos de combate.
+
+### Punchy
+
+- Punchy menu/config: `F8`
+- Punchy sigue instalado para acciones normales.
+- Blacklist manual recomendada:
+  - `^tacz:.*$`
+  - `^simplyswords:.*$`
+  - `^epicfight:.*$`
+  - `^epicfight_nightfall:.*$`
+  - `^efn:.*$`
+  - `^nightfall:.*$`
+  - `^epicskills:.*$`
+  - `^epic_fight_avalon:.*$`
+  - `^invincible:.*$`
+  - `^irons_spellbooks:.*$`
+  - `^traveloptics:.*$`
+
+### Otros
+
+- JourneyMap fullscreen: `J`
+- Oculus Reload Shaders: `F10` o Unbound
+- Shoulder Surfing Toggle Perspective: tecla libre, evitando `R`, `G`, `J`, `K`, `Z`, `Left Alt`
+- Shoulder Surfing Swap Shoulder: tecla libre o boton extra de raton
 
 ## Default Options
 
-- Do not commit root options.txt.
-- Final keybind export will be done later with:
+- Default Options y Balm ya estan instalados.
+- No se crea `options.txt` raiz.
+- No se crean archivos de `config/defaultoptions/` manualmente.
+- Exportar keybinds finales solo desde Prism, despues de probarlos:
   `/defaultoptions saveKeys`
-- Only commit config/defaultoptions/keybindings.txt when generated from a tested Prism instance.
+- Solo commitear `config/defaultoptions/keybindings.txt` si fue generado por el mod en una instancia probada.
 
-## Manual steps in Prism
+## Checklist Prism
 
-1. Open Controls.
-2. Search for "Reload".
-3. Leave R only on TaCZ Reload.
-4. Search for "Roll".
-5. Set Combat Roll to Left Alt.
-6. Search for "Shader".
-7. Set Oculus Reload Shaders to F10 or Unbound.
-8. Open Punchy config/menu.
-9. Add `^tacz:.*$` to item blacklist/exclusion if available, or add TaCZ weapons/items manually.
-10. Open Shoulder Surfing config/menu.
-11. Tune camera to right shoulder, medium-close distance, usable crosshair.
-12. When all final keybinds are done, run `/defaultoptions saveKeys` in a later final pack.
+1. Abrir Controls.
+2. Buscar `Reload`.
+3. Dejar `R` solo en TaCZ Reload.
+4. Buscar `Spell Wheel`.
+5. Poner Iron's Spells Spell Wheel Hold en `Z`.
+6. Buscar `Battle`.
+7. Poner Epic Fight Toggle Battle/Mining Mode en `G`.
+8. Buscar `Skill Tree`.
+9. Poner Epic Fight Skill Tree GUI en `K`.
+10. Poner Epic Fight Weapon Innate Skill en `Left Alt`.
+11. Mover JEI Show Recipe a `U` y Uses a `Y` si `R` interfiere.
+12. Confirmar Punchy en `F8`.
+13. Confirmar Oculus Reload Shaders en `F10` o Unbound.
+14. Probar Pistolero: apuntar, disparar y recargar con Glock 17.
+15. Probar Mago: abrir Spell Wheel con `Z` y lanzar hechizo.
+16. Probar Guerrero: alternar Epic Fight con `G` y abrir Skill Tree con `K`.
+17. Cuando todo este validado, exportar con `/defaultoptions saveKeys`.

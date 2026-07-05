@@ -218,6 +218,17 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - Warrior remains allowed to use unarmed/Epic Fight melee.
 - Damage with a held item that belongs to another class is also cancelled.
 - The visual Epic Fight Battle Mode may still activate client-side; the server-side mitigation blocks damage.
+- Non-Warriors are now forced back to Epic Fight Mining Mode every 20 ticks with `/epicfight mode mining <player>`.
+- Warrior is excluded from Mining Mode enforcement.
+- Gunslinger starter gun remains Glock 17 with `GunId:"tacz:glock_17"`.
+
+### Keybind plan
+
+- `R` is reserved for TaCZ Reload.
+- `Z` is Iron's Spells Spell Wheel Hold.
+- `G` is Epic Fight Battle/Mining Toggle.
+- `K` is Epic Fight Skill Tree GUI.
+- Default Options and Balm are already installed, but no generated keybind files are committed until tested in Prism.
 
 ## Pack 16.5.1 - Remove Better Combat compatibility leftover
 

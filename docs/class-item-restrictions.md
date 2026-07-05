@@ -59,6 +59,16 @@ El guardia no borra items, no los tira al suelo y no intenta moverlos para evita
   - Sin clase: `Elige una clase para combatir.`
 - Esta capa no busca bloquear hechizos de Iron's Spells, disparos/proyectiles de TaCZ, daño ambiental, caidas, fuego ni daño de mobs.
 
+## Pack 16.5.5 - Epic Fight Mining Mode enforcement
+
+- No-Guerreros son forzados periodicamente a Epic Fight Mining Mode con:
+  `/epicfight mode mining <player>`
+- El enforcement corre cada 20 ticks por jugador.
+- Guerrero queda excluido y puede alternar Battle/Mining Mode.
+- El comando se ejecuta de forma silenciosa.
+- Si el comando falla o no existe en runtime, se registra un aviso con cooldown largo y el script sigue funcionando.
+- La parte visual de Battle Mode puede activarse momentaneamente en cliente, pero el servidor la corrige periodicamente.
+
 ## Pack 16.5.4 - UX de restricciones
 
 - Los avisos de restriccion usan `title <player> actionbar` cuando el comando vanilla funciona.
@@ -78,6 +88,7 @@ Limitacion actual:
 - Battle Mode puede seguir siendo un estado/keybind cliente.
 - La mitigacion actual bloquea items, skills/progresion por namespace y quests.
 - Pack 16.5.5 tambien cancela daño melee/unarmed para no-Guerreros, pero no garantiza apagar la animacion cliente.
+- Pack 16.5.5 intenta corregir ademas el estado con `/epicfight mode mining <player>`.
 - Si Epic Fight expone una API o comando fiable mas adelante, se puede agregar un bloqueo directo para no-Guerreros.
 - No hay config versionada clara en este repo para desactivar unarmed/empty-hand de Epic Fight sin inventar formato.
 - Resultado actual recomendado: Mago y Pistolero usan Punchy/brazos normales como objetivo de diseno, pero la separacion tecnica se apoya en items/progresion hasta encontrar una config/API fiable.
@@ -114,3 +125,6 @@ Muestra:
 - namespace;
 - clase requerida;
 - si el item estaria permitido o bloqueado.
+- si Epic Fight Mining Mode enforcement esta activo;
+- intervalo de enforcement;
+- starter oficial del Pistolero: `GunId tacz:glock_17`.
