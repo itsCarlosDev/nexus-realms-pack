@@ -52,7 +52,7 @@ Mago:
 
 Pistolero:
 
-- `tacz:modern_kinetic_gun` x1 with `GunId:"tacz:taurus9"`
+- `tacz:modern_kinetic_gun` x1 with `GunId:"tacz:glock_17"`
 - `tacz:ammo` x16 with `AmmoId:"tacz:9mm"`
 - `minecraft:bread` x16
 
@@ -104,7 +104,7 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 
 - Warrior starts with `simplyswords:iron_glaive`, shield, and bread.
 - Mage starts with `irons_spellbooks:copper_spell_book` containing `irons_spellbooks:acupuncture` level 1, amethyst shards, and bread.
-- Gunslinger starts with `tacz:modern_kinetic_gun` using `tacz:taurus9`, `tacz:ammo` 9mm, and bread.
+- Gunslinger starts with `tacz:modern_kinetic_gun` using `tacz:glock_17`, `tacz:ammo` 9mm, and bread.
 - Starter kit item NBT is handled in KubeJS with per-item error logging.
 - FancyMenu and FTB Quests still do not grant starter kits directly.
 
@@ -128,7 +128,7 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 
 ## Pack 16.5.3 - Gunslinger gun and class system enforcement
 
-- Fixed the Gunslinger starter gun by creating the Taurus 9 with the exact TaCZ `GunId` NBT.
+- Fixed the Gunslinger starter gun by creating the Glock 17 with the exact TaCZ `GunId` NBT.
 - `tacz:modern_kinetic_gun` without NBT is only a generic TaCZ item and should not be used in kits.
 - Hardened class restrictions by namespace for Warrior, Mage, and Gunslinger systems.
 - Added a lightweight hand/offhand guard so restricted items warn even when a mod does not pass through the right-click event.
@@ -141,10 +141,19 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 - Chat fallback is only used if the actionbar command fails.
 - Classless players no longer receive restriction spam every second; they get a long-cooldown prompt to choose a class.
 - Reset messaging is cleaner and tries to reopen FancyMenu automatically.
-- TaCZ Taurus 9 NBT is left unchanged because `/kubejs hand` confirms the correct `GunId`.
+- TaCZ starter gun now uses Glock 17 because `/kubejs hand` confirmed the desired `GunId`.
 - The remaining purple/black TaCZ icon is documented as likely inventory render/icon behavior unless the creative item proves extra NBT is required.
 - No reliable versioned Epic Fight config/API was found to disable unarmed/empty-hand Battle Mode from KubeJS.
 - Punchy blacklist remains manual because no clear Punchy config file exists in the repo.
+
+## Pack 16.5.5 - Non-Warrior unarmed combat block
+
+- Added a server-side damage guard with `EntityEvents.hurt`.
+- Mago, Pistolero, and classless players cannot deal direct melee damage with an empty main hand.
+- Guerrero can still use unarmed/Epic Fight melee.
+- Damage with another class's restricted held item is cancelled at damage level.
+- Spell, projectile, TaCZ, mob, and environmental damage are not intentionally blocked.
+- Epic Fight Battle Mode may still activate visually on the client; this pack blocks the gameplay damage path.
 
 ## Pack 16.5 - Warrior Epic Fight integration
 

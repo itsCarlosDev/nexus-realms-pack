@@ -44,8 +44,20 @@ Solo Pistolero:
 
 - `ItemEvents.rightClicked` bloquea el uso de item cuando KubeJS recibe el evento.
 - `PlayerEvents.tick` ejecuta un guardia ligero de mano principal/offhand cada ~1 segundo por jugador.
+- `EntityEvents.hurt` bloquea daño melee directo cuando el atacante es un jugador y el caso es seguro de identificar.
 
 El guardia no borra items, no los tira al suelo y no intenta moverlos para evitar duplicaciones o perdidas. Solo avisa y bloquea usos cuando hay evento disponible.
+
+## Pack 16.5.5 - Bloqueo de melee sin arma
+
+- Mago, Pistolero y jugadores sin clase no deberian hacer daño melee directo con mano principal vacia.
+- Guerrero conserva el daño unarmed/Epic Fight.
+- Si un jugador ataca con un item que pertenece a otra clase, el daño tambien se cancela en la capa de daño.
+- Los mensajes usan actionbar/sonido con cooldown:
+  - Mago: `✨ Mis manos canalizan magia, no golpes.`
+  - Pistolero: `🔫 Sin arma no hay disparo. Mantén la distancia.`
+  - Sin clase: `Elige una clase para combatir.`
+- Esta capa no busca bloquear hechizos de Iron's Spells, disparos/proyectiles de TaCZ, daño ambiental, caidas, fuego ni daño de mobs.
 
 ## Pack 16.5.4 - UX de restricciones
 
@@ -65,6 +77,7 @@ Limitacion actual:
 
 - Battle Mode puede seguir siendo un estado/keybind cliente.
 - La mitigacion actual bloquea items, skills/progresion por namespace y quests.
+- Pack 16.5.5 tambien cancela daño melee/unarmed para no-Guerreros, pero no garantiza apagar la animacion cliente.
 - Si Epic Fight expone una API o comando fiable mas adelante, se puede agregar un bloqueo directo para no-Guerreros.
 - No hay config versionada clara en este repo para desactivar unarmed/empty-hand de Epic Fight sin inventar formato.
 - Resultado actual recomendado: Mago y Pistolero usan Punchy/brazos normales como objetivo de diseno, pero la separacion tecnica se apoya en items/progresion hasta encontrar una config/API fiable.

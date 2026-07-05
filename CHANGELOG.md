@@ -2,6 +2,7 @@
 
 ## 0.1.0
 
+- Experimental: blocked unarmed melee damage for non-Warrior classes to mitigate Epic Fight Battle Mode leakage and switched the Gunslinger starter gun to Glock 17.
 - Experimental: reduced class restriction chat spam with actionbar/cooldown warnings, improved reset messaging, reviewed TaCZ starter gun icon behavior, and documented Epic Fight unarmed limitations.
 - Experimental: fixed Gunslinger starter gun NBT, hardened class item restrictions for Warrior, Mage and Gunslinger systems, and added class restriction debug tooling.
 - Experimental: fixed class starter kit delivery after Epic Fight integration by removing the KubeJS count redeclaration and making FancyMenu the primary login selector.

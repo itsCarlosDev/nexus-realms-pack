@@ -92,6 +92,13 @@ Pack 16.5.4 mejora la UX:
 - Se reviso el repo buscando config de Epic Fight para unarmed/empty-hand, pero no hay archivo versionado claro para desactivar ese comportamiento sin inventar formato.
 - Guerrero mantiene Epic Fight con armas; Mago y Pistolero quedan mitigados por bloqueo de items/progresion hasta encontrar API/config fiable para Battle Mode.
 
+Pack 16.5.5 bloquea el daño melee sin arma:
+
+- `EntityEvents.hurt` cancela daño melee directo de Mago, Pistolero y jugadores sin clase cuando atacan con mano principal vacia.
+- Guerrero conserva el daño unarmed/Epic Fight.
+- Si un jugador golpea con un item de otra clase, el daño tambien se bloquea.
+- Battle Mode puede seguir visualmente activo en cliente; el servidor bloquea la parte jugable del daño.
+
 ## Pack 16.5.2 - Starter kit backend fix
 
 - El fallo de entrega de kits no venia de Epic Fight, IDs ni NBT.
@@ -146,7 +153,7 @@ Blacklist manual recomendada:
 11. Confirmar que Epic Fight no rompe magia.
 12. Resetear clase.
 13. Elegir Pistolero.
-14. Probar Taurus 9 y municion 9mm.
+14. Probar Glock 17 y municion 9mm.
 15. Confirmar que disparar no activa ataques raros.
 16. Probar Shoulder Surfing.
 17. Revisar latest.log.

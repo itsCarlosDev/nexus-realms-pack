@@ -103,7 +103,7 @@ function nexusCreateKitItem(entry) {
 }
 
 function nexusCreateGunslingerStarterGun() {
-  return Item.of('tacz:modern_kinetic_gun', '{GunCurrentAmmoCount:0,GunFireMode:"SEMI",GunId:"tacz:taurus9",HasBulletInBarrel:1b}')
+  return Item.of('tacz:modern_kinetic_gun', '{GunCurrentAmmoCount:0,GunFireMode:"SEMI",GunId:"tacz:glock_17",HasBulletInBarrel:1b}')
 }
 
 function nexusPlayerName(player) {

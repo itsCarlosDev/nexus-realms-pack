@@ -179,8 +179,8 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 
 ### Backend updated
 
-- Gunslinger starter gun now uses the exact TaCZ Taurus 9 NBT path.
-- `tacz:modern_kinetic_gun` without `GunId:"tacz:taurus9"` is treated as a generic/broken starter item and should not be used.
+- Gunslinger starter gun now uses the exact TaCZ Glock 17 NBT path.
+- `tacz:modern_kinetic_gun` without `GunId:"tacz:glock_17"` is treated as a generic/broken starter item and should not be used.
 - Warrior restrictions now include `simplyswords`, `epicfight`, `epicfight_nightfall`, `efn`, `nightfall`, `epicskills`, `epic_fight_avalon`, and `invincible`.
 - Mage restrictions include `irons_spellbooks` and future-proof `traveloptics`.
 - Gunslinger restrictions include `tacz`.
@@ -205,10 +205,19 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 
 ### Investigation notes
 
-- TaCZ Taurus 9 starter gun keeps `GunId:"tacz:taurus9"`; no NBT change was made.
+- TaCZ starter gun now uses `GunId:"tacz:glock_17"`.
 - If the TaCZ icon remains purple/black while `/kubejs hand` shows the correct GunId, treat it as a TaCZ inventory icon/render issue until the creative item proves extra NBT is required.
 - No versioned Epic Fight config/API was found in the repo to disable unarmed/empty-hand Battle Mode safely.
 - No clear Punchy config file was found; Punchy blacklist remains manual through its UI.
+
+## Pack 16.5.5 - Block non-Warrior unarmed combat
+
+### Backend updated
+
+- `EntityEvents.hurt` cancels direct melee damage from Mage, Gunslinger, and classless players when their main hand is empty.
+- Warrior remains allowed to use unarmed/Epic Fight melee.
+- Damage with a held item that belongs to another class is also cancelled.
+- The visual Epic Fight Battle Mode may still activate client-side; the server-side mitigation blocks damage.
 
 ## Pack 16.5.1 - Remove Better Combat compatibility leftover
 
