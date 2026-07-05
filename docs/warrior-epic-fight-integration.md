@@ -98,8 +98,22 @@ Pack 16.5.5 bloquea el daño melee sin arma:
 - Guerrero conserva el daño unarmed/Epic Fight.
 - Si un jugador golpea con un item de otra clase, el daño tambien se bloquea.
 - Battle Mode puede seguir visualmente activo en cliente; el servidor bloquea la parte jugable del daño.
-- No-Guerreros son forzados a Mining Mode con `/epicfight mode mining <player>` cada 20 ticks.
-- Guerrero queda excluido y puede usar Battle Mode.
+- El intento de forzar Mining Mode por comando cada 20 ticks queda reemplazado en Pack 16.5.6 por Epic Tweaks.
+- El fallback por comando existe en KubeJS, pero esta desactivado por defecto para evitar conflictos.
+- Guerrero queda excluido de restricciones de modo y puede usar Battle Mode con su equipo.
+
+Pack 16.5.6 anade Epic Tweaks:
+
+- Epic Tweaks controla Battle/Mining Mode segun el item en mano.
+- `canSwitchPlayerMode=false` no es una solucion valida porque bloquea tambien al Guerrero.
+- `canSwitchPlayerMode` debe quedar en `true` para que Epic Tweaks pueda aplicar autoswitch/enforce.
+- Config deseada tras generar el archivo en Prism:
+  - `autoswitch_mode = true`
+  - `enforce_mode = true`
+  - `filter_animation_first_person = true`
+- Mago y Pistolero deben permanecer en Vanilla/Mining Mode con mano vacia, spellbook o TaCZ.
+- Guerrero debe entrar en Epic Fight/Battle Mode con armas de combate.
+- KubeJS sigue encargado de restricciones por clase, no de controlar la tecla directamente.
 
 ## Pack 16.5.2 - Starter kit backend fix
 
@@ -126,10 +140,11 @@ Blacklist manual recomendada:
 
 - Epic Fight Battle/Mining Toggle: G
 - TaCZ Reload: R
-- Iron's Spells Spell Wheel Hold: Z
+- Iron's Spells Spell Wheel Hold: Z o V
 - Punchy Menu: F8
 - JourneyMap: J
 - Oculus Reload Shaders: F10 o Unbound
+- Epic Fight Open Configuration Screen: Not Bound
 - Epic Fight Dodge/Skill: revisar manualmente
 
 ## Riesgos

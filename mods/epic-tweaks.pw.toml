@@ -1,0 +1,13 @@
+name = "Epic Tweaks"
+filename = "epictweaks-forge-1.20.1-1.1.1.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "d973d831a541719950eb0d391c752ae06a18fd11"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 6657583
+project-id = 974080
