@@ -27,7 +27,7 @@ NBT usado:
 ### Pistolero
 
 - `tacz:modern_kinetic_gun` con NBT:
-  `{GunCurrentAmmoCount:0,GunFireMode:"SEMI",GunId:"tacz:taurus9",HasBulletInBarrel:1b}`
+  `{GunCurrentAmmoCount:0,GunFireMode:"SEMI",GunId:"tacz:glock_17",HasBulletInBarrel:1b}`
 - `tacz:ammo` x16 con NBT:
   `{AmmoId:"tacz:9mm"}`
 - `minecraft:bread` x16
@@ -62,18 +62,18 @@ NBT usado:
 ## Pack 16.5.3 - Gunslinger gun fix
 
 - La pistola inicial del Pistolero se crea con una ruta especial para no perder el NBT de TaCZ.
-- `tacz:modern_kinetic_gun` sin `GunId` aparece como item generico y no sirve como Taurus 9 real.
+- `tacz:modern_kinetic_gun` sin `GunId` aparece como item generico y no sirve como Glock 17 real.
 - La llamada usada para el arma es:
-  `Item.of('tacz:modern_kinetic_gun', '{GunCurrentAmmoCount:0,GunFireMode:"SEMI",GunId:"tacz:taurus9",HasBulletInBarrel:1b}')`
+  `Item.of('tacz:modern_kinetic_gun', '{GunCurrentAmmoCount:0,GunFireMode:"SEMI",GunId:"tacz:glock_17",HasBulletInBarrel:1b}')`
 - La municion mantiene:
   `Item.of('tacz:ammo', 16, '{AmmoId:"tacz:9mm"}')`
 
 ## Pack 16.5.4 - TaCZ icon review
 
-- `/kubejs hand` confirma que la pistola entregada conserva `GunId:"tacz:taurus9"`.
+- `/kubejs hand` confirma que la pistola entregada conserva `GunId:"tacz:glock_17"`.
 - No se encontro en el repo una configuracion local de TaCZ que indique NBT extra para el icono de inventario.
 - Si el modelo en mano/disparo funciona pero el icono de hotbar/inventario sigue morado/negro, se trata como problema visual de render/icono de TaCZ y no como perdida de NBT.
-- No se cambia el NBT de Taurus 9 sin comparar antes con el output exacto del item creativo real.
+- El starter oficial del Pistolero usa Glock 17 desde Pack 16.5.5.
 
 ## Como verificar futuros items
 

@@ -180,6 +180,40 @@ function nexusWarnRestricted(player, requiredClass) {
   return true
 }
 
+function nexusGetUnarmedCombatMessage(player) {
+  const playerClass = nexusGetPlayerClass(player)
+
+  if (playerClass === 'mage') {
+    return '✨ Mis manos canalizan magia, no golpes.'
+  }
+
+  if (playerClass === 'gunslinger') {
+    return '🔫 Sin arma no hay disparo. Mantén la distancia.'
+  }
+
+  if (playerClass === 'none') {
+    return 'Elige una clase para combatir.'
+  }
+
+  return 'Solo el Guerrero puede combatir cuerpo a cuerpo sin arma.'
+}
+
+function nexusWarnUnarmedCombat(player) {
+  const playerClass = nexusGetPlayerClass(player)
+  const warningReason = `unarmed_${playerClass}`
+  const now = Date.now()
+  const key = nexusRestrictedWarningKey(player, warningReason)
+  const lastWarningAt = nexusRestrictionWarningTimes[key] || 0
+
+  if (now - lastWarningAt < NEXUS_RESTRICTION_WARNING_COOLDOWN_MS) {
+    return false
+  }
+
+  nexusRestrictionWarningTimes[key] = now
+  nexusNotifyRestriction(player, nexusGetUnarmedCombatMessage(player), true, playerClass === 'none' ? 'gold' : 'red')
+  return true
+}
+
 function nexusHandleRestrictedItemUse(event, player, stack, source) {
   const itemId = nexusGetItemId(stack)
   const requiredClass = nexusGetRequiredClassForItem(itemId)
@@ -199,6 +233,181 @@ function nexusHandleRestrictedItemUse(event, player, stack, source) {
   }
 
   return true
+}
+
+function nexusRestrictionIsPlayer(entity) {
+  if (!entity) {
+    return false
+  }
+
+  if (entity.username) {
+    return true
+  }
+
+  return String(entity.type) === 'minecraft:player'
+}
+
+function nexusGetDamageSourceValue(source, key) {
+  try {
+    const value = source[key]
+
+    if (value) {
+      return value
+    }
+  } catch (ignored) {
+  }
+
+  return null
+}
+
+function nexusGetDamageSourceMethodValue(source, methodName) {
+  try {
+    const method = source[methodName]
+
+    if (method) {
+      return method()
+    }
+  } catch (ignored) {
+  }
+
+  return null
+}
+
+function nexusGetDamageAttacker(event) {
+  const source = event.source
+
+  if (!source) {
+    return null
+  }
+
+  const candidates = [
+    nexusGetDamageSourceValue(source, 'actual'),
+    nexusGetDamageSourceValue(source, 'player'),
+    nexusGetDamageSourceValue(source, 'entity'),
+    nexusGetDamageSourceValue(source, 'attacker'),
+    nexusGetDamageSourceMethodValue(source, 'getEntity'),
+    nexusGetDamageSourceMethodValue(source, 'getActual')
+  ]
+
+  for (let candidateIndex = 0; candidateIndex < candidates.length; candidateIndex++) {
+    const candidate = candidates[candidateIndex]
+
+    if (nexusRestrictionIsPlayer(candidate)) {
+      return candidate
+    }
+  }
+
+  return null
+}
+
+function nexusGetDamageDirectEntity(event) {
+  const source = event.source
+
+  if (!source) {
+    return null
+  }
+
+  const candidates = [
+    nexusGetDamageSourceValue(source, 'direct'),
+    nexusGetDamageSourceValue(source, 'immediate'),
+    nexusGetDamageSourceValue(source, 'sourceEntity'),
+    nexusGetDamageSourceValue(source, 'entity'),
+    nexusGetDamageSourceMethodValue(source, 'getDirectEntity')
+  ]
+
+  for (let candidateIndex = 0; candidateIndex < candidates.length; candidateIndex++) {
+    const candidate = candidates[candidateIndex]
+
+    if (candidate) {
+      return candidate
+    }
+  }
+
+  return null
+}
+
+function nexusDamageSourceLooksDirectMelee(event, attacker) {
+  const directEntity = nexusGetDamageDirectEntity(event)
+
+  if (directEntity && directEntity !== attacker && !nexusRestrictionIsPlayer(directEntity)) {
+    return false
+  }
+
+  try {
+    const sourceType = String(event.source.type || event.source.msgId || event.source)
+
+    if (sourceType.indexOf('arrow') >= 0 || sourceType.indexOf('projectile') >= 0 || sourceType.indexOf('magic') >= 0 || sourceType.indexOf('spell') >= 0 || sourceType.indexOf('gun') >= 0 || sourceType.indexOf('bullet') >= 0) {
+      return false
+    }
+  } catch (ignored) {
+  }
+
+  return true
+}
+
+function nexusIsEmptyStack(stack) {
+  const itemId = nexusGetItemId(stack)
+  return !itemId || itemId === 'minecraft:air'
+}
+
+function nexusIsUnarmedCombatAttempt(attacker) {
+  return nexusIsEmptyStack(attacker.mainHandItem)
+}
+
+function nexusUnarmedMeleeAllowed(attacker) {
+  return nexusRestrictionPlayerHasClass(attacker, 'warrior')
+}
+
+function nexusCancelDamageEvent(event) {
+  try {
+    if (event.cancel) {
+      event.cancel()
+      return 'cancelled'
+    }
+  } catch (ignored) {
+  }
+
+  try {
+    event.damage = 0
+    return 'zeroed'
+  } catch (ignored) {
+  }
+
+  try {
+    event.amount = 0
+    return 'zeroed'
+  } catch (ignored) {
+  }
+
+  return 'unmodified'
+}
+
+function nexusHandleRestrictedDamage(event) {
+  const attacker = nexusGetDamageAttacker(event)
+
+  if (!attacker || !nexusRestrictionIsPlayer(attacker)) {
+    return
+  }
+
+  if (!nexusDamageSourceLooksDirectMelee(event, attacker)) {
+    return
+  }
+
+  const heldItemId = nexusGetItemId(attacker.mainHandItem)
+  const heldRequiredClass = nexusGetRequiredClassForItem(heldItemId)
+
+  if (heldRequiredClass && nexusIsRestrictedForPlayer(attacker, heldItemId)) {
+    nexusWarnRestricted(attacker, heldRequiredClass)
+    nexusCancelDamageEvent(event)
+    return
+  }
+
+  if (!nexusIsUnarmedCombatAttempt(attacker) || nexusUnarmedMeleeAllowed(attacker)) {
+    return
+  }
+
+  nexusWarnUnarmedCombat(attacker)
+  nexusCancelDamageEvent(event)
 }
 
 function nexusCheckRestrictedHands(player) {
@@ -237,6 +446,10 @@ ItemEvents.rightClicked(event => {
   nexusHandleRestrictedItemUse(event, event.player, event.item, 'right_click')
 })
 
+EntityEvents.hurt(event => {
+  nexusHandleRestrictedDamage(event)
+})
+
 PlayerEvents.tick(event => {
   const player = event.player
 
@@ -261,19 +474,25 @@ ServerEvents.commandRegistry(event => {
         }
 
         const mainHandItemId = nexusGetItemId(player.mainHandItem)
+        const offHandItemId = nexusGetItemId(player.offHandItem)
         const namespace = nexusGetNamespaceFromItemId(mainHandItemId)
         const requiredClass = nexusGetRequiredClassForItem(mainHandItemId) || 'none'
         const detectedClass = nexusGetPlayerClass(player)
         const isBlocked = nexusIsRestrictedForPlayer(player, mainHandItemId)
+        const isMainHandEmpty = nexusIsEmptyStack(player.mainHandItem)
+        const unarmedAllowed = nexusUnarmedMeleeAllowed(player)
         const nbtSummary = nexusGetStackNbtSummary(player.mainHandItem)
 
         player.tell(`Clase detectada: ${detectedClass}`)
         player.tell(`Tags: warrior=${nexusRestrictionHasTag(player, 'nexus_class_warrior')}, mage=${nexusRestrictionHasTag(player, 'nexus_class_mage')}, gunslinger=${nexusRestrictionHasTag(player, 'nexus_class_gunslinger')}`)
         player.tell(`Item mano principal: ${mainHandItemId || 'empty'}`)
+        player.tell(`Item mano secundaria: ${offHandItemId || 'empty'}`)
+        player.tell(`Mano principal vacia: ${isMainHandEmpty}`)
         player.tell(`NBT: ${nbtSummary}`)
         player.tell(`Namespace: ${namespace || 'none'}`)
         player.tell(`Clase requerida: ${requiredClass}`)
         player.tell(`Resultado: ${isBlocked ? 'bloqueado' : 'permitido'}`)
+        player.tell(`Melee sin arma permitido: ${unarmedAllowed}`)
 
         if (detectedClass === 'none') {
           player.tell('Sin clase: restricciones activas solo como aviso con cooldown, sin spam.')

@@ -67,7 +67,7 @@ Guerrero:
 
 Pistolero:
 
-- `tacz:modern_kinetic_gun` con NBT: `{GunCurrentAmmoCount:0,GunFireMode:"SEMI",GunId:"tacz:taurus9",HasBulletInBarrel:1b}`
+- `tacz:modern_kinetic_gun` con NBT: `{GunCurrentAmmoCount:0,GunFireMode:"SEMI",GunId:"tacz:glock_17",HasBulletInBarrel:1b}`
 - `tacz:ammo` x16 con NBT: `{AmmoId:"tacz:9mm"}`
 
 Pendiente:
