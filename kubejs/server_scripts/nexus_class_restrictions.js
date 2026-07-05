@@ -615,11 +615,14 @@ ServerEvents.commandRegistry(event => {
         player.tell(`Resultado: ${isBlocked ? 'bloqueado' : 'permitido'}`)
         player.tell(`TaCZ GunId: ${gunId}`)
         player.tell(`Melee sin arma permitido: ${unarmedAllowed}`)
-        player.tell(`Epic Fight Mining Mode enforcement: ${miningModeEnforced}`)
+        player.tell(`Epic Tweaks expected mode controller: true`)
+        player.tell(`Epic Fight command enforcement active: ${miningModeEnforced}`)
         player.tell(`Mining Mode interval ticks: ${NEXUS_EPIC_FIGHT_MINING_MODE_INTERVAL_TICKS}`)
         player.tell(`Mining Mode command fallback enabled: ${NEXUS_FORCE_EPICFIGHT_MINING_WITH_COMMAND}`)
+        player.tell('Epic Fight Air/minecraft:air: configure as Preferred Tool.')
+        player.tell('Epic Fight Toggle Battle/Mining Mode: Not Bound via Default Options.')
         player.tell('Starter Pistolero: GunId tacz:glock_17')
-        player.tell('Battle Mode de Epic Fight sigue pendiente de investigación externa.')
+        player.tell('Modo final: KubeJS bloquea items; Epic Tweaks aplica Battle/Mining Mode.')
 
         if (detectedClass === 'none') {
           player.tell('Sin clase: restricciones activas solo como aviso con cooldown, sin spam.')

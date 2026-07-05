@@ -253,7 +253,7 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 
 - `R` is TaCZ Reload.
 - Iron's Spells Spell Wheel Hold moves to `Z` or `V`.
-- Epic Fight Battle/Mining Toggle moves to `G` or Not Bound.
+- Epic Fight Battle/Mining Toggle is Not Bound.
 - Epic Fight Skill Tree GUI uses `K`.
 - JEI Show Recipe uses `U`; Show Uses uses `Y`.
 
@@ -271,7 +271,7 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - Generated Default Options files are postponed to Pack 16.6.1 after Prism validation.
 - Epic Tweaks remains installed.
 - Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
-- Battle Mode per-class enforcement remains pending deeper research.
+- Pack 16.10 resolves Battle Mode per-class enforcement with Epic Tweaks, Epic Fight item preferences, Air as Preferred Tool, and Epic Fight Toggle set to Not Bound.
 
 ### Keybind target
 
@@ -289,9 +289,9 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - Adds `/nexus_class_status [player]` for class state checks.
 - Adds `/nexus_testkit <class> [player]` as a QA kit command that does not change class.
 - Adds `/nexus_resetclass_clean <player>` for controlled clean test runs.
-- Improves `/nexus_class_debug` with persistentData, NBT summary, TaCZ GunId, and Battle Mode research note.
+- Improves `/nexus_class_debug` with persistentData, NBT summary, TaCZ GunId, and the Epic Tweaks mode-control note.
 - Keeps Gunslinger starter on Glock 17 with `GunId:"tacz:glock_17"`.
-- Does not solve Epic Fight Battle Mode per-class enforcement.
+- Pack 16.10 later solves Epic Fight Battle Mode per-class enforcement through Epic Tweaks and item preferences.
 
 ### QA
 
@@ -319,6 +319,21 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - `docs/ftb-quests-class-design.md`
 - `docs/class-balance-notes.md`
 - `docs/class-progression-testing.md`
+
+## Pack 16.10 - Epic Fight Air Tool and Mode Enforcement
+
+### Final class mode architecture
+
+- KubeJS blocks items by class.
+- Epic Tweaks controls Epic Fight Battle/Mining Mode using item preferences.
+- `canSwitchPlayerMode` stays `true`; `false` is rejected because it also blocks Warrior.
+- Air / `minecraft:air` must be set to Preferred Tool in Epic Fight Item Preferences.
+- Epic Fight Toggle Battle/Mining Mode must be Not Bound through generated Default Options keybinds.
+- Mage and Gunslinger stay in Mining/Vanilla Mode with empty hand, Iron's Spells spellbooks, or TaCZ guns.
+- Warrior enters Battle Mode automatically with compatible Warrior weapons.
+- Punchy remains installed for normal empty-hand and vanilla interactions.
+- No invented Epic Fight, Epic Tweaks, Default Options, root `options.txt`, or `air.json` files are added.
+- Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
 
 ## Pack 16.5.1 - Remove Better Combat compatibility leftover
 
