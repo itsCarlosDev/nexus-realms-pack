@@ -368,6 +368,57 @@ Creator-only instance:
 - Oculus
 - Shaders
 
+## Pack 18.0 - Visual Resource Packs and Fresh Animations
+
+Mods:
+- Entity Model Features
+- Entity Texture Features
+- Entity Culling
+
+Resource packs:
+- Fresh Animations
+- FA+Details
+- FA+Emissive
+- FA+Player
+- Fresh Animations x Baby Animals Remastered
+- AL's Piglins Revamped + FA
+- Detailed Animations Reworked
+- Better Fresher 3D Books
+- Fresh Buckets 3D UI
+- Fresh Flowers and Plants
+- Fresh Food
+- Fresh Skeleton Physics
+- LowOnFire
+- MushroomsPlus
+- Actually 3D Stuff
+
+Installed in Pack 18.0:
+- FA+Details
+- FA+Emissive
+- MushroomsPlus
+
+Already present before Pack 18.0:
+- Entity Model Features
+- Entity Texture Features
+- Entity Culling
+- Fresh Animations
+- FA+Player
+- LowOnFire
+
+Pending:
+- Fresh Animations x Baby Animals Remastered
+- AL's Piglins Revamped + FA
+- Detailed Animations Reworked
+- Better Fresher 3D Books
+- Fresh Buckets 3D UI
+- Fresh Flowers and Plants
+- Fresh Food
+- Fresh Skeleton Physics
+- Actually 3D Stuff
+- Weskerson's 3D Items
+- BabyAnimalsRemastered_1.21.5
+- Baha's 3D Beds
+
 ## Pack 16.5.1 - Remove Better Combat compatibility leftover
 
 ### Mods and resourcepacks removed

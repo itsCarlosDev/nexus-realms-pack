@@ -116,6 +116,17 @@ After Pack 17.0, record or observe:
 - Emotecraft emotes with class gear.
 - AmbientSounds and Sound Physics in a dungeon/cave.
 
+## Pack 18.0 visual QA
+
+After enabling the resource packs manually:
+
+- Check Warrior with Epic Fight in third person.
+- Check Mage with Iron's Spells in third person.
+- Check Gunslinger with TaCZ aiming/reloading in third person.
+- Check villagers, zombies, skeletons, piglins and animals.
+- Check player animations with Not Enough Animations + Fresh Animations stack.
+- Check that no resource pack breaks item icons for TaCZ, spellbooks or Simply Swords.
+
 ## Logs
 
 ```bash
