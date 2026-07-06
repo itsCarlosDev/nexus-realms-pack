@@ -349,6 +349,25 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`; Taurus 9 is not the active starter.
 - No new mods are added.
 
+## Pack 17.0 - Nexus Realms Creator Tools
+
+Normal pack:
+- CMDCam
+- CreativeCore
+- Not Enough Animations
+- Emotecraft
+- AmbientSounds 6
+- Sound Physics Remastered
+- Simple Voice Chat
+
+Creator-only instance:
+- Freecam
+- ReForgedPlay
+- Distant Horizons
+- Embeddium
+- Oculus
+- Shaders
+
 ## Pack 16.5.1 - Remove Better Combat compatibility leftover
 
 ### Mods and resourcepacks removed

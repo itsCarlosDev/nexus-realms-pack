@@ -107,6 +107,15 @@ Tambien probar:
 /nexus_class_help
 ```
 
+## Creator Tools visual QA
+
+After Pack 17.0, record or observe:
+- Warrior Epic Fight animations in third person.
+- Mage spellcasting in third person.
+- Gunslinger aiming and reloading in third person.
+- Emotecraft emotes with class gear.
+- AmbientSounds and Sound Physics in a dungeon/cave.
+
 ## Logs
 
 ```bash
