@@ -3,7 +3,8 @@
 ## Hand enforcement loop fix
 
 - Fixed wrong-class held items being returned to the selected hotbar slot.
-- Replaced unsafe `player.give` hand return behavior with safe inventory-slot movement/drop fallback.
+- Replaced unsafe `player.give` hand return behavior with verified safe inventory-slot movement.
+- Avoided automatic drop fallback when no safe inventory slot exists to prevent pickup loops.
 - Prevented pickup sound loops from repeated restriction enforcement.
 - Improved reliability against TaCZ and Epic Fight items.
 - Kept Punchy and Epic Tweaks behavior unchanged.
@@ -15,7 +16,7 @@
 - Blocked TaCZ firing for non-Gunslingers by preventing TaCZ guns from staying in hand.
 - Blocked Epic Fight/Simply Swords weapons for non-Warriors by preventing those weapons from staying in hand.
 - Blocked Iron's Spells items for non-Mages.
-- Ensured restricted items are moved to inventory or dropped safely, never deleted.
+- Ensured restricted items are moved only to verified safe inventory slots and are never deleted.
 - Improved class debug/status output for hand enforcement.
 - Kept Punchy and Epic Tweaks behavior intact.
 
