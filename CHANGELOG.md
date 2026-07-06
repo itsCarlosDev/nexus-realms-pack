@@ -1,5 +1,16 @@
 # Changelog
 
+## Class hand enforcement hotfix
+
+- Added active main hand/offhand enforcement for wrong-class items.
+- Wrong-class items can remain in inventory but cannot be used from hand.
+- Blocked TaCZ firing for non-Gunslingers by preventing TaCZ guns from staying in hand.
+- Blocked Epic Fight/Simply Swords weapons for non-Warriors by preventing those weapons from staying in hand.
+- Blocked Iron's Spells items for non-Mages.
+- Ensured restricted items are moved to inventory or dropped safely, never deleted.
+- Improved class debug/status output for hand enforcement.
+- Kept Punchy and Epic Tweaks behavior intact.
+
 ## Unarmed melee restriction hotfix
 
 - Enabled non-warrior unarmed melee blocking.
