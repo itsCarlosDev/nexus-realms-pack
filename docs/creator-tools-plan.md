@@ -51,3 +51,14 @@ Distant Horizons, Oculus and shaders can be excellent for trailers, but they inc
 8. Test Sound Physics in cave/dungeon.
 9. Test Simple Voice Chat in LAN/server if available.
 10. Check `latest.log` for errors related to cmdcam, creativecore, emotecraft, ambient sounds, sound physics and voice chat.
+
+## Pack 18.0 visual layer
+
+Pack 18.0 adds the resource-pack foundation used by creator recordings:
+
+- Fresh Animations plus validated addons.
+- LowOnFire for cleaner first-person footage.
+- EMF/ETF instead of OptiFine.
+- Resource-pack order documented in `docs/resource-pack-order.md`.
+
+Do not use creator-only tools such as Freecam, ReForgedPlay, Distant Horizons, Oculus or shaders as a requirement for the normal Pack 18.0 visual layer.

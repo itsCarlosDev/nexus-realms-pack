@@ -1,5 +1,18 @@
 # Changelog
 
+## Pack 18.0 - Visual Resource Packs and Fresh Animations
+
+- Added the visual resource-pack foundation for Nexus Realms.
+- Added Entity Model Features and Entity Texture Features for OptiFine-like entity model support without OptiFine.
+- Added Entity Culling to reduce rendering overhead with animated entities.
+- Added Fresh Animations and compatible visual resource packs where valid Forge/Minecraft 1.20.1 sources were available.
+- Documented the recommended resource-pack order.
+- Documented pending/incompatible packs that require a valid Minecraft 1.20.1 source before inclusion.
+- Did not add root `options.txt`.
+- Did not add manually downloaded resource-pack `.zip` files.
+- Kept Particle Rain and weather mods for a later weather/worldgen pack.
+- Pending after validation: Fresh Animations x Baby Animals Remastered, AL's Piglins Revamped + FA, Detailed Animations Reworked, Better Fresher 3D Books, Fresh Buckets 3D UI, Fresh Food, Fresh Flowers and Plants, Fresh Skeleton Physics, Actually 3D Stuff, Weskerson's 3D Items, BabyAnimalsRemastered_1.21.5 and Baha's 3D Beds.
+
 ## Pack 17.0 - Nexus Realms Creator Tools
 
 - Added creator-friendly tools for trailers, cinematics, ambience and roleplay.
