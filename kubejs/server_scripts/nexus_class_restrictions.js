@@ -45,6 +45,8 @@ const nexusHandEnforcementTickCounters = {}
 const nexusHandEnforcementResults = {}
 const nexusEpicFightMiningModeTickCounters = {}
 const nexusEpicFightCommandFailureTimes = {}
+const nexusInventoryLastReadApi = {}
+const nexusInventoryLastWriteApi = {}
 
 function nexusRestrictionHasTag(player, tag) {
   return player && player.tags && player.tags.contains(tag)
@@ -86,11 +88,109 @@ function nexusRestrictionPlayerHasClass(player, classId) {
 }
 
 function nexusGetItemId(stack) {
-  if (!stack || stack.empty) {
+  if (!stack) {
     return ''
   }
 
-  return String(stack.id)
+  try {
+    if (stack.empty === true) {
+      return ''
+    }
+  } catch (ignored) {
+  }
+
+  try {
+    const itemId = String(stack.id || '')
+
+    if (itemId && itemId !== 'undefined' && itemId !== 'null') {
+      return itemId
+    }
+  } catch (ignored) {
+  }
+
+  try {
+    const stackText = String(stack)
+
+    if (stackText.indexOf('minecraft:air') >= 0) {
+      return 'minecraft:air'
+    }
+  } catch (ignored) {
+  }
+
+  try {
+    const itemId = String(stack.item || '')
+
+    if (itemId && itemId !== 'undefined' && itemId !== 'null') {
+      return itemId
+    }
+  } catch (ignored) {
+  }
+
+  try {
+    const itemId = String(stack.getId())
+
+    if (itemId && itemId !== 'undefined' && itemId !== 'null') {
+      return itemId
+    }
+  } catch (ignored) {
+  }
+
+  try {
+    const itemId = String(stack.getItem())
+
+    if (itemId && itemId !== 'undefined' && itemId !== 'null') {
+      return itemId
+    }
+  } catch (ignored) {
+  }
+
+  try {
+    const stackText = String(stack)
+
+    if (!stackText || stackText === 'undefined' || stackText === 'null') {
+      return ''
+    }
+  } catch (ignored) {
+  }
+
+  return ''
+}
+
+function nexusIsEmptyStack(stack) {
+  if (!stack) {
+    return true
+  }
+
+  try {
+    if (stack.empty === true) {
+      return true
+    }
+  } catch (ignored) {
+  }
+
+  try {
+    if (Number(stack.count) <= 0) {
+      return true
+    }
+  } catch (ignored) {
+  }
+
+  const itemId = nexusGetItemId(stack)
+
+  if (!itemId || itemId === 'minecraft:air') {
+    return true
+  }
+
+  try {
+    const stackText = String(stack)
+
+    if (!stackText || stackText === 'undefined' || stackText === 'null' || stackText.indexOf('minecraft:air') >= 0) {
+      return true
+    }
+  } catch (ignored) {
+  }
+
+  return false
 }
 
 function nexusGetNamespaceFromItemId(itemId) {
@@ -126,11 +226,6 @@ function nexusIsRestrictedForPlayer(player, itemId) {
 function nexusCanUseItem(player, stack) {
   const itemId = nexusGetItemId(stack)
   return !nexusIsRestrictedForPlayer(player, itemId)
-}
-
-function nexusIsEmptyStack(stack) {
-  const itemId = nexusGetItemId(stack)
-  return !itemId || itemId === 'minecraft:air'
 }
 
 function nexusIsEmptyHand(stack) {
@@ -395,16 +490,111 @@ function nexusGetSelectedHotbarSlot(player) {
 }
 
 function nexusGetInventorySlot(player, slot) {
-  try {
-    const stack = player.inventory.get(slot)
+  const readers = [
+    { name: 'get', read: () => player.inventory.get(slot) },
+    { name: 'getItem', read: () => player.inventory.getItem(slot) },
+    { name: 'getStackInSlot', read: () => player.inventory.getStackInSlot(slot) }
+  ]
 
-    if (stack !== undefined && stack !== null) {
-      return stack
+  for (let readerIndex = 0; readerIndex < readers.length; readerIndex++) {
+    const reader = readers[readerIndex]
+
+    try {
+      const stack = reader.read()
+
+      if (stack !== undefined && stack !== null) {
+        nexusInventoryLastReadApi[String(player.uuid)] = reader.name
+        return stack
+      }
+    } catch (ignored) {
     }
-  } catch (ignored) {
   }
 
+  nexusInventoryLastReadApi[String(player.uuid)] = 'none'
   return null
+}
+
+function nexusTrySetInventorySlot(player, slot, stack, writerName, writer) {
+  try {
+    writer()
+  } catch (ignored) {
+    return false
+  }
+
+  if (nexusStacksMatchExpected(nexusGetInventorySlot(player, slot), stack)) {
+    nexusInventoryLastWriteApi[String(player.uuid)] = writerName
+    return true
+  }
+
+  return false
+}
+
+function nexusSetInventorySlot(player, slot, stack) {
+  const writers = [
+    { name: 'set', write: () => player.inventory.set(slot, stack) },
+    { name: 'setItem', write: () => player.inventory.setItem(slot, stack) },
+    { name: 'setStackInSlot', write: () => player.inventory.setStackInSlot(slot, stack) }
+  ]
+
+  for (let writerIndex = 0; writerIndex < writers.length; writerIndex++) {
+    const writer = writers[writerIndex]
+
+    if (nexusTrySetInventorySlot(player, slot, stack, writer.name, writer.write)) {
+      return true
+    }
+  }
+
+  nexusInventoryLastWriteApi[String(player.uuid)] = 'none'
+  return false
+}
+
+function nexusDescribeInventoryRead(player, slot, methodName) {
+  try {
+    let stack = null
+
+    if (methodName === 'get') {
+      stack = player.inventory.get(slot)
+    } else if (methodName === 'getItem') {
+      stack = player.inventory.getItem(slot)
+    } else if (methodName === 'getStackInSlot') {
+      stack = player.inventory.getStackInSlot(slot)
+    }
+
+    if (stack === undefined || stack === null) {
+      return `${methodName}: ok id=null empty=true stack=null stack.id=undefined stack.empty=undefined`
+    }
+
+    let stackId = 'unavailable'
+    let stackEmpty = 'unavailable'
+    let stackText = 'unavailable'
+
+    try {
+      stackId = String(stack.id)
+    } catch (ignored) {
+    }
+
+    try {
+      stackEmpty = String(stack.empty)
+    } catch (ignored) {
+    }
+
+    try {
+      stackText = String(stack)
+    } catch (ignored) {
+    }
+
+    return `${methodName}: ok id=${nexusGetItemId(stack) || 'empty'} empty=${nexusIsEmptyStack(stack)} stack=${stackText} stack.id=${stackId} stack.empty=${stackEmpty}`
+  } catch (error) {
+    return `${methodName}: error ${String(error && error.message ? error.message : error)}`
+  }
+}
+
+function nexusGetLastInventoryReadApi(player) {
+  return nexusInventoryLastReadApi[String(player.uuid)] || 'none'
+}
+
+function nexusGetLastInventoryWriteApi(player) {
+  return nexusInventoryLastWriteApi[String(player.uuid)] || 'none'
 }
 
 function nexusStacksMatchExpected(actualStack, expectedStack) {
@@ -425,16 +615,6 @@ function nexusStacksMatchExpected(actualStack, expectedStack) {
   }
 
   return true
-}
-
-function nexusSetInventorySlot(player, slot, stack) {
-  try {
-    player.inventory.set(slot, stack)
-  } catch (ignored) {
-    return false
-  }
-
-  return nexusStacksMatchExpected(nexusGetInventorySlot(player, slot), stack)
 }
 
 function nexusBuildSafeInventorySlotList(player) {
@@ -463,7 +643,7 @@ function nexusFindEmptySafeInventorySlot(player) {
     const slot = safeSlots[safeSlotIndex]
     const currentStack = nexusGetInventorySlot(player, slot)
 
-    if (currentStack !== null && nexusIsEmptyStack(currentStack)) {
+    if (nexusIsEmptyStack(currentStack)) {
       return slot
     }
   }
@@ -478,7 +658,7 @@ function nexusFindAllowedSwapInventorySlot(player) {
     const slot = safeSlots[safeSlotIndex]
     const currentStack = nexusGetInventorySlot(player, slot)
 
-    if (currentStack === null || nexusIsEmptyStack(currentStack)) {
+    if (nexusIsEmptyStack(currentStack)) {
       continue
     }
 
@@ -1001,6 +1181,37 @@ ServerEvents.commandRegistry(event => {
   )
 
   event.register(
+    Commands.literal('nexus_inventory_debug')
+      .executes(ctx => {
+        const player = ctx.source.player
+
+        if (!player) {
+          console.info('Nexus Realms: /nexus_inventory_debug must be run by a player.')
+          return 0
+        }
+
+        const slots = [0, 1, 2, 8, 9, 10, 17, 18, 26, 27, 35]
+        const selectedSlot = nexusGetSelectedHotbarSlot(player)
+
+        player.tell(`Clase detectada: ${nexusGetPlayerClass(player)}`)
+        player.tell(`Selected hotbar slot: ${selectedSlot >= 0 ? selectedSlot : 'unavailable'}`)
+        player.tell(`Main hand item: ${nexusGetItemId(player.mainHandItem) || 'empty'}`)
+        player.tell(`Offhand item: ${nexusGetItemId(player.offHandItem) || 'empty'}`)
+
+        for (let slotIndex = 0; slotIndex < slots.length; slotIndex++) {
+          const slot = slots[slotIndex]
+
+          player.tell(`Slot ${slot}:`)
+          player.tell(` ${nexusDescribeInventoryRead(player, slot, 'get')}`)
+          player.tell(` ${nexusDescribeInventoryRead(player, slot, 'getItem')}`)
+          player.tell(` ${nexusDescribeInventoryRead(player, slot, 'getStackInSlot')}`)
+        }
+
+        return 1
+      })
+  )
+
+  event.register(
     Commands.literal('nexus_class_debug')
       .executes(ctx => {
         const player = ctx.source.player
@@ -1032,12 +1243,20 @@ ServerEvents.commandRegistry(event => {
         const persistentClass = nexusGetPersistentClassDebug(player)
         const classChosen = nexusGetClassChosenDebug(player)
         const gunId = namespace === 'tacz' ? nexusExtractGunIdFromNbtText(nbtSummary) : 'not_tacz'
+        const safeEmptySlotCandidate = nexusFindEmptySafeInventorySlot(player)
+        const safeAllowedSwapSlotCandidate = nexusFindAllowedSwapInventorySlot(player)
+        const lastInventoryReadApi = nexusGetLastInventoryReadApi(player)
+        const lastInventoryWriteApi = nexusGetLastInventoryWriteApi(player)
 
         player.tell(`Clase persistentData: ${persistentClass}`)
         player.tell(`nexus_class_chosen: ${classChosen}`)
         player.tell(`Clase detectada: ${detectedClass}`)
         player.tell(`Tags: warrior=${nexusRestrictionHasTag(player, 'nexus_class_warrior')}, mage=${nexusRestrictionHasTag(player, 'nexus_class_mage')}, gunslinger=${nexusRestrictionHasTag(player, 'nexus_class_gunslinger')}`)
         player.tell(`Selected hotbar slot: ${selectedSlot >= 0 ? selectedSlot : 'unavailable'}`)
+        player.tell(`Safe empty slot candidate: ${safeEmptySlotCandidate >= 0 ? safeEmptySlotCandidate : 'none'}`)
+        player.tell(`Safe allowed swap slot candidate: ${safeAllowedSwapSlotCandidate >= 0 ? safeAllowedSwapSlotCandidate : 'none'}`)
+        player.tell(`Last inventory read API: ${lastInventoryReadApi}`)
+        player.tell(`Last inventory write API: ${lastInventoryWriteApi}`)
         player.tell(`Item mano principal: ${mainHandItemId || 'empty'}`)
         player.tell(`Main hand namespace: ${namespace || 'none'}`)
         player.tell(`Main hand required class: ${requiredClass}`)
