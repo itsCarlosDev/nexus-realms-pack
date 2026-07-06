@@ -362,44 +362,46 @@ function nexusCopyStack(stack) {
 }
 
 function nexusGetSelectedHotbarSlot(player) {
-  const candidates = [
-    () => player.selectedSlot,
-    () => player.selected,
-    () => player.inventory.selected,
-    () => player.inventory.selectedSlot
-  ]
+  try {
+    const selectedSlot = Number(player.inventory.selected)
 
-  for (let candidateIndex = 0; candidateIndex < candidates.length; candidateIndex++) {
-    try {
-      const selectedSlot = Number(candidates[candidateIndex]())
-
-      if (selectedSlot >= 0 && selectedSlot <= 8) {
-        return selectedSlot
-      }
-    } catch (ignored) {
+    if (selectedSlot >= 0 && selectedSlot <= 8) {
+      return selectedSlot
     }
+  } catch (ignored) {
   }
+
+  try {
+    const selectedSlot = Number(player.selectedSlot)
+
+    if (selectedSlot >= 0 && selectedSlot <= 8) {
+      return selectedSlot
+    }
+  } catch (ignored) {
+  }
+
+  try {
+    const selectedSlot = Number(player.inventory.selectedSlot)
+
+    if (selectedSlot >= 0 && selectedSlot <= 8) {
+      return selectedSlot
+    }
+  } catch (ignored) {
+  }
+
+  console.warn(`Nexus Realms: could not read selected hotbar slot for ${player && player.username ? player.username : 'unknown player'}.`)
 
   return -1
 }
 
 function nexusGetInventorySlot(player, slot) {
-  const inventory = player.inventory
-  const attempts = [
-    () => inventory.getStackInSlot(slot),
-    () => inventory.getItem(slot),
-    () => inventory.get(slot)
-  ]
+  try {
+    const stack = player.inventory.get(slot)
 
-  for (let attemptIndex = 0; attemptIndex < attempts.length; attemptIndex++) {
-    try {
-      const stack = attempts[attemptIndex]()
-
-      if (stack !== undefined && stack !== null) {
-        return stack
-      }
-    } catch (ignored) {
+    if (stack !== undefined && stack !== null) {
+      return stack
     }
+  } catch (ignored) {
   }
 
   return null
@@ -426,25 +428,13 @@ function nexusStacksMatchExpected(actualStack, expectedStack) {
 }
 
 function nexusSetInventorySlot(player, slot, stack) {
-  const inventory = player.inventory
-  const attempts = [
-    () => inventory.setStackInSlot(slot, stack),
-    () => inventory.setItem(slot, stack),
-    () => inventory.set(slot, stack)
-  ]
-
-  for (let attemptIndex = 0; attemptIndex < attempts.length; attemptIndex++) {
-    try {
-      attempts[attemptIndex]()
-
-      if (nexusStacksMatchExpected(nexusGetInventorySlot(player, slot), stack)) {
-        return true
-      }
-    } catch (ignored) {
-    }
+  try {
+    player.inventory.set(slot, stack)
+  } catch (ignored) {
+    return false
   }
 
-  return false
+  return nexusStacksMatchExpected(nexusGetInventorySlot(player, slot), stack)
 }
 
 function nexusBuildSafeInventorySlotList(player) {
@@ -526,25 +516,13 @@ function nexusSetHandStack(player, handName, stack) {
     return nexusSetInventorySlot(player, selectedSlot, stack)
   }
 
-  const attempts = [
-    () => player.setOffHandItem(stack),
-    () => player.setHeldItem('off_hand', stack),
-    () => player.setHeldItem('OFF_HAND', stack),
-    () => { player.offHandItem = stack }
-  ]
-
-  for (let attemptIndex = 0; attemptIndex < attempts.length; attemptIndex++) {
-    try {
-      attempts[attemptIndex]()
-
-      if (nexusStacksMatchExpected(nexusGetHandStack(player, handName), stack)) {
-        return true
-      }
-    } catch (ignored) {
-    }
+  try {
+    player.offHandItem = stack
+  } catch (ignored) {
+    return false
   }
 
-  return false
+  return nexusStacksMatchExpected(player.offHandItem, stack)
 }
 
 function nexusSetHandEmpty(player, handName) {
@@ -590,15 +568,15 @@ function nexusSwapHeldItemWithSafeSlot(player, handName, restrictedStack, swapSl
   const replacementCopy = nexusCopyStack(replacementStack)
 
   if (!restrictedCopy || !replacementCopy) {
-    return 'failed_swap_copy'
+    return 'failed_swap'
   }
 
   if (!nexusCanUseItem(player, replacementCopy)) {
-    return 'failed_swap_replacement_restricted'
+    return 'failed_swap'
   }
 
   if (!nexusSetHandStack(player, handName, replacementCopy)) {
-    return 'failed_swap_set_hand'
+    return 'failed_swap'
   }
 
   if (nexusSetInventorySlot(player, swapSlot, restrictedCopy)) {
@@ -609,10 +587,10 @@ function nexusSwapHeldItemWithSafeSlot(player, handName, restrictedStack, swapSl
   const restoredSlot = nexusSetInventorySlot(player, swapSlot, replacementCopy)
 
   if (restoredHand && restoredSlot) {
-    return 'failed_swap_restored'
+    return 'failed_swap'
   }
 
-  return `failed_swap_restore_hand_${restoredHand}_slot_${restoredSlot}`
+  return 'failed_swap'
 }
 
 function nexusMoveHeldItemAway(player, handName, reason) {
