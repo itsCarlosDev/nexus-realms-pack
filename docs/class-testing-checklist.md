@@ -171,6 +171,26 @@ Tambien probar:
 - Wrong-class items must not be deleted.
 - If inventory is full, wrong-class held item may be dropped safely.
 
+## Hand enforcement regression QA
+
+- Select Gunslinger.
+- Put Simply Swords/Epic Fight weapon in selected hotbar slot.
+- Expected: item leaves hand within 1 tick/very quickly.
+- Expected: no pickup sound loop.
+- Expected: cannot hit mobs with it.
+- Expected: item is in inventory or dropped, not deleted.
+
+- Select Warrior.
+- Put TaCZ Glock in selected hotbar slot.
+- Expected: item leaves hand.
+- Expected: cannot fire.
+- Expected: no pickup sound loop.
+
+- Fill inventory.
+- Select Mage.
+- Put Glock in hand.
+- Expected: item is dropped safely, not deleted, not duplicated, and does not loop infinitely into hand.
+
 ## Creator Tools visual QA
 
 After Pack 17.0, record or observe:

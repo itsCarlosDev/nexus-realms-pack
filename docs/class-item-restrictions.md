@@ -43,13 +43,13 @@ Solo Pistolero:
 ## Eventos usados
 
 - `ItemEvents.rightClicked` bloquea el uso de item cuando KubeJS recibe el evento.
-- `PlayerEvents.tick` ejecuta hand enforcement de mano principal/offhand cada 10 ticks por jugador.
+- `PlayerEvents.tick` ejecuta hand enforcement de mano principal/offhand cada tick por jugador.
 - `EntityEvents.hurt` bloquea daño con items restringidos cuando el atacante es un jugador y el caso es seguro de identificar.
 - `EntityEvents.hurt` tambien bloquea melee sin arma de no-Guerreros contra entidades.
 
 El guardia no borra items. Si un item restringido esta en mano, lo copia, vacia la mano y lo devuelve al inventario con fallback de drop seguro si no hay espacio.
 
-# Hand enforcement
+# Safe hand enforcement
 
 Items from another class may exist in the inventory, but they cannot remain in main hand or offhand.
 
@@ -60,6 +60,16 @@ If a wrong-class item is detected in main hand/offhand:
 - The item is never deleted.
 
 This is required because some mods, especially TaCZ and Epic Fight, may process combat outside simple right-click handlers.
+
+Wrong-class items are not returned with `player.give` because that can place the item back into the selected hotbar slot.
+
+The enforcement must:
+- clear the hand;
+- move the item to a safe inventory slot outside the selected hand/hotbar when possible;
+- drop it safely if no slot is available;
+- never delete or duplicate the item.
+
+Safe inventory movement tries empty inventory slots `9..35` first. It only tries hotbar slots `0..8` when the selected slot is known, and always skips the selected hotbar slot. It never targets offhand.
 
 The active hand enforcement namespaces are:
 - Warrior only: `simplyswords`, `epicfight`, `epicfight_nightfall`, `efn`, `nightfall`, `epicskills`, `epic_fight_avalon`, `invincible`.
@@ -183,6 +193,7 @@ Muestra:
 - main hand/offhand clase requerida;
 - main hand/offhand allowed;
 - main hand/offhand action;
+- last enforcement result: `moved_to_inventory_slot_*`, `dropped`, `failed_clear_hand`, `failed_copy`, or `kept_in_hand`;
 - si el bloqueo de melee sin arma no-Guerrero esta activo;
 - si el resultado final bloquearia melee sin arma contra entidades;
 - si Epic Fight Mining Mode command fallback esta activo;
