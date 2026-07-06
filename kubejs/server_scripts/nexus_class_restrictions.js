@@ -34,7 +34,7 @@ const NEXUS_RESTRICTION_WARNING_COOLDOWN_MS = 5000
 const NEXUS_RESTRICTION_NO_CLASS_COOLDOWN_MS = 10000
 const NEXUS_RESTRICTION_HAND_CHECK_INTERVAL_MS = 1000
 const NEXUS_FORCE_EPICFIGHT_MINING_WITH_COMMAND = false
-const NEXUS_BLOCK_NON_WARRIOR_UNARMED_MELEE = false
+const NEXUS_BLOCK_NON_WARRIOR_UNARMED_MELEE = true
 const NEXUS_EPIC_FIGHT_MINING_MODE_INTERVAL_TICKS = 20
 const NEXUS_EPIC_FIGHT_MINING_MODE_WARNING_COOLDOWN_MS = 10000
 const NEXUS_EPIC_FIGHT_COMMAND_FAILURE_COOLDOWN_MS = 60000
@@ -190,19 +190,11 @@ function nexusWarnRestricted(player, requiredClass) {
 function nexusGetUnarmedCombatMessage(player) {
   const playerClass = nexusGetPlayerClass(player)
 
-  if (playerClass === 'mage') {
-    return '✨ Mis manos canalizan magia, no golpes.'
-  }
-
-  if (playerClass === 'gunslinger') {
-    return '🔫 Sin arma no hay disparo. Mantén la distancia.'
-  }
-
   if (playerClass === 'none') {
     return 'Elige una clase para combatir.'
   }
 
-  return 'Solo el Guerrero puede combatir cuerpo a cuerpo sin arma.'
+  return 'No puedes usar melee sin arma con esta clase.'
 }
 
 function nexusWarnUnarmedCombat(player) {
@@ -438,12 +430,25 @@ function nexusIsEmptyStack(stack) {
   return !itemId || itemId === 'minecraft:air'
 }
 
+function nexusIsEmptyHand(stack) {
+  return nexusIsEmptyStack(stack)
+}
+
+function nexusIsNonWarrior(player) {
+  const playerClass = nexusGetPlayerClass(player)
+  return playerClass !== 'none' && playerClass !== 'warrior'
+}
+
 function nexusIsUnarmedCombatAttempt(attacker) {
-  return nexusIsEmptyStack(attacker.mainHandItem)
+  return nexusIsEmptyHand(attacker.mainHandItem)
 }
 
 function nexusUnarmedMeleeAllowed(attacker) {
   return nexusRestrictionPlayerHasClass(attacker, 'warrior')
+}
+
+function nexusShouldBlockUnarmedMelee(player) {
+  return NEXUS_BLOCK_NON_WARRIOR_UNARMED_MELEE && nexusIsNonWarrior(player) && nexusIsEmptyHand(player.mainHandItem)
 }
 
 function nexusCancelDamageEvent(event) {
@@ -490,11 +495,7 @@ function nexusHandleRestrictedDamage(event) {
     return
   }
 
-  if (!nexusIsUnarmedCombatAttempt(attacker) || nexusUnarmedMeleeAllowed(attacker)) {
-    return
-  }
-
-  if (!NEXUS_BLOCK_NON_WARRIOR_UNARMED_MELEE) {
+  if (!nexusShouldBlockUnarmedMelee(attacker) || nexusUnarmedMeleeAllowed(attacker)) {
     return
   }
 
@@ -601,6 +602,7 @@ ServerEvents.commandRegistry(event => {
         const isBlocked = nexusIsRestrictedForPlayer(player, mainHandItemId)
         const isMainHandEmpty = nexusIsEmptyStack(player.mainHandItem)
         const unarmedAllowed = nexusUnarmedMeleeAllowed(player)
+        const unarmedEntityMeleeBlocked = nexusShouldBlockUnarmedMelee(player)
         const miningModeEnforced = nexusShouldEnforceEpicFightMiningMode(player)
         const nbtSummary = nexusGetStackNbtSummary(player.mainHandItem)
         const persistentClass = nexusGetPersistentClassDebug(player)
@@ -621,6 +623,8 @@ ServerEvents.commandRegistry(event => {
         player.tell(`TaCZ GunId: ${gunId}`)
         player.tell(`Melee sin arma permitido: ${unarmedAllowed}`)
         player.tell(`Bloqueo melee sin arma no-Guerrero activo: ${NEXUS_BLOCK_NON_WARRIOR_UNARMED_MELEE}`)
+        player.tell(`Main hand empty: ${isMainHandEmpty}`)
+        player.tell(`Unarmed entity melee blocked: ${unarmedEntityMeleeBlocked}`)
         player.tell(`Epic Tweaks expected mode controller: true`)
         player.tell(`Epic Fight command enforcement active: ${miningModeEnforced}`)
         player.tell(`Mining Mode interval ticks: ${NEXUS_EPIC_FIGHT_MINING_MODE_INTERVAL_TICKS}`)

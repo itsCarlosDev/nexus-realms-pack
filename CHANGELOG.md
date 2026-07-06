@@ -1,5 +1,12 @@
 # Changelog
 
+## Unarmed melee restriction hotfix
+
+- Enabled non-warrior unarmed melee blocking.
+- Prevented Mage and Gunslinger from damaging entities with empty-hand melee.
+- Kept Punchy usable for normal Minecraft actions.
+- Kept Epic Tweaks mode enforcement intact.
+
 ## Pack 19.0 - RPG Loot UI, Inventory, Visual Polish and QoL
 
 - Added RPG loot and item presentation improvements.

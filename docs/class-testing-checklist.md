@@ -107,6 +107,26 @@ Tambien probar:
 /nexus_class_help
 ```
 
+## Non-warrior unarmed melee QA
+
+- Select Mage.
+- Empty hand.
+- Try to punch a mob.
+- Expected: no damage, warning message.
+- Try to mine/build/open chest.
+- Expected: works normally.
+
+- Select Gunslinger.
+- Empty hand.
+- Try to punch a mob.
+- Expected: no damage, warning message.
+- Try to mine/build/open chest.
+- Expected: works normally.
+
+- Select Warrior.
+- Empty hand or warrior weapon.
+- Expected: warrior combat behavior is not broken.
+
 ## Creator Tools visual QA
 
 After Pack 17.0, record or observe:
@@ -151,5 +171,6 @@ grep -RniE "Nexus Realms|nexus_class|epicfight|epictweaks|autoswitch|enforce|min
 - Epic Tweaks controla Battle/Mining Mode.
 - `canSwitchPlayerMode` debe quedar `true`.
 - El fallback agresivo `/epicfight mode mining <player>` queda apagado.
-- El bloqueo de melee sin arma para no-Guerrero queda apagado por defecto para preservar Punchy/vanilla.
+- El bloqueo de melee sin arma para no-Guerrero queda activo solo contra entidades.
+- Punchy/vanilla se conserva para mineria, construccion, pesca e interacciones normales.
 - Pistolero mantiene Glock 17 como starter activo.
