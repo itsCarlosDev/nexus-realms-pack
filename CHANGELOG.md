@@ -1,5 +1,15 @@
 # Changelog
 
+## Pack 17.0 - Nexus Realms Creator Tools
+
+- Added creator-friendly tools for trailers, cinematics, ambience and roleplay.
+- Added CMDCam and CreativeCore for cinematic camera paths.
+- Added Not Enough Animations for improved third-person player animation.
+- Added Emotecraft for roleplay emotes and trailer scenes.
+- Added AmbientSounds 6 and Sound Physics Remastered for stronger RPG ambience.
+- Added Simple Voice Chat for proximity voice and multiplayer recording.
+- Documented Freecam, ReForgedPlay, Distant Horizons, Oculus and shaders as creator-only tools outside the normal pack.
+
 ## Pack 16.11 - Class System QA and Final Polish
 
 - Audited Nexus class commands, restrictions and starter kit documentation.
