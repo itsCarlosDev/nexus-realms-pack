@@ -47,7 +47,7 @@ Solo Pistolero:
 - `EntityEvents.hurt` bloquea daño con items restringidos cuando el atacante es un jugador y el caso es seguro de identificar.
 - `EntityEvents.hurt` tambien bloquea melee sin arma de no-Guerreros contra entidades.
 
-El guardia no borra items. Si un item restringido esta en mano, lo copia, vacia la mano y lo devuelve al inventario con fallback de drop seguro si no hay espacio.
+El guardia no borra items. Si un item restringido esta en mano y hay un slot seguro, lo copia, vacia la mano y lo devuelve al inventario. Si no hay slot seguro, cancela el uso y deja el item donde esta para evitar duplicacion o bucles.
 
 # Safe hand enforcement
 
@@ -56,7 +56,7 @@ Items from another class may exist in the inventory, but they cannot remain in m
 If a wrong-class item is detected in main hand/offhand:
 - KubeJS removes it from the hand.
 - KubeJS attempts to move it to the inventory.
-- If the inventory is full, KubeJS drops it near the player.
+- If no safe inventory slot exists, KubeJS cancels use/damage and leaves the item in hand.
 - The item is never deleted.
 
 This is required because some mods, especially TaCZ and Epic Fight, may process combat outside simple right-click handlers.
@@ -66,7 +66,7 @@ Wrong-class items are not returned with `player.give` because that can place the
 The enforcement must:
 - clear the hand;
 - move the item to a safe inventory slot outside the selected hand/hotbar when possible;
-- drop it safely if no slot is available;
+- refuse use with `no_safe_slot` if no slot is available;
 - never delete or duplicate the item.
 
 Safe inventory movement tries empty inventory slots `9..35` first. It only tries hotbar slots `0..8` when the selected slot is known, and always skips the selected hotbar slot. It never targets offhand.
@@ -193,7 +193,8 @@ Muestra:
 - main hand/offhand clase requerida;
 - main hand/offhand allowed;
 - main hand/offhand action;
-- last enforcement result: `moved_to_inventory_slot_*`, `dropped`, `failed_clear_hand`, `failed_copy`, or `kept_in_hand`;
+- selected hotbar slot;
+- last enforcement result: `moved_to_slot_*`, `no_safe_slot`, `failed_selected_slot`, `failed_clear_hand`, `failed_copy`, `failed_move_to_slot_restored`, or `kept_in_hand`;
 - si el bloqueo de melee sin arma no-Guerrero esta activo;
 - si el resultado final bloquearia melee sin arma contra entidades;
 - si Epic Fight Mining Mode command fallback esta activo;

@@ -169,7 +169,7 @@ Tambien probar:
 
 - Wrong-class items may stay in inventory.
 - Wrong-class items must not be deleted.
-- If inventory is full, wrong-class held item may be dropped safely.
+- If inventory is full, wrong-class held item use/damage is blocked with `no_safe_slot`.
 
 ## Hand enforcement regression QA
 
@@ -178,7 +178,7 @@ Tambien probar:
 - Expected: item leaves hand within 1 tick/very quickly.
 - Expected: no pickup sound loop.
 - Expected: cannot hit mobs with it.
-- Expected: item is in inventory or dropped, not deleted.
+- Expected: item is in a safe inventory slot, not deleted.
 
 - Select Warrior.
 - Put TaCZ Glock in selected hotbar slot.
@@ -189,7 +189,7 @@ Tambien probar:
 - Fill inventory.
 - Select Mage.
 - Put Glock in hand.
-- Expected: item is dropped safely, not deleted, not duplicated, and does not loop infinitely into hand.
+- Expected: use/damage is blocked with `no_safe_slot`, not deleted, not duplicated, and does not loop infinitely into hand.
 
 ## Creator Tools visual QA
 
