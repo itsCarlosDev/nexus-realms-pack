@@ -78,7 +78,7 @@ hash = "3d7d4cda73d6bde134a568ccbe4e8d2e7fbe701570012b71fa45acdb2258c823"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_restrictions.js"
-hash = "68cc3c2e90658beee58b89062b5b8c5d328bf0b186f6bd5e9347ffbe10f62cac"
+hash = "3182e33ea503d3ca2d0b53430ce121fffc254ad3ebe1515516a74cd835df8e7c"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
