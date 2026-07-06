@@ -507,6 +507,15 @@ function nexusMoveStackToInventorySlot(player, stack, slot) {
 
 function nexusSetHandStack(player, handName, stack) {
   if (handName === 'main_hand') {
+    try {
+      player.mainHandItem = stack
+
+      if (nexusStacksMatchExpected(player.mainHandItem, stack)) {
+        return true
+      }
+    } catch (ignored) {
+    }
+
     const selectedSlot = nexusGetSelectedHotbarSlot(player)
 
     if (selectedSlot < 0) {
@@ -549,7 +558,7 @@ function nexusMoveHeldItemIntoEmptySafeSlot(player, handName, restrictedStack, e
   }
 
   if (!nexusSetHandEmpty(player, handName)) {
-    return 'failed_clear_hand'
+    return handName === 'main_hand' ? 'failed_set_main_hand' : 'failed_set_offhand'
   }
 
   const movedResult = nexusMoveStackToInventorySlot(player, restrictedCopy, emptySlot)
@@ -576,7 +585,7 @@ function nexusSwapHeldItemWithSafeSlot(player, handName, restrictedStack, swapSl
   }
 
   if (!nexusSetHandStack(player, handName, replacementCopy)) {
-    return 'failed_swap'
+    return handName === 'main_hand' ? 'failed_set_main_hand' : 'failed_set_offhand'
   }
 
   if (nexusSetInventorySlot(player, swapSlot, restrictedCopy)) {
@@ -605,13 +614,6 @@ function nexusMoveHeldItemAway(player, handName, reason) {
 
   if (!itemId || !requiredClass || nexusCanUseItem(player, stack)) {
     nexusRecordHandEnforcementResult(player, handName, 'kept_in_hand')
-    return false
-  }
-
-  if (handName === 'main_hand' && nexusGetSelectedHotbarSlot(player) < 0) {
-    nexusWarnRestricted(player, requiredClass)
-    nexusRecordHandEnforcementResult(player, handName, 'failed_selected_slot')
-    console.warn(`Nexus Realms: could not determine selected hotbar slot for ${player.username}; restricted item ${itemId} was not moved to avoid duplication.`)
     return false
   }
 
@@ -965,6 +967,38 @@ PlayerEvents.tick(event => {
 
 ServerEvents.commandRegistry(event => {
   const { commands: Commands } = event
+
+  event.register(
+    Commands.literal('nexus_force_hand_enforce')
+      .executes(ctx => {
+        const player = ctx.source.player
+
+        if (!player) {
+          console.info('Nexus Realms: /nexus_force_hand_enforce must be run by a player.')
+          return 0
+        }
+
+        const selectedSlot = nexusGetSelectedHotbarSlot(player)
+        const mainBefore = nexusGetItemId(player.mainHandItem) || 'empty'
+        const offBefore = nexusGetItemId(player.offHandItem) || 'empty'
+        const moved = nexusEnforceRestrictedHands(player, 'manual_debug_command')
+        const mainAfter = nexusGetItemId(player.mainHandItem) || 'empty'
+        const offAfter = nexusGetItemId(player.offHandItem) || 'empty'
+        const mainResult = nexusGetLastHandEnforcementResult(player, 'main_hand')
+        const offResult = nexusGetLastHandEnforcementResult(player, 'off_hand')
+
+        player.tell(`Manual hand enforcement moved: ${moved}`)
+        player.tell(`Selected hotbar slot: ${selectedSlot >= 0 ? selectedSlot : 'unavailable'}`)
+        player.tell(`Main hand before: ${mainBefore}`)
+        player.tell(`Main hand after: ${mainAfter}`)
+        player.tell(`Main hand last enforcement result: ${mainResult}`)
+        player.tell(`Offhand before: ${offBefore}`)
+        player.tell(`Offhand after: ${offAfter}`)
+        player.tell(`Offhand last enforcement result: ${offResult}`)
+
+        return moved ? 1 : 0
+      })
+  )
 
   event.register(
     Commands.literal('nexus_class_debug')
