@@ -1,5 +1,13 @@
 # Changelog
 
+## Hand enforcement loop fix
+
+- Fixed wrong-class held items being returned to the selected hotbar slot.
+- Replaced unsafe `player.give` hand return behavior with safe inventory-slot movement/drop fallback.
+- Prevented pickup sound loops from repeated restriction enforcement.
+- Improved reliability against TaCZ and Epic Fight items.
+- Kept Punchy and Epic Tweaks behavior unchanged.
+
 ## Class hand enforcement hotfix
 
 - Added active main hand/offhand enforcement for wrong-class items.
