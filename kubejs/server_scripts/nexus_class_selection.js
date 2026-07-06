@@ -56,6 +56,30 @@ const NEXUS_CLASS_STATUS_MESSAGES = {
   none: 'Elige una clase con el selector.'
 }
 
+const NEXUS_STATUS_BLOCK_NON_WARRIOR_UNARMED_MELEE = true
+
+function nexusStatusGetItemId(stack) {
+  if (!stack || stack.empty) {
+    return ''
+  }
+
+  return String(stack.id)
+}
+
+function nexusStatusIsEmptyHand(stack) {
+  const itemId = nexusStatusGetItemId(stack)
+  return !itemId || itemId === 'minecraft:air'
+}
+
+function nexusStatusUnarmedMeleeAllowed(player) {
+  return nexusGetPersistentClass(player) === 'warrior'
+}
+
+function nexusStatusUnarmedEntityMeleeBlocked(player) {
+  const persistentClass = nexusGetPersistentClass(player)
+  return NEXUS_STATUS_BLOCK_NON_WARRIOR_UNARMED_MELEE && persistentClass !== 'none' && persistentClass !== 'warrior' && nexusStatusIsEmptyHand(player.mainHandItem)
+}
+
 function nexusHasClass(player) {
   return player.persistentData.getBoolean('nexus_class_chosen') === true
 }
@@ -188,6 +212,10 @@ function nexusTellClassStatus(viewer, target) {
   const classChosen = target.persistentData.getBoolean('nexus_class_chosen') === true
   const persistentClass = nexusGetPersistentClass(target)
   const statusMessage = NEXUS_CLASS_STATUS_MESSAGES[persistentClass] || NEXUS_CLASS_STATUS_MESSAGES.none
+  const mainHandItemId = nexusStatusGetItemId(target.mainHandItem)
+  const isMainHandEmpty = nexusStatusIsEmptyHand(target.mainHandItem)
+  const unarmedAllowed = nexusStatusUnarmedMeleeAllowed(target)
+  const unarmedEntityMeleeBlocked = nexusStatusUnarmedEntityMeleeBlocked(target)
 
   viewer.tell(`Jugador: ${nexusPlayerName(target)}`)
   viewer.tell(`Clase elegida: ${persistentClass}`)
@@ -196,6 +224,11 @@ function nexusTellClassStatus(viewer, target) {
   viewer.tell(`Tags de clase: warrior=${target.tags.contains('nexus_class_warrior')}, mage=${target.tags.contains('nexus_class_mage')}, gunslinger=${target.tags.contains('nexus_class_gunslinger')}`)
   viewer.tell(statusMessage)
   viewer.tell('Restricciones: Guerrero usa Simply Swords/Epic Fight; Mago usa Iron\'s Spells; Pistolero usa TaCZ.')
+  viewer.tell(`Main hand: ${mainHandItemId || 'empty'}`)
+  viewer.tell(`Main hand empty: ${isMainHandEmpty}`)
+  viewer.tell(`Melee sin arma permitido: ${unarmedAllowed}`)
+  viewer.tell(`Bloqueo melee sin arma no-Guerrero activo: ${NEXUS_STATUS_BLOCK_NON_WARRIOR_UNARMED_MELEE}`)
+  viewer.tell(`Unarmed entity melee blocked: ${unarmedEntityMeleeBlocked}`)
   viewer.tell('KubeJS bloquea items por clase con avisos en actionbar; no modifica inventario desde status.')
   viewer.tell('Epic Tweaks controla Battle/Mining Mode; KubeJS no debe forzar modo mining cada tick.')
   viewer.tell('Epic Fight Item Preferences: Air / minecraft:air debe ser Preferred Tool.')
