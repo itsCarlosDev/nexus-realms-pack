@@ -1,5 +1,23 @@
 # Changelog
 
+## Pack 19.0 - RPG Loot UI, Inventory, Visual Polish and QoL
+
+- Added RPG loot and item presentation improvements.
+- Added Loot Journal for pickup notifications.
+- Added Legendary Tooltips and Item Borders for more visible item rarity and RPG item presentation.
+- Added inventory and comparison helpers.
+- Added Sophisticated Backpacks and Sophisticated Core for exploration storage.
+- Added RightClickHarvest for crop QoL.
+- Added Dynamic FPS and Particle Core for client polish/performance.
+- Added Emojiful for social chat expression.
+- Reviewed Continuity as optional visual polish only if it does not require Sinytra Connector or Fabric API.
+- Kept weather, worldgen, bosses, factions and quests for later packs.
+
+### Pending
+
+- Continuity: pending because the resolved Forge build attempted to install Sinytra Connector and Forgified Fabric API.
+- Better Totem of Undying: pending while Charm of Undying is tested first to avoid redundant totem behavior.
+
 ## Pack 18.0 - Visual Resource Packs and Fresh Animations
 
 - Added the visual resource-pack foundation for Nexus Realms.

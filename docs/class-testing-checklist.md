@@ -127,6 +127,17 @@ After enabling the resource packs manually:
 - Check player animations with Not Enough Animations + Fresh Animations stack.
 - Check that no resource pack breaks item icons for TaCZ, spellbooks or Simply Swords.
 
+## Pack 19.0 class item visual QA
+
+After Pack 19.0:
+
+- Check Gunslinger Glock 17 tooltip and icon.
+- Check TaCZ ammo tooltip and stack display.
+- Check Mage spellbook tooltip.
+- Check Warrior Simply Swords tooltip and item border.
+- Check that Legendary Tooltips and Item Borders do not hide class restriction feedback.
+- Check Sophisticated Backpack with Warrior, Mage and Gunslinger inventories.
+
 ## Logs
 
 ```bash

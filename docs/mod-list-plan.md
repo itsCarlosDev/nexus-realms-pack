@@ -419,6 +419,52 @@ Pending:
 - BabyAnimalsRemastered_1.21.5
 - Baha's 3D Beds
 
+## Pack 19.0 - RPG Loot UI, Inventory, Visual Polish and QoL
+
+Loot/UI:
+- Loot Journal
+- Legendary Tooltips
+- Item Borders
+- Inventory HUD+
+- Equipment Compare
+
+Inventory:
+- Sophisticated Core
+- Sophisticated Backpacks
+
+QoL:
+- RightClickHarvest
+- Dynamic FPS
+- Particle Core
+- Continuity, if Forge 1.20.1 works without Connector/Sinytra
+- Charm of Undying
+- Better Totem of Undying, pending duplication review
+- Emojiful
+
+Installed in Pack 19.0:
+- Loot Journal
+- Legendary Tooltips
+- Item Borders
+- Inventory HUD+
+- Equipment Compare
+- Sophisticated Core
+- Sophisticated Backpacks
+- RightClickHarvest
+- Dynamic FPS
+- Particle Core
+- Charm of Undying
+- Emojiful
+
+New dependencies:
+- Fragmentum
+- Prism
+- JamLib
+- Fzzy Config
+
+Pending:
+- Continuity, because it attempted to install Sinytra Connector and Forgified Fabric API.
+- Better Totem of Undying, while Charm of Undying is tested first.
+
 ## Pack 16.5.1 - Remove Better Combat compatibility leftover
 
 ### Mods and resourcepacks removed
