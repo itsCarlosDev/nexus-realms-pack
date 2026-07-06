@@ -190,10 +190,16 @@ function nexusTellClassStatus(viewer, target) {
   const statusMessage = NEXUS_CLASS_STATUS_MESSAGES[persistentClass] || NEXUS_CLASS_STATUS_MESSAGES.none
 
   viewer.tell(`Jugador: ${nexusPlayerName(target)}`)
-  viewer.tell(`Clase persistentData: ${persistentClass}`)
-  viewer.tell(`Clase elegida: ${classChosen}`)
-  viewer.tell(`Tags: warrior=${target.tags.contains('nexus_class_warrior')}, mage=${target.tags.contains('nexus_class_mage')}, gunslinger=${target.tags.contains('nexus_class_gunslinger')}`)
+  viewer.tell(`Clase elegida: ${persistentClass}`)
+  viewer.tell(`persistentData.nexus_class_chosen: ${classChosen}`)
+  viewer.tell(`persistentData.nexus_class: ${persistentClass}`)
+  viewer.tell(`Tags de clase: warrior=${target.tags.contains('nexus_class_warrior')}, mage=${target.tags.contains('nexus_class_mage')}, gunslinger=${target.tags.contains('nexus_class_gunslinger')}`)
   viewer.tell(statusMessage)
+  viewer.tell('Restricciones: Guerrero usa Simply Swords/Epic Fight; Mago usa Iron\'s Spells; Pistolero usa TaCZ.')
+  viewer.tell('KubeJS bloquea items por clase con avisos en actionbar; no modifica inventario desde status.')
+  viewer.tell('Epic Tweaks controla Battle/Mining Mode; KubeJS no debe forzar modo mining cada tick.')
+  viewer.tell('Epic Fight Item Preferences: Air / minecraft:air debe ser Preferred Tool.')
+  viewer.tell('Epic Fight Toggle Battle/Mining Mode: debe estar Not Bound.')
 }
 
 function nexusResolveOptionalTarget(ctx, Arguments) {

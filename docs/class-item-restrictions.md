@@ -44,13 +44,23 @@ Solo Pistolero:
 
 - `ItemEvents.rightClicked` bloquea el uso de item cuando KubeJS recibe el evento.
 - `PlayerEvents.tick` ejecuta un guardia ligero de mano principal/offhand cada ~1 segundo por jugador.
-- `EntityEvents.hurt` bloquea daño melee directo cuando el atacante es un jugador y el caso es seguro de identificar.
+- `EntityEvents.hurt` bloquea daño con items restringidos cuando el atacante es un jugador y el caso es seguro de identificar.
 
 El guardia no borra items, no los tira al suelo y no intenta moverlos para evitar duplicaciones o perdidas. Solo avisa y bloquea usos cuando hay evento disponible.
 
-## Pack 16.5.5 - Bloqueo de melee sin arma
+## Pack 16.11 - QA final de mano vacia
 
-- Mago, Pistolero y jugadores sin clase no deberian hacer daño melee directo con mano principal vacia.
+- Pack 16.10 preparo la arquitectura final; Pack 16.11 cierra QA y pulido.
+- El bloqueo antiguo de melee sin arma queda apagado por defecto con:
+  `NEXUS_BLOCK_NON_WARRIOR_UNARMED_MELEE = false`
+- Mago y Pistolero deben conservar mano vacia, Punchy y acciones vanilla normales.
+- KubeJS no cancela interacciones vanilla normales con mano vacia.
+- La solucion principal para evitar Battle Mode en mano vacia es Air / `minecraft:air` como Preferred Tool, Epic Tweaks autoswitch/enforce y Toggle Not Bound.
+- El bloqueo unarmed solo puede usarse como fallback experimental si se valida que no rompe Punchy.
+
+## Pack 16.5.5 - Bloqueo de melee sin arma historico
+
+- Mago, Pistolero y jugadores sin clase no debian hacer daño melee directo con mano principal vacia en el experimento original.
 - Guerrero conserva el daño unarmed/Epic Fight.
 - Si un jugador ataca con un item que pertenece a otra clase, el daño tambien se cancela en la capa de daño.
 - Los mensajes usan actionbar/sonido con cooldown:
@@ -70,7 +80,7 @@ El guardia no borra items, no los tira al suelo y no intenta moverlos para evita
   - `filter_animation_first_person = true`
 - El fallback KubeJS por comando queda desactivado por defecto con:
   `NEXUS_FORCE_EPICFIGHT_MINING_WITH_COMMAND = false`
-- KubeJS mantiene restricciones de items, avisos actionbar y bloqueo de dano unarmed; no controla la tecla de Battle Mode como solucion principal.
+- KubeJS mantiene restricciones de items y avisos actionbar; no controla la tecla de Battle Mode como solucion principal.
 
 ## Pack 16.10 - Epic Fight Air Tool and Mode Enforcement
 
@@ -82,6 +92,7 @@ El guardia no borra items, no los tira al suelo y no intenta moverlos para evita
 - Guerrero debe entrar en Battle Mode automaticamente al equipar armas compatibles.
 - Punchy se conserva para construccion, mineria, pesca y acciones vanilla normales.
 - No se versionan configs inventadas de Epic Fight, Epic Tweaks ni Default Options.
+- Pack 16.11 versiona solo `config/epictweaks-client.toml` porque fue generado en Prism y sus valores coinciden con el objetivo.
 
 ## Pack 16.5.4 - UX de restricciones
 

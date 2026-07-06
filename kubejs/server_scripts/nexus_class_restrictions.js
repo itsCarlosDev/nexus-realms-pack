@@ -34,6 +34,7 @@ const NEXUS_RESTRICTION_WARNING_COOLDOWN_MS = 5000
 const NEXUS_RESTRICTION_NO_CLASS_COOLDOWN_MS = 10000
 const NEXUS_RESTRICTION_HAND_CHECK_INTERVAL_MS = 1000
 const NEXUS_FORCE_EPICFIGHT_MINING_WITH_COMMAND = false
+const NEXUS_BLOCK_NON_WARRIOR_UNARMED_MELEE = false
 const NEXUS_EPIC_FIGHT_MINING_MODE_INTERVAL_TICKS = 20
 const NEXUS_EPIC_FIGHT_MINING_MODE_WARNING_COOLDOWN_MS = 10000
 const NEXUS_EPIC_FIGHT_COMMAND_FAILURE_COOLDOWN_MS = 60000
@@ -493,6 +494,10 @@ function nexusHandleRestrictedDamage(event) {
     return
   }
 
+  if (!NEXUS_BLOCK_NON_WARRIOR_UNARMED_MELEE) {
+    return
+  }
+
   nexusWarnUnarmedCombat(attacker)
   nexusCancelDamageEvent(event)
 }
@@ -615,6 +620,7 @@ ServerEvents.commandRegistry(event => {
         player.tell(`Resultado: ${isBlocked ? 'bloqueado' : 'permitido'}`)
         player.tell(`TaCZ GunId: ${gunId}`)
         player.tell(`Melee sin arma permitido: ${unarmedAllowed}`)
+        player.tell(`Bloqueo melee sin arma no-Guerrero activo: ${NEXUS_BLOCK_NON_WARRIOR_UNARMED_MELEE}`)
         player.tell(`Epic Tweaks expected mode controller: true`)
         player.tell(`Epic Fight command enforcement active: ${miningModeEnforced}`)
         player.tell(`Mining Mode interval ticks: ${NEXUS_EPIC_FIGHT_MINING_MODE_INTERVAL_TICKS}`)

@@ -4,6 +4,8 @@
 
 Default Options se usara para distribuir keybinds iniciales del modpack sin versionar `options.txt`.
 
+Pack 16.10 preparo este flujo. Pack 16.11 cierra QA y confirma que no hay `config/defaultoptions/keybindings.txt` generado en Prism para copiar todavia.
+
 ## No versionar
 
 No se debe anadir:
@@ -39,6 +41,16 @@ No se debe anadir:
    `./scripts/dev-check.sh`
 
 Si `config/defaultoptions/keybindings.txt` no existe, no crearlo manualmente. Debe salir de Default Options en Prism.
+
+## Pack 16.11 status
+
+- No se copio `options.txt`.
+- No se invento `config/defaultoptions/keybindings.txt`.
+- Cuando Prism genere keybinds reales, versionar solo archivos concretos bajo `config/defaultoptions/`.
+- Mantener Epic Fight Toggle Battle/Mining Mode como Not Bound.
+- Mantener TaCZ Reload en `R`.
+- Mantener Iron's Spells Spell Wheel en `V` o `Z`.
+- Mantener JEI Recipe en `U`, JEI Uses en `Y` y JourneyMap en `J`.
 
 ## Prueba
 

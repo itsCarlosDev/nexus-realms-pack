@@ -84,6 +84,14 @@ Notas:
 - Si `/defaultoptions saveAll` no existe en esta version, probar `/defaultoptions saveKeys`.
 - No crear `options.txt` raiz ni inventar `config/defaultoptions/keybindings.txt`.
 
+## Pack 16.11 status
+
+- Pack 16.10 preparo la arquitectura final de keybinds y modo.
+- Pack 16.11 no encontro `config/defaultoptions/keybindings.txt` generado en Prism, asi que no se copia ningun archivo de Default Options.
+- Epic Tweaks queda como controlador de Battle/Mining Mode.
+- Air / `minecraft:air` sigue pendiente de confirmar manualmente como Preferred Tool en Epic Fight.
+- Punchy debe seguir funcionando con mano vacia y acciones vanilla de Mago/Pistolero.
+
 ## Checklist Prism
 
 1. Abrir Controls.

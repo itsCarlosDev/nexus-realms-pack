@@ -1,6 +1,10 @@
 hash-format = "sha256"
 
 [[files]]
+file = "config/epictweaks-client.toml"
+hash = "fa8b64cb8aea24a504eadcc6856fe87437ccd7a0a142dbe6b91802ff984401bf"
+
+[[files]]
 file = "config/fancymenu/assets/nexus/class_selection/gunslinger.png"
 hash = "19c0ab190e17e0fabc11cf111b5a89ad746eaf9217d1a17155d913fd97deeb6c"
 
@@ -74,11 +78,11 @@ hash = "3d7d4cda73d6bde134a568ccbe4e8d2e7fbe701570012b71fa45acdb2258c823"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_restrictions.js"
-hash = "cd886ea474326d03955a96ae4641c25dbd5eebb618f58989d3f8319aaec41360"
+hash = "2ec135b18932de3a65771c32ee7f3a2e772cd00bed2ec7bb446d84335c254af5"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "557257aab440b3ef486ca9b51150138397ce338818b2c2a5e5727da041248239"
+hash = "cfe896d07b69abddb64ed76165ba3852ea8f94c44ba996f196722269f515881d"
 
 [[files]]
 file = "mods/aaa-particles.pw.toml"

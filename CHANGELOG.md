@@ -1,5 +1,17 @@
 # Changelog
 
+## Pack 16.11 - Class System QA and Final Polish
+
+- Audited Nexus class commands, restrictions and starter kit documentation.
+- Confirmed the final Epic Fight architecture: KubeJS handles item restrictions while Epic Tweaks handles Battle/Mining Mode.
+- Kept `canSwitchPlayerMode` as `true`.
+- Kept aggressive `/epicfight mode mining` command enforcement disabled by default.
+- Preserved Punchy/vanilla empty-hand behavior for Mage and Gunslinger.
+- Documented final QA tests for Warrior, Mage and Gunslinger.
+- Kept Gunslinger starter as Glock 17.
+- Did not invent Epic Fight configs or root `options.txt`.
+- Added generated Epic Tweaks config file after validation.
+
 ## Pack 16.10 - Epic Fight Air Tool and Mode Enforcement
 
 - Prepared the final Epic Fight mode architecture using Epic Tweaks and Epic Fight item preferences.
