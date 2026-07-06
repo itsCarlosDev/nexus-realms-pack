@@ -127,6 +127,50 @@ Tambien probar:
 - Empty hand or warrior weapon.
 - Expected: warrior combat behavior is not broken.
 
+## Wrong-class hand enforcement QA
+
+### Warrior
+
+- Select Warrior.
+- Give self TaCZ Glock.
+- Put Glock in hotbar and select it.
+- Expected: warning and Glock moved out of hand.
+- Expected: Warrior cannot fire TaCZ.
+- Give self Iron spellbook.
+- Select it.
+- Expected: warning and spellbook moved out of hand or casting blocked.
+
+### Mage
+
+- Select Mage.
+- Give self Glock.
+- Select it.
+- Expected: warning and Glock moved out of hand.
+- Expected: Mage cannot fire TaCZ.
+- Give self Simply Swords/Epic Fight weapon.
+- Select it.
+- Expected: warning and weapon moved out of hand.
+- Expected: Mage cannot melee with it.
+- Mage spellbook must still work.
+
+### Gunslinger
+
+- Select Gunslinger.
+- Give self Simply Swords/Epic Fight weapon.
+- Select it.
+- Expected: warning and weapon moved out of hand.
+- Expected: Gunslinger cannot melee with it.
+- Give self Iron spellbook.
+- Select it.
+- Expected: warning and spellbook moved out of hand or casting blocked.
+- Gunslinger Glock must still work.
+
+### Inventory behavior
+
+- Wrong-class items may stay in inventory.
+- Wrong-class items must not be deleted.
+- If inventory is full, wrong-class held item may be dropped safely.
+
 ## Creator Tools visual QA
 
 After Pack 17.0, record or observe:
@@ -173,4 +217,5 @@ grep -RniE "Nexus Realms|nexus_class|epicfight|epictweaks|autoswitch|enforce|min
 - El fallback agresivo `/epicfight mode mining <player>` queda apagado.
 - El bloqueo de melee sin arma para no-Guerrero queda activo solo contra entidades.
 - Punchy/vanilla se conserva para mineria, construccion, pesca e interacciones normales.
+- Los items de otra clase pueden estar en inventario, pero hand enforcement debe retirarlos de main hand/offhand.
 - Pistolero mantiene Glock 17 como starter activo.

@@ -43,11 +43,28 @@ Solo Pistolero:
 ## Eventos usados
 
 - `ItemEvents.rightClicked` bloquea el uso de item cuando KubeJS recibe el evento.
-- `PlayerEvents.tick` ejecuta un guardia ligero de mano principal/offhand cada ~1 segundo por jugador.
+- `PlayerEvents.tick` ejecuta hand enforcement de mano principal/offhand cada 10 ticks por jugador.
 - `EntityEvents.hurt` bloquea daño con items restringidos cuando el atacante es un jugador y el caso es seguro de identificar.
 - `EntityEvents.hurt` tambien bloquea melee sin arma de no-Guerreros contra entidades.
 
-El guardia no borra items, no los tira al suelo y no intenta moverlos para evitar duplicaciones o perdidas. Solo avisa y bloquea usos cuando hay evento disponible.
+El guardia no borra items. Si un item restringido esta en mano, lo copia, vacia la mano y lo devuelve al inventario con fallback de drop seguro si no hay espacio.
+
+# Hand enforcement
+
+Items from another class may exist in the inventory, but they cannot remain in main hand or offhand.
+
+If a wrong-class item is detected in main hand/offhand:
+- KubeJS removes it from the hand.
+- KubeJS attempts to move it to the inventory.
+- If the inventory is full, KubeJS drops it near the player.
+- The item is never deleted.
+
+This is required because some mods, especially TaCZ and Epic Fight, may process combat outside simple right-click handlers.
+
+The active hand enforcement namespaces are:
+- Warrior only: `simplyswords`, `epicfight`, `epicfight_nightfall`, `efn`, `nightfall`, `epicskills`, `epic_fight_avalon`, `invincible`.
+- Mage only: `irons_spellbooks`, `traveloptics`.
+- Gunslinger only: `tacz`.
 
 ## Unarmed melee hotfix
 
@@ -161,6 +178,11 @@ Muestra:
 - clase requerida;
 - si el item estaria permitido o bloqueado.
 - si la mano principal esta vacia;
+- si hand enforcement esta activo;
+- main hand/offhand namespace;
+- main hand/offhand clase requerida;
+- main hand/offhand allowed;
+- main hand/offhand action;
 - si el bloqueo de melee sin arma no-Guerrero esta activo;
 - si el resultado final bloquearia melee sin arma contra entidades;
 - si Epic Fight Mining Mode command fallback esta activo;

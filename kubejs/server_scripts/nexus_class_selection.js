@@ -57,6 +57,20 @@ const NEXUS_CLASS_STATUS_MESSAGES = {
 }
 
 const NEXUS_STATUS_BLOCK_NON_WARRIOR_UNARMED_MELEE = true
+const NEXUS_STATUS_HAND_ENFORCEMENT_ACTIVE = true
+const NEXUS_STATUS_RESTRICTED_ITEM_NAMESPACES = {
+  simplyswords: 'warrior',
+  epicfight: 'warrior',
+  epicfight_nightfall: 'warrior',
+  efn: 'warrior',
+  nightfall: 'warrior',
+  epicskills: 'warrior',
+  epic_fight_avalon: 'warrior',
+  invincible: 'warrior',
+  irons_spellbooks: 'mage',
+  traveloptics: 'mage',
+  tacz: 'gunslinger'
+}
 
 function nexusStatusGetItemId(stack) {
   if (!stack || stack.empty) {
@@ -64,6 +78,32 @@ function nexusStatusGetItemId(stack) {
   }
 
   return String(stack.id)
+}
+
+function nexusStatusGetNamespaceFromItemId(itemId) {
+  const separatorIndex = itemId.indexOf(':')
+
+  if (separatorIndex < 0) {
+    return ''
+  }
+
+  return itemId.substring(0, separatorIndex)
+}
+
+function nexusStatusGetRequiredClassForItem(itemId) {
+  const namespace = nexusStatusGetNamespaceFromItemId(itemId)
+  return namespace ? NEXUS_STATUS_RESTRICTED_ITEM_NAMESPACES[namespace] || 'none' : 'none'
+}
+
+function nexusStatusCanUseItem(player, stack) {
+  const itemId = nexusStatusGetItemId(stack)
+  const requiredClass = nexusStatusGetRequiredClassForItem(itemId)
+
+  if (requiredClass === 'none') {
+    return true
+  }
+
+  return nexusGetPersistentClass(player) === requiredClass
 }
 
 function nexusStatusIsEmptyHand(stack) {
@@ -213,6 +253,13 @@ function nexusTellClassStatus(viewer, target) {
   const persistentClass = nexusGetPersistentClass(target)
   const statusMessage = NEXUS_CLASS_STATUS_MESSAGES[persistentClass] || NEXUS_CLASS_STATUS_MESSAGES.none
   const mainHandItemId = nexusStatusGetItemId(target.mainHandItem)
+  const mainHandNamespace = nexusStatusGetNamespaceFromItemId(mainHandItemId)
+  const mainHandRequiredClass = nexusStatusGetRequiredClassForItem(mainHandItemId)
+  const mainHandAllowed = nexusStatusCanUseItem(target, target.mainHandItem)
+  const offHandItemId = nexusStatusGetItemId(target.offHandItem)
+  const offHandNamespace = nexusStatusGetNamespaceFromItemId(offHandItemId)
+  const offHandRequiredClass = nexusStatusGetRequiredClassForItem(offHandItemId)
+  const offHandAllowed = nexusStatusCanUseItem(target, target.offHandItem)
   const isMainHandEmpty = nexusStatusIsEmptyHand(target.mainHandItem)
   const unarmedAllowed = nexusStatusUnarmedMeleeAllowed(target)
   const unarmedEntityMeleeBlocked = nexusStatusUnarmedEntityMeleeBlocked(target)
@@ -225,6 +272,16 @@ function nexusTellClassStatus(viewer, target) {
   viewer.tell(statusMessage)
   viewer.tell('Restricciones: Guerrero usa Simply Swords/Epic Fight; Mago usa Iron\'s Spells; Pistolero usa TaCZ.')
   viewer.tell(`Main hand: ${mainHandItemId || 'empty'}`)
+  viewer.tell(`Main hand namespace: ${mainHandNamespace || 'none'}`)
+  viewer.tell(`Main hand required class: ${mainHandRequiredClass}`)
+  viewer.tell(`Main hand allowed: ${mainHandAllowed}`)
+  viewer.tell(`Main hand action: ${mainHandAllowed ? 'keep in hand' : 'move away from hand'}`)
+  viewer.tell(`Offhand: ${offHandItemId || 'empty'}`)
+  viewer.tell(`Offhand namespace: ${offHandNamespace || 'none'}`)
+  viewer.tell(`Offhand required class: ${offHandRequiredClass}`)
+  viewer.tell(`Offhand allowed: ${offHandAllowed}`)
+  viewer.tell(`Offhand action: ${offHandAllowed ? 'keep in hand' : 'move away from hand'}`)
+  viewer.tell(`Hand enforcement active: ${NEXUS_STATUS_HAND_ENFORCEMENT_ACTIVE}`)
   viewer.tell(`Main hand empty: ${isMainHandEmpty}`)
   viewer.tell(`Melee sin arma permitido: ${unarmedAllowed}`)
   viewer.tell(`Bloqueo melee sin arma no-Guerrero activo: ${NEXUS_STATUS_BLOCK_NON_WARRIOR_UNARMED_MELEE}`)
