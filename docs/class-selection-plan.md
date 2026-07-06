@@ -208,6 +208,18 @@ The menu must still rely on the KubeJS backend to prevent duplicate choices and 
 - Pack 16.10 defines the final Epic Fight mode architecture.
 - Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
 
+## Pack 16.11 - Class System QA and Final Polish
+
+- Pack 16.10 prepared the final Epic Fight mode architecture; Pack 16.11 closes QA and polish.
+- `/nexus_class_status [player]` reports chosen class, `persistentData.nexus_class_chosen`, `persistentData.nexus_class`, class tags, restriction summary, and Epic Tweaks/Air/keybind reminders.
+- KubeJS blocks class items only; Epic Tweaks controls Battle/Mining Mode.
+- `canSwitchPlayerMode` stays `true`.
+- Aggressive `/epicfight mode mining <player>` command enforcement stays disabled by default.
+- Non-Warrior empty-hand melee blocking is disabled by default so Mage and Gunslinger keep Punchy/vanilla empty-hand behavior.
+- `config/epictweaks-client.toml` is versioned after validation from Prism.
+- Epic Fight Air / `minecraft:air` Preferred Tool and Default Options keybind export remain manual until generated files are confirmed.
+- Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`; Taurus 9 is not the active starter.
+
 ## Pack 16.5 - Warrior Epic Fight integration
 
 - Epic Fight becomes the Warrior combat foundation.

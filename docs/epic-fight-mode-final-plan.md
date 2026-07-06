@@ -2,6 +2,7 @@
 
 ## Final architecture
 
+- Pack 16.10 prepared this architecture; Pack 16.11 closes QA and final polish.
 - KubeJS blocks items by class.
 - Epic Tweaks controls Battle/Mining Mode using item preferences.
 - `canSwitchPlayerMode` must stay `true`.
@@ -11,6 +12,7 @@
 - Warrior enters Battle Mode automatically when equipping compatible warrior weapons.
 - Mage and Gunslinger stay in Mining/Vanilla Mode with empty hand, spellbook or TaCZ.
 - Punchy keeps control of normal empty-hand/vanilla interactions when Air is not treated as an Epic Fight weapon.
+- KubeJS empty-hand melee blocking is not the primary solution and stays disabled by default.
 
 ## Epic Tweaks target values
 
@@ -22,7 +24,9 @@ enforce_mode = true
 filter_animation_first_person = true
 ```
 
-Do not invent the config file if the mod has not generated it yet.
+Pack 16.11 validated and versioned the generated Prism file `config/epictweaks-client.toml` with these values.
+
+Do not invent missing Epic Fight or Default Options files if those mods have not generated them yet.
 
 ## Manual setup required if configs are missing
 
@@ -39,6 +43,8 @@ Do not invent the config file if the mod has not generated it yet.
 11. Run `/defaultoptions saveKeys` or `/defaultoptions saveAll`.
 12. Close Minecraft.
 13. Copy/version the generated configs into the pack.
+
+Pack 16.11 did not copy `epicfight-client.toml` because the generated Prism file did not yet contain Air / `minecraft:air` as Preferred Tool. It also did not copy Default Options keybinds because no generated `config/defaultoptions/keybindings.txt` was present.
 
 ## Do not use
 

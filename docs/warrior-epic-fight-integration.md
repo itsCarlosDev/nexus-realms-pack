@@ -145,6 +145,15 @@ Pack 16.10 cierra la arquitectura de modo Epic Fight:
 - El fallback `/epicfight mode mining <player>` queda desactivado por defecto.
 - Si no existen configs generadas en `config/`, se documenta el flujo manual de Prism y no se inventan archivos.
 
+Pack 16.11 cierra QA y pulido:
+
+- `config/epictweaks-client.toml` se versiona tras validar los valores generados en Prism.
+- No se copia `epicfight-client.toml` porque Air / `minecraft:air` no estaba confirmado como Preferred Tool en el archivo generado.
+- No se copia Default Options porque no existe `config/defaultoptions/keybindings.txt` generado.
+- El bloqueo KubeJS de melee sin arma para no-Guerreros queda apagado por defecto para preservar Punchy/vanilla.
+- `/nexus_class_status` muestra persistentData, tags, restricciones activas y recordatorios de Epic Tweaks/Air/keybind.
+- Glock 17 sigue siendo el starter activo del Pistolero; Taurus 9 no se reintroduce.
+
 ## Pack 16.5.2 - Starter kit backend fix
 
 - El fallo de entrega de kits no venia de Epic Fight, IDs ni NBT.

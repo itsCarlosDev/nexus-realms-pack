@@ -82,6 +82,11 @@ NBT usado:
 - Pack 16.7 mantiene Glock 17 y anade comandos de QA para verificar kits rapidamente.
 - Pack 16.8 mantiene los kits en KubeJS. FTB Quests no debe entregar los starter kits principales para evitar duplicacion.
 - La progresion futura puede dar recompensas avanzadas, pero debe respetar `GunId:"tacz:glock_17"` como starter oficial del Pistolero.
+- Pack 16.11 mantiene Glock 17 como starter activo del Pistolero y no vuelve a Taurus 9.
+- El starter esperado sigue siendo:
+  `Item.of('tacz:modern_kinetic_gun', '{GunCurrentAmmoCount:0,GunFireMode:"SEMI",GunId:"tacz:glock_17",HasBulletInBarrel:1b}')`
+- La municion esperada sigue siendo:
+  `Item.of('tacz:ammo', 16, '{AmmoId:"tacz:9mm"}')`
 
 ## Como verificar futuros items
 

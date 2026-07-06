@@ -1,86 +1,124 @@
 # Class Testing Checklist
 
-## Comandos
+## Precondition
 
-- `/nexus_resetclass_clean SpendRed23`
-- `/nexus_select warrior`
-- `/nexus_select mage`
-- `/nexus_select gunslinger`
-- `/nexus_givekit warrior SpendRed23`
-- `/nexus_givekit mage SpendRed23`
-- `/nexus_givekit gunslinger SpendRed23`
-- `/nexus_class_debug`
-- `/nexus_class_status`
-- `/nexus_class_status SpendRed23`
-- `/nexus_testkit warrior SpendRed23`
-- `/nexus_testkit mage SpendRed23`
-- `/nexus_testkit gunslinger SpendRed23`
+```mcfunction
+/gamerule canSwitchPlayerMode true
+```
 
-## Pruebas Guerrero
+- Epic Tweaks config: `autoswitch_mode = true`, `enforce_mode = true`, `filter_animation_first_person = true`.
+- Epic Fight Item Preferences: Air / `minecraft:air` as Preferred Tool.
+- Epic Fight Toggle Battle/Mining Mode: Not Bound.
+- TaCZ Reload: `R`.
+- Iron's Spells Spell Wheel: `V` or `Z`.
+- JEI Recipe: `U`.
+- JEI Uses: `Y`.
+- JourneyMap: `J`.
 
-- Recibe `simplyswords:iron_glaive`.
-- Recibe escudo y pan.
-- No usa spellbook.
-- No usa TaCZ.
-- Arma Simply Swords debe entrar en Battle Mode automaticamente.
-- Mano vacia idealmente vuelve a Mining/Vanilla Mode si Air esta como Preferred Tool.
+## Mage test
 
-## Pruebas Mago
+```mcfunction
+/nexus_resetclass_clean SpendRed23
+/nexus_select mage
+```
 
-- Recibe `irons_spellbooks:copper_spell_book`.
-- Puede lanzar hechizo.
-- No usa Simply Swords.
-- No usa TaCZ.
-- Mano vacia debe quedar Mining/Vanilla.
-- Spellbook debe quedar Mining/Vanilla.
-- No deberia poder mantener Battle Mode si Air esta Preferred Tool y Epic Fight Toggle esta Not Bound.
+Probar:
 
-## Pruebas Pistolero
+- mano vacia;
+- Punchy/acciones normales;
+- spellbook;
+- lanzar hechizos;
+- intentar arma Simply Swords;
+- intentar TaCZ;
+- intentar Battle Mode.
 
-- Recibe Glock 17.
-- `/kubejs hand` muestra `GunId:"tacz:glock_17"`.
-- Recibe `AmmoId:"tacz:9mm"`.
-- Puede apuntar, disparar y recargar tras configurar keybinds.
-- Glock 17/TaCZ debe quedar Mining/Vanilla.
-- `R` debe recargar y no abrir Spell Wheel.
-- No deberia poder mantener Battle Mode.
-- No usa spellbook.
-- No usa Simply Swords.
+Resultado esperado:
 
-## Configuracion previa en Prism
+- mano vacia y spellbook en Mining/Vanilla Mode;
+- hechizos funcionan;
+- no usa armas Guerrero;
+- no usa TaCZ;
+- no mantiene Battle Mode si Air es Preferred Tool y Toggle esta Not Bound.
 
-- Ejecutar `/gamerule canSwitchPlayerMode true`.
-- Configurar Air / `minecraft:air` como Preferred Tool en Epic Fight Item Preferences.
-- Configurar Epic Fight Toggle Battle/Mining Mode como Not Bound.
-- Configurar TaCZ Reload en `R`.
-- Configurar Iron's Spells Spell Wheel en `V` o `Z`.
-- Guardar Default Options con `/defaultoptions saveKeys` o `/defaultoptions saveAll`.
+## Gunslinger test
 
-## Consistencia
+```mcfunction
+/nexus_resetclass_clean SpendRed23
+/nexus_select gunslinger
+```
 
-- Al elegir clase, `nexus_class_chosen` queda en `true`.
-- Al elegir clase, `nexus_class` queda en `warrior`, `mage` o `gunslinger`.
-- Solo queda activo un tag de clase:
-  - `nexus_class_warrior`
-  - `nexus_class_mage`
-  - `nexus_class_gunslinger`
-- No se puede elegir una segunda clase sin reset.
-- `/nexus_resetclass` no borra inventario.
-- `/nexus_resetclass_clean` reinicia clase y limpia inventario de prueba.
-- `/nexus_givekit` y `/nexus_testkit` no cambian la clase.
+Probar:
 
-## Progresion futura
+- Glock 17;
+- apuntar click derecho;
+- recargar con R;
+- mano vacia;
+- intentar spellbook;
+- intentar arma Simply Swords;
+- intentar Battle Mode.
 
-- Revisar `docs/class-progression-plan.md`.
-- Revisar `docs/ftb-quests-class-design.md`.
-- Revisar `docs/class-balance-notes.md`.
-- Ejecutar los tests de `docs/class-progression-testing.md` antes de crear quests reales.
+Resultado esperado:
+
+- TaCZ queda Mining/Vanilla;
+- R recarga;
+- R no abre Spell Wheel;
+- no usa spellbooks;
+- no usa armas Guerrero;
+- no mantiene Battle Mode.
+
+## Warrior test
+
+```mcfunction
+/nexus_resetclass_clean SpendRed23
+/nexus_select warrior
+```
+
+Probar:
+
+- Simply Swords;
+- Epic Fight Battle Mode automatico;
+- Skill Tree;
+- mano vacia;
+- intentar spellbook;
+- intentar TaCZ.
+
+Resultado esperado:
+
+- arma Guerrero entra en Battle Mode;
+- mano vacia idealmente vuelve a Mining/Vanilla;
+- no usa spellbooks;
+- no usa TaCZ.
+
+## Debug commands
+
+```mcfunction
+/nexus_class_debug
+/nexus_class_status
+/nexus_givekit warrior
+/nexus_givekit mage
+/nexus_givekit gunslinger
+```
+
+Tambien probar:
+
+```mcfunction
+/nexus_class_status SpendRed23
+/nexus_class_menu
+/nexus_class_help
+```
 
 ## Logs
 
-Comando recomendado:
-
 ```bash
 grep -RniE "Nexus Realms|nexus_class|epicfight|epictweaks|autoswitch|enforce|minecraft:air|Preferred|tacz|glock_17|irons_spellbooks|simplyswords|error|exception" \
-"/Users/carlosmoralesartes/Library/Application Support/PrismLauncher/instances/Nexus Realms DEV/minecraft/logs/latest.log" | tail -220
+"/Users/carlosmoralesartes/Library/Application Support/PrismLauncher/instances/Nexus Realms DEV/minecraft/logs/latest.log" | tail -250
 ```
+
+## Pack 16.11 notes
+
+- KubeJS bloquea items por clase.
+- Epic Tweaks controla Battle/Mining Mode.
+- `canSwitchPlayerMode` debe quedar `true`.
+- El fallback agresivo `/epicfight mode mining <player>` queda apagado.
+- El bloqueo de melee sin arma para no-Guerrero queda apagado por defecto para preservar Punchy/vanilla.
+- Pistolero mantiene Glock 17 como starter activo.

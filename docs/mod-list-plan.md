@@ -335,6 +335,20 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 - No invented Epic Fight, Epic Tweaks, Default Options, root `options.txt`, or `air.json` files are added.
 - Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
 
+## Pack 16.11 - Class System QA and Final Polish
+
+- Pack 16.10 prepared the final class mode architecture; Pack 16.11 closes QA and documentation polish.
+- KubeJS remains responsible for class item restrictions.
+- Epic Tweaks remains responsible for Battle/Mining Mode.
+- `config/epictweaks-client.toml` is copied from the Prism generated config after validating `autoswitch_mode = true`, `enforce_mode = true`, and `filter_animation_first_person = true`.
+- `canSwitchPlayerMode` stays `true`.
+- Aggressive `/epicfight mode mining <player>` command enforcement stays disabled by default.
+- Non-Warrior empty-hand melee blocking stays disabled by default so Punchy/vanilla behavior remains available to Mage and Gunslinger.
+- Epic Fight Air / `minecraft:air` Preferred Tool remains a manual Prism confirmation because the generated `epicfight-client.toml` did not contain it.
+- Default Options keybind export remains manual because `config/defaultoptions/keybindings.txt` was not generated.
+- Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`; Taurus 9 is not the active starter.
+- No new mods are added.
+
 ## Pack 16.5.1 - Remove Better Combat compatibility leftover
 
 ### Mods and resourcepacks removed
