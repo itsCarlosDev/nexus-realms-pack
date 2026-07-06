@@ -92,63 +92,49 @@ function nexusGetItemId(stack) {
     return ''
   }
 
+  const candidates = []
+
   try {
-    if (stack.empty === true) {
-      return ''
+    candidates.push(stack.id)
+  } catch (ignored) {
+  }
+
+  try {
+    candidates.push(stack.item && stack.item.id)
+  } catch (ignored) {
+  }
+
+  try {
+    if (stack.getId) {
+      candidates.push(stack.getId())
     }
   } catch (ignored) {
   }
 
   try {
-    const itemId = String(stack.id || '')
+    if (stack.getItem) {
+      const item = stack.getItem()
 
-    if (itemId && itemId !== 'undefined' && itemId !== 'null') {
-      return itemId
+      candidates.push(item && item.id)
+      candidates.push(item && item.registryName)
     }
   } catch (ignored) {
+  }
+
+  for (let candidateIndex = 0; candidateIndex < candidates.length; candidateIndex++) {
+    const itemId = nexusNormalizeItemId(candidates[candidateIndex])
+
+    if (nexusLooksLikeItemId(itemId)) {
+      return itemId
+    }
   }
 
   try {
     const stackText = String(stack)
+    const match = stackText.match(/[a-z0-9_.-]+:[a-z0-9_./-]+/i)
 
-    if (stackText.indexOf('minecraft:air') >= 0) {
-      return 'minecraft:air'
-    }
-  } catch (ignored) {
-  }
-
-  try {
-    const itemId = String(stack.item || '')
-
-    if (itemId && itemId !== 'undefined' && itemId !== 'null') {
-      return itemId
-    }
-  } catch (ignored) {
-  }
-
-  try {
-    const itemId = String(stack.getId())
-
-    if (itemId && itemId !== 'undefined' && itemId !== 'null') {
-      return itemId
-    }
-  } catch (ignored) {
-  }
-
-  try {
-    const itemId = String(stack.getItem())
-
-    if (itemId && itemId !== 'undefined' && itemId !== 'null') {
-      return itemId
-    }
-  } catch (ignored) {
-  }
-
-  try {
-    const stackText = String(stack)
-
-    if (!stackText || stackText === 'undefined' || stackText === 'null') {
-      return ''
+    if (match && match[0]) {
+      return match[0]
     }
   } catch (ignored) {
   }
@@ -156,13 +142,41 @@ function nexusGetItemId(stack) {
   return ''
 }
 
+function nexusNormalizeItemId(value) {
+  const text = String(value || '')
+
+  if (!text || text === 'undefined' || text === 'null' || text === '[object Object]') {
+    return ''
+  }
+
+  return text
+}
+
+function nexusLooksLikeItemId(value) {
+  const text = nexusNormalizeItemId(value)
+  return text.indexOf(':') > 0
+}
+
 function nexusIsEmptyStack(stack) {
   if (!stack) {
     return true
   }
 
+  const itemId = nexusGetItemId(stack)
+
+  if (!itemId || itemId === 'minecraft:air') {
+    return true
+  }
+
   try {
-    if (stack.empty === true) {
+    if (stack.isEmpty && stack.isEmpty()) {
+      return true
+    }
+  } catch (ignored) {
+  }
+
+  try {
+    if (stack.empty === true && (!itemId || itemId === 'minecraft:air')) {
       return true
     }
   } catch (ignored) {
@@ -175,16 +189,8 @@ function nexusIsEmptyStack(stack) {
   } catch (ignored) {
   }
 
-  const itemId = nexusGetItemId(stack)
-
-  if (!itemId || itemId === 'minecraft:air') {
-    return true
-  }
-
   try {
-    const stackText = String(stack)
-
-    if (!stackText || stackText === 'undefined' || stackText === 'null' || stackText.indexOf('minecraft:air') >= 0) {
+    if (stack.getCount && Number(stack.getCount()) <= 0) {
       return true
     }
   } catch (ignored) {
@@ -491,7 +497,6 @@ function nexusGetSelectedHotbarSlot(player) {
 
 function nexusGetInventorySlot(player, slot) {
   const readers = [
-    { name: 'get', read: () => player.inventory.get(slot) },
     { name: 'getItem', read: () => player.inventory.getItem(slot) },
     { name: 'getStackInSlot', read: () => player.inventory.getStackInSlot(slot) }
   ]
@@ -531,7 +536,6 @@ function nexusTrySetInventorySlot(player, slot, stack, writerName, writer) {
 
 function nexusSetInventorySlot(player, slot, stack) {
   const writers = [
-    { name: 'set', write: () => player.inventory.set(slot, stack) },
     { name: 'setItem', write: () => player.inventory.setItem(slot, stack) },
     { name: 'setStackInSlot', write: () => player.inventory.setStackInSlot(slot, stack) }
   ]
@@ -552,16 +556,16 @@ function nexusDescribeInventoryRead(player, slot, methodName) {
   try {
     let stack = null
 
-    if (methodName === 'get') {
-      stack = player.inventory.get(slot)
-    } else if (methodName === 'getItem') {
+    if (methodName === 'getItem') {
       stack = player.inventory.getItem(slot)
     } else if (methodName === 'getStackInSlot') {
       stack = player.inventory.getStackInSlot(slot)
+    } else {
+      return `${methodName}: error unsupported inventory debug method`
     }
 
     if (stack === undefined || stack === null) {
-      return `${methodName}: ok id=null empty=true stack=null stack.id=undefined stack.empty=undefined`
+      return `${methodName}: ok raw=null raw.id=undefined raw.empty=undefined nexusGetItemId=empty nexusIsEmptyStack=true`
     }
 
     let stackId = 'unavailable'
@@ -583,7 +587,7 @@ function nexusDescribeInventoryRead(player, slot, methodName) {
     } catch (ignored) {
     }
 
-    return `${methodName}: ok id=${nexusGetItemId(stack) || 'empty'} empty=${nexusIsEmptyStack(stack)} stack=${stackText} stack.id=${stackId} stack.empty=${stackEmpty}`
+    return `${methodName}: ok raw=${stackText} raw.id=${stackId} raw.empty=${stackEmpty} nexusGetItemId=${nexusGetItemId(stack) || 'empty'} nexusIsEmptyStack=${nexusIsEmptyStack(stack)}`
   } catch (error) {
     return `${methodName}: error ${String(error && error.message ? error.message : error)}`
   }
@@ -1202,7 +1206,6 @@ ServerEvents.commandRegistry(event => {
           const slot = slots[slotIndex]
 
           player.tell(`Slot ${slot}:`)
-          player.tell(` ${nexusDescribeInventoryRead(player, slot, 'get')}`)
           player.tell(` ${nexusDescribeInventoryRead(player, slot, 'getItem')}`)
           player.tell(` ${nexusDescribeInventoryRead(player, slot, 'getStackInSlot')}`)
         }
