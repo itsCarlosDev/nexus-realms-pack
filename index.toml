@@ -239,6 +239,11 @@ hash = "d584896433cab9fdba6034182ce0f8376cfd5eb1255fa98ed47e535b94f7674b"
 metafile = true
 
 [[files]]
+file = "mods/critters-and-companions.pw.toml"
+hash = "dce7de4e5a948da16df350f36ffdd1b0be9843041777b0b2e3e1e1e87e1b1c9d"
+metafile = true
+
+[[files]]
 file = "mods/ct-overhaul-village.pw.toml"
 hash = "96b92f9d6c4b3866ba018a99d7b01e07b12aca02e74dfdc6407c45c1af2b4d19"
 metafile = true
@@ -251,6 +256,11 @@ metafile = true
 [[files]]
 file = "mods/default-options.pw.toml"
 hash = "4dd29a42972a5ab03609a0ee76156f005f7a7d3bd332bcdf57b25edd9e1310f9"
+metafile = true
+
+[[files]]
+file = "mods/doggy-talents-next.pw.toml"
+hash = "6ae6b7e84d0d7c0cbaea4d8b4fdd2ea12520de3fff876e734faf9db1f6035c4b"
 metafile = true
 
 [[files]]
@@ -359,6 +369,11 @@ hash = "b39121a323ad12d6fd4543e53b361386d73d825c4df60ca8f91a8ff1803e15e8"
 metafile = true
 
 [[files]]
+file = "mods/framework.pw.toml"
+hash = "9e2175476f720e0b2d21b28e91873cecf5555648e2137310e1b7cf98f6b98ab8"
+metafile = true
+
+[[files]]
 file = "mods/ftb-library-forge.pw.toml"
 hash = "efa75ee4aae90dea11316b6e61aecaf9433eeb3d0821f78b4eca41acbbd73e8f"
 metafile = true
@@ -385,7 +400,17 @@ metafile = true
 
 [[files]]
 file = "mods/geckolib.pw.toml"
-hash = "7ffae05c3b8101588b231db8116c34b36a77a0c6e6d7e6af867ae1c5b47e4d10"
+hash = "898fd2704dd260ae8f3dc20b4416439751f0a9e76367c4f0bbdac886b6987802"
+metafile = true
+
+[[files]]
+file = "mods/goblin-traders.pw.toml"
+hash = "603b8fe672b8f62539763ee788341ede0c6441abe0cc3cf5f1b58c1094714b27"
+metafile = true
+
+[[files]]
+file = "mods/guard-villagers.pw.toml"
+hash = "aa6e4d61f683ad37bee12c3d2226adced8415297addf18565ced2f37421dc881"
 metafile = true
 
 [[files]]
@@ -811,6 +836,10 @@ metafile = true
 file = "mods/yungs-better-witch-huts.pw.toml"
 hash = "2eb3e909cc46e39d8b9e762f39c36b0579744118d619beb6a174d264951d6248"
 metafile = true
+
+[[files]]
+file = "resourcepacks/FreshAnimations_v1.9.2.zip"
+hash = "7ecee4567bd999ce6d45897b0b196a9342ff325f550031a15fffaaf81342dc1b"
 
 [[files]]
 file = "resourcepacks/better-lanterns.pw.toml"
