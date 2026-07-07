@@ -134,22 +134,22 @@ Tambien probar:
 - Select Warrior.
 - Give self TaCZ Glock.
 - Put Glock in hotbar and select it.
-- Expected: warning and Glock moved out of hand.
+- Expected: warning if used; Glock may remain in hand.
 - Expected: Warrior cannot fire TaCZ.
 - Give self Iron spellbook.
 - Select it.
-- Expected: warning and spellbook moved out of hand or casting blocked.
+- Expected: warning if used; casting blocked.
 
 ### Mage
 
 - Select Mage.
 - Give self Glock.
 - Select it.
-- Expected: warning and Glock moved out of hand.
+- Expected: warning if used; Glock may remain in hand.
 - Expected: Mage cannot fire TaCZ.
 - Give self Simply Swords/Epic Fight weapon.
 - Select it.
-- Expected: warning and weapon moved out of hand.
+- Expected: warning if used; weapon may remain in hand.
 - Expected: Mage cannot melee with it.
 - Mage spellbook must still work.
 
@@ -158,47 +158,62 @@ Tambien probar:
 - Select Gunslinger.
 - Give self Simply Swords/Epic Fight weapon.
 - Select it.
-- Expected: warning and weapon moved out of hand.
+- Expected: warning if used; weapon may remain in hand.
 - Expected: Gunslinger cannot melee with it.
 - Give self Iron spellbook.
 - Select it.
-- Expected: warning and spellbook moved out of hand or casting blocked.
+- Expected: warning if used; casting blocked.
 - Gunslinger Glock must still work.
 
 ### Inventory behavior
 
 - Wrong-class items may stay in inventory.
+- Wrong-class items may stay in hand.
 - Wrong-class items must not be deleted.
-- Wrong-class held items are moved only with vanilla `/item replace entity ... from entity ...`, preserving NBT.
-- The hand enforcement path must not use `player.give`, automatic drop fallback, or KubeJS inventory slot writes.
-- If no empty command-verified inventory slot exists, wrong-class held item use/damage is blocked with `command_move_failed_no_empty_slot`.
+- Wrong-class held items are not moved by KubeJS or NexusCore.
+- The enforcement path must not use `player.give`, automatic drop fallback, KubeJS inventory slot writes, or `/item replace`.
+- Wrong-class held item use/damage is blocked even when the item remains visually in hand.
+
+### TaCZ native event QA
+
+- Select Warrior.
+- Put TaCZ Glock in hand.
+- Expected: `TimelessGunEvents.gunShoot` / `gunFire` are blocked, Glock does not fire, and ammo should not be consumed if TaCZ cancels before consumption.
+- Select Mage.
+- Put TaCZ Glock in hand.
+- Expected: Glock does not fire and TaCZ reload/melee are blocked.
+- Select Gunslinger.
+- Put TaCZ Glock in hand.
+- Expected: Glock fires, reloads and uses ammo normally.
+- Check latest.log.
+- Expected: controlled lines like `[Nexus Realms] Blocked TaCZ event gunShoot ... class=warrior` without spam.
 
 ## Hand enforcement regression QA
 
 - Select Gunslinger.
 - Put Simply Swords/Epic Fight weapon in selected hotbar slot.
-- Expected: item leaves hand within 1 tick/very quickly.
+- Expected: item may remain in hand.
 - Expected: no pickup sound loop.
 - Expected: cannot hit mobs with it.
-- Expected: item is in a safe inventory slot, not deleted.
+- Expected: item is not deleted, duplicated, dropped or moved.
 
 - Select Warrior.
 - Put TaCZ Glock in selected hotbar slot.
-- Expected: item leaves hand.
+- Expected: item may remain in hand.
 - Expected: cannot fire.
 - Expected: no pickup sound loop.
 
 - Fill inventory.
 - Select Mage.
 - Put Glock in hand.
-- Expected: use/damage is blocked with `command_move_failed_no_empty_slot`, not deleted, not duplicated, and does not loop infinitely into hand.
+- Expected: use/damage is blocked, not deleted, not duplicated, and does not loop infinitely into hand.
 
-## Command slot debug QA
+## NexusCore debug QA
 
-- Run `/nexus_force_hand_enforce`.
-- Expected: output prints main hand before, command move result, main hand after, and last enforcement result.
-- Run `/nexus_command_slot_debug`.
-- Expected: output prints `execute if data` and `execute unless data` success for `inventory.0`, `inventory.1`, and `inventory.2` without modifying inventory.
+- Run `/nexus_class_debug`.
+- Expected: output reports `Enforcement owner: nexuscore` and `Strategy: forge_event_enforcer_no_inventory_movement`.
+- Run `/nexus_inventory_debug`.
+- Expected: output is marked diagnostic only and does not move inventory.
 
 ## Creator Tools visual QA
 

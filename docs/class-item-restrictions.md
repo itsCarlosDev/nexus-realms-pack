@@ -40,36 +40,40 @@ Solo Pistolero:
 
 - `tacz:*`
 
-## Eventos usados
+## Arquitectura actual
 
-- `ItemEvents.rightClicked` bloquea el uso de item cuando KubeJS recibe el evento.
-- `PlayerEvents.tick` ejecuta hand enforcement de mano principal/offhand cada tick por jugador.
-- `EntityEvents.hurt` bloquea daño con items restringidos cuando el atacante es un jugador y el caso es seguro de identificar.
-- `EntityEvents.hurt` tambien bloquea melee sin arma de no-Guerreros contra entidades.
+- KubeJS sigue siendo la fuente de clase, selector, tags, persistentData, FancyMenu y kits.
+- NexusCore (`nexuscore`) es el mini-mod Forge que bloquea uso y dano real.
+- TaCZ JS expone eventos KubeJS mediante `TimelessGunEvents`; `nexus_tacz_restrictions.js` cancela disparo, recarga, melee y dano de arma para no-Pistoleros.
+- KubeJS mantiene `/nexus_class_debug` y `/nexus_inventory_debug` como diagnostico solamente.
+- GameStages/ItemStages quedan reservados para progresion por eras, no para clases en esta fase.
 
-El guardia no borra items. Si un item restringido esta en mano, intenta moverlo con comandos vanilla `item replace ... from entity ...` hacia un slot vacio de inventario. Si no encuentra hueco seguro o el comando no confirma exito, deja el item donde esta y cancela uso/dano para que no sirva.
+El guardia no borra, no dropea y no mueve items. Si un item restringido esta en mano, NexusCore cancela su uso y dano. El item puede seguir visible en mano, pero no debe servir para disparar, castear o hacer melee.
 
 # Safe hand enforcement
 
-Items from another class may exist in the inventory, but they cannot remain in main hand or offhand.
+Items from another class may exist in the inventory and may remain visually in main hand/offhand.
 
 If a wrong-class item is detected in main hand/offhand:
-- KubeJS attempts to move it to the inventory with vanilla `/item replace entity ... from entity ...`.
-- If no safe inventory slot exists, KubeJS cancels use/damage and leaves the item in hand.
+- NexusCore cancels use/damage through Forge events.
+- KubeJS does not move the item.
 - The item is never deleted.
-- NBT is preserved by copying from `weapon.mainhand` or `weapon.offhand`; KubeJS does not reconstruct an ItemStack in JS.
+- NBT is preserved because no inventory mutation happens.
 
 This is required because some mods, especially TaCZ and Epic Fight, may process combat outside simple right-click handlers.
 
-Wrong-class items are not returned with `player.give` because that can place the item back into the selected hotbar slot.
+TaCZ is handled at two layers:
+- `nexus_tacz_restrictions.js` cancels native TaCZ events: `gunShoot`, `gunFire`, `gunReload`, `gunMelee`, `gunFireSelect`, `gunFinishReload` and `entityHurtByGunPre`.
+- NexusCore remains the Forge fallback for generic right click, combat and `tacz:*` bullet damage.
 
 The enforcement must:
-- use command-based movement only;
-- move the item only to empty `inventory.0..inventory.26` slots after checking NBT `Inventory[{Slot:9b..35b}]`;
-- refuse use/damage with `command_move_failed_no_empty_slot` if no slot is available or the command cannot confirm success;
+- block use/damage in NexusCore;
+- block native TaCZ gun events for non-Gunslingers;
+- avoid all KubeJS inventory movement;
+- avoid `player.give`, automatic drop fallback and vanilla `/item replace` hand enforcement;
 - never delete or duplicate the item.
 
-Safe inventory movement no longer depends on KubeJS inventory APIs such as `getItem`, `setItem`, selected hotbar slot, or `stack.empty` checks. `/nexus_inventory_debug` may still read slot data for diagnosis, but that output is not used for enforcement decisions.
+`/nexus_inventory_debug` may still read slot data for diagnosis, but that output is not used for enforcement decisions.
 
 The active hand enforcement namespaces are:
 - Warrior only: `simplyswords`, `epicfight`, `epicfight_nightfall`, `efn`, `nightfall`, `epicskills`, `epic_fight_avalon`, `invincible`.
@@ -78,11 +82,11 @@ The active hand enforcement namespaces are:
 
 ## Unarmed melee hotfix
 
-- Non-warrior unarmed melee against entities is blocked by KubeJS.
+- Non-warrior unarmed melee against entities is blocked by NexusCore.
 - This does not disable Punchy for normal actions such as mining, building, fishing or vanilla interactions.
 - Mago and Pistolero can keep empty-hand utility actions, but cannot damage entities with empty-hand melee.
 - Guerrero remains allowed to use unarmed/Epic Fight melee.
-- The block only runs on entity damage through `EntityEvents.hurt`; it does not cancel block left-click, block interaction, fishing, doors, chests or normal item use.
+- The block runs on Forge combat/damage events; it does not cancel block left-click, block interaction, fishing, doors, chests or normal item use.
 - Epic Tweaks remains the Battle/Mining Mode controller. KubeJS does not re-enable the `/epicfight mode mining` tick fallback.
 
 ## Pack 16.11 - QA final de mano vacia
@@ -91,7 +95,7 @@ The active hand enforcement namespaces are:
 - El bloqueo de melee sin arma para no-Guerreros queda activo con:
   `NEXUS_BLOCK_NON_WARRIOR_UNARMED_MELEE = true`
 - Mago y Pistolero deben conservar mano vacia, Punchy y acciones vanilla normales.
-- KubeJS no cancela interacciones vanilla normales con mano vacia.
+- NexusCore no cancela interacciones vanilla normales con mano vacia.
 - La solucion principal para evitar Battle Mode en mano vacia es Air / `minecraft:air` como Preferred Tool, Epic Tweaks autoswitch/enforce y Toggle Not Bound.
 - El bloqueo unarmed solo cancela dano a entidades; Punchy se conserva para acciones normales.
 
@@ -194,8 +198,8 @@ Muestra:
 - main hand/offhand allowed;
 - main hand/offhand action;
 - selected hotbar slot;
-- strategy: `command_based_item_replace`;
-- last enforcement result: `moved_by_command_inventory_*`, `command_move_failed_no_empty_slot`, or `kept_in_hand`;
+- enforcement owner: `nexuscore`;
+- strategy: `forge_event_enforcer_no_inventory_movement`;
 - si el bloqueo de melee sin arma no-Guerrero esta activo;
 - si el resultado final bloquearia melee sin arma contra entidades;
 - si Epic Fight Mining Mode command fallback esta activo;
