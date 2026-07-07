@@ -1,5 +1,21 @@
 # Changelog
 
+## Pack 16.14.1 - TaCZ native class enforcement
+
+- Added TaCZ JS (`taczjs-forge-1.4.2+mc1.20.1.jar`) through packwiz.
+- Added `nexus_tacz_restrictions.js` to cancel TaCZ native KubeJS events for non-Gunslingers.
+- Uses the real `TimelessGunEvents` integration for `gunShoot`, `gunFire`, `gunReload`, `gunMelee`, `gunFireSelect`, `gunFinishReload` and `entityHurtByGunPre`.
+- Kept NexusCore as the Forge fallback for generic interactions and bullet damage.
+- Kept KubeJS inventory manipulation disabled: no inventory writes, drops, gives or `/item replace` enforcement.
+
+## NexusCore Forge class enforcer
+
+- Added the local NexusCore Forge mini-mod as the runtime class-use enforcer.
+- Moved real wrong-class use/damage blocking out of KubeJS inventory manipulation and into Forge interaction/combat events.
+- Kept KubeJS as the source of class selection, tags, persistent data, FancyMenu and starter kits.
+- Stopped automatic inventory movement for restricted held items; restricted items are not deleted, dropped, duplicated or moved.
+- Kept `/nexus_class_debug` and `/nexus_inventory_debug` as diagnostics only.
+
 ## Command based class hand enforcement
 
 - Replaced KubeJS inventory movement for wrong-class held items with vanilla `/item replace entity ... from entity ...` commands.

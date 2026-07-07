@@ -78,11 +78,15 @@ hash = "3d7d4cda73d6bde134a568ccbe4e8d2e7fbe701570012b71fa45acdb2258c823"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_restrictions.js"
-hash = "2cbfb50030755869aa92803525642d23218514e1b23ae3bd8c8f0438598bcbea"
+hash = "93731d9ab43f1709332cbfd13259eb4a7db60d92f339c605bbf52a7dd26bdea8"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
 hash = "74423b8c8f67e5da9daf65daff6b9732d3ccf742d60db331e9cc9b2f461532e2"
+
+[[files]]
+file = "kubejs/server_scripts/nexus_tacz_restrictions.js"
+hash = "f36c1aed8d05fc948cf7f7e7080929765cd4f18d34bded45a92274ef4637866f"
 
 [[files]]
 file = "mods/aaa-particles.pw.toml"
@@ -520,6 +524,10 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
+file = "mods/nexus-core-0.1.0.jar"
+hash = "a94133d0585afb40d4abde92a829dc4f8917036901e67a28c07ae2611667dc53"
+
+[[files]]
 file = "mods/not-enough-animations.pw.toml"
 hash = "1c3d52224f1f174fbcf2c308a70e3c34a736694b626992891404db32cbd69c7e"
 metafile = true
@@ -672,6 +680,11 @@ metafile = true
 [[files]]
 file = "mods/tacz-ammo-query.pw.toml"
 hash = "a055bfa9442c993c5c455233090116a1a323c60fbb701dc4a4c0d13a6b2df77d"
+metafile = true
+
+[[files]]
+file = "mods/tacz-js.pw.toml"
+hash = "cde19e59ab12587b05eca77bc467f0d2a6bf33c26edb5e6edbfa906f249a335b"
 metafile = true
 
 [[files]]
