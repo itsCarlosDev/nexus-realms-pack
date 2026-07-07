@@ -169,7 +169,9 @@ Tambien probar:
 
 - Wrong-class items may stay in inventory.
 - Wrong-class items must not be deleted.
-- If inventory is full, wrong-class held item use/damage is blocked with `no_safe_slot`.
+- Wrong-class held items are moved only with vanilla `/item replace entity ... from entity ...`, preserving NBT.
+- The hand enforcement path must not use `player.give`, automatic drop fallback, or KubeJS inventory slot writes.
+- If no empty command-verified inventory slot exists, wrong-class held item use/damage is blocked with `command_move_failed_no_empty_slot`.
 
 ## Hand enforcement regression QA
 
@@ -189,7 +191,14 @@ Tambien probar:
 - Fill inventory.
 - Select Mage.
 - Put Glock in hand.
-- Expected: use/damage is blocked with `no_safe_slot`, not deleted, not duplicated, and does not loop infinitely into hand.
+- Expected: use/damage is blocked with `command_move_failed_no_empty_slot`, not deleted, not duplicated, and does not loop infinitely into hand.
+
+## Command slot debug QA
+
+- Run `/nexus_force_hand_enforce`.
+- Expected: output prints main hand before, command move result, main hand after, and last enforcement result.
+- Run `/nexus_command_slot_debug`.
+- Expected: output prints `execute if data` and `execute unless data` success for `inventory.0`, `inventory.1`, and `inventory.2` without modifying inventory.
 
 ## Creator Tools visual QA
 

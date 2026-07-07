@@ -39,6 +39,7 @@ const NEXUS_FORCE_EPICFIGHT_MINING_WITH_COMMAND = false
 const NEXUS_EPIC_FIGHT_MINING_MODE_INTERVAL_TICKS = 20
 const NEXUS_EPIC_FIGHT_MINING_MODE_WARNING_COOLDOWN_MS = 10000
 const NEXUS_EPIC_FIGHT_COMMAND_FAILURE_COOLDOWN_MS = 60000
+const NEXUS_HAND_ENFORCEMENT_STRATEGY = 'command_based_item_replace'
 
 const nexusRestrictionWarningTimes = {}
 const nexusHandEnforcementTickCounters = {}
@@ -46,7 +47,6 @@ const nexusHandEnforcementResults = {}
 const nexusEpicFightMiningModeTickCounters = {}
 const nexusEpicFightCommandFailureTimes = {}
 const nexusInventoryLastReadApi = {}
-const nexusInventoryLastWriteApi = {}
 
 function nexusRestrictionHasTag(player, tag) {
   return player && player.tags && player.tags.contains(tag)
@@ -257,6 +257,46 @@ function nexusRestrictionRunCommand(player, command) {
   }
 }
 
+function nexusRunCommandReturningSuccess(server, command) {
+  try {
+    const result = server.runCommandSilent(command)
+    const resultType = typeof result
+
+    if (resultType === 'number') {
+      return result > 0
+    }
+
+    if (resultType === 'boolean') {
+      console.info(`Nexus Realms: command result boolean=${result}: ${command}`)
+      return result
+    }
+
+    if (result !== undefined && result !== null) {
+      console.info(`Nexus Realms: command result ${resultType}=${String(result)}: ${command}`)
+      return true
+    }
+
+    console.info(`Nexus Realms: command result unavailable: ${command}`)
+    return false
+  } catch (error) {
+    console.warn(`Nexus Realms: command failed: ${command}`)
+    console.warn(error)
+    return false
+  }
+}
+
+function nexusRunCommandForPlayerReturningSuccess(player, command) {
+  if (!player || !player.server) {
+    return false
+  }
+
+  return nexusRunCommandReturningSuccess(player.server, command)
+}
+
+function nexusEscapePlayerSelectorName(player) {
+  return String(player.username)
+}
+
 function nexusActionbar(player, message, color) {
   const json = `{"text":"${nexusEscapeJsonText(message)}","color":"${color || 'red'}"}`
   return nexusRestrictionRunCommand(player, `title ${player.username} actionbar ${json}`)
@@ -442,26 +482,6 @@ function nexusGetEventHandName(event) {
   return 'main_hand'
 }
 
-function nexusCopyStack(stack) {
-  try {
-    if (stack && stack.copy) {
-      return stack.copy()
-    }
-  } catch (ignored) {
-  }
-
-  try {
-    const itemId = nexusGetItemId(stack)
-    const count = stack.count || 1
-    const nbt = stack.nbt
-    return nbt ? Item.of(itemId, count, nbt) : Item.of(itemId, count)
-  } catch (error) {
-    console.warn('Nexus Realms: failed to copy restricted held item.')
-    console.warn(error)
-    return null
-  }
-}
-
 function nexusGetSelectedHotbarSlot(player) {
   try {
     const selectedSlot = Number(player.inventory.selected)
@@ -495,74 +515,16 @@ function nexusGetSelectedHotbarSlot(player) {
   return -1
 }
 
-function nexusGetInventorySlot(player, slot) {
-  const readers = [
-    { name: 'getItem', read: () => player.inventory.getItem(slot) },
-    { name: 'getStackInSlot', read: () => player.inventory.getStackInSlot(slot) }
-  ]
-
-  for (let readerIndex = 0; readerIndex < readers.length; readerIndex++) {
-    const reader = readers[readerIndex]
-
-    try {
-      const stack = reader.read()
-
-      if (stack !== undefined && stack !== null) {
-        nexusInventoryLastReadApi[String(player.uuid)] = reader.name
-        return stack
-      }
-    } catch (ignored) {
-    }
-  }
-
-  nexusInventoryLastReadApi[String(player.uuid)] = 'none'
-  return null
-}
-
-function nexusTrySetInventorySlot(player, slot, stack, writerName, writer) {
-  try {
-    writer()
-  } catch (ignored) {
-    return false
-  }
-
-  if (nexusStacksMatchExpected(nexusGetInventorySlot(player, slot), stack)) {
-    nexusInventoryLastWriteApi[String(player.uuid)] = writerName
-    return true
-  }
-
-  return false
-}
-
-function nexusSetInventorySlot(player, slot, stack) {
-  const writers = [
-    { name: 'setItem', write: () => player.inventory.setItem(slot, stack) },
-    { name: 'setStackInSlot', write: () => player.inventory.setStackInSlot(slot, stack) }
-  ]
-
-  for (let writerIndex = 0; writerIndex < writers.length; writerIndex++) {
-    const writer = writers[writerIndex]
-
-    if (nexusTrySetInventorySlot(player, slot, stack, writer.name, writer.write)) {
-      return true
-    }
-  }
-
-  nexusInventoryLastWriteApi[String(player.uuid)] = 'none'
-  return false
-}
-
 function nexusDescribeInventoryRead(player, slot, methodName) {
   try {
     let stack = null
 
-    if (methodName === 'getItem') {
-      stack = player.inventory.getItem(slot)
-    } else if (methodName === 'getStackInSlot') {
-      stack = player.inventory.getStackInSlot(slot)
-    } else {
+    if (methodName !== 'getItem' && methodName !== 'getStackInSlot') {
       return `${methodName}: error unsupported inventory debug method`
     }
+
+    stack = player.inventory[methodName](slot)
+    nexusInventoryLastReadApi[String(player.uuid)] = methodName
 
     if (stack === undefined || stack === null) {
       return `${methodName}: ok raw=null raw.id=undefined raw.empty=undefined nexusGetItemId=empty nexusIsEmptyStack=true`
@@ -597,131 +559,6 @@ function nexusGetLastInventoryReadApi(player) {
   return nexusInventoryLastReadApi[String(player.uuid)] || 'none'
 }
 
-function nexusGetLastInventoryWriteApi(player) {
-  return nexusInventoryLastWriteApi[String(player.uuid)] || 'none'
-}
-
-function nexusStacksMatchExpected(actualStack, expectedStack) {
-  const actualItemId = nexusGetItemId(actualStack)
-  const expectedItemId = nexusGetItemId(expectedStack)
-
-  if (!expectedItemId) {
-    return nexusIsEmptyStack(actualStack)
-  }
-
-  if (actualItemId !== expectedItemId) {
-    return false
-  }
-
-  try {
-    return Number(actualStack.count || 1) === Number(expectedStack.count || 1)
-  } catch (ignored) {
-  }
-
-  return true
-}
-
-function nexusBuildSafeInventorySlotList(player) {
-  const selectedSlot = nexusGetSelectedHotbarSlot(player)
-  const safeSlots = []
-
-  for (let slot = 9; slot <= 35; slot++) {
-    safeSlots.push(slot)
-  }
-
-  if (selectedSlot >= 0) {
-    for (let hotbarSlot = 0; hotbarSlot <= 8; hotbarSlot++) {
-      if (hotbarSlot !== selectedSlot) {
-        safeSlots.push(hotbarSlot)
-      }
-    }
-  }
-
-  return safeSlots
-}
-
-function nexusFindEmptySafeInventorySlot(player) {
-  const safeSlots = nexusBuildSafeInventorySlotList(player)
-
-  for (let safeSlotIndex = 0; safeSlotIndex < safeSlots.length; safeSlotIndex++) {
-    const slot = safeSlots[safeSlotIndex]
-    const currentStack = nexusGetInventorySlot(player, slot)
-
-    if (nexusIsEmptyStack(currentStack)) {
-      return slot
-    }
-  }
-
-  return -1
-}
-
-function nexusFindAllowedSwapInventorySlot(player) {
-  const safeSlots = nexusBuildSafeInventorySlotList(player)
-
-  for (let safeSlotIndex = 0; safeSlotIndex < safeSlots.length; safeSlotIndex++) {
-    const slot = safeSlots[safeSlotIndex]
-    const currentStack = nexusGetInventorySlot(player, slot)
-
-    if (nexusIsEmptyStack(currentStack)) {
-      continue
-    }
-
-    // If we must swap because the inventory has no empty slots, only put an item
-    // in the hand that this player is allowed to use. This prevents replacing a
-    // restricted sword with another restricted gun/spellbook and creating loops.
-    if (nexusCanUseItem(player, currentStack)) {
-      return slot
-    }
-  }
-
-  return -1
-}
-
-function nexusMoveStackToInventorySlot(player, stack, slot) {
-  if (slot < 0) {
-    return false
-  }
-
-  if (nexusSetInventorySlot(player, slot, stack)) {
-    return `moved_to_slot_${slot}`
-  }
-
-  return false
-}
-
-function nexusSetHandStack(player, handName, stack) {
-  if (handName === 'main_hand') {
-    try {
-      player.mainHandItem = stack
-
-      if (nexusStacksMatchExpected(player.mainHandItem, stack)) {
-        return true
-      }
-    } catch (ignored) {
-    }
-
-    const selectedSlot = nexusGetSelectedHotbarSlot(player)
-
-    if (selectedSlot < 0) {
-      return false
-    }
-
-    return nexusSetInventorySlot(player, selectedSlot, stack)
-  }
-
-  try {
-    player.offHandItem = stack
-  } catch (ignored) {
-    return false
-  }
-
-  return nexusStacksMatchExpected(player.offHandItem, stack)
-}
-
-function nexusSetHandEmpty(player, handName) {
-  return nexusSetHandStack(player, handName, Item.of('minecraft:air'))
-}
-
 function nexusHandEnforcementResultKey(player, handName) {
   return `${player.uuid}:${handName}`
 }
@@ -734,56 +571,34 @@ function nexusGetLastHandEnforcementResult(player, handName) {
   return nexusHandEnforcementResults[nexusHandEnforcementResultKey(player, handName)] || 'none'
 }
 
-function nexusMoveHeldItemIntoEmptySafeSlot(player, handName, restrictedStack, emptySlot) {
-  const restrictedCopy = nexusCopyStack(restrictedStack)
+function nexusTryMoveHandToInventoryWithCommand(player, sourceSlot) {
+  const playerName = nexusEscapePlayerSelectorName(player)
 
-  if (!restrictedCopy) {
-    return 'failed_copy'
+  for (let inventorySlot = 0; inventorySlot <= 26; inventorySlot++) {
+    const nbtSlot = inventorySlot + 9
+    const moveCommand = `execute unless data entity ${playerName} Inventory[{Slot:${nbtSlot}b}] run item replace entity ${playerName} inventory.${inventorySlot} from entity ${playerName} ${sourceSlot}`
+
+    if (nexusRunCommandForPlayerReturningSuccess(player, moveCommand)) {
+      const clearCommand = `item replace entity ${playerName} ${sourceSlot} with minecraft:air`
+      const cleared = nexusRunCommandForPlayerReturningSuccess(player, clearCommand)
+
+      if (!cleared) {
+        console.warn(`Nexus Realms: moved restricted item into inventory.${inventorySlot} but failed to clear ${sourceSlot} for ${player.username}.`)
+      }
+
+      return `moved_by_command_inventory_${inventorySlot}`
+    }
   }
 
-  if (!nexusSetHandEmpty(player, handName)) {
-    return handName === 'main_hand' ? 'failed_set_main_hand' : 'failed_set_offhand'
-  }
-
-  const movedResult = nexusMoveStackToInventorySlot(player, restrictedCopy, emptySlot)
-
-  if (movedResult) {
-    return movedResult
-  }
-
-  const restored = nexusSetHandStack(player, handName, restrictedCopy)
-  return restored ? 'failed_move_to_slot_restored' : 'failed_move_to_slot_lost_risk'
+  return false
 }
 
-function nexusSwapHeldItemWithSafeSlot(player, handName, restrictedStack, swapSlot) {
-  const restrictedCopy = nexusCopyStack(restrictedStack)
-  const replacementStack = nexusGetInventorySlot(player, swapSlot)
-  const replacementCopy = nexusCopyStack(replacementStack)
+function nexusTryMoveMainHandToInventoryWithCommand(player) {
+  return nexusTryMoveHandToInventoryWithCommand(player, 'weapon.mainhand')
+}
 
-  if (!restrictedCopy || !replacementCopy) {
-    return 'failed_swap'
-  }
-
-  if (!nexusCanUseItem(player, replacementCopy)) {
-    return 'failed_swap'
-  }
-
-  if (!nexusSetHandStack(player, handName, replacementCopy)) {
-    return handName === 'main_hand' ? 'failed_set_main_hand' : 'failed_set_offhand'
-  }
-
-  if (nexusSetInventorySlot(player, swapSlot, restrictedCopy)) {
-    return `swapped_with_slot_${swapSlot}`
-  }
-
-  const restoredHand = nexusSetHandStack(player, handName, restrictedCopy)
-  const restoredSlot = nexusSetInventorySlot(player, swapSlot, replacementCopy)
-
-  if (restoredHand && restoredSlot) {
-    return 'failed_swap'
-  }
-
-  return 'failed_swap'
+function nexusTryMoveOffhandToInventoryWithCommand(player) {
+  return nexusTryMoveHandToInventoryWithCommand(player, 'weapon.offhand')
 }
 
 function nexusMoveHeldItemAway(player, handName, reason) {
@@ -802,36 +617,23 @@ function nexusMoveHeldItemAway(player, handName, reason) {
   }
 
   let returnResult = false
-  const emptySlot = nexusFindEmptySafeInventorySlot(player)
+  nexusWarnRestricted(player, requiredClass)
 
-  if (emptySlot >= 0) {
-    returnResult = nexusMoveHeldItemIntoEmptySafeSlot(player, handName, stack, emptySlot)
+  if (handName === 'off_hand') {
+    returnResult = nexusTryMoveOffhandToInventoryWithCommand(player)
   } else {
-    const swapSlot = nexusFindAllowedSwapInventorySlot(player)
-
-    if (swapSlot >= 0) {
-      returnResult = nexusSwapHeldItemWithSafeSlot(player, handName, stack, swapSlot)
-    } else {
-      returnResult = 'no_empty_or_allowed_swap_slot'
-    }
+    returnResult = nexusTryMoveMainHandToInventoryWithCommand(player)
   }
 
-  nexusRecordHandEnforcementResult(player, handName, returnResult || 'failed_unknown')
+  nexusRecordHandEnforcementResult(player, handName, returnResult || 'command_move_failed_no_empty_slot')
 
-  if (returnResult && (String(returnResult).indexOf('moved_to_slot_') === 0 || String(returnResult).indexOf('swapped_with_slot_') === 0)) {
-    nexusWarnRestricted(player, requiredClass)
+  if (returnResult && String(returnResult).indexOf('moved_by_command_inventory_') === 0) {
     console.info(`Nexus Realms: moved restricted ${handName} item ${itemId} away from ${player.username}; required class: ${requiredClass}; reason: ${reason}; result: ${returnResult}.`)
     return true
   }
 
-  if (returnResult === 'no_empty_or_allowed_swap_slot') {
-    nexusWarnRestricted(player, requiredClass)
-    nexusNotifyRestriction(player, 'Inventario lleno: no puedo mover este item a un hueco seguro.', false, 'red')
-    return false
-  }
-
-  nexusWarnRestricted(player, requiredClass)
-  console.warn(`Nexus Realms: failed to move restricted ${handName} item ${itemId} for ${player.username}; reason=${reason}; result=${returnResult}.`)
+  nexusNotifyRestriction(player, 'No puedo mover este item a un hueco seguro; queda bloqueado en uso y daño.', false, 'red')
+  console.warn(`Nexus Realms: command move failed for restricted ${handName} item ${itemId} for ${player.username}; reason=${reason}; result=${returnResult || 'command_move_failed_no_empty_slot'}.`)
   return false
 }
 
@@ -963,6 +765,53 @@ function nexusGetDamageDirectEntity(event) {
   return null
 }
 
+function nexusDamageSourceDebugText(event) {
+  const parts = []
+
+  try {
+    parts.push(String(event.source))
+  } catch (ignored) {
+  }
+
+  try {
+    parts.push(String(event.source.type))
+  } catch (ignored) {
+  }
+
+  try {
+    parts.push(String(event.source.msgId))
+  } catch (ignored) {
+  }
+
+  try {
+    parts.push(String(event.source.getMsgId()))
+  } catch (ignored) {
+  }
+
+  try {
+    const directEntity = nexusGetDamageDirectEntity(event)
+    parts.push(String(directEntity && directEntity.type))
+  } catch (ignored) {
+  }
+
+  return parts.join(' ').toLowerCase()
+}
+
+function nexusDamageSourceLooksGun(event) {
+  const sourceText = nexusDamageSourceDebugText(event)
+  return sourceText.indexOf('tacz') >= 0 || sourceText.indexOf('gun') >= 0 || sourceText.indexOf('bullet') >= 0 || sourceText.indexOf('firearm') >= 0
+}
+
+function nexusDamageSourceLooksSpell(event) {
+  const sourceText = nexusDamageSourceDebugText(event)
+  return sourceText.indexOf('irons_spellbooks') >= 0 || sourceText.indexOf('spell') >= 0 || sourceText.indexOf('magic') >= 0 || sourceText.indexOf('mage') >= 0
+}
+
+function nexusDamageSourceLooksEpicFight(event) {
+  const sourceText = nexusDamageSourceDebugText(event)
+  return sourceText.indexOf('epicfight') >= 0 || sourceText.indexOf('epic_fight') >= 0 || sourceText.indexOf('efn') >= 0 || sourceText.indexOf('nightfall') >= 0 || sourceText.indexOf('melee') >= 0
+}
+
 function nexusDamageSourceLooksDirectMelee(event, attacker) {
   const directEntity = nexusGetDamageDirectEntity(event)
 
@@ -1030,10 +879,6 @@ function nexusHandleRestrictedDamage(event) {
     return
   }
 
-  if (!nexusDamageSourceLooksDirectMelee(event, attacker)) {
-    return
-  }
-
   const heldItemId = nexusGetItemId(attacker.mainHandItem)
   const heldRequiredClass = nexusGetRequiredClassForItem(heldItemId)
 
@@ -1041,6 +886,28 @@ function nexusHandleRestrictedDamage(event) {
     nexusWarnRestricted(attacker, heldRequiredClass)
     nexusMoveHeldItemAway(attacker, 'main_hand', 'restricted_damage')
     nexusCancelDamageEvent(event)
+    return
+  }
+
+  if (nexusDamageSourceLooksGun(event) && !nexusRestrictionPlayerHasClass(attacker, 'gunslinger')) {
+    nexusWarnRestricted(attacker, 'gunslinger')
+    nexusCancelDamageEvent(event)
+    return
+  }
+
+  if (nexusDamageSourceLooksSpell(event) && !nexusRestrictionPlayerHasClass(attacker, 'mage')) {
+    nexusWarnRestricted(attacker, 'mage')
+    nexusCancelDamageEvent(event)
+    return
+  }
+
+  if (nexusDamageSourceLooksEpicFight(event) && heldRequiredClass === 'warrior' && !nexusRestrictionPlayerHasClass(attacker, 'warrior')) {
+    nexusWarnRestricted(attacker, 'warrior')
+    nexusCancelDamageEvent(event)
+    return
+  }
+
+  if (!nexusDamageSourceLooksDirectMelee(event, attacker)) {
     return
   }
 
@@ -1162,25 +1029,44 @@ ServerEvents.commandRegistry(event => {
           return 0
         }
 
-        const selectedSlot = nexusGetSelectedHotbarSlot(player)
         const mainBefore = nexusGetItemId(player.mainHandItem) || 'empty'
-        const offBefore = nexusGetItemId(player.offHandItem) || 'empty'
-        const moved = nexusEnforceRestrictedHands(player, 'manual_debug_command')
+        const moved = nexusMoveHeldItemAway(player, 'main_hand', 'manual_debug_command')
         const mainAfter = nexusGetItemId(player.mainHandItem) || 'empty'
-        const offAfter = nexusGetItemId(player.offHandItem) || 'empty'
         const mainResult = nexusGetLastHandEnforcementResult(player, 'main_hand')
-        const offResult = nexusGetLastHandEnforcementResult(player, 'off_hand')
 
-        player.tell(`Manual hand enforcement moved: ${moved}`)
-        player.tell(`Selected hotbar slot: ${selectedSlot >= 0 ? selectedSlot : 'unavailable'}`)
         player.tell(`Main hand before: ${mainBefore}`)
+        player.tell(`Command move result: ${moved}`)
         player.tell(`Main hand after: ${mainAfter}`)
         player.tell(`Main hand last enforcement result: ${mainResult}`)
-        player.tell(`Offhand before: ${offBefore}`)
-        player.tell(`Offhand after: ${offAfter}`)
-        player.tell(`Offhand last enforcement result: ${offResult}`)
 
         return moved ? 1 : 0
+      })
+  )
+
+  event.register(
+    Commands.literal('nexus_command_slot_debug')
+      .executes(ctx => {
+        const player = ctx.source.player
+
+        if (!player) {
+          console.info('Nexus Realms: /nexus_command_slot_debug must be run by a player.')
+          return 0
+        }
+
+        const playerName = nexusEscapePlayerSelectorName(player)
+
+        for (let inventorySlot = 0; inventorySlot <= 2; inventorySlot++) {
+          const nbtSlot = inventorySlot + 9
+          const ifCommand = `execute if data entity ${playerName} Inventory[{Slot:${nbtSlot}b}]`
+          const unlessCommand = `execute unless data entity ${playerName} Inventory[{Slot:${nbtSlot}b}]`
+          const ifResult = nexusRunCommandForPlayerReturningSuccess(player, ifCommand)
+          const unlessResult = nexusRunCommandForPlayerReturningSuccess(player, unlessCommand)
+
+          player.tell(`inventory.${inventorySlot} / Slot:${nbtSlot}b if data success: ${ifResult}`)
+          player.tell(`inventory.${inventorySlot} / Slot:${nbtSlot}b unless data success: ${unlessResult}`)
+        }
+
+        return 1
       })
   )
 
@@ -1197,6 +1083,7 @@ ServerEvents.commandRegistry(event => {
         const slots = [0, 1, 2, 8, 9, 10, 17, 18, 26, 27, 35]
         const selectedSlot = nexusGetSelectedHotbarSlot(player)
 
+        player.tell('Diagnostico solamente: no se usa para mover items restringidos.')
         player.tell(`Clase detectada: ${nexusGetPlayerClass(player)}`)
         player.tell(`Selected hotbar slot: ${selectedSlot >= 0 ? selectedSlot : 'unavailable'}`)
         player.tell(`Main hand item: ${nexusGetItemId(player.mainHandItem) || 'empty'}`)
@@ -1246,20 +1133,14 @@ ServerEvents.commandRegistry(event => {
         const persistentClass = nexusGetPersistentClassDebug(player)
         const classChosen = nexusGetClassChosenDebug(player)
         const gunId = namespace === 'tacz' ? nexusExtractGunIdFromNbtText(nbtSummary) : 'not_tacz'
-        const safeEmptySlotCandidate = nexusFindEmptySafeInventorySlot(player)
-        const safeAllowedSwapSlotCandidate = nexusFindAllowedSwapInventorySlot(player)
         const lastInventoryReadApi = nexusGetLastInventoryReadApi(player)
-        const lastInventoryWriteApi = nexusGetLastInventoryWriteApi(player)
 
         player.tell(`Clase persistentData: ${persistentClass}`)
         player.tell(`nexus_class_chosen: ${classChosen}`)
         player.tell(`Clase detectada: ${detectedClass}`)
         player.tell(`Tags: warrior=${nexusRestrictionHasTag(player, 'nexus_class_warrior')}, mage=${nexusRestrictionHasTag(player, 'nexus_class_mage')}, gunslinger=${nexusRestrictionHasTag(player, 'nexus_class_gunslinger')}`)
         player.tell(`Selected hotbar slot: ${selectedSlot >= 0 ? selectedSlot : 'unavailable'}`)
-        player.tell(`Safe empty slot candidate: ${safeEmptySlotCandidate >= 0 ? safeEmptySlotCandidate : 'none'}`)
-        player.tell(`Safe allowed swap slot candidate: ${safeAllowedSwapSlotCandidate >= 0 ? safeAllowedSwapSlotCandidate : 'none'}`)
-        player.tell(`Last inventory read API: ${lastInventoryReadApi}`)
-        player.tell(`Last inventory write API: ${lastInventoryWriteApi}`)
+        player.tell(`Last inventory read API diagnostic: ${lastInventoryReadApi}`)
         player.tell(`Item mano principal: ${mainHandItemId || 'empty'}`)
         player.tell(`Main hand namespace: ${namespace || 'none'}`)
         player.tell(`Main hand required class: ${requiredClass}`)
@@ -1277,6 +1158,7 @@ ServerEvents.commandRegistry(event => {
         player.tell(`Resultado: ${isBlocked ? 'bloqueado' : 'permitido'}`)
         player.tell(`TaCZ GunId: ${gunId}`)
         player.tell(`Hand enforcement active: ${NEXUS_HAND_ENFORCEMENT_ACTIVE}`)
+        player.tell(`Strategy: ${NEXUS_HAND_ENFORCEMENT_STRATEGY}`)
         player.tell(`Melee sin arma permitido: ${unarmedAllowed}`)
         player.tell(`Bloqueo melee sin arma no-Guerrero activo: ${NEXUS_BLOCK_NON_WARRIOR_UNARMED_MELEE}`)
         player.tell(`Main hand empty: ${isMainHandEmpty}`)

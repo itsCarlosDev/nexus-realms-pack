@@ -1,5 +1,14 @@
 # Changelog
 
+## Command based class hand enforcement
+
+- Replaced KubeJS inventory movement for wrong-class held items with vanilla `/item replace entity ... from entity ...` commands.
+- Preserved item NBT by copying directly from `weapon.mainhand` or `weapon.offhand` into empty `inventory.0..inventory.26` slots.
+- If command movement cannot find a safe empty slot, use and damage are cancelled while the item remains untouched.
+- Kept `player.give`, automatic drop fallback, and JS inventory slot writes out of hand enforcement.
+- Added `/nexus_command_slot_debug` for safe command success diagnostics.
+- Kept Punchy, Epic Tweaks, and Epic Fight mining command fallback settings unchanged.
+
 ## Hand enforcement loop fix
 
 - Fixed wrong-class held items being returned to the selected hotbar slot.
