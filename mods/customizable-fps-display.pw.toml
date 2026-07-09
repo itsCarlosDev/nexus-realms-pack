@@ -1,0 +1,13 @@
+name = "Customizable FPS Display"
+filename = "fps_display_1_20_1_forge-1.0.0-forge-1.20.1.jar"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/ChS83tWO/versions/18doNLXW/fps_display_1_20_1_forge-1.0.0-forge-1.20.1.jar"
+hash-format = "sha512"
+hash = "54f29dde447ce1c7ac27d0741b59a26ccdabea8ec20d80799a5cb80efa6ef5df5c59ceea3d65aef8c05a463fb176ccb6fabd5536968cf6cef55f6c840f28f706"
+
+[update]
+[update.modrinth]
+mod-id = "ChS83tWO"
+version = "18doNLXW"

@@ -129,6 +129,11 @@ hash = "5e9edd1fd2395f14a0c8a4acbdbdd61e1047be1f0033deb3140d2ce0d093e9d8"
 metafile = true
 
 [[files]]
+file = "mods/atlas-lib.pw.toml"
+hash = "e78a95a5dea14600ea73936a1209d3f6a44ece2d2122ea1b94fc6ecbb763f820"
+metafile = true
+
+[[files]]
 file = "mods/balm.pw.toml"
 hash = "fe46309d954710019e07813bcdc6db2c775b07795f3628cb559610adcb129a9a"
 metafile = true
@@ -141,6 +146,11 @@ metafile = true
 [[files]]
 file = "mods/betterf3.pw.toml"
 hash = "28358fe53c22695b3bf1f93ac2225c46fe3525918b7b993ac36e68a7f0a16fe8"
+metafile = true
+
+[[files]]
+file = "mods/born-in-chaos.pw.toml"
+hash = "d61aee2e0abf58c9a923bfebd86b9b1e88e8001164c2ebf2ac4c96842acc7423"
 metafile = true
 
 [[files]]
@@ -254,6 +264,11 @@ hash = "1315cd56b0b4a5b3d53374cebf4f1f3cd0546b05058740847bd226c1d1ccab39"
 metafile = true
 
 [[files]]
+file = "mods/customizable-fps-display.pw.toml"
+hash = "7777707a31c98e7e0674158a253244ef7145eac7019fb487d34446b445bcc2b8"
+metafile = true
+
+[[files]]
 file = "mods/default-options.pw.toml"
 hash = "4dd29a42972a5ab03609a0ee76156f005f7a7d3bd332bcdf57b25edd9e1310f9"
 metafile = true
@@ -339,6 +354,11 @@ hash = "8d11358dfd1f3591ee0ce8728d6a3234e1edef5db39c52fe68264ecf7684968d"
 metafile = true
 
 [[files]]
+file = "mods/explosive-enhancement-reforged.pw.toml"
+hash = "197ae024f6d018efc44da09a5324c2cec24219e3213b3fd2a34b9b6f2f0f7f01"
+metafile = true
+
+[[files]]
 file = "mods/fancy-toasts.pw.toml"
 hash = "25644d1e49befc15ea303fa14491d04c3e8a116c85e44184ba4a1ff0992b0bb6"
 metafile = true
@@ -346,6 +366,11 @@ metafile = true
 [[files]]
 file = "mods/fancymenu.pw.toml"
 hash = "0189f27ab57f4dfa8ff5255e109f1cdffa6145f0992c73b4c382663231d87f29"
+metafile = true
+
+[[files]]
+file = "mods/fantasy-armor.pw.toml"
+hash = "ca19ff6f366a9947599f33fda0f5f570df3965a35230e87221c4d1f4480d2069"
 metafile = true
 
 [[files]]
@@ -728,6 +753,11 @@ hash = "298d8ba281c26cd5c3691f0c866cd139973d75482a0bdfc26cff3f07041e65db"
 metafile = true
 
 [[files]]
+file = "mods/the-hordes.pw.toml"
+hash = "52b93fa5098261c7a9a0bc9137edfa1278ef9b8aa94f6c88c5dc3e1bc7ec6291"
+metafile = true
+
+[[files]]
 file = "mods/third-person-shooting.pw.toml"
 hash = "e1d77732cbf4237c49993569c32d794e7895c6f015f35b7b90a49cb459da3d29"
 metafile = true
@@ -770,6 +800,11 @@ metafile = true
 [[files]]
 file = "mods/what-are-they-up-to.pw.toml"
 hash = "c557d1b26559ef987c229187d2f2705616e78179ce04fa1c96cc3d76a1cdf1b5"
+metafile = true
+
+[[files]]
+file = "mods/worldedit.pw.toml"
+hash = "bd1dc13316e2aa9b56c89e7e974057f8da8d6bbfe707ba4210109fc612b782e3"
 metafile = true
 
 [[files]]
@@ -835,6 +870,11 @@ metafile = true
 [[files]]
 file = "mods/yungs-better-witch-huts.pw.toml"
 hash = "2eb3e909cc46e39d8b9e762f39c36b0579744118d619beb6a174d264951d6248"
+metafile = true
+
+[[files]]
+file = "resourcepacks/3d-items-vanillaism.pw.toml"
+hash = "e8dd30d8b7ef9c83c239df43532a9a082e87b3e82393343a96bbf2af9fbd22b9"
 metafile = true
 
 [[files]]
