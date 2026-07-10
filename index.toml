@@ -77,6 +77,22 @@ file = "config/fancymenu/user_variables.db"
 hash = "3d7d4cda73d6bde134a568ccbe4e8d2e7fbe701570012b71fa45acdb2258c823"
 
 [[files]]
+file = "config/fancytoasts/general.json"
+hash = "d270773ee2e05e6c8fa6fb4b1ddeafc26a05d51aac45f0677b620ce45d9cc610"
+
+[[files]]
+file = "config/inventoryhud-client.toml"
+hash = "450b3e6a8b57a8c439b60fc3a678f0088e7e96ecab205f5d94aa4ad442831e4d"
+
+[[files]]
+file = "journeymap/config/5.10/journeymap.minimap.config"
+hash = "b292a868699deff815881c8a4a0ffcca2dc19e84eaba7201d191a2359da196fd"
+
+[[files]]
+file = "journeymap/config/5.10/journeymap.minimap2.config"
+hash = "a185e4af3b71e5825466b8899ed7cfa8b91f78811d0deec5bf22f6ac93632775"
+
+[[files]]
 file = "kubejs/server_scripts/nexus_class_restrictions.js"
 hash = "93731d9ab43f1709332cbfd13259eb4a7db60d92f339c605bbf52a7dd26bdea8"
 
