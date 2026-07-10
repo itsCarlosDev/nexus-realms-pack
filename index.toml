@@ -878,10 +878,6 @@ hash = "e8dd30d8b7ef9c83c239df43532a9a082e87b3e82393343a96bbf2af9fbd22b9"
 metafile = true
 
 [[files]]
-file = "resourcepacks/FreshAnimations_v1.9.2.zip"
-hash = "7ecee4567bd999ce6d45897b0b196a9342ff325f550031a15fffaaf81342dc1b"
-
-[[files]]
 file = "resourcepacks/better-lanterns.pw.toml"
 hash = "120a936d5345b58a613ce793b0ce4bd6527aec7125eed4b6177f45d6e8602fb5"
 metafile = true
@@ -897,28 +893,13 @@ hash = "2e1a6866e4366cebe200dcf71ab52923b7653f76dc48741b93411ee3bf77372a"
 metafile = true
 
 [[files]]
-file = "resourcepacks/fresh-animations-details.pw.toml"
-hash = "0fbf13d350fe4d7645ca6e01da4f860c18d762666ba3c4f83ba9a91312724853"
-metafile = true
-
-[[files]]
 file = "resourcepacks/fresh-animations-emissive.pw.toml"
 hash = "de81d004ae049a08aab49d57db3ed5f5b659bd28b070bce0be4c520527f51b4b"
 metafile = true
 
 [[files]]
-file = "resourcepacks/fresh-animations.pw.toml"
-hash = "6a1556a0e4fcb411b33efafc3382b4abd9a6e671f140dc0d42e9aad2808e24f3"
-metafile = true
-
-[[files]]
 file = "resourcepacks/low-on-fire.pw.toml"
 hash = "0ce41000cbbb72e9c03ae3738500aae1056f1102ddc4e5a46784ec18cabf6ca7"
-metafile = true
-
-[[files]]
-file = "resourcepacks/mushrooms-plus.pw.toml"
-hash = "0db4f35da5de891768a3bb230f28d1e11bf5cee1cc799485e2888ae3a1cac1ac"
 metafile = true
 
 [[files]]
