@@ -93,6 +93,18 @@ file = "config/inventoryhud-client.toml"
 hash = "450b3e6a8b57a8c439b60fc3a678f0088e7e96ecab205f5d94aa4ad442831e4d"
 
 [[files]]
+file = "config/shouldersurfing-client.toml"
+hash = "052725e520f5b1952946a103799fc43de7bebbd610d081fabc90361804b8dec6"
+
+[[files]]
+file = "config/tacz-client.toml"
+hash = "0caa9d53d89c106cad7bc03514c04e683811323ec5e44d81ea689e2a9726a130"
+
+[[files]]
+file = "config/tacztweaks.json"
+hash = "5e3d04e3da6a6c7e1e1e63fde62f66aa2aa2baffe081fa50213c9dd7d38bd292"
+
+[[files]]
 file = "journeymap/config/5.10/journeymap.minimap.config"
 hash = "b292a868699deff815881c8a4a0ffcca2dc19e84eaba7201d191a2359da196fd"
 
