@@ -5,6 +5,14 @@ file = "config/epictweaks-client.toml"
 hash = "fa8b64cb8aea24a504eadcc6856fe87437ccd7a0a142dbe6b91802ff984401bf"
 
 [[files]]
+file = "config/ezvcsurvival/sounds.toml"
+hash = "7ceb97014f207e48229748f5af62987ffb84ab2995613a3aed7019ccef70f5e2"
+
+[[files]]
+file = "config/ezvcsurvival/voices.toml"
+hash = "d702144b153d5b9ca40c39d2c9f6d5dcf24a25d58bde3edb969757e24040ef24"
+
+[[files]]
 file = "config/fancymenu/assets/nexus/class_selection/gunslinger.png"
 hash = "19c0ab190e17e0fabc11cf111b5a89ad746eaf9217d1a17155d913fd97deeb6c"
 
@@ -830,6 +838,11 @@ metafile = true
 [[files]]
 file = "mods/visuality-forge.pw.toml"
 hash = "736738062381bec4d55b726546b4fab7443bea0e5983e8af65b90c56da72da06"
+metafile = true
+
+[[files]]
+file = "mods/voiceless-survival.pw.toml"
+hash = "46c4d14c74900e3164fe58fad70c47bc0ace039aa4cbcaa6d1843b6f96ab0689"
 metafile = true
 
 [[files]]
