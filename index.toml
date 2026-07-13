@@ -81,6 +81,14 @@ file = "config/fancytoasts/general.json"
 hash = "d270773ee2e05e6c8fa6fb4b1ddeafc26a05d51aac45f0677b620ce45d9cc610"
 
 [[files]]
+file = "config/hordes-client.toml"
+hash = "41bb0b1222c5879fd8f8d1b88d84881adbed559fd12897b5c598dff49ba62abb"
+
+[[files]]
+file = "config/hordes-common.toml"
+hash = "9d5e407b5330c2bf5628b1c2e43aef56a155f4d38e0e765ae8530165856ca280"
+
+[[files]]
 file = "config/inventoryhud-client.toml"
 hash = "450b3e6a8b57a8c439b60fc3a678f0088e7e96ecab205f5d94aa4ad442831e4d"
 
@@ -103,6 +111,10 @@ hash = "74423b8c8f67e5da9daf65daff6b9732d3ccf742d60db331e9cc9b2f461532e2"
 [[files]]
 file = "kubejs/server_scripts/nexus_tacz_restrictions.js"
 hash = "f36c1aed8d05fc948cf7f7e7080929765cd4f18d34bded45a92274ef4637866f"
+
+[[files]]
+file = "kubejs/startup_scripts/nexus_horde_presentation.js"
+hash = "d4e2902236f78205ae3af4472015e0ad97238524535a1a93cffa7483709dce60"
 
 [[files]]
 file = "mods/aaa-particles.pw.toml"
