@@ -1,12 +1,16 @@
 hash-format = "sha256"
 
 [[files]]
+file = "config/Undead_mobs.toml"
+hash = "c29f4573c1531f5cd6c37e24623a971b4390c00da284f09f9ebe36ccd233c3a7"
+
+[[files]]
 file = "config/epictweaks-client.toml"
 hash = "fa8b64cb8aea24a504eadcc6856fe87437ccd7a0a142dbe6b91802ff984401bf"
 
 [[files]]
 file = "config/ezvcsurvival/sounds.toml"
-hash = "7ceb97014f207e48229748f5af62987ffb84ab2995613a3aed7019ccef70f5e2"
+hash = "2025ccc06ffabbeb9580c6332da6bcabe5c15ea57504d37df6335b75ebf4fd8a"
 
 [[files]]
 file = "config/ezvcsurvival/voices.toml"
@@ -94,7 +98,15 @@ hash = "41bb0b1222c5879fd8f8d1b88d84881adbed559fd12897b5c598dff49ba62abb"
 
 [[files]]
 file = "config/hordes-common.toml"
-hash = "9d5e407b5330c2bf5628b1c2e43aef56a155f4d38e0e765ae8530165856ca280"
+hash = "87aefb98bd15619e4b920ab9377ae576446444dbad40202b283ef45338970ace"
+
+[[files]]
+file = "config/hordes/data/hordes/horde_data/scripts/default.json"
+hash = "43d02e4707b7b8f342cd47508389d978e0b2a95fbfa04ba2cc2b3782d3635bf6"
+
+[[files]]
+file = "config/hordes/data/nexus/horde_data/tables/biohazard_undead.json"
+hash = "48cb5d7ed11a5507b07d4a50158d6cc4d61d1cd3d2d94551547f74a5e3ffe3ef"
 
 [[files]]
 file = "config/inventoryhud-client.toml"
@@ -129,12 +141,16 @@ file = "kubejs/server_scripts/nexus_class_selection.js"
 hash = "74423b8c8f67e5da9daf65daff6b9732d3ccf742d60db331e9cc9b2f461532e2"
 
 [[files]]
+file = "kubejs/server_scripts/nexus_era_calendar.js"
+hash = "f68ebe0067a2354d80cc3038969a99ca31de56414768c80b04a331962fed505e"
+
+[[files]]
 file = "kubejs/server_scripts/nexus_tacz_restrictions.js"
 hash = "f36c1aed8d05fc948cf7f7e7080929765cd4f18d34bded45a92274ef4637866f"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_presentation.js"
-hash = "d4e2902236f78205ae3af4472015e0ad97238524535a1a93cffa7483709dce60"
+hash = "1c4ede345be491299fb2d4f9251263440fe22ddd136fec7e449ddfeef5d53345"
 
 [[files]]
 file = "mods/aaa-particles.pw.toml"
@@ -803,6 +819,11 @@ metafile = true
 [[files]]
 file = "mods/the-hordes.pw.toml"
 hash = "52b93fa5098261c7a9a0bc9137edfa1278ef9b8aa94f6c88c5dc3e1bc7ec6291"
+metafile = true
+
+[[files]]
+file = "mods/theundead.pw.toml"
+hash = "099d62246ccfe7a2349d719fef9c7f8825792d226b03fefee6e039b41fccb66e"
 metafile = true
 
 [[files]]

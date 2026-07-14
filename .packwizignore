@@ -8,4 +8,5 @@ TODO.md
 CHANGELOG.md
 docs/
 scripts/
+!config/hordes/data/hordes/horde_data/scripts/default.json
 nexus-core/

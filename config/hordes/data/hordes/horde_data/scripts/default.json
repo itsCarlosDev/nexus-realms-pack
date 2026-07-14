@@ -1,0 +1,9 @@
+[
+  {
+    "function": "hordes:set_spawntable",
+    "value": [
+      "nexus:biohazard_undead"
+    ],
+    "conditions": []
+  }
+]
