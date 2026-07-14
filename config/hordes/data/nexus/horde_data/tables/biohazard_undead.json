@@ -1,0 +1,6 @@
+[
+  { "entity": "undead_revamp2:therabidus", "weight": 80, "first_day": 0, "last_day": 0 },
+  { "entity": "undead_revamp2:thesomnolence", "weight": 35, "first_day": 0, "last_day": 0 },
+  { "entity": "undead_revamp2:theheavy", "weight": 2, "first_day": 17, "last_day": 0 },
+  { "entity": "undead_revamp2:thespitter", "weight": 7, "first_day": 23, "last_day": 0 }
+]

@@ -9,7 +9,7 @@
 #Define sound reaction settings for each mob.
 #Format: mob_id=speed=VALUE,range=VALUE,groups=group1,group2
 [mob_sound_reactions]
-	reactions = ["minecraft:zombie=speed=1.0,range=12,groups=wood_sounds"]
+	reactions = ["minecraft:zombie=speed=1.0,range=12,groups=wood_sounds", "undead_revamp2:therabidus=speed=1.0,range=12,groups=wood_sounds", "undead_revamp2:thesomnolence=speed=1.0,range=12,groups=wood_sounds", "undead_revamp2:thespitter=speed=1.0,range=12,groups=wood_sounds", "undead_revamp2:theheavy=speed=1.0,range=12,groups=wood_sounds"]
 
 [weather]
 	#Range multiplier applied when it is raining or thundering.
@@ -35,7 +35,7 @@
 	sounds = ["minecraft:entity.generic.explode=1.0,12.0"]
 
 [gun_fire_mobs]
-	mobs = ["minecraft:zombie"]
+	mobs = ["minecraft:zombie", "undead_revamp2:therabidus", "undead_revamp2:thesomnolence", "undead_revamp2:thespitter", "undead_revamp2:theheavy"]
 
 #Silenced Guns configuration
 #List of GUNS IDs that should always be treated as silenced.
