@@ -1,0 +1,18 @@
+{
+  "display_name": "Nexus Era II - Diamond Test",
+  "icon": "minecraft:diamond",
+  "items": [
+    {
+      "id": "minecraft:diamond_sword",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "minecraft:diamond_pickaxe",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "minecraft:diamond_chestplate",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    }
+  ]
+}

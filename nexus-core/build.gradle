@@ -5,7 +5,7 @@ plugins {
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
 }
 
-version = '0.1.0'
+version = '0.3.3'
 group = 'dev.itscarlos'
 
 base {
@@ -64,7 +64,7 @@ tasks.named('processResources', ProcessResources).configure {
         mod_license: 'All Rights Reserved',
         mod_version: project.version,
         mod_authors: 'Carlos',
-        mod_description: 'Server-side class enforcement for Nexus Realms.'
+        mod_description: 'Synchronized era progression and UI for Nexus Realms.'
     ]
 
     inputs.properties replaceProperties
@@ -72,9 +72,16 @@ tasks.named('processResources', ProcessResources).configure {
     filesMatching(['META-INF/mods.toml']) {
         expand replaceProperties + [project: project]
     }
+
+    from(rootProject.file('../config/nexuscore/eras.json')) {
+        into 'assets/nexuscore/progression'
+    }
 }
 
 tasks.named('jar', Jar).configure {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+
     manifest {
         attributes([
             'Specification-Title': 'nexuscore',
