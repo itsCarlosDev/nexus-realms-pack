@@ -93,6 +93,26 @@ file = "config/fancytoasts/general.json"
 hash = "d270773ee2e05e6c8fa6fb4b1ddeafc26a05d51aac45f0677b620ce45d9cc610"
 
 [[files]]
+file = "config/ftbquests/quests/chapter_groups.snbt"
+hash = "42bfb071693c8bd82f490a5054269d631ac54d8c11bb97090bf1bc09e078cb93"
+
+[[files]]
+file = "config/ftbquests/quests/chapters/progresion_global.snbt"
+hash = "01a58e431ac3126ec1b541315bba3a6b890002c88d348c27fc225fb615fe68d9"
+
+[[files]]
+file = "config/ftbquests/quests/data.snbt"
+hash = "3743c0f49721d3624efd9630e1104960050877d86e2f93f4ea8da0cd3d23fbf3"
+
+[[files]]
+file = "config/historystages/global/nexus_era_2_diamond.json"
+hash = "69b0513112ef0f6e1abb3439b874050770d78ad20536116986ce564a346aac74"
+
+[[files]]
+file = "config/historystages/global/nexus_era_4_nexus.json"
+hash = "56b0eb028ee46ffe3b66e60097f030acc9420bdfb424ee954518ea497303f076"
+
+[[files]]
 file = "config/hordes-client.toml"
 hash = "41bb0b1222c5879fd8f8d1b88d84881adbed559fd12897b5c598dff49ba62abb"
 
@@ -111,6 +131,10 @@ hash = "48cb5d7ed11a5507b07d4a50158d6cc4d61d1cd3d2d94551547f74a5e3ffe3ef"
 [[files]]
 file = "config/inventoryhud-client.toml"
 hash = "450b3e6a8b57a8c439b60fc3a678f0088e7e96ecab205f5d94aa4ad442831e4d"
+
+[[files]]
+file = "config/nexuscore/eras.json"
+hash = "ef8828e5bc88b30848f83dd35cb5a1a2b817de4945a97033f005309598db9a8b"
 
 [[files]]
 file = "config/shouldersurfing-client.toml"
@@ -142,7 +166,7 @@ hash = "74423b8c8f67e5da9daf65daff6b9732d3ccf742d60db331e9cc9b2f461532e2"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_era_calendar.js"
-hash = "f68ebe0067a2354d80cc3038969a99ca31de56414768c80b04a331962fed505e"
+hash = "f6908e6335fc6d78dcec69a4b8ef62e578a16eb5956d3ae0f79a05b174008793"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_tacz_restrictions.js"
@@ -503,6 +527,11 @@ hash = "aa6e4d61f683ad37bee12c3d2226adced8415297addf18565ced2f37421dc881"
 metafile = true
 
 [[files]]
+file = "mods/history-stages.pw.toml"
+hash = "de4cb24f712aca1b97aff53f5867b46aa3aa34597ec38b28efba1f66c613e5a2"
+metafile = true
+
+[[files]]
 file = "mods/iceberg.pw.toml"
 hash = "5851bef35e786bfcdb837dfc380c4bd22c857434b2997235a551b3a0cf72d158"
 metafile = true
@@ -638,8 +667,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.1.0.jar"
-hash = "a94133d0585afb40d4abde92a829dc4f8917036901e67a28c07ae2611667dc53"
+file = "mods/nexus-core-0.3.3.jar"
+hash = "0a9816c5ea92513fc6be8744830ce86e19b9aadbc30d60580a6ef354313245fe"
 
 [[files]]
 file = "mods/not-enough-animations.pw.toml"

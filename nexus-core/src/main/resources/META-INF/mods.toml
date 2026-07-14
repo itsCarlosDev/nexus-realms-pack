@@ -22,3 +22,10 @@ mandatory=true
 versionRange="[${minecraft_version},1.21)"
 ordering="NONE"
 side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="kubejs"
+mandatory=true
+versionRange="[2001.6.5,)"
+ordering="AFTER"
+side="BOTH"
