@@ -2,72 +2,62 @@
   "display_name": "Nexus Era IV - Netherite Equipment",
   "icon": "minecraft:netherite_ingot",
   "items": [
-    {
-      "id": "minecraft:netherite_sword",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "minecraft:netherite_pickaxe",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "minecraft:netherite_axe",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "minecraft:netherite_shovel",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "minecraft:netherite_hoe",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "minecraft:netherite_helmet",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "minecraft:netherite_chestplate",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "minecraft:netherite_leggings",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "minecraft:netherite_boots",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "farmersdelight:netherite_knife",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "simplyswords:netherite_glaive",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "irons_spellbooks:netherite_spell_book",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "tacz:modern_kinetic_gun",
-      "nbt": {
-        "GunId": "tacz:m107"
-      },
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    }
+    {"id":"minecraft:netherite_sword","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"minecraft:netherite_pickaxe","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"minecraft:netherite_axe","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"minecraft:netherite_shovel","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"minecraft:netherite_hoe","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"minecraft:netherite_helmet","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"minecraft:netherite_chestplate","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"minecraft:netherite_leggings","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"minecraft:netherite_boots","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"farmersdelight:netherite_knife","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"epicfight:netherite_dagger","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"epicfight:netherite_greatsword","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"epicfight:netherite_longsword","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"epicfight:netherite_spear","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"epicfight:netherite_tachi","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:netherite_chakram","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:netherite_claymore","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:netherite_cutlass","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:netherite_glaive","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:netherite_greataxe","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:netherite_greathammer","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:netherite_halberd","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:netherite_katana","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:netherite_longsword","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:netherite_rapier","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:netherite_sai","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:netherite_scythe","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:netherite_spear","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:netherite_twinblade","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:netherite_warglaive","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:legendary_spell_book","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:netherite_spell_book","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:necronomicon_spell_book","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:cursed_doll_spell_book","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:netherite_mage_helmet","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:netherite_mage_chestplate","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:netherite_mage_leggings","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:netherite_mage_boots","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:infernal_sorcerer_chestplate","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:paladin_chestplate","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:staff_of_the_nines","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m107"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m95"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:timeless50"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:minigun"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:rpg7"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m320"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:aa12"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"createaddition:tesla_coil","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"createaddition:overcharged_alloy","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"createaddition:overcharged_casing","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"createaddition:overcharged_hammer","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"createaddition:portable_energy_interface","unlock_actions":["place","pickup","loot","recipe","gui","icon"]}
   ],
   "recipes": [
-    "minecraft:netherite_sword_smithing",
-    "minecraft:netherite_pickaxe_smithing",
-    "minecraft:netherite_axe_smithing",
-    "minecraft:netherite_shovel_smithing",
-    "minecraft:netherite_hoe_smithing",
-    "minecraft:netherite_helmet_smithing",
-    "minecraft:netherite_chestplate_smithing",
-    "minecraft:netherite_leggings_smithing",
-    "minecraft:netherite_boots_smithing",
-    "farmersdelight:netherite_knife_smithing"
+    "minecraft:netherite_sword_smithing","minecraft:netherite_pickaxe_smithing","minecraft:netherite_axe_smithing","minecraft:netherite_shovel_smithing","minecraft:netherite_hoe_smithing",
+    "minecraft:netherite_helmet_smithing","minecraft:netherite_chestplate_smithing","minecraft:netherite_leggings_smithing","minecraft:netherite_boots_smithing","farmersdelight:netherite_knife_smithing"
   ]
 }

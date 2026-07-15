@@ -110,31 +110,31 @@ hash = "3743c0f49721d3624efd9630e1104960050877d86e2f93f4ea8da0cd3d23fbf3"
 
 [[files]]
 file = "config/historystages/global/nexus_era_1_iron.json"
-hash = "01dc5906f32265580d27582c13fd16e7fb37bf3ab7e3eebc6aaa7685ee255bd7"
+hash = "eccf39f582060f6b3cfff9d4a164b9d547780f16f4cb1fd3af72ba2196e63e58"
 
 [[files]]
 file = "config/historystages/global/nexus_era_2_diamond.json"
-hash = "ac5357e6cabc5a82a1a978f4a69d075604da3de34571e4aaa52c486b02f86508"
+hash = "6d5805a08715787e1c175ca506ce157f5ec29db471bdb42ad6fe2cc98dbb42bf"
 
 [[files]]
 file = "config/historystages/global/nexus_era_3_arcane_industrial.json"
-hash = "3610d64907656cd5e60e6be6a17ba3a299a601887fe8b72a3e7ec1e594aced8b"
+hash = "85b122f4108331f4e0b8631cc947dcf834402719310bf35c2d9479c0b9b05d47"
 
 [[files]]
 file = "config/historystages/global/nexus_era_4_nexus.json"
-hash = "6b526a86abd8715010ede28fc66d341931d5c15f6d74377d450f8af948ddccfd"
+hash = "efae98835e62fac14e96a7cac987584361228ff95862b44ffb1c60032503f67a"
 
 [[files]]
 file = "config/historystages/individual/nexus_class_gunslinger.json"
-hash = "e50164c1976de6aaa2625b97f56d4fbb41fde5a3b7f41c95a94f90cff163d864"
+hash = "18e2e74e50fac15e0e01535719de3465fb12ff047263b2433ef4a7e2b2b813f7"
 
 [[files]]
 file = "config/historystages/individual/nexus_class_mage.json"
-hash = "ab94024f9d02c7fbb446101f47c2bb909bb18aba958a411a6bd47e2641dc9b49"
+hash = "1488ff3aded04c0bbf2183b8d576d370864c66a4d37139af259cd97ff008c304"
 
 [[files]]
 file = "config/historystages/individual/nexus_class_warrior.json"
-hash = "35e76c547a9b49aaaf5e58badab149cbd3756c1f7d195fe3dd5a82f5ab18db78"
+hash = "1b502fa2ff93be16dea449fc6709b6b6fe9a3df6fb372d868de5f4b536626d08"
 
 [[files]]
 file = "config/historystages/individual/nexus_specialization_metallurgist.json"

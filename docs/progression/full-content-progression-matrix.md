@@ -90,6 +90,26 @@ Auditoría estática local de los registros y recursos presentes en los JAR de F
 | Equipo vanilla completo de diamante | Minecraft | II | GLOBAL | — | Stage global `nexus_era_2_diamond` existente | Herramientas, espada y armadura; materiales pasivos libres. |
 | Equipo vanilla completo de netherite | Minecraft | IV | GLOBAL | — | Stage global `nexus_era_4_nexus` existente | Herramientas, espada y armadura; scrap/ingot/template permanecen transportables. |
 
+## Estado de implementación de la primera capa
+
+| Familia clasificada | Estado |
+| --- | --- |
+| Epic Fight por material: wooden/stone/iron, diamond y netherite | **IMPLEMENTADA** |
+| Simply Swords por material: iron, diamond, runic y netherite | **IMPLEMENTADA** |
+| Armaduras Nightfall `duskfire_*` y `ruinfighter_*` | **IMPLEMENTADA** |
+| Grimorios Iron's Spells por tier I–IV | **IMPLEMENTADA** |
+| Runas, upgrade orbs, armaduras mágicas y staffs clasificados | **IMPLEMENTADA** |
+| Armas TaCZ inequívocas por `GunId`, agrupadas en tiers I–IV | **IMPLEMENTADA** |
+| Create básico, automatización intermedia e industria avanzada | **IMPLEMENTADA** |
+| Create Crafts & Additions: red básica, energía avanzada y tecnología sobrecargada | **IMPLEMENTADA** |
+| Equipo vanilla de diamante/netherite y cuchillos Farmer's Delight | **IMPLEMENTADA** (existente) |
+| Munición y accesorios TaCZ; scrolls y skillbooks variables | **PENDIENTE NBT** |
+| Armas únicas Simply Swords/Nightfall, Relics y drops de bosses | **PENDIENTE BALANCE** |
+| Curios mágicos y Alshanex's Familiars | **PENDIENTE BALANCE** |
+| Arcanista, Metalomante y Allomancy | **PENDIENTE ESPECIALIZACIÓN** |
+
+La duplicación de un objeto exclusivo entre un stage global de era y su stage individual de clase es deliberada: expresa el requisito AND. No hay duplicados dentro de un mismo stage ni listeners propios de restricción.
+
 ## Distribución y subhitos
 
 - Era I: fundamentos de clase, magia inicial, pistolas de servicio y mecánica básica.
