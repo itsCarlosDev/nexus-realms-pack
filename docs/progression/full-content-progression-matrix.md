@@ -1,115 +1,120 @@
-# Auditoría de progresión de contenido — Pack 26.0
+# Matriz definitiva de contenido por era y clase
 
-Auditoría estática local realizada sobre los JAR instalados de Forge 1.20.1. Los conteos corresponden a modelos de item de primer nivel; TaCZ registra además sus armas mediante definiciones con NBT `GunId`.
+Auditoría estática local de los registros y recursos presentes en los JAR de Forge 1.20.1 instalados. Esta matriz clasifica familias funcionales, no activa restricciones. History Stages seguirá siendo el único motor de enforcement cuando se implemente la selección definitiva.
 
-| Mod | Objetos auditados | Recetas auditadas | Resultado |
-| --- | ---: | ---: | --- |
-| Epic Fight | 48 | 31 | Armas por material y skillbooks; solo una gran espada avanzada se restringe en la muestra. |
-| Simply Swords | 142 | 424 | Gran familia por materiales más armas únicas; se aplican únicamente tres glaives claros. |
-| Iron's Spells | 293 | 258 | Libros, armaduras, staffs, curios, materiales y estaciones; se aplican cuatro spellbooks claros. |
-| TaCZ | 12 items base + 54 armas | 11 | Las armas comparten `tacz:modern_kinetic_gun`; la clasificación usa `GunId`. |
-| Create | 743 | 1766 | Componentes, bloques cinéticos y máquinas; se aplican tres hitos tecnológicos claros. |
-| Create Crafts & Additions | 53 | 131 | Electricidad y acumulación; queda documentado, sin restricciones en esta fase. |
-| Epic Fight Nightfall | 42 | 44 | Armas y armaduras especiales; ambiguo/endgame, sin aplicar. |
-| Block Factory's Bosses | 117 | 39 | Equipo y drops de bosses; sin aplicar. |
-| L_Ender's Cataclysm | 301 | 189 | Reliquias y equipo de bosses; sin aplicar. |
+## Cobertura auditada
 
-## Matriz aplicada y propuesta
+| Mod o sistema | Registros/recursos revisados | Criterio utilizado |
+| --- | ---: | --- |
+| Epic Fight | 48 modelos de item / 31 recetas | material, función y skillbooks con contenido variable |
+| Simply Swords | 142 modelos / 424 recetas | familias por material y armas únicas |
+| Iron's Spells 'n Spellbooks | 293 modelos / 258 recetas | grimorios, scrolls, runas, armaduras, staffs, curios y estaciones |
+| TaCZ default gun pack | 12 items base + 54 `GunId` / 11 recetas | tipo de arma y potencia; los items base usan NBT |
+| Create | 743 modelos / 1766 recetas | complejidad mecánica y cadena tecnológica |
+| Create Crafts & Additions | 53 modelos / 131 recetas | distribución eléctrica, generación y tecnología sobrecargada |
+| Epic Fight Nightfall | 42 modelos / 44 recetas | armas, armaduras y skillbooks especiales |
+| Relics | 119 variantes de modelo | función, obtención natural y potencial de combate |
+| L_Ender's Cataclysm | 301 modelos / 189 recetas | llaves de boss, materiales, armas, armaduras y reliquias |
+| Block Factory's Bosses | 117 modelos / 39 recetas | equipo y drops de bosses |
+| Bosses of Mass Destruction | 24 modelos principales | artefactos y drops de bosses |
+| Mowzie's Mobs | 67 modelos principales | equipo, armas y poderes de bosses |
+| Alshanex's Familiars | 63 modelos principales | invocación, mejora de familiares y curios |
+| Wither: Reincarnated | reemplazo de boss, sin items propios detectados | dificultad y acceso al encuentro |
 
-| ID exacto | Mod | Categoría | Era mínima | Clase | Subhito previsto | Aplicada | Motivo/observaciones |
-| --- | --- | --- | ---: | --- | --- | --- | --- |
-| `simplyswords:iron_glaive` | Simply Swords | arma melee | I | Guerrero | Fundamentos marciales | Sí | Arma real del kit Guerrero. |
-| `simplyswords:diamond_glaive` | Simply Swords | arma melee | II | Guerrero | Armamento reforzado | Sí | Evolución material directa del arma inicial. |
-| `epicfight:diamond_greatsword` | Epic Fight | arma pesada avanzada | III | Guerrero | Movesets avanzados | Sí | Arma pesada específicamente ligada al combate avanzado. |
-| `simplyswords:netherite_glaive` | Simply Swords | arma melee endgame | IV | Guerrero | Arsenal del Nexus | Sí | Evolución netherite directa. |
-| `irons_spellbooks:copper_spell_book` | Iron's Spells | spellbook inicial | I | Mago | Iniciación mágica | Sí | Libro real del kit Mago. |
-| `irons_spellbooks:diamond_spell_book` | Iron's Spells | spellbook intermedio | II | Mago | Dominio de hechizos | Sí | Tier material y mágico intermedio inequívoco. |
-| `irons_spellbooks:dragonskin_spell_book` | Iron's Spells | spellbook avanzado | III | Mago | Arcano avanzado | Sí | Libro avanzado; no bloquea sus materiales comunes. |
-| `irons_spellbooks:netherite_spell_book` | Iron's Spells | spellbook endgame | IV | Mago | Grimorio del Nexus | Sí | Tier netherite/endgame claro. |
-| `tacz:modern_kinetic_gun` + `GunId=tacz:glock_17` | TaCZ | pistola | I | Pistolero | Arma de servicio | Sí | Glock real del kit inicial. |
-| `tacz:modern_kinetic_gun` + `GunId=tacz:hk_mp5a5` | TaCZ | SMG | II | Pistolero | Arsenal medio | Sí | Escalón medio; munición no restringida. |
-| `tacz:modern_kinetic_gun` + `GunId=tacz:m4a1` | TaCZ | rifle | III | Pistolero | Arsenal avanzado | Sí | Rifle avanzado representativo. |
-| `tacz:modern_kinetic_gun` + `GunId=tacz:m107` | TaCZ | rifle antimaterial | IV | Pistolero | Tirador de élite | Sí | Arma especializada endgame. |
-| `create:cogwheel` | Create | componente básico | I | Libre | Mecánica inicial | Sí | Puerta de aprendizaje; no hace Create exclusivo de una clase. |
-| `create:mechanical_press` | Create | máquina intermedia | II | Libre | Automatización intermedia | Sí | Primera máquina de proceso representativa. |
-| `create:rotation_speed_controller` | Create | componente avanzado | III | Libre | Industria avanzada | Sí | Control avanzado de red cinética. |
-| `createaddition:electric_motor` | Create Crafts & Additions | máquina eléctrica | III | Libre | Industria avanzada | No | Requiere decisión sobre energía y recetas del servidor. |
-| `createaddition:tesla_coil` | Create Crafts & Additions | máquina eléctrica | IV | Libre | Preparación del Nexus | No | Potencia/uso necesitan prueba manual. |
-| `epicfight:skillbook` | Epic Fight | habilidad | II–III | Guerrero posible | Disciplina marcial | No | NBT/contenido variable; no debe bloquearse como un único item genérico. |
-| `efn:ruinsgreatsword` | Nightfall | arma especial | IV posible | Guerrero posible | Endgame de clase | No | Potencia, obtención y dependencia de moveset necesitan decisión. |
-| `efn:hf_murasama_blade` | Nightfall | arma especial | IV posible | Guerrero posible | Endgame de clase | No | Arma especial; no se clasifica por nombre. |
-| `irons_spellbooks:blood_staff` | Iron's Spells | staff | III–IV | Mago | Arcano avanzado | No | Deben revisarse estadísticas y ruta de obtención. |
-| `irons_spellbooks:netherite_mage_chestplate` | Iron's Spells | armadura mágica | IV | Mago | Endgame de clase | No | Requiere prueba de equipamiento AND antes de ampliar. |
-| `irons_spellbooks:arcane_essence` | Iron's Spells | material común de mod | Libre | Libre | — | No | Material de progresión: no se bloquea. |
-| `tacz:ammo` | TaCZ | munición base | Libre | Libre | — | No | Restringir munición podría romper inventario/crafting; se mantiene libre. |
-| `tacz:gun_smith_table` | TaCZ | banco | I–II posible | Libre | Arsenal medio | No | Acceso al banco requiere decisión de diseño, no se infiere por namespace. |
-| `cataclysm:ancient_spear` | Cataclysm | drop/reliquia | IV posible | Ambiguo | Reliquias | No | Procedencia de boss y balance pendientes. |
-| `cataclysm:gauntlet_of_bulwark` | Cataclysm | reliquia | IV posible | Ambiguo | Reliquias | No | No asignar clase antes de probar su uso. |
-| `block_factorys_bosses:knight_sword` | Block Factory's Bosses | drop de boss | III–IV | Guerrero posible | Bosses | No | Obtención y potencia pendientes. |
+## Reglas de lectura
 
-## Reglas de implementación
+- `GLOBAL`: disponible para todas las clases cuando se alcanza la era.
+- `MULTICLASE`: encaja en varios estilos; no se asigna en exclusiva sin una decisión de diseño.
+- `PENDIENTE DE DECISIÓN`: el registro existe, pero su potencia, NBT u obtención exige prueba antes de restringir.
+- Arcanista es una especialización futura del Mago. Las filas mágicas reservan ese destino, pero no crean un stage ni cambian gameplay.
+- Metalomante conserva por ahora el identificador interno existente `metallurgist`; Allomancy no se clasifica porque el mod definitivo no está integrado.
+- En TaCZ, `tacz:modern_kinetic_gun`, `tacz:ammo` y `tacz:attachment` son contenedores con NBT. Una futura restricción debe evaluar `GunId`/`AmmoId`/`AttachmentId`, no bloquear el item base completo.
 
-- Los 12 objetos de clase aplicados están presentes tanto en su stage individual como en el stage global de era: History Stages exige ambos.
-- Los 3 objetos de Create solo dependen de la era.
-- No se restringen munición, materiales comunes, almacenamiento, comida, agricultura, pesca ni construcción.
-- `unlock_actions` conserva `place`, `pickup`, `loot`, `recipe`, `gui` e `icon`; no hay manipulación de inventarios ni listeners propios.
-- No se añaden bloqueos de recetas nuevos: solo se mantienen las recetas de diamante/netherite ya validadas.
+## Clasificación funcional
 
-## Subhitos conceptuales
+| Contenido | Mod | Era mínima | Clase | Especialización | Restricción propuesta | Notas |
+| --- | --- | --- | --- | --- | --- | --- |
+| Armas de madera, piedra e hierro (`dagger`, `greatsword`, `longsword`, `spear`, `tachi` y variantes materiales) | Epic Fight | I | Guerrero | — | Era I + `nexus_class_warrior` | Armas de moveset avanzado; las armas vanilla básicas permanecen globales. |
+| Familia `diamond_*` de armas Epic Fight | Epic Fight | II | Guerrero | — | Era II + Guerrero | Escalón material directo; no adelantar armas pesadas por pertenecer a la clase. |
+| Familia `netherite_*` de armas Epic Fight | Epic Fight | IV | Guerrero | — | Era IV + Guerrero | Endgame material. |
+| `epicfight:skillbook` y variantes de skillbook | Epic Fight | II | Guerrero | — | PENDIENTE DE DECISIÓN por skill/NBT | El item genérico puede contener habilidades de distinto poder; repartir entre II y III. |
+| Familia completa de armas `iron_*` | Simply Swords | I | Guerrero | — | Era I + Guerrero | Incluye glaive, claymore, greataxe, greathammer, halberd, katana, scythe y equivalentes. |
+| Familia completa de armas `diamond_*` | Simply Swords | II | Guerrero | — | Era II + Guerrero | Evolución material clara. |
+| Familia completa de armas `runic_*` | Simply Swords | III | Guerrero | — | Era III + Guerrero | Poder mágico avanzado; verificar recetas antes de fijar el subhito. |
+| Familia completa de armas `netherite_*` | Simply Swords | IV | Guerrero | — | Era IV + Guerrero | Arsenal del Nexus. |
+| Armas únicas (`brimstone_claymore`, `emberblade`, `frostfall`, `livyatan`, `soulkeeper`, `stormbringer`, `waking_lichblade` y resto de únicas) | Simply Swords | III | PENDIENTE DE DECISIÓN | — | Era III/IV; Guerrero o MULTICLASE según arma | No clasificarlas por nombre: revisar daño, habilidad y obtención individualmente. |
+| Armas especiales (`air_tachi`, `ruinsgreatsword`, `hf_murasama*`, `yamato_dmc*`, `excalibur` y equivalentes) | Epic Fight Nightfall | III | Guerrero | — | Era III/IV + Guerrero | La mayoría son endgame; el tier exacto depende de receta/drop. |
+| Sets `duskfire_*` y `ruinfighter_*` | Epic Fight Nightfall | III | Guerrero | — | Era III/IV + Guerrero | Armadura de combate especializada; verificar estadísticas. |
+| Skillbooks de Nightfall | Epic Fight Nightfall | III | Guerrero | — | PENDIENTE DE DECISIÓN por skill/NBT | No restringir el contenedor genérico sin distinguir la habilidad. |
+| `copper_spell_book`, `iron_spell_book`, `wimpy_spell_book` | Iron's Spells | I | Mago | Arcanista futura | Era I + Mago | Inicio de magia tradicional. |
+| `gold_spell_book`, `diamond_spell_book`, `villager_spell_book`, `druidic_spell_book` | Iron's Spells | II | Mago | Arcanista futura | Era II + Mago | Desarrollo real de hechizos; algunos libros temáticos pueden requerir subhito. |
+| `blaze_spell_book`, `ice_spell_book`, `evoker_spell_book`, `dragonskin_spell_book`, `rotten_spell_book` | Iron's Spells | III | Mago | Arcanista futura | Era III + Mago | Grimorios avanzados. |
+| `legendary_spell_book`, `netherite_spell_book`, `necronomicon_spell_book`, `cursed_doll_spell_book` | Iron's Spells | IV | Mago | Arcanista futura | Era IV + Mago | Endgame mágico; confirmar obtención de los libros especiales. |
+| `scroll` y variantes visuales por escuela | Iron's Spells | I | Mago | Arcanista futura | PENDIENTE DE DECISIÓN por hechizo/rareza NBT | Pickup/loot/almacenamiento deben seguir seguros; distribuir uso entre I–IV. |
+| `common_ink`, `uncommon_ink`, `rare_ink`, `epic_ink`, `legendary_ink` | Iron's Spells | I | GLOBAL | — | Material libre; progresión de uso I/II/III/IV | No bloquear materiales comunes ni economía; la rareza guía quests/crafting. |
+| `blank_rune` y runas de escuela | Iron's Spells | II | Mago | Arcanista futura | Era II + Mago para uso; pickup libre | Componentes de personalización mágica. |
+| Upgrade orbs de escuela, mana, cooldown y protection | Iron's Spells | III | Mago | Arcanista futura | Era III + Mago para uso; pickup libre | Mejora avanzada, no material inicial. |
+| Set wizard y sets iniciales priest/wandering magician | Iron's Spells | II | Mago | Arcanista futura | Era II + Mago | Armadura mágica intermedia. |
+| Sets archevoker, cryomancer, cultist, electromancer, plagued, pyromancer y shadowwalker | Iron's Spells | III | Mago | Arcanista futura | Era III + Mago | Armaduras de escuela avanzada. |
+| Set `netherite_mage_*` y piezas de alto nivel (`infernal_sorcerer_chestplate`, `paladin_chestplate`) | Iron's Spells | IV | Mago | Arcanista futura | Era IV + Mago | Endgame de armadura mágica. |
+| `blood_staff`, `graybeard_staff`, `ice_staff`, `pyrium_staff`, `staff_of_the_nines` | Iron's Spells | III | Mago | Arcanista futura | Era III/IV + Mago | `staff_of_the_nines` debe reservarse para IV; `dev_staff` queda fuera de progresión. |
+| Affinity rings, amulets, ward rings y curios de mana/cooldown/cast time | Iron's Spells | II | Mago | Arcanista futura | Era II–IV + Mago según rareza | PENDIENTE DE DECISIÓN individual; no bloquear curios meramente utilitarios sin prueba. |
+| `alchemist_cauldron`, `arcane_anvil`, `inscription_table`, `scroll_forge` | Iron's Spells | I | GLOBAL | — | Acceso global por era; uso mágico guiado por quests | No convertir estaciones compartidas en inventario exclusivo de una clase. |
+| Pistolas y revólveres iniciales (`glock_17`, `m1911`, `m9a4`, `p320`, `cz75`, `taurus943`, `rhino357`) | TaCZ default gun pack | I | Pistolero | — | Era I + `nexus_class_gunslinger`, por `GunId` | La Glock 17 conserva su papel de kit inicial. |
+| SMG, escopetas y rifles básicos (`hk_mp5a5`, `uzi`, `ump45`, `vector45`, `p90`, `m870`, `spas_12`, `m1014`, `ak47`, `m16a1`, `kar98`) | TaCZ default gun pack | II | Pistolero | — | Era II + Pistolero, por `GunId` | Arsenal medio. |
+| Rifles/LMG/precisión avanzados (`m4a1`, `m16a4`, `hk416d`, `g36k`, `aug`, `scar_l`, `scar_h`, `fn_fal`, `hk_g3`, `mk14`, `rpk`, `m249`, `fn_evolys`, `m700`, `ai_awp`) | TaCZ default gun pack | III | Pistolero | — | Era III + Pistolero, por `GunId` | Arsenal avanzado; estadísticas finales requieren runtime. |
+| Armamento pesado/especial (`m107`, `m95`, `timeless50`, `minigun`, `rpg7`, `m320`, `aa12`) | TaCZ default gun pack | IV | Pistolero | — | Era IV + Pistolero, por `GunId` | Endgame, explosivos y antimaterial. |
+| `tacz:ammo` con `AmmoId` y cargadores | TaCZ | I | GLOBAL para transporte; Pistolero para uso | — | No bloquear item base; tier por `AmmoId` si History Stages lo soporta | Munición debe poder recogerse, almacenarse y moverse. |
+| `tacz:attachment` con miras, grips, bocachas y cargadores | TaCZ | II | Pistolero | — | Era II/III + Pistolero, por `AttachmentId` | Alta magnificación y accesorios especializados pasan a III. |
+| `tacz:gun_smith_table` y bancos del default gun pack | TaCZ | I | GLOBAL | — | Colocación global; acceso de arsenal guiado por quests | No bloquear construcción ni almacenamiento mediante el banco. |
+| Ejes, engranajes, cajas, manivela, ruedas, molino, fan, prensa, sierra y taladro | Create | I | GLOBAL | — | Era I global | Mecánica inicial accesible a todas las clases. |
+| Mixer/basin, deployer, crafter, crushing wheels, fluidos, redstone links, gantries y elevadores | Create | II | GLOBAL | — | Era II global | Automatización intermedia. |
+| Brass, precision mechanism, arm, speed controller, blaze burner, steam engine, trenes y schematicannon | Create | III | GLOBAL | — | Era III global, dividido en subhitos | Industria avanzada; no necesita una nueva era. |
+| Connectors, wire spools, rolling mill, brass/electrum rods | Create Crafts & Additions | II | GLOBAL | — | Era II global | Infraestructura eléctrica inicial. |
+| `electric_motor`, `alternator`, `accumulator`, `heater`, `furnace_burner`, `digital_adapter` | Create Crafts & Additions | III | GLOBAL | — | Era III global | Producción y control industrial avanzado. |
+| `tesla_coil`, `overcharged_alloy`, `overcharged_casing`, `overcharged_hammer`, `portable_energy_interface` | Create Crafts & Additions | IV | GLOBAL | — | Era IV global | Tecnología sobrecargada/endgame; validar coste energético. |
+| Relics de movilidad/supervivencia (`amphibian_boot`, `aqua_walker`, `horse_flute`, `ice_skates`, `roller_skates`, `spider_necklace`) | Relics | II | MULTICLASE | — | Era II global; obtención natural | No hacerlas exclusivas por estilo sin evidencia. |
+| Relics de combate/defensa (`bastion_ring`, `holy_locket`, `rage_glove`, `reflection_necklace`, `scarab_talisman`, `slime_heart`) | Relics | III | MULTICLASE | — | Era III global | El sistema de leveling del propio mod forma parte del balance. |
+| Relics de alto poder (`soul_devourer`, `space_dissector`, `stellar_catalyst`, `shadow_glaive`, `enders_hand`) | Relics | IV | PENDIENTE DE DECISIÓN | — | Era IV; clase solo tras prueba individual | `shadow_glaive` es candidato Guerrero, no asignación automática. |
+| Eyes, cores, shards y materiales de invocación/progresión | L_Ender's Cataclysm | III | GLOBAL | — | Era III/IV mediante quests de boss | Llaves y materiales deben conservar pickup/almacenamiento. |
+| `ignitium_*`, `cursium_*`, `black_steel_*`, gauntlets, `ancient_spear`, `infernal_forge`, `void_forge` y demás equipo de boss | L_Ender's Cataclysm | IV | MULTICLASE | — | Era IV global; PENDIENTE DE DECISIÓN por objeto | No convertir todos los drops melee en Guerrero; respetar identidad de loot. |
+| `knight_sword`, `large_sword`, `warrior_sword`, shields, gauntlets y armaduras de dragon/knight | Block Factory's Bosses | III | MULTICLASE | — | Era III/IV; PENDIENTE DE DECISIÓN individual | Drops de boss; armas melee son candidatas Guerrero, no exclusivas todavía. |
+| `earthdive_spear`, `gauntlet_blackstone`, `obsidian_heart`, `soul_star`, `ancient_anima`, `blazing_eye` | Bosses of Mass Destruction | III | MULTICLASE | — | Era III/IV global según boss | Artefactos reales del JAR; clasificar el tier final por encuentro. |
+| `blowgun`, `naga_fang_dagger`, `spear`, `geomancer_*` | Mowzie's Mobs | II | MULTICLASE | — | Era II/III global | Equipo temprano/intermedio procedente de mobs y exploración. |
+| `wrought_axe`, `wrought_helmet`, `earthrend_gauntlet`, `ice_crystal`, `sculptor_staff`, `sunblock_staff`, máscaras Umvuthana | Mowzie's Mobs | III | MULTICLASE | — | Era III/IV; PENDIENTE DE DECISIÓN | Poderes de boss; staff no implica automáticamente Arcanista. |
+| Encuentro Wither mejorado | Wither: Reincarnated | IV | GLOBAL | — | Acceso de boss en Era IV, sin restricción de item propia | El JAR sustituye el combate y no registra drops jugables propios detectables. |
+| `familiar_spellbook`, `familiar_tome`, shards, trinkets, soul curios y mejoras tier 1–3 | Alshanex's Familiars | II | MULTICLASE | — | Era II–IV por tier; PENDIENTE DE DECISIÓN de afinidad | Tiene temática mágica, pero no se hace exclusivo de Mago sin decisión. |
+| Catálogo decorativo y herramientas de DecoCraft | DecoCraft | 0 / libre | GLOBAL | — | Sin restricción de era o clase | Construcción y decoración no deben bloquearse. |
+| Sistema de agua/mundo | Dynamic Waters | 0 / libre | GLOBAL | — | Sin restricción | Worldgen/sistema global, no objeto de progresión. |
+| Monturas y transporte del mod Horseman | Horseman | I | GLOBAL | — | Sin restricción de clase; quests opcionales | PENDIENTE DE DECISIÓN solo para equipamiento excepcional. |
+| Equipo vanilla completo de diamante | Minecraft | II | GLOBAL | — | Stage global `nexus_era_2_diamond` existente | Herramientas, espada y armadura; materiales pasivos libres. |
+| Equipo vanilla completo de netherite | Minecraft | IV | GLOBAL | — | Stage global `nexus_era_4_nexus` existente | Herramientas, espada y armadura; scrap/ingot/template permanecen transportables. |
 
-### Era III
+## Distribución y subhitos
 
-- Arcano inicial.
-- Industria avanzada.
-- Arsenal avanzado.
-- Preparación del Nexus.
+- Era I: fundamentos de clase, magia inicial, pistolas de servicio y mecánica básica.
+- Era II: equipo de diamante, armamento intermedio, automatización, familiares y reliquias utilitarias.
+- Era III: movesets/arsenal avanzados, Arcanista avanzado, industria de precisión y primeros ciclos de bosses.
+- Era IV: netherite, endgame de cada clase, reliquias de alto poder y bosses finales.
+- Era III se divide en `Arcano avanzado`, `Industria avanzada`, `Arsenal avanzado` y `Cacería de bosses`.
+- Era IV se divide en `Acceso al Nexus`, `Endgame de clase`, `Reliquias`, `Bosses finales` y futura `Tecnología aérea`.
 
-### Era IV
+## Decisiones pendientes antes de implementar
 
-- Acceso al Nexus.
-- Endgame de clase.
-- Reliquias.
-- Bosses.
-- Tecnología aérea futura.
+1. Definir el stage y la selección final de Arcanista; las filas de Iron's Spells solo reservan su arquitectura.
+2. Separar skillbooks Epic Fight/Nightfall y scrolls de Iron's por NBT, rareza o habilidad real.
+3. Medir las armas únicas de Simply Swords y Nightfall para dividir Era III/IV.
+4. Confirmar si History Stages puede filtrar de forma segura los NBT de TaCZ sin bloquear todos los guns/ammo/attachments base.
+5. Clasificar individualmente relics y drops de boss después de probar poder, obtención y compatibilidad de clase.
+6. Decidir si Alshanex's Familiars será global, multiclase o una afinidad de Mago.
+7. Definir los subhitos de Create/Createaddition sin bloquear componentes necesarios para arrancar máquinas.
+8. Mantener Allomancy/Metalomante fuera de esta matriz hasta integrar el mod definitivo.
 
-## Pendiente de integración tecnológica
+## Contenido fuera de progresión o sin función útil
 
-- Create Aeronautics: instalación y compatibilidad exacta.
-- Integración exclusiva en Era IV.
-- Requisitos tecnológicos previos basados en mecanismos de precisión, automatización avanzada y producción estable.
-- Validación de rendimiento y recipes antes de introducir el subhito de tecnología aérea.
-
-## Candidatos incorporados en la expansión 26.1
-
-No se aplican restricciones nuevas en esta fase.
-
-| Mod | Progresión futura propuesta | Restricción actual |
-| --- | --- | --- |
-| Clumps | Libre; infraestructura de rendimiento. | Ninguna |
-| Enchantment Descriptions | Libre; información de interfaz. | Ninguna |
-| Shulker Box Tooltip | Libre; calidad de vida. | Ninguna |
-| Cut Through | Libre; comportamiento general de combate. | Ninguna |
-| Alshanex's Familiars | Obtención natural y capítulo de exploración/magia; estudiar afinidad con Mago sin hacerlo exclusivo automáticamente. | Ninguna |
-| Relics | Exploración y obtención natural; subhito de reliquias en Era IV cuando se clasifiquen individualmente. | Ninguna |
-| Wither: Reincarnated | Boss global candidato a Era IV/endgame. | Ninguna |
-| Horseman | Sistema global de transporte; libre salvo objetos concretos que requieran revisión. | Ninguna |
-| FantasyWeapons | Retirado por incompatibilidad de recursos: atlas de partículas 32768×16384 y agotamiento de memoria/commit. | No instalado |
-| Dynamic Waters | Sistema global de mundo; nunca restringido por clase. | Ninguna |
-| DecoCraft | Decoración básica desde Era I y objetos puramente decorativos libres. | Ninguna |
-| Abyssal Corrupter | Candidato avanzado/endgame si aparece una build oficial coherente. | No instalado |
-| Create Aeronautics | Preparación tecnológica en Era III y acceso compartido en Era IV. Nunca exclusivo del Pistolero. | No instalado |
-
-### Preparación tecnológica para Aeronautics
-
-- Era III: mecanismos de precisión, automatización avanzada, producción estable y redes cinéticas maduras.
-- Era IV: ensamblaje de aeronaves, propulsión, navegación y colaboración multiclase.
-- Metalurgista podrá recibir sinergias futuras, pero Aeronautics debe continuar disponible para todas las clases.
-
-## Especialización Metalurgista
-
-| ID exacto | Mod | Categoría | Era mínima | Clase | Subhito | Aplicada | Observaciones |
-| --- | --- | --- | ---: | --- | --- | --- | --- |
-| `nexus_specialization_metallurgist` | Nexus/History Stages | especialización | III | Mago | La Senda del Metal | Sí | Stage de estado vacío; no restringe objetos hasta elegir el mod oficial. |
-| Sin ID confirmado | Allomancy pendiente | mecánica metálica | III–IV | Mago + Metalurgista | aprendizaje / endgame | No | Hay varios proyectos oficiales Forge 1.20.1 y el repositorio no identifica el previsto. |
-
-No se clasifican objetos, metales ni poderes por nombre. Los metales vanilla permanecen libres y la integración nativa queda pendiente del project/file ID oficial.
+- `irons_spellbooks:dev_staff` y objetos de desarrollo/spawn/debug: fuera de campaña, solo administración.
+- Spawn eggs, mob removers, modelos auxiliares y variantes internas: no son contenido de progresión.
+- Boss Checklist y su addon: interfaz informativa global, sin restricciones.
+- Clumps, Enchantment Descriptions, Shulker Box Tooltip, Cut Through, Freecam y herramientas de creación: QoL/desarrollo, siempre libres.
+- FantasyWeapons permanece retirado y no se clasifica.
+- Create Aeronautics y Allomancy no están instalados; solo conservan reservas conceptuales futuras.
