@@ -1,5 +1,7 @@
 # Class item restrictions
 
+> **Estado actual:** este documento conserva el diseño histórico de los packs de clase. La aplicación activa fue sustituida por stages individuales de History Stages. `nexus_class_restrictions.js` y `nexus_tacz_restrictions.js` están retirados; Nexus Core no registra listeners de bloqueo ni manipula inventarios.
+
 ## Objetivo
 
 Separar los sistemas principales de clase con KubeJS:
