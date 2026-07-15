@@ -2,76 +2,107 @@
   "display_name": "Nexus Era II - Diamond Equipment",
   "icon": "minecraft:diamond",
   "items": [
-    {
-      "id": "minecraft:diamond_sword",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "minecraft:diamond_pickaxe",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "minecraft:diamond_axe",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "minecraft:diamond_shovel",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "minecraft:diamond_hoe",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "minecraft:diamond_helmet",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "minecraft:diamond_chestplate",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "minecraft:diamond_leggings",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "minecraft:diamond_boots",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "farmersdelight:diamond_knife",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "simplyswords:diamond_glaive",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "irons_spellbooks:diamond_spell_book",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "tacz:modern_kinetic_gun",
-      "nbt": {
-        "GunId": "tacz:hk_mp5a5"
-      },
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "create:mechanical_press",
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    }
+    {"id":"minecraft:diamond_sword","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"minecraft:diamond_pickaxe","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"minecraft:diamond_axe","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"minecraft:diamond_shovel","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"minecraft:diamond_hoe","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"minecraft:diamond_helmet","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"minecraft:diamond_chestplate","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"minecraft:diamond_leggings","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"minecraft:diamond_boots","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"farmersdelight:diamond_knife","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"epicfight:diamond_dagger","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"epicfight:diamond_greatsword","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"epicfight:diamond_longsword","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"epicfight:diamond_spear","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"epicfight:diamond_tachi","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:diamond_chakram","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:diamond_claymore","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:diamond_cutlass","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:diamond_glaive","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:diamond_greataxe","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:diamond_greathammer","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:diamond_halberd","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:diamond_katana","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:diamond_longsword","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:diamond_rapier","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:diamond_sai","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:diamond_scythe","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:diamond_spear","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:diamond_twinblade","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"simplyswords:diamond_warglaive","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:gold_spell_book","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:diamond_spell_book","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:villager_spell_book","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:druidic_spell_book","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:blank_rune","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:arcane_rune","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:blood_rune","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:cinderous_soul_rune","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:cooldown_rune","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:ender_rune","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:evocation_rune","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:fire_rune","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:holy_rune","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:ice_rune","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:lightning_rune","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:nature_rune","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:protection_rune","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:wizard_helmet","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:wizard_chestplate","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:wizard_leggings","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:wizard_boots","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:priest_helmet","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:priest_chestplate","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:priest_leggings","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:priest_boots","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:wandering_magician_helmet","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:wandering_magician_chestplate","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:wandering_magician_leggings","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"irons_spellbooks:wandering_magician_boots","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:hk_mp5a5"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:uzi"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:ump45"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:vector45"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:p90"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m870"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:spas_12"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m1014"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:ak47"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m16a1"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:kar98"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"create:basin","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"create:mechanical_mixer","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"create:deployer","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"create:mechanical_crafter","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"create:crushing_wheel","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"create:fluid_tank","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"create:mechanical_pump","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"create:hose_pulley","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"create:smart_fluid_pipe","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"create:redstone_link","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"create:stockpile_switch","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"create:content_observer","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"create:display_link","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"create:contraption_controls","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"create:gantry_shaft","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"create:gantry_carriage","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"create:elevator_pulley","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"create:elevator_contact","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"createaddition:connector","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"createaddition:large_connector","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"createaddition:small_light_connector","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"createaddition:redstone_relay","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"createaddition:spool","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"createaddition:copper_spool","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"createaddition:gold_spool","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"createaddition:electrum_spool","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"createaddition:festive_spool","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"createaddition:rolling_mill","unlock_actions":["place","pickup","loot","recipe","gui","icon"]}
   ],
   "recipes": [
-    "minecraft:diamond_sword",
-    "minecraft:diamond_pickaxe",
-    "minecraft:diamond_axe",
-    "minecraft:diamond_shovel",
-    "minecraft:diamond_hoe",
-    "minecraft:diamond_helmet",
-    "minecraft:diamond_chestplate",
-    "minecraft:diamond_leggings",
-    "minecraft:diamond_boots",
-    "farmersdelight:diamond_knife"
+    "minecraft:diamond_sword","minecraft:diamond_pickaxe","minecraft:diamond_axe","minecraft:diamond_shovel","minecraft:diamond_hoe",
+    "minecraft:diamond_helmet","minecraft:diamond_chestplate","minecraft:diamond_leggings","minecraft:diamond_boots","farmersdelight:diamond_knife"
   ]
 }

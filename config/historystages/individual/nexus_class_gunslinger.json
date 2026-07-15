@@ -2,33 +2,45 @@
   "display_name": "Clase Nexus - Pistolero",
   "icon": "tacz:modern_kinetic_gun",
   "items": [
-    {
-      "id": "tacz:modern_kinetic_gun",
-      "nbt": {
-        "GunId": "tacz:glock_17"
-      },
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "tacz:modern_kinetic_gun",
-      "nbt": {
-        "GunId": "tacz:hk_mp5a5"
-      },
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "tacz:modern_kinetic_gun",
-      "nbt": {
-        "GunId": "tacz:m4a1"
-      },
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    },
-    {
-      "id": "tacz:modern_kinetic_gun",
-      "nbt": {
-        "GunId": "tacz:m107"
-      },
-      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
-    }
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:glock_17"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m1911"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m9a4"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:p320"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:cz75"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:taurus943"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:rhino357"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:hk_mp5a5"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:uzi"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:ump45"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:vector45"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:p90"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m870"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:spas_12"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m1014"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:ak47"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m16a1"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:kar98"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m4a1"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m16a4"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:hk416d"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:g36k"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:aug"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:scar_l"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:scar_h"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:fn_fal"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:hk_g3"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:mk14"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:rpk"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m249"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:fn_evolys"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m700"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:ai_awp"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m107"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m95"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:timeless50"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:minigun"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:rpg7"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m320"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:aa12"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]}
   ]
 }
