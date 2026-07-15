@@ -1,5 +1,5 @@
 {
-  "display_name": "Nexus Era IV - Netherite Test",
+  "display_name": "Nexus Era IV - Netherite Equipment",
   "icon": "minecraft:netherite_ingot",
   "items": [
     {
@@ -11,8 +11,48 @@
       "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
     },
     {
+      "id": "minecraft:netherite_axe",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "minecraft:netherite_shovel",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "minecraft:netherite_hoe",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "minecraft:netherite_helmet",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
       "id": "minecraft:netherite_chestplate",
       "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "minecraft:netherite_leggings",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "minecraft:netherite_boots",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "farmersdelight:netherite_knife",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
     }
+  ],
+  "recipes": [
+    "minecraft:netherite_sword_smithing",
+    "minecraft:netherite_pickaxe_smithing",
+    "minecraft:netherite_axe_smithing",
+    "minecraft:netherite_shovel_smithing",
+    "minecraft:netherite_hoe_smithing",
+    "minecraft:netherite_helmet_smithing",
+    "minecraft:netherite_chestplate_smithing",
+    "minecraft:netherite_leggings_smithing",
+    "minecraft:netherite_boots_smithing",
+    "farmersdelight:netherite_knife_smithing"
   ]
 }

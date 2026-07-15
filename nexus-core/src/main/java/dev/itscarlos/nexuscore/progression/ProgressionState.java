@@ -3,6 +3,10 @@ package dev.itscarlos.nexuscore.progression;
 public record ProgressionState(
     int era,
     int worldDay,
+    boolean campaignStarted,
+    int campaignDay,
+    int campaignLength,
+    boolean campaignPaused,
     int unlockDay,
     int nextHordeDay,
     boolean hordeActive,
@@ -12,7 +16,7 @@ public record ProgressionState(
     int milestoneCompleted
 ) {
     public static ProgressionState unavailable() {
-        return new ProgressionState(-1, -1, -1, -1, false, 0, -1, -1, 0);
+        return new ProgressionState(-1, -1, false, -1, 30, false, -1, -1, false, 0, -1, -1, 0);
     }
 
     public boolean available() {

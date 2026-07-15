@@ -13,7 +13,7 @@
 		{
 			description: [
 				"Hito de prueba compartido por el equipo."
-				"La Era I se desbloquea a partir del día 5."
+				"La Era I puede desbloquearse durante el Día de Campaña 1."
 			]
 			icon: {
 				id: "minecraft:iron_ingot"
@@ -40,7 +40,7 @@
 			dependencies: ["4E58504552413031"]
 			description: [
 				"Hito de prueba compartido por el equipo."
-				"La Era II se desbloquea a partir del día 15."
+				"La Era II se desbloquea a partir del Día de Campaña 7."
 			]
 			hide_until_deps_complete: true
 			icon: {
@@ -68,7 +68,7 @@
 			dependencies: ["4E58504552413032"]
 			description: [
 				"Hito de prueba compartido por el equipo."
-				"La Era III se desbloquea a partir del día 30."
+				"La Era III se desbloquea a partir del Día de Campaña 14."
 			]
 			hide_until_deps_complete: true
 			icon: {
@@ -96,7 +96,7 @@
 			dependencies: ["4E58504552413033"]
 			description: [
 				"Hito de prueba compartido por el equipo."
-				"La Era IV se desbloquea a partir del día 50."
+				"La Era IV se desbloquea a partir del Día de Campaña 21."
 			]
 			hide_until_deps_complete: true
 			icon: {

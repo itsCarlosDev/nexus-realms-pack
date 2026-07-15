@@ -12,6 +12,8 @@ const NEXUS_ERA_HORDE_START_TIME = 18000
 const NEXUS_ERA_HORDE_START_BUFFER = 1200
 const NEXUS_ERA_CHECK_INTERVAL = 20
 const NEXUS_ERA_PARTICIPANT_RADIUS_SQR = 128 * 128
+const NEXUS_CAMPAIGN_LENGTH_DAYS = 30
+const NEXUS_CAMPAIGN_DAY_MILLIS = 24 * 60 * 60 * 1000
 const NEXUS_ERA_DEFINITIONS = JsonIO.read('config/nexuscore/eras.json').eras
 const NEXUS_HISTORY_DIAMOND_STAGE = 'nexus_era_2_diamond'
 const NEXUS_HISTORY_NEXUS_STAGE = 'nexus_era_4_nexus'
@@ -143,8 +145,92 @@ function nexusEraTimeOfDay(server) {
   return ((dayTime % NEXUS_ERA_DAY_LENGTH) + NEXUS_ERA_DAY_LENGTH) % NEXUS_ERA_DAY_LENGTH
 }
 
+function nexusCampaignNow() {
+  return Date.now()
+}
+
+function nexusCampaignInitialize(data) {
+  if (!data.contains('nexusCampaignStarted')) {
+    const hasLegacyEpoch = data.contains('nexusCampaignEpochMillis') && Number(data.getLong('nexusCampaignEpochMillis')) > 0
+    data.putBoolean('nexusCampaignStarted', hasLegacyEpoch)
+  }
+  if (!data.contains('nexusCampaignEpochMillis')) data.putLong('nexusCampaignEpochMillis', -1)
+  if (!data.contains('nexusCampaignPaused')) data.putBoolean('nexusCampaignPaused', false)
+  if (!data.contains('nexusCampaignPausedAtMillis')) data.putLong('nexusCampaignPausedAtMillis', -1)
+  if (!data.contains('nexusCampaignPausedTotalMillis')) data.putLong('nexusCampaignPausedTotalMillis', 0)
+}
+
+function nexusCampaignDayFromData(data) {
+  nexusCampaignInitialize(data)
+  if (!data.getBoolean('nexusCampaignStarted')) return -1
+  const now = nexusCampaignNow()
+  const effectiveNow = data.getBoolean('nexusCampaignPaused')
+    ? Number(data.getLong('nexusCampaignPausedAtMillis'))
+    : now
+  const epoch = Number(data.getLong('nexusCampaignEpochMillis'))
+  const pausedTotal = Number(data.getLong('nexusCampaignPausedTotalMillis'))
+  const elapsed = Math.max(0, effectiveNow - epoch - pausedTotal)
+  return Math.max(1, Math.min(NEXUS_CAMPAIGN_LENGTH_DAYS, Math.floor(elapsed / NEXUS_CAMPAIGN_DAY_MILLIS) + 1))
+}
+
+function nexusCampaignPause(data) {
+  nexusCampaignInitialize(data)
+  if (!data.getBoolean('nexusCampaignStarted')) return 'not_started'
+  if (data.getBoolean('nexusCampaignPaused')) return 'already_paused'
+  data.putBoolean('nexusCampaignPaused', true)
+  data.putLong('nexusCampaignPausedAtMillis', nexusCampaignNow())
+  return 'paused'
+}
+
+function nexusCampaignResume(data) {
+  nexusCampaignInitialize(data)
+  if (!data.getBoolean('nexusCampaignStarted')) return 'not_started'
+  if (!data.getBoolean('nexusCampaignPaused')) return 'already_running'
+  const now = nexusCampaignNow()
+  const pausedAt = Number(data.getLong('nexusCampaignPausedAtMillis'))
+  const pausedTotal = Number(data.getLong('nexusCampaignPausedTotalMillis'))
+  data.putLong('nexusCampaignPausedTotalMillis', pausedTotal + Math.max(0, now - pausedAt))
+  data.putLong('nexusCampaignPausedAtMillis', -1)
+  data.putBoolean('nexusCampaignPaused', false)
+  return 'resumed'
+}
+
+function nexusCampaignSetDay(data, day) {
+  nexusCampaignInitialize(data)
+  if (!data.getBoolean('nexusCampaignStarted')) return false
+  const now = nexusCampaignNow()
+  data.putLong('nexusCampaignEpochMillis', now - (day - 1) * NEXUS_CAMPAIGN_DAY_MILLIS)
+  data.putLong('nexusCampaignPausedTotalMillis', 0)
+  if (data.getBoolean('nexusCampaignPaused')) data.putLong('nexusCampaignPausedAtMillis', now)
+  return true
+}
+
+function nexusCampaignStart(data) {
+  nexusCampaignInitialize(data)
+  if (data.getBoolean('nexusCampaignStarted')) return false
+  const now = nexusCampaignNow()
+  data.putBoolean('nexusCampaignStarted', true)
+  data.putLong('nexusCampaignEpochMillis', now)
+  data.putBoolean('nexusCampaignPaused', false)
+  data.putLong('nexusCampaignPausedAtMillis', -1)
+  data.putLong('nexusCampaignPausedTotalMillis', 0)
+  return true
+}
+
+function nexusCampaignRestart(data) {
+  nexusCampaignInitialize(data)
+  const now = nexusCampaignNow()
+  data.putBoolean('nexusCampaignStarted', true)
+  data.putLong('nexusCampaignEpochMillis', now)
+  data.putBoolean('nexusCampaignPaused', false)
+  data.putLong('nexusCampaignPausedAtMillis', -1)
+  data.putLong('nexusCampaignPausedTotalMillis', 0)
+}
+
 function nexusEraData(server) {
   const data = server.persistentData
+
+  nexusCampaignInitialize(data)
 
   if (!data.contains('nexusEra')) data.putInt('nexusEra', 0)
   if (!data.contains('nexusEraUnlockDay')) data.putInt('nexusEraUnlockDay', -1)
@@ -200,11 +286,15 @@ function nexusEraDescribe(server) {
   const era = data.getInt('nexusEra')
   const active = data.getBoolean('nexusHordeActive')
   const currentDay = nexusEraWorldDay(server)
+  const campaignDay = nexusCampaignDayFromData(data)
   const pendingEra = data.getInt('nexusPendingEra')
   const nextEra = era < NEXUS_ERA_MAX ? era + 1 : -1
   return [
     `Era global: ${era} (${nexusEraName(era)})`,
-    `Dia actual: ${currentDay === null ? 'no disponible' : currentDay}`,
+    data.getBoolean('nexusCampaignStarted')
+      ? `Dia de campana: ${campaignDay}/${NEXUS_CAMPAIGN_LENGTH_DAYS}${data.getBoolean('nexusCampaignPaused') ? ' (pausada)' : ''}`
+      : 'Campana no iniciada',
+    `Dia del mundo: ${currentDay === null ? 'no disponible' : currentDay}`,
     `Dia de desbloqueo: ${nexusEraDayLabel(data.getInt('nexusEraUnlockDay'), 'sin desbloquear')}`,
     `Ultima horda completada: ${nexusEraDayLabel(data.getInt('nexusLastHordeCompletedDay'), 'ninguna')}`,
     `Proxima horda valida: ${nexusEraDayLabel(data.getInt('nexusNextHordeDay'), 'no programada')}`,
@@ -276,14 +366,15 @@ function syncHistoryStages(server, era, moment) {
 }
 
 function nexusEraSet(server, newEra) {
-  const currentDay = nexusEraWorldDay(server)
-  if (currentDay === null) return false
+  const currentWorldDay = nexusEraWorldDay(server)
+  if (currentWorldDay === null) return false
 
   const data = nexusEraData(server)
+  const campaignDay = nexusCampaignDayFromData(data)
   const previousEra = data.getInt('nexusEra')
 
   data.putInt('nexusEra', newEra)
-  data.putInt('nexusEraUnlockDay', newEra === 0 ? -1 : currentDay)
+  data.putInt('nexusEraUnlockDay', newEra === 0 ? -1 : campaignDay)
   if (data.getInt('nexusEraMilestoneCompleted') < newEra) {
     data.putInt('nexusEraMilestoneCompleted', newEra)
   }
@@ -295,7 +386,7 @@ function nexusEraSet(server, newEra) {
     const lastCompleted = data.getInt('nexusLastHordeCompletedDay')
     let nextDay = Math.max(
       NEXUS_ERA_FIRST_HORDE_DAY,
-      currentDay + NEXUS_ERA_GRACE_DAYS
+      currentWorldDay + NEXUS_ERA_GRACE_DAYS
     )
 
     if (lastCompleted >= 0) {
@@ -310,10 +401,8 @@ function nexusEraSet(server, newEra) {
 }
 
 function nexusEraRequestAdvance(server, targetEra) {
-  const currentDay = nexusEraWorldDay(server)
-  if (currentDay === null) return { status: 'world_unavailable' }
-
   const data = nexusEraData(server)
+  const currentDay = nexusCampaignDayFromData(data)
   const currentEra = data.getInt('nexusEra')
   if (currentEra >= NEXUS_ERA_MAX) return { status: 'maximum', era: currentEra }
   if (targetEra <= currentEra) return { status: 'already', era: currentEra }
@@ -328,6 +417,10 @@ function nexusEraRequestAdvance(server, targetEra) {
     data.putInt('nexusPendingEraRequestedDay', currentDay)
   }
 
+  if (!data.getBoolean('nexusCampaignStarted')) {
+    return { status: 'awaiting_campaign', era: targetEra }
+  }
+
   const minimumDay = nexusEraMinimumDay(targetEra)
   if (currentDay < minimumDay) {
     return { status: 'pending', era: targetEra, minimumDay: minimumDay, currentDay: currentDay }
@@ -339,10 +432,9 @@ function nexusEraRequestAdvance(server, targetEra) {
 }
 
 function nexusEraTryAdvancePending(server) {
-  const currentDay = nexusEraWorldDay(server)
-  if (currentDay === null) return false
-
   const data = nexusEraData(server)
+  if (!data.getBoolean('nexusCampaignStarted')) return false
+  const currentDay = nexusCampaignDayFromData(data)
   const currentEra = data.getInt('nexusEra')
   const pendingEra = data.getInt('nexusPendingEra')
   if (pendingEra < 0) return false
@@ -363,6 +455,8 @@ function nexusEraReplyAdvanceResult(source, result) {
     nexusEraReply(source, `Era ${result.era} desbloqueada globalmente.`)
   } else if (result.status === 'pending') {
     nexusEraReply(source, `Hito de Era ${result.era} completado; avance pendiente hasta el dia ${result.minimumDay}.`)
+  } else if (result.status === 'awaiting_campaign') {
+    nexusEraReply(source, `Hito de Era ${result.era} registrado; avance pendiente hasta iniciar la campana.`)
   } else if (result.status === 'already') {
     nexusEraReply(source, `La Era ${result.era} ya esta desbloqueada.`)
   } else if (result.status === 'maximum') {
@@ -518,7 +612,7 @@ ServerEvents.commandRegistry(event => {
             const targetEra = data.getInt('nexusEra') + 1
             const result = nexusEraRequestAdvance(server, targetEra)
             nexusEraReplyAdvanceResult(ctx.source, result)
-            return result.status === 'advanced' || result.status === 'pending' || result.status === 'already' ? 1 : 0
+            return result.status === 'advanced' || result.status === 'pending' || result.status === 'awaiting_campaign' || result.status === 'already' ? 1 : 0
           })
       )
       .then(
@@ -535,7 +629,7 @@ ServerEvents.commandRegistry(event => {
 
                 const result = nexusEraRequestAdvance(ctx.source.server, targetEra)
                 nexusEraReplyAdvanceResult(ctx.source, result)
-                return result.status === 'advanced' || result.status === 'pending' || result.status === 'already' ? 1 : 0
+                return result.status === 'advanced' || result.status === 'pending' || result.status === 'awaiting_campaign' || result.status === 'already' ? 1 : 0
               })
           )
       )
@@ -559,6 +653,106 @@ ServerEvents.commandRegistry(event => {
             )
             return 1
           })
+      )
+  )
+
+  event.register(
+    Commands.literal('nexus_campaign')
+      .then(
+        Commands.literal('get')
+          .executes(ctx => {
+            const data = nexusEraData(ctx.source.server)
+            if (!data.getBoolean('nexusCampaignStarted')) {
+              nexusEraReply(ctx.source, 'Campana no iniciada.')
+              return 1
+            }
+            nexusEraReply(
+              ctx.source,
+              `Campana: dia ${nexusCampaignDayFromData(data)}/${NEXUS_CAMPAIGN_LENGTH_DAYS} ` +
+              `(${data.getBoolean('nexusCampaignPaused') ? 'pausada' : 'activa'}).`
+            )
+            return 1
+          })
+      )
+      .then(
+        Commands.literal('start')
+          .requires(source => source.hasPermission(2))
+          .executes(ctx => {
+            const started = nexusCampaignStart(nexusEraData(ctx.source.server))
+            nexusEraReply(
+              ctx.source,
+              started
+                ? 'Campana iniciada oficialmente en el dia 1/30.'
+                : 'La campana ya estaba iniciada; el epoch no se ha modificado.'
+            )
+            return started ? 1 : 0
+          })
+      )
+      .then(
+        Commands.literal('pause')
+          .requires(source => source.hasPermission(2))
+          .executes(ctx => {
+            const result = nexusCampaignPause(nexusEraData(ctx.source.server))
+            if (result === 'not_started') {
+              nexusEraReply(ctx.source, 'La campana no esta iniciada; usa /nexus_campaign start.')
+              return 0
+            }
+            nexusEraReply(ctx.source, result === 'paused' ? 'Campana pausada.' : 'La campana ya estaba pausada.')
+            return result === 'paused' ? 1 : 0
+          })
+      )
+      .then(
+        Commands.literal('resume')
+          .requires(source => source.hasPermission(2))
+          .executes(ctx => {
+            const result = nexusCampaignResume(nexusEraData(ctx.source.server))
+            if (result === 'not_started') {
+              nexusEraReply(ctx.source, 'La campana no esta iniciada; usa /nexus_campaign start.')
+              return 0
+            }
+            nexusEraReply(ctx.source, result === 'resumed' ? 'Campana reanudada.' : 'La campana ya estaba activa.')
+            return result === 'resumed' ? 1 : 0
+          })
+      )
+      .then(
+        Commands.literal('restart')
+          .requires(source => source.hasPermission(2))
+          .executes(ctx => {
+            nexusEraReply(ctx.source, 'Reinicio rechazado: usa /nexus_campaign restart confirm.')
+            return 0
+          })
+          .then(
+            Commands.literal('confirm')
+              .executes(ctx => {
+                nexusCampaignRestart(nexusEraData(ctx.source.server))
+                nexusEraReply(
+                  ctx.source,
+                  'Calendario reiniciado al dia 1/30. La era global, hitos y History Stages se conservan.'
+                )
+                return 1
+              })
+          )
+      )
+      .then(
+        Commands.literal('set_day')
+          .requires(source => source.hasPermission(2))
+          .then(
+            Commands.argument('dia', Arguments.INTEGER.create(event))
+              .executes(ctx => {
+                const day = Number(Arguments.INTEGER.getResult(ctx, 'dia'))
+                if (day < 1 || day > NEXUS_CAMPAIGN_LENGTH_DAYS) {
+                  nexusEraReply(ctx.source, `El dia de campana debe estar entre 1 y ${NEXUS_CAMPAIGN_LENGTH_DAYS}.`)
+                  return 0
+                }
+                const data = nexusEraData(ctx.source.server)
+                if (!nexusCampaignSetDay(data, day)) {
+                  nexusEraReply(ctx.source, 'La campana no esta iniciada; usa /nexus_campaign start.')
+                  return 0
+                }
+                nexusEraReply(ctx.source, `Campana ajustada al dia ${day}/${NEXUS_CAMPAIGN_LENGTH_DAYS}.`)
+                return 1
+              })
+          )
       )
   )
 })

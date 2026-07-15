@@ -98,7 +98,7 @@ hash = "42bfb071693c8bd82f490a5054269d631ac54d8c11bb97090bf1bc09e078cb93"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/progresion_global.snbt"
-hash = "01a58e431ac3126ec1b541315bba3a6b890002c88d348c27fc225fb615fe68d9"
+hash = "51804f6ec49bfc0b5fc9949d92674c8606e42c2f8eb49df760b0500d39945ec3"
 
 [[files]]
 file = "config/ftbquests/quests/data.snbt"
@@ -106,11 +106,11 @@ hash = "3743c0f49721d3624efd9630e1104960050877d86e2f93f4ea8da0cd3d23fbf3"
 
 [[files]]
 file = "config/historystages/global/nexus_era_2_diamond.json"
-hash = "69b0513112ef0f6e1abb3439b874050770d78ad20536116986ce564a346aac74"
+hash = "ff4dc879cd9bd7bacda83f15ea1830a781af1255bde69bb151950b6177dc33d2"
 
 [[files]]
 file = "config/historystages/global/nexus_era_4_nexus.json"
-hash = "56b0eb028ee46ffe3b66e60097f030acc9420bdfb424ee954518ea497303f076"
+hash = "d16fd5c16bcb1b6324b65e433cd6663a857d86cd03dbbe60fc974aca50de375c"
 
 [[files]]
 file = "config/hordes-client.toml"
@@ -134,7 +134,7 @@ hash = "450b3e6a8b57a8c439b60fc3a678f0088e7e96ecab205f5d94aa4ad442831e4d"
 
 [[files]]
 file = "config/nexuscore/eras.json"
-hash = "ef8828e5bc88b30848f83dd35cb5a1a2b817de4945a97033f005309598db9a8b"
+hash = "7c85cf6c4996ba6259024dafa0d1615f3f16093204f22fa59983d97ce0a0546c"
 
 [[files]]
 file = "config/shouldersurfing-client.toml"
@@ -166,7 +166,7 @@ hash = "74423b8c8f67e5da9daf65daff6b9732d3ccf742d60db331e9cc9b2f461532e2"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_era_calendar.js"
-hash = "f6908e6335fc6d78dcec69a4b8ef62e578a16eb5956d3ae0f79a05b174008793"
+hash = "733deba2dad76c6c7539d9b348352e89913c52fb85dcdf92fe34f02cc312b4f4"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_tacz_restrictions.js"
@@ -667,8 +667,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.3.3.jar"
-hash = "0a9816c5ea92513fc6be8744830ce86e19b9aadbc30d60580a6ef354313245fe"
+file = "mods/nexus-core-0.5.0.jar"
+hash = "7da50724c5ba4606523f75692280ebb27bdd21d20373a3e09daa65cf529909e9"
 
 [[files]]
 file = "mods/not-enough-animations.pw.toml"

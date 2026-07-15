@@ -1,5 +1,5 @@
 {
-  "display_name": "Nexus Era II - Diamond Test",
+  "display_name": "Nexus Era II - Diamond Equipment",
   "icon": "minecraft:diamond",
   "items": [
     {
@@ -11,8 +11,48 @@
       "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
     },
     {
+      "id": "minecraft:diamond_axe",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "minecraft:diamond_shovel",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "minecraft:diamond_hoe",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "minecraft:diamond_helmet",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
       "id": "minecraft:diamond_chestplate",
       "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "minecraft:diamond_leggings",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "minecraft:diamond_boots",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "farmersdelight:diamond_knife",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
     }
+  ],
+  "recipes": [
+    "minecraft:diamond_sword",
+    "minecraft:diamond_pickaxe",
+    "minecraft:diamond_axe",
+    "minecraft:diamond_shovel",
+    "minecraft:diamond_hoe",
+    "minecraft:diamond_helmet",
+    "minecraft:diamond_chestplate",
+    "minecraft:diamond_leggings",
+    "minecraft:diamond_boots",
+    "farmersdelight:diamond_knife"
   ]
 }

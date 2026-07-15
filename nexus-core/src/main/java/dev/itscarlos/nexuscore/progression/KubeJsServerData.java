@@ -9,6 +9,8 @@ import net.minecraft.server.MinecraftServer;
 
 public final class KubeJsServerData {
     private static final String ACCESSOR = "kjs$getPersistentData";
+    private static final long CAMPAIGN_DAY_MILLIS = 86_400_000L;
+    private static final int CAMPAIGN_LENGTH_DAYS = 30;
     private static final Map<Class<?>, Method> ACCESSORS = new ConcurrentHashMap<>();
 
     private KubeJsServerData() {
@@ -41,9 +43,17 @@ public final class KubeJsServerData {
         int worldDay = server.overworld() == null
             ? -1
             : (int) Math.floorDiv(server.overworld().getDayTime(), 24000L);
+        boolean campaignStarted = data.contains("nexusCampaignStarted")
+            ? data.getBoolean("nexusCampaignStarted")
+            : data.contains("nexusCampaignEpochMillis") && data.getLong("nexusCampaignEpochMillis") > 0L;
+        int campaignDay = campaignStarted ? readCampaignDay(data) : -1;
         return new ProgressionState(
             era,
             worldDay,
+            campaignStarted,
+            campaignDay,
+            CAMPAIGN_LENGTH_DAYS,
+            data.getBoolean("nexusCampaignPaused"),
             data.contains("nexusEraUnlockDay") ? data.getInt("nexusEraUnlockDay") : -1,
             data.contains("nexusNextHordeDay") ? data.getInt("nexusNextHordeDay") : -1,
             data.getBoolean("nexusHordeActive"),
@@ -52,5 +62,20 @@ public final class KubeJsServerData {
             data.contains("nexusPendingEraRequestedDay") ? data.getInt("nexusPendingEraRequestedDay") : -1,
             Math.max(0, data.getInt("nexusEraMilestoneCompleted"))
         );
+    }
+
+    private static int readCampaignDay(CompoundTag data) {
+        if (!data.contains("nexusCampaignEpochMillis")) {
+            return 1;
+        }
+
+        long effectiveNow = data.getBoolean("nexusCampaignPaused")
+            ? data.getLong("nexusCampaignPausedAtMillis")
+            : System.currentTimeMillis();
+        long epoch = data.getLong("nexusCampaignEpochMillis");
+        long pausedTotal = Math.max(0L, data.getLong("nexusCampaignPausedTotalMillis"));
+        long elapsed = Math.max(0L, effectiveNow - epoch - pausedTotal);
+        long day = Math.floorDiv(elapsed, CAMPAIGN_DAY_MILLIS) + 1L;
+        return (int) Math.max(1L, Math.min(CAMPAIGN_LENGTH_DAYS, day));
     }
 }
