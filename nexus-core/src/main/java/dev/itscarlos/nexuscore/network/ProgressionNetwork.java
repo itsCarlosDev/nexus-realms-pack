@@ -10,7 +10,7 @@ import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 public final class ProgressionNetwork {
-    private static final String PROTOCOL = "2";
+    private static final String PROTOCOL = "4";
     private static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder
         .named(new ResourceLocation(NexusCore.MOD_ID, "progression"))
         .networkProtocolVersion(() -> PROTOCOL)

@@ -7,9 +7,9 @@
       "short_name": "Preparación",
       "description": "El mundo reúne recursos y se prepara para las amenazas futuras.",
       "icon": "minecraft:clock",
-      "color": "#8A8A8A",
+      "color": "#77777F",
       "next_era": 1,
-      "minimum_day": 0,
+      "minimum_day": 1,
       "features": []
     },
     {
@@ -19,9 +19,9 @@
       "short_name": "Hierro",
       "description": "El servidor puede afrontar sus primeras hordas globales.",
       "icon": "minecraft:iron_ingot",
-      "color": "#D8D8D8",
+      "color": "#B5824C",
       "next_era": 2,
-      "minimum_day": 5,
+      "minimum_day": 1,
       "features": ["Hordas globales habilitadas"]
     },
     {
@@ -31,9 +31,9 @@
       "short_name": "Diamante",
       "description": "El servidor alcanza una nueva etapa de progreso compartido.",
       "icon": "minecraft:diamond",
-      "color": "#55E6E6",
+      "color": "#00C9E8",
       "next_era": 3,
-      "minimum_day": 15,
+      "minimum_day": 7,
       "features": []
     },
     {
@@ -43,9 +43,9 @@
       "short_name": "Arcano-Industrial",
       "description": "Una etapa global preparada para futuros sistemas arcanos e industriales.",
       "icon": "minecraft:amethyst_shard",
-      "color": "#B978FF",
+      "color": "#8A2BE2",
       "next_era": 4,
-      "minimum_day": 30,
+      "minimum_day": 14,
       "features": []
     },
     {
@@ -55,9 +55,9 @@
       "short_name": "Nexus",
       "description": "El servidor alcanza la etapa final de su progresión global.",
       "icon": "minecraft:nether_star",
-      "color": "#FFB83D",
+      "color": "#00E5FF",
       "next_era": -1,
-      "minimum_day": 50,
+      "minimum_day": 21,
       "features": []
     }
   ]

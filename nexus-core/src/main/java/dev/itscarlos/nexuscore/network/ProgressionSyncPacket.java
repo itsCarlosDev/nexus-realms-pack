@@ -13,6 +13,10 @@ public record ProgressionSyncPacket(ProgressionState state, boolean showUnlock) 
         ProgressionState state = packet.state();
         buffer.writeVarInt(state.era());
         buffer.writeVarInt(state.worldDay());
+        buffer.writeBoolean(state.campaignStarted());
+        buffer.writeVarInt(state.campaignDay());
+        buffer.writeVarInt(state.campaignLength());
+        buffer.writeBoolean(state.campaignPaused());
         buffer.writeVarInt(state.unlockDay());
         buffer.writeVarInt(state.nextHordeDay());
         buffer.writeBoolean(state.hordeActive());
@@ -28,6 +32,10 @@ public record ProgressionSyncPacket(ProgressionState state, boolean showUnlock) 
             new ProgressionState(
                 buffer.readVarInt(),
                 buffer.readVarInt(),
+                buffer.readBoolean(),
+                buffer.readVarInt(),
+                buffer.readVarInt(),
+                buffer.readBoolean(),
                 buffer.readVarInt(),
                 buffer.readVarInt(),
                 buffer.readBoolean(),
