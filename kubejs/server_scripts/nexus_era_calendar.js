@@ -15,7 +15,9 @@ const NEXUS_ERA_PARTICIPANT_RADIUS_SQR = 128 * 128
 const NEXUS_CAMPAIGN_LENGTH_DAYS = 30
 const NEXUS_CAMPAIGN_DAY_MILLIS = 24 * 60 * 60 * 1000
 const NEXUS_ERA_DEFINITIONS = JsonIO.read('config/nexuscore/eras.json').eras
+const NEXUS_HISTORY_IRON_STAGE = 'nexus_era_1_iron'
 const NEXUS_HISTORY_DIAMOND_STAGE = 'nexus_era_2_diamond'
+const NEXUS_HISTORY_ARCANE_INDUSTRIAL_STAGE = 'nexus_era_3_arcane_industrial'
 const NEXUS_HISTORY_NEXUS_STAGE = 'nexus_era_4_nexus'
 
 let nexusEraServerTicks = 0
@@ -31,8 +33,12 @@ const nexusEraHistorySyncDiagnostics = {
   ok: false,
   error: 'not_run',
   era: -1,
+  ironCommand: '',
+  ironResult: 0,
   diamondCommand: '',
   diamondResult: 0,
+  arcaneIndustrialCommand: '',
+  arcaneIndustrialResult: 0,
   nexusCommand: '',
   nexusResult: 0
 }
@@ -332,12 +338,22 @@ function syncHistoryStages(server, era, moment) {
 
     era = Math.max(NEXUS_ERA_MIN, Math.min(NEXUS_ERA_MAX, Number(era)))
     nexusEraHistorySyncDiagnostics.era = era
+    nexusEraHistorySyncDiagnostics.ironCommand =
+      `history global ${era >= 1 ? 'unlock' : 'lock'} ${NEXUS_HISTORY_IRON_STAGE}`
     nexusEraHistorySyncDiagnostics.diamondCommand =
       `history global ${era >= 2 ? 'unlock' : 'lock'} ${NEXUS_HISTORY_DIAMOND_STAGE}`
+    nexusEraHistorySyncDiagnostics.arcaneIndustrialCommand =
+      `history global ${era >= 3 ? 'unlock' : 'lock'} ${NEXUS_HISTORY_ARCANE_INDUSTRIAL_STAGE}`
     nexusEraHistorySyncDiagnostics.nexusCommand =
       `history global ${era >= 4 ? 'unlock' : 'lock'} ${NEXUS_HISTORY_NEXUS_STAGE}`
+    nexusEraHistorySyncDiagnostics.ironResult = Number(
+      server.runCommandSilent(nexusEraHistorySyncDiagnostics.ironCommand)
+    )
     nexusEraHistorySyncDiagnostics.diamondResult = Number(
       server.runCommandSilent(nexusEraHistorySyncDiagnostics.diamondCommand)
+    )
+    nexusEraHistorySyncDiagnostics.arcaneIndustrialResult = Number(
+      server.runCommandSilent(nexusEraHistorySyncDiagnostics.arcaneIndustrialCommand)
     )
     nexusEraHistorySyncDiagnostics.nexusResult = Number(
       server.runCommandSilent(nexusEraHistorySyncDiagnostics.nexusCommand)
@@ -347,8 +363,12 @@ function syncHistoryStages(server, era, moment) {
 
     console.info(
       `[Nexus Era] History Stages sync: moment=${moment}, era=${era}, ` +
+      `ironCommand="${nexusEraHistorySyncDiagnostics.ironCommand}", ` +
+      `ironResult=${nexusEraHistorySyncDiagnostics.ironResult}, ` +
       `diamondCommand="${nexusEraHistorySyncDiagnostics.diamondCommand}", ` +
       `diamondResult=${nexusEraHistorySyncDiagnostics.diamondResult}, ` +
+      `arcaneIndustrialCommand="${nexusEraHistorySyncDiagnostics.arcaneIndustrialCommand}", ` +
+      `arcaneIndustrialResult=${nexusEraHistorySyncDiagnostics.arcaneIndustrialResult}, ` +
       `nexusCommand="${nexusEraHistorySyncDiagnostics.nexusCommand}", ` +
       `nexusResult=${nexusEraHistorySyncDiagnostics.nexusResult}`
     )
@@ -649,7 +669,8 @@ ServerEvents.commandRegistry(event => {
             nexusEraReply(
               ctx.source,
               `History Stages sincronizado para Era ${result.era}: ` +
-              `diamondResult=${result.diamondResult}, nexusResult=${result.nexusResult}.`
+              `ironResult=${result.ironResult}, diamondResult=${result.diamondResult}, ` +
+              `arcaneIndustrialResult=${result.arcaneIndustrialResult}, nexusResult=${result.nexusResult}.`
             )
             return 1
           })

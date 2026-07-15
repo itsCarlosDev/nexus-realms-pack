@@ -1,0 +1,25 @@
+{
+  "display_name": "Nexus Era I - Iron Age",
+  "icon": "minecraft:iron_ingot",
+  "items": [
+    {
+      "id": "simplyswords:iron_glaive",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "irons_spellbooks:copper_spell_book",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "tacz:modern_kinetic_gun",
+      "nbt": {
+        "GunId": "tacz:glock_17"
+      },
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "create:cogwheel",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    }
+  ]
+}

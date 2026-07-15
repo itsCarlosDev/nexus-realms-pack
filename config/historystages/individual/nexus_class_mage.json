@@ -1,0 +1,22 @@
+{
+  "display_name": "Clase Nexus - Mago",
+  "icon": "irons_spellbooks:copper_spell_book",
+  "items": [
+    {
+      "id": "irons_spellbooks:copper_spell_book",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "irons_spellbooks:diamond_spell_book",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "irons_spellbooks:dragonskin_spell_book",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "irons_spellbooks:netherite_spell_book",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    }
+  ]
+}

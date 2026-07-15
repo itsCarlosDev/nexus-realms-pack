@@ -1,0 +1,22 @@
+{
+  "display_name": "Clase Nexus - Guerrero",
+  "icon": "simplyswords:iron_glaive",
+  "items": [
+    {
+      "id": "simplyswords:iron_glaive",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "simplyswords:diamond_glaive",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "epicfight:diamond_greatsword",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "simplyswords:netherite_glaive",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    }
+  ]
+}

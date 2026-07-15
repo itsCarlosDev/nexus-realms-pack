@@ -101,16 +101,44 @@ file = "config/ftbquests/quests/chapters/progresion_global.snbt"
 hash = "51804f6ec49bfc0b5fc9949d92674c8606e42c2f8eb49df760b0500d39945ec3"
 
 [[files]]
+file = "config/ftbquests/quests/chapters/senda_del_metal.snbt"
+hash = "ed0c971bc5d6f2934c653f947a41bb245486e9196d5ba48149d1d4e3b7aa5606"
+
+[[files]]
 file = "config/ftbquests/quests/data.snbt"
 hash = "3743c0f49721d3624efd9630e1104960050877d86e2f93f4ea8da0cd3d23fbf3"
 
 [[files]]
+file = "config/historystages/global/nexus_era_1_iron.json"
+hash = "01dc5906f32265580d27582c13fd16e7fb37bf3ab7e3eebc6aaa7685ee255bd7"
+
+[[files]]
 file = "config/historystages/global/nexus_era_2_diamond.json"
-hash = "ff4dc879cd9bd7bacda83f15ea1830a781af1255bde69bb151950b6177dc33d2"
+hash = "ac5357e6cabc5a82a1a978f4a69d075604da3de34571e4aaa52c486b02f86508"
+
+[[files]]
+file = "config/historystages/global/nexus_era_3_arcane_industrial.json"
+hash = "3610d64907656cd5e60e6be6a17ba3a299a601887fe8b72a3e7ec1e594aced8b"
 
 [[files]]
 file = "config/historystages/global/nexus_era_4_nexus.json"
-hash = "d16fd5c16bcb1b6324b65e433cd6663a857d86cd03dbbe60fc974aca50de375c"
+hash = "6b526a86abd8715010ede28fc66d341931d5c15f6d74377d450f8af948ddccfd"
+
+[[files]]
+file = "config/historystages/individual/nexus_class_gunslinger.json"
+hash = "e50164c1976de6aaa2625b97f56d4fbb41fde5a3b7f41c95a94f90cff163d864"
+
+[[files]]
+file = "config/historystages/individual/nexus_class_mage.json"
+hash = "ab94024f9d02c7fbb446101f47c2bb909bb18aba958a411a6bd47e2641dc9b49"
+
+[[files]]
+file = "config/historystages/individual/nexus_class_warrior.json"
+hash = "35e76c547a9b49aaaf5e58badab149cbd3756c1f7d195fe3dd5a82f5ab18db78"
+
+[[files]]
+file = "config/historystages/individual/nexus_specialization_metallurgist.json"
+hash = "eaba802547e8af0097cf4cf53a344386555706be6402decb46931c2162891f60"
 
 [[files]]
 file = "config/hordes-client.toml"
@@ -157,20 +185,12 @@ file = "journeymap/config/5.10/journeymap.minimap2.config"
 hash = "a185e4af3b71e5825466b8899ed7cfa8b91f78811d0deec5bf22f6ac93632775"
 
 [[files]]
-file = "kubejs/server_scripts/nexus_class_restrictions.js"
-hash = "93731d9ab43f1709332cbfd13259eb4a7db60d92f339c605bbf52a7dd26bdea8"
-
-[[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "74423b8c8f67e5da9daf65daff6b9732d3ccf742d60db331e9cc9b2f461532e2"
+hash = "25744dc8491548d7134d8ad2e522d1ebb4c176f292700c9199658696ea79e66c"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_era_calendar.js"
-hash = "733deba2dad76c6c7539d9b348352e89913c52fb85dcdf92fe34f02cc312b4f4"
-
-[[files]]
-file = "kubejs/server_scripts/nexus_tacz_restrictions.js"
-hash = "f36c1aed8d05fc948cf7f7e7080929765cd4f18d34bded45a92274ef4637866f"
+hash = "34510357dee3f63fe6d5480edbe795e6f4318e1bcaa0469c6a2d79b007664cef"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_presentation.js"
@@ -189,6 +209,11 @@ metafile = true
 [[files]]
 file = "mods/alexs-mobs.pw.toml"
 hash = "5e1239fd67c97c042d09cf38664698c9d1a3cfbc50d779fc550c461cf6aeb565"
+metafile = true
+
+[[files]]
+file = "mods/alshanexs-familiars.pw.toml"
+hash = "c835b62ad329be48d97bbed529f87181c7a9f4f9d1d56a8fe7cbdd085e7bd75d"
 metafile = true
 
 [[files]]
@@ -234,6 +259,11 @@ metafile = true
 [[files]]
 file = "mods/betterf3.pw.toml"
 hash = "28358fe53c22695b3bf1f93ac2225c46fe3525918b7b993ac36e68a7f0a16fe8"
+metafile = true
+
+[[files]]
+file = "mods/bookshelf.pw.toml"
+hash = "49f9d94df22724949d2ce1ae70b73461dfe7d92ce6ad6ceae9739cef0b34a089"
 metafile = true
 
 [[files]]
@@ -357,6 +387,16 @@ hash = "7777707a31c98e7e0674158a253244ef7145eac7019fb487d34446b445bcc2b8"
 metafile = true
 
 [[files]]
+file = "mods/cut-through.pw.toml"
+hash = "e1eb9c8386bc3ec75f1dcc14ff420b1a2e64aa2553678cb5ccfa945966280c82"
+metafile = true
+
+[[files]]
+file = "mods/decocraft.pw.toml"
+hash = "543d7760b3760917f1c82e8e55fbcb5f0bb920917634271e6d5bd9f1585106b2"
+metafile = true
+
+[[files]]
 file = "mods/default-options.pw.toml"
 hash = "4dd29a42972a5ab03609a0ee76156f005f7a7d3bd332bcdf57b25edd9e1310f9"
 metafile = true
@@ -372,6 +412,11 @@ hash = "acb2f4b1300c24188642c03692c6cfaf35f3edbfbffc53a32506bbc4fa930d0c"
 metafile = true
 
 [[files]]
+file = "mods/dynamic-waters.pw.toml"
+hash = "f0b6e8ea1ace490d8d0028efa986dacfb1b8c7e5304f710eafeb8d197cd99494"
+metafile = true
+
+[[files]]
 file = "mods/embeddium.pw.toml"
 hash = "5ec0c37f3f4ad07a40c10376668bca80334ddb7ad2bab06eb4de8f7aac339c8e"
 metafile = true
@@ -384,6 +429,11 @@ metafile = true
 [[files]]
 file = "mods/emotecraft.pw.toml"
 hash = "84e6ec23b1d9e88d4e1147d3d3c7c50b387f4b7ce06c52d3d8b6ceb6412907ee"
+metafile = true
+
+[[files]]
+file = "mods/enchantment-descriptions.pw.toml"
+hash = "e4c69a3551a4343fc76fb135266aecac0042863693f04d2c58a26c71b6e988d9"
 metafile = true
 
 [[files]]
@@ -447,6 +497,11 @@ hash = "197ae024f6d018efc44da09a5324c2cec24219e3213b3fd2a34b9b6f2f0f7f01"
 metafile = true
 
 [[files]]
+file = "mods/familiarslib.pw.toml"
+hash = "2070c109fedb37cb34bf9a46b425439d82b457c4cf491a4eabde34d9ad0b8d8a"
+metafile = true
+
+[[files]]
 file = "mods/fancy-toasts.pw.toml"
 hash = "25644d1e49befc15ea303fa14491d04c3e8a116c85e44184ba4a1ff0992b0bb6"
 metafile = true
@@ -484,6 +539,11 @@ metafile = true
 [[files]]
 file = "mods/framework.pw.toml"
 hash = "9e2175476f720e0b2d21b28e91873cecf5555648e2137310e1b7cf98f6b98ab8"
+metafile = true
+
+[[files]]
+file = "mods/freecam.pw.toml"
+hash = "5c2edd9eb7d86b2b2a34c393022cb376f2667dacd143533412f4c7c731357509"
 metafile = true
 
 [[files]]
@@ -529,6 +589,11 @@ metafile = true
 [[files]]
 file = "mods/history-stages.pw.toml"
 hash = "de4cb24f712aca1b97aff53f5867b46aa3aa34597ec38b28efba1f66c613e5a2"
+metafile = true
+
+[[files]]
+file = "mods/horseman.pw.toml"
+hash = "bb7ab3b1e92dfbf3ecc7e352a8b41f1fc71043e6579a8187915befbfe5c5621f"
 metafile = true
 
 [[files]]
@@ -746,6 +811,11 @@ hash = "c75ec0f13a06a0bf503dab32ab604cc19e52a65238ccbe08575a74b83ab7b2a2"
 metafile = true
 
 [[files]]
+file = "mods/relics-mod.pw.toml"
+hash = "fa3c0a19b839ec89df408368ae4886ffa36179c1973335ce7cd4654f2fa842ca"
+metafile = true
+
+[[files]]
 file = "mods/rhino.pw.toml"
 hash = "5b92406160d9ea8a61ddf111caaecb7f6283678e2c40b08b72dce3eeaf20dc96"
 metafile = true
@@ -773,6 +843,11 @@ metafile = true
 [[files]]
 file = "mods/shoulder-surfing-reloaded.pw.toml"
 hash = "456a859062a859ff69cffe95b2ecdc9636d389ffc92e9176fe6975a0015fd615"
+metafile = true
+
+[[files]]
+file = "mods/shulkerboxtooltip.pw.toml"
+hash = "3f3297e9f92ea76f921b005048281b8de80d3ac1c92f705c7ba5491bfd0524f5"
 metafile = true
 
 [[files]]
@@ -896,6 +971,16 @@ hash = "46c4d14c74900e3164fe58fad70c47bc0ace039aa4cbcaa6d1843b6f96ab0689"
 metafile = true
 
 [[files]]
+file = "mods/watermedia-binaries.pw.toml"
+hash = "e7b325beedc2de19df1991208251dcd241d32324389fcf6ea234b6c3fb484a5e"
+metafile = true
+
+[[files]]
+file = "mods/watermedia.pw.toml"
+hash = "ba187a6558343c579f0022e13f0ebec9447bf69de4cd05787ed03759b7b4315e"
+metafile = true
+
+[[files]]
 file = "mods/waystones.pw.toml"
 hash = "5ab6f2a4a50bd53506496d3da0c2c09d5a3ca363c3ebc7ca8641ecd3f7104365"
 metafile = true
@@ -903,6 +988,11 @@ metafile = true
 [[files]]
 file = "mods/what-are-they-up-to.pw.toml"
 hash = "c557d1b26559ef987c229187d2f2705616e78179ce04fa1c96cc3d76a1cdf1b5"
+metafile = true
+
+[[files]]
+file = "mods/wither-reincarnated.pw.toml"
+hash = "8cf146e7d424d624bd3147a8fe31d3109a49313b75b20efc9bed87913cb0843a"
 metafile = true
 
 [[files]]
