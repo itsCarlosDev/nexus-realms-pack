@@ -1,0 +1,13 @@
+name = "WATERMeDIA: Multimedia API"
+filename = "watermedia-3.0.0.19.jar"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/G922NeHS/versions/aerNChHz/watermedia-3.0.0.19.jar"
+hash-format = "sha512"
+hash = "5f73a7f886e7d3a0ca5930ebf07005a1b48658136c67ee4c79e9c1be854ff2f179fb938b76203bf75e35f4240806a0750487e5868a9d712365825e8c18673bcc"
+
+[update]
+[update.modrinth]
+mod-id = "G922NeHS"
+version = "aerNChHz"

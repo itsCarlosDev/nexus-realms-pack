@@ -1,0 +1,25 @@
+{
+  "display_name": "Nexus Era III - Arcane Industrial",
+  "icon": "create:precision_mechanism",
+  "items": [
+    {
+      "id": "epicfight:diamond_greatsword",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "irons_spellbooks:dragonskin_spell_book",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "tacz:modern_kinetic_gun",
+      "nbt": {
+        "GunId": "tacz:m4a1"
+      },
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "create:rotation_speed_controller",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    }
+  ]
+}

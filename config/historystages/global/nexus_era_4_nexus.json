@@ -41,6 +41,21 @@
     {
       "id": "farmersdelight:netherite_knife",
       "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "simplyswords:netherite_glaive",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "irons_spellbooks:netherite_spell_book",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "tacz:modern_kinetic_gun",
+      "nbt": {
+        "GunId": "tacz:m107"
+      },
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
     }
   ],
   "recipes": [

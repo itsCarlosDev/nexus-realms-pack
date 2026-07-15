@@ -1,0 +1,42 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "hexagon"
+	filename: "senda_del_metal"
+	group: "4E5850474C4F4241"
+	icon: {
+		id: "minecraft:raw_iron"
+	}
+	id: "4E584D4554414C31"
+	order_index: 1
+	quest_links: []
+	quests: [{
+		dependencies: ["4E58504552413033"]
+		description: [
+			"Especializacion avanzada del Mago para la Era III."
+			"La recompensa valida que quien la reclama siga siendo Mago y que el servidor haya alcanzado la Era III."
+			"La activacion nativa de Allomancy permanece pendiente hasta identificar de forma inequivoca el proyecto oficial previsto."
+		]
+		hide_until_deps_complete: true
+		icon: {
+			id: "minecraft:raw_iron"
+		}
+		id: "4E584D4554513031"
+		rewards: [{
+			command: "/nexus_specialization unlock metallurgist"
+			elevate_perms: true
+			id: "4E584D4554523031"
+			silent: true
+			title: "Desbloquear Metalurgista"
+			type: "command"
+		}]
+		tasks: [{
+			id: "4E584D4554543031"
+			title: "Completar La Senda del Metal"
+			type: "checkmark"
+		}]
+		title: "La Senda del Metal"
+		x: 0.0d
+		y: 0.0d
+	}]
+	title: "Mago - La Senda del Metal"
+}

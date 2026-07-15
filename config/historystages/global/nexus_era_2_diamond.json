@@ -41,6 +41,25 @@
     {
       "id": "farmersdelight:diamond_knife",
       "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "simplyswords:diamond_glaive",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "irons_spellbooks:diamond_spell_book",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "tacz:modern_kinetic_gun",
+      "nbt": {
+        "GunId": "tacz:hk_mp5a5"
+      },
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
+    },
+    {
+      "id": "create:mechanical_press",
+      "unlock_actions": ["place", "pickup", "loot", "recipe", "gui", "icon"]
     }
   ],
   "recipes": [

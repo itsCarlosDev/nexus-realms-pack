@@ -1,0 +1,13 @@
+name = "Alshanex's Familiars"
+filename = "alshanex_familiars-1.20.1_v3.8_HOTFIX.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "47884d7680396fff177a19ad9a19a7bf032d8b24"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 7481428
+project-id = 1171602
