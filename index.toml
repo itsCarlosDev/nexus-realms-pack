@@ -5,6 +5,46 @@ file = "config/Undead_mobs.toml"
 hash = "c29f4573c1531f5cd6c37e24623a971b4390c00da284f09f9ebe36ccd233c3a7"
 
 [[files]]
+file = "config/allomancy-common.toml"
+hash = "b81c1888539560e012c0a9a3456fd8efebd69d2ff05d64f9cbf9023245ea33be"
+
+[[files]]
+file = "config/easy_npc/preset/humanoid/arcane_master.npc.snbt"
+hash = "1fcc5b49a4a030b989cade29b9b2a4df1a5e409c98ec5ea05a0327128f94de0f"
+
+[[files]]
+file = "config/easy_npc/preset/humanoid/chronicler.npc.snbt"
+hash = "00665fea6b43ed9dbac5a511ac2013b1a6e5b85ba6f971f256f565c32e34073d"
+
+[[files]]
+file = "config/easy_npc/preset/humanoid/explorer.npc.snbt"
+hash = "424a8031ad1ec02b6b9d2dab69e502ba4adc3a761dfa89933ca35260b1872ce9"
+
+[[files]]
+file = "config/easy_npc/preset/humanoid/guard_captain.npc.snbt"
+hash = "4c16a0f0e9a79a767efaf0a0ffb59ba5f05da10ca24df0acff548a0cb4f03ca7"
+
+[[files]]
+file = "config/easy_npc/preset/humanoid/gunsmith.npc.snbt"
+hash = "bb510edd8e2a638d523eb7bff8ad5cb894ac5eabed273bcfc99ff10e78d17d90"
+
+[[files]]
+file = "config/easy_npc/preset/humanoid/metallurgist_master.npc.snbt"
+hash = "53f232f346613cf165541999c3488bb7b5b9ed3f1c7dde9d363432694da8fd3c"
+
+[[files]]
+file = "config/easy_npc/preset/humanoid/nexus_custodian.npc.snbt"
+hash = "a2d686b80c755cfce83660277bfd400d94fb813ac48446766a29cdf3344b6884"
+
+[[files]]
+file = "config/easy_npc/preset/humanoid/nexus_merchant.npc.snbt"
+hash = "3265239a08bab58b99372d18492e0c9c8a38ecc4ef6ba4549514a0f796f060c7"
+
+[[files]]
+file = "config/easy_npc/preset/humanoid/warrior_master.npc.snbt"
+hash = "b0eb59d683cfa98bfe74fdcced7de70e135d7eaff054dd7f019abcaa7e08fcd7"
+
+[[files]]
 file = "config/epictweaks-client.toml"
 hash = "fa8b64cb8aea24a504eadcc6856fe87437ccd7a0a142dbe6b91802ff984401bf"
 
@@ -97,12 +137,52 @@ file = "config/ftbquests/quests/chapter_groups.snbt"
 hash = "42bfb071693c8bd82f490a5054269d631ac54d8c11bb97090bf1bc09e078cb93"
 
 [[files]]
-file = "config/ftbquests/quests/chapters/progresion_global.snbt"
-hash = "51804f6ec49bfc0b5fc9949d92674c8606e42c2f8eb49df760b0500d39945ec3"
+file = "config/ftbquests/quests/chapters/00_comienzo.snbt"
+hash = "8ec563b2a8fe749e3359b57802f5f3ca43bdc6dbfc92e7f5373ff7b3d1543ab7"
+
+[[files]]
+file = "config/ftbquests/quests/chapters/01_era_supervivencia.snbt"
+hash = "b8a4ae3322fa7144bb602e7237021547e3a591ce6db809beaa7cf1722611cc4d"
+
+[[files]]
+file = "config/ftbquests/quests/chapters/02_era_expansion.snbt"
+hash = "75b6ec2d1cd69e8b98bb2f1d9f2157e0772e475fd4e476cb157f4ac212a0f525"
+
+[[files]]
+file = "config/ftbquests/quests/chapters/03_era_arcano_industrial.snbt"
+hash = "d82cc2b3eb86a11940e0f3fc8fb37d96d6421c7c5cb6a8f143fe4d0cf35762a7"
+
+[[files]]
+file = "config/ftbquests/quests/chapters/04_era_nexus.snbt"
+hash = "c8c5a4a1390b5dac74484d42dcfc8cc4c0b5f107ffeaf3e54b0f19c6ec4120b3"
+
+[[files]]
+file = "config/ftbquests/quests/chapters/clase_guerrero.snbt"
+hash = "709c193d5abd36b0817cef53fe9f03f87c9328c2fb649dc4133a33ae38d0e003"
+
+[[files]]
+file = "config/ftbquests/quests/chapters/clase_mago.snbt"
+hash = "e3ad93d8904f316be746844089665281f3d869331ca94bee07f4d3f1d52b1ec0"
+
+[[files]]
+file = "config/ftbquests/quests/chapters/clase_pistolero.snbt"
+hash = "3153392ae3f8a30e5fd752e42c67aabac318981054d0e964da721d53130d896b"
+
+[[files]]
+file = "config/ftbquests/quests/chapters/desafios_y_bosses.snbt"
+hash = "1510500bfeb367eb91b9ee03820e512d9900e761787084d1cb8f298b6c40fb81"
+
+[[files]]
+file = "config/ftbquests/quests/chapters/especializacion_arcanista.snbt"
+hash = "b982fbfde4dc9eb3168763f4fb16db5d5b892ecc93bd74ce7ea354c8dd634823"
+
+[[files]]
+file = "config/ftbquests/quests/chapters/exploracion_y_hordas.snbt"
+hash = "3ad05f9a8f92fe5147f19f5e39a37e4d9ae4b4017e1ba4de57700746a073ac9c"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/senda_del_metal.snbt"
-hash = "ed0c971bc5d6f2934c653f947a41bb245486e9196d5ba48149d1d4e3b7aa5606"
+hash = "9fa4b836c71b2885680799fa6db95e67e8ddb7bc923d055a4700ed7e88b012ec"
 
 [[files]]
 file = "config/ftbquests/quests/data.snbt"
@@ -118,11 +198,11 @@ hash = "6d5805a08715787e1c175ca506ce157f5ec29db471bdb42ad6fe2cc98dbb42bf"
 
 [[files]]
 file = "config/historystages/global/nexus_era_3_arcane_industrial.json"
-hash = "85b122f4108331f4e0b8631cc947dcf834402719310bf35c2d9479c0b9b05d47"
+hash = "40869ef89357ced9c52975015819cfe8d9785565e02cff3e1385edaea2b46df1"
 
 [[files]]
 file = "config/historystages/global/nexus_era_4_nexus.json"
-hash = "efae98835e62fac14e96a7cac987584361228ff95862b44ffb1c60032503f67a"
+hash = "1d59d253f96132d6c05d4ce7541035eadfd50c9102bfc2c673c1664591de2b5f"
 
 [[files]]
 file = "config/historystages/individual/nexus_class_gunslinger.json"
@@ -130,15 +210,19 @@ hash = "18e2e74e50fac15e0e01535719de3465fb12ff047263b2433ef4a7e2b2b813f7"
 
 [[files]]
 file = "config/historystages/individual/nexus_class_mage.json"
-hash = "1488ff3aded04c0bbf2183b8d576d370864c66a4d37139af259cd97ff008c304"
+hash = "da2782110b0a566c7f27ec62c6a2eb6a7656a5fbd4f6e9c054880df7df656cbb"
 
 [[files]]
 file = "config/historystages/individual/nexus_class_warrior.json"
 hash = "1b502fa2ff93be16dea449fc6709b6b6fe9a3df6fb372d868de5f4b536626d08"
 
 [[files]]
+file = "config/historystages/individual/nexus_specialization_arcanist.json"
+hash = "93e5d0da9ea3876815562a44e0628bc9d2ecc1a1da6e9b1c355b0d814e577cc8"
+
+[[files]]
 file = "config/historystages/individual/nexus_specialization_metallurgist.json"
-hash = "eaba802547e8af0097cf4cf53a344386555706be6402decb46931c2162891f60"
+hash = "ae135530e357e3ccd3747e431f09e38408fc5579803a79a59b64fea4f090f64b"
 
 [[files]]
 file = "config/hordes-client.toml"
@@ -177,6 +261,50 @@ file = "config/tacztweaks.json"
 hash = "5e3d04e3da6a6c7e1e1e63fde62f66aa2aa2baffe081fa50213c9dd7d38bd292"
 
 [[files]]
+file = "generated/schematics/nexus_market_spawn_nexus_realms_v4.schem"
+hash = "adfd40b53db4a543e32248541427449f52e102ebb920e88bc1cb7d4084de2b2c"
+
+[[files]]
+file = "generated/schematics/nexus_market_spawn_nexus_realms_v4_base.schem"
+hash = "a5e187bad7f36ae3f2b93dbdc86dfafe709f97248c23b6725806e1fc0cbaaadf"
+
+[[files]]
+file = "generated/schematics/nexus_market_spawn_nexus_realms_v4_decocraft.schem"
+hash = "7ca2becc6d968b6857f18922e7f9a60457b30a19bdbd73a808e87c9b68b2ed14"
+
+[[files]]
+file = "generated/schematics/nexus_market_spawn_nexus_realms_v5.schem"
+hash = "b167b4c5639235e7942bf9b4a5f43bc045e02c53a88e0df0f1ae59d3db748db6"
+
+[[files]]
+file = "generated/schematics/nexus_market_spawn_nexus_realms_v5_audit.json"
+hash = "25fc16e0d7b3f9a554b60ab5bed7cb2659e6965128cb8a1f848156046ebac37d"
+
+[[files]]
+file = "generated/schematics/nexus_market_spawn_nexus_realms_v5_base.schem"
+hash = "a66d7d4eb2b44ba913bff53f023c730a0d9c8e37be00f70033db820894214e2d"
+
+[[files]]
+file = "generated/schematics/nexus_market_spawn_nexus_realms_v5_decocraft.schem"
+hash = "4e0e92fb61fc4fb8b93e6796d0935c81b877c5147f0cdf997dc008a9f443f16c"
+
+[[files]]
+file = "generated/schematics/nexus_market_spawn_nexus_realms_v6.schem"
+hash = "a6811a17aefe9eeef021d5df153fe9ec3961986bdaad60afb1524c34e910a449"
+
+[[files]]
+file = "generated/schematics/nexus_market_spawn_nexus_realms_v6_audit.json"
+hash = "e7879bf552cc3b6ed1d24de8ed33fec99ec7758ef5648dd62b38cb7c76186b1c"
+
+[[files]]
+file = "generated/schematics/nexus_market_spawn_nexus_realms_v6_base.schem"
+hash = "c77c0cc7c7d3ea9716b4db298ba7432b16fa8fdb2591c1719224dfe15f978ca8"
+
+[[files]]
+file = "generated/schematics/nexus_market_spawn_nexus_realms_v6_decocraft.schem"
+hash = "43141f481f1d1948b853981c03f3dc49e346098d2479ca82e7cf6dcefe5807a0"
+
+[[files]]
 file = "journeymap/config/5.10/journeymap.minimap.config"
 hash = "b292a868699deff815881c8a4a0ffcca2dc19e84eaba7201d191a2359da196fd"
 
@@ -185,12 +313,28 @@ file = "journeymap/config/5.10/journeymap.minimap2.config"
 hash = "a185e4af3b71e5825466b8899ed7cfa8b91f78811d0deec5bf22f6ac93632775"
 
 [[files]]
+file = "kubejs/assets/kubejs/textures/item/nexus_bronze_coin.png"
+hash = "2f99784238909054456d32d490fca1400390f3f1437a084035b88fdec6789ce0"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/item/nexus_gold_coin.png"
+hash = "6109c59129458768c3c64548ce87ee195df2ca355a43f2739052ee873a48af71"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/item/nexus_silver_coin.png"
+hash = "fe493c23232cc14a1a3be2158370edde9b0d03ec4884efac11adec48c7fa6dbe"
+
+[[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "25744dc8491548d7134d8ad2e522d1ebb4c176f292700c9199658696ea79e66c"
+hash = "1695c5bb2781fae835de54a36efe6f733738bd00787c493771027687fec22a6c"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_era_calendar.js"
 hash = "34510357dee3f63fe6d5480edbe795e6f4318e1bcaa0469c6a2d79b007664cef"
+
+[[files]]
+file = "kubejs/startup_scripts/nexus_economy_items.js"
+hash = "6bd40dde3f1bd0d3e06fe4dd057a83d90b4732587f18bbb4281f98d1ede6a203"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_presentation.js"
@@ -209,6 +353,11 @@ metafile = true
 [[files]]
 file = "mods/alexs-mobs.pw.toml"
 hash = "5e1239fd67c97c042d09cf38664698c9d1a3cfbc50d779fc550c461cf6aeb565"
+metafile = true
+
+[[files]]
+file = "mods/allomancy.pw.toml"
+hash = "c0c9cf4a22858d9fe476ef5fd75ce62a697c54e337e473dbbe81daa63cc8d4b3"
 metafile = true
 
 [[files]]
@@ -352,6 +501,11 @@ hash = "d62480bc696affd0a714d4cd74b5dc64a072b9d67d505b52df87ebcdf9650a79"
 metafile = true
 
 [[files]]
+file = "mods/create-deco.pw.toml"
+hash = "87be52b8aaa9864eab1ec2df8c862cd01a084989b07c4cdbfaa21c57a9a778a6"
+metafile = true
+
+[[files]]
 file = "mods/create.pw.toml"
 hash = "9d7971a7af2ff4a96a0e5aede76f9cf8dc978da601e2754f79d6ec8631125bb9"
 metafile = true
@@ -414,6 +568,21 @@ metafile = true
 [[files]]
 file = "mods/dynamic-waters.pw.toml"
 hash = "f0b6e8ea1ace490d8d0028efa986dacfb1b8c7e5304f710eafeb8d197cd99494"
+metafile = true
+
+[[files]]
+file = "mods/easy-npc-config-ui.pw.toml"
+hash = "eb11da8004df41d931f82e5984ec1b3d05d83093a228f451388eb340775e53ea"
+metafile = true
+
+[[files]]
+file = "mods/easy-npc-core.pw.toml"
+hash = "632ea76711de2df6c2baf90482c0ea95d1888cd936f03d27b5097dd4e3b96d22"
+metafile = true
+
+[[files]]
+file = "mods/easy-npc.pw.toml"
+hash = "07870ba0a61544575a5dbf65f58fa87f6afabd9e3ad20ddb0d6e9a32cf306a0e"
 metafile = true
 
 [[files]]
@@ -534,6 +703,11 @@ metafile = true
 [[files]]
 file = "mods/fragmentum.pw.toml"
 hash = "b39121a323ad12d6fd4543e53b361386d73d825c4df60ca8f91a8ff1803e15e8"
+metafile = true
+
+[[files]]
+file = "mods/framedblocks.pw.toml"
+hash = "9fd68ed0b2b69ddabb1cc6c6c13251c4894a7a017cdd80032d92759954270e15"
 metafile = true
 
 [[files]]
@@ -972,7 +1146,7 @@ metafile = true
 
 [[files]]
 file = "mods/watermedia-binaries.pw.toml"
-hash = "e7b325beedc2de19df1991208251dcd241d32324389fcf6ea234b6c3fb484a5e"
+hash = "3ef23f21b86395b4c8cf8cfbf38f23fbc859aaff99e874b5ce6c901abeee3e29"
 metafile = true
 
 [[files]]

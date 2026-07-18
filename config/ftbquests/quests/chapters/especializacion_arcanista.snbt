@@ -1,0 +1,155 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "hexagon"
+	filename: "especializacion_arcanista"
+	group: "4E5850474C4F4241"
+	icon: { id: "irons_spellbooks:arcane_rune" }
+	id: "4E58415243414E31"
+	images: [
+		{ alpha: 170, color: 1315862, height: 5.5d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 13.0d, x: 5.0d, y: -1.0d }
+		{ alpha: 205, color: 9055202, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 8.5d, x: 2.75d, y: -3.7d }
+		{ alpha: 135, color: 16711935, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -89, width: 4.5d, x: 9.25d, y: -3.7d }
+	]
+	order_index: 7
+	quest_links: []
+	subtitle: ["Runas, grimorios y canalización arcana."]
+	quests: [
+		{
+			dependencies: ["2700000000001104"]
+			description: [
+				"Arcanista profundiza en Iron's Spells sin abandonar la clase Mago."
+				"Esta decisión es excluyente con Metalomante."
+			]
+			icon: { id: "irons_spellbooks:arcane_rune" }
+			id: "2700000000001201"
+			shape: "diamond"
+			size: 1.45d
+			rewards: [{
+				command: "/nexus_specialization select arcanist"
+				elevate_perms: false
+				id: "27A0000000001201"
+				silent: true
+				title: "Seleccionar Arcanista"
+				type: "command"
+			}]
+			tasks: [{ id: "27B0000000001201", title: "Elegir Arcanista", type: "checkmark" }]
+			title: "La senda del Arcanista"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2700000000001201"]
+			description: ["Equipa un grimorio inicial y aprende a gestionar maná, ranuras y hechizos."]
+			icon: { id: "irons_spellbooks:copper_spell_book" }
+			id: "2710000000001204"
+			tasks: [{
+				id: "271B000000001204"
+				item: { Count: 1b, id: "irons_spellbooks:copper_spell_book" }
+				title: "Preparar un grimorio de cobre"
+				type: "item"
+			}]
+			title: "Primer grimorio"
+			x: 2.0d
+			y: -2.0d
+		}
+		{
+			dependencies: ["2710000000001204", "4E58504552413032"]
+			description: ["Las runas definen escuelas y mejoras. Empieza con una runa inequívocamente clasificada."]
+			icon: { id: "irons_spellbooks:arcane_rune" }
+			id: "2710000000001205"
+			tasks: [{
+				id: "271B000000001205"
+				item: { Count: 1b, id: "irons_spellbooks:arcane_rune" }
+				title: "Obtener una runa arcana"
+				type: "item"
+			}]
+			title: "Lenguaje de las runas"
+			x: 4.0d
+			y: -2.0d
+		}
+		{
+			dependencies: ["2710000000001205", "4E58504552413033"]
+			description: ["Mejora capacidad y recuperación sin exigir una colección completa de orbes."]
+			icon: { id: "irons_spellbooks:mana_upgrade_orb" }
+			id: "2700000000001202"
+			rewards: [{
+				id: "281C000000001201"
+				item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "27B0000000001202"
+				item: { Count: 1b, id: "irons_spellbooks:mana_upgrade_orb" }
+				title: "Obtener un orbe de maná"
+				type: "item"
+			}]
+			title: "Dominio del maná"
+			x: 6.0d
+			y: -2.0d
+		}
+		{
+			dependencies: ["2700000000001202"]
+			description: ["Un bastón especializado introduce decisiones de escuela sin obligarte a fabricar todos."]
+			icon: { id: "irons_spellbooks:ice_staff" }
+			id: "2710000000001206"
+			tasks: [{
+				id: "271B000000001206"
+				item: { Count: 1b, id: "irons_spellbooks:ice_staff" }
+				title: "Obtener un bastón de hielo"
+				type: "item"
+			}]
+			title: "Canalización especializada"
+			x: 8.0d
+			y: -2.0d
+		}
+		{
+			dependencies: ["2700000000001202"]
+			description: ["Prepara una pieza de armadura mágica avanzada como núcleo de tu conjunto."]
+			icon: { id: "irons_spellbooks:archevoker_chestplate" }
+			id: "2710000000001207"
+			tasks: [{
+				id: "271B000000001207"
+				item: { Count: 1b, id: "irons_spellbooks:archevoker_chestplate" }
+				title: "Obtener una pechera Archevoker"
+				type: "item"
+			}]
+			title: "Vestiduras de combate"
+			x: 8.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2710000000001206", "2710000000001207", "4E58504552413034"]
+			description: ["Completa la senda con un grimorio final permitido por Era IV."]
+			icon: { id: "irons_spellbooks:netherite_spell_book" }
+			id: "2700000000001203"
+			shape: "octagon"
+			size: 1.5d
+			rewards: [
+				{
+					command: "/experience add @s 4 levels"
+					elevate_perms: true
+					id: "271A000000001203"
+					silent: true
+					title: "Experiencia arcana"
+					type: "command"
+				}
+				{
+					count: 3
+					id: "281C000000001202"
+					item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+					type: "item"
+				}
+			]
+			tasks: [{
+				id: "27B0000000001203"
+				item: { Count: 1b, id: "irons_spellbooks:netherite_spell_book" }
+				title: "Preparar un grimorio de netherite"
+				type: "item"
+			}]
+			title: "Arcanista del Nexus"
+			x: 10.0d
+			y: -1.0d
+		}
+	]
+	title: "Mago — Arcanista"
+}

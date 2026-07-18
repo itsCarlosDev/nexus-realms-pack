@@ -1,0 +1,154 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "octagon"
+	filename: "04_era_nexus"
+	group: "4E5850474C4F4241"
+	icon: { id: "minecraft:nether_star" }
+	id: "4E58303445524134"
+	images: [
+		{ alpha: 175, color: 1315862, height: 6.5d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 9.0d, x: 3.0d, y: 0.0d }
+		{ alpha: 215, color: 58879, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 6.0d, x: 1.5d, y: -3.2d }
+		{ alpha: 150, color: 16711935, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -89, width: 3.0d, x: 6.0d, y: -3.2d }
+	]
+	order_index: 4
+	quest_links: []
+	subtitle: ["Convergencia, poder y los desafíos que cierran la campaña."]
+	quests: [
+		{
+			dependencies: ["2700000000000304"]
+			description: [
+				"Solicita la Era del Nexus."
+				"El calendario global solo podrá abrirla a partir del Día 21."
+			]
+			icon: { id: "minecraft:netherite_ingot" }
+			id: "4E58504552413034"
+			shape: "octagon"
+			size: 1.5d
+			rewards: [
+				{
+					command: "/nexus_era request 4"
+					elevate_perms: true
+					id: "4E58505245573434"
+					silent: true
+					title: "Solicitar Era del Nexus"
+					type: "command"
+				}
+				{
+					count: 5
+					id: "281C000000000401"
+					item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+					type: "item"
+				}
+			]
+			tasks: [{
+				id: "4E58505441533434"
+				item: { Count: 1b, id: "minecraft:netherite_ingot" }
+				title: "Forjar netherite"
+				type: "item"
+			}]
+			title: "Hito IV — Era del Nexus"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["4E58504552413034"]
+			description: ["Recupera el patrón que permite mejorar equipo sin regalar una pieza final."]
+			icon: { id: "minecraft:netherite_upgrade_smithing_template" }
+			id: "2710000000000405"
+			tasks: [{
+				id: "271B000000000405"
+				item: { Count: 1b, id: "minecraft:netherite_upgrade_smithing_template" }
+				title: "Recuperar un patrón de mejora"
+				type: "item"
+			}]
+			title: "Conocimiento antiguo"
+			x: 2.0d
+			y: -2.0d
+		}
+		{
+			dependencies: ["2710000000000405"]
+			description: ["Completa el equipo final permitido para tu clase y domina sus sistemas avanzados."]
+			icon: { id: "minecraft:netherite_chestplate" }
+			id: "2700000000000402"
+			rewards: [{
+				count: 3
+				id: "281C000000000402"
+				item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+				type: "item"
+			}]
+			tasks: [{ id: "27B0000000000402", title: "Completar la progresión final de clase", type: "checkmark" }]
+			title: "Maestría de clase"
+			x: 4.0d
+			y: -2.0d
+		}
+		{
+			dependencies: ["4E58504552413034"]
+			description: ["Invoca y derrota al Wither para demostrar que el equipo está preparado para los desafíos finales."]
+			icon: { id: "minecraft:wither_skeleton_skull" }
+			id: "2700000000000403"
+			shape: "pentagon"
+			size: 1.25d
+			rewards: [{
+				command: "/give @s minecraft:golden_apple 2"
+				elevate_perms: true
+				id: "271A000000000403"
+				silent: true
+				title: "Reservas para el endgame"
+				type: "command"
+			}]
+			tasks: [{
+				entity: "minecraft:wither"
+				id: "27B0000000000403"
+				title: "Derrotar al Wither"
+				type: "kill"
+				value: 1L
+			}]
+			title: "Enemigo del Nexus"
+			x: 2.0d
+			y: 2.0d
+		}
+		{
+			dependencies: ["2700000000000403"]
+			description: ["Conserva una estrella del Nether para los proyectos finales del equipo."]
+			icon: { id: "minecraft:nether_star" }
+			id: "2710000000000406"
+			tasks: [{
+				id: "271B000000000406"
+				item: { Count: 1b, id: "minecraft:nether_star" }
+				title: "Conservar una estrella del Nether"
+				type: "item"
+			}]
+			title: "Energía para el cierre"
+			x: 4.0d
+			y: 2.0d
+		}
+		{
+			dependencies: ["2700000000000402", "2710000000000406"]
+			description: ["El equipo ha completado el recorrido principal. Exploración, bosses y ramas de clase pueden continuar."]
+			icon: { id: "minecraft:dragon_egg" }
+			id: "2700000000000404"
+			shape: "octagon"
+			size: 1.65d
+			rewards: [
+				{
+					command: "/experience add @s 5 levels"
+					elevate_perms: true
+					id: "27A0000000000404"
+					silent: true
+					title: "Experiencia del Nexus"
+					type: "command"
+				}
+				{
+					id: "281C000000000403"
+					item: { Count: 1b, id: "kubejs:nexus_gold_coin" }
+					type: "item"
+				}
+			]
+			tasks: [{ id: "27B0000000000404", title: "Completar la campaña principal", type: "checkmark" }]
+			title: "El Nexus despierto"
+			x: 6.0d
+			y: 0.0d
+		}
+	]
+	title: "04 — Era IV: El Nexus"
+}

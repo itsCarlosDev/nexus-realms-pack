@@ -1,0 +1,151 @@
+{
+  PresetMetadata:{
+    author:"Nexus Realms",
+    category:"Nexus Market",
+    created:1784332800000L,
+    description:"Custodio del Nexus: campaña principal y acceso de consulta a las Eras.",
+    entityTypeId:"easy_npc:humanoid",
+    modified:1784332800000L,
+    name:"nexus_custodian",
+    variantType:"KNIGHT_02",
+    version:"1.0.0"
+  },
+  data:{
+    ActionData:{
+      ActionEventSet:{ON_INTERACTION:[{Type:"OPEN_DEFAULT_DIALOG"}]},
+      ActionPermissionLevel:4
+    },
+    ArmorDropChances:[0.0f,0.0f,0.0f,0.0f],
+    ArmorItems:[
+      {Count:1b,id:"minecraft:chainmail_boots"},
+      {Count:1b,id:"minecraft:chainmail_leggings"},
+      {Count:1b,id:"minecraft:iron_chestplate"},
+      {}
+    ],
+    Attributes:[
+      {Base:0.0d,Name:"minecraft:generic.movement_speed"},
+      {Base:0.0d,Name:"minecraft:generic.attack_damage"},
+      {Base:16.0d,Name:"minecraft:generic.follow_range"}
+    ],
+    Brain:{memories:{}},
+    CanPickUpLoot:0b,
+    CanUpdate:1b,
+    CustomName:'{"color":"#66E6E6","text":"Custodio del Nexus"}',
+    CustomNameVisible:1b,
+    DialogData:{
+      DialogDataSet:[
+        {
+          Buttons:[
+            {
+              Actions:[{Cmd:"/ftbquests open_book 4E5850524F475549",ExecAsUser:1b,PermLevel:0,Type:"COMMAND"}],
+              Label:"open_campaign",
+              Name:"Abrir campaña"
+            },
+            {
+              Actions:[{Cmd:"eras",Type:"OPEN_NAMED_DIALOG"}],
+              Label:"open_eras",
+              Name:"Consultar las Eras"
+            }
+          ],
+          Label:"default",
+          Name:"El custodio",
+          Texts:[{Text:"Soy el Custodio del Nexus. Vigilo su despertar y guío la campaña que une a este asentamiento. Consulta el comienzo o el estado de las Eras cuando lo necesites."}]
+        },
+        {
+          Buttons:[
+            {
+              Actions:[{Cmd:"/ftbquests open_book 4E58303145524131",ExecAsUser:1b,PermLevel:0,Type:"COMMAND"}],
+              Label:"open_era_1",
+              Name:"Era I — Supervivencia"
+            },
+            {
+              Actions:[{Cmd:"/ftbquests open_book 4E58303245524132",ExecAsUser:1b,PermLevel:0,Type:"COMMAND"}],
+              Label:"open_era_2",
+              Name:"Era II — Expansión"
+            },
+            {
+              Actions:[{Cmd:"/ftbquests open_book 4E58303345524133",ExecAsUser:1b,PermLevel:0,Type:"COMMAND"}],
+              Label:"open_era_3",
+              Name:"Era III — Arcano-Industrial"
+            },
+            {
+              Actions:[{Cmd:"/ftbquests open_book 4E58303445524134",ExecAsUser:1b,PermLevel:0,Type:"COMMAND"}],
+              Label:"open_era_4",
+              Name:"Era IV — Nexus"
+            }
+          ],
+          Label:"eras",
+          Name:"Las Eras",
+          Texts:[{Text:"Cada Era abre un nuevo horizonte para todo el mundo. Puedo mostrarte su capítulo, pero el progreso debe ganarse."}]
+        }
+      ],
+      Type:"STANDARD"
+    },
+    DisplayAttribute:[
+      {Bool:1b,Type:"VISIBLE"},
+      {Bool:1b,Type:"VISIBLE_AT_DAY"},
+      {Bool:1b,Type:"VISIBLE_AT_NIGHT"},
+      {Bool:1b,Type:"VISIBLE_IN_CREATIVE"},
+      {Bool:1b,Type:"VISIBLE_IN_SPECTATOR"},
+      {Bool:1b,Type:"VISIBLE_IN_STANDARD"},
+      {Bool:1b,Type:"VISIBLE_TO_OWNER"},
+      {Bool:1b,Type:"VISIBLE_TO_TEAM"},
+      {Int:7,Type:"LIGHT_LEVEL"},
+      {Text:"ALWAYS",Type:"NAME_VISIBILITY"}
+    ],
+    EasyNPCVersion:3,
+    EntityAttribute:{
+      CanBeHitByProjectile:0b,
+      CanBeLeashed:0b,
+      CanBreatheUnderwater:0b,
+      CanCloseDoor:0b,
+      CanFloat:0b,
+      CanOpenDoor:0b,
+      CanPassDoor:0b,
+      CanUseNetherPortal:0b,
+      Freefall:0b,
+      HealthRegeneration:0.0d,
+      IsAttackableByMonsters:0b,
+      IsAttackableByPlayers:0b,
+      IsInvulnerable:1b,
+      IsPushable:0b,
+      NoGravity:0b,
+      PushEntities:0b
+    },
+    HandDropChances:[0.0f,0.0f],
+    HandItems:[{Count:1b,id:"minecraft:amethyst_shard"},{Count:1b,id:"minecraft:shield"}],
+    Health:20.0f,
+    Invulnerable:1b,
+    LeftHanded:0b,
+    ModelData:{DefaultPose:"STANDING",Position:{},Rotation:{},Scale:{},Visible:{}},
+    ObjectiveData:{
+      HasObjectives:1b,
+      ObjectiveDataSet:[{Prio:9,Type:"LOOK_AT_PLAYER"},{Prio:9,Type:"LOOK_AT_RESET"}]
+    },
+    Offers:{Inventory:{},Recipes:{Recipes:[]}},
+    OnGround:1b,
+    PersistenceRequired:1b,
+    PresetUUID:[I;581714711,178866178,-1201288124,-1263624364],
+    Profession:"NONE",
+    RenderData:{},
+    SkinData:{
+      Content:"",
+      DisableLayers:0b,
+      Name:"KNIGHT_02",
+      Timestamp:1784332800000L,
+      Type:"DEFAULT",
+      URL:"",
+      UUID:[I;0,0,0,0]
+    },
+    SoundData:{
+      SoundDataSet:[
+        {Name:"minecraft:entity.player.death",Type:"DEATH"},
+        {Name:"minecraft:entity.player.hurt",Type:"HURT"}
+      ]
+    },
+    Status:{finalized:1b},
+    TradingData:{TradingDataSet:{LastReset:0L,MaxUses:0,ResetsEveryMin:0,RewardedXP:0,Type:"NONE"}},
+    VariantType:"KNIGHT_02",
+    id:"easy_npc:humanoid"
+  }
+}

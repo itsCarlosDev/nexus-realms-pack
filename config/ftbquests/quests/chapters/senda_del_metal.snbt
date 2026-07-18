@@ -3,40 +3,206 @@
 	default_quest_shape: "hexagon"
 	filename: "senda_del_metal"
 	group: "4E5850474C4F4241"
-	icon: {
-		id: "minecraft:raw_iron"
-	}
+	icon: { id: "allomancy:allomantic_grinder" }
 	id: "4E584D4554414C31"
-	order_index: 1
+	images: [
+		{ alpha: 175, color: 2763310, height: 5.5d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 15.0d, x: 6.0d, y: -0.5d }
+		{ alpha: 210, color: 11895372, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 9.0d, x: 3.0d, y: -3.2d }
+		{ alpha: 195, color: 58879, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -89, width: 6.0d, x: 10.5d, y: -3.2d }
+	]
+	order_index: 8
 	quest_links: []
-	quests: [{
-		dependencies: ["4E58504552413033"]
-		description: [
-			"Especializacion avanzada del Mago para la Era III."
-			"La recompensa valida que quien la reclama siga siendo Mago y que el servidor haya alcanzado la Era III."
-			"La activacion nativa de Allomancy permanece pendiente hasta identificar de forma inequivoca el proyecto oficial previsto."
-		]
-		hide_until_deps_complete: true
-		icon: {
-			id: "minecraft:raw_iron"
+	subtitle: ["Metales, reservas y el poder que responde desde dentro."]
+	quests: [
+		{
+			dependencies: ["4E58504552413033", "2700000000001104"]
+			description: [
+				"Rama avanzada del Mago disponible desde la Era III."
+				"Completa el rito para seguir siendo Mago y añadir la especialización Metalomante."
+			]
+			hide_until_deps_complete: true
+			icon: { id: "minecraft:raw_iron" }
+			id: "4E584D4554513031"
+			shape: "gear"
+			size: 1.5d
+			rewards: [
+				{
+					command: "/nexus_specialization unlock metallurgist"
+					elevate_perms: true
+					id: "4E584D4554523031"
+					silent: true
+					title: "Desbloquear Metalomante"
+					type: "command"
+				}
+				{
+					id: "281C000000001401"
+					item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+					type: "item"
+				}
+			]
+			tasks: [{
+				id: "4E584D4554543031"
+				title: "Completar La Senda del Metal"
+				type: "checkmark"
+			}]
+			title: "El arte de los metales"
+			x: 0.0d
+			y: 0.0d
 		}
-		id: "4E584D4554513031"
-		rewards: [{
-			command: "/nexus_specialization unlock metallurgist"
-			elevate_perms: true
-			id: "4E584D4554523031"
-			silent: true
-			title: "Desbloquear Metalurgista"
-			type: "command"
-		}]
-		tasks: [{
-			id: "4E584D4554543031"
-			title: "Completar La Senda del Metal"
-			type: "checkmark"
-		}]
-		title: "La Senda del Metal"
-		x: 0.0d
-		y: 0.0d
-	}]
-	title: "Mago - La Senda del Metal"
+		{
+			dependencies: ["4E584D4554513031"]
+			description: ["Muele metales y prepara un vial. Son las herramientas básicas de la progresión nativa."]
+			icon: { id: "allomancy:allomantic_grinder" }
+			id: "2710000000001402"
+			shape: "gear"
+			tasks: [
+				{
+					id: "271B000000001402"
+					item: { Count: 1b, id: "allomancy:allomantic_grinder" }
+					title: "Construir un molino alomántico"
+					type: "item"
+				}
+				{
+					id: "271B000000001403"
+					item: { Count: 1b, id: "allomancy:vial" }
+					title: "Preparar un vial"
+					type: "item"
+				}
+			]
+			title: "El laboratorio metálico"
+			x: 2.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2710000000001402"]
+			description: ["Reúne una muestra de cada uno de los ocho metales básicos concedidos por la senda."]
+			icon: { id: "allomancy:iron_flakes" }
+			id: "2710000000001403"
+			rewards: [{
+				id: "281C000000001402"
+				item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+				type: "item"
+			}]
+			tasks: [
+				{ id: "271B000000001404", item: { Count: 1b, id: "allomancy:iron_flakes" }, title: "Hierro", type: "item" }
+				{ id: "271B000000001405", item: { Count: 1b, id: "allomancy:steel_flakes" }, title: "Acero", type: "item" }
+				{ id: "271B000000001406", item: { Count: 1b, id: "allomancy:tin_flakes" }, title: "Estaño", type: "item" }
+				{ id: "271B000000001407", item: { Count: 1b, id: "allomancy:pewter_flakes" }, title: "Peltre", type: "item" }
+				{ id: "271B000000001408", item: { Count: 1b, id: "allomancy:zinc_flakes" }, title: "Zinc", type: "item" }
+				{ id: "271B000000001409", item: { Count: 1b, id: "allomancy:brass_flakes" }, title: "Latón", type: "item" }
+				{ id: "271B000000001410", item: { Count: 1b, id: "allomancy:copper_flakes" }, title: "Cobre", type: "item" }
+				{ id: "271B000000001411", item: { Count: 1b, id: "allomancy:bronze_flakes" }, title: "Bronce", type: "item" }
+			]
+			title: "Los ocho metales"
+			x: 4.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2710000000001403"]
+			description: [
+				"Usa el sistema nativo para cargar reservas y practicar los ocho poderes básicos."
+				"Confirma el entrenamiento cuando hayas probado cada reserva con seguridad."
+			]
+			icon: { id: "allomancy:vial" }
+			id: "2710000000001404"
+			tasks: [{ id: "271B000000001412", title: "Practicar reservas y poderes básicos", type: "checkmark" }]
+			title: "Reservas bajo control"
+			x: 6.0d
+			y: -1.0d
+		}
+		{
+			dependencies: ["2710000000001403"]
+			description: ["Prepara herramientas propias de la senda sin recibir recursos infinitos."]
+			icon: { id: "allomancy:coin_bag" }
+			id: "2710000000001405"
+			tasks: [
+				{
+					id: "271B000000001413"
+					item: { Count: 1b, id: "allomancy:coin_bag" }
+					title: "Preparar una bolsa de monedas"
+					type: "item"
+				}
+				{
+					id: "271B000000001414"
+					item: { Count: 1b, id: "allomancy:mistcloak" }
+					title: "Preparar una capa de niebla"
+					type: "item"
+				}
+			]
+			title: "Equipo del Metalomante"
+			x: 6.0d
+			y: 1.0d
+		}
+		{
+			dependencies: ["2710000000001404", "2710000000001405", "4E58504552413034"]
+			description: ["En Era IV aparecen ocho metales avanzados. Reúne una muestra de cada uno."]
+			icon: { id: "allomancy:aluminum_flakes" }
+			id: "2710000000001406"
+			tasks: [
+				{ id: "271B000000001415", item: { Count: 1b, id: "allomancy:aluminum_flakes" }, title: "Aluminio", type: "item" }
+				{ id: "271B000000001416", item: { Count: 1b, id: "allomancy:duralumin_flakes" }, title: "Duraluminio", type: "item" }
+				{ id: "271B000000001417", item: { Count: 1b, id: "allomancy:chromium_flakes" }, title: "Cromo", type: "item" }
+				{ id: "271B000000001418", item: { Count: 1b, id: "allomancy:nicrosil_flakes" }, title: "Nicrosil", type: "item" }
+				{ id: "271B000000001419", item: { Count: 1b, id: "allomancy:gold_flakes" }, title: "Oro", type: "item" }
+				{ id: "271B000000001420", item: { Count: 1b, id: "allomancy:electrum_flakes" }, title: "Electrum", type: "item" }
+				{ id: "271B000000001421", item: { Count: 1b, id: "allomancy:cadmium_flakes" }, title: "Cadmio", type: "item" }
+				{ id: "271B000000001422", item: { Count: 1b, id: "allomancy:bendalloy_flakes" }, title: "Bendalloy", type: "item" }
+			]
+			title: "Metales del Nexus"
+			x: 8.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2710000000001406"]
+			description: [
+				"El Lerasium es endgame de Era IV."
+				"Consérvalo hasta decidir voluntariamente si quieres asumir el estado Mistborn."
+			]
+			icon: { id: "allomancy:lerasium_nugget" }
+			id: "2710000000001407"
+			shape: "diamond"
+			size: 1.35d
+			tasks: [{
+				id: "271B000000001423"
+				item: { Count: 1b, id: "allomancy:lerasium_nugget" }
+				title: "Obtener una pepita de Lerasium"
+				type: "item"
+			}]
+			title: "El metal divino"
+			x: 10.0d
+			y: -1.0d
+		}
+		{
+			dependencies: ["2710000000001407"]
+			description: [
+				"Usa la mecánica nativa de Lerasium solo cuando estés preparado."
+				"Confirma el paso después de completar voluntariamente la transformación."
+			]
+			icon: { id: "minecraft:nether_star" }
+			id: "2710000000001408"
+			shape: "octagon"
+			size: 1.55d
+			rewards: [
+				{
+					command: "/experience add @s 4 levels"
+					elevate_perms: true
+					id: "271A000000001408"
+					silent: true
+					title: "Experiencia metálica"
+					type: "command"
+				}
+				{
+					count: 3
+					id: "281C000000001403"
+					item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+					type: "item"
+				}
+			]
+			tasks: [{ id: "271B000000001424", title: "Completar la ascensión Mistborn", type: "checkmark" }]
+			title: "Nacido de la bruma"
+			x: 12.0d
+			y: -1.0d
+		}
+	]
+	title: "Mago — Metalomante"
 }

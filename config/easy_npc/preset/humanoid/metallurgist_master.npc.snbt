@@ -1,0 +1,79 @@
+{
+  PresetMetadata:{
+    author:"Nexus Realms",
+    category:"Nexus Market",
+    created:1784332800000L,
+    description:"Maestro Metalomante: consulta segura de Senda del Metal sin conceder progresión.",
+    entityTypeId:"easy_npc:humanoid",
+    modified:1784332800000L,
+    name:"metallurgist_master",
+    variantType:"SECURITY_01",
+    version:"1.0.0"
+  },
+  data:{
+    ActionData:{ActionEventSet:{ON_INTERACTION:[{Type:"OPEN_DEFAULT_DIALOG"}]},ActionPermissionLevel:4},
+    ArmorDropChances:[0.0f,0.0f,0.0f,0.0f],
+    ArmorItems:[
+      {Count:1b,id:"minecraft:chainmail_boots"},
+      {Count:1b,id:"minecraft:leather_leggings",tag:{display:{color:10370853}}},
+      {Count:1b,id:"minecraft:leather_chestplate",tag:{display:{color:11155012}}},
+      {}
+    ],
+    Attributes:[
+      {Base:0.0d,Name:"minecraft:generic.movement_speed"},
+      {Base:0.0d,Name:"minecraft:generic.attack_damage"},
+      {Base:16.0d,Name:"minecraft:generic.follow_range"}
+    ],
+    Brain:{memories:{}},
+    CanPickUpLoot:0b,
+    CanUpdate:1b,
+    CustomName:'{"color":"#D28A52","text":"Maestro Metalomante"}',
+    CustomNameVisible:1b,
+    DialogData:{
+      DialogDataSet:[{
+        Buttons:[{
+          Actions:[{Cmd:"/ftbquests open_book 4E584D4554414C31",ExecAsUser:1b,PermLevel:0,Type:"COMMAND"}],
+          Label:"open_metal",
+          Name:"Abrir Senda del Metal"
+        }],
+        Label:"default",
+        Name:"El arte de los metales",
+        Texts:[{Text:"Soy el Maestro Metalomante. Los metales amplifican lo que ya llevas dentro, pero exigen estudio y medida. Puedo mostrarte la Senda del Metal; su desbloqueo depende de tu progreso, no de mis palabras."}]
+      }],
+      Type:"STANDARD"
+    },
+    DisplayAttribute:[
+      {Bool:1b,Type:"VISIBLE"},{Bool:1b,Type:"VISIBLE_AT_DAY"},{Bool:1b,Type:"VISIBLE_AT_NIGHT"},
+      {Bool:1b,Type:"VISIBLE_IN_CREATIVE"},{Bool:1b,Type:"VISIBLE_IN_SPECTATOR"},
+      {Bool:1b,Type:"VISIBLE_IN_STANDARD"},{Bool:1b,Type:"VISIBLE_TO_OWNER"},
+      {Bool:1b,Type:"VISIBLE_TO_TEAM"},{Int:7,Type:"LIGHT_LEVEL"},
+      {Text:"ALWAYS",Type:"NAME_VISIBILITY"}
+    ],
+    EasyNPCVersion:3,
+    EntityAttribute:{
+      CanBeHitByProjectile:0b,CanBeLeashed:0b,CanBreatheUnderwater:0b,CanCloseDoor:0b,
+      CanFloat:0b,CanOpenDoor:0b,CanPassDoor:0b,CanUseNetherPortal:0b,Freefall:0b,
+      HealthRegeneration:0.0d,IsAttackableByMonsters:0b,IsAttackableByPlayers:0b,
+      IsInvulnerable:1b,IsPushable:0b,NoGravity:0b,PushEntities:0b
+    },
+    HandDropChances:[0.0f,0.0f],
+    HandItems:[{Count:1b,id:"minecraft:copper_ingot"},{Count:1b,id:"minecraft:compass"}],
+    Health:20.0f,
+    Invulnerable:1b,
+    LeftHanded:0b,
+    ModelData:{DefaultPose:"STANDING",Position:{},Rotation:{},Scale:{},Visible:{}},
+    ObjectiveData:{HasObjectives:1b,ObjectiveDataSet:[{Prio:9,Type:"LOOK_AT_PLAYER"},{Prio:9,Type:"LOOK_AT_RESET"}]},
+    Offers:{Inventory:{},Recipes:{Recipes:[]}},
+    OnGround:1b,
+    PersistenceRequired:1b,
+    PresetUUID:[I;19126042,-1098036249,-1937116597,-1936509166],
+    Profession:"NONE",
+    RenderData:{},
+    SkinData:{Content:"",DisableLayers:0b,Name:"SECURITY_01",Timestamp:1784332800000L,Type:"DEFAULT",URL:"",UUID:[I;0,0,0,0]},
+    SoundData:{SoundDataSet:[{Name:"minecraft:entity.player.death",Type:"DEATH"},{Name:"minecraft:entity.player.hurt",Type:"HURT"}]},
+    Status:{finalized:1b},
+    TradingData:{TradingDataSet:{LastReset:0L,MaxUses:0,ResetsEveryMin:0,RewardedXP:0,Type:"NONE"}},
+    VariantType:"SECURITY_01",
+    id:"easy_npc:humanoid"
+  }
+}

@@ -1,0 +1,190 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "square"
+	filename: "exploracion_y_hordas"
+	group: "4E5850474C4F4241"
+	icon: { id: "minecraft:filled_map" }
+	id: "4E584558504C4F31"
+	images: [
+		{ alpha: 155, color: 1315862, height: 7.0d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 9.0d, x: 3.0d, y: 1.5d }
+		{ alpha: 185, color: 4286945, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 9.0d, x: 3.0d, y: -1.95d }
+		{ alpha: 170, color: 14228010, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -89, width: 6.0d, x: 2.0d, y: 4.95d }
+	]
+	order_index: 10
+	quest_links: []
+	subtitle: ["Rutas opcionales, descubrimientos y defensa del asentamiento."]
+	quests: [
+		{
+			dependencies: ["4E58504552413031"]
+			description: ["Cadena opcional para mantener objetivos útiles entre hitos de campaña."]
+			icon: { id: "minecraft:compass" }
+			id: "2710000000002001"
+			shape: "diamond"
+			size: 1.25d
+			tasks: [{ id: "271B000000002001", title: "Abrir la ruta de exploración", type: "checkmark" }]
+			title: "Más allá del asentamiento"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2710000000002001"]
+			description: ["Prepara herramientas para registrar rutas sin depender de coordenadas fijas."]
+			icon: { id: "minecraft:filled_map" }
+			id: "2710000000002002"
+			rewards: [{
+				count: 8
+				id: "281C000000002001"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [
+				{
+					id: "271B000000002002"
+					item: { Count: 1b, id: "minecraft:map" }
+					title: "Preparar un mapa"
+					type: "item"
+				}
+				{
+					id: "271B000000002003"
+					item: { Count: 1b, id: "minecraft:spyglass" }
+					title: "Preparar un catalejo"
+					type: "item"
+				}
+			]
+			title: "Cartografía de frontera"
+			x: 2.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2710000000002002", "4E58504552413032"]
+			description: ["Recupera un corazón del mar como prueba de una expedición oceánica avanzada."]
+			icon: { id: "minecraft:heart_of_the_sea" }
+			id: "2710000000002003"
+			rewards: [
+				{
+					command: "/give @s minecraft:prismarine_shard 8"
+					elevate_perms: true
+					id: "271A000000002003"
+					silent: true
+					title: "Fragmentos de prismarina"
+					type: "command"
+				}
+				{
+					count: 12
+					id: "281C000000002002"
+					item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+					type: "item"
+				}
+			]
+			tasks: [{
+				id: "271B000000002004"
+				item: { Count: 1b, id: "minecraft:heart_of_the_sea" }
+				title: "Recuperar un corazón del mar"
+				type: "item"
+			}]
+			title: "Bajo aguas hostiles"
+			x: 4.0d
+			y: -1.0d
+		}
+		{
+			dependencies: ["2710000000002002", "4E58504552413032"]
+			description: ["Reúne ojos suficientes para preparar una búsqueda de fortaleza sin exigir coordenadas concretas."]
+			icon: { id: "minecraft:ender_eye" }
+			id: "2710000000002004"
+			tasks: [{
+				count: 6L
+				id: "271B000000002005"
+				item: { Count: 1b, id: "minecraft:ender_eye" }
+				title: "Preparar 6 ojos de ender"
+				type: "item"
+			}]
+			title: "Rastro hacia lo desconocido"
+			x: 4.0d
+			y: 1.0d
+		}
+		{
+			dependencies: ["2710000000002003", "2710000000002004", "4E58504552413033"]
+			description: ["Trae un recuerdo del End para demostrar que el equipo domina viajes interdimensionales."]
+			icon: { id: "minecraft:chorus_fruit" }
+			id: "2710000000002005"
+			rewards: [{
+				count: 2
+				id: "281C000000002003"
+				item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 16L
+				id: "271B000000002006"
+				item: { Count: 1b, id: "minecraft:chorus_fruit" }
+				title: "Recuperar 16 frutas de chorus"
+				type: "item"
+			}]
+			title: "Más allá del vacío"
+			x: 6.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["4E58504552413031"]
+			description: [
+				"Las hordas empiezan desde Era I y usan su propio calendario de días del mundo."
+				"Prepara iluminación, rutas de retirada, comida y equipo de reemplazo."
+			]
+			icon: { id: "minecraft:bell" }
+			id: "2710000000002010"
+			shape: "pentagon"
+			size: 1.25d
+			tasks: [{ id: "271B000000002010", title: "Leer el protocolo de horda", type: "checkmark" }]
+			title: "Cuando suene la alarma"
+			x: 0.0d
+			y: 3.0d
+		}
+		{
+			dependencies: ["2710000000002010"]
+			description: ["Conserva suministros defensivos sin recibir armas que puedan saltarse la progresión."]
+			icon: { id: "minecraft:golden_apple" }
+			id: "2710000000002011"
+			tasks: [
+				{
+					count: 2L
+					id: "271B000000002011"
+					item: { Count: 1b, id: "minecraft:golden_apple" }
+					title: "Reservar 2 manzanas doradas"
+					type: "item"
+				}
+				{
+					count: 32L
+					id: "271B000000002012"
+					item: { Count: 1b, id: "minecraft:torch" }
+					title: "Reservar 32 antorchas"
+					type: "item"
+				}
+			]
+			title: "Reservas para la defensa"
+			x: 2.0d
+			y: 3.0d
+		}
+		{
+			dependencies: ["2710000000002011"]
+			description: [
+				"Sobrevive a una horda junto al asentamiento y confirma el resultado cuando el peligro haya terminado."
+				"El registro es manual por ahora, pero la preparación y la supervivencia son reales."
+			]
+			icon: { id: "minecraft:redstone_torch" }
+			id: "2710000000002012"
+			rewards: [{
+				count: 2
+				id: "281C000000002004"
+				item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+				type: "item"
+			}]
+			shape: "octagon"
+			size: 1.3d
+			tasks: [{ id: "271B000000002013", title: "Comprender la limitación de seguimiento", type: "checkmark" }]
+			title: "Primera defensa"
+			x: 4.0d
+			y: 3.0d
+		}
+	]
+	title: "Exploración y Hordas"
+}

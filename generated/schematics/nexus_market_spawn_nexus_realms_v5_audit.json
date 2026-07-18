@@ -1,0 +1,531 @@
+{
+  "version": "V5",
+  "data_version": 3465,
+  "audits": {
+    "base": {
+      "dimensions": [
+        135,
+        61,
+        103
+      ],
+      "volume": 848205,
+      "non_air_blocks": 31286,
+      "palette_states": 111,
+      "out_of_bounds": [],
+      "invalid_registry_ids": [],
+      "invalid_blockstates": [],
+      "cut_structure_contacts": [],
+      "building_boundary_violations": [],
+      "unapproved_building_overlaps": [],
+      "highest_occupied_y": 25,
+      "block_entities": 0,
+      "entities": 0,
+      "mod_blocks": {
+        "create:andesite_casing": 4,
+        "create:brass_casing": 5,
+        "create:copper_casing": 16,
+        "createdeco:andesite_support": 29,
+        "createdeco:blue_brass_lamp": 9,
+        "createdeco:blue_copper_lamp": 7,
+        "createdeco:brass_support": 49,
+        "createdeco:copper_sheet_metal": 56,
+        "createdeco:copper_support": 16,
+        "createdeco:industrial_iron_sheet_metal": 77,
+        "createdeco:industrial_iron_support": 40
+      },
+      "component_count": 5,
+      "largest_component": 30933,
+      "floating_components": [],
+      "isolated_blocks": [],
+      "floating_create_blocks": [],
+      "roof_continuity": [
+        {
+          "name": "Town Hall central nave",
+          "cells": 682,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Town Hall west wing",
+          "cells": 240,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Town Hall east wing",
+          "cells": 240,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Town Hall entrance",
+          "cells": 135,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Town Hall clock tower",
+          "cells": 110,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Warrior guildhall",
+          "cells": 500,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Waystone transit pavilion",
+          "cells": 483,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Explorer lodge",
+          "cells": 240,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Arcanist library",
+          "cells": 552,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Arcanist observatory",
+          "cells": 182,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Metallurgist workshop",
+          "cells": 580,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Gunsmith armory",
+          "cells": 621,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "West spice market",
+          "cells": 98,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "West provisions market",
+          "cells": 98,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "East textile market",
+          "cells": 98,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "East produce market",
+          "cells": 98,
+          "missing": 0,
+          "samples": []
+        }
+      ],
+      "npc_clearance_issues": [],
+      "road_cells": 3812,
+      "road_connected_cells": 3812,
+      "disconnected_road_anchors": [],
+      "nexus_building_clearance": {
+        "Town Hall central nave": 14.0,
+        "Town Hall west wing": 20.12,
+        "Town Hall east wing": 20.12,
+        "Town Hall entrance": 12.0,
+        "Town Hall clock tower": 27.0,
+        "Warrior guildhall": 26.42,
+        "Warrior training yard": 29.61,
+        "Waystone transit pavilion": 24.7,
+        "Explorer lodge": 26.93,
+        "Arcanist library": 16.97,
+        "Arcanist observatory": 17.0,
+        "Metallurgist workshop": 18.0,
+        "Gunsmith armory": 27.86,
+        "Nether transit shrine": 44.28,
+        "West spice market": 15.3,
+        "West provisions market": 15.52,
+        "East textile market": 15.3,
+        "East produce market": 15.52
+      },
+      "minimum_nexus_building_clearance": 12.0
+    },
+    "overlay": {
+      "dimensions": [
+        135,
+        61,
+        103
+      ],
+      "volume": 848205,
+      "non_air_blocks": 57,
+      "palette_states": 36,
+      "out_of_bounds": [],
+      "invalid_registry_ids": [],
+      "invalid_blockstates": [],
+      "cut_structure_contacts": [],
+      "building_boundary_violations": [],
+      "unapproved_building_overlaps": [],
+      "highest_occupied_y": 7,
+      "block_entities": 0,
+      "entities": 0,
+      "mod_blocks": {
+        "decocraft:backpack_green": 1,
+        "decocraft:baguette_basket": 2,
+        "decocraft:barrel_apples_mix": 3,
+        "decocraft:barrel_carrots": 2,
+        "decocraft:crystal_ball": 2,
+        "decocraft:display_counter_bottom_oak": 2,
+        "decocraft:display_counter_top_pastries": 2,
+        "decocraft:filing_cabinet_spruce": 3,
+        "decocraft:fruit_cart": 2,
+        "decocraft:globe": 1,
+        "decocraft:globe_antique": 2,
+        "decocraft:grandfather_clock": 1,
+        "decocraft:hanging_armorer": 1,
+        "decocraft:hanging_camping": 1,
+        "decocraft:hanging_magic": 1,
+        "decocraft:hanging_produce": 3,
+        "decocraft:hanging_shield": 1,
+        "decocraft:hanging_swords": 1,
+        "decocraft:modular_desk_plank_spruce": 4,
+        "decocraft:office_chair_spruce": 2,
+        "decocraft:paper_lantern_1_cream": 8,
+        "decocraft:stained_glass_chandelier_embers_on": 3,
+        "decocraft:stained_glass_hanging_lamp_embers_on": 1,
+        "decocraft:trainingdummy": 3,
+        "decocraft:typewriter_black": 1,
+        "decocraft:vintage_cash_register": 2,
+        "decocraft:world_map": 2
+      },
+      "component_count": 54,
+      "largest_component": 2,
+      "floating_components": [],
+      "isolated_blocks": [],
+      "floating_create_blocks": [],
+      "roof_continuity": [],
+      "npc_clearance_issues": [],
+      "road_cells": 0,
+      "road_connected_cells": 0,
+      "disconnected_road_anchors": [],
+      "nexus_building_clearance": {},
+      "minimum_nexus_building_clearance": null,
+      "base_collisions": [
+        {
+          "position": [
+            37,
+            7,
+            84
+          ],
+          "overlay": "decocraft:stained_glass_hanging_lamp_embers_on[facing=north]",
+          "base": "minecraft:soul_lantern[hanging=true,waterlogged=false]",
+          "base_role": "light"
+        },
+        {
+          "position": [
+            47,
+            7,
+            17
+          ],
+          "overlay": "decocraft:paper_lantern_1_cream[facing=north]",
+          "base": "minecraft:lantern[hanging=true,waterlogged=false]",
+          "base_role": "light"
+        },
+        {
+          "position": [
+            60,
+            7,
+            20
+          ],
+          "overlay": "decocraft:stained_glass_chandelier_embers_on[facing=north]",
+          "base": "minecraft:lantern[hanging=true,waterlogged=false]",
+          "base_role": "light"
+        },
+        {
+          "position": [
+            68,
+            7,
+            20
+          ],
+          "overlay": "decocraft:stained_glass_chandelier_embers_on[facing=north]",
+          "base": "minecraft:lantern[hanging=true,waterlogged=false]",
+          "base_role": "light"
+        },
+        {
+          "position": [
+            76,
+            7,
+            20
+          ],
+          "overlay": "decocraft:stained_glass_chandelier_embers_on[facing=north]",
+          "base": "minecraft:lantern[hanging=true,waterlogged=false]",
+          "base_role": "light"
+        },
+        {
+          "position": [
+            89,
+            7,
+            17
+          ],
+          "overlay": "decocraft:paper_lantern_1_cream[facing=north]",
+          "base": "minecraft:lantern[hanging=true,waterlogged=false]",
+          "base_role": "light"
+        }
+      ],
+      "unapproved_base_collisions": []
+    },
+    "combined": {
+      "dimensions": [
+        135,
+        61,
+        103
+      ],
+      "volume": 848205,
+      "non_air_blocks": 31337,
+      "palette_states": 145,
+      "out_of_bounds": [],
+      "invalid_registry_ids": [],
+      "invalid_blockstates": [],
+      "cut_structure_contacts": [],
+      "building_boundary_violations": [],
+      "unapproved_building_overlaps": [],
+      "highest_occupied_y": 25,
+      "block_entities": 0,
+      "entities": 0,
+      "mod_blocks": {
+        "create:andesite_casing": 4,
+        "create:brass_casing": 5,
+        "create:copper_casing": 16,
+        "createdeco:andesite_support": 29,
+        "createdeco:blue_brass_lamp": 9,
+        "createdeco:blue_copper_lamp": 7,
+        "createdeco:brass_support": 49,
+        "createdeco:copper_sheet_metal": 56,
+        "createdeco:copper_support": 16,
+        "createdeco:industrial_iron_sheet_metal": 77,
+        "createdeco:industrial_iron_support": 40,
+        "decocraft:backpack_green": 1,
+        "decocraft:baguette_basket": 2,
+        "decocraft:barrel_apples_mix": 3,
+        "decocraft:barrel_carrots": 2,
+        "decocraft:crystal_ball": 2,
+        "decocraft:display_counter_bottom_oak": 2,
+        "decocraft:display_counter_top_pastries": 2,
+        "decocraft:filing_cabinet_spruce": 3,
+        "decocraft:fruit_cart": 2,
+        "decocraft:globe": 1,
+        "decocraft:globe_antique": 2,
+        "decocraft:grandfather_clock": 1,
+        "decocraft:hanging_armorer": 1,
+        "decocraft:hanging_camping": 1,
+        "decocraft:hanging_magic": 1,
+        "decocraft:hanging_produce": 3,
+        "decocraft:hanging_shield": 1,
+        "decocraft:hanging_swords": 1,
+        "decocraft:modular_desk_plank_spruce": 4,
+        "decocraft:office_chair_spruce": 2,
+        "decocraft:paper_lantern_1_cream": 8,
+        "decocraft:stained_glass_chandelier_embers_on": 3,
+        "decocraft:stained_glass_hanging_lamp_embers_on": 1,
+        "decocraft:trainingdummy": 3,
+        "decocraft:typewriter_black": 1,
+        "decocraft:vintage_cash_register": 2,
+        "decocraft:world_map": 2
+      },
+      "component_count": 5,
+      "largest_component": 30979,
+      "floating_components": [],
+      "isolated_blocks": [],
+      "floating_create_blocks": [],
+      "roof_continuity": [
+        {
+          "name": "Town Hall central nave",
+          "cells": 682,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Town Hall west wing",
+          "cells": 240,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Town Hall east wing",
+          "cells": 240,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Town Hall entrance",
+          "cells": 135,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Town Hall clock tower",
+          "cells": 110,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Warrior guildhall",
+          "cells": 500,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Waystone transit pavilion",
+          "cells": 483,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Explorer lodge",
+          "cells": 240,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Arcanist library",
+          "cells": 552,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Arcanist observatory",
+          "cells": 182,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Metallurgist workshop",
+          "cells": 580,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Gunsmith armory",
+          "cells": 621,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "West spice market",
+          "cells": 98,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "West provisions market",
+          "cells": 98,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "East textile market",
+          "cells": 98,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "East produce market",
+          "cells": 98,
+          "missing": 0,
+          "samples": []
+        }
+      ],
+      "npc_clearance_issues": [],
+      "road_cells": 3812,
+      "road_connected_cells": 3812,
+      "disconnected_road_anchors": [],
+      "nexus_building_clearance": {
+        "Town Hall central nave": 14.0,
+        "Town Hall west wing": 20.12,
+        "Town Hall east wing": 20.12,
+        "Town Hall entrance": 12.0,
+        "Town Hall clock tower": 27.0,
+        "Warrior guildhall": 26.42,
+        "Warrior training yard": 29.61,
+        "Waystone transit pavilion": 24.7,
+        "Explorer lodge": 26.93,
+        "Arcanist library": 16.97,
+        "Arcanist observatory": 17.0,
+        "Metallurgist workshop": 18.0,
+        "Gunsmith armory": 27.86,
+        "Nether transit shrine": 44.28,
+        "West spice market": 15.3,
+        "West provisions market": 15.52,
+        "East textile market": 15.3,
+        "East produce market": 15.52
+      },
+      "minimum_nexus_building_clearance": 12.0
+    }
+  },
+  "serialized": [
+    {
+      "file": "nexus_market_spawn_nexus_realms_v5_base.schem",
+      "bytes": 11827,
+      "sha256": "a66d7d4eb2b44ba913bff53f023c730a0d9c8e37be00f70033db820894214e2d",
+      "gzip_nbt": true,
+      "data_version": 3465,
+      "palette": 111,
+      "block_data_indices": 848205,
+      "non_air_blocks": 31286,
+      "block_entities": 0,
+      "entities": 0,
+      "errors": []
+    },
+    {
+      "file": "nexus_market_spawn_nexus_realms_v5_decocraft.schem",
+      "bytes": 1922,
+      "sha256": "4e0e92fb61fc4fb8b93e6796d0935c81b877c5147f0cdf997dc008a9f443f16c",
+      "gzip_nbt": true,
+      "data_version": 3465,
+      "palette": 36,
+      "block_data_indices": 848205,
+      "non_air_blocks": 57,
+      "block_entities": 0,
+      "entities": 0,
+      "errors": []
+    },
+    {
+      "file": "nexus_market_spawn_nexus_realms_v5.schem",
+      "bytes": 12788,
+      "sha256": "b167b4c5639235e7942bf9b4a5f43bc045e02c53a88e0df0f1ae59d3db748db6",
+      "gzip_nbt": true,
+      "data_version": 3465,
+      "palette": 145,
+      "block_data_indices": 848205,
+      "non_air_blocks": 31337,
+      "block_entities": 0,
+      "entities": 0,
+      "errors": []
+    }
+  ],
+  "v4_backup_hashes": {
+    "nexus_market_spawn_nexus_realms_v4.schem": "adfd40b53db4a543e32248541427449f52e102ebb920e88bc1cb7d4084de2b2c",
+    "nexus_market_spawn_nexus_realms_v4_base.schem": "a5e187bad7f36ae3f2b93dbdc86dfafe709f97248c23b6725806e1fc0cbaaadf",
+    "nexus_market_spawn_nexus_realms_v4_decocraft.schem": "7ca2becc6d968b6857f18922e7f9a60457b30a19bdbd73a808e87c9b68b2ed14"
+  },
+  "waystone_insert_position": [
+    109,
+    4,
+    24
+  ],
+  "nexus_center": [
+    68,
+    52
+  ]
+}

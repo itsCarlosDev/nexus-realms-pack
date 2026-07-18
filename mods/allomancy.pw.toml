@@ -1,0 +1,13 @@
+name = "Allomancy"
+filename = "allomancy-4.6.5.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/mTS4CGDB/versions/j4eaEJfx/allomancy-4.6.5.jar"
+hash-format = "sha512"
+hash = "c730316602c446dcfcc87174a250a14e2228da5cd868db9d2bd0330be2c79de99c8bee1ffbd83ea6e6ab2d29a8dce64b0ae95e8999e4d23d8e22b72eb3b9b409"
+
+[update]
+[update.modrinth]
+mod-id = "mTS4CGDB"
+version = "j4eaEJfx"
