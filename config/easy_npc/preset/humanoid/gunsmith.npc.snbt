@@ -1,0 +1,79 @@
+{
+  PresetMetadata:{
+    author:"Nexus Realms",
+    category:"Nexus Market",
+    created:1784332800000L,
+    description:"Armero: acceso al capítulo de clase Pistolero.",
+    entityTypeId:"easy_npc:humanoid",
+    modified:1784332800000L,
+    name:"gunsmith",
+    variantType:"SECURITY_01",
+    version:"1.0.0"
+  },
+  data:{
+    ActionData:{ActionEventSet:{ON_INTERACTION:[{Type:"OPEN_DEFAULT_DIALOG"}]},ActionPermissionLevel:4},
+    ArmorDropChances:[0.0f,0.0f,0.0f,0.0f],
+    ArmorItems:[
+      {Count:1b,id:"minecraft:leather_boots",tag:{display:{color:3355443}}},
+      {Count:1b,id:"minecraft:leather_leggings",tag:{display:{color:4013373}}},
+      {Count:1b,id:"minecraft:leather_chestplate",tag:{display:{color:4868682}}},
+      {}
+    ],
+    Attributes:[
+      {Base:0.0d,Name:"minecraft:generic.movement_speed"},
+      {Base:0.0d,Name:"minecraft:generic.attack_damage"},
+      {Base:16.0d,Name:"minecraft:generic.follow_range"}
+    ],
+    Brain:{memories:{}},
+    CanPickUpLoot:0b,
+    CanUpdate:1b,
+    CustomName:'{"color":"#C49A72","text":"Armero"}',
+    CustomNameVisible:1b,
+    DialogData:{
+      DialogDataSet:[{
+        Buttons:[{
+          Actions:[{Cmd:"/ftbquests open_book 4E5847554E534C31",ExecAsUser:1b,PermLevel:0,Type:"COMMAND"}],
+          Label:"open_gunslinger",
+          Name:"Abrir senda del Pistolero"
+        }],
+        Label:"default",
+        Name:"Pólvora y precisión",
+        Texts:[{Text:"Soy el Armero. Un arma fiable empieza en el banco de trabajo y termina en manos de alguien que sabe cuándo no disparar. Consulta aquí la senda del Pistolero."}]
+      }],
+      Type:"STANDARD"
+    },
+    DisplayAttribute:[
+      {Bool:1b,Type:"VISIBLE"},{Bool:1b,Type:"VISIBLE_AT_DAY"},{Bool:1b,Type:"VISIBLE_AT_NIGHT"},
+      {Bool:1b,Type:"VISIBLE_IN_CREATIVE"},{Bool:1b,Type:"VISIBLE_IN_SPECTATOR"},
+      {Bool:1b,Type:"VISIBLE_IN_STANDARD"},{Bool:1b,Type:"VISIBLE_TO_OWNER"},
+      {Bool:1b,Type:"VISIBLE_TO_TEAM"},{Int:7,Type:"LIGHT_LEVEL"},
+      {Text:"ALWAYS",Type:"NAME_VISIBILITY"}
+    ],
+    EasyNPCVersion:3,
+    EntityAttribute:{
+      CanBeHitByProjectile:0b,CanBeLeashed:0b,CanBreatheUnderwater:0b,CanCloseDoor:0b,
+      CanFloat:0b,CanOpenDoor:0b,CanPassDoor:0b,CanUseNetherPortal:0b,Freefall:0b,
+      HealthRegeneration:0.0d,IsAttackableByMonsters:0b,IsAttackableByPlayers:0b,
+      IsInvulnerable:1b,IsPushable:0b,NoGravity:0b,PushEntities:0b
+    },
+    HandDropChances:[0.0f,0.0f],
+    HandItems:[{Count:1b,id:"minecraft:crossbow"},{Count:1b,id:"minecraft:spyglass"}],
+    Health:20.0f,
+    Invulnerable:1b,
+    LeftHanded:0b,
+    ModelData:{DefaultPose:"STANDING",Position:{},Rotation:{},Scale:{},Visible:{}},
+    ObjectiveData:{HasObjectives:1b,ObjectiveDataSet:[{Prio:9,Type:"LOOK_AT_PLAYER"},{Prio:9,Type:"LOOK_AT_RESET"}]},
+    Offers:{Inventory:{},Recipes:{Recipes:[]}},
+    OnGround:1b,
+    PersistenceRequired:1b,
+    PresetUUID:[I;-348763429,-1578481493,-1962487993,332371067],
+    Profession:"NONE",
+    RenderData:{},
+    SkinData:{Content:"",DisableLayers:0b,Name:"SECURITY_01",Timestamp:1784332800000L,Type:"DEFAULT",URL:"",UUID:[I;0,0,0,0]},
+    SoundData:{SoundDataSet:[{Name:"minecraft:entity.player.death",Type:"DEATH"},{Name:"minecraft:entity.player.hurt",Type:"HURT"}]},
+    Status:{finalized:1b},
+    TradingData:{TradingDataSet:{LastReset:0L,MaxUses:0,ResetsEveryMin:0,RewardedXP:0,Type:"NONE"}},
+    VariantType:"SECURITY_01",
+    id:"easy_npc:humanoid"
+  }
+}

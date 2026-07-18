@@ -1,0 +1,242 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "octagon"
+	filename: "desafios_y_bosses"
+	group: "4E5850474C4F4241"
+	icon: { id: "minecraft:wither_skeleton_skull" }
+	id: "4E58424F53534553"
+	images: [
+		{ alpha: 170, color: 1315862, height: 8.0d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 11.0d, x: 4.0d, y: 0.0d }
+		{ alpha: 190, color: 14228010, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 11.0d, x: 4.0d, y: -3.95d }
+	]
+	order_index: 11
+	quest_links: []
+	subtitle: ["Amenazas opcionales ordenadas por riesgo y Era."]
+	quests: [
+		{
+			dependencies: ["4E58504552413032"]
+			description: ["Desafíos opcionales para quienes buscan amenazas mayores sin detener la campaña principal."]
+			icon: { id: "minecraft:iron_sword" }
+			id: "2710000000002101"
+			shape: "pentagon"
+			size: 1.3d
+			tasks: [{ id: "271B000000002101", title: "Prepararse para un boss", type: "checkmark" }]
+			title: "Cacerías opcionales"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2710000000002101"]
+			description: ["El Wroughtnaut castiga los ataques frontales. Observa su patrón y busca la apertura."]
+			icon: { id: "minecraft:iron_chestplate" }
+			id: "2710000000002102"
+			rewards: [{
+				command: "/experience add @s 2 levels"
+				elevate_perms: true
+				id: "271A000000002102"
+				silent: true
+				title: "Experiencia del Wroughtnaut"
+				type: "command"
+			}]
+			tasks: [{
+				entity: "mowziesmobs:ferrous_wroughtnaut"
+				id: "271B000000002102"
+				title: "Derrotar al Ferrous Wroughtnaut"
+				type: "kill"
+				value: 1L
+			}]
+			title: "La armadura viviente"
+			x: 2.0d
+			y: -1.0d
+		}
+		{
+			dependencies: ["2710000000002101"]
+			description: ["El Yeti de Block Factory's Bosses es un segundo desafío opcional de Era II."]
+			icon: { id: "minecraft:snowball" }
+			id: "2710000000002103"
+			rewards: [{
+				command: "/experience add @s 2 levels"
+				elevate_perms: true
+				id: "271A000000002103"
+				silent: true
+				title: "Experiencia del Yeti"
+				type: "command"
+			}]
+			tasks: [{
+				entity: "block_factorys_bosses:yeti"
+				id: "271B000000002103"
+				title: "Derrotar al Yeti"
+				type: "kill"
+				value: 1L
+			}]
+			title: "Frío depredador"
+			x: 2.0d
+			y: 1.0d
+		}
+		{
+			dependencies: ["2710000000002102", "4E58504552413033"]
+			description: ["La Gauntlet de Bosses of Mass Destruction inaugura los desafíos de Era III."]
+			icon: { id: "minecraft:obsidian" }
+			id: "2710000000002104"
+			rewards: [{
+				command: "/experience add @s 3 levels"
+				elevate_perms: true
+				id: "271A000000002104"
+				silent: true
+				title: "Experiencia de la Gauntlet"
+				type: "command"
+			}]
+			tasks: [{
+				entity: "bosses_of_mass_destruction:gauntlet"
+				id: "271B000000002104"
+				title: "Derrotar a la Gauntlet"
+				type: "kill"
+				value: 1L
+			}]
+			title: "Puño de las profundidades"
+			x: 4.0d
+			y: -2.0d
+		}
+		{
+			dependencies: ["2710000000002103", "4E58504552413033"]
+			description: ["La Maze Mother representa una expedición marítima avanzada de Aquamirae."]
+			icon: { id: "minecraft:prismarine_crystals" }
+			id: "2710000000002105"
+			rewards: [{
+				command: "/experience add @s 3 levels"
+				elevate_perms: true
+				id: "271A000000002105"
+				silent: true
+				title: "Experiencia del laberinto"
+				type: "command"
+			}]
+			tasks: [{
+				entity: "aquamirae:maze_mother"
+				id: "271B000000002105"
+				title: "Derrotar a la Maze Mother"
+				type: "kill"
+				value: 1L
+			}]
+			title: "Madre del laberinto"
+			x: 4.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2710000000002103", "4E58504552413033"]
+			description: ["El Kraken exige preparación colectiva y rutas seguras sobre el agua."]
+			icon: { id: "minecraft:heart_of_the_sea" }
+			id: "2710000000002106"
+			rewards: [{
+				command: "/experience add @s 3 levels"
+				elevate_perms: true
+				id: "271A000000002106"
+				silent: true
+				title: "Experiencia del Kraken"
+				type: "command"
+			}]
+			tasks: [{
+				entity: "block_factorys_bosses:kraken"
+				id: "271B000000002106"
+				title: "Derrotar al Kraken"
+				type: "kill"
+				value: 1L
+			}]
+			title: "Tentáculos en el horizonte"
+			x: 4.0d
+			y: 2.0d
+		}
+		{
+			dependencies: ["2710000000002104", "4E58504552413034"]
+			description: ["El Obsidilith es un desafío opcional de endgame verificado en BOMD."]
+			icon: { id: "minecraft:crying_obsidian" }
+			id: "2710000000002107"
+			rewards: [{
+				command: "/experience add @s 4 levels"
+				elevate_perms: true
+				id: "271A000000002107"
+				silent: true
+				title: "Experiencia del Obsidilith"
+				type: "command"
+			}]
+			tasks: [{
+				entity: "bosses_of_mass_destruction:obsidilith"
+				id: "271B000000002107"
+				title: "Derrotar al Obsidilith"
+				type: "kill"
+				value: 1L
+			}]
+			title: "Monolito del vacío"
+			x: 6.0d
+			y: -2.0d
+		}
+		{
+			dependencies: ["2710000000002105", "4E58504552413034"]
+			description: ["El Ender Guardian de Cataclysm pertenece al tramo final de la campaña."]
+			icon: { id: "minecraft:ender_eye" }
+			id: "2710000000002108"
+			rewards: [{
+				command: "/experience add @s 4 levels"
+				elevate_perms: true
+				id: "271A000000002108"
+				silent: true
+				title: "Experiencia del guardián"
+				type: "command"
+			}]
+			tasks: [{
+				entity: "cataclysm:ender_guardian"
+				id: "271B000000002108"
+				title: "Derrotar al Ender Guardian"
+				type: "kill"
+				value: 1L
+			}]
+			title: "Guardián del End"
+			x: 6.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2710000000002106", "4E58504552413034"]
+			description: ["Ignis es uno de los desafíos mayores de Cataclysm y queda reservado para Era IV."]
+			icon: { id: "minecraft:blaze_powder" }
+			id: "2710000000002109"
+			rewards: [{
+				command: "/experience add @s 5 levels"
+				elevate_perms: true
+				id: "271A000000002109"
+				silent: true
+				title: "Experiencia de Ignis"
+				type: "command"
+			}]
+			tasks: [{
+				entity: "cataclysm:ignis"
+				id: "271B000000002109"
+				title: "Derrotar a Ignis"
+				type: "kill"
+				value: 1L
+			}]
+			title: "Fuego del endgame"
+			x: 6.0d
+			y: 2.0d
+		}
+		{
+			dependencies: ["2710000000002107", "2710000000002108", "2710000000002109"]
+			description: ["Has completado la cadena opcional de bosses sin bloquear la campaña principal."]
+			icon: { id: "minecraft:dragon_head" }
+			id: "2710000000002110"
+			shape: "octagon"
+			size: 1.6d
+			rewards: [{
+				command: "/experience add @s 6 levels"
+				elevate_perms: true
+				id: "271A000000002110"
+				silent: true
+				title: "Experiencia de cazador"
+				type: "command"
+			}]
+			tasks: [{ id: "271B000000002110", title: "Cerrar el registro de bosses", type: "checkmark" }]
+			title: "Cazadores del Nexus"
+			x: 8.0d
+			y: 0.0d
+		}
+	]
+	title: "Desafíos y Bosses"
+}

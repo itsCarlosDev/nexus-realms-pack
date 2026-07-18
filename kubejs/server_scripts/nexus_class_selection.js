@@ -48,8 +48,29 @@ const NEXUS_CLASS_STAGE_IDS = {
   gunslinger: 'nexus_class_gunslinger'
 }
 const NEXUS_CLASS_STAGE_LIST = Object.values(NEXUS_CLASS_STAGE_IDS)
-const NEXUS_METALLURGIST_STAGE_ID = 'nexus_specialization_metallurgist'
-const NEXUS_INDIVIDUAL_STAGE_LIST = NEXUS_CLASS_STAGE_LIST.concat([NEXUS_METALLURGIST_STAGE_ID])
+const NEXUS_SPECIALIZATION_DATA = {
+  arcanist: {
+    displayName: 'Arcanista',
+    stageId: 'nexus_specialization_arcanist'
+  },
+  metallurgist: {
+    displayName: 'Metalomante',
+    stageId: 'nexus_specialization_metallurgist'
+  }
+}
+const NEXUS_SPECIALIZATION_STAGE_LIST = Object.values(NEXUS_SPECIALIZATION_DATA)
+  .map(specialization => specialization.stageId)
+const NEXUS_INDIVIDUAL_STAGE_LIST = NEXUS_CLASS_STAGE_LIST.concat(NEXUS_SPECIALIZATION_STAGE_LIST)
+const NEXUS_ALLOMANCY_BASE_POWERS = [
+  'iron',
+  'steel',
+  'tin',
+  'pewter',
+  'zinc',
+  'brass',
+  'copper',
+  'bronze'
+]
 
 const $NexusIndividualStageData = Java.loadClass('net.bananemdnsa.historystages.util.IndividualStageData')
 const $NexusStageManager = Java.loadClass('net.bananemdnsa.historystages.data.StageManager')
@@ -57,6 +78,7 @@ const $NexusSyncIndividualStagesPacket = Java.loadClass('net.bananemdnsa.history
 const $NexusHistoryPacketHandler = Java.loadClass('net.bananemdnsa.historystages.network.PacketHandler')
 
 let nexusClassStageWarningLogged = false
+let nexusAllomancyWarningLogged = false
 
 const NEXUS_CLASS_PATH_MESSAGES = {
   warrior: '⚔️ Guerrero elegido. Tu senda marcial comienza.',
@@ -87,8 +109,10 @@ function nexusGetPersistentClass(player) {
 
 function nexusClassStageDefinitionsAvailable() {
   try {
-    const definitions = $NexusStageManager.getIndividualStages()
-    const missingStages = NEXUS_INDIVIDUAL_STAGE_LIST.filter(stageId => !definitions.containsKey(stageId))
+    var nexusStageDefinitionsMap = $NexusStageManager.getIndividualStages()
+    var missingStages = NEXUS_INDIVIDUAL_STAGE_LIST.filter(
+      stageId => !nexusStageDefinitionsMap.containsKey(stageId)
+    )
 
     if (missingStages.length > 0) {
       if (!nexusClassStageWarningLogged) {
@@ -114,20 +138,81 @@ function nexusGetRawSpecialization(player) {
 
 function nexusGetPersistentSpecialization(player) {
   const specialization = nexusGetRawSpecialization(player)
-  return specialization === 'metallurgist' && nexusGetPersistentClass(player) === 'mage'
+  return NEXUS_SPECIALIZATION_DATA[specialization] && nexusGetPersistentClass(player) === 'mage'
     ? specialization
     : 'none'
 }
 
-function nexusGetMetallurgistStageState(player) {
+function nexusGetSpecializationStageState(player) {
+  const result = {
+    available: false,
+    arcanist: false,
+    metallurgist: false
+  }
+
   try {
-    if (!nexusClassStageDefinitionsAvailable()) return false
+    if (!nexusClassStageDefinitionsAvailable()) return result
     const data = $NexusIndividualStageData.get(player.level)
-    return data.hasStage(player.uuid, NEXUS_METALLURGIST_STAGE_ID)
+    result.available = true
+    Object.keys(NEXUS_SPECIALIZATION_DATA).forEach(specializationId => {
+      result[specializationId] = data.hasStage(
+        player.uuid,
+        NEXUS_SPECIALIZATION_DATA[specializationId].stageId
+      )
+    })
   } catch (error) {
     if (!nexusClassStageWarningLogged) {
       nexusClassStageWarningLogged = true
-      console.warn(`[Nexus Realms] Unable to read Metallurgist stage: ${error}`)
+      console.warn(`[Nexus Realms] Unable to read specialization stages: ${error}`)
+    }
+  }
+
+  return result
+}
+
+function nexusSpecializationStagesCoherent(classId, specializationId, stageState) {
+  if (!stageState.available) return false
+
+  const expectedSpecialization = classId === 'mage' && NEXUS_SPECIALIZATION_DATA[specializationId]
+    ? specializationId
+    : null
+
+  return Object.keys(NEXUS_SPECIALIZATION_DATA).every(candidate => {
+    return stageState[candidate] === (candidate === expectedSpecialization)
+  })
+}
+
+function nexusSyncAllomancyPowers(player, specializationId, reason) {
+  if (!Platform.isLoaded('allomancy')) {
+    if (!nexusAllomancyWarningLogged) {
+      nexusAllomancyWarningLogged = true
+      console.warn('[Nexus Realms] Allomancy is not loaded; Metalomante powers could not be synchronized.')
+    }
+    return false
+  }
+
+  try {
+    var allomancyTargetName = String(player.username)
+    var shouldGrantMetallurgistPowers = specializationId === 'metallurgist'
+    var allomancyCommands = shouldGrantMetallurgistPowers
+      ? NEXUS_ALLOMANCY_BASE_POWERS.map(
+        power => `allomancy add ${power} ${allomancyTargetName}`
+      )
+      : [`allomancy remove all ${allomancyTargetName}`]
+
+    allomancyCommands.forEach(command => player.server.runCommandSilent(command))
+
+    if (reason === 'selection' || reason === 'unlock') {
+      console.info(
+        `[Nexus Realms] Allomancy powers synchronized for ${allomancyTargetName}: ` +
+        `${shouldGrantMetallurgistPowers ? 'base Metalomante powers granted' : 'powers revoked'}`
+      )
+    }
+    return true
+  } catch (error) {
+    if (!nexusAllomancyWarningLogged) {
+      nexusAllomancyWarningLogged = true
+      console.warn(`[Nexus Realms] Unable to synchronize Allomancy powers: ${error}`)
     }
     return false
   }
@@ -137,40 +222,61 @@ function nexusSyncSpecialization(player, reason) {
   try {
     if (!nexusClassStageDefinitionsAvailable()) return false
 
-    const rawSpecialization = nexusGetRawSpecialization(player)
-    const shouldBeMetallurgist = nexusGetPersistentClass(player) === 'mage' && rawSpecialization === 'metallurgist'
-    const data = $NexusIndividualStageData.get(player.level)
-    const playerUuid = player.uuid
-    const hasStage = data.hasStage(playerUuid, NEXUS_METALLURGIST_STAGE_ID)
-    let correctedPersistentData = false
-    let stageChanged = false
+    var rawSpecialization = nexusGetRawSpecialization(player)
+    var specializationClassId = nexusGetPersistentClass(player)
+    var expectedSpecialization = specializationClassId === 'mage' && NEXUS_SPECIALIZATION_DATA[rawSpecialization]
+      ? rawSpecialization
+      : null
+    var specializationStageData = $NexusIndividualStageData.get(player.level)
+    var specializationPlayerUuid = player.uuid
+    var correctedPersistentData = false
+    var stageChanged = false
 
-    if (!shouldBeMetallurgist && rawSpecialization) {
+    // Preserve the already-implemented Metallurgist state when migrating old players.
+    if (
+      expectedSpecialization === 'metallurgist' &&
+      !player.persistentData.getBoolean('nexus_specialization_metallurgist_unlocked')
+    ) {
+      player.persistentData.putBoolean('nexus_specialization_metallurgist_unlocked', true)
+      correctedPersistentData = true
+    }
+
+    if (!expectedSpecialization && rawSpecialization) {
       player.persistentData.remove('nexus_specialization')
       correctedPersistentData = true
     }
 
-    if (shouldBeMetallurgist && !hasStage) {
-      data.addStage(playerUuid, NEXUS_METALLURGIST_STAGE_ID)
-      stageChanged = true
-    } else if (!shouldBeMetallurgist && hasStage) {
-      data.removeStage(playerUuid, NEXUS_METALLURGIST_STAGE_ID)
-      stageChanged = true
-    }
+    Object.keys(NEXUS_SPECIALIZATION_DATA).forEach(specializationId => {
+      var stageId = NEXUS_SPECIALIZATION_DATA[specializationId].stageId
+      var shouldHaveStage = specializationId === expectedSpecialization
+      var hasStage = specializationStageData.hasStage(specializationPlayerUuid, stageId)
+
+      if (shouldHaveStage && !hasStage) {
+        specializationStageData.addStage(specializationPlayerUuid, stageId)
+        stageChanged = true
+      } else if (!shouldHaveStage && hasStage) {
+        specializationStageData.removeStage(specializationPlayerUuid, stageId)
+        stageChanged = true
+      }
+    })
 
     if (stageChanged) {
-      data.setDirty()
-      data.refreshCache()
+      specializationStageData.setDirty()
+      specializationStageData.refreshCache()
       $NexusHistoryPacketHandler.sendIndividualStagesToPlayer(
-        new $NexusSyncIndividualStagesPacket(data.getUnlockedStages(playerUuid)),
+        new $NexusSyncIndividualStagesPacket(
+          specializationStageData.getUnlockedStages(specializationPlayerUuid)
+        ),
         player
       )
     }
 
+    nexusSyncAllomancyPowers(player, expectedSpecialization, reason)
+
     if ((stageChanged || correctedPersistentData) && reason === 'login') {
       console.info(
         `[Nexus Realms] Reconciled specialization for ${nexusPlayerName(player)}: ` +
-        `class=${nexusGetPersistentClass(player)}, metallurgist=${shouldBeMetallurgist}, ` +
+        `class=${specializationClassId}, specialization=${expectedSpecialization || 'none'}, ` +
         `stageChanged=${stageChanged}`
       )
     }
@@ -179,7 +285,7 @@ function nexusSyncSpecialization(player, reason) {
   } catch (error) {
     if (!nexusClassStageWarningLogged) {
       nexusClassStageWarningLogged = true
-      console.warn(`[Nexus Realms] Unable to synchronize Metallurgist specialization: ${error}`)
+      console.warn(`[Nexus Realms] Unable to synchronize Mage specialization: ${error}`)
     }
     return false
   }
@@ -201,45 +307,90 @@ function nexusSpecializationFeedback(viewer, message) {
 function nexusTellSpecializationStatus(viewer, target) {
   const classId = nexusGetPersistentClass(target)
   const specialization = nexusGetPersistentSpecialization(target)
-  const hasStage = nexusGetMetallurgistStageState(target)
-  const coherent = (specialization === 'metallurgist') === hasStage &&
-    (specialization !== 'metallurgist' || classId === 'mage')
+  const stages = nexusGetSpecializationStageState(target)
+  const coherent = nexusSpecializationStagesCoherent(classId, specialization, stages)
 
   nexusSpecializationFeedback(viewer, `Jugador: ${nexusPlayerName(target)}`)
   nexusSpecializationFeedback(viewer, `Clase principal: ${classId}`)
   nexusSpecializationFeedback(viewer, `Especializacion: ${specialization}`)
-  nexusSpecializationFeedback(viewer, `Stage Metallurgist: ${hasStage ? 'si' : 'no'}`)
+  nexusSpecializationFeedback(viewer, `Stage Arcanist: ${stages.arcanist ? 'si' : 'no'}`)
+  nexusSpecializationFeedback(viewer, `Stage Metallurgist: ${stages.metallurgist ? 'si' : 'no'}`)
+  nexusSpecializationFeedback(
+    viewer,
+    `Metalomante desbloqueado: ${target.persistentData.getBoolean('nexus_specialization_metallurgist_unlocked') ? 'si' : 'no'}`
+  )
   nexusSpecializationFeedback(viewer, `Estado coherente: ${coherent ? 'si' : 'no'}`)
+}
+
+function nexusSelectSpecialization(viewer, target, specializationId) {
+  const specializationData = NEXUS_SPECIALIZATION_DATA[specializationId]
+
+  if (!specializationData) {
+    nexusSpecializationFeedback(viewer, 'Especializacion no valida. Usa: arcanist o metallurgist.')
+    return 0
+  }
+
+  if (nexusGetPersistentClass(target) !== 'mage') {
+    nexusSpecializationFeedback(viewer, 'Las especializaciones Arcanista y Metalomante requieren la clase Mago.')
+    return 0
+  }
+
+  if (
+    specializationId === 'metallurgist' &&
+    !target.persistentData.getBoolean('nexus_specialization_metallurgist_unlocked')
+  ) {
+    nexusSpecializationFeedback(
+      viewer,
+      'Metalomante sigue bloqueado. Completa La Senda del Metal en Era III.'
+    )
+    return 0
+  }
+
+  const stages = nexusGetSpecializationStageState(target)
+  if (
+    nexusGetPersistentSpecialization(target) === specializationId &&
+    nexusSpecializationStagesCoherent('mage', specializationId, stages)
+  ) {
+    nexusSyncAllomancyPowers(target, specializationId, 'selection')
+    nexusSpecializationFeedback(viewer, `${nexusPlayerName(target)} ya sigue la senda ${specializationData.displayName}.`)
+    return 1
+  }
+
+  target.persistentData.putString('nexus_specialization', specializationId)
+  if (!nexusSyncSpecialization(target, 'selection')) {
+    target.persistentData.remove('nexus_specialization')
+    nexusSpecializationFeedback(viewer, 'No se pudo sincronizar el stage; la especializacion no se ha guardado.')
+    return 0
+  }
+
+  nexusTellActionbar(target, `${specializationData.displayName.toUpperCase()} - Senda magica seleccionada.`, 'aqua')
+  nexusSpecializationFeedback(
+    viewer,
+    `${specializationData.displayName} seleccionado para ${nexusPlayerName(target)}.`
+  )
+  return 1
 }
 
 function nexusUnlockMetallurgist(viewer, target) {
   if (nexusGetPersistentClass(target) !== 'mage') {
-    nexusSpecializationFeedback(viewer, 'Metalurgista solo puede desbloquearse para un Mago.')
+    nexusSpecializationFeedback(viewer, 'Metalomante solo puede desbloquearse para un Mago.')
     return 0
   }
 
   if (nexusCurrentGlobalEra(target) < 3) {
-    nexusSpecializationFeedback(viewer, 'Metalurgista requiere Era III - Era Arcano-Industrial.')
+    nexusSpecializationFeedback(viewer, 'Metalomante requiere Era III - Era Arcano-Industrial.')
     return 0
   }
 
-  if (nexusGetPersistentSpecialization(target) === 'metallurgist' && nexusGetMetallurgistStageState(target)) {
-    nexusSpecializationFeedback(viewer, `${nexusPlayerName(target)} ya es Metalurgista.`)
-    return 1
+  target.persistentData.putBoolean('nexus_specialization_metallurgist_unlocked', true)
+  const result = nexusSelectSpecialization(viewer, target, 'metallurgist')
+
+  if (result > 0) {
+    target.tell('METALOMANTE')
+    target.tell('El Nexus responde tambien a los metales. Has aprendido a canalizar sus poderes fundamentales.')
   }
 
-  target.persistentData.putString('nexus_specialization', 'metallurgist')
-  if (!nexusSyncSpecialization(target, 'unlock')) {
-    target.persistentData.remove('nexus_specialization')
-    nexusSpecializationFeedback(viewer, 'No se pudo sincronizar el stage de Metalurgista; no se guardo el desbloqueo.')
-    return 0
-  }
-
-  nexusTellActionbar(target, 'METALURGISTA - El Nexus responde tambien a los metales.', 'aqua')
-  target.tell('METALURGISTA')
-  target.tell('El Nexus responde tambien a los metales. Has aprendido a canalizar su poder.')
-  nexusSpecializationFeedback(viewer, `Metalurgista desbloqueado para ${nexusPlayerName(target)}.`)
-  return 1
+  return result
 }
 
 function nexusResetSpecialization(viewer, target) {
@@ -294,38 +445,40 @@ function nexusSyncClassStages(player, reason) {
   try {
     if (!nexusClassStageDefinitionsAvailable()) return false
 
-    const classId = nexusGetPersistentClass(player)
-    const expectedStage = NEXUS_CLASS_STAGE_IDS[classId] || null
-    const data = $NexusIndividualStageData.get(player.level)
-    const playerUuid = player.uuid
-    let changes = 0
+    var synchronizedClassId = nexusGetPersistentClass(player)
+    var synchronizedExpectedStage = NEXUS_CLASS_STAGE_IDS[synchronizedClassId] || null
+    var synchronizedStageData = $NexusIndividualStageData.get(player.level)
+    var synchronizedPlayerUuid = player.uuid
+    var changes = 0
 
     NEXUS_CLASS_STAGE_LIST.forEach(stageId => {
-      const shouldHaveStage = stageId === expectedStage
-      const hasStage = data.hasStage(playerUuid, stageId)
+      var shouldHaveStage = stageId === synchronizedExpectedStage
+      var hasStage = synchronizedStageData.hasStage(synchronizedPlayerUuid, stageId)
 
       if (shouldHaveStage && !hasStage) {
-        data.addStage(playerUuid, stageId)
+        synchronizedStageData.addStage(synchronizedPlayerUuid, stageId)
         changes++
       } else if (!shouldHaveStage && hasStage) {
-        data.removeStage(playerUuid, stageId)
+        synchronizedStageData.removeStage(synchronizedPlayerUuid, stageId)
         changes++
       }
     })
 
     if (changes === 0) return true
 
-    data.setDirty()
-    data.refreshCache()
+    synchronizedStageData.setDirty()
+    synchronizedStageData.refreshCache()
     $NexusHistoryPacketHandler.sendIndividualStagesToPlayer(
-      new $NexusSyncIndividualStagesPacket(data.getUnlockedStages(playerUuid)),
+      new $NexusSyncIndividualStagesPacket(
+        synchronizedStageData.getUnlockedStages(synchronizedPlayerUuid)
+      ),
       player
     )
 
     if (reason === 'login') {
       console.info(
         `[Nexus Realms] Reconciled class stages for ${nexusPlayerName(player)}: ` +
-        `class=${classId}, changes=${changes}`
+        `class=${synchronizedClassId}, changes=${changes}`
       )
     }
 
@@ -463,9 +616,12 @@ function nexusTellClassStatus(viewer, target) {
   const classStages = nexusGetClassStageState(target)
   const stagesCoherent = nexusClassStagesCoherent(persistentClass, classStages)
   const specialization = nexusGetPersistentSpecialization(target)
-  const metallurgistStage = nexusGetMetallurgistStageState(target)
-  const specializationCoherent = (specialization === 'metallurgist') === metallurgistStage &&
-    (specialization !== 'metallurgist' || persistentClass === 'mage')
+  const specializationStages = nexusGetSpecializationStageState(target)
+  const specializationCoherent = nexusSpecializationStagesCoherent(
+    persistentClass,
+    specialization,
+    specializationStages
+  )
 
   viewer.tell(`Jugador: ${nexusPlayerName(target)}`)
   viewer.tell(`Clase elegida: ${persistentClass}`)
@@ -477,7 +633,8 @@ function nexusTellClassStatus(viewer, target) {
   viewer.tell(`Stage Gunslinger: ${classStages.gunslinger ? 'si' : 'no'}`)
   viewer.tell(`Stages coherentes: ${stagesCoherent ? 'si' : 'no'}`)
   viewer.tell(`Especializacion: ${specialization}`)
-  viewer.tell(`Stage Metallurgist: ${metallurgistStage ? 'si' : 'no'}`)
+  viewer.tell(`Stage Arcanist: ${specializationStages.arcanist ? 'si' : 'no'}`)
+  viewer.tell(`Stage Metallurgist: ${specializationStages.metallurgist ? 'si' : 'no'}`)
   viewer.tell(`Especializacion coherente: ${specializationCoherent ? 'si' : 'no'}`)
   viewer.tell(statusMessage)
   viewer.tell('History Stages aplica las restricciones individuales de los objetos representativos del Pack 25.1.')
@@ -608,9 +765,8 @@ ServerEvents.commandRegistry(event => {
 
   event.register(
     Commands.literal('nexus_specialization')
-      .requires(source => source.hasPermission(2))
       .then(
-        Commands.literal('get')
+        Commands.literal('status')
           .executes(ctx => {
             const target = ctx.source.player
             if (!target) return 0
@@ -619,6 +775,7 @@ ServerEvents.commandRegistry(event => {
           })
           .then(
             Commands.argument('player', Arguments.PLAYER.create(event))
+              .requires(source => source.hasPermission(2))
               .executes(ctx => {
                 const viewer = ctx.source.player
                 const target = Arguments.PLAYER.getResult(ctx, 'player')
@@ -628,7 +785,25 @@ ServerEvents.commandRegistry(event => {
           )
       )
       .then(
+        Commands.literal('select')
+          .then(
+            Commands.literal('arcanist')
+              .executes(ctx => {
+                const target = ctx.source.player
+                return target ? nexusSelectSpecialization(target, target, 'arcanist') : 0
+              })
+          )
+          .then(
+            Commands.literal('metallurgist')
+              .executes(ctx => {
+                const target = ctx.source.player
+                return target ? nexusSelectSpecialization(target, target, 'metallurgist') : 0
+              })
+          )
+      )
+      .then(
         Commands.literal('unlock')
+          .requires(source => source.hasPermission(2))
           .then(
             Commands.literal('metallurgist')
               .executes(ctx => {
@@ -653,6 +828,7 @@ ServerEvents.commandRegistry(event => {
           })
           .then(
             Commands.argument('player', Arguments.PLAYER.create(event))
+              .requires(source => source.hasPermission(2))
               .executes(ctx => {
                 const viewer = ctx.source.player
                 const target = Arguments.PLAYER.getResult(ctx, 'player')

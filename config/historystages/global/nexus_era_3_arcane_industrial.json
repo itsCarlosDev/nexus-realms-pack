@@ -106,10 +106,19 @@
     {"id":"create:potato_cannon","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
     {"id":"createaddition:electric_motor","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
     {"id":"createaddition:alternator","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"createaddition:accumulator","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
     {"id":"createaddition:modular_accumulator","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"createaddition:heater","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"createaddition:furnace_burner","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"createaddition:digital_adapter","unlock_actions":["place","pickup","loot","recipe","gui","icon"]}
+    {"id":"createaddition:digital_adapter","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:allomantic_grinder","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:vial","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:iron_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:steel_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:tin_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:pewter_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:zinc_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:brass_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:copper_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:bronze_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:coin_bag","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:mistcloak","unlock_actions":["place","pickup","loot","recipe","gui","icon"]}
   ]
 }

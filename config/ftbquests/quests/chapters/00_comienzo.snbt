@@ -1,0 +1,120 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "circle"
+	filename: "00_comienzo"
+	group: "4E5850474C4F4241"
+	icon: { id: "minecraft:compass" }
+	id: "4E5850524F475549"
+	images: [
+		{ alpha: 170, color: 1315862, height: 3.8d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 8.5d, x: 3.0d, y: 0.0d }
+		{ alpha: 210, color: 11895372, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 8.5d, x: 3.0d, y: -1.85d }
+	]
+	order_index: 0
+	quest_links: []
+	subtitle: ["El despertar de una campaña de treinta días."]
+	quests: [
+		{
+			description: [
+				"Nexus Realms es una campaña cooperativa de 30 días reales."
+				"Las eras abren contenido global; tu clase define tu estilo de combate."
+			]
+			icon: { id: "minecraft:clock" }
+			id: "2700000000000001"
+			shape: "circle"
+			size: 1.2d
+			tasks: [{ id: "27B0000000000001", title: "Comprender la campaña", type: "checkmark" }]
+			title: "Bienvenido a Nexus Realms"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2700000000000001"]
+			description: [
+				"La campaña comienza oficialmente con /nexus_campaign start."
+				"Preparación y Edad del Hierro pertenecen al Día 1; después llegarán los días 7, 14 y 21."
+			]
+			icon: { id: "minecraft:clock" }
+			id: "2700000000000002"
+			tasks: [{ id: "27B0000000000002", title: "Campaña iniciada por el equipo", type: "checkmark" }]
+			title: "Treinta días"
+			x: 2.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2700000000000002"]
+			description: [
+				"Elige Guerrero, Mago o Pistolero con el selector de Nexus."
+				"Los objetos pueden exigir simultáneamente una era y tu clase."
+			]
+			icon: { id: "minecraft:player_head" }
+			id: "2700000000000003"
+			shape: "hexagon"
+			size: 1.3d
+			rewards: [
+				{
+					command: "/nexus_class_menu"
+					elevate_perms: false
+					id: "27A0000000000003"
+					silent: true
+					title: "Abrir selector de clase"
+					type: "command"
+				}
+				{
+					count: 8
+					id: "281C000000000001"
+					item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+					type: "item"
+				}
+			]
+			tasks: [{ id: "27B0000000000003", title: "Elegir una clase", type: "checkmark" }]
+			title: "Elige tu senda"
+			x: 4.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2700000000000003"]
+			description: [
+				"Reúne comida, levanta un refugio y consigue hierro."
+				"Este hito solicita la Era I; Nexus aplicará las reglas del calendario real."
+			]
+			icon: { id: "minecraft:iron_ingot" }
+			id: "4E58504552413031"
+			shape: "octagon"
+			size: 1.45d
+			rewards: [
+				{
+					command: "/nexus_era request 1"
+					elevate_perms: true
+					id: "4E58505245573131"
+					silent: true
+					title: "Solicitar Edad del Hierro"
+					type: "command"
+				}
+				{
+					command: "/give @s minecraft:bread 4"
+					elevate_perms: true
+					id: "27A0000000000004"
+					silent: true
+					title: "Provisiones"
+					type: "command"
+				}
+				{
+					id: "281C000000000002"
+					item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+					type: "item"
+				}
+			]
+			tasks: [{
+				count: 8L
+				id: "4E58505441533131"
+				item: { Count: 1b, id: "minecraft:iron_ingot" }
+				title: "Reunir hierro"
+				type: "item"
+			}]
+			title: "Preparados para la Edad del Hierro"
+			x: 6.0d
+			y: 0.0d
+		}
+	]
+	title: "00 — Comienzo"
+}

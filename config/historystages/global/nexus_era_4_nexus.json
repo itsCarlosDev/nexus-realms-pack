@@ -51,10 +51,16 @@
     {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m320"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
     {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:aa12"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
     {"id":"createaddition:tesla_coil","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"createaddition:overcharged_alloy","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"createaddition:overcharged_casing","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"createaddition:overcharged_hammer","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"createaddition:portable_energy_interface","unlock_actions":["place","pickup","loot","recipe","gui","icon"]}
+    {"id":"createaddition:portable_energy_interface","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:aluminum_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:duralumin_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:chromium_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:nicrosil_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:gold_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:electrum_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:cadmium_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:bendalloy_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"allomancy:lerasium_nugget","unlock_actions":["place","pickup","loot","recipe","gui","icon"]}
   ],
   "recipes": [
     "minecraft:netherite_sword_smithing","minecraft:netherite_pickaxe_smithing","minecraft:netherite_axe_smithing","minecraft:netherite_shovel_smithing","minecraft:netherite_hoe_smithing",

@@ -1,79 +1,117 @@
-# Especialización Mago → Metalurgista
+# Especialización Mago → Metalomante
 
-## Estado de identificación
+## Mod integrado
 
-No existe en el repositorio una URL, un project ID, un file ID ni una nota histórica que permita identificar inequívocamente el proyecto de Allomancy previsto. La expresión «Allomancy Mod Showcase» tampoco identifica por sí sola un mod. La búsqueda oficial devuelve al menos tres candidatos distintos para Forge 1.20.1:
+- Proyecto: Allomancy.
+- Autor: legobmw99.
+- Mod ID: `allomancy`.
+- Versión: `4.6.5`.
+- Minecraft: `1.20.1`.
+- Loader: Forge `[47,)`.
+- Artefacto oficial: Modrinth `mTS4CGDB`, versión `j4eaEJfx`.
+- Dependencias obligatorias externas: ninguna.
 
-| Proyecto | Autor | Project ID | Build Forge 1.20.1 observada | Diferencia relevante |
-| --- | --- | ---: | --- | --- |
-| Allomancy | legobmw99 | 256282 | `allomancy-6.1.0-backport3.jar` | Proyecto clásico; metales base y worldgen configurable. |
-| Allomancer | leafreynolds | 678468 | `CosmereAllomancy-1.20.1-47.3.0-0.7.113.jar` | Proyecto Cosmere en alpha; Misting/Mistborn y Curios requerido. |
-| Mistborn: Metal Arts | noah_hester | 1555831 | `mistborn_metal_arts-0.1.0.jar` | Beta nueva con Allomancy, Feruchemy, Hemalurgy, máquinas y estructuras. |
+El JAR registra 116 items concretos: materiales, menas, bloques, flakes, patrones, tres consumibles del sistema, cuatro objetos de combate y extras. Los metales comunes, menas, lingotes, nuggets, bloques y patrones permanecen libres; no se bloquea el namespace completo.
 
-Por esta ambigüedad no se instala ningún mod, no se añaden dependencias y no se inventan comandos o APIs nativas. Falta una URL oficial o el project/file ID del proyecto que Carlos había previsto.
-
-## Arquitectura implementada independiente del mod
+## Arquitectura Nexus
 
 - Clase principal: `mage`.
-- Especialización persistente: `player.persistentData.nexus_specialization = metallurgist`.
-- Stage individual adicional: `nexus_specialization_metallurgist`.
-- Un Metalurgista conserva simultáneamente `nexus_class_mage` y `nexus_specialization_metallurgist`.
-- Guerrero, Pistolero y jugadores sin clase no pueden conservar la especialización.
-- El login reconcilia una sola vez persistentData y History Stages; no hay comprobación por tick.
-- Resetear o abandonar Mago limpia la especialización y el stage sin tocar inventarios.
+- Especialización visible: Metalomante.
+- ID interno preservado: `metallurgist`.
+- Estado persistente: `player.persistentData.nexus_specialization = metallurgist`.
+- Stages simultáneos: `nexus_class_mage` + `nexus_specialization_metallurgist`.
 
-El stage existe vacío hasta identificar el namespace y los objetos reales. No aplica restricciones ficticias.
+Arcanista y Metalomante son mutuamente excluyentes. Guerrero, Pistolero y jugadores sin clase conservan cero stages de especialización Mage.
 
-## Desbloqueo
+La recompensa de `senda_del_metal.snbt` ejecuta `/nexus_specialization unlock metallurgist`. El comando exige Mago y Era III, registra el desbloqueo persistente, selecciona Metalomante y reconcilia History Stages.
 
-`/nexus_specialization unlock metallurgist [player]` exige:
+## Mecánica nativa auditada
 
-1. clase principal Mago;
-2. Era III o superior;
-3. que el hito «La Senda del Metal» ejecute la recompensa.
+Allomancy usa una capability Forge propia (`AllomancerCapability.PLAYER_CAP`) respaldada por `DefaultAllomancerData`. Guarda en NBT:
 
-La quest depende del hito global de Era III. Alcanzar el día 14 o entrar en Era III no concede por sí solo la especialización. La operación es idempotente.
+- poderes disponibles;
+- cantidades y estado de combustión de cada metal;
+- datos auxiliares de muerte, spawn y poderes temporales.
 
-Comandos administrativos:
+El mod sincroniza estos datos al entrar, reaparecer y cambiar de dimensión. Los poderes se copian al clon del jugador tras morir; las reservas de metal solo se conservan con `keepInventory` o en clones que no proceden de muerte.
 
-- `/nexus_specialization get [player]`
-- `/nexus_specialization unlock metallurgist [player]`
-- `/nexus_specialization reset [player]`
+Comandos oficiales:
 
-Todos requieren nivel de operador 2. `nexus_class_status` también muestra la especialización y la coherencia del stage.
+- `/allomancy get [targets]`
+- `/allomancy add <metal|all|random> [targets]`
+- `/allomancy remove <metal|all|random> [targets]`
+- alias `/ap`
 
-## Integración nativa pendiente
+`add` y `remove` requieren permiso 2. Tras cada cambio el propio mod sincroniza el cliente.
 
-No se ha auditado ni implementado todavía:
+El objeto `allomancy:lerasium_nugget` llama nativamente a `setMistborn()` al consumirse y concede los 16 poderes. Por eso se reserva para Era IV.
 
-- capability/attachment o estado nativo del jugador;
-- comandos oficiales para conceder o revocar poderes;
-- persistencia tras muerte y reconexión propia del mod;
-- objetos, viales, flakes, metales, poderes o recetas registrados;
-- sincronización cliente/servidor nativa;
-- starter oficial.
+La tecla predeterminada para quemar/detener metales es `V`. El HUD y las 16 teclas individuales de metal vienen sin asignar por defecto.
 
-La selección del proyecto debe preceder a cualquiera de estos cambios. Si el proyecto elegido no permite revocar poderes de forma segura, el cambio de clase no se simulará con listeners propios.
+## Integración de poderes
 
-## Clasificación y balance previsto
+La configuración oficial fija `random_mistings = false`; de otro modo Allomancy 4.6.5 concedería un poder aleatorio a cualquier jugador nuevo, independientemente de su clase.
 
-No hay objetos del mod clasificados porque no hay un mod seleccionado ni instalado. Los materiales vanilla (`iron_ingot`, `gold_ingot`, `copper_ingot` y sus bloques) permanecen libres para economía, construcción, Create y herrería.
+Al seleccionar o reconciliar Metalomante se usan los comandos oficiales para conceder los ocho poderes fundamentales:
 
-### Era III · Metalurgista
+- iron;
+- steel;
+- tin;
+- pewter;
+- zinc;
+- brass;
+- copper;
+- bronze.
 
-- introducción a la mecánica nativa;
-- recipiente o herramienta inicial real del mod;
-- metales comunes y poderes fundamentales;
-- aprendizaje mediante «La Senda del Metal».
+Al abandonar Metalomante, cambiar de clase o resetear la especialización se ejecuta `/allomancy remove all <player>`. Esto revoca únicamente los poderes de la capability; no elimina items ni vacía las reservas metálicas guardadas. La operación es necesaria para que Allomancy siga siendo exclusiva de Metalomante.
 
-### Era IV · Metalurgista avanzado
+Limitación: si un jugador consumió Lerasium y después abandona la senda, el mod no ofrece un historial separado de poderes avanzados. Al volver a Metalomante recupera los ocho poderes base, no automáticamente el estado Mistborn anterior.
 
-- metales raros;
-- combinaciones y poderes avanzados;
-- contenido nativo equivalente a endgame.
+## Restricciones seguras
 
-Las restricciones futuras se aplicarán solo a objetos cuyo uso active Allomancy, conservando pickup, loot y almacenamiento cuando History Stages lo permita. No se bloqueará todo el namespace.
+History Stages contiene los mismos 21 items de uso exclusivo en:
 
-## Pruebas bloqueadas
+- `nexus_class_mage`;
+- `nexus_specialization_metallurgist`.
 
-La persistencia Nexus y el stage pueden probarse ya. El acceso real, revocación, metales, poderes y compatibilidad dedicada quedan bloqueados hasta aportar el proyecto oficial exacto.
+La coincidencia ya validada de History Stages aplica el AND Mago + Metalomante. Pickup, loot, almacenamiento, movimiento, recetas, GUI e iconos permanecen permitidos; se bloquean las acciones de uso, ataque, rotura o equipamiento que no estén en `unlock_actions`.
+
+Items exclusivos incluidos:
+
+- `allomancy:allomantic_grinder`;
+- `allomancy:vial`;
+- los 16 `*_flakes` correspondientes a poderes;
+- `allomancy:coin_bag`;
+- `allomancy:mistcloak`;
+- `allomancy:lerasium_nugget`.
+
+No se restringen `koloss_blade` ni `obsidian_dagger` en esta fase porque funcionan como armas independientes y necesitan una decisión de clase/balance.
+
+## Balance por era
+
+### Era III · Metalomante
+
+- grinder y vial;
+- flakes de iron, steel, tin, pewter, zinc, brass, copper y bronze;
+- ocho poderes fundamentales concedidos por el sistema Nexus mediante comandos nativos;
+- coin bag y mistcloak;
+- progreso inicial de «La Senda del Metal».
+
+### Era IV · Metalomante avanzado
+
+- flakes de aluminum, duralumin, chromium, nicrosil, gold, electrum, cadmium y bendalloy;
+- `lerasium_nugget`, que concede el estado Mistborn nativo;
+- combinaciones temporales y espirituales avanzadas.
+
+No se crea una quinta era. Los metales vanilla y todos los materiales físicos del mod pueden seguir recogiéndose, comerciándose, almacenándose y utilizándose en sistemas ajenos como Create.
+
+## Prueba runtime pendiente
+
+1. Confirmar que Forge 47.4.10 carga Allomancy 4.6.5.
+2. Verificar que Arcanista, Guerrero y Pistolero no reciben poderes al entrar.
+3. Desbloquear Metalomante en Era III y ejecutar `/allomancy get`: deben aparecer los ocho poderes base.
+4. Confirmar que grinder, vial y flakes solo pueden usarse con Mage + Metalomante.
+5. Cambiar a Arcanista o resetear y verificar `/allomancy get`: `none`.
+6. En Era IV, consumir Lerasium y confirmar `all`.
+7. Reiniciar y morir para verificar la persistencia descrita.
+8. Comprobar cero pérdida o duplicación de items.

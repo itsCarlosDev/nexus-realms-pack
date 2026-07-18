@@ -1,0 +1,141 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "square"
+	filename: "clase_guerrero"
+	group: "4E5850474C4F4241"
+	icon: { id: "simplyswords:iron_glaive" }
+	id: "4E58434C41535731"
+	images: [
+		{ alpha: 170, color: 2763310, height: 4.8d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 13.0d, x: 5.0d, y: 0.0d }
+		{ alpha: 210, color: 11895372, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 13.0d, x: 5.0d, y: -2.35d }
+	]
+	order_index: 5
+	quest_links: []
+	subtitle: ["Disciplina, acero y dominio del campo de batalla."]
+	quests: [
+		{
+			dependencies: ["2700000000000003"]
+			description: ["Sigue esta rama si elegiste Guerrero. Tu senda determina qué arsenal puedes dominar."]
+			icon: { id: "minecraft:shield" }
+			id: "2700000000001001"
+			shape: "hexagon"
+			size: 1.3d
+			tasks: [{ id: "27B0000000001001", title: "Confirmar la senda del Guerrero", type: "checkmark" }]
+			title: "La senda marcial"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2700000000001001", "4E58504552413031"]
+			description: ["Aprende defensa, ritmo de combate y alcance con una sola arma representativa."]
+			icon: { id: "simplyswords:iron_glaive" }
+			id: "2700000000001002"
+			tasks: [{
+				id: "27B0000000001002"
+				item: { Count: 1b, id: "simplyswords:iron_glaive" }
+				title: "Empuñar una guja de hierro"
+				type: "item"
+			}]
+			title: "Acero y disciplina"
+			x: 2.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2700000000001002"]
+			description: ["Practica guardia, esquiva y control del espacio. No necesitas fabricar cada variante del arsenal."]
+			icon: { id: "minecraft:shield" }
+			id: "2710000000001005"
+			rewards: [{
+				count: 8
+				id: "281C000000001001"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [{ id: "271B000000001005", title: "Completar el entrenamiento defensivo", type: "checkmark" }]
+			title: "Dominio del combate"
+			x: 4.0d
+			y: -1.0d
+		}
+		{
+			dependencies: ["2700000000001002", "4E58504552413032"]
+			description: ["Adapta tu estilo a un arma pesada de diamante compatible con Epic Fight."]
+			icon: { id: "epicfight:diamond_greatsword" }
+			id: "2700000000001003"
+			tasks: [{
+				id: "27B0000000001003"
+				item: { Count: 1b, id: "epicfight:diamond_greatsword" }
+				title: "Forjar un mandoble de diamante"
+				type: "item"
+			}]
+			title: "Arsenal del explorador"
+			x: 4.0d
+			y: 1.0d
+		}
+		{
+			dependencies: ["2700000000001003", "4E58504552413033"]
+			description: ["La Era III abre familias rúnicas. Elige una representativa en lugar de coleccionarlas todas."]
+			icon: { id: "simplyswords:runic_glaive" }
+			id: "2710000000001006"
+			shape: "diamond"
+			size: 1.2d
+			tasks: [{
+				id: "271B000000001006"
+				item: { Count: 1b, id: "simplyswords:runic_glaive" }
+				title: "Dominar un arma rúnica"
+				type: "item"
+			}]
+			title: "Especialización de arsenal"
+			x: 6.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2710000000001006"]
+			description: ["Prepara una pieza Nightfall de Era III como núcleo de un equipo de combate avanzado."]
+			icon: { id: "efn:ruinfighter_chestplate" }
+			id: "2710000000001007"
+			tasks: [{
+				id: "271B000000001007"
+				item: { Count: 1b, id: "efn:ruinfighter_chestplate" }
+				title: "Obtener una pechera Ruinfighter"
+				type: "item"
+			}]
+			title: "Veterano de las ruinas"
+			x: 8.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2710000000001007", "4E58504552413034"]
+			description: ["Cierra la senda con un arma final permitida por Era IV, sin recibirla como recompensa."]
+			icon: { id: "epicfight:netherite_greatsword" }
+			id: "2700000000001004"
+			shape: "octagon"
+			size: 1.5d
+			rewards: [
+				{
+					command: "/experience add @s 4 levels"
+					elevate_perms: true
+					id: "271A000000001004"
+					silent: true
+					title: "Experiencia marcial"
+					type: "command"
+				}
+				{
+					count: 3
+					id: "281C000000001002"
+					item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+					type: "item"
+				}
+			]
+			tasks: [{
+				id: "27B0000000001004"
+				item: { Count: 1b, id: "epicfight:netherite_greatsword" }
+				title: "Forjar un mandoble de netherite"
+				type: "item"
+			}]
+			title: "Campeón del Nexus"
+			x: 10.0d
+			y: 0.0d
+		}
+	]
+	title: "Guerrero"
+}

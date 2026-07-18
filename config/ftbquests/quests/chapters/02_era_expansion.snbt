@@ -1,0 +1,181 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "diamond"
+	filename: "02_era_expansion"
+	group: "4E5850474C4F4241"
+	icon: { id: "minecraft:diamond" }
+	id: "4E58303245524132"
+	images: [
+		{ alpha: 165, color: 1315862, height: 6.8d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 9.0d, x: 3.0d, y: 0.0d }
+		{ alpha: 205, color: 4286945, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 9.0d, x: 3.0d, y: -3.35d }
+	]
+	order_index: 2
+	quest_links: []
+	subtitle: ["Diamante, expediciones y horizontes más lejanos."]
+	quests: [
+		{
+			dependencies: ["2700000000000104"]
+			description: [
+				"El equipo está listo para solicitar la Edad del Diamante."
+				"Si aún no es el Día 7, Nexus conservará el avance pendiente."
+			]
+			icon: { id: "minecraft:diamond" }
+			id: "4E58504552413032"
+			shape: "octagon"
+			size: 1.45d
+			rewards: [
+				{
+					command: "/nexus_era request 2"
+					elevate_perms: true
+					id: "4E58505245573232"
+					silent: true
+					title: "Solicitar Edad del Diamante"
+					type: "command"
+				}
+				{
+					count: 2
+					id: "281C000000000201"
+					item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+					type: "item"
+				}
+			]
+			tasks: [{
+				id: "4E58505441533232"
+				item: { Count: 1b, id: "minecraft:diamond" }
+				title: "Encontrar diamante"
+				type: "item"
+			}]
+			title: "Hito II — Edad del Diamante"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["4E58504552413032"]
+			description: ["Explora zonas más peligrosas y crea rutas seguras entre recursos y asentamientos."]
+			icon: { id: "minecraft:compass" }
+			id: "2700000000000202"
+			shape: "diamond"
+			tasks: [{ id: "27B0000000000202", title: "Completar una expedición peligrosa", type: "checkmark" }]
+			title: "Más allá de la frontera"
+			x: 2.0d
+			y: -2.0d
+		}
+		{
+			dependencies: ["4E58504552413032"]
+			description: ["Desarrolla el equipo intermedio de tu clase sin saltarte sus restricciones."]
+			icon: { id: "minecraft:smithing_table" }
+			id: "2700000000000203"
+			tasks: [{ id: "27B0000000000203", title: "Mejorar el equipo de clase", type: "checkmark" }]
+			title: "Dominio intermedio"
+			x: 2.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["4E58504552413032"]
+			description: ["La mesa de encantamientos abre una mejora gradual del equipo sin regalar poder final."]
+			icon: { id: "minecraft:enchanting_table" }
+			id: "2710000000000205"
+			tasks: [{
+				id: "271B000000000205"
+				item: { Count: 1b, id: "minecraft:enchanting_table" }
+				title: "Construir una mesa de encantamientos"
+				type: "item"
+			}]
+			title: "Conocimiento encantado"
+			x: 2.0d
+			y: 2.0d
+		}
+		{
+			dependencies: ["2700000000000202"]
+			description: ["Abre una ruta al Nether y vuelve con recursos que permitan preparar alquimia y viajes mayores."]
+			icon: { id: "minecraft:blaze_rod" }
+			id: "2710000000000206"
+			rewards: [
+				{
+					command: "/give @s minecraft:potion{Potion:\"minecraft:fire_resistance\"} 1"
+					elevate_perms: true
+					id: "271A000000000206"
+					silent: true
+					title: "Poción de resistencia al fuego"
+					type: "command"
+				}
+				{
+					count: 12
+					id: "281C000000000202"
+					item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+					type: "item"
+				}
+			]
+			tasks: [{
+				count: 4L
+				id: "271B000000000206"
+				item: { Count: 1b, id: "minecraft:blaze_rod" }
+				title: "Recuperar 4 varas de blaze"
+				type: "item"
+			}]
+			title: "Frontera infernal"
+			x: 4.0d
+			y: -2.0d
+		}
+		{
+			dependencies: ["2700000000000203"]
+			description: ["Usa el diamante en una herramienta representativa y conserva el resto para la progresión del equipo."]
+			icon: { id: "minecraft:diamond_pickaxe" }
+			id: "2710000000000207"
+			tasks: [{
+				id: "271B000000000207"
+				item: { Count: 1b, id: "minecraft:diamond_pickaxe" }
+				title: "Forjar un pico de diamante"
+				type: "item"
+			}]
+			title: "Herramienta de expedición"
+			x: 4.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2710000000000205"]
+			description: ["Prepara pociones para que las expediciones largas dependan menos de recompensas externas."]
+			icon: { id: "minecraft:brewing_stand" }
+			id: "2710000000000208"
+			shape: "diamond"
+			tasks: [{
+				id: "271B000000000208"
+				item: { Count: 1b, id: "minecraft:brewing_stand" }
+				title: "Construir un soporte para pociones"
+				type: "item"
+			}]
+			title: "Preparación alquímica"
+			x: 4.0d
+			y: 2.0d
+		}
+		{
+			dependencies: ["2710000000000206", "2710000000000207", "2710000000000208"]
+			description: ["La siguiente transformación requiere el Día 14 y un mundo preparado para magia e industria."]
+			icon: { id: "minecraft:amethyst_shard" }
+			id: "2700000000000204"
+			shape: "octagon"
+			size: 1.45d
+			rewards: [
+				{
+					command: "/experience add @s 3 levels"
+					elevate_perms: true
+					id: "271A000000000204"
+					silent: true
+					title: "Experiencia de expansión"
+					type: "command"
+				}
+				{
+					count: 4
+					id: "281C000000000203"
+					item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+					type: "item"
+				}
+			]
+			tasks: [{ id: "27B0000000000204", title: "Completar la Era II principal", type: "checkmark" }]
+			title: "Umbral arcano-industrial"
+			x: 6.0d
+			y: 0.0d
+		}
+	]
+	title: "02 — Era II: Expansión"
+}

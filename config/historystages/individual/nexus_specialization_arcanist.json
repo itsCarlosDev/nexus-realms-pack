@@ -1,5 +1,5 @@
 {
-  "display_name": "Clase Nexus - Mago",
+  "display_name": "Especializacion Nexus - Arcanista",
   "icon": "irons_spellbooks:copper_spell_book",
   "items": [
     {"id":"irons_spellbooks:copper_spell_book","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
@@ -92,27 +92,6 @@
     {"id":"irons_spellbooks:graybeard_staff","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
     {"id":"irons_spellbooks:ice_staff","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
     {"id":"irons_spellbooks:pyrium_staff","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"irons_spellbooks:staff_of_the_nines","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:allomantic_grinder","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:vial","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:iron_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:steel_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:tin_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:pewter_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:zinc_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:brass_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:copper_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:bronze_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:aluminum_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:duralumin_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:chromium_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:nicrosil_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:gold_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:electrum_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:cadmium_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:bendalloy_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:coin_bag","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:mistcloak","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:lerasium_nugget","unlock_actions":["place","pickup","loot","recipe","gui","icon"]}
+    {"id":"irons_spellbooks:staff_of_the_nines","unlock_actions":["place","pickup","loot","recipe","gui","icon"]}
   ]
 }

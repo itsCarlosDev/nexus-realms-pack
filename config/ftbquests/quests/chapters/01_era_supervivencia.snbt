@@ -1,0 +1,181 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "square"
+	filename: "01_era_supervivencia"
+	group: "4E5850474C4F4241"
+	icon: { id: "minecraft:iron_chestplate" }
+	id: "4E58303145524131"
+	images: [
+		{ alpha: 170, color: 2763310, height: 6.8d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 9.0d, x: 3.0d, y: 0.0d }
+		{ alpha: 190, color: 11895372, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 9.0d, x: 3.0d, y: -3.35d }
+	]
+	order_index: 1
+	quest_links: []
+	subtitle: ["Piedra, hierro y un refugio capaz de resistir."]
+	quests: [
+		{
+			dependencies: ["4E58504552413031"]
+			description: ["La primera era comienza en el Día 1 tras completar la preparación."]
+			icon: { id: "minecraft:iron_sword" }
+			id: "2700000000000101"
+			shape: "hexagon"
+			size: 1.25d
+			tasks: [{ id: "27B0000000000101", title: "Entrar en la Edad del Hierro", type: "checkmark" }]
+			title: "Era I — Supervivencia"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2700000000000101"]
+			description: ["Asegura una base con cama, almacenamiento, comida y espacio para crecer."]
+			icon: { id: "minecraft:chest" }
+			id: "2700000000000102"
+			rewards: [{
+				count: 6
+				id: "281C000000000101"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [{ id: "27B0000000000102", title: "Establecer el asentamiento", type: "checkmark" }]
+			title: "Un lugar al que volver"
+			x: 2.0d
+			y: -2.0d
+		}
+		{
+			dependencies: ["2700000000000101"]
+			description: ["Equípate para explorar y sobrevivir a los primeros enemigos y hordas."]
+			icon: { id: "minecraft:shield" }
+			id: "2700000000000103"
+			rewards: [{
+				count: 5
+				id: "281C000000000102"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "27B0000000000103"
+				item: { Count: 1b, id: "minecraft:shield" }
+				title: "Preparar un escudo"
+				type: "item"
+			}]
+			title: "Defensa del asentamiento"
+			x: 2.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2700000000000101"]
+			description: ["Mantén reservas suficientes para explorar sin vaciar la despensa del asentamiento."]
+			icon: { id: "minecraft:bread" }
+			id: "2710000000000105"
+			shape: "diamond"
+			rewards: [{
+				command: "/give @s minecraft:cooked_beef 4"
+				elevate_perms: true
+				id: "271A000000000105"
+				silent: true
+				title: "Raciones de viaje"
+				type: "command"
+			}]
+			tasks: [{
+				count: 16L
+				id: "271B000000000105"
+				item: { Count: 1b, id: "minecraft:bread" }
+				title: "Reunir 16 panes"
+				type: "item"
+			}]
+			title: "Despensa estable"
+			x: 2.0d
+			y: 2.0d
+		}
+		{
+			dependencies: ["2700000000000102"]
+			description: ["Hierro, agua y herramientas fiables sostienen la construcción, la minería y la agricultura."]
+			icon: { id: "minecraft:iron_pickaxe" }
+			id: "2710000000000106"
+			tasks: [
+				{
+					id: "271B000000000106"
+					item: { Count: 1b, id: "minecraft:iron_pickaxe" }
+					title: "Preparar un pico de hierro"
+					type: "item"
+				}
+				{
+					id: "271B000000000107"
+					item: { Count: 1b, id: "minecraft:bucket" }
+					title: "Preparar un cubo"
+					type: "item"
+				}
+				{
+					id: "271B000000000108"
+					item: { Count: 1b, id: "minecraft:shears" }
+					title: "Preparar unas tijeras"
+					type: "item"
+				}
+			]
+			title: "Herramientas del asentamiento"
+			x: 4.0d
+			y: -2.0d
+		}
+		{
+			dependencies: ["2700000000000103"]
+			description: [
+				"Revisa accesos, iluminación, comida y rutas de retirada antes de una horda."
+				"El calendario global sigue siendo la autoridad; esta tarea solo enseña la preparación."
+			]
+			icon: { id: "minecraft:lantern" }
+			id: "2710000000000107"
+			shape: "diamond"
+			tasks: [{ id: "271B000000000109", title: "Completar la revisión defensiva", type: "checkmark" }]
+			title: "Antes de la noche"
+			x: 4.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2700000000000102", "2710000000000105"]
+			description: ["Traza caminos seguros y reconoce los alrededores antes de alejarte del asentamiento."]
+			icon: { id: "minecraft:compass" }
+			id: "2710000000000108"
+			tasks: [{
+				id: "271B000000000110"
+				item: { Count: 1b, id: "minecraft:compass" }
+				title: "Preparar una brújula"
+				type: "item"
+			}]
+			title: "Reconocer el territorio"
+			x: 4.0d
+			y: 2.0d
+		}
+		{
+			dependencies: ["2710000000000106", "2710000000000107", "2710000000000108"]
+			description: [
+				"Has completado la base de la Era I."
+				"La expansión continúa cuando la campaña alcance el Día 7 y el equipo complete su siguiente hito."
+			]
+			icon: { id: "minecraft:map" }
+			id: "2700000000000104"
+			shape: "octagon"
+			size: 1.45d
+			rewards: [
+				{
+					command: "/experience add @s 2 levels"
+					elevate_perms: true
+					id: "271A000000000104"
+					silent: true
+					title: "Experiencia de supervivencia"
+					type: "command"
+				}
+				{
+					count: 3
+					id: "281C000000000103"
+					item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+					type: "item"
+				}
+			]
+			tasks: [{ id: "27B0000000000104", title: "Completar la Era I principal", type: "checkmark" }]
+			title: "Horizontes nuevos"
+			x: 6.0d
+			y: 0.0d
+		}
+	]
+	title: "01 — Era I: Supervivencia"
+}

@@ -16,13 +16,14 @@ Las restricciones representativas ya existentes no se amplían en este pack. Una
 - Global/multiclase: armas vanilla básicas, herramientas y drops de boss hasta decidir su identidad.
 - Pendiente: separar skillbooks por habilidad/NBT y medir armas únicas para Era III/IV.
 
-## Mago y Arcanista
+## Mago, Arcanista y Metalomante
 
 - Mago continúa siendo la clase principal.
-- Arcanista será la especialización de Iron's Spells, no una cuarta clase.
-- Exclusivo propuesto: uso de grimorios, scrolls, runas, staffs, armaduras y curios mágicos según era.
+- Arcanista y Metalomante son especializaciones mutuamente excluyentes; ninguna sustituye `nexus_class_mage`.
+- Arcanista usa `nexus_specialization_arcanist` y aplica `Mage AND Arcanist` a las 91 entradas inequívocas de Iron's Spells ya clasificadas.
+- Metalomante conserva el ID interno `metallurgist` y usa `nexus_specialization_metallurgist`.
 - Global: materiales, inks, loot, almacenamiento y estaciones compartidas cuando no otorguen poder exclusivo por sí solas.
-- Pendiente: stage/selector de Arcanista y clasificación NBT de scrolls.
+- Pendiente: clasificación NBT de scrolls y la UI futura de selección.
 
 ## Pistolero
 
@@ -30,13 +31,14 @@ Las restricciones representativas ya existentes no se amplían en este pack. Una
 - Global: pickup, loot, almacenamiento y movimiento de munición/componentes.
 - Pendiente: validar filtrado NBT de History Stages para no bloquear `tacz:modern_kinetic_gun`, `tacz:ammo` o `tacz:attachment` completos.
 
-## Especialización Metalomante
+## Especializaciones de Mago
 
-| Clase base | Especialización | Stage adicional existente | Era mínima | Estado |
+| Clase base | Especialización | Stage adicional | Era mínima | Estado |
 | --- | --- | --- | ---: | --- |
-| Mago | Metalomante (`metallurgist`) | `nexus_specialization_metallurgist` | III | Base reservada; Allomancy no integrado ni clasificado |
+| Mago | Arcanista (`arcanist`) | `nexus_specialization_arcanist` | I | Implementada; contenido Iron's Spells inequívoco requiere Mage AND Arcanist |
+| Mago | Metalomante (`metallurgist`) | `nexus_specialization_metallurgist` | III | Arquitectura implementada; Allomancy no integrado ni clasificado |
 
-Metalomante conserva `nexus_class_mage` y nunca sustituye la clase principal. No se renombra el ID interno ni se asignan metales/objetos en esta fase.
+Solo puede existir uno de estos stages a la vez. Warrior, Gunslinger y los jugadores sin clase conservan cero especializaciones de Mago.
 
 ## Contenido global y multiclase
 
@@ -48,8 +50,8 @@ Metalomante conserva `nexus_class_mage` y nunca sustituye la clase principal. No
 
 ## Decisiones aún necesarias
 
-1. Crear la arquitectura definitiva de Arcanista.
-2. Validar filtros NBT para TaCZ, scrolls y skillbooks.
-3. Medir armas únicas, relics y drops de boss individualmente.
-4. Decidir la afinidad de Familiars.
-5. Integrar el mod definitivo de Allomancy antes de clasificar Metalomante.
+1. Validar filtros NBT para TaCZ, scrolls y skillbooks.
+2. Medir armas únicas, relics y drops de boss individualmente.
+3. Decidir la afinidad de Familiars.
+4. Integrar el mod definitivo de Allomancy antes de clasificar Metalomante.
+5. Conectar la futura UI FancyMenu a los comandos de selección ya preparados.

@@ -1,0 +1,129 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "hexagon"
+	filename: "clase_mago"
+	group: "4E5850474C4F4241"
+	icon: { id: "irons_spellbooks:arcane_essence" }
+	id: "4E58434C41534D47"
+	images: [
+		{ alpha: 170, color: 1315862, height: 5.0d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 9.0d, x: 3.0d, y: 0.0d }
+		{ alpha: 200, color: 9055202, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 4.5d, x: 0.75d, y: -2.45d }
+		{ alpha: 185, color: 4286945, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -89, width: 4.5d, x: 5.25d, y: -2.45d }
+	]
+	order_index: 6
+	quest_links: [
+		{
+			id: "2720000000001101"
+			linked_quest: "2700000000001201"
+			shape: "diamond"
+			size: 1.25d
+			x: 8.0d
+			y: -1.25d
+		}
+		{
+			id: "2720000000001102"
+			linked_quest: "4E584D4554513031"
+			shape: "gear"
+			size: 1.25d
+			x: 8.0d
+			y: 1.25d
+		}
+	]
+	subtitle: ["Conocimiento común antes de escoger una senda."]
+	quests: [
+		{
+			dependencies: ["2700000000000003"]
+			description: ["Sigue esta rama si elegiste Mago. La formación inicial es común antes de elegir especialización."]
+			icon: { id: "irons_spellbooks:arcane_essence" }
+			id: "2700000000001101"
+			shape: "hexagon"
+			size: 1.3d
+			tasks: [{ id: "27B0000000001101", title: "Confirmar la senda del Mago", type: "checkmark" }]
+			title: "El despertar arcano"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2700000000001101", "4E58504552413031"]
+			description: ["Reúne la esencia que sostiene la magia sin exigir todavía un grimorio exclusivo de Arcanista."]
+			icon: { id: "irons_spellbooks:arcane_essence" }
+			id: "2700000000001102"
+			tasks: [{
+				count: 8L
+				id: "27B0000000001102"
+				item: { Count: 1b, id: "irons_spellbooks:arcane_essence" }
+				title: "Reunir 8 esencias arcanas"
+				type: "item"
+			}]
+			title: "Materia arcana"
+			x: 2.0d
+			y: -1.0d
+		}
+		{
+			dependencies: ["2700000000001101", "4E58504552413031"]
+			description: ["Prepara tinta común para inscribir conocimiento sin adelantar objetos de especialización."]
+			icon: { id: "irons_spellbooks:common_ink" }
+			id: "2710000000001105"
+			tasks: [{
+				count: 2L
+				id: "271B000000001105"
+				item: { Count: 1b, id: "irons_spellbooks:common_ink" }
+				title: "Preparar 2 tintas comunes"
+				type: "item"
+			}]
+			title: "Tinta y disciplina"
+			x: 2.0d
+			y: 1.0d
+		}
+		{
+			dependencies: ["2700000000001102", "2710000000001105", "4E58504552413032"]
+			description: ["Construye el espacio de estudio que compartirán ambas sendas mágicas."]
+			icon: { id: "irons_spellbooks:inscription_table" }
+			id: "2700000000001103"
+			rewards: [{
+				count: 8
+				id: "281C000000001101"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [
+				{
+					id: "27B0000000001103"
+					item: { Count: 1b, id: "irons_spellbooks:inscription_table" }
+					title: "Construir una mesa de inscripción"
+					type: "item"
+				}
+				{
+					id: "271B000000001106"
+					item: { Count: 1b, id: "irons_spellbooks:scroll_forge" }
+					title: "Construir una forja de pergaminos"
+					type: "item"
+				}
+			]
+			title: "Taller del Mago"
+			x: 4.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2700000000001103", "4E58504552413033"]
+			description: [
+				"En Era III llega la decisión: Arcanista o Metalomante."
+				"Arcanista profundiza en Iron's Spells; Metalomante exige completar La Senda del Metal."
+			]
+			icon: { id: "minecraft:amethyst_shard" }
+			id: "2700000000001104"
+			rewards: [{
+				id: "281C000000001102"
+				item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+				type: "item"
+			}]
+			shape: "diamond"
+			size: 1.5d
+			tasks: [{ id: "27B0000000001104", title: "Elegir una especialización", type: "checkmark" }]
+			title: "Dos sendas"
+			x: 6.0d
+			y: 0.0d
+		}
+	]
+	title: "Mago"
+}

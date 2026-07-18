@@ -1,0 +1,208 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "hexagon"
+	filename: "03_era_arcano_industrial"
+	group: "4E5850474C4F4241"
+	icon: { id: "create:precision_mechanism" }
+	id: "4E58303345524133"
+	images: [
+		{ alpha: 170, color: 1315862, height: 8.0d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 11.0d, x: 4.0d, y: -0.5d }
+		{ alpha: 195, color: 9055202, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 5.3d, x: 1.15d, y: -4.45d }
+		{ alpha: 195, color: 58879, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 5.3d, x: 6.85d, y: -4.45d }
+	]
+	order_index: 3
+	quest_links: []
+	subtitle: ["Runas, engranajes y sendas que empiezan a divergir."]
+	quests: [
+		{
+			dependencies: ["2700000000000204"]
+			description: [
+				"Solicita la Era Arcano-Industrial."
+				"Nexus esperará hasta el Día 14 si la campaña todavía no ha llegado."
+			]
+			icon: { id: "create:precision_mechanism" }
+			id: "4E58504552413033"
+			shape: "octagon"
+			size: 1.45d
+			rewards: [
+				{
+					command: "/nexus_era request 3"
+					elevate_perms: true
+					id: "4E58505245573333"
+					silent: true
+					title: "Solicitar Era Arcano-Industrial"
+					type: "command"
+				}
+				{
+					count: 3
+					id: "281C000000000301"
+					item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+					type: "item"
+				}
+			]
+			tasks: [{
+				id: "4E58505441533333"
+				item: { Count: 1b, id: "minecraft:amethyst_shard" }
+				title: "Presentar un foco arcano"
+				type: "item"
+			}]
+			title: "Hito III — Arcano e Industria"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["4E58504552413033"]
+			description: ["Empieza una línea de producción comprensible antes de automatizar procesos completos."]
+			icon: { id: "create:mechanical_press" }
+			id: "2710000000000305"
+			shape: "gear"
+			tasks: [
+				{
+					id: "271B000000000305"
+					item: { Count: 1b, id: "create:mechanical_press" }
+					title: "Construir una prensa mecánica"
+					type: "item"
+				}
+				{
+					id: "271B000000000306"
+					item: { Count: 1b, id: "create:mechanical_mixer" }
+					title: "Construir un mezclador mecánico"
+					type: "item"
+				}
+			]
+			title: "Taller cinético"
+			x: 2.0d
+			y: -3.0d
+		}
+		{
+			dependencies: ["2710000000000305"]
+			description: ["Fabrica el componente que abre los ensamblajes más precisos de Create."]
+			icon: { id: "create:precision_mechanism" }
+			id: "2700000000000302"
+			shape: "gear"
+			tasks: [{
+				id: "27B0000000000302"
+				item: { Count: 1b, id: "create:precision_mechanism" }
+				title: "Fabricar un mecanismo de precisión"
+				type: "item"
+			}]
+			title: "Industria avanzada"
+			x: 4.0d
+			y: -3.0d
+		}
+		{
+			dependencies: ["2700000000000302"]
+			description: ["Integra movimiento, despliegue y manipulación sin convertir Create en contenido de una clase."]
+			icon: { id: "create:mechanical_arm" }
+			id: "2710000000000306"
+			shape: "gear"
+			tasks: [
+				{
+					id: "271B000000000307"
+					item: { Count: 1b, id: "create:deployer" }
+					title: "Construir un desplegador"
+					type: "item"
+				}
+				{
+					id: "271B000000000308"
+					item: { Count: 1b, id: "create:mechanical_arm" }
+					title: "Construir un brazo mecánico"
+					type: "item"
+				}
+			]
+			title: "Automatización coordinada"
+			x: 6.0d
+			y: -3.0d
+		}
+		{
+			dependencies: ["2700000000000302"]
+			description: ["Create Addition conecta la fuerza cinética con una infraestructura eléctrica verificable."]
+			icon: { id: "createaddition:electric_motor" }
+			id: "2710000000000307"
+			shape: "gear"
+			tasks: [
+				{
+					id: "271B000000000309"
+					item: { Count: 1b, id: "createaddition:electric_motor" }
+					title: "Construir un motor eléctrico"
+					type: "item"
+				}
+				{
+					id: "271B000000000310"
+					item: { Count: 1b, id: "createaddition:alternator" }
+					title: "Construir un alternador"
+					type: "item"
+				}
+			]
+			title: "Energía de transición"
+			x: 6.0d
+			y: -1.0d
+		}
+		{
+			dependencies: ["4E58504552413033"]
+			description: [
+				"Cada clase debe consolidar su identidad durante esta era."
+				"Los Magos, además, pueden elegir Arcanista o completar La Senda del Metal."
+			]
+			icon: { id: "minecraft:smithing_table" }
+			id: "2700000000000303"
+			rewards: [{
+				count: 15
+				id: "281C000000000302"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			shape: "diamond"
+			size: 1.2d
+			tasks: [{ id: "27B0000000000303", title: "Consolidar la senda de clase", type: "checkmark" }]
+			title: "Convergencia de disciplinas"
+			x: 2.0d
+			y: 1.0d
+		}
+		{
+			dependencies: ["2700000000000303"]
+			description: ["Prepara curación, rutas seguras y equipo de reemplazo antes de afrontar ruinas y bosses avanzados."]
+			icon: { id: "minecraft:golden_apple" }
+			id: "2710000000000308"
+			tasks: [{
+				count: 2L
+				id: "271B000000000311"
+				item: { Count: 1b, id: "minecraft:golden_apple" }
+				title: "Reservar 2 manzanas doradas"
+				type: "item"
+			}]
+			title: "Expedición de alto riesgo"
+			x: 4.0d
+			y: 1.0d
+		}
+		{
+			dependencies: ["2710000000000306", "2710000000000307", "2710000000000308"]
+			description: ["La industria, la clase y las expediciones están preparadas para el Día 21."]
+			icon: { id: "minecraft:nether_star" }
+			id: "2700000000000304"
+			shape: "octagon"
+			size: 1.5d
+			rewards: [
+				{
+					command: "/experience add @s 4 levels"
+					elevate_perms: true
+					id: "271A000000000304"
+					silent: true
+					title: "Experiencia arcano-industrial"
+					type: "command"
+				}
+				{
+					count: 5
+					id: "281C000000000303"
+					item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+					type: "item"
+				}
+			]
+			tasks: [{ id: "27B0000000000304", title: "Completar la Era III principal", type: "checkmark" }]
+			title: "Preparación del Nexus"
+			x: 8.0d
+			y: 0.0d
+		}
+	]
+	title: "03 — Era III: Arcano e Industria"
+}

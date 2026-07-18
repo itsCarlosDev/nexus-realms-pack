@@ -1,0 +1,3073 @@
+{
+  "version": "V6",
+  "data_version": 3465,
+  "audits": {
+    "base": {
+      "dimensions": [
+        181,
+        73,
+        151
+      ],
+      "volume": 1995163,
+      "non_air_blocks": 289338,
+      "palette_states": 129,
+      "out_of_bounds": [],
+      "invalid_registry_ids": [],
+      "invalid_blockstates": [],
+      "cut_structure_contacts": [],
+      "building_boundary_violations": [],
+      "unapproved_building_overlaps": [],
+      "building_clearances": [
+        {
+          "first": "West spice market",
+          "second": "West provisions market",
+          "clearance": 9.0,
+          "axis_gaps": [
+            0,
+            9
+          ]
+        },
+        {
+          "first": "East textile market",
+          "second": "East produce market",
+          "clearance": 9.0,
+          "axis_gaps": [
+            0,
+            9
+          ]
+        },
+        {
+          "first": "Metallurgist workshop",
+          "second": "Gunsmith armory",
+          "clearance": 10.0,
+          "axis_gaps": [
+            10,
+            0
+          ]
+        },
+        {
+          "first": "Nether arcane gateway",
+          "second": "West provisions market",
+          "clearance": 10.77,
+          "axis_gaps": [
+            4,
+            10
+          ]
+        },
+        {
+          "first": "Arcanist library",
+          "second": "Nether arcane gateway",
+          "clearance": 13.0,
+          "axis_gaps": [
+            13,
+            0
+          ]
+        },
+        {
+          "first": "Arcanist library",
+          "second": "West provisions market",
+          "clearance": 14.0,
+          "axis_gaps": [
+            0,
+            14
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "Waystone transit pavilion",
+          "clearance": 15.0,
+          "axis_gaps": [
+            15,
+            0
+          ]
+        },
+        {
+          "first": "Explorer lodge",
+          "second": "East textile market",
+          "clearance": 15.81,
+          "axis_gaps": [
+            5,
+            15
+          ]
+        },
+        {
+          "first": "Gunsmith armory",
+          "second": "East produce market",
+          "clearance": 15.81,
+          "axis_gaps": [
+            9,
+            13
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "West spice market",
+          "clearance": 18.03,
+          "axis_gaps": [
+            15,
+            10
+          ]
+        },
+        {
+          "first": "Arcanist observatory",
+          "second": "Metallurgist workshop",
+          "clearance": 19.0,
+          "axis_gaps": [
+            19,
+            0
+          ]
+        },
+        {
+          "first": "Metallurgist workshop",
+          "second": "East produce market",
+          "clearance": 20.0,
+          "axis_gaps": [
+            0,
+            20
+          ]
+        },
+        {
+          "first": "Arcanist observatory",
+          "second": "West provisions market",
+          "clearance": 20.59,
+          "axis_gaps": [
+            10,
+            18
+          ]
+        },
+        {
+          "first": "Waystone transit pavilion",
+          "second": "East textile market",
+          "clearance": 21.0,
+          "axis_gaps": [
+            0,
+            21
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "West spice market",
+          "clearance": 21.54,
+          "axis_gaps": [
+            8,
+            20
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "Warrior guildhall",
+          "clearance": 23.0,
+          "axis_gaps": [
+            23,
+            0
+          ]
+        },
+        {
+          "first": "Arcanist library",
+          "second": "Metallurgist workshop",
+          "clearance": 24.0,
+          "axis_gaps": [
+            24,
+            0
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "Explorer lodge",
+          "clearance": 24.41,
+          "axis_gaps": [
+            20,
+            14
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "Waystone transit pavilion",
+          "clearance": 28.0,
+          "axis_gaps": [
+            28,
+            0
+          ]
+        },
+        {
+          "first": "Arcanist observatory",
+          "second": "Nether arcane gateway",
+          "clearance": 29.0,
+          "axis_gaps": [
+            29,
+            0
+          ]
+        },
+        {
+          "first": "Nether arcane gateway",
+          "second": "West spice market",
+          "clearance": 30.27,
+          "axis_gaps": [
+            4,
+            30
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "West provisions market",
+          "clearance": 33.54,
+          "axis_gaps": [
+            15,
+            30
+          ]
+        },
+        {
+          "first": "Arcanist library",
+          "second": "West spice market",
+          "clearance": 34.0,
+          "axis_gaps": [
+            0,
+            34
+          ]
+        },
+        {
+          "first": "Gunsmith armory",
+          "second": "East textile market",
+          "clearance": 34.21,
+          "axis_gaps": [
+            9,
+            33
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "Explorer lodge",
+          "clearance": 34.79,
+          "axis_gaps": [
+            33,
+            11
+          ]
+        },
+        {
+          "first": "Explorer lodge",
+          "second": "East produce market",
+          "clearance": 35.36,
+          "axis_gaps": [
+            5,
+            35
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "Warrior guildhall",
+          "clearance": 36.0,
+          "axis_gaps": [
+            36,
+            0
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "Waystone transit pavilion",
+          "clearance": 36.0,
+          "axis_gaps": [
+            36,
+            0
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "Warrior training yard",
+          "clearance": 36.62,
+          "axis_gaps": [
+            30,
+            21
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "West spice market",
+          "clearance": 38.28,
+          "axis_gaps": [
+            13,
+            36
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "East textile market",
+          "clearance": 38.28,
+          "axis_gaps": [
+            13,
+            36
+          ]
+        },
+        {
+          "first": "Arcanist observatory",
+          "second": "East produce market",
+          "clearance": 38.47,
+          "axis_gaps": [
+            34,
+            18
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "Waystone transit pavilion",
+          "clearance": 38.64,
+          "axis_gaps": [
+            38,
+            7
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "West spice market",
+          "clearance": 39.0,
+          "axis_gaps": [
+            0,
+            39
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "East textile market",
+          "clearance": 39.0,
+          "axis_gaps": [
+            0,
+            39
+          ]
+        },
+        {
+          "first": "Arcanist observatory",
+          "second": "West spice market",
+          "clearance": 39.29,
+          "axis_gaps": [
+            10,
+            38
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "West spice market",
+          "clearance": 39.96,
+          "axis_gaps": [
+            21,
+            34
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "East textile market",
+          "clearance": 39.96,
+          "axis_gaps": [
+            21,
+            34
+          ]
+        },
+        {
+          "first": "Metallurgist workshop",
+          "second": "East textile market",
+          "clearance": 40.0,
+          "axis_gaps": [
+            0,
+            40
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "West provisions market",
+          "clearance": 40.79,
+          "axis_gaps": [
+            8,
+            40
+          ]
+        },
+        {
+          "first": "Waystone transit pavilion",
+          "second": "East produce market",
+          "clearance": 41.0,
+          "axis_gaps": [
+            0,
+            41
+          ]
+        },
+        {
+          "first": "Arcanist library",
+          "second": "East produce market",
+          "clearance": 41.44,
+          "axis_gaps": [
+            39,
+            14
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "Explorer lodge",
+          "clearance": 41.98,
+          "axis_gaps": [
+            41,
+            9
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "Warrior guildhall",
+          "clearance": 44.0,
+          "axis_gaps": [
+            44,
+            0
+          ]
+        },
+        {
+          "first": "Metallurgist workshop",
+          "second": "West provisions market",
+          "clearance": 46.52,
+          "axis_gaps": [
+            42,
+            20
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "Warrior training yard",
+          "clearance": 46.62,
+          "axis_gaps": [
+            43,
+            18
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "Warrior guildhall",
+          "clearance": 46.87,
+          "axis_gaps": [
+            46,
+            9
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "Explorer lodge",
+          "clearance": 49.24,
+          "axis_gaps": [
+            43,
+            24
+          ]
+        },
+        {
+          "first": "Arcanist observatory",
+          "second": "East textile market",
+          "clearance": 50.99,
+          "axis_gaps": [
+            34,
+            38
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "Nether arcane gateway",
+          "clearance": 51.0,
+          "axis_gaps": [
+            0,
+            51
+          ]
+        },
+        {
+          "first": "Arcanist library",
+          "second": "East textile market",
+          "clearance": 51.74,
+          "axis_gaps": [
+            39,
+            34
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "Warrior training yard",
+          "clearance": 53.45,
+          "axis_gaps": [
+            51,
+            16
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "West spice market",
+          "clearance": 54.13,
+          "axis_gaps": [
+            23,
+            49
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "East textile market",
+          "clearance": 54.13,
+          "axis_gaps": [
+            23,
+            49
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "Waystone transit pavilion",
+          "clearance": 57.0,
+          "axis_gaps": [
+            57,
+            0
+          ]
+        },
+        {
+          "first": "West spice market",
+          "second": "East textile market",
+          "clearance": 57.0,
+          "axis_gaps": [
+            57,
+            0
+          ]
+        },
+        {
+          "first": "West provisions market",
+          "second": "East produce market",
+          "clearance": 57.0,
+          "axis_gaps": [
+            57,
+            0
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "East textile market",
+          "clearance": 57.31,
+          "axis_gaps": [
+            42,
+            39
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "West spice market",
+          "clearance": 57.31,
+          "axis_gaps": [
+            42,
+            39
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "West provisions market",
+          "clearance": 57.49,
+          "axis_gaps": [
+            13,
+            56
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "East produce market",
+          "clearance": 57.49,
+          "axis_gaps": [
+            13,
+            56
+          ]
+        },
+        {
+          "first": "West spice market",
+          "second": "East produce market",
+          "clearance": 57.71,
+          "axis_gaps": [
+            57,
+            9
+          ]
+        },
+        {
+          "first": "West provisions market",
+          "second": "East textile market",
+          "clearance": 57.71,
+          "axis_gaps": [
+            57,
+            9
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "West provisions market",
+          "clearance": 57.94,
+          "axis_gaps": [
+            21,
+            54
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "East produce market",
+          "clearance": 57.94,
+          "axis_gaps": [
+            21,
+            54
+          ]
+        },
+        {
+          "first": "Arcanist observatory",
+          "second": "Gunsmith armory",
+          "clearance": 58.0,
+          "axis_gaps": [
+            58,
+            0
+          ]
+        },
+        {
+          "first": "Metallurgist workshop",
+          "second": "West spice market",
+          "clearance": 58.0,
+          "axis_gaps": [
+            42,
+            40
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "West provisions market",
+          "clearance": 59.0,
+          "axis_gaps": [
+            0,
+            59
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "East produce market",
+          "clearance": 59.0,
+          "axis_gaps": [
+            0,
+            59
+          ]
+        },
+        {
+          "first": "Explorer lodge",
+          "second": "Gunsmith armory",
+          "clearance": 59.0,
+          "axis_gaps": [
+            0,
+            59
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "Arcanist library",
+          "clearance": 60.01,
+          "axis_gaps": [
+            24,
+            55
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "Nether arcane gateway",
+          "clearance": 61.0,
+          "axis_gaps": [
+            0,
+            61
+          ]
+        },
+        {
+          "first": "Metallurgist workshop",
+          "second": "Nether arcane gateway",
+          "clearance": 61.0,
+          "axis_gaps": [
+            61,
+            0
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "Warrior training yard",
+          "clearance": 61.4,
+          "axis_gaps": [
+            53,
+            31
+          ]
+        },
+        {
+          "first": "Arcanist library",
+          "second": "Gunsmith armory",
+          "clearance": 63.0,
+          "axis_gaps": [
+            63,
+            0
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "Explorer lodge",
+          "clearance": 63.56,
+          "axis_gaps": [
+            62,
+            14
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "Warrior guildhall",
+          "clearance": 65.0,
+          "axis_gaps": [
+            65,
+            0
+          ]
+        },
+        {
+          "first": "Waystone transit pavilion",
+          "second": "Gunsmith armory",
+          "clearance": 65.0,
+          "axis_gaps": [
+            0,
+            65
+          ]
+        },
+        {
+          "first": "Explorer lodge",
+          "second": "Metallurgist workshop",
+          "clearance": 66.27,
+          "axis_gaps": [
+            6,
+            66
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "Arcanist library",
+          "clearance": 67.19,
+          "axis_gaps": [
+            17,
+            65
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "Arcanist observatory",
+          "clearance": 71.28,
+          "axis_gaps": [
+            40,
+            59
+          ]
+        },
+        {
+          "first": "Waystone transit pavilion",
+          "second": "Metallurgist workshop",
+          "clearance": 72.01,
+          "axis_gaps": [
+            1,
+            72
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "East produce market",
+          "clearance": 72.42,
+          "axis_gaps": [
+            42,
+            59
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "West provisions market",
+          "clearance": 72.42,
+          "axis_gaps": [
+            42,
+            59
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "West provisions market",
+          "clearance": 72.73,
+          "axis_gaps": [
+            23,
+            69
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "East produce market",
+          "clearance": 72.73,
+          "axis_gaps": [
+            23,
+            69
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "Warrior training yard",
+          "clearance": 75.0,
+          "axis_gaps": [
+            72,
+            21
+          ]
+        },
+        {
+          "first": "Waystone transit pavilion",
+          "second": "West spice market",
+          "clearance": 75.0,
+          "axis_gaps": [
+            72,
+            21
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "Arcanist observatory",
+          "clearance": 76.49,
+          "axis_gaps": [
+            33,
+            69
+          ]
+        },
+        {
+          "first": "Nether arcane gateway",
+          "second": "East produce market",
+          "clearance": 76.66,
+          "axis_gaps": [
+            76,
+            10
+          ]
+        },
+        {
+          "first": "Explorer lodge",
+          "second": "West spice market",
+          "clearance": 78.45,
+          "axis_gaps": [
+            77,
+            15
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "Arcanist library",
+          "clearance": 79.06,
+          "axis_gaps": [
+            3,
+            79
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "Arcanist library",
+          "clearance": 81.0,
+          "axis_gaps": [
+            0,
+            81
+          ]
+        },
+        {
+          "first": "Nether arcane gateway",
+          "second": "East textile market",
+          "clearance": 81.71,
+          "axis_gaps": [
+            76,
+            30
+          ]
+        },
+        {
+          "first": "Gunsmith armory",
+          "second": "West provisions market",
+          "clearance": 82.04,
+          "axis_gaps": [
+            81,
+            13
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "Nether arcane gateway",
+          "clearance": 82.23,
+          "axis_gaps": [
+            19,
+            80
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "East textile market",
+          "clearance": 82.46,
+          "axis_gaps": [
+            80,
+            20
+          ]
+        },
+        {
+          "first": "Waystone transit pavilion",
+          "second": "West provisions market",
+          "clearance": 82.86,
+          "axis_gaps": [
+            72,
+            41
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "Arcanist observatory",
+          "clearance": 83.0,
+          "axis_gaps": [
+            0,
+            83
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "Nether arcane gateway",
+          "clearance": 83.38,
+          "axis_gaps": [
+            32,
+            77
+          ]
+        },
+        {
+          "first": "Explorer lodge",
+          "second": "Arcanist observatory",
+          "clearance": 83.74,
+          "axis_gaps": [
+            54,
+            64
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "Arcanist library",
+          "clearance": 84.0,
+          "axis_gaps": [
+            0,
+            84
+          ]
+        },
+        {
+          "first": "Explorer lodge",
+          "second": "Arcanist library",
+          "clearance": 84.15,
+          "axis_gaps": [
+            59,
+            60
+          ]
+        },
+        {
+          "first": "Explorer lodge",
+          "second": "West provisions market",
+          "clearance": 84.58,
+          "axis_gaps": [
+            77,
+            35
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "Arcanist observatory",
+          "clearance": 85.0,
+          "axis_gaps": [
+            0,
+            85
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "Nether arcane gateway",
+          "clearance": 85.0,
+          "axis_gaps": [
+            40,
+            75
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "Metallurgist workshop",
+          "clearance": 85.21,
+          "axis_gaps": [
+            6,
+            85
+          ]
+        },
+        {
+          "first": "Waystone transit pavilion",
+          "second": "Arcanist library",
+          "clearance": 85.28,
+          "axis_gaps": [
+            54,
+            66
+          ]
+        },
+        {
+          "first": "Waystone transit pavilion",
+          "second": "Arcanist observatory",
+          "clearance": 85.45,
+          "axis_gaps": [
+            49,
+            70
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "Gunsmith armory",
+          "clearance": 86.4,
+          "axis_gaps": [
+            24,
+            83
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "Metallurgist workshop",
+          "clearance": 87.0,
+          "axis_gaps": [
+            0,
+            87
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "Arcanist library",
+          "clearance": 87.36,
+          "axis_gaps": [
+            24,
+            84
+          ]
+        },
+        {
+          "first": "Gunsmith armory",
+          "second": "West spice market",
+          "clearance": 87.46,
+          "axis_gaps": [
+            81,
+            33
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "East textile market",
+          "clearance": 87.57,
+          "axis_gaps": [
+            87,
+            10
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "Arcanist observatory",
+          "clearance": 88.0,
+          "axis_gaps": [
+            0,
+            88
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "Gunsmith armory",
+          "clearance": 88.14,
+          "axis_gaps": [
+            37,
+            80
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "East produce market",
+          "clearance": 89.44,
+          "axis_gaps": [
+            80,
+            40
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "Metallurgist workshop",
+          "clearance": 90.0,
+          "axis_gaps": [
+            0,
+            90
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "Arcanist observatory",
+          "clearance": 90.03,
+          "axis_gaps": [
+            19,
+            88
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "Gunsmith armory",
+          "clearance": 90.05,
+          "axis_gaps": [
+            45,
+            78
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "East produce market",
+          "clearance": 92.03,
+          "axis_gaps": [
+            87,
+            30
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "Metallurgist workshop",
+          "clearance": 93.96,
+          "axis_gaps": [
+            27,
+            90
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "Arcanist library",
+          "clearance": 94.13,
+          "axis_gaps": [
+            5,
+            94
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "Metallurgist workshop",
+          "clearance": 94.37,
+          "axis_gaps": [
+            72,
+            61
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "Waystone transit pavilion",
+          "clearance": 95.0,
+          "axis_gaps": [
+            95,
+            0
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "Metallurgist workshop",
+          "clearance": 96.26,
+          "axis_gaps": [
+            65,
+            71
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "Arcanist observatory",
+          "clearance": 98.0,
+          "axis_gaps": [
+            0,
+            98
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "Nether arcane gateway",
+          "clearance": 99.32,
+          "axis_gaps": [
+            42,
+            90
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "Explorer lodge",
+          "clearance": 100.0,
+          "axis_gaps": [
+            100,
+            0
+          ]
+        },
+        {
+          "first": "Gunsmith armory",
+          "second": "Nether arcane gateway",
+          "clearance": 100.0,
+          "axis_gaps": [
+            100,
+            0
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "Metallurgist workshop",
+          "clearance": 100.32,
+          "axis_gaps": [
+            8,
+            100
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "Nether arcane gateway",
+          "clearance": 100.6,
+          "axis_gaps": [
+            61,
+            80
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "Waystone transit pavilion",
+          "clearance": 102.04,
+          "axis_gaps": [
+            102,
+            3
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "Gunsmith armory",
+          "clearance": 104.2,
+          "axis_gaps": [
+            47,
+            93
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "Gunsmith armory",
+          "clearance": 106.04,
+          "axis_gaps": [
+            66,
+            83
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "Explorer lodge",
+          "clearance": 107.0,
+          "axis_gaps": [
+            107,
+            0
+          ]
+        },
+        {
+          "first": "Waystone transit pavilion",
+          "second": "Nether arcane gateway",
+          "clearance": 110.11,
+          "axis_gaps": [
+            91,
+            62
+          ]
+        },
+        {
+          "first": "Explorer lodge",
+          "second": "Nether arcane gateway",
+          "clearance": 111.14,
+          "axis_gaps": [
+            96,
+            56
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "Gunsmith armory",
+          "clearance": 122.11,
+          "axis_gaps": [
+            104,
+            64
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "Gunsmith armory",
+          "clearance": 123.44,
+          "axis_gaps": [
+            111,
+            54
+          ]
+        }
+      ],
+      "minimum_unrelated_building_clearance": 9.0,
+      "highest_occupied_y": 35,
+      "block_entities": 0,
+      "entities": 0,
+      "mod_blocks": {
+        "create:brass_casing": 1,
+        "createdeco:andesite_support": 5,
+        "createdeco:blue_brass_lamp": 5,
+        "createdeco:blue_copper_lamp": 3,
+        "createdeco:brass_support": 21,
+        "createdeco:industrial_iron_sheet_metal": 78,
+        "createdeco:industrial_iron_support": 40
+      },
+      "component_count": 1,
+      "largest_component": 289338,
+      "floating_components": [],
+      "isolated_blocks": [],
+      "floating_create_blocks": [],
+      "roof_continuity": [
+        {
+          "name": "Town Hall central nave",
+          "cells": 682,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Town Hall west wing",
+          "cells": 240,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Town Hall east wing",
+          "cells": 240,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Town Hall entrance",
+          "cells": 135,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Town Hall clock tower",
+          "cells": 110,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Warrior guildhall",
+          "cells": 500,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Waystone transit pavilion",
+          "cells": 483,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Explorer lodge",
+          "cells": 240,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Arcanist library",
+          "cells": 552,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Arcanist observatory",
+          "cells": 182,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Metallurgist workshop",
+          "cells": 580,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Gunsmith armory",
+          "cells": 621,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "West spice market",
+          "cells": 165,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "West provisions market",
+          "cells": 165,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "East textile market",
+          "cells": 165,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "East produce market",
+          "cells": 165,
+          "missing": 0,
+          "samples": []
+        }
+      ],
+      "npc_clearance_issues": [],
+      "foundation_support_gaps": [],
+      "unsupported_contact_blocks": [],
+      "door_issues": [],
+      "town_hall_navigation_unreachable": [],
+      "road_cells": 5548,
+      "road_connected_cells": 5548,
+      "disconnected_road_anchors": [],
+      "nexus_building_clearance": {
+        "Town Hall central nave": 34.0,
+        "Town Hall west wing": 38.9,
+        "Town Hall east wing": 38.47,
+        "Town Hall entrance": 32.0,
+        "Town Hall clock tower": 47.0,
+        "Warrior guildhall": 48.37,
+        "Warrior training yard": 50.96,
+        "Waystone transit pavilion": 41.18,
+        "Explorer lodge": 43.32,
+        "Arcanist library": 29.41,
+        "Arcanist observatory": 32.25,
+        "Metallurgist workshop": 34.79,
+        "Gunsmith armory": 52.8,
+        "Nether arcane gateway": 46.87,
+        "West spice market": 19.0,
+        "West provisions market": 20.62,
+        "East textile market": 18.11,
+        "East produce market": 19.7
+      },
+      "minimum_nexus_building_clearance": 18.11
+    },
+    "overlay": {
+      "dimensions": [
+        181,
+        73,
+        151
+      ],
+      "volume": 1995163,
+      "non_air_blocks": 104,
+      "palette_states": 49,
+      "out_of_bounds": [],
+      "invalid_registry_ids": [],
+      "invalid_blockstates": [],
+      "cut_structure_contacts": [],
+      "building_boundary_violations": [],
+      "unapproved_building_overlaps": [],
+      "building_clearances": [],
+      "minimum_unrelated_building_clearance": null,
+      "highest_occupied_y": 17,
+      "block_entities": 0,
+      "entities": 0,
+      "mod_blocks": {
+        "decocraft:backpack_green": 3,
+        "decocraft:baguette_basket": 10,
+        "decocraft:barrel_apples_mix": 6,
+        "decocraft:barrel_carrots": 4,
+        "decocraft:crystal_ball": 2,
+        "decocraft:display_counter_bottom_oak": 3,
+        "decocraft:display_counter_top_pastries": 3,
+        "decocraft:filing_cabinet_spruce": 5,
+        "decocraft:fruit_cart": 5,
+        "decocraft:globe": 1,
+        "decocraft:globe_antique": 4,
+        "decocraft:grandfather_clock": 2,
+        "decocraft:hanging_armorer": 1,
+        "decocraft:hanging_camping": 1,
+        "decocraft:hanging_magic": 1,
+        "decocraft:hanging_produce": 8,
+        "decocraft:hanging_shield": 1,
+        "decocraft:hanging_swords": 1,
+        "decocraft:modular_desk_plank_spruce": 4,
+        "decocraft:office_chair_spruce": 4,
+        "decocraft:paper_lantern_1_cream": 4,
+        "decocraft:stained_glass_chandelier_embers_on": 5,
+        "decocraft:stained_glass_hanging_lamp_embers_on": 1,
+        "decocraft:stained_glass_sconce_embers_on": 10,
+        "decocraft:stained_glass_table_lamp_embers_on": 2,
+        "decocraft:trainingdummy": 3,
+        "decocraft:typewriter_black": 3,
+        "decocraft:vintage_cash_register": 4,
+        "decocraft:world_map": 3
+      },
+      "component_count": 98,
+      "largest_component": 2,
+      "floating_components": [],
+      "isolated_blocks": [],
+      "floating_create_blocks": [],
+      "roof_continuity": [],
+      "npc_clearance_issues": [],
+      "foundation_support_gaps": [],
+      "unsupported_contact_blocks": [],
+      "door_issues": [],
+      "town_hall_navigation_unreachable": [],
+      "road_cells": 0,
+      "road_connected_cells": 0,
+      "disconnected_road_anchors": [],
+      "nexus_building_clearance": {},
+      "minimum_nexus_building_clearance": null,
+      "base_collisions": [
+        {
+          "position": [
+            66,
+            17,
+            125
+          ],
+          "overlay": "decocraft:stained_glass_hanging_lamp_embers_on[facing=north]",
+          "base": "minecraft:soul_lantern[hanging=true,waterlogged=false]",
+          "base_role": "light"
+        },
+        {
+          "position": [
+            69,
+            17,
+            20
+          ],
+          "overlay": "decocraft:stained_glass_chandelier_embers_on[facing=north]",
+          "base": "minecraft:lantern[hanging=true,waterlogged=false]",
+          "base_role": "light"
+        },
+        {
+          "position": [
+            82,
+            17,
+            23
+          ],
+          "overlay": "decocraft:stained_glass_chandelier_embers_on[facing=north]",
+          "base": "minecraft:lantern[hanging=true,waterlogged=false]",
+          "base_role": "light"
+        },
+        {
+          "position": [
+            90,
+            17,
+            23
+          ],
+          "overlay": "decocraft:stained_glass_chandelier_embers_on[facing=north]",
+          "base": "minecraft:lantern[hanging=true,waterlogged=false]",
+          "base_role": "light"
+        },
+        {
+          "position": [
+            98,
+            17,
+            23
+          ],
+          "overlay": "decocraft:stained_glass_chandelier_embers_on[facing=north]",
+          "base": "minecraft:lantern[hanging=true,waterlogged=false]",
+          "base_role": "light"
+        },
+        {
+          "position": [
+            111,
+            17,
+            20
+          ],
+          "overlay": "decocraft:stained_glass_chandelier_embers_on[facing=north]",
+          "base": "minecraft:lantern[hanging=true,waterlogged=false]",
+          "base_role": "light"
+        }
+      ],
+      "unapproved_base_collisions": []
+    },
+    "combined": {
+      "dimensions": [
+        181,
+        73,
+        151
+      ],
+      "volume": 1995163,
+      "non_air_blocks": 289436,
+      "palette_states": 177,
+      "out_of_bounds": [],
+      "invalid_registry_ids": [],
+      "invalid_blockstates": [],
+      "cut_structure_contacts": [],
+      "building_boundary_violations": [],
+      "unapproved_building_overlaps": [],
+      "building_clearances": [
+        {
+          "first": "West spice market",
+          "second": "West provisions market",
+          "clearance": 9.0,
+          "axis_gaps": [
+            0,
+            9
+          ]
+        },
+        {
+          "first": "East textile market",
+          "second": "East produce market",
+          "clearance": 9.0,
+          "axis_gaps": [
+            0,
+            9
+          ]
+        },
+        {
+          "first": "Metallurgist workshop",
+          "second": "Gunsmith armory",
+          "clearance": 10.0,
+          "axis_gaps": [
+            10,
+            0
+          ]
+        },
+        {
+          "first": "Nether arcane gateway",
+          "second": "West provisions market",
+          "clearance": 10.77,
+          "axis_gaps": [
+            4,
+            10
+          ]
+        },
+        {
+          "first": "Arcanist library",
+          "second": "Nether arcane gateway",
+          "clearance": 13.0,
+          "axis_gaps": [
+            13,
+            0
+          ]
+        },
+        {
+          "first": "Arcanist library",
+          "second": "West provisions market",
+          "clearance": 14.0,
+          "axis_gaps": [
+            0,
+            14
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "Waystone transit pavilion",
+          "clearance": 15.0,
+          "axis_gaps": [
+            15,
+            0
+          ]
+        },
+        {
+          "first": "Explorer lodge",
+          "second": "East textile market",
+          "clearance": 15.81,
+          "axis_gaps": [
+            5,
+            15
+          ]
+        },
+        {
+          "first": "Gunsmith armory",
+          "second": "East produce market",
+          "clearance": 15.81,
+          "axis_gaps": [
+            9,
+            13
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "West spice market",
+          "clearance": 18.03,
+          "axis_gaps": [
+            15,
+            10
+          ]
+        },
+        {
+          "first": "Arcanist observatory",
+          "second": "Metallurgist workshop",
+          "clearance": 19.0,
+          "axis_gaps": [
+            19,
+            0
+          ]
+        },
+        {
+          "first": "Metallurgist workshop",
+          "second": "East produce market",
+          "clearance": 20.0,
+          "axis_gaps": [
+            0,
+            20
+          ]
+        },
+        {
+          "first": "Arcanist observatory",
+          "second": "West provisions market",
+          "clearance": 20.59,
+          "axis_gaps": [
+            10,
+            18
+          ]
+        },
+        {
+          "first": "Waystone transit pavilion",
+          "second": "East textile market",
+          "clearance": 21.0,
+          "axis_gaps": [
+            0,
+            21
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "West spice market",
+          "clearance": 21.54,
+          "axis_gaps": [
+            8,
+            20
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "Warrior guildhall",
+          "clearance": 23.0,
+          "axis_gaps": [
+            23,
+            0
+          ]
+        },
+        {
+          "first": "Arcanist library",
+          "second": "Metallurgist workshop",
+          "clearance": 24.0,
+          "axis_gaps": [
+            24,
+            0
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "Explorer lodge",
+          "clearance": 24.41,
+          "axis_gaps": [
+            20,
+            14
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "Waystone transit pavilion",
+          "clearance": 28.0,
+          "axis_gaps": [
+            28,
+            0
+          ]
+        },
+        {
+          "first": "Arcanist observatory",
+          "second": "Nether arcane gateway",
+          "clearance": 29.0,
+          "axis_gaps": [
+            29,
+            0
+          ]
+        },
+        {
+          "first": "Nether arcane gateway",
+          "second": "West spice market",
+          "clearance": 30.27,
+          "axis_gaps": [
+            4,
+            30
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "West provisions market",
+          "clearance": 33.54,
+          "axis_gaps": [
+            15,
+            30
+          ]
+        },
+        {
+          "first": "Arcanist library",
+          "second": "West spice market",
+          "clearance": 34.0,
+          "axis_gaps": [
+            0,
+            34
+          ]
+        },
+        {
+          "first": "Gunsmith armory",
+          "second": "East textile market",
+          "clearance": 34.21,
+          "axis_gaps": [
+            9,
+            33
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "Explorer lodge",
+          "clearance": 34.79,
+          "axis_gaps": [
+            33,
+            11
+          ]
+        },
+        {
+          "first": "Explorer lodge",
+          "second": "East produce market",
+          "clearance": 35.36,
+          "axis_gaps": [
+            5,
+            35
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "Warrior guildhall",
+          "clearance": 36.0,
+          "axis_gaps": [
+            36,
+            0
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "Waystone transit pavilion",
+          "clearance": 36.0,
+          "axis_gaps": [
+            36,
+            0
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "Warrior training yard",
+          "clearance": 36.62,
+          "axis_gaps": [
+            30,
+            21
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "West spice market",
+          "clearance": 38.28,
+          "axis_gaps": [
+            13,
+            36
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "East textile market",
+          "clearance": 38.28,
+          "axis_gaps": [
+            13,
+            36
+          ]
+        },
+        {
+          "first": "Arcanist observatory",
+          "second": "East produce market",
+          "clearance": 38.47,
+          "axis_gaps": [
+            34,
+            18
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "Waystone transit pavilion",
+          "clearance": 38.64,
+          "axis_gaps": [
+            38,
+            7
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "West spice market",
+          "clearance": 39.0,
+          "axis_gaps": [
+            0,
+            39
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "East textile market",
+          "clearance": 39.0,
+          "axis_gaps": [
+            0,
+            39
+          ]
+        },
+        {
+          "first": "Arcanist observatory",
+          "second": "West spice market",
+          "clearance": 39.29,
+          "axis_gaps": [
+            10,
+            38
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "West spice market",
+          "clearance": 39.96,
+          "axis_gaps": [
+            21,
+            34
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "East textile market",
+          "clearance": 39.96,
+          "axis_gaps": [
+            21,
+            34
+          ]
+        },
+        {
+          "first": "Metallurgist workshop",
+          "second": "East textile market",
+          "clearance": 40.0,
+          "axis_gaps": [
+            0,
+            40
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "West provisions market",
+          "clearance": 40.79,
+          "axis_gaps": [
+            8,
+            40
+          ]
+        },
+        {
+          "first": "Waystone transit pavilion",
+          "second": "East produce market",
+          "clearance": 41.0,
+          "axis_gaps": [
+            0,
+            41
+          ]
+        },
+        {
+          "first": "Arcanist library",
+          "second": "East produce market",
+          "clearance": 41.44,
+          "axis_gaps": [
+            39,
+            14
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "Explorer lodge",
+          "clearance": 41.98,
+          "axis_gaps": [
+            41,
+            9
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "Warrior guildhall",
+          "clearance": 44.0,
+          "axis_gaps": [
+            44,
+            0
+          ]
+        },
+        {
+          "first": "Metallurgist workshop",
+          "second": "West provisions market",
+          "clearance": 46.52,
+          "axis_gaps": [
+            42,
+            20
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "Warrior training yard",
+          "clearance": 46.62,
+          "axis_gaps": [
+            43,
+            18
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "Warrior guildhall",
+          "clearance": 46.87,
+          "axis_gaps": [
+            46,
+            9
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "Explorer lodge",
+          "clearance": 49.24,
+          "axis_gaps": [
+            43,
+            24
+          ]
+        },
+        {
+          "first": "Arcanist observatory",
+          "second": "East textile market",
+          "clearance": 50.99,
+          "axis_gaps": [
+            34,
+            38
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "Nether arcane gateway",
+          "clearance": 51.0,
+          "axis_gaps": [
+            0,
+            51
+          ]
+        },
+        {
+          "first": "Arcanist library",
+          "second": "East textile market",
+          "clearance": 51.74,
+          "axis_gaps": [
+            39,
+            34
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "Warrior training yard",
+          "clearance": 53.45,
+          "axis_gaps": [
+            51,
+            16
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "West spice market",
+          "clearance": 54.13,
+          "axis_gaps": [
+            23,
+            49
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "East textile market",
+          "clearance": 54.13,
+          "axis_gaps": [
+            23,
+            49
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "Waystone transit pavilion",
+          "clearance": 57.0,
+          "axis_gaps": [
+            57,
+            0
+          ]
+        },
+        {
+          "first": "West spice market",
+          "second": "East textile market",
+          "clearance": 57.0,
+          "axis_gaps": [
+            57,
+            0
+          ]
+        },
+        {
+          "first": "West provisions market",
+          "second": "East produce market",
+          "clearance": 57.0,
+          "axis_gaps": [
+            57,
+            0
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "East textile market",
+          "clearance": 57.31,
+          "axis_gaps": [
+            42,
+            39
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "West spice market",
+          "clearance": 57.31,
+          "axis_gaps": [
+            42,
+            39
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "West provisions market",
+          "clearance": 57.49,
+          "axis_gaps": [
+            13,
+            56
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "East produce market",
+          "clearance": 57.49,
+          "axis_gaps": [
+            13,
+            56
+          ]
+        },
+        {
+          "first": "West spice market",
+          "second": "East produce market",
+          "clearance": 57.71,
+          "axis_gaps": [
+            57,
+            9
+          ]
+        },
+        {
+          "first": "West provisions market",
+          "second": "East textile market",
+          "clearance": 57.71,
+          "axis_gaps": [
+            57,
+            9
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "West provisions market",
+          "clearance": 57.94,
+          "axis_gaps": [
+            21,
+            54
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "East produce market",
+          "clearance": 57.94,
+          "axis_gaps": [
+            21,
+            54
+          ]
+        },
+        {
+          "first": "Arcanist observatory",
+          "second": "Gunsmith armory",
+          "clearance": 58.0,
+          "axis_gaps": [
+            58,
+            0
+          ]
+        },
+        {
+          "first": "Metallurgist workshop",
+          "second": "West spice market",
+          "clearance": 58.0,
+          "axis_gaps": [
+            42,
+            40
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "West provisions market",
+          "clearance": 59.0,
+          "axis_gaps": [
+            0,
+            59
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "East produce market",
+          "clearance": 59.0,
+          "axis_gaps": [
+            0,
+            59
+          ]
+        },
+        {
+          "first": "Explorer lodge",
+          "second": "Gunsmith armory",
+          "clearance": 59.0,
+          "axis_gaps": [
+            0,
+            59
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "Arcanist library",
+          "clearance": 60.01,
+          "axis_gaps": [
+            24,
+            55
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "Nether arcane gateway",
+          "clearance": 61.0,
+          "axis_gaps": [
+            0,
+            61
+          ]
+        },
+        {
+          "first": "Metallurgist workshop",
+          "second": "Nether arcane gateway",
+          "clearance": 61.0,
+          "axis_gaps": [
+            61,
+            0
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "Warrior training yard",
+          "clearance": 61.4,
+          "axis_gaps": [
+            53,
+            31
+          ]
+        },
+        {
+          "first": "Arcanist library",
+          "second": "Gunsmith armory",
+          "clearance": 63.0,
+          "axis_gaps": [
+            63,
+            0
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "Explorer lodge",
+          "clearance": 63.56,
+          "axis_gaps": [
+            62,
+            14
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "Warrior guildhall",
+          "clearance": 65.0,
+          "axis_gaps": [
+            65,
+            0
+          ]
+        },
+        {
+          "first": "Waystone transit pavilion",
+          "second": "Gunsmith armory",
+          "clearance": 65.0,
+          "axis_gaps": [
+            0,
+            65
+          ]
+        },
+        {
+          "first": "Explorer lodge",
+          "second": "Metallurgist workshop",
+          "clearance": 66.27,
+          "axis_gaps": [
+            6,
+            66
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "Arcanist library",
+          "clearance": 67.19,
+          "axis_gaps": [
+            17,
+            65
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "Arcanist observatory",
+          "clearance": 71.28,
+          "axis_gaps": [
+            40,
+            59
+          ]
+        },
+        {
+          "first": "Waystone transit pavilion",
+          "second": "Metallurgist workshop",
+          "clearance": 72.01,
+          "axis_gaps": [
+            1,
+            72
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "East produce market",
+          "clearance": 72.42,
+          "axis_gaps": [
+            42,
+            59
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "West provisions market",
+          "clearance": 72.42,
+          "axis_gaps": [
+            42,
+            59
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "West provisions market",
+          "clearance": 72.73,
+          "axis_gaps": [
+            23,
+            69
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "East produce market",
+          "clearance": 72.73,
+          "axis_gaps": [
+            23,
+            69
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "Warrior training yard",
+          "clearance": 75.0,
+          "axis_gaps": [
+            72,
+            21
+          ]
+        },
+        {
+          "first": "Waystone transit pavilion",
+          "second": "West spice market",
+          "clearance": 75.0,
+          "axis_gaps": [
+            72,
+            21
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "Arcanist observatory",
+          "clearance": 76.49,
+          "axis_gaps": [
+            33,
+            69
+          ]
+        },
+        {
+          "first": "Nether arcane gateway",
+          "second": "East produce market",
+          "clearance": 76.66,
+          "axis_gaps": [
+            76,
+            10
+          ]
+        },
+        {
+          "first": "Explorer lodge",
+          "second": "West spice market",
+          "clearance": 78.45,
+          "axis_gaps": [
+            77,
+            15
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "Arcanist library",
+          "clearance": 79.06,
+          "axis_gaps": [
+            3,
+            79
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "Arcanist library",
+          "clearance": 81.0,
+          "axis_gaps": [
+            0,
+            81
+          ]
+        },
+        {
+          "first": "Nether arcane gateway",
+          "second": "East textile market",
+          "clearance": 81.71,
+          "axis_gaps": [
+            76,
+            30
+          ]
+        },
+        {
+          "first": "Gunsmith armory",
+          "second": "West provisions market",
+          "clearance": 82.04,
+          "axis_gaps": [
+            81,
+            13
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "Nether arcane gateway",
+          "clearance": 82.23,
+          "axis_gaps": [
+            19,
+            80
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "East textile market",
+          "clearance": 82.46,
+          "axis_gaps": [
+            80,
+            20
+          ]
+        },
+        {
+          "first": "Waystone transit pavilion",
+          "second": "West provisions market",
+          "clearance": 82.86,
+          "axis_gaps": [
+            72,
+            41
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "Arcanist observatory",
+          "clearance": 83.0,
+          "axis_gaps": [
+            0,
+            83
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "Nether arcane gateway",
+          "clearance": 83.38,
+          "axis_gaps": [
+            32,
+            77
+          ]
+        },
+        {
+          "first": "Explorer lodge",
+          "second": "Arcanist observatory",
+          "clearance": 83.74,
+          "axis_gaps": [
+            54,
+            64
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "Arcanist library",
+          "clearance": 84.0,
+          "axis_gaps": [
+            0,
+            84
+          ]
+        },
+        {
+          "first": "Explorer lodge",
+          "second": "Arcanist library",
+          "clearance": 84.15,
+          "axis_gaps": [
+            59,
+            60
+          ]
+        },
+        {
+          "first": "Explorer lodge",
+          "second": "West provisions market",
+          "clearance": 84.58,
+          "axis_gaps": [
+            77,
+            35
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "Arcanist observatory",
+          "clearance": 85.0,
+          "axis_gaps": [
+            0,
+            85
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "Nether arcane gateway",
+          "clearance": 85.0,
+          "axis_gaps": [
+            40,
+            75
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "Metallurgist workshop",
+          "clearance": 85.21,
+          "axis_gaps": [
+            6,
+            85
+          ]
+        },
+        {
+          "first": "Waystone transit pavilion",
+          "second": "Arcanist library",
+          "clearance": 85.28,
+          "axis_gaps": [
+            54,
+            66
+          ]
+        },
+        {
+          "first": "Waystone transit pavilion",
+          "second": "Arcanist observatory",
+          "clearance": 85.45,
+          "axis_gaps": [
+            49,
+            70
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "Gunsmith armory",
+          "clearance": 86.4,
+          "axis_gaps": [
+            24,
+            83
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "Metallurgist workshop",
+          "clearance": 87.0,
+          "axis_gaps": [
+            0,
+            87
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "Arcanist library",
+          "clearance": 87.36,
+          "axis_gaps": [
+            24,
+            84
+          ]
+        },
+        {
+          "first": "Gunsmith armory",
+          "second": "West spice market",
+          "clearance": 87.46,
+          "axis_gaps": [
+            81,
+            33
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "East textile market",
+          "clearance": 87.57,
+          "axis_gaps": [
+            87,
+            10
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "Arcanist observatory",
+          "clearance": 88.0,
+          "axis_gaps": [
+            0,
+            88
+          ]
+        },
+        {
+          "first": "Town Hall central nave",
+          "second": "Gunsmith armory",
+          "clearance": 88.14,
+          "axis_gaps": [
+            37,
+            80
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "East produce market",
+          "clearance": 89.44,
+          "axis_gaps": [
+            80,
+            40
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "Metallurgist workshop",
+          "clearance": 90.0,
+          "axis_gaps": [
+            0,
+            90
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "Arcanist observatory",
+          "clearance": 90.03,
+          "axis_gaps": [
+            19,
+            88
+          ]
+        },
+        {
+          "first": "Town Hall entrance",
+          "second": "Gunsmith armory",
+          "clearance": 90.05,
+          "axis_gaps": [
+            45,
+            78
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "East produce market",
+          "clearance": 92.03,
+          "axis_gaps": [
+            87,
+            30
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "Metallurgist workshop",
+          "clearance": 93.96,
+          "axis_gaps": [
+            27,
+            90
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "Arcanist library",
+          "clearance": 94.13,
+          "axis_gaps": [
+            5,
+            94
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "Metallurgist workshop",
+          "clearance": 94.37,
+          "axis_gaps": [
+            72,
+            61
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "Waystone transit pavilion",
+          "clearance": 95.0,
+          "axis_gaps": [
+            95,
+            0
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "Metallurgist workshop",
+          "clearance": 96.26,
+          "axis_gaps": [
+            65,
+            71
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "Arcanist observatory",
+          "clearance": 98.0,
+          "axis_gaps": [
+            0,
+            98
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "Nether arcane gateway",
+          "clearance": 99.32,
+          "axis_gaps": [
+            42,
+            90
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "Explorer lodge",
+          "clearance": 100.0,
+          "axis_gaps": [
+            100,
+            0
+          ]
+        },
+        {
+          "first": "Gunsmith armory",
+          "second": "Nether arcane gateway",
+          "clearance": 100.0,
+          "axis_gaps": [
+            100,
+            0
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "Metallurgist workshop",
+          "clearance": 100.32,
+          "axis_gaps": [
+            8,
+            100
+          ]
+        },
+        {
+          "first": "Town Hall east wing",
+          "second": "Nether arcane gateway",
+          "clearance": 100.6,
+          "axis_gaps": [
+            61,
+            80
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "Waystone transit pavilion",
+          "clearance": 102.04,
+          "axis_gaps": [
+            102,
+            3
+          ]
+        },
+        {
+          "first": "Town Hall clock tower",
+          "second": "Gunsmith armory",
+          "clearance": 104.2,
+          "axis_gaps": [
+            47,
+            93
+          ]
+        },
+        {
+          "first": "Town Hall west wing",
+          "second": "Gunsmith armory",
+          "clearance": 106.04,
+          "axis_gaps": [
+            66,
+            83
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "Explorer lodge",
+          "clearance": 107.0,
+          "axis_gaps": [
+            107,
+            0
+          ]
+        },
+        {
+          "first": "Waystone transit pavilion",
+          "second": "Nether arcane gateway",
+          "clearance": 110.11,
+          "axis_gaps": [
+            91,
+            62
+          ]
+        },
+        {
+          "first": "Explorer lodge",
+          "second": "Nether arcane gateway",
+          "clearance": 111.14,
+          "axis_gaps": [
+            96,
+            56
+          ]
+        },
+        {
+          "first": "Warrior guildhall",
+          "second": "Gunsmith armory",
+          "clearance": 122.11,
+          "axis_gaps": [
+            104,
+            64
+          ]
+        },
+        {
+          "first": "Warrior training yard",
+          "second": "Gunsmith armory",
+          "clearance": 123.44,
+          "axis_gaps": [
+            111,
+            54
+          ]
+        }
+      ],
+      "minimum_unrelated_building_clearance": 9.0,
+      "highest_occupied_y": 35,
+      "block_entities": 0,
+      "entities": 0,
+      "mod_blocks": {
+        "create:brass_casing": 1,
+        "createdeco:andesite_support": 5,
+        "createdeco:blue_brass_lamp": 5,
+        "createdeco:blue_copper_lamp": 3,
+        "createdeco:brass_support": 21,
+        "createdeco:industrial_iron_sheet_metal": 78,
+        "createdeco:industrial_iron_support": 40,
+        "decocraft:backpack_green": 3,
+        "decocraft:baguette_basket": 10,
+        "decocraft:barrel_apples_mix": 6,
+        "decocraft:barrel_carrots": 4,
+        "decocraft:crystal_ball": 2,
+        "decocraft:display_counter_bottom_oak": 3,
+        "decocraft:display_counter_top_pastries": 3,
+        "decocraft:filing_cabinet_spruce": 5,
+        "decocraft:fruit_cart": 5,
+        "decocraft:globe": 1,
+        "decocraft:globe_antique": 4,
+        "decocraft:grandfather_clock": 2,
+        "decocraft:hanging_armorer": 1,
+        "decocraft:hanging_camping": 1,
+        "decocraft:hanging_magic": 1,
+        "decocraft:hanging_produce": 8,
+        "decocraft:hanging_shield": 1,
+        "decocraft:hanging_swords": 1,
+        "decocraft:modular_desk_plank_spruce": 4,
+        "decocraft:office_chair_spruce": 4,
+        "decocraft:paper_lantern_1_cream": 4,
+        "decocraft:stained_glass_chandelier_embers_on": 5,
+        "decocraft:stained_glass_hanging_lamp_embers_on": 1,
+        "decocraft:stained_glass_sconce_embers_on": 10,
+        "decocraft:stained_glass_table_lamp_embers_on": 2,
+        "decocraft:trainingdummy": 3,
+        "decocraft:typewriter_black": 3,
+        "decocraft:vintage_cash_register": 4,
+        "decocraft:world_map": 3
+      },
+      "component_count": 1,
+      "largest_component": 289436,
+      "floating_components": [],
+      "isolated_blocks": [],
+      "floating_create_blocks": [],
+      "roof_continuity": [
+        {
+          "name": "Town Hall central nave",
+          "cells": 682,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Town Hall west wing",
+          "cells": 240,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Town Hall east wing",
+          "cells": 240,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Town Hall entrance",
+          "cells": 135,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Town Hall clock tower",
+          "cells": 110,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Warrior guildhall",
+          "cells": 500,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Waystone transit pavilion",
+          "cells": 483,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Explorer lodge",
+          "cells": 240,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Arcanist library",
+          "cells": 552,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Arcanist observatory",
+          "cells": 182,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Metallurgist workshop",
+          "cells": 580,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "Gunsmith armory",
+          "cells": 621,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "West spice market",
+          "cells": 165,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "West provisions market",
+          "cells": 165,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "East textile market",
+          "cells": 165,
+          "missing": 0,
+          "samples": []
+        },
+        {
+          "name": "East produce market",
+          "cells": 165,
+          "missing": 0,
+          "samples": []
+        }
+      ],
+      "npc_clearance_issues": [],
+      "foundation_support_gaps": [],
+      "unsupported_contact_blocks": [],
+      "door_issues": [],
+      "town_hall_navigation_unreachable": [],
+      "road_cells": 5548,
+      "road_connected_cells": 5548,
+      "disconnected_road_anchors": [],
+      "nexus_building_clearance": {
+        "Town Hall central nave": 34.0,
+        "Town Hall west wing": 38.9,
+        "Town Hall east wing": 38.47,
+        "Town Hall entrance": 32.0,
+        "Town Hall clock tower": 47.0,
+        "Warrior guildhall": 48.37,
+        "Warrior training yard": 50.96,
+        "Waystone transit pavilion": 41.18,
+        "Explorer lodge": 43.32,
+        "Arcanist library": 29.41,
+        "Arcanist observatory": 32.25,
+        "Metallurgist workshop": 34.79,
+        "Gunsmith armory": 52.8,
+        "Nether arcane gateway": 46.87,
+        "West spice market": 19.0,
+        "West provisions market": 20.62,
+        "East textile market": 18.11,
+        "East produce market": 19.7
+      },
+      "minimum_nexus_building_clearance": 18.11
+    }
+  },
+  "serialized": [
+    {
+      "file": "nexus_market_spawn_nexus_realms_v6_base.schem",
+      "bytes": 20893,
+      "sha256": "c77c0cc7c7d3ea9716b4db298ba7432b16fa8fdb2591c1719224dfe15f978ca8",
+      "gzip_nbt": true,
+      "data_version": 3465,
+      "palette": 129,
+      "block_data_indices": 1995163,
+      "non_air_blocks": 289338,
+      "block_entities": 0,
+      "entities": 0,
+      "errors": []
+    },
+    {
+      "file": "nexus_market_spawn_nexus_realms_v6_decocraft.schem",
+      "bytes": 3267,
+      "sha256": "43141f481f1d1948b853981c03f3dc49e346098d2479ca82e7cf6dcefe5807a0",
+      "gzip_nbt": true,
+      "data_version": 3465,
+      "palette": 49,
+      "block_data_indices": 1995163,
+      "non_air_blocks": 104,
+      "block_entities": 0,
+      "entities": 0,
+      "errors": []
+    },
+    {
+      "file": "nexus_market_spawn_nexus_realms_v6.schem",
+      "bytes": 23186,
+      "sha256": "a6811a17aefe9eeef021d5df153fe9ec3961986bdaad60afb1524c34e910a449",
+      "gzip_nbt": true,
+      "data_version": 3465,
+      "palette": 177,
+      "block_data_indices": 1995163,
+      "non_air_blocks": 289436,
+      "block_entities": 0,
+      "entities": 0,
+      "errors": []
+    }
+  ],
+  "v4_backup_hashes": {
+    "nexus_market_spawn_nexus_realms_v4.schem": "adfd40b53db4a543e32248541427449f52e102ebb920e88bc1cb7d4084de2b2c",
+    "nexus_market_spawn_nexus_realms_v4_base.schem": "a5e187bad7f36ae3f2b93dbdc86dfafe709f97248c23b6725806e1fc0cbaaadf",
+    "nexus_market_spawn_nexus_realms_v4_decocraft.schem": "7ca2becc6d968b6857f18922e7f9a60457b30a19bdbd73a808e87c9b68b2ed14"
+  },
+  "v5_backup_hashes": {
+    "nexus_market_spawn_nexus_realms_v5.schem": "b167b4c5639235e7942bf9b4a5f43bc045e02c53a88e0df0f1ae59d3db748db6",
+    "nexus_market_spawn_nexus_realms_v5_base.schem": "a66d7d4eb2b44ba913bff53f023c730a0d9c8e37be00f70033db820894214e2d",
+    "nexus_market_spawn_nexus_realms_v5_decocraft.schem": "4e0e92fb61fc4fb8b93e6796d0935c81b877c5147f0cdf997dc008a9f443f16c"
+  },
+  "waystone_insert_position": [
+    145,
+    14,
+    36
+  ],
+  "nexus_center": [
+    90,
+    75
+  ],
+  "ground_surface_y": 10
+}
