@@ -20,7 +20,7 @@ realms_persistence.json
 # Manual mod jars should not be committed unless there is a specific reason.
 # Prefer packwiz metadata from Modrinth/CurseForge.
 mods/*.jar
-!mods/nexus-core-0.5.0.jar
+!mods/nexus-core-0.6.0.jar
 
 # NexusCore local build output
 nexus-core/.gradle/

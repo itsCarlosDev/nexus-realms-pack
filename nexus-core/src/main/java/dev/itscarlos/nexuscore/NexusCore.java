@@ -18,6 +18,6 @@ public final class NexusCore {
         EraRegistry.load();
         ProgressionNetwork.register();
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ProgressionClientConfig.SPEC);
-        LOGGER.info("Nexus Core era progression and UI loaded.");
+        LOGGER.info("Nexus Core era progression, UI, and market protection loaded.");
     }
 }
