@@ -5,10 +5,10 @@
     created:1784332800000L,
     description:"Maestro Arcano: acceso a Mago y a la especialización Arcanista.",
     entityTypeId:"easy_npc:humanoid",
-    modified:1784332800000L,
+    modified:1784654018052L,
     name:"arcane_master",
     variantType:"PROFESSOR_01",
-    version:"1.0.0"
+    version:"1.1.0"
   },
   data:{
     ActionData:{ActionEventSet:{ON_INTERACTION:[{Type:"OPEN_DEFAULT_DIALOG"}]},ActionPermissionLevel:4},
@@ -45,7 +45,7 @@
         ],
         Label:"default",
         Name:"Estudio arcano",
-        Texts:[{Text:"Soy el Maestro Arcano. Enseño a escuchar el maná antes de intentar dominarlo. Puedo mostrarte la senda del Mago o los estudios del Arcanista."}]
+        Texts:[{Text:"El estudio todavía no está preparado para lecciones completas; hasta el maná necesita un espacio estable. Mientras tanto, consulta aquí la senda del Mago o los estudios del Arcanista."}]
       }],
       Type:"STANDARD"
     },
@@ -73,10 +73,9 @@
     Offers:{Inventory:{},Recipes:{Recipes:[]}},
     OnGround:1b,
     PersistenceRequired:1b,
-    PresetUUID:[I;932931457,-716092963,-1257768273,2099713004],
     Profession:"NONE",
     RenderData:{},
-    SkinData:{Content:"",DisableLayers:0b,Name:"PROFESSOR_01",Timestamp:1784332800000L,Type:"DEFAULT",URL:"",UUID:[I;0,0,0,0]},
+    SkinData:{Content:"",DisableLayers:0b,Name:"PROFESSOR_01",Timestamp:1784332800000L,Type:"DEFAULT",URL:""},
     SoundData:{SoundDataSet:[{Name:"minecraft:entity.player.death",Type:"DEATH"},{Name:"minecraft:entity.player.hurt",Type:"HURT"}]},
     Status:{finalized:1b},
     TradingData:{TradingDataSet:{LastReset:0L,MaxUses:0,ResetsEveryMin:0,RewardedXP:0,Type:"NONE"}},

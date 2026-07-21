@@ -1,6 +1,6 @@
 # Matriz de clases, stages y contenido
 
-La clase guardada en `player.persistentData.nexus_class` continúa siendo la fuente de verdad. History Stages 5.4.0 es el único motor previsto para enforcement. Esta actualización documenta la clasificación completa, pero no modifica stages ni gameplay.
+La clase guardada en `player.persistentData.nexus_class` continúa siendo la fuente de verdad. History Stages 5.4.0 es el único motor de restricciones. Pack 30.4 completa la cobertura de clase de los GunIds TaCZ locales sin cambiar sus estadísticas ni asignar nuevos tiers de Era.
 
 | Clase | Stage individual actual | Era I | Era II | Era III | Era IV |
 | --- | --- | --- | --- | --- | --- |
@@ -8,7 +8,7 @@ La clase guardada en `player.persistentData.nexus_class` continúa siendo la fue
 | Mago | `nexus_class_mage` | grimorios y estaciones iniciales | grimorios, runas, curios y armadura intermedia | grimorios/staffs/armaduras avanzados | legendary/netherite y endgame mágico |
 | Pistolero | `nexus_class_gunslinger` | pistolas/revólveres de servicio | SMG, escopetas, rifles básicos y accesorios | rifles, LMG y precisión avanzada | explosivos, antimaterial y armamento pesado |
 
-Las restricciones representativas ya existentes no se amplían en este pack. Una futura implementación debe combinar el stage de era y el stage individual sin listeners propios ni manipulación de inventarios.
+Las restricciones combinan el stage de Era y el stage individual sin listeners propios ni manipulación de inventarios. Los 40 GunIds ya clasificados conservan sus tiers actuales; los otros 14 reciben únicamente la exclusividad Pistolero hasta que una auditoría de balance determine su Era.
 
 ## Guerrero
 
@@ -27,16 +27,16 @@ Las restricciones representativas ya existentes no se amplían en este pack. Una
 
 ## Pistolero
 
-- Exclusivo propuesto: armas por `GunId`, accesorios relevantes y uso del arsenal TaCZ.
+- Exclusivo implementado: las 54 armas del pack TaCZ local por `GunId`; accesorios relevantes y su clasificación temporal siguen pendientes.
 - Global: pickup, loot, almacenamiento y movimiento de munición/componentes.
-- Pendiente: validar filtrado NBT de History Stages para no bloquear `tacz:modern_kinetic_gun`, `tacz:ammo` o `tacz:attachment` completos.
+- Pendiente: validar en runtime el filtrado NBT de History Stages y clasificar por Era los 14 GunIds locales que no pertenecían a los cuatro tiers existentes, sin bloquear `tacz:ammo` o `tacz:attachment` completos.
 
 ## Especializaciones de Mago
 
 | Clase base | Especialización | Stage adicional | Era mínima | Estado |
 | --- | --- | --- | ---: | --- |
 | Mago | Arcanista (`arcanist`) | `nexus_specialization_arcanist` | I | Implementada; contenido Iron's Spells inequívoco requiere Mage AND Arcanist |
-| Mago | Metalomante (`metallurgist`) | `nexus_specialization_metallurgist` | III | Arquitectura implementada; Allomancy no integrado ni clasificado |
+| Mago | Metalomante (`metallurgist`) | `nexus_specialization_metallurgist` | III | Implementada; Allomancy requiere Mage AND Metalomante y separa poderes básicos de Era III del avance Mistborn de Era IV |
 
 Solo puede existir uno de estos stages a la vez. Warrior, Gunslinger y los jugadores sin clase conservan cero especializaciones de Mago.
 
@@ -53,5 +53,5 @@ Solo puede existir uno de estos stages a la vez. Warrior, Gunslinger y los jugad
 1. Validar filtros NBT para TaCZ, scrolls y skillbooks.
 2. Medir armas únicas, relics y drops de boss individualmente.
 3. Decidir la afinidad de Familiars.
-4. Integrar el mod definitivo de Allomancy antes de clasificar Metalomante.
+4. Validar en runtime la progresión ya implementada de Allomancy y su revocación al cambiar de senda.
 5. Conectar la futura UI FancyMenu a los comandos de selección ya preparados.

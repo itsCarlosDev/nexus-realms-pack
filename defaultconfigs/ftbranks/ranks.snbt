@@ -1,0 +1,44 @@
+{
+  player: {
+    name: "PLAYER",
+    power: 1,
+    condition: "always_active"
+  },
+  moderator: {
+    name: "MODERATOR",
+    power: 50,
+    "ftbranks.name_format": "&8[&7MOD&8]&r {name}",
+    "command.kick": true
+  },
+  admin: {
+    name: "ADMIN",
+    power: 80,
+    "ftbranks.name_format": "&8[&3ADMIN&8]&r {name}",
+    "command.kick": true,
+    "command.ban": true,
+    "command.ban-ip": true,
+    "command.pardon": true,
+    "command.pardon-ip": true,
+    "command.whitelist": true,
+    "command.nexus_market": true,
+    "command.nexus_resetclass": true,
+    "command.nexus_resetclass_clean": true,
+    "command.nexus_era.set": true,
+    "command.nexus_era.advance": true,
+    "command.nexus_era.request": true,
+    "command.nexus_era.sync": true,
+    "command.nexus_campaign.start": true,
+    "command.nexus_campaign.pause": true,
+    "command.nexus_campaign.resume": true,
+    "command.nexus_campaign.restart": true,
+    "command.nexus_campaign.set_day": true,
+    "command.nexus_specialization.unlock": true
+  },
+  owner: {
+    name: "OWNER",
+    power: 100,
+    condition: "op",
+    "ftbranks.name_format": "&8[&5OWNER&8]&r {name}",
+    "command": true
+  }
+}

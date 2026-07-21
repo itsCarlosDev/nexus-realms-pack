@@ -15,7 +15,10 @@
 	quests: [
 		{
 			dependencies: ["4E58504552413031"]
-			description: ["La primera era comienza en el Día 1 tras completar la preparación."]
+			description: [
+				"La primera era comienza en el Día 1 tras completar la preparación."
+				"El Nexus aún no puede mantener conexiones entre reinos: durante esta Era, el Overworld es el único destino disponible."
+			]
 			icon: { id: "minecraft:iron_sword" }
 			id: "2700000000000101"
 			shape: "hexagon"

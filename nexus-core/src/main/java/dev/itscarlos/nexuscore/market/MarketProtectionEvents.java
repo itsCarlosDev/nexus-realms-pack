@@ -19,6 +19,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidUtil;
@@ -27,8 +28,12 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = NexusCore.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public final class MarketProtectionEvents {
     private static final Component PROTECTED_MESSAGE = Component.literal("Esta zona está protegida por el Nexus.");
+    private static final Component ENTER_MESSAGE = Component.literal("El Nexus protege esta zona.");
+    private static final Component EXIT_MESSAGE = Component.literal("Has abandonado la protección del Nexus.");
     private static final long MESSAGE_COOLDOWN_TICKS = 40L;
+    private static final int BOUNDARY_CHECK_INTERVAL_TICKS = 10;
     private static final Map<UUID, Long> LAST_MESSAGE_TICK = new HashMap<>();
+    private static final Map<UUID, Boolean> PLAYER_INSIDE_MARKET = new HashMap<>();
 
     private MarketProtectionEvents() {
     }
@@ -128,12 +133,43 @@ public final class MarketProtectionEvents {
 
     @SubscribeEvent
     public static void onLogout(PlayerEvent.PlayerLoggedOutEvent event) {
-        LAST_MESSAGE_TICK.remove(event.getEntity().getUUID());
+        UUID playerId = event.getEntity().getUUID();
+        LAST_MESSAGE_TICK.remove(playerId);
+        PLAYER_INSIDE_MARKET.remove(playerId);
+    }
+
+    @SubscribeEvent
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase != TickEvent.Phase.END
+            || !(event.player instanceof ServerPlayer player)
+            || player.tickCount % BOUNDARY_CHECK_INTERVAL_TICKS != 0) {
+            return;
+        }
+
+        ServerLevel level = player.serverLevel();
+        MarketProtectionData data = MarketProtectionData.get(level.getServer());
+        UUID playerId = player.getUUID();
+        if (!data.enabled()
+            || !data.isConfigured()
+            || data.dimension() == null
+            || !level.dimension().location().equals(data.dimension())) {
+            PLAYER_INSIDE_MARKET.remove(playerId);
+            return;
+        }
+
+        boolean inside = MarketProtection.isInsideProtectedMarket(level, player.blockPosition());
+        Boolean wasInside = PLAYER_INSIDE_MARKET.put(playerId, inside);
+        if (wasInside == null || wasInside == inside) {
+            return;
+        }
+
+        player.displayClientMessage(inside ? ENTER_MESSAGE : EXIT_MESSAGE, true);
     }
 
     @SubscribeEvent
     public static void onServerStopping(ServerStoppingEvent event) {
         LAST_MESSAGE_TICK.clear();
+        PLAYER_INSIDE_MARKET.clear();
     }
 
     private static boolean hasProtectedPlacement(ServerLevel level, BlockEvent.EntityPlaceEvent event) {

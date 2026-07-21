@@ -1,33 +1,96 @@
-// Nexus Realms - presentacion y control kill-gated para The Hordes.
-// Se carga en startup_scripts porque ForgeEvents registra listeners nativos al arrancar.
+// Nexus Realms - capa de presentacion para The Hordes.
+// The Hordes conserva el evento base, el spawning nativo y sus comandos finales.
+// Nexus Horde Director decide las transiciones kill-gated; este archivo solo las presenta.
 
-const NEXUS_HORDE_TOTAL_WAVES = 4
-const NEXUS_HORDE_INITIAL_WAVE_AMOUNT = 15
-const NEXUS_HORDE_PREPARATION_TICKS = 200
-const NEXUS_HORDE_SETTLE_TICKS = 20
-const NEXUS_HORDE_ZERO_CONFIRM_TICKS = 10
-const NEXUS_HORDE_NEXT_WAVE_DELAY = 200
-const NEXUS_HORDE_UPDATE_INTERVAL = 10
-const NEXUS_HORDE_FINAL_DISPLAY_TICKS = 80
-const NEXUS_HORDE_LOCATE_MAX_ENEMIES = 3
-const NEXUS_HORDE_LOCATE_DELAY_TICKS = 45 * 20
-const NEXUS_HORDE_GLOWING_DURATION_TICKS = 6 * 20
-const NEXUS_HORDE_GLOWING_REFRESH_TICKS = 4 * 20
+const NEXUS_HORDE_PRESENTATION_TOTAL_WAVES = 4
+const NEXUS_HORDE_PRESENTATION_PREPARATION_TICKS = 200
+const NEXUS_HORDE_PRESENTATION_UPDATE_INTERVAL = 5
+const NEXUS_HORDE_PRESENTATION_TREMOR_TICKS = 40
+const NEXUS_HORDE_PRESENTATION_TREMOR_PULSE_TICKS = 5
 
-const NexusHordeMobEffects = Java.loadClass('net.minecraft.world.effect.MobEffects')
+const NEXUS_HORDE_PRESENTATION_WARNING_PHASES = [
+  { id: 'early', threshold: 200, color: 'dark_purple' },
+  { id: 'middle', threshold: 120, color: 'gold' },
+  { id: 'immediate', threshold: 40, color: 'red' }
+]
 
-const nexusHordeStates = new Map()
-const nexusHordeLoggedCommandErrors = new Set()
-let nexusHordeServerTick = 0
+const NEXUS_HORDE_PRESENTATION_ERA_MESSAGES = {
+  1: {
+    early: [
+      'El Nexus despierta. Su pulso alcanza el otro lado.',
+      'Una vibración recorre el Nexus. Algo escucha tras el velo.'
+    ],
+    middle: [
+      'El pulso del Nexus se acelera. Preparaos.',
+      'El Nexus vuelve a latir. Algo ha respondido al otro lado.'
+    ],
+    immediate: [
+      'El velo se debilita. La horda está cerca.',
+      'El aire se desgarra alrededor del Nexus. Resistid.'
+    ]
+  },
+  2: {
+    early: [
+      'Las grietas del Nexus comienzan a abrirse.',
+      'El pulso del Nexus ensancha las grietas entre mundos.'
+    ],
+    middle: [
+      'Las grietas responden. Algo busca un camino hacia este mundo.',
+      'El Nexus vuelve a latir. La oscuridad se acerca.'
+    ],
+    immediate: [
+      'Las grietas se abren. La horda está a punto de cruzar.',
+      'El velo cede ante el Nexus. Preparaos para el impacto.'
+    ]
+  },
+  3: {
+    early: [
+      'La maquinaria de contención pierde estabilidad.',
+      'Los mecanismos del Nexus registran un pulso imposible.'
+    ],
+    middle: [
+      'Los anillos de contención ya no frenan al Nexus.',
+      'La contención se sobrecarga. Algo fuerza el paso.'
+    ],
+    immediate: [
+      'La contención ha fallado. El velo está cediendo.',
+      'El Nexus rompe sus límites. La horda va a atravesarlo.'
+    ]
+  },
+  4: {
+    early: [
+      'El Nexus responde directamente desde el otro lado.',
+      'Una voluntad remota ha encontrado el pulso del Nexus.'
+    ],
+    middle: [
+      'El Nexus ha llamado... y algo ha respondido.',
+      'El velo se curva ante la voluntad del Nexus.'
+    ],
+    immediate: [
+      'El velo se rompe. La respuesta ya está aquí.',
+      'El Nexus se abre. Lo que aguarda al otro lado avanza.'
+    ]
+  }
+}
 
-function nexusHordeLogCommandErrorOnce(key, message, error) {
-  if (nexusHordeLoggedCommandErrors.has(key)) return
-  nexusHordeLoggedCommandErrors.add(key)
+const NEXUS_HORDE_PRESENTATION_START_MESSAGES = [
+  'LA HORDA ATRAVIESA EL NEXUS',
+  'EL VELO CEDE: LA HORDA HA LLEGADO',
+  'EL NEXUS SE ABRE. LA HORDA IRRUMPE'
+]
+
+const nexusHordePresentationStates = new Map()
+const nexusHordePresentationLoggedErrors = new Set()
+let nexusHordePresentationServerTick = 0
+
+function nexusHordePresentationLogErrorOnce(key, message, error) {
+  if (nexusHordePresentationLoggedErrors.has(key)) return
+  nexusHordePresentationLoggedErrors.add(key)
   console.error(message)
   if (error) console.error(error)
 }
 
-function nexusHordeRunSilent(server, command) {
+function nexusHordePresentationRunSilent(server, command) {
   if (!server) return false
 
   try {
@@ -36,792 +99,516 @@ function nexusHordeRunSilent(server, command) {
       command
     ) > 0
   } catch (error) {
-    const commandType = String(command).split(' ').slice(0, 2).join(' ')
-    nexusHordeLogCommandErrorOnce(
-      `command:${commandType}:${String(error)}`,
-      `Nexus Realms Hordes: fallo al ejecutar '${commandType}'`,
+    var presentationCommandType = String(command).split(' ').slice(0, 2).join(' ')
+    nexusHordePresentationLogErrorOnce(
+      `command:${presentationCommandType}:${String(error)}`,
+      `Nexus Realms Hordes: fallo de presentacion al ejecutar '${presentationCommandType}'`,
       error
     )
     return false
   }
 }
 
-function nexusHordePlayerId(player) {
-  // En esta version local, player.uuid es la identificacion estable expuesta a KubeJS.
+function nexusHordePresentationPlayerId(player) {
   return String(player.uuid)
 }
 
-function nexusHordePlayerName(player) {
+function nexusHordePresentationPlayerName(player) {
   return String(player.getGameProfile().getName())
 }
 
-function nexusHordeIsDay(player) {
-  try {
-    return !!player.level.isDay()
-  } catch (error) {
-    nexusHordeLogCommandErrorOnce(
-      `day-check:${String(error)}`,
-      'Nexus Realms Hordes: fallo al comprobar el amanecer',
-      error
-    )
-    return false
-  }
+function nexusHordePresentationSafeId(value) {
+  return String(value).replace(/-/g, '')
 }
 
-function nexusHordeSafeId(uuid) {
-  return String(uuid).replace(/-/g, '')
+function nexusHordePresentationEntityId(entity) {
+  return String(entity.uuid)
 }
 
-function nexusHordeComponent(text, color, bold) {
+function nexusHordePresentationComponent(text, color, bold) {
   return JSON.stringify({
-    text: String(text),
+    text: text === undefined || text === null ? '' : String(text),
     color: color || 'white',
     italic: false,
     bold: Boolean(bold)
   })
 }
 
-function nexusHordeEntityId(entity) {
-  return String(entity.uuid)
+function nexusHordePresentationCurrentEra(server) {
+  var presentationEraData = server.persistentData
+  var presentationStoredEra = presentationEraData.contains('nexusEra')
+    ? Number(presentationEraData.getInt('nexusEra'))
+    : 1
+  return Math.max(1, Math.min(4, presentationStoredEra || 1))
 }
 
-function nexusHordeWorldDay(server) {
-  return Math.floor(Number(server.overworld.getDayTime()) / 24000)
+function nexusHordePresentationNarrativeIndex(state, phase, optionCount) {
+  var presentationNameHash = 0
+  var presentationSource = `${state.playerName}:${phase}`
+  for (var presentationIndex = 0; presentationIndex < presentationSource.length; presentationIndex++) {
+    presentationNameHash = (
+      presentationNameHash * 31 + presentationSource.charCodeAt(presentationIndex)
+    ) % 2147483647
+  }
+
+  return presentationNameHash % optionCount
 }
 
-function nexusHordeGlobalData(server) {
-  const data = server.persistentData
-  if (!data.contains('nexusHordeActive')) data.putBoolean('nexusHordeActive', false)
-  if (!data.contains('nexusHordeAnchorUUID')) data.putString('nexusHordeAnchorUUID', '')
-  if (!data.contains('nexusHordeScheduledDay')) data.putInt('nexusHordeScheduledDay', -1)
-  if (!data.contains('nexusHordeParticipantCount')) data.putInt('nexusHordeParticipantCount', 0)
-  if (!data.contains('nexusHordeStartConfirmed')) data.putBoolean('nexusHordeStartConfirmed', false)
-  return data
+function nexusHordePresentationSelectNarrative(state, phase, options) {
+  if (!options || options.length === 0) return ''
+  var presentationSelected = options[
+    nexusHordePresentationNarrativeIndex(state, phase, options.length)
+  ]
+  return presentationSelected === undefined || presentationSelected === null
+    ? ''
+    : String(presentationSelected)
 }
 
-function nexusHordeClearGlobalState(data) {
-  data.putBoolean('nexusHordeActive', false)
-  data.putString('nexusHordeAnchorUUID', '')
-  data.putInt('nexusHordeScheduledDay', -1)
-  data.putInt('nexusHordeParticipantCount', 0)
-  data.putBoolean('nexusHordeStartConfirmed', false)
+function nexusHordePresentationActionbar(player, text, color) {
+  var presentationServer = player.getServer()
+  var presentationName = nexusHordePresentationPlayerName(player)
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `title ${presentationName} actionbar ${nexusHordePresentationComponent(text, color, false)}`
+  )
 }
 
-function nexusHordeClaimGlobalStart(player) {
-  try {
-    const server = player.getServer()
-    const data = nexusHordeGlobalData(server)
-    const playerId = nexusHordePlayerId(player)
+function nexusHordePresentationBossbarRemove(state, server) {
+  nexusHordePresentationRunSilent(
+    server || state.player.getServer(),
+    `bossbar remove ${state.bossbarId}`
+  )
+}
 
-    if (data.getBoolean('nexusHordeActive')) {
-      if (data.getString('nexusHordeAnchorUUID') !== playerId) return false
-      if (data.getBoolean('nexusHordeStartConfirmed')) return false
-    } else {
-      data.putBoolean('nexusHordeActive', true)
-      data.putString('nexusHordeAnchorUUID', playerId)
-      data.putInt('nexusHordeScheduledDay', nexusHordeWorldDay(server))
-      data.putInt('nexusHordeParticipantCount', 1)
+function nexusHordePresentationBossbarCreate(state) {
+  var presentationServer = state.player.getServer()
+  nexusHordePresentationBossbarRemove(state, presentationServer)
+  var presentationCreated = nexusHordePresentationRunSilent(
+    presentationServer,
+    `bossbar add ${state.bossbarId} ${nexusHordePresentationComponent('☠ EL NEXUS SE ABRE EN 10 s', 'yellow', false)}`
+  )
+  state.bossbarAvailable = presentationCreated
+  if (!presentationCreated) return
+
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `bossbar set ${state.bossbarId} players ${state.playerName}`
+  )
+  nexusHordePresentationRunSilent(presentationServer, `bossbar set ${state.bossbarId} color yellow`)
+  nexusHordePresentationRunSilent(presentationServer, `bossbar set ${state.bossbarId} style progress`)
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `bossbar set ${state.bossbarId} max ${NEXUS_HORDE_PRESENTATION_PREPARATION_TICKS}`
+  )
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `bossbar set ${state.bossbarId} value ${NEXUS_HORDE_PRESENTATION_PREPARATION_TICKS}`
+  )
+  nexusHordePresentationRunSilent(presentationServer, `bossbar set ${state.bossbarId} visible true`)
+}
+
+function nexusHordePresentationBossbarCountdown(state, ticksRemaining) {
+  if (!state.bossbarAvailable) return
+  var presentationServer = state.player.getServer()
+  var presentationTicksLeft = Math.max(0, Number(ticksRemaining) || 0)
+  var presentationSecondsLeft = Math.max(1, Math.ceil(presentationTicksLeft / 20))
+  var presentationColor = presentationTicksLeft <= 60 ? 'red' : 'yellow'
+  var presentationText = `☠ EL NEXUS SE ABRE EN ${presentationSecondsLeft} s`
+
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `bossbar set ${state.bossbarId} name ${nexusHordePresentationComponent(presentationText, presentationColor, false)}`
+  )
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `bossbar set ${state.bossbarId} color ${presentationColor}`
+  )
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `bossbar set ${state.bossbarId} max ${NEXUS_HORDE_PRESENTATION_PREPARATION_TICKS}`
+  )
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `bossbar set ${state.bossbarId} value ${Math.min(NEXUS_HORDE_PRESENTATION_PREPARATION_TICKS, presentationTicksLeft)}`
+  )
+}
+
+function nexusHordePresentationBossbarWave(state) {
+  if (!state.bossbarAvailable) return
+  var presentationServer = state.player.getServer()
+  var presentationAlive = state.alive.size
+  var presentationMaximum = Math.max(1, state.expectedWaveSize, presentationAlive)
+  var presentationWaveLabel = state.currentWave >= state.totalWaves
+    ? 'OLEADA FINAL'
+    : `OLEADA ${state.currentWave}/${state.totalWaves}`
+  var presentationText = `☠ PULSO DEL NEXUS · ${presentationWaveLabel} · ${presentationAlive} ENEMIGOS`
+
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `bossbar set ${state.bossbarId} name ${nexusHordePresentationComponent(presentationText, 'red', false)}`
+  )
+  nexusHordePresentationRunSilent(presentationServer, `bossbar set ${state.bossbarId} color red`)
+  nexusHordePresentationRunSilent(presentationServer, `bossbar set ${state.bossbarId} style progress`)
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `bossbar set ${state.bossbarId} max ${presentationMaximum}`
+  )
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `bossbar set ${state.bossbarId} value ${Math.min(presentationMaximum, presentationAlive)}`
+  )
+}
+
+function nexusHordePresentationShowWarnings(state, ticksRemaining) {
+  var presentationEra = nexusHordePresentationCurrentEra(state.player.getServer())
+  var presentationEraMessages = NEXUS_HORDE_PRESENTATION_ERA_MESSAGES[presentationEra] ||
+    NEXUS_HORDE_PRESENTATION_ERA_MESSAGES[1]
+
+  NEXUS_HORDE_PRESENTATION_WARNING_PHASES.forEach(presentationPhase => {
+    if (
+      ticksRemaining > presentationPhase.threshold ||
+      state.warningPhasesShown.has(presentationPhase.id)
+    ) return
+
+    state.warningPhasesShown.add(presentationPhase.id)
+    nexusHordePresentationActionbar(
+      state.player,
+      nexusHordePresentationSelectNarrative(
+        state,
+        presentationPhase.id,
+        presentationEraMessages[presentationPhase.id]
+      ),
+      presentationPhase.color
+    )
+
+    if (presentationPhase.id === 'immediate') {
+      nexusHordePresentationRunSilent(
+        state.player.getServer(),
+        `playsound minecraft:block.respawn_anchor.deplete master ${state.playerName} ~ ~ ~ 0.8 0.7`
+      )
     }
-
-    data.putBoolean('nexusHordeStartConfirmed', true)
-    data.putInt('nexusLastHordeStartedDay', nexusHordeWorldDay(server))
-    return true
-  } catch (error) {
-    nexusHordeLogCommandErrorOnce(
-      `calendar-start:${String(error)}`,
-      'Nexus Realms Hordes: fallo al reservar la horda global',
-      error
-    )
-    return false
-  }
+  })
 }
 
-function nexusHordeIsGlobalAnchor(player) {
-  try {
-    const data = nexusHordeGlobalData(player.getServer())
-    return data.getBoolean('nexusHordeActive') &&
-      data.getString('nexusHordeAnchorUUID') === nexusHordePlayerId(player)
-  } catch (ignored) {
-    return false
-  }
+function nexusHordePresentationTremorPulse(state) {
+  if (
+    !state.tremorStarted ||
+    state.tremorEndsAt < 0 ||
+    nexusHordePresentationServerTick >= state.tremorEndsAt ||
+    nexusHordePresentationServerTick < state.nextTremorPulseAt
+  ) return
+
+  state.nextTremorPulseAt =
+    nexusHordePresentationServerTick + NEXUS_HORDE_PRESENTATION_TREMOR_PULSE_TICKS
+  var presentationServer = state.player.getServer()
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `execute at ${state.playerName} run particle minecraft:reverse_portal ~ ~1 ~ 1.25 0.55 1.25 0.035 10 force @a[distance=..64]`
+  )
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `execute at ${state.playerName} run particle minecraft:poof ~ ~0.1 ~ 1.4 0.15 1.4 0.02 6 force @a[distance=..64]`
+  )
 }
 
-function nexusHordeReprogramGlobal(server) {
-  try {
-    const data = nexusHordeGlobalData(server)
-    if (!data.getBoolean('nexusHordeActive')) return false
+function nexusHordePresentationStartTremor(state) {
+  if (state.tremorStarted) return
+  state.tremorStarted = true
+  state.tremorEndsAt =
+    nexusHordePresentationServerTick + NEXUS_HORDE_PRESENTATION_TREMOR_TICKS
+  state.nextTremorPulseAt = nexusHordePresentationServerTick
 
-    const era = data.contains('nexusEra') ? data.getInt('nexusEra') : 0
-    nexusHordeClearGlobalState(data)
-    data.putInt(
-      'nexusNextHordeDay',
-      era >= 1 ? Math.max(15, nexusHordeWorldDay(server) + 1) : -1
-    )
-    return true
-  } catch (error) {
-    nexusHordeLogCommandErrorOnce(
-      `calendar-reprogram:${String(error)}`,
-      'Nexus Realms Hordes: fallo al reprogramar la horda global',
-      error
-    )
-    return false
-  }
+  var presentationServer = state.player.getServer()
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `execute at ${state.playerName} run playsound minecraft:entity.warden.heartbeat master @a[distance=..48] ~ ~ ~ 0.9 0.65`
+  )
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `execute at ${state.playerName} run playsound minecraft:block.respawn_anchor.deplete master @a[distance=..48] ~ ~ ~ 0.7 0.55`
+  )
+  nexusHordePresentationTremorPulse(state)
 }
 
-function nexusHordeRecordCalendarCompletion(server, playerId) {
-  try {
-    const data = nexusHordeGlobalData(server)
-    if (!data.getBoolean('nexusHordeActive')) return false
-    if (data.getString('nexusHordeAnchorUUID') !== String(playerId)) return false
+function nexusHordePresentationShowStart(state) {
+  if (state.startPresented) return
+  state.startPresented = true
+  nexusHordePresentationStartTremor(state)
 
-    const completedDay = nexusHordeWorldDay(server)
-    data.putInt('nexusLastHordeCompletedDay', completedDay)
-    data.putInt('nexusNextHordeDay', completedDay + 10)
-    nexusHordeClearGlobalState(data)
-    return true
-  } catch (error) {
-    nexusHordeLogCommandErrorOnce(
-      `calendar-completion:${String(error)}`,
-      'Nexus Realms Hordes: fallo al guardar el calendario global de hordas',
-      error
-    )
-    return false
-  }
+  var presentationTitle = nexusHordePresentationSelectNarrative(
+    state,
+    'start',
+    NEXUS_HORDE_PRESENTATION_START_MESSAGES
+  )
+  var presentationServer = state.player.getServer()
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `title ${state.playerName} times 10 50 15`
+  )
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `title ${state.playerName} subtitle ${nexusHordePresentationComponent('El pulso ha rasgado el velo.', 'dark_purple', false)}`
+  )
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `title ${state.playerName} title ${nexusHordePresentationComponent(presentationTitle, 'red', true)}`
+  )
 }
 
-function nexusHordeCreateState(player) {
-  const playerId = nexusHordePlayerId(player)
+function nexusHordePresentationMarkWaveCleared(player) {
+  var presentationPlayerId = nexusHordePresentationPlayerId(player)
+  var presentationState = nexusHordePresentationStates.get(presentationPlayerId)
+  if (!presentationState || presentationState.waveClearPresented) return
+
+  presentationState.waveClearPresented = true
+  presentationState.alive.clear()
+  var presentationServer = player.getServer()
+  if (presentationState.bossbarAvailable) {
+    nexusHordePresentationRunSilent(
+      presentationServer,
+      `bossbar set ${presentationState.bossbarId} name ${nexusHordePresentationComponent('☠ PULSO DEL NEXUS · OLEADA SUPERADA', 'green', false)}`
+    )
+    nexusHordePresentationRunSilent(
+      presentationServer,
+      `bossbar set ${presentationState.bossbarId} color green`
+    )
+    nexusHordePresentationRunSilent(
+      presentationServer,
+      `bossbar set ${presentationState.bossbarId} max 1`
+    )
+    nexusHordePresentationRunSilent(
+      presentationServer,
+      `bossbar set ${presentationState.bossbarId} value 1`
+    )
+  }
+  nexusHordePresentationActionbar(player, 'OLEADA SUPERADA', 'green')
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `playsound minecraft:block.note_block.bell master ${presentationState.playerName} ~ ~ ~ 0.8 1.35`
+  )
+}
+
+function nexusHordePresentationShowVictory(player) {
+  var presentationPlayerId = nexusHordePresentationPlayerId(player)
+  var presentationState = nexusHordePresentationStates.get(presentationPlayerId)
+  if (!presentationState || presentationState.victoryPresented) return
+
+  presentationState.victoryPresented = true
+  var presentationServer = player.getServer()
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `title ${presentationState.playerName} times 10 70 20`
+  )
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `title ${presentationState.playerName} subtitle ${nexusHordePresentationComponent('La incursión ha sido contenida.', 'green', false)}`
+  )
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `title ${presentationState.playerName} title ${nexusHordePresentationComponent('EL NEXUS RESISTE', 'gold', true)}`
+  )
+  nexusHordePresentationActionbar(player, 'La Horda ha sido derrotada.', 'green')
+  nexusHordePresentationRunSilent(
+    presentationServer,
+    `playsound minecraft:ui.toast.challenge_complete master ${presentationState.playerName} ~ ~ ~ 1 1`
+  )
+}
+
+function nexusHordePresentationCreateState(player) {
+  var presentationPlayerId = nexusHordePresentationPlayerId(player)
   return {
     player: player,
-    horde: null,
-    playerId: playerId,
-    playerName: nexusHordePlayerName(player),
-    currentWave: 0,
-    totalWaves: NEXUS_HORDE_TOTAL_WAVES,
-    expectedWaveSize: NEXUS_HORDE_INITIAL_WAVE_AMOUNT,
-    savedActualWaveSize: NEXUS_HORDE_INITIAL_WAVE_AMOUNT,
-    alive: new Map(),
-    waveEntities: new Map(),
-    trackedEntities: new Map(),
-    waveStarted: false,
-    waveHadMob: false,
-    spawnSettled: false,
-    settleAt: -1,
-    zeroSince: -1,
-    nextWaveAt: -1,
-    preparing: true,
-    preparationStartedAt: nexusHordeServerTick,
-    firstWaveAt: nexusHordeServerTick + NEXUS_HORDE_PREPARATION_TICKS,
-    spawnFailed: false,
-    completed: false,
-    endedByDawn: false,
-    ending: false,
-    cleanupAt: -1,
-    modStopped: false,
-    waveClearPresented: false,
-    finalPresented: false,
-    locatorLastAliveCount: 0,
-    locatorLastProgressAt: nexusHordeServerTick,
-    locatorMessageShown: false,
-    locatorNextRefreshAt: -1,
-    locatedEntityIds: new Set(),
-    seenNight: false,
-    manuallySpawning: false,
+    playerId: presentationPlayerId,
+    playerName: nexusHordePresentationPlayerName(player),
+    bossbarId: `nexus:horde_${nexusHordePresentationSafeId(presentationPlayerId)}`,
     bossbarAvailable: false,
-    tag: `nexus_horde_${nexusHordeSafeId(playerId)}`,
-    bossbarId: `nexus:horde_${nexusHordeSafeId(playerId)}`
+    preparing: true,
+    preparationEndsAt: nexusHordePresentationServerTick + NEXUS_HORDE_PRESENTATION_PREPARATION_TICKS,
+    warningPhasesShown: new Set(),
+    startPresented: false,
+    tremorStarted: false,
+    tremorEndsAt: -1,
+    nextTremorPulseAt: -1,
+    currentWave: 0,
+    totalWaves: NEXUS_HORDE_PRESENTATION_TOTAL_WAVES,
+    expectedWaveSize: 1,
+    waveClearPresented: false,
+    victoryPresented: false,
+    alive: new Map()
   }
 }
 
-function nexusHordeBossbarRemove(state, server) {
-  nexusHordeRunSilent(server || state.player.getServer(), `bossbar remove ${state.bossbarId}`)
+function nexusHordePresentationCleanup(state, server) {
+  nexusHordePresentationBossbarRemove(state, server)
+  state.alive.clear()
+  nexusHordePresentationStates.delete(state.playerId)
 }
 
-function nexusHordeBossbarCreate(state) {
-  const server = state.player.getServer()
-  nexusHordeBossbarRemove(state, server)
-  const created = nexusHordeRunSilent(
-    server,
-    `bossbar add ${state.bossbarId} ${nexusHordeComponent('\u2620 LA HORDA LLEGA EN 10 s', 'yellow', false)}`
-  )
-  state.bossbarAvailable = created
-  if (!created) {
-    nexusHordeLogCommandErrorOnce(
-      `bossbar-create:${state.playerId}`,
-      `Nexus Realms Hordes: no se pudo crear la bossbar de ${state.playerName}`
-    )
-    return
-  }
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} players ${state.playerName}`)
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} color yellow`)
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} style progress`)
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} max ${NEXUS_HORDE_PREPARATION_TICKS}`)
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} value ${NEXUS_HORDE_PREPARATION_TICKS}`)
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} visible true`)
-}
-
-function nexusHordeBossbarUpdate(state) {
-  if (!state.bossbarAvailable) return
-  const server = state.player.getServer()
-  if (!server) return
-
-  const alive = state.alive.size
-  const max = Math.max(1, state.expectedWaveSize, alive)
-  const wave = Math.max(1, state.currentWave)
-  const name = state.currentWave >= state.totalWaves
-    ? `\u2620 OLEADA FINAL \u00B7 ${alive} RESTANTES`
-    : `\u2620 OLEADA ${wave}/${state.totalWaves} \u00B7 ${alive} RESTANTES`
-
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} name ${nexusHordeComponent(name, 'red', false)}`)
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} color red`)
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} style progress`)
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} max ${max}`)
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} value ${Math.min(max, alive)}`)
-}
-
-function nexusHordeBossbarCountdown(state, text, ticksRemaining, maxTicks) {
-  if (!state.bossbarAvailable) return
-  const server = state.player.getServer()
-  if (!server) return
-
-  const nexusTicksLeft = Math.max(0, Number(ticksRemaining) || 0)
-  const nexusBarMaximum = Math.max(1, Number(maxTicks) || 1)
-  const nexusSecondsLeft = Math.max(1, Math.ceil(nexusTicksLeft / 20))
-  const nexusBarColor = nexusTicksLeft <= 60 ? 'red' : 'yellow'
-  const nexusBarName = String(text).replace('{seconds}', String(nexusSecondsLeft))
-
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} name ${nexusHordeComponent(nexusBarName, nexusBarColor, false)}`)
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} color ${nexusBarColor}`)
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} style progress`)
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} max ${nexusBarMaximum}`)
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} value ${Math.min(nexusBarMaximum, nexusTicksLeft)}`)
-}
-
-function nexusHordeActionbar(player, text, color) {
-  const server = player.getServer()
-  const name = nexusHordePlayerName(player)
-  nexusHordeRunSilent(server, `title ${name} actionbar ${nexusHordeComponent(text, color, false)}`)
-}
-
-function nexusHordePresentFinal(state, text, color, sound) {
-  if (state.finalPresented) return
-  state.finalPresented = true
-
-  if (state.bossbarAvailable) {
-    const server = state.player.getServer()
-    nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} name ${nexusHordeComponent(text, color, false)}`)
-    nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} color ${color === 'gold' ? 'yellow' : color}`)
-    nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} style progress`)
-    nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} max 1`)
-    nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} value 1`)
-    nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} visible true`)
-  }
-
-  if (sound) {
-    nexusHordeRunSilent(
-      state.player.getServer(),
-      `playsound ${sound} master ${state.playerName} ~ ~ ~ 1 1`
-    )
-  }
-  nexusHordeActionbar(state.player, text, color)
-}
-
-function nexusHordeBossbarSpawnError(state) {
-  if (!state.bossbarAvailable) return
-  const server = state.player.getServer()
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} name ${nexusHordeComponent('\u2620 ERROR AL INICIAR LA OLEADA', 'red', false)}`)
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} color red`)
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} max 1`)
-  nexusHordeRunSilent(server, `bossbar set ${state.bossbarId} value 1`)
-}
-
-function nexusHordeRemoveLocatedEffect(state, entityId, entity) {
-  if (!state.locatedEntityIds.has(entityId)) return
-
-  try {
-    if (entity) entity.removeEffect(NexusHordeMobEffects.GLOWING)
-  } catch (ignored) {
-    // El efecto es temporal y expirara aunque la entidad este descargada.
-  }
-  state.locatedEntityIds.delete(entityId)
-}
-
-function nexusHordeClearLocatedEffects(state) {
-  const locatedIds = []
-  state.locatedEntityIds.forEach(entityId => locatedIds.push(entityId))
-  locatedIds.forEach(entityId => {
-    const entity = state.waveEntities.get(entityId) || state.trackedEntities.get(entityId)
-    nexusHordeRemoveLocatedEffect(state, entityId, entity)
+function nexusHordePresentationRemoveEntity(entity) {
+  var presentationEntityId = nexusHordePresentationEntityId(entity)
+  nexusHordePresentationStates.forEach(presentationState => {
+    presentationState.alive.delete(presentationEntityId)
   })
-  state.locatorNextRefreshAt = -1
 }
 
-function nexusHordeResetLocator(state) {
-  nexusHordeClearLocatedEffects(state)
-  state.locatorLastAliveCount = 0
-  state.locatorLastProgressAt = nexusHordeServerTick
-  state.locatorMessageShown = false
-}
-
-function nexusHordeApplyLocatedEffects(state) {
-  let applied = 0
-
-  state.waveEntities.forEach((entity, entityId) => {
-    if (!state.alive.has(entityId)) return
-
-    try {
-      // isRemoved() evita tocar referencias de chunks descargados sin descartarlas del conteo.
-      if (entity.isRemoved() || !entity.isAlive()) return
-      entity.potionEffects.add(
-        NexusHordeMobEffects.GLOWING,
-        NEXUS_HORDE_GLOWING_DURATION_TICKS,
+function nexusHordePresentationTickState(state) {
+  try {
+    if (state.preparing) {
+      var presentationRemaining = Math.max(
         0,
-        false,
-        false
+        state.preparationEndsAt - nexusHordePresentationServerTick
       )
-      state.locatedEntityIds.add(entityId)
-      applied += 1
-    } catch (error) {
-      nexusHordeLogCommandErrorOnce(
-        `locator-effect:${String(error)}`,
-        'Nexus Realms Hordes: fallo al remarcar un enemigo restante',
-        error
-      )
-    }
-  })
-
-  return applied
-}
-
-function nexusHordeUpdateLocator(state) {
-  if (state.preparing || !state.waveStarted || !state.spawnSettled || !state.waveHadMob) {
-    nexusHordeClearLocatedEffects(state)
-    return
-  }
-
-  const alive = state.alive.size
-
-  if (alive < state.locatorLastAliveCount) {
-    state.locatorLastAliveCount = alive
-    state.locatorLastProgressAt = nexusHordeServerTick
-    nexusHordeClearLocatedEffects(state)
-  } else if (alive > state.locatorLastAliveCount) {
-    state.locatorLastAliveCount = alive
-    state.locatorLastProgressAt = nexusHordeServerTick
-    nexusHordeClearLocatedEffects(state)
-  }
-
-  if (alive <= 0 || alive > NEXUS_HORDE_LOCATE_MAX_ENEMIES) {
-    nexusHordeClearLocatedEffects(state)
-    return
-  }
-
-  if (nexusHordeServerTick - state.locatorLastProgressAt < NEXUS_HORDE_LOCATE_DELAY_TICKS) {
-    nexusHordeClearLocatedEffects(state)
-    return
-  }
-
-  if (
-    state.locatorNextRefreshAt >= 0 &&
-    nexusHordeServerTick < state.locatorNextRefreshAt
-  ) return
-
-  const applied = nexusHordeApplyLocatedEffects(state)
-  state.locatorNextRefreshAt = nexusHordeServerTick + (
-    applied > 0 ? NEXUS_HORDE_GLOWING_REFRESH_TICKS : NEXUS_HORDE_UPDATE_INTERVAL
-  )
-
-  if (applied > 0 && !state.locatorMessageShown) {
-    state.locatorMessageShown = true
-    nexusHordeActionbar(state.player, 'Enemigos restantes localizados', 'yellow')
-  }
-}
-
-function nexusHordeRemoveEntityFromState(state, entity) {
-  const id = nexusHordeEntityId(entity)
-  nexusHordeRemoveLocatedEffect(state, id, entity)
-  state.alive.delete(id)
-}
-
-function nexusHordeRemoveTrackedEntity(entity) {
-  nexusHordeStates.forEach(state => {
-    const id = nexusHordeEntityId(entity)
-    if (state.alive.has(id)) {
-      nexusHordeRemoveLocatedEffect(state, id, entity)
-      state.alive.delete(id)
-    }
-  })
-}
-
-function nexusHordeCleanTags(state) {
-  state.trackedEntities.forEach(entity => {
-    try {
-      entity.removeTag(state.tag)
-    } catch (ignored) {
-      // La entidad puede haber sido descargada o eliminada definitivamente.
-    }
-  })
-  state.trackedEntities.clear()
-}
-
-function nexusHordeCleanupState(state, server) {
-  nexusHordeResetLocator(state)
-  nexusHordeBossbarRemove(state, server)
-  nexusHordeCleanTags(state)
-  state.alive.clear()
-  state.waveEntities.clear()
-  nexusHordeStates.delete(state.playerId)
-}
-
-function nexusHordeBeginWave(state, count) {
-  nexusHordeResetLocator(state)
-  state.waveStarted = true
-  state.waveHadMob = false
-  state.waveClearPresented = false
-  state.spawnSettled = false
-  state.expectedWaveSize = Math.max(1, Number(count) || 1)
-  state.alive.clear()
-  state.waveEntities.clear()
-  state.settleAt = nexusHordeServerTick + NEXUS_HORDE_SETTLE_TICKS
-  state.zeroSince = -1
-  state.nextWaveAt = -1
-}
-
-function nexusHordeSpawnNextWave(state, amount) {
-  if (
-    state.manuallySpawning ||
-    state.alive.size > 0 ||
-    state.completed ||
-    state.currentWave >= state.totalWaves ||
-    state.endedByDawn
-  ) return
-
-  if (nexusHordeIsDay(state.player)) return
-
-  const waveAmount = Math.max(1, Number(amount) || state.savedActualWaveSize)
-  state.manuallySpawning = true
-  state.preparing = false
-  state.waveStarted = false
-  state.spawnSettled = false
-  state.zeroSince = -1
-  state.nextWaveAt = -1
-
-  if (!nexusHordeRunSilent(state.player.getServer(), `hordes spawnWave ${state.playerName} ${waveAmount}`)) {
-    state.manuallySpawning = false
-    state.spawnFailed = true
-    nexusHordeBossbarSpawnError(state)
-  }
-}
-
-function nexusHordeComplete(state) {
-  if (state.completed) return
-  nexusHordeResetLocator(state)
-  state.completed = true
-  state.ending = true
-  state.nextWaveAt = -1
-  state.preparing = false
-  state.manuallySpawning = false
-  state.cleanupAt = nexusHordeServerTick + NEXUS_HORDE_FINAL_DISPLAY_TICKS
-  nexusHordeRecordCalendarCompletion(state.player.getServer(), state.playerId)
-  nexusHordePresentFinal(
-    state,
-    '\u2620 HAS SOBREVIVIDO A LA HORDA',
-    'green',
-    'minecraft:ui.toast.challenge_complete'
-  )
-  nexusHordeRunSilent(state.player.getServer(), `hordes stop ${state.playerName}`)
-}
-
-function nexusHordeScheduleNextWave(state) {
-  if (
-    state.completed ||
-    state.endedByDawn ||
-    state.currentWave >= state.totalWaves
-  ) return false
-
-  if (
-    state.nextWaveAt < 0 &&
-    nexusHordeServerTick - state.zeroSince >= NEXUS_HORDE_ZERO_CONFIRM_TICKS
-  ) {
-    state.nextWaveAt = nexusHordeServerTick + NEXUS_HORDE_NEXT_WAVE_DELAY
-    return true
-  }
-
-  return false
-}
-
-function nexusHordeTickStateUnsafe(state) {
-  const isDay = nexusHordeIsDay(state.player)
-
-  if (!isDay) state.seenNight = true
-  else if (state.seenNight && !state.endedByDawn && !state.completed) {
-    nexusHordeResetLocator(state)
-    state.endedByDawn = true
-    state.ending = true
-    state.preparing = false
-    state.firstWaveAt = -1
-    state.nextWaveAt = -1
-    state.manuallySpawning = false
-    state.cleanupAt = nexusHordeServerTick + NEXUS_HORDE_FINAL_DISPLAY_TICKS
-    nexusHordeReprogramGlobal(state.player.getServer())
-    nexusHordePresentFinal(
-      state,
-      '\u2600 EL AMANECER ROMPE EL ASEDIO',
-      'gold',
-      'minecraft:block.beacon.activate'
-    )
-    nexusHordeRunSilent(state.player.getServer(), `hordes stop ${state.playerName}`)
-    return
-  }
-
-  if (state.preparing) {
-    nexusHordeBossbarCountdown(
-      state,
-      '\u2620 LA HORDA LLEGA EN {seconds} s',
-      Math.max(0, state.firstWaveAt - nexusHordeServerTick),
-      NEXUS_HORDE_PREPARATION_TICKS
-    )
-
-    if (nexusHordeServerTick >= state.firstWaveAt && !state.manuallySpawning && !state.spawnFailed) {
-      state.preparing = false
-      state.firstWaveAt = -1
-      nexusHordeSpawnNextWave(state, NEXUS_HORDE_INITIAL_WAVE_AMOUNT)
-    }
-    return
-  }
-
-  state.alive.forEach((entity, id) => {
-    try {
-      if (!entity.isAlive()) state.alive.delete(id)
-    } catch (ignored) {
-      // Una entidad descargada sigue contando hasta morir o volver a cargarse.
-    }
-  })
-
-  if (state.waveStarted && !state.spawnSettled && nexusHordeServerTick >= state.settleAt) {
-    state.spawnSettled = true
-    state.expectedWaveSize = Math.max(1, state.waveEntities.size)
-    state.savedActualWaveSize = state.expectedWaveSize
-    state.locatorLastAliveCount = state.alive.size
-    state.locatorLastProgressAt = nexusHordeServerTick
-  }
-
-  nexusHordeUpdateLocator(state)
-
-  if (state.waveStarted) nexusHordeBossbarUpdate(state)
-
-  if (!state.waveStarted || !state.spawnSettled || !state.waveHadMob) return
-
-  if (state.alive.size > 0) {
-    state.zeroSince = -1
-    state.nextWaveAt = -1
-    return
-  }
-
-  if (state.currentWave >= state.totalWaves) {
-    nexusHordeComplete(state)
-    return
-  }
-
-  if (!state.waveClearPresented) {
-    nexusHordeResetLocator(state)
-    state.waveClearPresented = true
-    nexusHordeRunSilent(
-      state.player.getServer(),
-      `playsound minecraft:entity.experience_orb.pickup master ${state.playerName} ~ ~ ~ 1 1`
-    )
-    nexusHordeActionbar(state.player, '\u2620 OLEADA SUPERADA', 'green')
-  }
-
-  if (state.zeroSince < 0) state.zeroSince = nexusHordeServerTick
-
-  nexusHordeScheduleNextWave(state)
-
-  if (state.nextWaveAt >= 0 && nexusHordeServerTick >= state.nextWaveAt) {
-    nexusHordeSpawnNextWave(state, state.savedActualWaveSize)
-  } else if (state.nextWaveAt >= 0) {
-    nexusHordeBossbarCountdown(
-      state,
-      '\u2620 SIGUIENTE OLEADA EN {seconds} s',
-      state.nextWaveAt - nexusHordeServerTick,
-      NEXUS_HORDE_NEXT_WAVE_DELAY
-    )
-  }
-}
-
-function nexusHordeTickState(state) {
-  try {
-    if (state.ending) {
-      if (
-        state.cleanupAt >= 0 &&
-        nexusHordeServerTick >= state.cleanupAt
-      ) {
-        nexusHordeCleanupState(state, state.player.getServer())
-      }
+      nexusHordePresentationShowWarnings(state, presentationRemaining)
+      nexusHordePresentationBossbarCountdown(state, presentationRemaining)
       return
     }
 
-    nexusHordeTickStateUnsafe(state)
+    nexusHordePresentationTremorPulse(state)
+    state.alive.forEach((presentationEntity, presentationEntityId) => {
+      try {
+        if (!presentationEntity.isAlive()) state.alive.delete(presentationEntityId)
+      } catch (ignored) {
+        // Una referencia descargada no altera el ciclo funcional de The Hordes.
+      }
+    })
+    if (state.waveClearPresented) return
+    nexusHordePresentationBossbarWave(state)
   } catch (error) {
-    nexusHordeLogCommandErrorOnce(
+    nexusHordePresentationLogErrorOnce(
       `tick:${state.playerId}:${String(error)}`,
-      `Nexus Realms Hordes: fallo al actualizar la horda de ${state.playerName}`,
+      `Nexus Realms Hordes: fallo al actualizar la presentacion de ${state.playerName}`,
       error
     )
   }
 }
 
 ForgeEvents.onEvent('net.smileycorp.hordes.common.event.HordeStartEvent', event => {
-  const player = event.getPlayer()
-  if (!nexusHordeClaimGlobalStart(player)) {
-    nexusHordeRunSilent(player.getServer(), `hordes stop ${nexusHordePlayerName(player)}`)
-    return
+  var presentationStartPlayer = event.getPlayer()
+  var presentationStartPlayerId = nexusHordePresentationPlayerId(presentationStartPlayer)
+  var presentationPreviousState = nexusHordePresentationStates.get(presentationStartPlayerId)
+  if (presentationPreviousState) {
+    nexusHordePresentationCleanup(presentationPreviousState, presentationStartPlayer.getServer())
   }
 
-  const playerId = nexusHordePlayerId(player)
-  const oldState = nexusHordeStates.get(playerId)
-  if (oldState) nexusHordeCleanupState(oldState, player.getServer())
-
-  const state = nexusHordeCreateState(player)
-  state.horde = event.getHorde()
-  nexusHordeStates.set(playerId, state)
-  nexusHordeBossbarCreate(state)
-  nexusHordeRunSilent(player.getServer(), `playsound minecraft:event.raid.horn master ${state.playerName} ~ ~ ~ 1 1`)
+  var presentationStartState = nexusHordePresentationCreateState(presentationStartPlayer)
+  nexusHordePresentationStates.set(presentationStartPlayerId, presentationStartState)
+  nexusHordePresentationBossbarCreate(presentationStartState)
+  nexusHordePresentationShowWarnings(
+    presentationStartState,
+    NEXUS_HORDE_PRESENTATION_PREPARATION_TICKS
+  )
+  nexusHordePresentationRunSilent(
+    presentationStartPlayer.getServer(),
+    `playsound minecraft:event.raid.horn master ${presentationStartState.playerName} ~ ~ ~ 1 1`
+  )
 })
 
 ForgeEvents.onEvent('net.smileycorp.hordes.common.event.HordeStartWaveEvent', event => {
-  const player = event.getPlayer()
-  const playerId = nexusHordePlayerId(player)
-  let state = nexusHordeStates.get(playerId)
-
-  if (!state) {
-    state = nexusHordeCreateState(player)
-    nexusHordeStates.set(playerId, state)
-    nexusHordeBossbarCreate(state)
+  var presentationWavePlayer = event.getPlayer()
+  var presentationWavePlayerId = nexusHordePresentationPlayerId(presentationWavePlayer)
+  var presentationWaveState = nexusHordePresentationStates.get(presentationWavePlayerId)
+  if (!presentationWaveState) {
+    presentationWaveState = nexusHordePresentationCreateState(presentationWavePlayer)
+    nexusHordePresentationStates.set(presentationWavePlayerId, presentationWaveState)
+    nexusHordePresentationBossbarCreate(presentationWaveState)
   }
 
-  state.currentWave = Math.min(state.totalWaves, state.currentWave + 1)
-  state.manuallySpawning = false
-  state.preparing = false
-  state.spawnFailed = false
-  nexusHordeBeginWave(state, event.getCount())
-  const waveActionbar = state.currentWave >= state.totalWaves
-    ? '\u2620 OLEADA FINAL'
-    : `\u2620 OLEADA ${state.currentWave}/${state.totalWaves}`
-  nexusHordeActionbar(player, waveActionbar, 'red')
-  nexusHordeRunSilent(player.getServer(), `playsound minecraft:block.note_block.bell master ${state.playerName} ~ ~ ~ 0.8 1.2`)
+  presentationWaveState.preparing = false
+  presentationWaveState.alive.clear()
+  presentationWaveState.waveClearPresented = false
+  presentationWaveState.currentWave = Math.min(
+    presentationWaveState.totalWaves,
+    presentationWaveState.currentWave + 1
+  )
+  presentationWaveState.expectedWaveSize = Math.max(1, Number(event.getCount()) || 1)
+  if (presentationWaveState.currentWave === 1) {
+    nexusHordePresentationShowStart(presentationWaveState)
+  }
+  nexusHordePresentationActionbar(
+    presentationWavePlayer,
+    presentationWaveState.currentWave >= presentationWaveState.totalWaves
+      ? 'OLEADA FINAL'
+      : `OLEADA ${presentationWaveState.currentWave}/${presentationWaveState.totalWaves}`,
+    'red'
+  )
+  nexusHordePresentationBossbarWave(presentationWaveState)
 })
 
 ForgeEvents.onEvent('net.smileycorp.hordes.common.event.HordeSpawnEntityEvent', event => {
-  const player = event.getPlayer()
-  const state = nexusHordeStates.get(nexusHordePlayerId(player))
-  if (!state || !state.waveStarted) return
+  var presentationSpawnPlayer = event.getPlayer()
+  var presentationSpawnState = nexusHordePresentationStates.get(
+    nexusHordePresentationPlayerId(presentationSpawnPlayer)
+  )
+  if (!presentationSpawnState) return
 
-  const entity = event.getEntity()
-  const entityId = nexusHordeEntityId(entity)
-  entity.addTag(state.tag)
-  state.alive.set(entityId, entity)
-  state.waveEntities.set(entityId, entity)
-  state.trackedEntities.set(entityId, entity)
-  state.waveHadMob = true
-  state.spawnSettled = false
-  state.settleAt = nexusHordeServerTick + NEXUS_HORDE_SETTLE_TICKS
-  state.locatorLastAliveCount = state.alive.size
-  state.locatorLastProgressAt = nexusHordeServerTick
-  state.zeroSince = -1
-  state.nextWaveAt = -1
+  var presentationSpawnEntity = event.getEntity()
+  presentationSpawnState.alive.set(
+    nexusHordePresentationEntityId(presentationSpawnEntity),
+    presentationSpawnEntity
+  )
 })
 
 ForgeEvents.onEvent('net.minecraftforge.event.entity.living.LivingDeathEvent', event => {
-  nexusHordeRemoveTrackedEntity(event.getEntity())
+  nexusHordePresentationRemoveEntity(event.getEntity())
 })
 
 ForgeEvents.onEvent('net.minecraftforge.event.entity.EntityLeaveLevelEvent', event => {
-  const entity = event.getEntity()
+  var presentationLeavingEntity = event.getEntity()
   try {
-    if (!entity.isAlive()) nexusHordeRemoveTrackedEntity(entity)
+    if (!presentationLeavingEntity.isAlive()) {
+      nexusHordePresentationRemoveEntity(presentationLeavingEntity)
+    }
   } catch (ignored) {
-    // Descargar un chunk no equivale a matar un enemigo de la oleada.
+    // Descargar un chunk no equivale a terminar una oleada.
   }
 })
 
 ForgeEvents.onEvent('net.smileycorp.hordes.common.event.HordeEndEvent', event => {
-  const player = event.getPlayer()
-  const state = nexusHordeStates.get(nexusHordePlayerId(player))
-  if (!state) return
-
-  if (state.completed) {
-    state.modStopped = true
-    return
-  } else if (state.endedByDawn) {
-    state.modStopped = true
-    return
-  } else if (event.wasCommand()) {
-    nexusHordeReprogramGlobal(player.getServer())
-    nexusHordePresentFinal(state, '\u2620 HORDA DETENIDA', 'yellow', null)
-  } else {
-    nexusHordeReprogramGlobal(player.getServer())
-    nexusHordePresentFinal(state, '\u2620 LA HORDA SE HA DISIPADO', 'yellow', null)
+  var presentationEndPlayer = event.getPlayer()
+  var presentationEndState = nexusHordePresentationStates.get(
+    nexusHordePresentationPlayerId(presentationEndPlayer)
+  )
+  if (presentationEndState) {
+    nexusHordePresentationCleanup(presentationEndState, presentationEndPlayer.getServer())
   }
-
-  nexusHordeCleanupState(state, player.getServer())
 })
 
 ForgeEvents.onEvent('net.minecraftforge.event.entity.player.PlayerEvent$PlayerLoggedOutEvent', event => {
-  const player = event.getEntity()
-  const playerId = nexusHordePlayerId(player)
-  const state = nexusHordeStates.get(playerId)
-
-  if (nexusHordeIsGlobalAnchor(player)) {
-    nexusHordeReprogramGlobal(player.getServer())
-    let stopped = false
-    try {
-      if (state && state.horde) {
-        state.horde.stopEvent(player, true)
-        stopped = true
-      }
-    } catch (error) {
-      nexusHordeLogCommandErrorOnce(
-        `logout-stop:${String(error)}`,
-        'Nexus Realms Hordes: fallo al detener el evento del anchor desconectado',
-        error
-      )
-    }
-
-    if (!stopped) {
-      nexusHordeRunSilent(player.getServer(), `hordes stop ${nexusHordePlayerName(player)}`)
-    }
+  var presentationLogoutPlayer = event.getEntity()
+  var presentationLogoutState = nexusHordePresentationStates.get(
+    nexusHordePresentationPlayerId(presentationLogoutPlayer)
+  )
+  if (presentationLogoutState) {
+    nexusHordePresentationCleanup(presentationLogoutState, presentationLogoutPlayer.getServer())
   }
-
-  const remainingState = nexusHordeStates.get(playerId)
-  if (remainingState) nexusHordeCleanupState(remainingState, player.getServer())
 })
 
 ForgeEvents.onEvent('net.minecraftforge.event.entity.player.PlayerEvent$PlayerLoggedInEvent', event => {
-  const player = event.getEntity()
-  const stale = nexusHordeCreateState(player)
-  nexusHordeBossbarRemove(stale, player.getServer())
+  var presentationLoginPlayer = event.getEntity()
+  var presentationStaleState = nexusHordePresentationCreateState(presentationLoginPlayer)
+  nexusHordePresentationBossbarRemove(presentationStaleState, presentationLoginPlayer.getServer())
 })
 
 ForgeEvents.onEvent('net.minecraftforge.event.server.ServerStoppingEvent', event => {
-  const server = event.getServer()
-  nexusHordeReprogramGlobal(server)
-  const states = []
-  nexusHordeStates.forEach(state => states.push(state))
-  states.forEach(state => nexusHordeCleanupState(state, server))
-  nexusHordeStates.clear()
+  var presentationStoppingServer = event.getServer()
+  var presentationStoppingStates = []
+  nexusHordePresentationStates.forEach(presentationState => {
+    presentationStoppingStates.push(presentationState)
+  })
+  presentationStoppingStates.forEach(presentationState => {
+    nexusHordePresentationCleanup(presentationState, presentationStoppingServer)
+  })
+  nexusHordePresentationStates.clear()
 })
 
 ForgeEvents.onEvent('net.minecraftforge.event.TickEvent$ServerTickEvent', event => {
   if (String(event.phase) !== 'END') return
-  nexusHordeServerTick += 1
-  if (nexusHordeServerTick % NEXUS_HORDE_UPDATE_INTERVAL !== 0) {
-    nexusHordeStates.forEach(state => {
-      if (state.preparing && nexusHordeServerTick >= state.firstWaveAt) {
-        nexusHordeTickState(state)
-      }
-    })
-    return
-  }
-  nexusHordeStates.forEach(state => nexusHordeTickState(state))
+  nexusHordePresentationServerTick += 1
+  if (
+    nexusHordePresentationServerTick % NEXUS_HORDE_PRESENTATION_UPDATE_INTERVAL !== 0
+  ) return
+
+  nexusHordePresentationStates.forEach(presentationState => {
+    nexusHordePresentationTickState(presentationState)
+  })
 })

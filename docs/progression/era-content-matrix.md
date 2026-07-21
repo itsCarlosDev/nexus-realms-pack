@@ -2,13 +2,23 @@
 
 Las eras controlan potencia global y no sustituyen la clase ni sus futuros subhitos. Los mínimos de campaña permanecen en 1/1/7/14/21. La clasificación completa está en `full-content-progression-matrix.md`; este documento resume la dirección de diseño y no activa restricciones nuevas.
 
-| Era | Día mínimo | Identidad | Contenido relevante | Subhitos previstos |
-| --- | ---: | --- | --- | --- |
-| 0 · Preparación | 1 | Introducción breve | Recursos básicos, hierro, construcción, decoración y sistemas globales libres; sin hordas automáticas | Clase, refugio, comida y suministros |
-| I · Edad del Hierro | 1 | Primer asentamiento defendido | Armas iniciales de clase, magia inicial, pistolas de servicio, Create básico y primeras hordas | Fundamentos marciales, iniciación arcana, arma de servicio y mecánica inicial |
-| II · Edad del Diamante | 7 | Poder intermedio | Diamante, tiers intermedios de clase, automatización, familiares, reliquias utilitarias y primeros drops especiales | Exploración, armamento reforzado, arsenal medio y automatización intermedia |
-| III · Era Arcano-Industrial | 14 | Magia e industria avanzadas | Runic/armas avanzadas, Arcanista avanzado, rifles avanzados, brass/precision, energía y bosses intermedios | Arcano avanzado, industria avanzada, arsenal avanzado, reliquias y cacería de bosses |
-| IV · Era del Nexus | 21 | Convergencia endgame | Netherite, endgame de clase, tecnología sobrecargada, reliquias mayores y bosses finales | Acceso al Nexus, endgame de clase, reliquias, bosses finales y tecnología aérea futura |
+| Era | Día mínimo | Identidad | Dimensiones disponibles | Contenido relevante | Subhitos previstos |
+| --- | ---: | --- | --- | --- | --- |
+| 0 · Preparación | 1 | Introducción breve | Overworld | Recursos básicos, hierro, construcción, decoración y sistemas globales libres; sin hordas automáticas | Clase, refugio, comida y suministros |
+| I · Edad del Hierro | 1 | Primer asentamiento defendido | Overworld | Armas iniciales de clase, magia inicial, pistolas de servicio, Create básico y primeras hordas | Fundamentos marciales, iniciación arcana, arma de servicio y mecánica inicial |
+| II · Edad del Diamante | 7 | Poder intermedio | Overworld + Nether | Diamante, tiers intermedios de clase, automatización, familiares, reliquias utilitarias y primeros drops especiales | Exploración, armamento reforzado, arsenal medio y automatización intermedia |
+| III · Era Arcano-Industrial | 14 | Magia e industria avanzadas | Overworld + Nether + Aether | Runic/armas avanzadas, Arcanista avanzado, rifles avanzados, brass/precision, energía y bosses intermedios | Arcano avanzado, industria avanzada, arsenal avanzado, reliquias y cacería de bosses |
+| IV · Era del Nexus | 21 | Convergencia endgame | Overworld + Nether + Aether + End + Otherside | Netherite, endgame de clase, tecnología sobrecargada, reliquias mayores y bosses finales | Acceso al Nexus, endgame de clase, reliquias, bosses finales y tecnología aérea futura |
+
+## Progresión dimensional
+
+- Era I: «El Nexus aún no puede mantener conexiones entre reinos.»
+- Era II: «Se estabiliza la conexión con el Nether.»
+- Era III: «El Nexus alcanza un reino elevado: el Aether.»
+- Era IV: «El Nexus puede abrir caminos hacia el End y el misterioso Otherside.»
+
+History Stages aplica estas restricciones con los cuatro stages globales ya
+existentes. Los portales y accesos siguen siendo los nativos de cada dimensión.
 
 ## Política definitiva de clasificación
 
@@ -23,7 +33,7 @@ Las eras controlan potencia global y no sustituyen la clase ni sus futuros subhi
 ## Especializaciones del Mago
 
 - **Arcanista:** futura especialización de Iron's Spells. La matriz ya separa iniciación, desarrollo, avanzado y endgame, pero no crea todavía su stage ni selector.
-- **Metalomante (`metallurgist`):** reserva futura para Allomancy. No es una cuarta clase, no se clasifica ningún contenido hasta integrar el mod definitivo.
+- **Metalomante (`metallurgist`):** especialización avanzada y mutuamente excluyente del Mago. Allomancy usa Mage AND `nexus_specialization_metallurgist`: ocho poderes básicos en Era III y metales avanzados/Lerasium en Era IV. No es una cuarta clase.
 
 ## Preparación tecnológica futura
 
@@ -45,4 +55,4 @@ Create Aeronautics no está instalado. Una integración futura debe reutilizar l
 - NBT variable de skillbooks, scrolls y TaCZ.
 - Tier exacto de armas únicas, relics y cada drop de boss.
 - Afinidad final de Alshanex's Familiars.
-- Diseño/implementación definitiva de Arcanista y Metalomante.
+- Diseño definitivo de Arcanista y balance runtime final de Metalomante.

@@ -5,10 +5,10 @@
     created:1784332800000L,
     description:"Maestro de Armas: acceso a la senda de clase Guerrero.",
     entityTypeId:"easy_npc:humanoid",
-    modified:1784332800000L,
+    modified:1784672986117L,
     name:"warrior_master",
     variantType:"KNIGHT_02",
-    version:"1.0.0"
+    version:"1.2.0"
   },
   data:{
     ActionData:{ActionEventSet:{ON_INTERACTION:[{Type:"OPEN_DEFAULT_DIALOG"}]},ActionPermissionLevel:4},
@@ -38,7 +38,7 @@
         }],
         Label:"default",
         Name:"Disciplina marcial",
-        Texts:[{Text:"Soy el Maestro de Armas. La fuerza sin disciplina solo abre huecos en una formación. Si sigues la senda del Guerrero, aquí encontrarás tu entrenamiento."}]
+        Texts:[{Text:"La armería sigue en obras, pero el entrenamiento básico ya está disponible en la senda del Guerrero. Combate cuerpo a cuerpo, resistencia y dominio de armas —con el escudo como aliado— definen la clase. Los servicios avanzados llegarán con el local completo."}]
       }],
       Type:"STANDARD"
     },
@@ -66,10 +66,9 @@
     Offers:{Inventory:{},Recipes:{Recipes:[]}},
     OnGround:1b,
     PersistenceRequired:1b,
-    PresetUUID:[I;-660868252,-2111682736,-2096667106,-1921791791],
     Profession:"NONE",
     RenderData:{},
-    SkinData:{Content:"",DisableLayers:0b,Name:"KNIGHT_02",Timestamp:1784332800000L,Type:"DEFAULT",URL:"",UUID:[I;0,0,0,0]},
+    SkinData:{Content:"",DisableLayers:0b,Name:"KNIGHT_02",Timestamp:1784332800000L,Type:"DEFAULT",URL:""},
     SoundData:{SoundDataSet:[{Name:"minecraft:entity.player.death",Type:"DEATH"},{Name:"minecraft:entity.player.hurt",Type:"HURT"}]},
     Status:{finalized:1b},
     TradingData:{TradingDataSet:{LastReset:0L,MaxUses:0,ResetsEveryMin:0,RewardedXP:0,Type:"NONE"}},

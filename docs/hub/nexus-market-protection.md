@@ -4,7 +4,7 @@
 
 ### Arquitectura
 
-Nexus Core `0.6.0` es la única fuente de verdad para la protección territorial del hub. El sistema no consulta ni modifica History Stages, clases, especializaciones, FTB Quests, Easy NPC o la economía.
+Nexus Core `0.6.2` es la única fuente de verdad para la protección territorial del hub. El sistema no consulta ni modifica History Stages, clases, especializaciones, FTB Quests, Easy NPC o la economía.
 
 La protección nace desactivada y sin coordenadas:
 
@@ -26,6 +26,26 @@ AND (x - centerX)² + (z - centerZ)² <= radius²
 ```
 
 El borde situado exactamente a `radius` bloques está incluido. Todos los listeners llaman a la misma función `MarketProtection.isInsideProtectedMarket(level, blockPos)`.
+
+La versión 0.6.1 añade feedback de perímetro en actionbar. Se conserva un único estado dentro/fuera por jugador y se comprueba cada 10 ticks; solo los cambios fuera → dentro y dentro → fuera generan mensaje. La protección desactivada, incompleta o consultada desde otra dimensión no genera avisos. El bypass de administrador no suprime este feedback informativo.
+
+### Spawn hostil dentro del mercado
+
+Desde Nexus Core `0.6.2`, `MobSpawnEvent.FinalizeSpawn` cancela dentro de esta
+misma región las entidades cuya categoría es `MobCategory.MONSTER`, salvo cuando
+el `MobSpawnType` es `EVENT`, `COMMAND` o `SPAWN_EGG`. La comprobación territorial
+llama a `MarketProtection.isInsideProtectedMarket(...)`; no existe un segundo
+centro, radio, dimensión o estado de activación.
+
+La regla afecta únicamente al intento de spawn. No escanea ni elimina entidades
+existentes y no impide que un enemigo entre caminando desde fuera. Animales,
+aldeanos, Easy NPC y `guardvillagers:guard` no pertenecen a la categoría
+`MONSTER`; este último está registrado como `MobCategory.MISC` en Guard
+Villagers `1.6.18`.
+
+The Hordes utiliza `MobSpawnType.EVENT`, por lo que sus invasores conservan el
+spawn dentro del mercado. Los spawns deliberados por comando y huevo también
+permanecen disponibles para administración y pruebas.
 
 ### Persistencia
 
@@ -151,7 +171,7 @@ Procedimiento:
 
 ## CHECKLIST RUNTIME PARA CARLOS
 
-1. Arrancar con `nexus-core-0.6.0.jar`.
+1. Arrancar con `nexus-core-0.6.2.jar`.
 2. Ejecutar `/nexus_market status`: debe indicar desactivada y configuración incompleta en un mundo nuevo.
 3. Ejecutar `/nexus_market enable`: debe rechazar la activación incompleta.
 4. Situarse en el centro y ejecutar `/nexus_market set_center`.
@@ -182,6 +202,12 @@ Procedimiento:
 12. Probar fuego iniciado fuera del límite y documentar cualquier propagación interior.
 13. Reiniciar el servidor y confirmar que `status` conserva dimensión, centro, radio y activación.
 14. Ejecutar `/nexus_market disable` y confirmar que vuelve a permitirse la modificación normal.
+15. Entrar y salir del perímetro, confirmando un único actionbar por transición y ausencia de spam al permanecer dentro.
+16. Con la protección desactivada, confirmar que no aparece ningún aviso de perímetro.
+17. Con la protección activa, observar que no aparecen hostiles por spawn normal dentro del perímetro.
+18. Generar un hostil mediante comando y otro mediante huevo dentro del mercado; ambos deben aparecer.
+19. Iniciar una Horda y confirmar spawn `EVENT`, avance de oleadas y finalización dentro del mercado.
+20. Atraer un enemigo desde fuera y confirmar que puede cruzar el límite y ser combatido por los guardianes.
 
 No automatizar estas pruebas mediante SendKeys, WinAPI o simulación de ratón.
 

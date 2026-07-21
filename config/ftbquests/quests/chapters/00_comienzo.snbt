@@ -15,8 +15,10 @@
 	quests: [
 		{
 			description: [
-				"Nexus Realms es una campaña cooperativa de 30 días reales."
-				"Las eras abren contenido global; tu clase define tu estilo de combate."
+				"Has llegado a Nexus Market, un asentamiento en crecimiento alrededor del Nexus."
+				"La campaña cooperativa dura 30 días reales: las Eras abren contenido global y tu clase define tu estilo de combate."
+				"En el Ayuntamiento están el Custodio, el Cronista y el Capitán; las seis tiendas reúnen a maestros, Mercader y Explorador."
+				"El lago, cinco edificios y el acceso dimensional seguirán creciendo durante la vida del servidor."
 			]
 			icon: { id: "minecraft:clock" }
 			id: "2700000000000001"
@@ -30,8 +32,8 @@
 		{
 			dependencies: ["2700000000000001"]
 			description: [
-				"La campaña comienza oficialmente con /nexus_campaign start."
-				"Preparación y Edad del Hierro pertenecen al Día 1; después llegarán los días 7, 14 y 21."
+				"La administración inicia una sola vez el calendario global con /nexus_campaign start; cualquier jugador puede consultarlo con /nexus_campaign get."
+				"Era I: Overworld. Era II: Nether. Era III: Aether. Era IV: End y Otherside."
 			]
 			icon: { id: "minecraft:clock" }
 			id: "2700000000000002"
@@ -43,8 +45,8 @@
 		{
 			dependencies: ["2700000000000002"]
 			description: [
-				"Elige Guerrero, Mago o Pistolero con el selector de Nexus."
-				"Los objetos pueden exigir simultáneamente una era y tu clase."
+				"Abre el selector de Nexus y elige una sola vez: Guerrero, Mago o Pistolero."
+				"Después visita a tu maestro: Maestro de Armas, Maestro Arcano o Armero. Los objetos pueden exigir simultáneamente una Era y tu clase."
 			]
 			icon: { id: "minecraft:player_head" }
 			id: "2700000000000003"
@@ -66,7 +68,7 @@
 					type: "item"
 				}
 			]
-			tasks: [{ id: "27B0000000000003", title: "Elegir una clase", type: "checkmark" }]
+			tasks: [{ id: "27B0000000000003", title: "Abrir el selector de clase", type: "checkmark" }]
 			title: "Elige tu senda"
 			x: 4.0d
 			y: 0.0d

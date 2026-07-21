@@ -19,6 +19,7 @@
 			description: [
 				"Solicita la Era del Nexus."
 				"El calendario global solo podrá abrirla a partir del Día 21."
+				"Cuando la Era quede activa, el Nexus abrirá los caminos al End y al Otherside."
 			]
 			icon: { id: "minecraft:netherite_ingot" }
 			id: "4E58504552413034"

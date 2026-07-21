@@ -19,6 +19,7 @@
 			description: [
 				"Solicita la Era Arcano-Industrial."
 				"Nexus esperará hasta el Día 14 si la campaña todavía no ha llegado."
+				"Cuando la Era quede activa, el Nexus abrirá el camino al Aether."
 			]
 			icon: { id: "create:precision_mechanism" }
 			id: "4E58504552413033"

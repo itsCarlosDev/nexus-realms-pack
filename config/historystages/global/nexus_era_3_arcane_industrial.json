@@ -1,6 +1,7 @@
 {
   "display_name": "Nexus Era III - Arcane Industrial",
   "icon": "create:precision_mechanism",
+  "dimensions": ["aether:the_aether"],
   "items": [
     {"id":"simplyswords:runic_chakram","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
     {"id":"simplyswords:runic_claymore","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},

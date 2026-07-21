@@ -152,10 +152,10 @@ function nexusGetSpecializationStageState(player) {
 
   try {
     if (!nexusClassStageDefinitionsAvailable()) return result
-    const data = $NexusIndividualStageData.get(player.level)
+    var specializationStageData = $NexusIndividualStageData.get(player.level)
     result.available = true
     Object.keys(NEXUS_SPECIALIZATION_DATA).forEach(specializationId => {
-      result[specializationId] = data.hasStage(
+      result[specializationId] = specializationStageData.hasStage(
         player.uuid,
         NEXUS_SPECIALIZATION_DATA[specializationId].stageId
       )
@@ -292,8 +292,8 @@ function nexusSyncSpecialization(player, reason) {
 }
 
 function nexusCurrentGlobalEra(player) {
-  const data = player.server.persistentData
-  return data.contains('nexusEra') ? Number(data.getInt('nexusEra')) : 0
+  var globalEraData = player.server.persistentData
+  return globalEraData.contains('nexusEra') ? Number(globalEraData.getInt('nexusEra')) : 0
 }
 
 function nexusSpecializationFeedback(viewer, message) {
@@ -416,12 +416,12 @@ function nexusGetClassStageState(player) {
   try {
     if (!nexusClassStageDefinitionsAvailable()) return result
 
-    const data = $NexusIndividualStageData.get(player.level)
-    const playerUuid = player.uuid
+    var classStageData = $NexusIndividualStageData.get(player.level)
+    var playerUuid = player.uuid
     result.available = true
-    result.warrior = data.hasStage(playerUuid, NEXUS_CLASS_STAGE_IDS.warrior)
-    result.mage = data.hasStage(playerUuid, NEXUS_CLASS_STAGE_IDS.mage)
-    result.gunslinger = data.hasStage(playerUuid, NEXUS_CLASS_STAGE_IDS.gunslinger)
+    result.warrior = classStageData.hasStage(playerUuid, NEXUS_CLASS_STAGE_IDS.warrior)
+    result.mage = classStageData.hasStage(playerUuid, NEXUS_CLASS_STAGE_IDS.mage)
+    result.gunslinger = classStageData.hasStage(playerUuid, NEXUS_CLASS_STAGE_IDS.gunslinger)
   } catch (error) {
     if (!nexusClassStageWarningLogged) {
       nexusClassStageWarningLogged = true
@@ -494,7 +494,7 @@ function nexusSyncClassStages(player, reason) {
 
 function nexusShowClassSelector(player) {
   player.tell('=== Nexus Realms: ayuda de clase ===')
-  player.tell('FancyMenu es el selector principal. Si necesitas elegir manualmente, usa uno de estos comandos:')
+  player.tell('El selector visual y estos comandos públicos usan la misma elección única:')
   player.tell('/nexus_select warrior - Guerrero')
   player.tell('/nexus_select mage - Mago')
   player.tell('/nexus_select gunslinger - Pistolero')
@@ -653,10 +653,6 @@ PlayerEvents.loggedIn(event => {
 
   nexusSyncClassStages(player, 'login')
   nexusSyncSpecialization(player, 'login')
-
-  if (!nexusHasClass(player)) {
-    nexusOpenClassSelector(player)
-  }
 })
 
 ServerEvents.commandRegistry(event => {

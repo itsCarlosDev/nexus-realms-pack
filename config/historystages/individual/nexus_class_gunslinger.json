@@ -41,6 +41,20 @@
     {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:minigun"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
     {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:rpg7"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
     {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:m320"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:aa12"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]}
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:aa12"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:b93r"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:db_long"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:db_short"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:deagle"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:deagle_golden"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:hk_mk23"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:lonetrail"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:qbz_191"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:qbz_95"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:sks_tactical"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:spr15hb"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:springfield1873"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:taurus500"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"tacz:modern_kinetic_gun","nbt":{"GunId":"tacz:type_81"},"unlock_actions":["place","pickup","loot","recipe","gui","icon"]}
   ]
 }

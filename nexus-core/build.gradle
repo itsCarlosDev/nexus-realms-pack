@@ -5,7 +5,7 @@ plugins {
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
 }
 
-version = '0.6.0'
+version = '0.6.2'
 group = 'dev.itscarlos'
 
 base {
@@ -102,6 +102,15 @@ tasks.register('marketProtectionCheck', JavaExec) {
     mainClass = 'dev.itscarlos.nexuscore.market.MarketRegionCheck'
 }
 
+tasks.register('marketSpawnPolicyCheck', JavaExec) {
+    group = 'verification'
+    description = 'Validates Nexus Market hostile spawn policy exceptions.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'dev.itscarlos.nexuscore.market.MarketSpawnPolicyCheck'
+}
+
 tasks.named('check') {
     dependsOn tasks.named('marketProtectionCheck')
+    dependsOn tasks.named('marketSpawnPolicyCheck')
 }

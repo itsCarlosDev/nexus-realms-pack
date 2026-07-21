@@ -103,8 +103,8 @@
 			y: 1.0d
 		}
 		{
-			dependencies: ["2710000000002003", "2710000000002004", "4E58504552413033"]
-			description: ["Trae un recuerdo del End para demostrar que el equipo domina viajes interdimensionales."]
+			dependencies: ["2710000000002003", "2710000000002004", "4E58504552413034"]
+			description: ["En la Era IV, trae un recuerdo del End para demostrar que el equipo domina viajes interdimensionales."]
 			icon: { id: "minecraft:chorus_fruit" }
 			id: "2710000000002005"
 			rewards: [{

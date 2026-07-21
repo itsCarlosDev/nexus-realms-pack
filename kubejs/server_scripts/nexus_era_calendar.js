@@ -542,6 +542,25 @@ function nexusEraStartFailed(server, data, currentDay) {
   console.error(`Nexus Realms: no se pudo iniciar la horda global programada del dia ${currentDay}`)
 }
 
+function nexusEraCompleteNativeHorde(source) {
+  const player = source.player
+  if (!player) return false
+
+  const server = source.server
+  const data = nexusEraData(server)
+  if (!data.getBoolean('nexusHordeActive')) return false
+  if (data.getString('nexusHordeAnchorUUID') !== String(player.uuid)) return false
+
+  const completedDay = nexusEraWorldDay(server)
+  if (completedDay === null) return false
+
+  data.putInt('nexusLastHordeCompletedDay', completedDay)
+  data.putInt('nexusNextHordeDay', completedDay + NEXUS_ERA_HORDE_COOLDOWN_DAYS)
+  nexusEraClearGlobalHorde(data)
+  console.info(`[Nexus Horde] The Hordes completo el evento nativo del dia ${completedDay}.`)
+  return true
+}
+
 function nexusEraTryStartScheduledHorde(server) {
   const currentDay = nexusEraWorldDay(server)
   const timeOfDay = nexusEraTimeOfDay(server)
@@ -578,12 +597,14 @@ function nexusEraTryStartScheduledHorde(server) {
   const participantCount = nexusEraParticipantCount(players, anchor)
   nexusEraClaimGlobalHorde(data, anchor, currentDay, participantCount)
 
-  const commandResult = server.runCommandSilent(`hordes start ${anchorName} ${currentDay}`)
-  if (commandResult <= 0 || !data.getBoolean('nexusHordeStartConfirmed')) {
+  // Longitud 0 indica a The Hordes que use hordeSpawnDuration de su configuracion nativa.
+  const commandResult = server.runCommandSilent(`hordes start ${anchorName} 0`)
+  if (commandResult <= 0) {
     nexusEraStartFailed(server, data, currentDay)
     return
   }
 
+  data.putBoolean('nexusHordeStartConfirmed', true)
   data.putInt('nexusLastHordeStartedDay', currentDay)
   nexusEraLoggedStartFailureDay = -1
 }
@@ -674,6 +695,11 @@ ServerEvents.commandRegistry(event => {
             )
             return 1
           })
+      )
+      .then(
+        Commands.literal('_horde_complete')
+          .requires(source => source.hasPermission(2))
+          .executes(ctx => nexusEraCompleteNativeHorde(ctx.source) ? 1 : 0)
       )
   )
 
@@ -779,12 +805,8 @@ ServerEvents.commandRegistry(event => {
 })
 
 ServerEvents.loaded(event => {
-  const data = nexusEraData(event.server)
+  nexusEraData(event.server)
   nexusEraHistoryStagesLoadSyncAtTick = nexusEraServerTicks + 100
-  if (data.getBoolean('nexusHordeActive')) {
-    // Una marca activa al cargar solo puede proceder de un cierre abrupto.
-    nexusEraReprogramNextMidnight(event.server, data)
-  }
 })
 
 ServerEvents.tick(event => {
@@ -797,8 +819,8 @@ ServerEvents.tick(event => {
       nexusEraServerTicks >= nexusEraHistoryStagesLoadSyncAtTick
     ) {
       nexusEraHistoryStagesLoadSyncAtTick = -1
-      const era = nexusEraData(event.server).getInt('nexusEra')
-      syncHistoryStages(event.server, era, 'delayed_load')
+      var delayedLoadEra = nexusEraData(event.server).getInt('nexusEra')
+      syncHistoryStages(event.server, delayedLoadEra, 'delayed_load')
     }
 
     nexusEraTryAdvancePending(event.server)

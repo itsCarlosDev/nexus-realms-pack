@@ -72,8 +72,8 @@
 			y: 1.0d
 		}
 		{
-			dependencies: ["2700000000001003", "4E58504552413033"]
-			description: ["La Era III abre familias rúnicas. Elige una representativa en lugar de coleccionarlas todas."]
+			dependencies: ["2700000000001003", "4E58504552413034"]
+			description: ["La guja rúnica exige una base de netherite; por eso este objetivo se completa al llegar a la Era IV."]
 			icon: { id: "simplyswords:runic_glaive" }
 			id: "2710000000001006"
 			shape: "diamond"
@@ -89,7 +89,7 @@
 			y: 0.0d
 		}
 		{
-			dependencies: ["2710000000001006"]
+			dependencies: ["2700000000001003", "4E58504552413033"]
 			description: ["Prepara una pieza Nightfall de Era III como núcleo de un equipo de combate avanzado."]
 			icon: { id: "efn:ruinfighter_chestplate" }
 			id: "2710000000001007"
@@ -104,7 +104,7 @@
 			y: 0.0d
 		}
 		{
-			dependencies: ["2710000000001007", "4E58504552413034"]
+			dependencies: ["2710000000001006", "2710000000001007", "4E58504552413034"]
 			description: ["Cierra la senda con un arma final permitida por Era IV, sin recibirla como recompensa."]
 			icon: { id: "epicfight:netherite_greatsword" }
 			id: "2700000000001004"

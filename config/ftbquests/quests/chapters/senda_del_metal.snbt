@@ -17,7 +17,7 @@
 		{
 			dependencies: ["4E58504552413033", "2700000000001104"]
 			description: [
-				"Rama avanzada del Mago disponible desde la Era III."
+				"Rama avanzada del Mago disponible cuando la Era III está activa."
 				"Completa el rito para seguir siendo Mago y añadir la especialización Metalomante."
 			]
 			hide_until_deps_complete: true
@@ -75,7 +75,7 @@
 		}
 		{
 			dependencies: ["2710000000001402"]
-			description: ["Reúne una muestra de cada uno de los ocho metales básicos concedidos por la senda."]
+			description: ["Reúne una muestra de cada uno de los ocho metales básicos asociados a los poderes fundamentales."]
 			icon: { id: "allomancy:iron_flakes" }
 			id: "2710000000001403"
 			rewards: [{

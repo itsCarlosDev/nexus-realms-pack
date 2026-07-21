@@ -3,7 +3,7 @@
     author:"Nexus Realms",
     category:"Nexus Market",
     created:1784332800000L,
-    description:"Custodio del Nexus: campaña principal y acceso de consulta a las Eras.",
+    description:"Custodio del Nexus: guía de la campaña principal.",
     entityTypeId:"easy_npc:humanoid",
     modified:1784332800000L,
     name:"nexus_custodian",
@@ -40,43 +40,11 @@
               Actions:[{Cmd:"/ftbquests open_book 4E5850524F475549",ExecAsUser:1b,PermLevel:0,Type:"COMMAND"}],
               Label:"open_campaign",
               Name:"Abrir campaña"
-            },
-            {
-              Actions:[{Cmd:"eras",Type:"OPEN_NAMED_DIALOG"}],
-              Label:"open_eras",
-              Name:"Consultar las Eras"
             }
           ],
           Label:"default",
           Name:"El custodio",
-          Texts:[{Text:"Soy el Custodio del Nexus. Vigilo su despertar y guío la campaña que une a este asentamiento. Consulta el comienzo o el estado de las Eras cuando lo necesites."}]
-        },
-        {
-          Buttons:[
-            {
-              Actions:[{Cmd:"/ftbquests open_book 4E58303145524131",ExecAsUser:1b,PermLevel:0,Type:"COMMAND"}],
-              Label:"open_era_1",
-              Name:"Era I — Supervivencia"
-            },
-            {
-              Actions:[{Cmd:"/ftbquests open_book 4E58303245524132",ExecAsUser:1b,PermLevel:0,Type:"COMMAND"}],
-              Label:"open_era_2",
-              Name:"Era II — Expansión"
-            },
-            {
-              Actions:[{Cmd:"/ftbquests open_book 4E58303345524133",ExecAsUser:1b,PermLevel:0,Type:"COMMAND"}],
-              Label:"open_era_3",
-              Name:"Era III — Arcano-Industrial"
-            },
-            {
-              Actions:[{Cmd:"/ftbquests open_book 4E58303445524134",ExecAsUser:1b,PermLevel:0,Type:"COMMAND"}],
-              Label:"open_era_4",
-              Name:"Era IV — Nexus"
-            }
-          ],
-          Label:"eras",
-          Name:"Las Eras",
-          Texts:[{Text:"Cada Era abre un nuevo horizonte para todo el mundo. Puedo mostrarte su capítulo, pero el progreso debe ganarse."}]
+          Texts:[{Text:"Bienvenido a Nexus Market. El asentamiento aún está creciendo, pero el Nexus ya nos reúne. Abre conmigo la campaña; después, el Cronista te explicará las Eras y el capítulo inicial te guiará para elegir clase."}]
         }
       ],
       Type:"STANDARD"
@@ -125,7 +93,6 @@
     Offers:{Inventory:{},Recipes:{Recipes:[]}},
     OnGround:1b,
     PersistenceRequired:1b,
-    PresetUUID:[I;581714711,178866178,-1201288124,-1263624364],
     Profession:"NONE",
     RenderData:{},
     SkinData:{
@@ -134,8 +101,7 @@
       Name:"KNIGHT_02",
       Timestamp:1784332800000L,
       Type:"DEFAULT",
-      URL:"",
-      UUID:[I;0,0,0,0]
+      URL:""
     },
     SoundData:{
       SoundDataSet:[
