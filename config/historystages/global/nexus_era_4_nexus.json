@@ -1,6 +1,7 @@
 {
   "display_name": "Nexus Era IV - Netherite Equipment",
   "icon": "minecraft:netherite_ingot",
+  "dimensions": ["minecraft:the_end", "deeperdarker:otherside"],
   "items": [
     {"id":"minecraft:netherite_sword","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
     {"id":"minecraft:netherite_pickaxe","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
@@ -60,7 +61,7 @@
     {"id":"allomancy:electrum_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
     {"id":"allomancy:cadmium_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
     {"id":"allomancy:bendalloy_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:lerasium_nugget","unlock_actions":["place","pickup","loot","recipe","gui","icon"]}
+    {"id":"allomancy:lerasium_nugget","unlock_actions":["place","gui","icon"]}
   ],
   "recipes": [
     "minecraft:netherite_sword_smithing","minecraft:netherite_pickaxe_smithing","minecraft:netherite_axe_smithing","minecraft:netherite_shovel_smithing","minecraft:netherite_hoe_smithing",

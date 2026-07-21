@@ -38,10 +38,10 @@
 	spawnAmount = 15
 	#Multiplier by which the spawn amount increases by each time the event naturally spawns. (Set to 1 to disable scaling.)
 	hordeSpawnMultiplier = 1.08
-	#Time in ticks the event lasts for
-	hordeSpawnDuration = 35999
-	#Time in ticks between spawns for the horde spawn event.
-	hordeSpawnInterval = 36000
+	#Native timer kept above any practical server lifetime. Nexus Horde Director ends the event after wave 4 is cleared.
+	hordeSpawnDuration = 2147483646
+	#Greater than the native duration so The Hordes never advances waves by time. The Director invokes native spawnWave.
+	hordeSpawnInterval = 2147483647
 	#What time of day does the horde event start? eg 18000 is midnight with default day length.
 	hordeStartTime = 18000
 	#Amount of days between horde spawns.

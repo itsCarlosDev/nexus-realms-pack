@@ -5,5 +5,10 @@
       "nexus:biohazard_undead"
     ],
     "conditions": []
+  },
+  {
+    "function": "hordes:add_reward_command",
+    "value": "nexus_era _horde_complete",
+    "conditions": []
   }
 ]

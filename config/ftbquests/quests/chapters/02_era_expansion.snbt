@@ -18,6 +18,7 @@
 			description: [
 				"El equipo está listo para solicitar la Edad del Diamante."
 				"Si aún no es el Día 7, Nexus conservará el avance pendiente."
+				"Cuando la Era quede activa, el Nexus estabilizará la conexión con el Nether."
 			]
 			icon: { id: "minecraft:diamond" }
 			id: "4E58504552413032"

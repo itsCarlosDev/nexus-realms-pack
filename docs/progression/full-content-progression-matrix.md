@@ -1,6 +1,6 @@
 # Matriz definitiva de contenido por era y clase
 
-Auditoría estática local de los registros y recursos presentes en los JAR de Forge 1.20.1 instalados. Esta matriz clasifica familias funcionales, no activa restricciones. History Stages seguirá siendo el único motor de enforcement cuando se implemente la selección definitiva.
+Auditoría estática local de los registros y recursos presentes en los JAR de Forge 1.20.1 instalados. Esta matriz clasifica familias funcionales y documenta las restricciones ya aplicadas. History Stages sigue siendo el único motor de enforcement.
 
 ## Cobertura auditada
 
@@ -9,7 +9,7 @@ Auditoría estática local de los registros y recursos presentes en los JAR de F
 | Epic Fight | 48 modelos de item / 31 recetas | material, función y skillbooks con contenido variable |
 | Simply Swords | 142 modelos / 424 recetas | familias por material y armas únicas |
 | Iron's Spells 'n Spellbooks | 293 modelos / 258 recetas | grimorios, scrolls, runas, armaduras, staffs, curios y estaciones |
-| TaCZ default gun pack | 12 items base + 54 `GunId` / 11 recetas | tipo de arma y potencia; los items base usan NBT |
+| TaCZ default gun pack | 12 items base + 54 `GunId` / 54 recetas de arma | tipo de arma y potencia; los items base usan NBT |
 | Create | 743 modelos / 1766 recetas | complejidad mecánica y cadena tecnológica |
 | Create Crafts & Additions | 53 modelos / 131 recetas | distribución eléctrica, generación y tecnología sobrecargada |
 | Epic Fight Nightfall | 42 modelos / 44 recetas | armas, armaduras y skillbooks especiales |
@@ -29,7 +29,7 @@ Auditoría estática local de los registros y recursos presentes en los JAR de F
 - `PENDIENTE DE DECISIÓN`: el registro existe, pero su potencia, NBT u obtención exige prueba antes de restringir.
 - Arcanista y Metalomante son especializaciones mutuamente excluyentes del Mago. Arcanista ya dispone de stage; Metalomante conserva el ID interno `metallurgist`.
 - Metalomante conserva el identificador interno `metallurgist`; Allomancy 4.6.5 se integra mediante Mage AND Metalomante y stages globales de Era III/IV.
-- En TaCZ, `tacz:modern_kinetic_gun`, `tacz:ammo` y `tacz:attachment` son contenedores con NBT. Una futura restricción debe evaluar `GunId`/`AmmoId`/`AttachmentId`, no bloquear el item base completo.
+- En TaCZ, `tacz:modern_kinetic_gun`, `tacz:ammo` y `tacz:attachment` son contenedores con NBT. Las restricciones de armas evalúan `GunId`; munición y attachments no deben bloquearse como items base completos.
 
 ## Clasificación funcional
 
@@ -106,7 +106,9 @@ Auditoría estática local de los registros y recursos presentes en los JAR de F
 | Armaduras Nightfall `duskfire_*` y `ruinfighter_*` | **IMPLEMENTADA** |
 | Grimorios Iron's Spells por tier I–IV | **IMPLEMENTADA** |
 | Runas, upgrade orbs, armaduras mágicas y staffs clasificados | **IMPLEMENTADA** |
-| Armas TaCZ inequívocas por `GunId`, agrupadas en tiers I–IV | **IMPLEMENTADA** |
+| Exclusividad Pistolero de los 54 GunIds TaCZ locales | **IMPLEMENTADA** |
+| Clasificación por Era de los 40 GunIds incluidos en los tiers I–IV actuales | **IMPLEMENTADA** |
+| Clasificación por Era de `b93r`, `db_long`, `db_short`, `deagle`, `deagle_golden`, `hk_mk23`, `lonetrail`, `qbz_191`, `qbz_95`, `sks_tactical`, `spr15hb`, `springfield1873`, `taurus500` y `type_81` | **PENDIENTE DE BALANCE** |
 | Create básico, automatización intermedia e industria avanzada | **IMPLEMENTADA** |
 | Create Crafts & Additions: red básica, energía avanzada y alta tensión | **IMPLEMENTADA** |
 | Equipo vanilla de diamante/netherite y cuchillos Farmer's Delight | **IMPLEMENTADA** (existente) |

@@ -103,7 +103,27 @@ No se restringen `koloss_blade` ni `obsidian_dagger` en esta fase porque funcion
 - `lerasium_nugget`, que concede el estado Mistborn nativo;
 - combinaciones temporales y espirituales avanzadas.
 
-No se crea una quinta era. Los metales vanilla y todos los materiales físicos del mod pueden seguir recogiéndose, comerciándose, almacenándose y utilizándose en sistemas ajenos como Create.
+No se crea una quinta era. Los metales vanilla y los materiales físicos comunes del mod pueden seguir recogiéndose, comerciándose, almacenándose y utilizándose en sistemas ajenos como Create; Lerasium conserva la excepción de Era IV.
+
+## Tienda del Metalomante · V1
+
+Estado: `OPERATIVA V1`, con el interior todavía en construcción.
+
+Disponible:
+
+- Maestro Metalomante;
+- acceso a `senda_del_metal`;
+- explicación de Metalomante como especialización avanzada del Mago;
+- orientación sobre los ocho poderes básicos de Era III y el avance de Era IV.
+
+Pendiente:
+
+- interior definitivo;
+- servicios especializados;
+- posible comercio de recursos;
+- contenido avanzado y balance final.
+
+El NPC no concede stages, poderes ni Lerasium. La regla global de Era IV bloquea `pickup`, `loot` y `recipe` de `allomancy:lerasium_nugget` antes de esa Era; el objeto permanece visible como icono y objetivo de la quest.
 
 ## Prueba runtime pendiente
 

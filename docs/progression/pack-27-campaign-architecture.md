@@ -10,10 +10,10 @@
 ## Flujo principal
 
 1. `00 — Comienzo`: campaña, calendario, elección de clase y preparación.
-2. `01 — Era I: Supervivencia`: asentamiento, despensa, herramientas, defensa y exploración inicial.
-3. `02 — Era II: Expansión`: diamante, encantamientos, Nether, alquimia y progreso intermedio.
-4. `03 — Era III: Arcano e Industria`: Create, Create Addition, progreso avanzado y bifurcación del Mago.
-5. `04 — Era IV: El Nexus`: netherite, maestría de clase, Wither y cierre principal.
+2. `01 — Era I: Supervivencia`: asentamiento, despensa, herramientas, defensa, exploración inicial y Overworld.
+3. `02 — Era II: Expansión`: diamante, encantamientos, apertura del Nether, alquimia y progreso intermedio.
+4. `03 — Era III: Arcano e Industria`: apertura del Aether, Create, Create Addition, progreso avanzado y bifurcación del Mago.
+5. `04 — Era IV: El Nexus`: apertura del End y Otherside, netherite, maestría de clase, Wither y cierre principal.
 
 Las quests solicitan una era mediante el puente Nexus. El calendario global decide si el avance es inmediato o queda pendiente hasta los días 1, 7, 14 y 21.
 

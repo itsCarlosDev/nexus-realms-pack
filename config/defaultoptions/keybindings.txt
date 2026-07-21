@@ -1,0 +1,10 @@
+key_key.curios.open.desc:key.keyboard.f6:NONE
+key_key.hide_icons:key.keyboard.h:NONE
+key_key.familiarslib.screen_key:key.keyboard.unknown:NONE
+key_key.rollleft:key.keyboard.f7:NONE
+key_key.rollcenter:key.keyboard.f12:NONE
+key_key.tacz.inspect.desc:key.keyboard.f9:NONE
+key_key.tacz.fire_select.desc:key.keyboard.unknown:NONE
+key_framedblocks.key.update_cull:key.keyboard.unknown:NONE
+key_key.journeymap.fullscreen.disable_buttons:key.keyboard.unknown:NONE
+key_key.irons_spellbooks.spell_wheel:key.keyboard.g:NONE

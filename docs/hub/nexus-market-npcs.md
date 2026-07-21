@@ -1,4 +1,4 @@
-# Nexus Market — NPCs definitivos (Pack 28.0)
+# Nexus Market — NPCs del hub (Packs 29.0–30.4)
 
 ## Estado
 
@@ -7,10 +7,10 @@
 - Easy NPC Bundle `7.2.0` para Forge `1.20.1`.
 - Easy NPC Core `7.2.0`.
 - Easy NPC Config UI `7.2.0`.
-- Nueve presets reutilizables bajo `config/easy_npc/preset/humanoid/`.
+- Dieciséis presets reutilizables bajo `config/easy_npc/preset/humanoid/`: nueve existentes y siete nuevos.
 - Nombres visibles, apariencia local, diálogo breve en español y mapping a IDs reales de FTB Quests.
 - Persistencia, invulnerabilidad, inmovilidad y ausencia de generación automática.
-- Trading desactivado en los nueve presets.
+- Trading desactivado salvo en el Mercader del Nexus, que conserva sus intercambios existentes.
 - Integración FTB limitada a abrir capítulos. Ningún diálogo completa quests ni concede clases, especializaciones, Allomancy o progreso.
 - Distribución packwiz mediante metadata oficial de CurseForge para los tres JARs.
 
@@ -75,16 +75,16 @@ Todos los presets usan `easy_npc:humanoid`, formato `EasyNPCVersion:3` y:
 - sin objetivo de paseo
 - `CustomNameVisible:1b`
 - `NAME_VISIBILITY = ALWAYS`
-- sin loot, drops, ataques, proyectiles, empuje ni trading
+- sin loot, drops, ataques, proyectiles ni empuje; solo el Mercader conserva trading
 - `ON_INTERACTION -> OPEN_DEFAULT_DIALOG`
 
-Los presets no incluyen `Pos`, `Owner`, UUID de entidad ni `Navigation.Home`. Easy NPC asigna el UUID de entidad y aplica sus reglas de propietario al importar; el `PresetUUID` solo identifica la plantilla.
+Los presets no incluyen `Pos`, `Owner`, UUID de entidad, `PresetUUID` ni `Navigation.Home`. Easy NPC genera el `PresetUUID` ausente al importar y asigna el UUID propio de la entidad; ninguno queda hardcodeado en el repositorio.
 
 ## Presets
 
 | ID lógico | Nombre visible | Recurso de importación | Apariencia local | Contenido |
 |---|---|---|---|---|
-| `nexus_custodian` | Custodio del Nexus | `easy_npc:preset/humanoid/nexus_custodian.npc.snbt` | `KNIGHT_02`, hierro/cota, amatista y escudo | campaña y Eras |
+| `nexus_custodian` | Custodio del Nexus | `easy_npc:preset/humanoid/nexus_custodian.npc.snbt` | `KNIGHT_02`, hierro/cota, amatista y escudo | campaña principal |
 | `chronicler` | Cronista | `easy_npc:preset/humanoid/chronicler.npc.snbt` | `PROFESSOR_01`, libro y reloj | historia y Eras |
 | `guard_captain` | Capitán de la Guardia | `easy_npc:preset/humanoid/guard_captain.npc.snbt` | `KNIGHT_01`, espada y escudo | exploración, hordas y bosses |
 | `warrior_master` | Maestro de Armas | `easy_npc:preset/humanoid/warrior_master.npc.snbt` | `KNIGHT_02`, espada y escudo | Guerrero |
@@ -92,24 +92,63 @@ Los presets no incluyen `Pos`, `Owner`, UUID de entidad ni `Navigation.Home`. Ea
 | `metallurgist_master` | Maestro Metalomante | `easy_npc:preset/humanoid/metallurgist_master.npc.snbt` | `SECURITY_01`, cobre y brújula | Senda del Metal |
 | `gunsmith` | Armero | `easy_npc:preset/humanoid/gunsmith.npc.snbt` | `SECURITY_01`, ballesta y catalejo | Pistolero |
 | `explorer` | Explorador | `easy_npc:preset/humanoid/explorer.npc.snbt` | `JAYJASONBO`, mapa y brújula | exploración y viajes |
-| `nexus_merchant` | Mercader del Nexus | `easy_npc:preset/humanoid/nexus_merchant.npc.snbt` | `JAYJASONBO`, esmeralda | economía futura; sin trading |
+| `nexus_merchant` | Mercader del Nexus | `easy_npc:preset/humanoid/nexus_merchant.npc.snbt` | `JAYJASONBO`, esmeralda | cambio de moneda y suministros básicos |
+| `nexus_fisher` | Pescador del Nexus | `easy_npc:preset/humanoid/nexus_fisher.npc.snbt` | `JAYJASONBO`, caña y prismarina | integración futura de pesca |
+| `market_foreman` | Maestre de Obras | `easy_npc:preset/humanoid/market_foreman.npc.snbt` | `SECURITY_01`, hacha y andamio | edificio provisional 1 |
+| `market_surveyor` | Agrimensora del Nexus | `easy_npc:preset/humanoid/market_surveyor.npc.snbt` | `PROFESSOR_01`, brújula y papel | edificio provisional 2 |
+| `nexus_liaison` | Enlace del Nexus | `easy_npc:preset/humanoid/nexus_liaison.npc.snbt` | `JAYJASONBO`, libro y amatista | edificio provisional 3 |
+| `district_steward` | Intendente del Distrito | `easy_npc:preset/humanoid/district_steward.npc.snbt` | `KNIGHT_01`, farol y papel | edificio provisional 4 |
+| `market_curator` | Conservadora del Mercado | `easy_npc:preset/humanoid/market_curator.npc.snbt` | `PROFESSOR_01`, libro y pincel | edificio provisional 5 |
+| `nether_expeditionary` | Expedicionario del Nexus | `easy_npc:preset/humanoid/nether_expeditionary.npc.snbt` | `SECURITY_01`, brújula y carga ígnea | guía dimensional por Eras |
 
 Todas las apariencias proceden de modelos incluidos en Easy NPC y objetos ya presentes en Minecraft. No se descargaron skins.
+
+## Seis tiendas — estado funcional V1
+
+El estado describe el servicio disponible: las seis tiendas son `OPERATIVA V1`, aunque sus interiores permanecen `EN CONSTRUCCIÓN`. Completar el interior o ampliar servicios corresponde a packs futuros y no cambia la identidad ni el preset del NPC.
+
+| Tienda | NPC | Función disponible en V1 | Contenido futuro | Capítulo asociado | Estado |
+|---|---|---|---|---|---|
+| Guerrero | Maestro de Armas (`warrior_master`) | Acceso a quests y orientación sobre combate cuerpo a cuerpo, resistencia, escudo y dominio de armas | Interior definitivo, servicios avanzados, posible entrenamiento y posible comercio especializado | `clase_guerrero` (`4E58434C41535731`) | OPERATIVA V1 |
+| Mago / Arcanista | Maestro Arcano (`arcane_master`) | Consulta de Mago y Arcanista | Estudio completo y servicios arcanos ampliados | `clase_mago` (`4E58434C41534D47`), `especializacion_arcanista` (`4E58415243414E31`) | OPERATIVA V1 |
+| Metalomante | Maestro Metalomante (`metallurgist_master`) | Senda del Metal y orientación sobre la progresión de Allomancy | Interior definitivo, servicios especializados, posible comercio de recursos y contenido avanzado | `senda_del_metal` (`4E584D4554414C31`) | OPERATIVA V1 |
+| Pistolero | Armero (`gunsmith`) | Capítulo Pistolero y orientación sobre armas, munición y progresión por Eras | Interior definitivo, comercio de armas y munición, attachments y servicios especializados | `clase_pistolero` (`4E5847554E534C31`) | OPERATIVA V1 |
+| Exploración | Explorador (`explorer`) | Objetivos de exploración y defensa del Overworld | Expediciones, estructuras y contratos del mundo abierto | `exploracion_y_hordas` (`4E584558504C4F31`) | OPERATIVA V1 |
+| Economía | Mercader del Nexus (`nexus_merchant`) | Bronce/Plata/Oro con valor 1/10/100: cuatro cambios y ocho ofertas de suministros (doce en total) | Interior completo y catálogo ampliado dentro de la economía existente | Ninguno; trading de Easy NPC | OPERATIVA V1 |
+
+El Explorador cubre Overworld, descubrimiento y mundo abierto. El Expedicionario del Nexus conserva por separado la guía narrativa hacia Nether, Aether, End y Otherside; ninguna tienda desbloquea dimensiones.
+
+### Evolución prevista
+
+| Pack | Tienda que podrá ampliarse | Límite de esta V1 |
+|---|---|---|
+| 30.1 | Guerrero | V1 operativa con quests y orientación; entrenamiento y comercio especializado siguen pendientes |
+| 30.2 | Mago / Arcanista | Sin añadir todavía lecciones, servicios ni quests |
+| 30.3 | Metalomante | V1 operativa con Senda del Metal y orientación; servicios especializados y balance final siguen pendientes |
+| 30.4 | Pistolero | V1 operativa con capítulo y orientación; comercio, attachments, servicios y balance final siguen pendientes |
+| 30.5 | Mercader / economía | Sin cambiar todavía precios, monedas ni las doce ofertas |
+| 30.6 | Explorador | Sin implementar todavía expediciones, estructuras ni contratos |
 
 ## Diálogos implementados
 
 | NPC | Texto |
 |---|---|
-| Custodio del Nexus | «Soy el Custodio del Nexus. Vigilo su despertar y guío la campaña que une a este asentamiento. Consulta el comienzo o el estado de las Eras cuando lo necesites.» |
-| Custodio, diálogo de Eras | «Cada Era abre un nuevo horizonte para todo el mundo. Puedo mostrarte su capítulo, pero el progreso debe ganarse.» |
+| Custodio del Nexus | «Bienvenido a Nexus Market. El asentamiento aún está creciendo, pero el Nexus ya nos reúne. Abre conmigo la campaña; después, el Cronista te explicará las Eras y el capítulo inicial te guiará para elegir clase.» |
 | Cronista | «Soy el Cronista. Conservo lo aprendido en cada Era y registro cómo cambia Nexus Realms. Elige el capítulo histórico que quieras consultar.» |
-| Capitán de la Guardia | «Soy el Capitán de la Guardia. Coordino la defensa del asentamiento y registro las amenazas que exigen una fuerza preparada. Revisa aquí las hordas o las grandes cacerías.» |
-| Maestro de Armas | «Soy el Maestro de Armas. La fuerza sin disciplina solo abre huecos en una formación. Si sigues la senda del Guerrero, aquí encontrarás tu entrenamiento.» |
-| Maestro Arcano | «Soy el Maestro Arcano. Enseño a escuchar el maná antes de intentar dominarlo. Puedo mostrarte la senda del Mago o los estudios del Arcanista.» |
-| Maestro Metalomante | «Soy el Maestro Metalomante. Los metales amplifican lo que ya llevas dentro, pero exigen estudio y medida. Puedo mostrarte la Senda del Metal; su desbloqueo depende de tu progreso, no de mis palabras.» |
-| Armero | «Soy el Armero. Un arma fiable empieza en el banco de trabajo y termina en manos de alguien que sabe cuándo no disparar. Consulta aquí la senda del Pistolero.» |
-| Explorador | «Soy el Explorador. Trazo rutas, comparo mapas y preparo a quienes cruzan la frontera. Antes de partir, revisa los objetivos de exploración y defensa.» |
-| Mercader del Nexus | «Soy el Mercader del Nexus. Observo qué necesita el mercado y preparo futuras rutas de intercambio. Aún no negocio: cuando la economía esté lista, este puesto abrirá con reglas claras.» |
+| Capitán de la Guardia | «La Guardia del Nexus mantiene seguro el asentamiento y cubre sus accesos. Pero durante una verdadera incursión del Nexus, hasta nuestras defensas pueden ser puestas a prueba. Revisa aquí las hordas o las grandes cacerías.» |
+| Maestro de Armas | «La armería sigue en obras, pero el entrenamiento básico ya está disponible en la senda del Guerrero. Combate cuerpo a cuerpo, resistencia y dominio de armas —con el escudo como aliado— definen la clase. Los servicios avanzados llegarán con el local completo.» |
+| Maestro Arcano | «El estudio todavía no está preparado para lecciones completas; hasta el maná necesita un espacio estable. Mientras tanto, consulta aquí la senda del Mago o los estudios del Arcanista.» |
+| Maestro Metalomante | «El taller aún completa sus medidas de seguridad. La Metalomancia es una senda avanzada del Mago y solo responde cuando tu progreso lo permite: primero dominarás los ocho metales fundamentales; los poderes avanzados llegarán después. Cuando el taller esté completo ofrecerá más servicios.» |
+| Armero | «El taller aún se está acondicionando, pero este capítulo ya es la guía principal del Pistolero. Armas de fuego, munición y preparación definen la senda; el equipo avanzado llegará con las Eras. La venta y los servicios especializados esperan a que el local esté completo.» |
+| Explorador | «El puesto sigue en obras, pero ya puedes consultar los objetivos de exploración y defensa del Overworld. Más adelante reuniré expediciones, estructuras y contratos del mundo abierto; las rutas hacia otros Realms corresponden al Expedicionario.» |
+| Mercader del Nexus | «La tienda sigue terminándose, pero el mostrador ya está abierto. Cambio moneda sin comisión y ofrezco suministros comunes; nada de poder, reliquias ni atajos.» |
+| Pescador del Nexus | «Estoy preparando el embarcadero y estudiando estas aguas. Cuando la pesca tenga sus propias misiones, este será el lugar para comenzar.» |
+| Maestre de Obras | «El exterior está listo, pero aún estamos acondicionando el interior. Cuando el edificio reciba una función definitiva, podrás encontrarla aquí.» |
+| Agrimensora del Nexus | «Estoy tomando medidas y dejando margen para lo que este lugar necesite en el futuro. Por ahora, el interior continúa en obras.» |
+| Enlace del Nexus | «Este edificio tendrá un propósito cuando las necesidades del asentamiento estén más claras. Hasta entonces, superviso que permanezca listo para cambiar.» |
+| Intendente del Distrito | «Mantengo este lugar en orden mientras llegan materiales y decisiones. No hay servicio que anunciar todavía, solo trabajo pendiente.» |
+| Conservadora del Mercado | «Estoy catalogando lo que podría necesitar este edificio sin comprometerlo aún con una sola función. Volverá a abrir cuando su interior esté preparado.» |
+| Expedicionario del Nexus | «El Nexus estabiliza sus rutas por etapas: Nether en la Era II, Aether en la III, y End y Otherside en la IV. Antes de cada Era, sus portales no podrán llevarte al otro lado.» |
 
 ## Mapping FTB Quests
 
@@ -142,7 +181,7 @@ Mapping por NPC:
 
 | NPC | Botones FTB |
 |---|---|
-| Custodio del Nexus | `00_comienzo` y las cuatro Eras |
+| Custodio del Nexus | `00_comienzo` |
 | Cronista | las cuatro Eras |
 | Capitán de la Guardia | `exploracion_y_hordas`, `desafios_y_bosses` |
 | Maestro de Armas | `clase_guerrero` |
@@ -151,6 +190,13 @@ Mapping por NPC:
 | Armero | `clase_pistolero` |
 | Explorador | `exploracion_y_hordas` |
 | Mercader del Nexus | ninguno |
+| Pescador del Nexus | ninguno; punto de integración para el futuro pack de pesca |
+| Maestre de Obras | ninguno |
+| Agrimensora del Nexus | ninguno |
+| Enlace del Nexus | ninguno |
+| Intendente del Distrito | ninguno |
+| Conservadora del Mercado | ninguno |
+| Expedicionario del Nexus | ninguno; rama dimensional futura |
 
 El Maestro Metalomante solo abre `senda_del_metal`. No ejecuta `allomancy add`, no cambia clases y no concede `nexus_specialization_metallurgist`. El desbloqueo continúa perteneciendo a la quest y al sistema de progresión existente.
 
@@ -165,13 +211,13 @@ Los comandos comprobados pertenecen al árbol `/easy_npc`. La gestión de preset
 3. Importar una sola vez:
 
 ```text
-/easy_npc preset import_new custom easy_npc:preset/humanoid/<archivo>.npc.snbt
+/easy_npc preset import_new custom easy_npc:preset/humanoid/<archivo>.npc.snbt ~ ~ ~
 ```
 
 Ejemplo:
 
 ```text
-/easy_npc preset import_new custom easy_npc:preset/humanoid/nexus_custodian.npc.snbt
+/easy_npc preset import_new custom easy_npc:preset/humanoid/nexus_custodian.npc.snbt ~ ~ ~
 ```
 
 El identificador de recurso conserva el prefijo `easy_npc:preset/humanoid/` y la extensión `.npc.snbt`.
@@ -226,14 +272,14 @@ Mundo aislado utilizado: `Pack28_EasyNPC_Test`, creado como copia de un mundo cr
 Resultado comprobado con `nexus_custodian`:
 
 - importación custom correcta;
-- UUID de entidad generado: `447e794c-9169-42c7-9a29-2b42789d092c`;
+- UUID de entidad generado en runtime y no incorporado al preset;
 - archivo persistido por Easy NPC tras guardar;
 - reinicio del mundo con `Initialized with 1 tracked NPC entities`;
 - `Invulnerable:1b` e `EntityAttribute.IsInvulnerable:1b`;
 - `PersistenceRequired:1b`;
 - velocidad `0.0` y ausencia de objetivos de paseo;
 - una sola entidad tras el reinicio;
-- los nueve SNBT aceptados por el `TagParser` real de Minecraft `1.20.1`.
+- los dieciséis SNBT aceptados por el `TagParser` real de Minecraft `1.20.1`.
 
 Pendiente de prueba manual:
 
@@ -248,6 +294,6 @@ Durante la sesión de validación se produjo un crash de cliente ajeno al preset
 - La colocación final, orientación y registro de UUIDs son operaciones manuales sobre el mapa terminado.
 - No se probó interacción simultánea con más de un cliente.
 - La apertura visual del diálogo y del chapter FTB queda pendiente de la prueba manual indicada.
-- El Mercader no tiene ofertas ni comandos económicos.
+- El Mercader conserva sus ofertas nativas existentes; los otros quince presets no añaden economía.
 - Los presets no reaccionan visualmente a etapas de progresión; no se añadió lógica paralela.
 - Una indisponibilidad de CurseForge durante una instalación requiere el fallback manual verificado por SHA-1.
