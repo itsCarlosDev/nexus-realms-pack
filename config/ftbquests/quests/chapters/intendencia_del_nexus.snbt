@@ -1,0 +1,100 @@
+{
+  default_hide_dependency_lines: false
+  default_quest_shape: "square"
+  filename: "intendencia_del_nexus"
+  group: "4E5850474C4F4241" // same group as other Nexus chapters
+  icon: { id: "minecraft:emerald_block" }
+  id: "4E5850534D4E5A55" // unique ID for Intendencia chapter
+  images: [
+    { alpha: 170, color: 5528654, height: 11.0d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 19.0d, x: 8.0d, y: 1.0d }
+    { alpha: 190, color: 13802074, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 19.0d, x: 8.0d, y: -4.5d }
+  ]
+  order_index: 14
+  quest_links: []
+  subtitle: ["Gestión de reservas y necesidades colectivas del Nexus."]
+  quests: [
+    {
+      dependencies: []
+      description: ["La Intendencia coordina la logística, suministros y necesidades colectivas del Nexus. Aquí puedes contribuir al abastecimiento general. Para compras personales, acude al Mercader."]
+      icon: { id: "minecraft:emerald_block" }
+      id: "2730000000003301"
+      shape: "hexagon"
+      size: 1.25d
+      tasks: [{ id: "273B000000003301", title: "Entender la Intendencia", type: "checkmark" }]
+      title: "La Intendencia del Nexus"
+      x: 0.0d
+      y: 0.0d
+    },
+    // Requisición A – Reserva básica (piedra)
+    {
+      dependencies: ["2730000000003301"]
+      description: ["Entrega de bloques de piedra para la reserva general del Nexus."]
+      icon: { id: "minecraft:cobblestone" }
+      id: "2730000000003302"
+      rewards: [{ count: 3, id: "281D000000003302", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+      tasks: [
+        { consume_items: true, count: 64L, id: "273B000000003302", item: { Count: 1b, id: "minecraft:cobblestone" }, title: "Entregar 64 bloques de piedra", type: "item" }
+      ]
+      title: "Reserva básica – Piedra"
+      x: 2.5d
+      y: -2.5d
+    },
+    // Requisición B – Suministros de guarnición (hierro)
+    {
+      dependencies: ["2730000000003301"]
+      description: ["Entrega de hierro para la defensa del Nexus."]
+      icon: { id: "minecraft:iron_ingot" }
+      id: "2730000000003303"
+      rewards: [{ count: 4, id: "281D000000003303", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+      tasks: [
+        { consume_items: true, count: 32L, id: "273B000000003303", item: { Count: 1b, id: "minecraft:iron_ingot" }, title: "Entregar 32 lingotes de hierro", type: "item" }
+      ]
+      title: "Suministros de guarnición – Hierro"
+      x: 2.5d
+      y: 0.0d
+    },
+    // Requisición C – Logística expediciones (barriles)
+    {
+      dependencies: ["2730000000003301"]
+      description: ["Entrega de barriles para las futuras expediciones."]
+      icon: { id: "minecraft:barrel" }
+      id: "2730000000003304"
+      rewards: [{ count: 3, id: "281D000000003304", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+      tasks: [
+        { consume_items: true, count: 16L, id: "273B000000003304", item: { Count: 1b, id: "minecraft:barrel" }, title: "Entregar 16 barriles", type: "item" }
+      ]
+      title: "Logística de expediciones – Barriles"
+      x: 5.0d
+      y: -1.5d
+    },
+    // Requisición D – Reserva avanzada (obsidiana) – Repetible 1
+    {
+      dependencies: ["2730000000003301"]
+      description: ["Entrega de obsidiana para reservas avanzadas del Nexus."]
+      icon: { id: "minecraft:obsidian" }
+      id: "2730000000003305"
+      rewards: [{ count: 4, id: "281D000000003305", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+      tasks: [
+        { consume_items: true, count: 8L, id: "273B000000003305", item: { Count: 1b, id: "minecraft:obsidian" }, title: "Entregar 8 bloques de obsidiana", type: "item" }
+      ]
+      title: "Reserva avanzada – Obsidiana"
+      x: 10.0d
+      y: 0.0d
+    },
+    // Requisición E – Reserva avanzada (nether wart) – Repetible 2
+    {
+      dependencies: ["2730000000003301"]
+      description: ["Entrega de warte del Nether para reservas avanzadas."]
+      icon: { id: "minecraft:nether_wart" }
+      id: "2730000000003306"
+      rewards: [{ count: 4, id: "281D000000003306", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+      tasks: [
+        { consume_items: true, count: 16L, id: "273B000000003306", item: { Count: 1b, id: "minecraft:nether_wart" }, title: "Entregar 16 warte del Nether", type: "item" }
+      ]
+      title: "Reserva avanzada – Wart"
+      x: 12.5d
+      y: -0.5d
+    }
+  ]
+  title: "Intendencia del Nexus"
+}

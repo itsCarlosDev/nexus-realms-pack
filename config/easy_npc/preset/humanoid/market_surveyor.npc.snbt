@@ -1,15 +1,21 @@
 {
   PresetMetadata:{
     author:"Nexus Realms",category:"Nexus Market",created:1784654018052L,
-    description:"Agrimensora del Nexus: responsable provisional de medidas y distribución interior.",
-    entityTypeId:"easy_npc:humanoid",modified:1784654018052L,name:"market_surveyor",
-    variantType:"PROFESSOR_01",version:"1.0.0"
+    description:"Agrimensora del Nexus: investigación de anomalías y Realms conocidos.",
+    entityTypeId:"easy_npc:humanoid",modified:1785088800000L,name:"market_surveyor",
+    variantType:"PROFESSOR_01",version:"1.2.0"
   },
   data:{
     ActionData:{ActionEventSet:{ON_INTERACTION:[{Type:"OPEN_DEFAULT_DIALOG"}]},ActionPermissionLevel:4},ArmorDropChances:[0.0f,0.0f,0.0f,0.0f],ArmorItems:[{},{},{},{}],
     Attributes:[{Base:0.0d,Name:"minecraft:generic.movement_speed"},{Base:0.0d,Name:"minecraft:generic.attack_damage"},{Base:16.0d,Name:"minecraft:generic.follow_range"}],Brain:{memories:{}},CanPickUpLoot:0b,CanUpdate:1b,
     CustomName:'{"color":"#C8B47A","text":"Agrimensora del Nexus"}',CustomNameVisible:1b,
-    DialogData:{DialogDataSet:[{Buttons:[],Label:"default",Name:"Planos provisionales",Texts:[{Text:"Estoy tomando medidas y dejando margen para lo que este lugar necesite en el futuro. Por ahora, el interior continúa en obras."}]}],Type:"STANDARD"},
+    DialogData:{DialogDataSet:[{
+      Buttons:[{
+        Actions:[{Cmd:"/ftbquests open_book 4E584F4253455231",ExecAsUser:1b,PermLevel:0,Type:"COMMAND"}],
+        Label:"open_observatory",Name:"Abrir Observatorio del Nexus"
+      }],Label:"default",Name:"Observatorio del Nexus",
+      Texts:[{Text:"El Nexus conecta mundos distintos y aquí estudiamos sus anomalías. Nuevos descubrimientos aparecerán con las Eras, aunque varias instalaciones del Observatorio todavía siguen en construcción."}]
+    }],Type:"STANDARD"},
     DisplayAttribute:[{Bool:1b,Type:"VISIBLE"},{Bool:1b,Type:"VISIBLE_AT_DAY"},{Bool:1b,Type:"VISIBLE_AT_NIGHT"},{Bool:1b,Type:"VISIBLE_IN_CREATIVE"},{Bool:1b,Type:"VISIBLE_IN_SPECTATOR"},{Bool:1b,Type:"VISIBLE_IN_STANDARD"},{Bool:1b,Type:"VISIBLE_TO_OWNER"},{Bool:1b,Type:"VISIBLE_TO_TEAM"},{Int:7,Type:"LIGHT_LEVEL"},{Text:"ALWAYS",Type:"NAME_VISIBILITY"}],EasyNPCVersion:3,
     EntityAttribute:{CanBeHitByProjectile:0b,CanBeLeashed:0b,CanBreatheUnderwater:0b,CanCloseDoor:0b,CanFloat:0b,CanOpenDoor:0b,CanPassDoor:0b,CanUseNetherPortal:0b,Freefall:0b,HealthRegeneration:0.0d,IsAttackableByMonsters:0b,IsAttackableByPlayers:0b,IsInvulnerable:1b,IsPushable:0b,NoGravity:0b,PushEntities:0b},
     HandDropChances:[0.0f,0.0f],HandItems:[{Count:1b,id:"minecraft:compass"},{Count:1b,id:"minecraft:paper"}],Health:20.0f,Invulnerable:1b,LeftHanded:0b,

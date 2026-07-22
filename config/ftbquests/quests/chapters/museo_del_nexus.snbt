@@ -1,0 +1,267 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "square"
+	filename: "museo_del_nexus"
+	group: "4E5850474C4F4241"
+	icon: { id: "minecraft:brush" }
+	id: "4E584D5553455531"
+	images: [
+		{ alpha: 170, color: 4936794, height: 12.0d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 21.0d, x: 8.5d, y: 1.5d }
+		{ alpha: 190, color: 14140554, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 21.0d, x: 8.5d, y: -4.45d }
+	]
+	order_index: 15
+	quest_links: []
+	subtitle: ["Trofeos, reliquias y descubrimientos permanentes de Nexus Realms."]
+	quests: [
+		{
+			dependencies: ["4E58504552413031"]
+			description: [
+				"El Museo del Nexus comienza a catalogar pruebas de grandes victorias y hallazgos significativos."
+				"Las tareas solo registran posesión. No consumen los objetos ni construyen exposiciones físicas automáticamente."
+			]
+			icon: { id: "minecraft:brush" }
+			id: "2750000000003301"
+			shape: "hexagon"
+			size: 1.25d
+			tasks: [{ id: "275B000000003301", title: "Abrir el catálogo del Museo", type: "checkmark" }]
+			title: "El primer catálogo"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2750000000003301", "2710000000002102"]
+			description: [
+				"Tras registrar la victoria sobre el Ferrous Wroughtnaut, conserva su yelmo como prueba de la armadura viviente."
+				"El Museo comprueba que lo posees, pero no lo consume ni vuelve a exigir derrotar al boss."
+			]
+			icon: { id: "mowziesmobs:wrought_helmet" }
+			id: "2750000000003302"
+			rewards: [{
+				count: 3
+				id: "281F000000003302"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				consume_items: false
+				id: "275B000000003302"
+				item: { Count: 1b, id: "mowziesmobs:wrought_helmet" }
+				title: "Registrar el yelmo del Wroughtnaut"
+				type: "item"
+			}]
+			title: "Trofeo · Acero viviente"
+			x: 3.0d
+			y: -3.0d
+		}
+		{
+			dependencies: ["2750000000003301", "2710000000002105"]
+			description: [
+				"La Maze Mother deja amatista abisal de forma garantizada. Registra uno de sus fragmentos tras completar su cacería."
+				"La pieza permanece en tu inventario."
+			]
+			icon: { id: "aquamirae:abyssal_amethyst" }
+			id: "2750000000003303"
+			rewards: [{
+				count: 3
+				id: "281F000000003303"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				consume_items: false
+				id: "275B000000003303"
+				item: { Count: 1b, id: "aquamirae:abyssal_amethyst" }
+				title: "Registrar una amatista abisal"
+				type: "item"
+			}]
+			title: "Trofeo · Núcleo del laberinto"
+			x: 6.0d
+			y: -3.0d
+		}
+		{
+			dependencies: ["2750000000003301", "2710000000002108"]
+			description: [
+				"El Ender Guardian entrega su guantelete de forma garantizada. Consérvalo como testimonio de una victoria de Era IV."
+				"Registrar el guantelete no lo consume ni crea una copia."
+			]
+			icon: { id: "cataclysm:gauntlet_of_guard" }
+			id: "2750000000003304"
+			rewards: [{
+				count: 3
+				id: "281F000000003304"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				consume_items: false
+				id: "275B000000003304"
+				item: { Count: 1b, id: "cataclysm:gauntlet_of_guard" }
+				title: "Registrar el guantelete del guardián"
+				type: "item"
+			}]
+			title: "Trofeo · Guardián del End"
+			x: 9.0d
+			y: -3.0d
+		}
+		{
+			dependencies: ["2750000000003301", "2710000000002003"]
+			description: [
+				"Después de demostrar una expedición oceánica, registra un corazón del mar como reliquia de las profundidades."
+				"La pieza se conserva para que puedas utilizarla o exponerla más adelante."
+			]
+			icon: { id: "minecraft:heart_of_the_sea" }
+			id: "2750000000003305"
+			rewards: [{
+				count: 2
+				id: "281F000000003305"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				consume_items: false
+				id: "275B000000003305"
+				item: { Count: 1b, id: "minecraft:heart_of_the_sea" }
+				title: "Registrar un corazón del mar"
+				type: "item"
+			}]
+			title: "Reliquia · Corazón de la marea"
+			x: 3.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2750000000003301", "4E58504552413033"]
+			description: [
+				"El ambrosium representa la primera conexión estable con el Aether durante la Era III."
+				"Solo se registra su posesión; el fragmento no se consume."
+			]
+			icon: { id: "aether:ambrosium_shard" }
+			id: "2750000000003306"
+			rewards: [{
+				count: 2
+				id: "281F000000003306"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				consume_items: false
+				id: "275B000000003306"
+				item: { Count: 1b, id: "aether:ambrosium_shard" }
+				title: "Registrar un fragmento de ambrosium"
+				type: "item"
+			}]
+			title: "Reliquia · Luz del Aether"
+			x: 6.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2750000000003301", "4E58504552413034"]
+			description: [
+				"Unas élitras representan el dominio de las rutas más lejanas del End en Era IV."
+				"El Museo no las retira, duplica ni reemplaza."
+			]
+			icon: { id: "minecraft:elytra" }
+			id: "2750000000003307"
+			rewards: [{
+				count: 2
+				id: "281F000000003307"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				consume_items: false
+				id: "275B000000003307"
+				item: { Count: 1b, id: "minecraft:elytra" }
+				title: "Registrar unas élitras"
+				type: "item"
+			}]
+			title: "Reliquia · Alas del End"
+			x: 9.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2750000000003301"]
+			description: [
+				"Una esquirla de amatista marca el inicio del catálogo de minerales y formaciones singulares del Overworld."
+				"Este registro básico está disponible desde Era I."
+			]
+			icon: { id: "minecraft:amethyst_shard" }
+			id: "2750000000003308"
+			rewards: [{
+				count: 1
+				id: "281F000000003308"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				consume_items: false
+				id: "275B000000003308"
+				item: { Count: 1b, id: "minecraft:amethyst_shard" }
+				title: "Registrar una esquirla de amatista"
+				type: "item"
+			}]
+			title: "Descubrimiento · Geoda del Overworld"
+			x: 3.0d
+			y: 3.0d
+		}
+		{
+			dependencies: ["2750000000003301", "4E58504552413032"]
+			description: [
+				"Una lágrima de ghast conserva la memoria de las primeras expediciones al Nether en Era II."
+				"La muestra solo debe estar en tu posesión durante el registro."
+			]
+			icon: { id: "minecraft:ghast_tear" }
+			id: "2750000000003309"
+			rewards: [{
+				count: 1
+				id: "281F000000003309"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				consume_items: false
+				id: "275B000000003309"
+				item: { Count: 1b, id: "minecraft:ghast_tear" }
+				title: "Registrar una lágrima de ghast"
+				type: "item"
+			}]
+			title: "Descubrimiento · Memoria del Nether"
+			x: 6.0d
+			y: 3.0d
+		}
+		{
+			dependencies: ["2750000000003301", "4E58504552413034"]
+			description: [
+				"La pizarra lúgubre confirma una expedición al misterioso Otherside, accesible desde Era IV."
+				"El bloque se registra sin consumirse y queda disponible para futuras exposiciones."
+			]
+			icon: { id: "deeperdarker:cobbled_gloomslate" }
+			id: "2750000000003310"
+			rewards: [{
+				count: 1
+				id: "281F000000003310"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				consume_items: false
+				id: "275B000000003310"
+				item: { Count: 1b, id: "deeperdarker:cobbled_gloomslate" }
+				title: "Registrar pizarra lúgubre"
+				type: "item"
+			}]
+			title: "Descubrimiento · Piedra del Otherside"
+			x: 9.0d
+			y: 3.0d
+		}
+	]
+	title: "Museo del Nexus"
+}

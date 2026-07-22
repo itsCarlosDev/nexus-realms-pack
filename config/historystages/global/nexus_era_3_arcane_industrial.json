@@ -120,6 +120,18 @@
     {"id":"allomancy:copper_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
     {"id":"allomancy:bronze_flakes","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
     {"id":"allomancy:coin_bag","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
-    {"id":"allomancy:mistcloak","unlock_actions":["place","pickup","loot","recipe","gui","icon"]}
+    {"id":"allomancy:mistcloak","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"aquaculture:neptunium_sword","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"aquaculture:neptunium_pickaxe","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"aquaculture:neptunium_axe","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"aquaculture:neptunium_shovel","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"aquaculture:neptunium_hoe","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"aquaculture:neptunium_bow","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"aquaculture:neptunium_helmet","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"aquaculture:neptunium_chestplate","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"aquaculture:neptunium_leggings","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"aquaculture:neptunium_boots","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"aquaculture:neptunium_fishing_rod","unlock_actions":["place","pickup","loot","recipe","gui","icon"]},
+    {"id":"aquaculture:neptunium_fillet_knife","unlock_actions":["place","pickup","loot","recipe","gui","icon"]}
   ]
 }

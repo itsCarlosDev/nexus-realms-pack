@@ -1,0 +1,305 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "square"
+	filename: "expedicion_al_aether"
+	group: "4E5850474C4F4241"
+	icon: { id: "aether:ambrosium_shard" }
+	id: "4E58414554483031"
+	images: [
+		{ alpha: 175, color: 9238527, height: 13.0d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 36.0d, x: 15.0d, y: 1.0d }
+		{ alpha: 205, color: 16770048, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 36.0d, x: 15.0d, y: -5.45d }
+	]
+	order_index: 18
+	quest_links: []
+	subtitle: ["El gran Realm elevado del Nexus · disponible desde Era III."]
+	quests: [
+		{
+			dependencies: ["4E58504552413033"]
+			description: [
+				"Era III ha estabilizado la conexión con el Aether, un Realm de islas elevadas, minerales propios y ruinas custodiadas."
+				"Esta expedición orienta y registra la aventura: no concede stages, no crea portales y no sustituye a History Stages."
+			]
+			icon: { id: "minecraft:compass" }
+			id: "2780000000003701"
+			shape: "hexagon"
+			size: 1.3d
+			tasks: [{ id: "278B000000003701", title: "Revisar el plan del Expedicionario", type: "checkmark" }]
+			title: "Expedición II · El Realm elevado"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2780000000003701"]
+			description: [
+				"Las islas flotantes castigan cualquier descuido. Prepara orientación, defensa, agua y alimento antes de cruzar el portal nativo."
+				"El equipo solo se comprueba y permanece en tu inventario."
+			]
+			icon: { id: "minecraft:water_bucket" }
+			id: "2780000000003702"
+			rewards: [{
+				count: 2
+				id: "2840000000003702"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: false, id: "278B000000003702", item: { Count: 1b, id: "minecraft:compass" }, title: "Preparar una brújula", type: "item" }
+				{ consume_items: false, id: "278B000000003703", item: { Count: 1b, id: "minecraft:shield" }, title: "Preparar un escudo", type: "item" }
+				{ consume_items: false, id: "278B000000003704", item: { Count: 1b, id: "minecraft:water_bucket" }, title: "Preparar agua", type: "item" }
+				{ consume_items: false, count: 16L, id: "278B000000003705", item: { Count: 1b, id: "minecraft:cooked_beef" }, title: "Reservar 16 filetes cocinados", type: "item" }
+			]
+			title: "Preparación · Sobre el vacío"
+			x: 2.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2780000000003702"]
+			description: [
+				"Cruza mediante el portal nativo cuando History Stages haya habilitado Era III."
+				"La tarea nativa de FTB Quests solo comprueba tu presencia en aether:the_aether."
+			]
+			icon: { id: "aether:aether_portal_frame" }
+			id: "2780000000003703"
+			rewards: [{
+				count: 3
+				id: "2840000000003703"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				dimension: "aether:the_aether"
+				id: "278B000000003706"
+				title: "Entrar al Aether"
+				type: "dimension"
+			}]
+			title: "Primer contacto · Ascenso"
+			x: 5.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2780000000003703"]
+			description: ["Reconoce la materia común del Realm antes de adentrarte en sus minas y dungeons."]
+			icon: { id: "aether:holystone" }
+			id: "2780000000003704"
+			rewards: [{
+				count: 2
+				id: "2840000000003704"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: false, count: 32L, id: "278B000000003707", item: { Count: 1b, id: "aether:holystone" }, title: "Reunir 32 holystone", type: "item" }
+				{ consume_items: false, count: 16L, id: "278B000000003708", item: { Count: 1b, id: "aether:skyroot_log" }, title: "Reunir 16 troncos de skyroot", type: "item" }
+			]
+			title: "Primer contacto · Piedra y skyroot"
+			x: 7.5d
+			y: -3.0d
+		}
+		{
+			dependencies: ["2780000000003704"]
+			description: ["Ambrosium ilumina y alimenta procesos del Aether; la zanita permite construir sus primeras herramientas y el altar."]
+			icon: { id: "aether:zanite_gemstone" }
+			id: "2780000000003705"
+			rewards: [{
+				count: 2
+				id: "2840000000003705"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: false, count: 16L, id: "278B000000003709", item: { Count: 1b, id: "aether:ambrosium_shard" }, title: "Reunir 16 fragmentos de ambrosium", type: "item" }
+				{ consume_items: false, count: 4L, id: "278B000000003710", item: { Count: 1b, id: "aether:zanite_gemstone" }, title: "Reunir 4 gemas de zanita", type: "item" }
+			]
+			title: "Progresión · Minerales elevados"
+			x: 10.0d
+			y: -3.0d
+		}
+		{
+			dependencies: ["2780000000003705"]
+			description: ["El altar nativo convierte recursos del Realm sin introducir recetas o sistemas paralelos."]
+			icon: { id: "aether:altar" }
+			id: "2780000000003706"
+			rewards: [{
+				count: 2
+				id: "2840000000003706"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{ consume_items: false, id: "278B000000003711", item: { Count: 1b, id: "aether:altar" }, title: "Construir un altar", type: "item" }]
+			title: "Progresión · Tecnología del Aether"
+			x: 12.5d
+			y: -3.0d
+		}
+		{
+			dependencies: ["2780000000003706"]
+			description: ["Procesa gravitita en el altar. La quest comprueba el material, pero no entrega ni exige fabricar su equipamiento avanzado."]
+			icon: { id: "aether:enchanted_gravitite" }
+			id: "2780000000003707"
+			rewards: [{
+				count: 3
+				id: "2840000000003707"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{ consume_items: false, id: "278B000000003712", item: { Count: 1b, id: "aether:enchanted_gravitite" }, title: "Obtener gravitita encantada", type: "item" }]
+			title: "Progresión · Gravitita encantada"
+			x: 15.0d
+			y: -3.0d
+		}
+		{
+			dependencies: ["2780000000003703"]
+			description: [
+				"Zephyrs, cockatrices y plantas aechor aparecen de forma nativa en los biomas skyroot del JAR local."
+				"Supera una muestra pequeña de amenazas habituales sin convertir la expedición en una Horda."
+			]
+			icon: { id: "aether:zephyr_spawn_egg" }
+			id: "2780000000003708"
+			rewards: [{
+				count: 2
+				id: "2840000000003708"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ entity: "aether:zephyr", id: "278B000000003713", title: "Eliminar 3 zephyrs", type: "kill", value: 3L }
+				{ entity: "aether:cockatrice", id: "278B000000003714", title: "Eliminar 2 cockatrices", type: "kill", value: 2L }
+				{ entity: "aether:aechor_plant", id: "278B000000003715", title: "Eliminar 2 plantas aechor", type: "kill", value: 2L }
+			]
+			title: "Exploración · Fauna hostil"
+			x: 7.5d
+			y: 3.0d
+		}
+		{
+			dependencies: ["2780000000003707"]
+			description: ["Los dungeons de bronce son la estructura más frecuente de la cadena nativa. Localiza uno antes de desafiar a su guardián."]
+			icon: { id: "aether:carved_stone" }
+			id: "2780000000003709"
+			rewards: [{
+				count: 3
+				id: "2840000000003709"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{ id: "278B000000003716", structure: "aether:bronze_dungeon", title: "Entrar en un dungeon de bronce", type: "structure" }]
+			title: "Dungeons · Piedra tallada"
+			x: 17.5d
+			y: -1.5d
+		}
+		{
+			dependencies: ["2780000000003709"]
+			description: ["El Slider custodia el dungeon de bronce. Su derrota entrega de forma garantizada la llave del tesoro nativo; esta quest no la duplica."]
+			icon: { id: "aether:bronze_dungeon_key" }
+			id: "2780000000003710"
+			rewards: [{
+				count: 4
+				id: "2840000000003710"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{ entity: "aether:slider", id: "278B000000003717", title: "Derrotar al Slider", type: "kill", value: 1L }]
+			title: "Gran desafío · Slider"
+			x: 20.0d
+			y: -1.5d
+		}
+		{
+			dependencies: ["2780000000003710"]
+			description: ["Los dungeons de plata son menos frecuentes y anuncian una expedición más exigente."]
+			icon: { id: "aether:angelic_stone" }
+			id: "2780000000003711"
+			rewards: [{
+				count: 3
+				id: "2840000000003711"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{ id: "278B000000003718", structure: "aether:silver_dungeon", title: "Entrar en un dungeon de plata", type: "structure" }]
+			title: "Dungeons · Bastión de plata"
+			x: 22.5d
+			y: -1.5d
+		}
+		{
+			dependencies: ["2780000000003711"]
+			description: ["La Reina Valquiria custodia la recompensa del dungeon de plata y entrega una llave garantizada al caer."]
+			icon: { id: "aether:silver_dungeon_key" }
+			id: "2780000000003712"
+			rewards: [{
+				count: 4
+				id: "2840000000003712"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{ entity: "aether:valkyrie_queen", id: "278B000000003719", title: "Derrotar a la Reina Valquiria", type: "kill", value: 1L }]
+			title: "Gran desafío · Reina Valquiria"
+			x: 25.0d
+			y: -1.5d
+		}
+		{
+			dependencies: ["2780000000003712"]
+			description: ["Los dungeons de oro son la variante menos frecuente del conjunto local y preparan el cierre de la expedición V1."]
+			icon: { id: "aether:hellfire_stone" }
+			id: "2780000000003713"
+			rewards: [{
+				count: 3
+				id: "2840000000003713"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{ id: "278B000000003720", structure: "aether:gold_dungeon", title: "Entrar en un dungeon de oro", type: "structure" }]
+			title: "Dungeons · Santuario de oro"
+			x: 27.5d
+			y: -1.5d
+		}
+		{
+			dependencies: ["2780000000003713"]
+			description: ["El Espíritu del Sol es el gran desafío final del Aether V1. Su loot nativo permanece como única fuente de su llave y altar solar."]
+			icon: { id: "aether:gold_dungeon_key" }
+			id: "2780000000003714"
+			rewards: [{
+				count: 5
+				id: "2840000000003714"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{ entity: "aether:sun_spirit", id: "278B000000003721", title: "Derrotar al Espíritu del Sol", type: "kill", value: 1L }]
+			title: "Gran desafío · Espíritu del Sol"
+			x: 30.0d
+			y: -1.5d
+		}
+		{
+			dependencies: ["2780000000003708", "2780000000003714"]
+			description: [
+				"Has documentado recursos, criaturas y los tres grandes dungeons del primer Realm elevado del Nexus."
+				"La expedición concluye sin entregar loot excepcional ni adelantar End u Otherside."
+			]
+			icon: { id: "aether:golden_amber" }
+			id: "2780000000003715"
+			shape: "diamond"
+			size: 1.4d
+			rewards: [{
+				count: 5
+				id: "2840000000003715"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{ id: "278B000000003722", title: "Cerrar el informe del Aether", type: "checkmark" }]
+			title: "Cierre V1 · Realm cartografiado"
+			x: 32.5d
+			y: 0.0d
+		}
+	]
+	title: "Expedición al Aether"
+}
