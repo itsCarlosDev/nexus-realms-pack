@@ -12,7 +12,7 @@
   order_index: 14
   quest_links: []
   subtitle: ["Gestión de reservas y necesidades colectivas del Nexus."]
-  quests: [
+    quests: [
     {
       dependencies: []
       description: ["La Intendencia coordina la logística, suministros y necesidades colectivas del Nexus. Aquí puedes contribuir al abastecimiento general. Para compras personales, acude al Mercader."]
@@ -25,9 +25,9 @@
       x: 0.0d
       y: 0.0d
     },
-    // Requisición A – Reserva básica (piedra)
+      // Requisición A – Reserva básica (piedra)  -> Era I
     {
-      dependencies: ["2730000000003301"]
+        dependencies: ["2730000000003301", "4E58504552413031"]
       description: ["Entrega de bloques de piedra para la reserva general del Nexus."]
       icon: { id: "minecraft:cobblestone" }
       id: "2730000000003302"
@@ -39,9 +39,9 @@
       x: 2.5d
       y: -2.5d
     },
-    // Requisición B – Suministros de guarnición (hierro)
+      // Requisición B – Suministros de guarnición (hierro)  -> Era I
     {
-      dependencies: ["2730000000003301"]
+        dependencies: ["2730000000003301", "4E58504552413031"]
       description: ["Entrega de hierro para la defensa del Nexus."]
       icon: { id: "minecraft:iron_ingot" }
       id: "2730000000003303"
@@ -53,9 +53,9 @@
       x: 2.5d
       y: 0.0d
     },
-    // Requisición C – Logística expediciones (barriles)
+      // Requisición C – Logística expediciones (barriles)  -> Era II
     {
-      dependencies: ["2730000000003301"]
+        dependencies: ["2730000000003301", "4E58504552413032"]
       description: ["Entrega de barriles para las futuras expediciones."]
       icon: { id: "minecraft:barrel" }
       id: "2730000000003304"
@@ -67,9 +67,10 @@
       x: 5.0d
       y: -1.5d
     },
-    // Requisición D – Reserva avanzada (obsidiana) – Repetible 1
+    // Requisición D – Reserva avanzada (obsidiana) – Repetible 1  -> Era I
     {
-      dependencies: ["2730000000003301"]
+      can_repeat: true
+      dependencies: ["2730000000003301", "4E58504552413031"]
       description: ["Entrega de obsidiana para reservas avanzadas del Nexus."]
       icon: { id: "minecraft:obsidian" }
       id: "2730000000003305"
@@ -81,9 +82,10 @@
       x: 10.0d
       y: 0.0d
     },
-    // Requisición E – Reserva avanzada (nether wart) – Repetible 2
+    // Requisición E – Reserva avanzada (nether wart) – Repetible 2  -> Era II
     {
-      dependencies: ["2730000000003301"]
+      can_repeat: true
+      dependencies: ["2730000000003301", "4E58504552413032"]
       description: ["Entrega de warte del Nether para reservas avanzadas."]
       icon: { id: "minecraft:nether_wart" }
       id: "2730000000003306"

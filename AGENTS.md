@@ -166,7 +166,7 @@ Never invent or guess:
 If an initial search returns no results:
 
 1. verify that the search scope is correct;
-2. broaden the search;
+2. broaden the search using an allowed search method;
 3. inspect nearby architecture;
 4. only then conclude that the data is absent.
 
@@ -180,56 +180,71 @@ Do not describe an inference as a verified repository fact.
 
 ---
 
-# Tool failure rules
+# Local model tool policy
 
-# Cline local-model tool rules
+The workspace may be operated by Cline with GPT-OSS 20B.
 
-The primary local coding agent may be Cline using GPT-OSS 20B.
+The authoritative local-model tool policy is:
 
-With this model, Cline structured search tools have shown repeated malformed calls, especially missing required `path` parameters.
+`.clinerules/00-gpt-oss-tool-policy.md`
 
-Therefore:
+Its rules are mandatory and take precedence for local-model filesystem and repository search behavior.
 
-DO NOT use the Cline `search_files` tool for repository searches.
+In particular:
 
-DO NOT use repeated experimental calls to `search_files`.
+* `search_files` is unavailable and must never be used;
+* known files must be read directly;
+* repository searches must use simple read-only PowerShell commands;
+* malformed tool calls must never be retried with the same tool;
+* reliability is more important than preferring Cline-native search tools.
 
-Prefer read-only PowerShell commands through the terminal for all repository-wide searches.
+Do not duplicate, weaken or override that policy elsewhere.
 
-For text searches, use PowerShell such as:
+## Context recovery
 
-`Get-ChildItem -Path . -Recurse -File -ErrorAction SilentlyContinue | Select-String -Pattern '<PATTERN>'`
+After context condensation, automatic summarization, task resume or conversation recovery:
 
-For a specific extension:
+NEVER perform a repository-wide search merely to reconstruct context.
 
-`Get-ChildItem -Path . -Recurse -File -Filter "*.toml" -ErrorAction SilentlyContinue | Select-String -Pattern '<PATTERN>'`
+NEVER issue an empty search query.
 
-For multiple extensions:
+An empty query such as:
 
-`Get-ChildItem -Path . -Recurse -File -ErrorAction SilentlyContinue | Where-Object { $_.Extension -in '.toml', '.json', '.js', '.java', '.md', '.txt' } | Select-String -Pattern '<PATTERN>'`
+`""`
 
-For filenames or directory names:
+is always invalid.
 
-`Get-ChildItem -Path . -Recurse -Force -ErrorAction SilentlyContinue | Where-Object { $_.Name -match '<PATTERN>' } | Select-Object FullName`
+Treat the condensed or resumed task context as the current operational state unless repository evidence contradicts it.
 
-For exact files, use direct file reading when the path is already known.
+Use known exact paths from the current task context.
 
-Do not search for a file again when its exact verified path is already known.
+If the next required files are already identified:
 
-Do not ask the user to manually provide a file when:
+read those exact files directly.
 
-* its exact path is already known;
-* it can be accessed with a read-only PowerShell command.
+Do not search for them again.
 
-If a Cline tool call fails because of malformed parameters:
+When task state is uncertain after condensation:
 
-1. do not retry the same tool call;
-2. do not attempt minor variations of the same malformed call;
-3. immediately use a read-only PowerShell command instead.
+1. run `git status --short`;
+2. inspect only the exact known affected files;
+3. inspect their current diff when necessary;
+4. identify the remaining requested deliverables;
+5. continue from the summarized pending task.
 
-Never perform repeated tool retries that consume context without producing new evidence.
+Do not:
 
-For this project and local model configuration, reliability is more important than preferring Cline-native search tools.
+* rediscover known files;
+* restart completed implementation steps;
+* rerun completed validations without a reason;
+* perform repository-wide discovery simply to determine what to do next;
+* use an empty search as an orientation mechanism.
+
+If the condensed context says that a step was completed but verification is required:
+
+verify the exact relevant file or command output directly.
+
+Do not reconstruct the entire task history.
 
 ---
 
@@ -611,13 +626,13 @@ Run:
 
 `packwiz refresh`
 
-when Packwiz-managed mod definitions or pack metadata have changed.
+when Packwiz-managed files or indexed pack content have changed and the index requires regeneration.
 
 Do NOT run `packwiz refresh` merely because unrelated:
 
 * documentation;
 * Java source;
-* KubeJS scripts;
+* runtime-only files;
 
 changed.
 
@@ -661,6 +676,14 @@ Never claim:
 
 unless the relevant behavior was actually tested in Minecraft.
 
+When a validation command produces no visible output:
+
+do not automatically treat that as evidence of failure.
+
+Interpret the command using its actual exit/result state where available.
+
+Do not rerun a completed validation merely because its successful output was empty.
+
 ---
 
 # Development scripts
@@ -687,6 +710,10 @@ When an available Bash environment has been established, it may be run from the 
 `./scripts/dev-check.sh`
 
 Do not invent or assume a Bash runtime.
+
+If it was successfully executed earlier in the same task:
+
+do not rerun it merely because context was condensed.
 
 ---
 
@@ -762,6 +789,23 @@ Existing `.sh` files may intentionally target Bash environments.
 
 Do not rewrite them merely because the interactive agent shell is PowerShell unless explicitly requested.
 
+Prefer simple commands.
+
+Avoid unnecessarily complex:
+
+* nested shell invocation;
+* deeply nested quoting;
+* multi-shell pipelines;
+* `cmd /c` wrappers;
+
+when a direct PowerShell equivalent exists.
+
+When a simple command fails because of shell syntax:
+
+do not repeatedly retry increasingly complex quoting variants.
+
+Use a simpler equivalent command.
+
 ---
 
 # Implementation workflow
@@ -785,6 +829,12 @@ Do not skip diagnosis merely because a previous agent proposed a cause.
 
 Previous-agent conclusions are hypotheses until verified against the current repository or runtime evidence.
 
+After context condensation:
+
+do not restart this workflow from step 1 unless the repository state actually needs to be re-established.
+
+Continue from the last verified task state.
+
 ---
 
 # Documentation
@@ -798,6 +848,12 @@ Prefer updating an existing relevant document over creating duplicate documentat
 Do not document planned behavior as implemented behavior.
 
 Do not state that a runtime bug is fixed until runtime validation has occurred.
+
+When documentation files are already known:
+
+read them directly.
+
+Do not search the repository again to rediscover them.
 
 ---
 
@@ -833,6 +889,10 @@ At the end of implementation tasks, report:
 8. remaining limitations or unverified items;
 9. `git diff --stat`;
 10. `git status --short`.
+
+Do not perform additional repository discovery merely to produce the final report.
+
+Use the known task scope, exact affected files and Git output.
 
 Do not stage.
 
