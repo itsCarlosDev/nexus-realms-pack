@@ -1,0 +1,157 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "square"
+	filename: "expedicion_al_otherside"
+	group: "4E583333324F5448"
+	icon: { id: "minecraft:eye_of_ender" }
+	id: "4E583333324F5448"
+	images: []
+	order_index: 18
+	quest_links: []
+	subtitle: ["Exploración de la dimensión Otherside · disponible desde Era IV."]
+	quests: [
+		{
+			dependencies: []
+			description: [
+				"La frontera oscura introduce el Otherside y su peligro inherente."
+			]
+			icon: { id: "minecraft:eye_of_ender" }
+			id: "4E58333200000001"
+			shape: "hexagon"
+			size: 1.3d
+			tasks: [{ id: "4E58333200000001", title: "Exploración inicial", type: "checkmark" }]
+			title: "La frontera oscura"
+		}
+		{
+			dependencies: ["4E58333200000001"]
+			description: [
+				"Poseer el corazón de las profundidades es requisito previo."
+			]
+			icon: { id: "deeperdarker:heart_of_the_deep" }
+			id: "4E58333200000002"
+			rewards: [{ count: 2, id: "28358333200000001", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+			tasks: [{ consume_items: false, id: "4E58333200000002", item: { Count: 1b, id: "deeperdarker:heart_of_the_deep" }, title: "Poseer el corazón de las profundidades", type: "item" }]
+			title: "El corazón de las profundidades"
+		}
+		{
+			dependencies: ["4E58333200000002"]
+			description: [
+				"El corazón de la profundidad permite activar el portal nativo."
+			]
+			icon: { id: "minecraft:portal" }
+			id: "4E58333200000003"
+			tasks: [{ id: "4E58333200000003", title: "Activar el portal nativo", type: "checkmark" }]
+			title: "Abrir el camino"
+		}
+		{
+			dependencies: ["4E58333200000003"]
+			description: [
+				"Entrar en la dimensión Otherside."
+			]
+			icon: { id: "minecraft:ender_eye" }
+			id: "4E58333200000004"
+			rewards: [{ count: 3, id: "28358333200000002", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+			tasks: [{ dimension: "deeperdarker:otherside", id: "4E58333200000004", title: "Entrar en Otherside", type: "dimension" }]
+			title: "Cruzando al Otherside"
+		}
+		{
+			dependencies: ["4E58333200000004"]
+			description: [
+				"Obtener piedra de otro mundo."
+			]
+			icon: { id: "deeperdarker:cobbled_gloomslate" }
+			id: "4E58333200000005"
+			rewards: [{ count: 2, id: "28358333200000003", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+			tasks: [{ consume_items: false, count: 8L, id: "4E58333200000005", item: { Count: 1b, id: "deeperdarker:cobbled_gloomslate" }, title: "Reunir 8 piedras de otro mundo", type: "item" }]
+			title: "Piedra de otro mundo"
+		}
+		{
+			dependencies: ["4E58333200000005"]
+			description: [
+				"Obtener bayas luminosas."
+			]
+			icon: { id: "deeperdarker:bloom_berries" }
+			id: "4E58333200000006"
+			rewards: [{ count: 2, id: "28358333200000004", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+			tasks: [{ consume_items: false, count: 12L, id: "4E58333200000006", item: { Count: 1b, id: "deeperdarker:bloom_berries" }, title: "Reunir 12 bayas luminosas", type: "item" }]
+			title: "Luz entre la oscuridad"
+		}
+		{
+			dependencies: ["4E58333200000006"]
+			description: [
+				"Eliminar escorpiones de sculk."
+			]
+			icon: { id: "deeperdarker:sculk_snapper" }
+			id: "4E58333200000007"
+			rewards: [{ count: 3, id: "28358333200000005", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+			tasks: [{ entity: "deeperdarker:sculk_snapper", id: "4E58333200000007", title: "Eliminar 5 escorpiones de sculk", type: "kill", value: 5L }]
+			title: "Depredadores del sculk"
+		}
+		{
+			dependencies: ["4E58333200000007"]
+			description: [
+				"Eliminar criaturas destrozadas."
+			]
+			icon: { id: "deeperdarker:shattered" }
+			id: "4E58333200000008"
+			rewards: [{ count: 3, id: "28358333200000006", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+			tasks: [{ entity: "deeperdarker:shattered", id: "4E58333200000008", title: "Eliminar 5 criaturas destrozadas", type: "kill", value: 5L }]
+			title: "Ecos deformados"
+		}
+		{
+			dependencies: ["4E58333200000008"]
+			description: [
+				"Eliminar peces de angler."
+			]
+			icon: { id: "deeperdarker:angler_fish" }
+			id: "4E58333200000009"
+			rewards: [{ count: 3, id: "28358333200000007", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+			tasks: [{ entity: "deeperdarker:angler_fish", id: "4E58333200000009", title: "Eliminar 10 peces de angler", type: "kill", value: 10L }]
+			title: "Vida bajo las aguas"
+		}
+		{
+			dependencies: ["4E58333200000009"]
+			description: [
+				"Eliminar el fango viviente."
+			]
+			icon: { id: "deeperdarker:sludge" }
+			id: "4E58333200000010"
+			rewards: [{ count: 3, id: "28358333200000008", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+			tasks: [{ entity: "deeperdarker:sludge", id: "4E58333200000010", title: "Eliminar 5 fango viviente", type: "kill", value: 5L }]
+			title: "El fango viviente"
+		}
+		{
+			dependencies: ["4E58333200000010"]
+			description: [
+				"Detectar el templo antiguo."
+			]
+			icon: { id: "deeperdarker:ancient_temple" }
+			id: "4E58333200000011"
+			rewards: [{ count: 3, id: "28358333200000009", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+			tasks: [{ structure: "deeperdarker:ancient_temple", id: "4E58333200000011", title: "Detectar templo antiguo", type: "structure" }]
+			title: "El Templo Antiguo"
+		}
+		{
+			dependencies: ["4E58333200000011"]
+			description: [
+				"Obtener un recurso adicional."
+			]
+			icon: { id: "deeperdarker:sculk_bone" }
+			id: "4E58333200000012"
+			rewards: [{ count: 2, id: "28358333200000010", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+			tasks: [{ consume_items: false, count: 4L, id: "4E58333200000012", item: { Count: 1b, id: "deeperdarker:sculk_bone" }, title: "Reunir 4 huesos de sculk", type: "item" }]
+			title: "Restos de las profundidades"
+		}
+		{
+			dependencies: ["4E58333200000012"]
+			description: [
+				"Cierre de la expedición."
+			]
+			icon: { id: "minecraft:enchanting_table" }
+			id: "4E58333200000013"
+			tasks: [{ id: "4E58333200000013", title: "Expedición completada", type: "checkmark" }]
+			title: "Expedición completada"
+		}
+	]
+	title: "Expedición al Otherside"
+}

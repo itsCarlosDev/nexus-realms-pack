@@ -26,7 +26,7 @@ hash = "9ac7755739cd90b81f48c14ea9463de25bb4d0d6b2f4132134d4a054bf50b56d"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/district_steward.npc.snbt"
-hash = "b12af89c39e15b35fea5be33ef7e41283c9e976f0431ec18abb5c0242ffb1bf4"
+hash = "27bfe5cf199964c7ebb298cfdf2cc5537e65794f9b5ee242211442a1d08cb8de"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/explorer.npc.snbt"
@@ -58,7 +58,7 @@ hash = "cb5c05ffca807310c16bc08d83f9f68fe800cca93dcd8414d74923ee7cca6a1b"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nether_expeditionary.npc.snbt"
-hash = "b574670bd22f96d4d012c0708e453e7720f853ddf50d67b915d002669ad47e3e"
+hash = "e224a3bff623a85ba272d53e5c23d9e75af19391221c2be3f0044d6c410e5fd6"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nexus_custodian.npc.snbt"
@@ -229,8 +229,16 @@ file = "config/ftbquests/quests/chapters/expedicion_al_nether.snbt"
 hash = "dcc5881c98ff89c794da6924a3769887c1027c7a16ea8c763f8fcd376dc6ee9e"
 
 [[files]]
+file = "config/ftbquests/quests/chapters/expedicion_al_otherside.snbt"
+hash = "6ac3616dd0c4eb7e4a3dad72bb479517687eb9157dd592fe646241c5131bc2e6"
+
+[[files]]
 file = "config/ftbquests/quests/chapters/exploracion_y_hordas.snbt"
 hash = "77a21ef52efc8d03b25da6888027829746df0f912fb04d472c97245a74e9b957"
+
+[[files]]
+file = "config/ftbquests/quests/chapters/intendencia_del_nexus.snbt"
+hash = "1a68e46985b1435d44ca12c78f158c768dc91b19ff119b580e453df5a1c7e30d"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/museo_del_nexus.snbt"
