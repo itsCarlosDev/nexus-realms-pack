@@ -104,8 +104,8 @@
 		}
 		{
 			dependencies: ["2710000000002003", "2710000000002004", "4E58504552413034"]
-			description: ["En la Era IV, trae un recuerdo del End para demostrar que el equipo domina viajes interdimensionales."]
-			icon: { id: "minecraft:chorus_fruit" }
+			description: ["En la Era IV, recupera ecos de una ciudad antigua como prueba de exploración avanzada del Overworld."]
+			icon: { id: "minecraft:echo_shard" }
 			id: "2710000000002005"
 			rewards: [{
 				count: 2
@@ -114,13 +114,13 @@
 				type: "item"
 			}]
 			tasks: [{
-				count: 16L
+				count: 4L
 				id: "271B000000002006"
-				item: { Count: 1b, id: "minecraft:chorus_fruit" }
-				title: "Recuperar 16 frutas de chorus"
+				item: { Count: 1b, id: "minecraft:echo_shard" }
+				title: "Recuperar 4 fragmentos de eco"
 				type: "item"
 			}]
-			title: "Más allá del vacío"
+			title: "Ecos bajo el Overworld"
 			x: 6.0d
 			y: 0.0d
 		}
@@ -180,7 +180,7 @@
 			}]
 			shape: "octagon"
 			size: 1.3d
-			tasks: [{ id: "271B000000002013", title: "Comprender la limitación de seguimiento", type: "checkmark" }]
+			tasks: [{ id: "271B000000002013", title: "Confirmar la defensa tras la victoria", type: "checkmark" }]
 			title: "Primera defensa"
 			x: 4.0d
 			y: 3.0d

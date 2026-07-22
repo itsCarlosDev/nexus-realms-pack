@@ -5,10 +5,10 @@
     created:1784332800000L,
     description:"Explorador: cartografía, viajes y acceso a Exploración y hordas.",
     entityTypeId:"easy_npc:humanoid",
-    modified:1784672658345L,
+    modified:1784675152781L,
     name:"explorer",
     variantType:"JAYJASONBO",
-    version:"1.2.0"
+    version:"1.3.0"
   },
   data:{
     ActionData:{ActionEventSet:{ON_INTERACTION:[{Type:"OPEN_DEFAULT_DIALOG"}]},ActionPermissionLevel:4},
@@ -38,7 +38,7 @@
         }],
         Label:"default",
         Name:"Más allá del mercado",
-        Texts:[{Text:"El puesto sigue en obras, pero ya puedes consultar los objetivos de exploración y defensa del Overworld. Más adelante reuniré expediciones, estructuras y contratos del mundo abierto; las rutas hacia otros Realms corresponden al Expedicionario."}]
+        Texts:[{Text:"El puesto aún se está acondicionando, pero ya puedo orientarte sobre rutas, estructuras, criaturas y amenazas del Overworld, incluidas las Hordas. Más adelante prepararé expediciones y contratos de mundo abierto; para Nether, Aether, End u Otherside, habla con el Expedicionario del Nexus."}]
       }],
       Type:"STANDARD"
     },

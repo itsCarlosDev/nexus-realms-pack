@@ -1,0 +1,234 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "square"
+	filename: "observatorio_del_nexus"
+	group: "4E5850474C4F4241"
+	icon: { id: "minecraft:spyglass" }
+	id: "4E584F4253455231"
+	images: [
+		{ alpha: 170, color: 2438990, height: 12.0d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 22.0d, x: 9.0d, y: 1.5d }
+		{ alpha: 190, color: 13153370, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 22.0d, x: 9.0d, y: -4.45d }
+	]
+	order_index: 16
+	quest_links: []
+	subtitle: ["Investigación del Nexus, sus anomalías y los cinco Realms conocidos."]
+	quests: [
+		{
+			dependencies: ["4E58504552413031"]
+			description: [
+				"El Observatorio estudia cómo el Nexus conecta mundos distintos y cómo cambian sus anomalías con el avance global."
+				"Estas investigaciones aportan conocimiento: no conceden stages, no abren portales y no sustituyen a History Stages."
+			]
+			icon: { id: "minecraft:spyglass" }
+			id: "2760000000003501"
+			shape: "hexagon"
+			size: 1.25d
+			tasks: [{ id: "276B000000003501", title: "Abrir el registro del Observatorio", type: "checkmark" }]
+			title: "El Nexus bajo observación"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2760000000003501"]
+			description: [
+				"Prepara instrumentos básicos para comparar orientación y ciclos mientras el Nexus permanece estable."
+				"Los instrumentos solo se comprueban y permanecen en tu inventario."
+			]
+			icon: { id: "minecraft:compass" }
+			id: "2760000000003502"
+			rewards: [{
+				count: 1
+				id: "2820000000003502"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: false, id: "276B000000003502", item: { Count: 1b, id: "minecraft:compass" }, title: "Calibrar una brújula", type: "item" }
+				{ consume_items: false, id: "276B000000003503", item: { Count: 1b, id: "minecraft:clock" }, title: "Calibrar un reloj", type: "item" }
+			]
+			title: "El Nexus · Instrumentos de lectura"
+			x: 2.5d
+			y: -3.5d
+		}
+		{
+			dependencies: ["2760000000003501"]
+			description: [
+				"El Overworld es el Realm estable de Era I y el punto de comparación para todas las conexiones posteriores."
+				"Registra una muestra de calcita sin consumirla."
+			]
+			icon: { id: "minecraft:calcite" }
+			id: "2760000000003503"
+			rewards: [{
+				count: 1
+				id: "2820000000003503"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				consume_items: false
+				id: "276B000000003504"
+				item: { Count: 1b, id: "minecraft:calcite" }
+				title: "Analizar calcita del Overworld"
+				type: "item"
+			}]
+			title: "Realm conocido · Overworld"
+			x: 2.5d
+			y: -1.5d
+		}
+		{
+			dependencies: ["2760000000003501", "4E58504552413032"]
+			description: [
+				"Desde Era II, el Nexus mantiene una conexión con el Nether. El cuarzo permite estudiar su firma mineral común."
+				"La investigación no abre el portal ni concede acceso."
+			]
+			icon: { id: "minecraft:quartz" }
+			id: "2760000000003504"
+			rewards: [{
+				count: 1
+				id: "2820000000003504"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				consume_items: false
+				id: "276B000000003505"
+				item: { Count: 1b, id: "minecraft:quartz" }
+				title: "Analizar cuarzo del Nether"
+				type: "item"
+			}]
+			title: "Realm conocido · Nether"
+			x: 5.0d
+			y: -1.5d
+		}
+		{
+			dependencies: ["2760000000003501", "4E58504552413033"]
+			description: [
+				"En Era III, el Aether revela una firma elevada distinta a la del Overworld. La zanita ofrece una muestra común y fiable."
+				"El acceso continúa dependiendo únicamente de History Stages."
+			]
+			icon: { id: "aether:zanite_gemstone" }
+			id: "2760000000003505"
+			rewards: [{
+				count: 1
+				id: "2820000000003505"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				consume_items: false
+				id: "276B000000003506"
+				item: { Count: 1b, id: "aether:zanite_gemstone" }
+				title: "Analizar una gema de zanita"
+				type: "item"
+			}]
+			title: "Realm conocido · Aether"
+			x: 7.5d
+			y: -1.5d
+		}
+		{
+			dependencies: ["2760000000003501", "4E58504552413034"]
+			description: [
+				"El End se integra en la red del Nexus durante Era IV. El fruto de chorus conserva una respuesta espacial característica."
+				"La muestra se registra sin consumirse ni transportar al jugador."
+			]
+			icon: { id: "minecraft:chorus_fruit" }
+			id: "2760000000003506"
+			rewards: [{
+				count: 1
+				id: "2820000000003506"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				consume_items: false
+				id: "276B000000003507"
+				item: { Count: 1b, id: "minecraft:chorus_fruit" }
+				title: "Analizar un fruto de chorus"
+				type: "item"
+			}]
+			title: "Realm conocido · End"
+			x: 10.0d
+			y: -1.5d
+		}
+		{
+			dependencies: ["2760000000003501", "4E58504552413034"]
+			description: [
+				"También en Era IV, el misterioso Otherside presenta vida adaptada a una resonancia profunda."
+				"Las bloom berries sirven como muestra común; la quest no abre ni altera la dimensión."
+			]
+			icon: { id: "deeperdarker:bloom_berries" }
+			id: "2760000000003507"
+			rewards: [{
+				count: 1
+				id: "2820000000003507"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				consume_items: false
+				id: "276B000000003508"
+				item: { Count: 1b, id: "deeperdarker:bloom_berries" }
+				title: "Analizar bloom berries"
+				type: "item"
+			}]
+			title: "Realm conocido · Otherside"
+			x: 12.5d
+			y: -1.5d
+		}
+		{
+			dependencies: ["2760000000003501", "4E58504552413033"]
+			description: [
+				"Un sensor calibrado permite estudiar señales del mundo sin convertir el Observatorio en un sistema de detección custom."
+				"Esta investigación de Era III utiliza únicamente mecánicas vanilla y FTB Quests."
+			]
+			icon: { id: "minecraft:calibrated_sculk_sensor" }
+			id: "2760000000003508"
+			rewards: [{
+				count: 1
+				id: "2820000000003508"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				consume_items: false
+				id: "276B000000003509"
+				item: { Count: 1b, id: "minecraft:calibrated_sculk_sensor" }
+				title: "Calibrar una lectura de sculk"
+				type: "item"
+			}]
+			title: "Descubrimiento · Resonancia calibrada"
+			x: 7.5d
+			y: 1.5d
+		}
+		{
+			dependencies: ["2760000000003502", "2760000000003503", "2760000000003504", "2760000000003505", "2760000000003506", "2760000000003507", "2760000000003508"]
+			description: [
+				"Has comparado el Realm de origen, las cuatro conexiones dimensionales conocidas y una anomalía calibrada del Nexus."
+				"El registro cierra la V1 del Observatorio sin alterar Eras, portales o progreso global."
+			]
+			icon: { id: "minecraft:ender_eye" }
+			id: "2760000000003509"
+			shape: "diamond"
+			size: 1.35d
+			rewards: [{
+				count: 2
+				id: "2820000000003509"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{ id: "276B000000003510", title: "Cerrar el informe de los Realms conocidos", type: "checkmark" }]
+			title: "Descubrimiento · Convergencia conocida"
+			x: 15.0d
+			y: 0.0d
+		}
+	]
+	title: "Observatorio del Nexus"
+}

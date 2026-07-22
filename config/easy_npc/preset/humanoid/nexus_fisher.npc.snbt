@@ -1,9 +1,9 @@
 {
   PresetMetadata:{
     author:"Nexus Realms",category:"Nexus Market",created:1784654018052L,
-    description:"Pescador del Nexus: punto futuro de integración para pesca y lago.",
-    entityTypeId:"easy_npc:humanoid",modified:1784654018052L,name:"nexus_fisher",
-    variantType:"JAYJASONBO",version:"1.0.0"
+    description:"Pescador del Nexus: pesca, colecciones, retos y contratos acuáticos.",
+    entityTypeId:"easy_npc:humanoid",modified:1784676311022L,name:"nexus_fisher",
+    variantType:"JAYJASONBO",version:"1.2.0"
   },
   data:{
     ActionData:{ActionEventSet:{ON_INTERACTION:[{Type:"OPEN_DEFAULT_DIALOG"}]},ActionPermissionLevel:4},
@@ -16,8 +16,11 @@
     Brain:{memories:{}},CanPickUpLoot:0b,CanUpdate:1b,
     CustomName:'{"color":"#55C9D8","text":"Pescador del Nexus"}',CustomNameVisible:1b,
     DialogData:{DialogDataSet:[{
-      Buttons:[],Label:"default",Name:"Aguas por conocer",
-      Texts:[{Text:"Estoy preparando el embarcadero y estudiando estas aguas. Cuando la pesca tenga sus propias misiones, este será el lugar para comenzar."}]
+      Buttons:[{
+        Actions:[{Cmd:"/ftbquests open_book 4E58464953483031",ExecAsUser:1b,PermLevel:0,Type:"COMMAND"}],
+        Label:"open_fishing",Name:"Abrir Pesca del Nexus"
+      }],Label:"default",Name:"Aguas del Nexus",
+      Texts:[{Text:"El embarcadero aún se está acondicionando, pero la pesca ya está abierta. En Pesca del Nexus encontrarás colecciones, retos y encargos periódicos; empieza en este lago y explora otras aguas del Overworld."}]
     }],Type:"STANDARD"},
     DisplayAttribute:[
       {Bool:1b,Type:"VISIBLE"},{Bool:1b,Type:"VISIBLE_AT_DAY"},{Bool:1b,Type:"VISIBLE_AT_NIGHT"},

@@ -1,9 +1,15 @@
 {
-  PresetMetadata:{author:"Nexus Realms",category:"Nexus Market",created:1784654018052L,description:"Conservadora del Mercado: responsable provisional de un edificio adaptable.",entityTypeId:"easy_npc:humanoid",modified:1784654018052L,name:"market_curator",variantType:"PROFESSOR_01",version:"1.0.0"},
+  PresetMetadata:{author:"Nexus Realms",category:"Nexus Market",created:1784654018052L,description:"Conservadora del Mercado: trofeos, reliquias y descubrimientos del Museo del Nexus.",entityTypeId:"easy_npc:humanoid",modified:1784916000000L,name:"market_curator",variantType:"PROFESSOR_01",version:"1.2.0"},
   data:{
     ActionData:{ActionEventSet:{ON_INTERACTION:[{Type:"OPEN_DEFAULT_DIALOG"}]},ActionPermissionLevel:4},ArmorDropChances:[0.0f,0.0f,0.0f,0.0f],ArmorItems:[{},{},{},{}],Attributes:[{Base:0.0d,Name:"minecraft:generic.movement_speed"},{Base:0.0d,Name:"minecraft:generic.attack_damage"},{Base:16.0d,Name:"minecraft:generic.follow_range"}],Brain:{memories:{}},CanPickUpLoot:0b,CanUpdate:1b,
     CustomName:'{"color":"#D7C48A","text":"Conservadora del Mercado"}',CustomNameVisible:1b,
-    DialogData:{DialogDataSet:[{Buttons:[],Label:"default",Name:"Espacio reservado",Texts:[{Text:"Estoy catalogando lo que podría necesitar este edificio sin comprometerlo aún con una sola función. Volverá a abrir cuando su interior esté preparado."}]}],Type:"STANDARD"},
+    DialogData:{DialogDataSet:[{
+      Buttons:[{
+        Actions:[{Cmd:"/ftbquests open_book 4E584D5553455531",ExecAsUser:1b,PermLevel:0,Type:"COMMAND"}],
+        Label:"open_museum",Name:"Abrir Museo del Nexus"
+      }],Label:"default",Name:"Museo del Nexus",
+      Texts:[{Text:"El Museo ya cataloga hallazgos y trofeos de grandes victorias. La colección crecerá con cada Realm, aunque las salas y exposiciones físicas todavía se están preparando."}]
+    }],Type:"STANDARD"},
     DisplayAttribute:[{Bool:1b,Type:"VISIBLE"},{Bool:1b,Type:"VISIBLE_AT_DAY"},{Bool:1b,Type:"VISIBLE_AT_NIGHT"},{Bool:1b,Type:"VISIBLE_IN_CREATIVE"},{Bool:1b,Type:"VISIBLE_IN_SPECTATOR"},{Bool:1b,Type:"VISIBLE_IN_STANDARD"},{Bool:1b,Type:"VISIBLE_TO_OWNER"},{Bool:1b,Type:"VISIBLE_TO_TEAM"},{Int:7,Type:"LIGHT_LEVEL"},{Text:"ALWAYS",Type:"NAME_VISIBILITY"}],EasyNPCVersion:3,
     EntityAttribute:{CanBeHitByProjectile:0b,CanBeLeashed:0b,CanBreatheUnderwater:0b,CanCloseDoor:0b,CanFloat:0b,CanOpenDoor:0b,CanPassDoor:0b,CanUseNetherPortal:0b,Freefall:0b,HealthRegeneration:0.0d,IsAttackableByMonsters:0b,IsAttackableByPlayers:0b,IsInvulnerable:1b,IsPushable:0b,NoGravity:0b,PushEntities:0b},HandDropChances:[0.0f,0.0f],HandItems:[{Count:1b,id:"minecraft:book"},{Count:1b,id:"minecraft:brush"}],Health:20.0f,Invulnerable:1b,LeftHanded:0b,ModelData:{DefaultPose:"STANDING",Position:{},Rotation:{},Scale:{},Visible:{}},ObjectiveData:{HasObjectives:1b,ObjectiveDataSet:[{Prio:9,Type:"LOOK_AT_PLAYER"},{Prio:9,Type:"LOOK_AT_RESET"}]},Offers:{Inventory:{},Recipes:{Recipes:[]}},OnGround:1b,PersistenceRequired:1b,Profession:"NONE",RenderData:{},SkinData:{Content:"",DisableLayers:0b,Name:"PROFESSOR_01",Timestamp:1784654018052L,Type:"DEFAULT",URL:""},SoundData:{SoundDataSet:[{Name:"minecraft:entity.player.death",Type:"DEATH"},{Name:"minecraft:entity.player.hurt",Type:"HURT"}]},Status:{finalized:1b},TradingData:{TradingDataSet:{LastReset:0L,MaxUses:0,ResetsEveryMin:0,RewardedXP:0,Type:"NONE"}},VariantType:"PROFESSOR_01",id:"easy_npc:humanoid"
   }

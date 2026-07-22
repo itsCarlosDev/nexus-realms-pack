@@ -234,19 +234,64 @@ Yaw usados: sur `0`, oeste `90`, norte `180`, este `-90`.
 | Custodio del Nexus | `nexus_custodian` | Campaña principal | Ayuntamiento | `00_comienzo` `4E5850524F475549` | operativo | `70,75,-12`; sur `0` | `/easy_npc preset import_new custom easy_npc:preset/humanoid/nexus_custodian.npc.snbt ~ ~ ~` |
 | Cronista | `chronicler` | Historia y Eras | Ayuntamiento | Eras I-IV | operativo | `50,75,-9`; este `-90` | `/easy_npc preset import_new custom easy_npc:preset/humanoid/chronicler.npc.snbt ~ ~ ~` |
 | Capitán de la Guardia | `guard_captain` | Defensa, hordas y grandes amenazas | Ayuntamiento | exploración/hordas `4E584558504C4F31`; bosses `4E58424F53534553` | operativo | `90,75,-9`; oeste `90` | `/easy_npc preset import_new custom easy_npc:preset/humanoid/guard_captain.npc.snbt ~ ~ ~` |
-| Maestro de Armas | `warrior_master` | Senda del Guerrero | Tienda 1 | Guerrero `4E58434C41535731` | en construcción | `6,75,8`; sur `0` | `/easy_npc preset import_new custom easy_npc:preset/humanoid/warrior_master.npc.snbt ~ ~ ~` |
-| Maestro Arcano | `arcane_master` | Magia y Arcanista | Tienda 2 | Mago `4E58434C41534D47`; Arcanista `4E58415243414E31` | en construcción | `50,75,97`; este `-90` | `/easy_npc preset import_new custom easy_npc:preset/humanoid/arcane_master.npc.snbt ~ ~ ~` |
+| Maestro de Armas | `warrior_master` | Senda del Guerrero | Tienda 1 | Guerrero `4E58434C41535731` | OPERATIVA V1; interior en construcción | `6,75,8`; sur `0` | `/easy_npc preset import_new custom easy_npc:preset/humanoid/warrior_master.npc.snbt ~ ~ ~` |
+| Maestro Arcano | `arcane_master` | Magia y Arcanista | Tienda 2 | Mago `4E58434C41534D47`; Arcanista `4E58415243414E31` | OPERATIVA V1; interior en construcción | `50,75,97`; este `-90` | `/easy_npc preset import_new custom easy_npc:preset/humanoid/arcane_master.npc.snbt ~ ~ ~` |
 | Maestro Metalomante | `metallurgist_master` | Senda del Metal y orientación de Allomancy | Tienda 3 | Senda del Metal `4E584D4554414C31` | OPERATIVA V1; interior en construcción | `100,75,103`; norte `180` | `/easy_npc preset import_new custom easy_npc:preset/humanoid/metallurgist_master.npc.snbt ~ ~ ~` |
 | Armero | `gunsmith` | Capítulo Pistolero y orientación de armas/munición | Tienda 4 | Pistolero `4E5847554E534C31` | OPERATIVA V1; interior en construcción | `136,75,95`; oeste `90` | `/easy_npc preset import_new custom easy_npc:preset/humanoid/gunsmith.npc.snbt ~ ~ ~` |
-| Explorador | `explorer` | Exploración y defensa | Tienda 5 | exploración/hordas `4E584558504C4F31` | en construcción | `126,75,18`; oeste `90` | `/easy_npc preset import_new custom easy_npc:preset/humanoid/explorer.npc.snbt ~ ~ ~` |
-| Mercader del Nexus | `nexus_merchant` | Comercio básico existente | Tienda 6 | ninguno; trading nativo | operativo, local en construcción | `106,74,55`; oeste `90` | `/easy_npc preset import_new custom easy_npc:preset/humanoid/nexus_merchant.npc.snbt ~ ~ ~` |
-| Pescador del Nexus | `nexus_fisher` | Punto futuro de pesca | Lago | ninguno; integración de pesca futura | futuro | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/nexus_fisher.npc.snbt ~ ~ ~` |
-| Maestre de Obras | `market_foreman` | Responsable provisional del inmueble | Edificio adicional 1 | ninguno | en construcción | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/market_foreman.npc.snbt ~ ~ ~` |
-| Agrimensora del Nexus | `market_surveyor` | Preparación y medición del inmueble | Edificio adicional 2 | ninguno | en construcción | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/market_surveyor.npc.snbt ~ ~ ~` |
-| Enlace del Nexus | `nexus_liaison` | Enlace provisional del inmueble | Edificio adicional 3 | ninguno | en construcción | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/nexus_liaison.npc.snbt ~ ~ ~` |
-| Intendente del Distrito | `district_steward` | Custodia provisional del inmueble | Edificio adicional 4 | ninguno | en construcción | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/district_steward.npc.snbt ~ ~ ~` |
-| Conservadora del Mercado | `market_curator` | Catalogación provisional del inmueble | Edificio adicional 5 | ninguno | en construcción | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/market_curator.npc.snbt ~ ~ ~` |
-| Expedicionario del Nexus | `nether_expeditionary` | Progresión dimensional por Eras | Acceso/expedición dimensional | ninguno; guía Nether/Aether/End/Otherside | operativo, sin quests propias | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/nether_expeditionary.npc.snbt ~ ~ ~` |
+| Explorador | `explorer` | Overworld, estructuras, amenazas y Hordas | Tienda 5 | exploración/hordas `4E584558504C4F31` | OPERATIVA V1; interior en construcción | `126,75,18`; oeste `90` | `/easy_npc preset import_new custom easy_npc:preset/humanoid/explorer.npc.snbt ~ ~ ~` |
+| Mercader del Nexus | `nexus_merchant` | Cambio neutral y ocho ofertas de suministros básicos | Tienda 6 | ninguno; trading nativo | OPERATIVA V1; interior en construcción | `106,74,55`; oeste `90` | `/easy_npc preset import_new custom easy_npc:preset/humanoid/nexus_merchant.npc.snbt ~ ~ ~` |
+| Pescador del Nexus | `nexus_fisher` | Pesca, colecciones, retos y contratos acuáticos | Lago | Pesca del Nexus `4E58464953483031` | OPERATIVO V2; embarcadero en construcción | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/nexus_fisher.npc.snbt ~ ~ ~` |
+| Maestre de Obras | `market_foreman` | Entregas y seguimiento de proyectos comunitarios | Oficina de Proyectos del Nexus | Proyectos del Nexus `4E5850524F4A3031` | OPERATIVA V1; interior en construcción | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/market_foreman.npc.snbt ~ ~ ~` |
+| Agrimensora del Nexus | `market_surveyor` | Investigación del Nexus, dimensiones conocidas y descubrimientos | Observatorio del Nexus | Observatorio del Nexus `4E584F4253455231` | OPERATIVO V1; interior en construcción | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/market_surveyor.npc.snbt ~ ~ ~` |
+| Enlace del Nexus | `nexus_liaison` | Recolección, caza, exploración y apoyo opcional | Casa de Contratos | Contratos del Nexus `4E58434F4E545231` | OPERATIVA V1; interior en construcción | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/nexus_liaison.npc.snbt ~ ~ ~` |
+| Intendente del Distrito | `district_steward` | Logística y necesidades colectivas futuras | Intendencia del Nexus | ninguno; logística comunitaria futura | EN CONSTRUCCIÓN | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/district_steward.npc.snbt ~ ~ ~` |
+| Conservadora del Mercado | `market_curator` | Trofeos, reliquias y descubrimientos permanentes | Museo del Nexus | Museo del Nexus `4E584D5553455531` | OPERATIVA V1; interior en construcción | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/market_curator.npc.snbt ~ ~ ~` |
+| Expedicionario del Nexus | `nether_expeditionary` | Expediciones dimensionales y guía de Realms | Acceso/expedición dimensional | Nether `4E584E4554483031`; Aether `4E58414554483031` | OPERATIVO V1 | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/nether_expeditionary.npc.snbt ~ ~ ~` |
+
+La Oficina de Proyectos usa FTB Quests para registrar entregas consumibles y
+compartir su progreso entre miembros del mismo equipo FTB. Cada recompensa es
+única para el equipo y la recibe quien la reclama. Este seguimiento no es un
+contador global de todo el servidor: equipos distintos mantienen progresos
+independientes.
+
+Completar un proyecto solo registra la contribución. No ejecuta WorldEdit,
+comandos de construcción, schematics ni cambios de bloques. Carlos debe revisar
+los proyectos completados y aplicar manualmente cualquier cambio físico en el
+Market cuando corresponda.
+
+La Casa de Contratos ofrece ocho encargos repetibles de Era I mediante FTB
+Quests. Sus cooldowns son nativos, su progreso se comparte dentro del mismo
+equipo FTB y cada recompensa solo puede reclamarla una vez el equipo. No concede
+stages, teleports ni acceso dimensional. Los futuros contratos por Era,
+cacerías especiales, cadenas semanales, reputación y recompensas cosméticas no
+forman parte de la V1.
+
+El Museo del Nexus registra posesión de nueve trofeos, reliquias y hallazgos sin
+consumirlos. No coloca vitrinas, pedestales, cabezas, objetos decorativos ni
+entidades. Carlos puede preparar manualmente estas representaciones físicas
+cuando diseñe el interior, tomando el progreso de FTB Quests como referencia.
+Las futuras secciones de Nether, Aether, Otherside, dragones y otros Realms deben
+ampliar el mismo capítulo sin automatizar la decoración.
+
+El Observatorio registra instrumentos, muestras comunes y fenómenos de los cinco
+Realms conocidos sin consumir los objetos. Sus dependencias siguen las Eras, pero
+no ejecuta teleports, portales, concesiones de stages ni comandos de desbloqueo:
+History Stages conserva toda la autoridad dimensional. Las instalaciones físicas
+y cualquier representación de las investigaciones se preparan manualmente.
+
+Estado consolidado verificado: Oficina de Proyectos, Casa de Contratos, Museo y
+Observatorio están operativos en V1. La Intendencia permanece en construcción;
+el Pack 32.4 no está aplicado en el árbol actual, su preset declara que todavía
+no ofrece servicios y no existe un capítulo funcional asociado.
+
+La Expedición al Nether queda disponible desde Era II mediante el Expedicionario
+y el capítulo `expedicion_al_nether`. La Expedición al Aether se abre desde el
+mismo NPC y su capítulo `expedicion_al_aether` depende de Era III. Los botones
+solo abren FTB Quests. La entrada real usa los portales nativos y las
+restricciones `minecraft:the_nether` y `aether:the_aether` ya configuradas en
+History Stages; no hay teleports, listeners, stages concedidos ni portales
+alternativos. La V1 del Aether cubre preparación, recursos, criaturas y sus
+tres dungeons nativos. End y Otherside permanecen reservados para Era IV.
 
 En el mundo auditado, el Mercader es la única excepción operativa: no debe
 importarse otra copia, sino conservarse y moverse la entidad indicada en la

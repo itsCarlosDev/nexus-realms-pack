@@ -1,10 +1,16 @@
 {
-  PresetMetadata:{author:"Nexus Realms",category:"Nexus Market",created:1784654018052L,description:"Enlace del Nexus: presencia provisional para un edificio sin función cerrada.",entityTypeId:"easy_npc:humanoid",modified:1784654018052L,name:"nexus_liaison",variantType:"JAYJASONBO",version:"1.0.0"},
+  PresetMetadata:{author:"Nexus Realms",category:"Nexus Market",created:1784654018052L,description:"Enlace del Nexus: encargos opcionales y repetibles de la Casa de Contratos.",entityTypeId:"easy_npc:humanoid",modified:1784829600000L,name:"nexus_liaison",variantType:"JAYJASONBO",version:"1.2.0"},
   data:{
     ActionData:{ActionEventSet:{ON_INTERACTION:[{Type:"OPEN_DEFAULT_DIALOG"}]},ActionPermissionLevel:4},ArmorDropChances:[0.0f,0.0f,0.0f,0.0f],ArmorItems:[{},{},{},{}],
     Attributes:[{Base:0.0d,Name:"minecraft:generic.movement_speed"},{Base:0.0d,Name:"minecraft:generic.attack_damage"},{Base:16.0d,Name:"minecraft:generic.follow_range"}],Brain:{memories:{}},CanPickUpLoot:0b,CanUpdate:1b,
     CustomName:'{"color":"#9B8BE8","text":"Enlace del Nexus"}',CustomNameVisible:1b,
-    DialogData:{DialogDataSet:[{Buttons:[],Label:"default",Name:"Un propósito pendiente",Texts:[{Text:"Este edificio tendrá un propósito cuando las necesidades del asentamiento estén más claras. Hasta entonces, superviso que permanezca listo para cambiar."}]}],Type:"STANDARD"},
+    DialogData:{DialogDataSet:[{
+      Buttons:[{
+        Actions:[{Cmd:"/ftbquests open_book 4E58434F4E545231",ExecAsUser:1b,PermLevel:0,Type:"COMMAND"}],
+        Label:"open_contracts",Name:"Abrir Contratos del Nexus"
+      }],Label:"default",Name:"Casa de Contratos",
+      Texts:[{Text:"La Casa de Contratos ya publica encargos opcionales según las necesidades del asentamiento. Completa trabajos de recolección, caza, exploración o apoyo para recibir recompensas modestas."}]
+    }],Type:"STANDARD"},
     DisplayAttribute:[{Bool:1b,Type:"VISIBLE"},{Bool:1b,Type:"VISIBLE_AT_DAY"},{Bool:1b,Type:"VISIBLE_AT_NIGHT"},{Bool:1b,Type:"VISIBLE_IN_CREATIVE"},{Bool:1b,Type:"VISIBLE_IN_SPECTATOR"},{Bool:1b,Type:"VISIBLE_IN_STANDARD"},{Bool:1b,Type:"VISIBLE_TO_OWNER"},{Bool:1b,Type:"VISIBLE_TO_TEAM"},{Int:7,Type:"LIGHT_LEVEL"},{Text:"ALWAYS",Type:"NAME_VISIBILITY"}],EasyNPCVersion:3,
     EntityAttribute:{CanBeHitByProjectile:0b,CanBeLeashed:0b,CanBreatheUnderwater:0b,CanCloseDoor:0b,CanFloat:0b,CanOpenDoor:0b,CanPassDoor:0b,CanUseNetherPortal:0b,Freefall:0b,HealthRegeneration:0.0d,IsAttackableByMonsters:0b,IsAttackableByPlayers:0b,IsInvulnerable:1b,IsPushable:0b,NoGravity:0b,PushEntities:0b},
     HandDropChances:[0.0f,0.0f],HandItems:[{Count:1b,id:"minecraft:writable_book"},{Count:1b,id:"minecraft:amethyst_shard"}],Health:20.0f,Invulnerable:1b,LeftHanded:0b,ModelData:{DefaultPose:"STANDING",Position:{},Rotation:{},Scale:{},Visible:{}},ObjectiveData:{HasObjectives:1b,ObjectiveDataSet:[{Prio:9,Type:"LOOK_AT_PLAYER"},{Prio:9,Type:"LOOK_AT_RESET"}]},Offers:{Inventory:{},Recipes:{Recipes:[]}},OnGround:1b,PersistenceRequired:1b,Profession:"NONE",RenderData:{},SkinData:{Content:"",DisableLayers:0b,Name:"JAYJASONBO",Timestamp:1784654018052L,Type:"DEFAULT",URL:""},SoundData:{SoundDataSet:[{Name:"minecraft:entity.player.death",Type:"DEATH"},{Name:"minecraft:entity.player.hurt",Type:"HURT"}]},Status:{finalized:1b},TradingData:{TradingDataSet:{LastReset:0L,MaxUses:0,ResetsEveryMin:0,RewardedXP:0,Type:"NONE"}},VariantType:"JAYJASONBO",id:"easy_npc:humanoid"

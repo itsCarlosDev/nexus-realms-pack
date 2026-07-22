@@ -26,11 +26,11 @@ hash = "9ac7755739cd90b81f48c14ea9463de25bb4d0d6b2f4132134d4a054bf50b56d"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/district_steward.npc.snbt"
-hash = "af9a6072ab4bd8ebc40b421e1038d7a5c6e7567a460c9aaef20fbae4768d9238"
+hash = "b12af89c39e15b35fea5be33ef7e41283c9e976f0431ec18abb5c0242ffb1bf4"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/explorer.npc.snbt"
-hash = "134fdfab06f4bc350a873a822ae1e3ec3a34d7730e47f049d4c1a6f435a8fa14"
+hash = "262f4523dfbe9136aee8529b4bf7cdccc14367baa0bf6b535e1e0eba0e3ebe14"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/guard_captain.npc.snbt"
@@ -42,15 +42,15 @@ hash = "8ee560c8dcd3515e67a557bba14c6d44d09a18f20908e327abf25404d123e84f"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/market_curator.npc.snbt"
-hash = "59ef469664b1e0403726d06da5e14023a41ab136797854531d61e76bbeba583c"
+hash = "0f9a8b521b96f6dfe7236fba9d5fc441d7c949bf3179d69d688c851da45799d4"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/market_foreman.npc.snbt"
-hash = "0b59e22e016dbf06a2303e6aa8f2dd02ffd50aa3ea0ed4e1c57b3e2087844b42"
+hash = "fb8a77d7da7eac68b687807596d4511fd864589cd49eea6d8c2502f527bc3777"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/market_surveyor.npc.snbt"
-hash = "4fbd8dca45c8616bb78428546d3fff81517d04ed38f13ec072f8684cf970b4de"
+hash = "82c80b7c239cf8890d6e336660c8d16b81d8fe2fce27bf3bd8c37102e0d4c308"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/metallurgist_master.npc.snbt"
@@ -58,7 +58,7 @@ hash = "cb5c05ffca807310c16bc08d83f9f68fe800cca93dcd8414d74923ee7cca6a1b"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nether_expeditionary.npc.snbt"
-hash = "1f7f97478569ceb290afd836296a9c58391050a285c317f83429f384e707fdf5"
+hash = "b574670bd22f96d4d012c0708e453e7720f853ddf50d67b915d002669ad47e3e"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nexus_custodian.npc.snbt"
@@ -66,11 +66,11 @@ hash = "e831406343a5800c0e7e852ad4ab950adf38cbf3a7074c97ecf815d96fff16bd"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nexus_fisher.npc.snbt"
-hash = "3dd8d6c36bfd8f531f1bcce8f11a0fca60a0dab12ea9c4d349a79582d4ae19d1"
+hash = "8b73ba108022e5f9981de1ddb5b22f21dd051e4550ab196fc08685ffd8a095f3"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nexus_liaison.npc.snbt"
-hash = "a8a6324083b1b40ebfe80c4e23c7357636ed686b202d9cd38f5f3a11653f8c9b"
+hash = "f1cd557b30d37e4cfd59446d14d258c4f72153c0262f04eedbb88fdcc0fc8d61"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nexus_merchant.npc.snbt"
@@ -209,6 +209,10 @@ file = "config/ftbquests/quests/chapters/clase_pistolero.snbt"
 hash = "3153392ae3f8a30e5fd752e42c67aabac318981054d0e964da721d53130d896b"
 
 [[files]]
+file = "config/ftbquests/quests/chapters/contratos_del_nexus.snbt"
+hash = "1e4930695bad67075845460a080147aeab200b570dadb06eb658039dfe1f8a3b"
+
+[[files]]
 file = "config/ftbquests/quests/chapters/desafios_y_bosses.snbt"
 hash = "1510500bfeb367eb91b9ee03820e512d9900e761787084d1cb8f298b6c40fb81"
 
@@ -217,8 +221,32 @@ file = "config/ftbquests/quests/chapters/especializacion_arcanista.snbt"
 hash = "b982fbfde4dc9eb3168763f4fb16db5d5b892ecc93bd74ce7ea354c8dd634823"
 
 [[files]]
+file = "config/ftbquests/quests/chapters/expedicion_al_aether.snbt"
+hash = "e6a89b48f1ba904a9de1d9985977ab02b51916f63d58323e98e984f012f4e4f0"
+
+[[files]]
+file = "config/ftbquests/quests/chapters/expedicion_al_nether.snbt"
+hash = "dcc5881c98ff89c794da6924a3769887c1027c7a16ea8c763f8fcd376dc6ee9e"
+
+[[files]]
 file = "config/ftbquests/quests/chapters/exploracion_y_hordas.snbt"
-hash = "a63b3110925451ac6aed9372b365db0bb2e5fa3d902b1bcd32c122abbf317d6e"
+hash = "77a21ef52efc8d03b25da6888027829746df0f912fb04d472c97245a74e9b957"
+
+[[files]]
+file = "config/ftbquests/quests/chapters/museo_del_nexus.snbt"
+hash = "96b4347d155ee41b546301100ca5ecfa4d02d6f958b65fe64d25145dcba551b0"
+
+[[files]]
+file = "config/ftbquests/quests/chapters/observatorio_del_nexus.snbt"
+hash = "bb312ed92bb5bbeb7c2e46b100d66a85f8ed5148958d0b34e8f07c9e443c57a7"
+
+[[files]]
+file = "config/ftbquests/quests/chapters/pesca_del_nexus.snbt"
+hash = "23c2a114e54ea1d1b82d21c2f99b0db0e37c9920e359f100ec41a306d226542a"
+
+[[files]]
+file = "config/ftbquests/quests/chapters/proyectos_del_nexus.snbt"
+hash = "1eac5f1ee93fa7bf79c6004be82d389447143cc75cd063017f00b3f3c9a53a6c"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/senda_del_metal.snbt"
@@ -238,7 +266,7 @@ hash = "c93deface70e67a1dbc92468bf51cf54aec43752fcafeff5bf6a62ee3e92305c"
 
 [[files]]
 file = "config/historystages/global/nexus_era_3_arcane_industrial.json"
-hash = "25d81bf6d454a4ca1b47711bbdbadd0a0141bceceb6df8be838cb835718503e6"
+hash = "9c99537ba00273cdbb3d242a69d7871e59f2f3da28bf92484800769a9ce7d0b2"
 
 [[files]]
 file = "config/historystages/global/nexus_era_4_nexus.json"
@@ -435,6 +463,11 @@ metafile = true
 [[files]]
 file = "mods/appleskin.pw.toml"
 hash = "793693a85f3c87d4e899ee0c58deabc53690bf5a70f17343f28fd5063ce8a1e1"
+metafile = true
+
+[[files]]
+file = "mods/aquaculture.pw.toml"
+hash = "04aae524d364de0ec8ac66db6eaff094b9c9b9d69e5de89f11acb2a00ce35261"
 metafile = true
 
 [[files]]
