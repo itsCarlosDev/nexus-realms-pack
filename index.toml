@@ -355,7 +355,7 @@ hash = "582c4023dc321133bc0f4a7093042e939aa8f79f48b5c4485c7dfadcf8b58b99"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/biohazard_undead.json"
-hash = "48cb5d7ed11a5507b07d4a50158d6cc4d61d1cd3d2d94551547f74a5e3ffe3ef"
+hash = "825827e2dbe883f06cc6e12c359694c918966a131a2f931d14435bbed30e6e64"
 
 [[files]]
 file = "config/indestructible-client.toml"
@@ -479,11 +479,15 @@ hash = "46ec09ad46f3476033a6c734612a01bc50b4d9e3735db6169653847043949659"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_disable_vanilla_zombies.js"
-hash = "7f95b41d72410d94cd1a12145aa1eb37c69f5edce2689502030d511de8f4b4ab"
+hash = "a4c6fec689f5379fd4772ccf11ddf2033ed3d5611277db326bc25fe1d72c5b5d"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_era_calendar.js"
-hash = "15a814b4b875f8b40445a05e2f35bb4285c293adef36136083cdf56f7dca4085"
+hash = "5fa7b7fc9f2bd689f830a6060977b28b27dd1429e745076a2125909958feb55b"
+
+[[files]]
+file = "kubejs/server_scripts/nexus_export_entity_ids.js"
+hash = "4265fd115b6a31ab203dc300f171928aa6a68ade6615d56b78c7709cdbf32d6a"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_maintenance.js"
@@ -494,16 +498,20 @@ file = "kubejs/startup_scripts/nexus_economy_items.js"
 hash = "6bd40dde3f1bd0d3e06fe4dd057a83d90b4732587f18bbb4281f98d1ede6a203"
 
 [[files]]
+file = "kubejs/startup_scripts/nexus_era_calendar_forge_bridge.js"
+hash = "211da8a3f317447b2104b2dde04146414470fb9750acd22ef218a32c1f092761"
+
+[[files]]
 file = "kubejs/startup_scripts/nexus_horde_director.js"
-hash = "3aaeae713deb4df2be4b77a97715d26e73407b98d4ed79a22707993eaccccfb9"
+hash = "d6d81097679ecadeba6d20bf1397579e7b1766ec5d35d57502498d40fbeabcb1"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_presentation.js"
-hash = "2335c9545b6098792da2e83c3f1319aa1e81e738bb25270d1bcd8092a62bfa1f"
+hash = "95e714a13d6cb70b3c45b190bfc3244a121758836460dfd05ac16b3811a50142"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_reentry_guard.js"
-hash = "f72ff5f4d52f7cc2c07f28b0e2051a4c3879c3b3e949916ed251b6e9eac52d7c"
+hash = "fb7a00480ba28713caf3b63a27fb34614740a7043ef92855fae75bfddf71edbe"
 
 [[files]]
 file = "mods/aaa-particles-world.pw.toml"
@@ -1570,19 +1578,6 @@ hash = "2eb3e909cc46e39d8b9e762f39c36b0579744118d619beb6a174d264951d6248"
 metafile = true
 
 [[files]]
-file = "resourcepacks/3d-items-vanillaism.pw.toml"
-hash = "e8dd30d8b7ef9c83c239df43532a9a082e87b3e82393343a96bbf2af9fbd22b9"
-metafile = true
-
-[[files]]
-file = "resourcepacks/MandalasGUI+Dakmode_1.21.8_v2.5.zip"
-hash = "a4f90e90b406c1cceb7ffd29d9db647cdc86d307e0f7b22df5478e56862f6bd4"
-
-[[files]]
-file = "resourcepacks/Quark Programmer Art.zip"
-hash = "41cb720cf256a12ea247b2f38068b363aa5b1675470c4b5aa66850701a78bc4d"
-
-[[files]]
 file = "resourcepacks/Vulmoons calaclysm remake_0.5.zip"
 hash = "c146eff2d40485a04c148d44305b0d16a7413652880dc3f51348c1a05e40904b"
 
@@ -1634,11 +1629,6 @@ metafile = true
 [[files]]
 file = "resourcepacks/low-on-fire.pw.toml"
 hash = "0ce41000cbbb72e9c03ae3738500aae1056f1102ddc4e5a46784ec18cabf6ca7"
-metafile = true
-
-[[files]]
-file = "resourcepacks/mandalas-gui-kots-compat.pw.toml"
-hash = "be46cbecc6b45c5b13ba7f292043e0d036d6a615efab6600433bd65b5736663b"
 metafile = true
 
 [[files]]
