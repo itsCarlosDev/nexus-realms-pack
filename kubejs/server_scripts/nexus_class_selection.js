@@ -42,6 +42,7 @@ const NEXUS_CLASS_DATA = {
 
 const NEXUS_CLASS_TAGS = Object.values(NEXUS_CLASS_DATA).map(classData => classData.tag)
 const NEXUS_CLASS_GUI_ID = 'nexus_class_selection'
+const NEXUS_MAGE_SPECIALIZATION_GUI_ID = 'nexus_mage_selection'
 const NEXUS_CLASS_STAGE_IDS = {
   warrior: 'nexus_class_warrior',
   mage: 'nexus_class_mage',
@@ -336,23 +337,21 @@ function nexusSelectSpecialization(viewer, target, specializationId) {
   }
 
   if (
-    specializationId === 'metallurgist' &&
-    !target.persistentData.getBoolean('nexus_specialization_metallurgist_unlocked')
-  ) {
-    nexusSpecializationFeedback(
-      viewer,
-      'Metalomante sigue bloqueado. Completa La Senda del Metal en Era III.'
-    )
-    return 0
-  }
-
-  const stages = nexusGetSpecializationStageState(target)
-  if (
     nexusGetPersistentSpecialization(target) === specializationId &&
     nexusSpecializationStagesCoherent('mage', specializationId, stages)
   ) {
     nexusSyncAllomancyPowers(target, specializationId, 'selection')
-    nexusSpecializationFeedback(viewer, `${nexusPlayerName(target)} ya sigue la senda ${specializationData.displayName}.`)
+
+    nexusSpecializationFeedback(
+      viewer,
+      `${nexusPlayerName(target)} ya sigue la senda ${specializationData.displayName}.`
+    )
+
+    nexusRunServerCommand(
+      target.server,
+      `closeguiscreen ${target.username}`
+    )
+
     return 1
   }
 
@@ -363,11 +362,22 @@ function nexusSelectSpecialization(viewer, target, specializationId) {
     return 0
   }
 
-  nexusTellActionbar(target, `${specializationData.displayName.toUpperCase()} - Senda magica seleccionada.`, 'aqua')
+  nexusTellActionbar(
+    target,
+    `${specializationData.displayName.toUpperCase()} - Senda magica seleccionada.`,
+    'aqua'
+  )
+
   nexusSpecializationFeedback(
     viewer,
     `${specializationData.displayName} seleccionado para ${nexusPlayerName(target)}.`
   )
+
+  nexusRunServerCommand(
+    target.server,
+    `closeguiscreen ${target.username}`
+  )
+
   return 1
 }
 
@@ -689,8 +699,25 @@ ServerEvents.commandRegistry(event => {
             player.addTag(classData.tag)
             nexusSyncClassStages(player, 'selection')
             nexusSyncSpecialization(player, 'selection')
+
+            // Puesto para cuando selecciones mago que salga la pantalla de seleccion de Metalurgista o Arquimista
             const failedItems = nexusGiveStarterKit(player, classId, true)
-            nexusRunServerCommand(player.server, `closeguiscreen ${player.username}`)
+
+            nexusRunServerCommand(
+              player.server,
+              `closeguiscreen ${player.username}`
+            )
+
+            // Cuando el jugador elige Mago, abrir el selector de especialización
+            // unos ticks después de cerrar el selector de clase.
+            if (classId === 'mage') {
+              player.server.scheduleInTicks(5, callback => {
+                nexusRunServerCommand(
+                  player.server,
+                  `openguiscreen ${NEXUS_MAGE_SPECIALIZATION_GUI_ID} ${player.username}`
+                )
+              })
+            }
 
             if (failedItems > 0) {
               player.tell(NEXUS_CLASS_PATH_MESSAGES[classId] || `Clase elegida: ${classData.displayName}.`)

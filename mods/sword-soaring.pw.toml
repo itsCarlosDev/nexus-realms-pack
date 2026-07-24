@@ -1,0 +1,13 @@
+name = "Epic Fight - Sword Soaring"
+filename = "sword_soaring-20.14.2.8-mc1.20.1-forge.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "a5e395f21fea8ca98b99e49ec13080a5ef4f7dfb"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 7984120
+project-id = 1011068

@@ -1,0 +1,13 @@
+name = "GUHAO's VIX"
+filename = "VIX-1.0.2-all.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "0ffb4aab293d9a46459ff8fd6f84191f6348d2c2"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 8031583
+project-id = 1531111

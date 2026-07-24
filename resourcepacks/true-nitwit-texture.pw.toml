@@ -1,0 +1,13 @@
+name = "True Nitwit Texture"
+filename = "true_nitwit_texture.zip"
+side = "client"
+
+[download]
+hash-format = "sha1"
+hash = "0193ab2e0af5762d4cf032192c291821676f0a13"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 7174830
+project-id = 1376684

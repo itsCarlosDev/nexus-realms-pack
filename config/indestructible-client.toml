@@ -1,0 +1,5 @@
+["replace health_bar"]
+replace_health_bar = 1
+
+["cancel original boss bar"]
+name = []

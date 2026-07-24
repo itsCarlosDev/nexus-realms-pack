@@ -1,0 +1,13 @@
+name = "Epic Fight - Super Warden"
+filename = "super_warden-20.13.0.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "17eb8c043e7bcb0c84804d226ff7ff8a711299e6"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 7144759
+project-id = 1272352

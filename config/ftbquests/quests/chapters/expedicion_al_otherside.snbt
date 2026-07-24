@@ -3,7 +3,7 @@
 	default_quest_shape: "square"
 	filename: "expedicion_al_otherside"
 	group: "4E583333324F5448"
-	icon: { id: "minecraft:eye_of_ender" }
+	icon: { id: "minecraft:ender_eye" }
 	id: "4E583333324F5448"
 	images: []
 	order_index: 18
@@ -15,7 +15,7 @@
 			description: [
 				"La frontera oscura introduce el Otherside y su peligro inherente."
 			]
-			icon: { id: "minecraft:eye_of_ender" }
+			icon: { id: "minecraft:ender_eye" }
 			id: "4E58333200000001"
 			shape: "hexagon"
 			size: 1.3d
@@ -38,7 +38,7 @@
 			description: [
 				"El corazón de la profundidad permite activar el portal nativo."
 			]
-			icon: { id: "minecraft:portal" }
+			icon: { id: "deeperdarker:heart_of_the_deep" }
 			id: "4E58333200000003"
 			tasks: [{ id: "4E58333200000003", title: "Activar el portal nativo", type: "checkmark" }]
 			title: "Abrir el camino"
@@ -61,7 +61,7 @@
 			]
 			icon: { id: "deeperdarker:cobbled_gloomslate" }
 			id: "4E58333200000005"
-			rewards: [{ count: 2, id: "28358333200000003", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+  			rewards: [{ count: 3, id: "28358333200000003", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
 			tasks: [{ consume_items: false, count: 8L, id: "4E58333200000005", item: { Count: 1b, id: "deeperdarker:cobbled_gloomslate" }, title: "Reunir 8 piedras de otro mundo", type: "item" }]
 			title: "Piedra de otro mundo"
 		}
@@ -72,7 +72,7 @@
 			]
 			icon: { id: "deeperdarker:bloom_berries" }
 			id: "4E58333200000006"
-			rewards: [{ count: 2, id: "28358333200000004", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+  rewards: [{ count: 3, id: "28358333200000004", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
 			tasks: [{ consume_items: false, count: 12L, id: "4E58333200000006", item: { Count: 1b, id: "deeperdarker:bloom_berries" }, title: "Reunir 12 bayas luminosas", type: "item" }]
 			title: "Luz entre la oscuridad"
 		}
@@ -81,9 +81,9 @@
 			description: [
 				"Eliminar escorpiones de sculk."
 			]
-			icon: { id: "deeperdarker:sculk_snapper" }
+			icon: { id: "deeperdarker:sculk_snapper_spawn_egg" }
 			id: "4E58333200000007"
-			rewards: [{ count: 3, id: "28358333200000005", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+  rewards: [{ count: 4, id: "28358333200000005", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
 			tasks: [{ entity: "deeperdarker:sculk_snapper", id: "4E58333200000007", title: "Eliminar 5 escorpiones de sculk", type: "kill", value: 5L }]
 			title: "Depredadores del sculk"
 		}
@@ -92,9 +92,9 @@
 			description: [
 				"Eliminar criaturas destrozadas."
 			]
-			icon: { id: "deeperdarker:shattered" }
+			icon: { id: "deeperdarker:shattered_spawn_egg" }
 			id: "4E58333200000008"
-			rewards: [{ count: 3, id: "28358333200000006", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
+  rewards: [{ count: 4, id: "28358333200000006", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
 			tasks: [{ entity: "deeperdarker:shattered", id: "4E58333200000008", title: "Eliminar 5 criaturas destrozadas", type: "kill", value: 5L }]
 			title: "Ecos deformados"
 		}
@@ -103,7 +103,7 @@
 			description: [
 				"Eliminar peces de angler."
 			]
-			icon: { id: "deeperdarker:angler_fish" }
+			icon: { id: "deeperdarker:angler_fish_spawn_egg" }
 			id: "4E58333200000009"
 			rewards: [{ count: 3, id: "28358333200000007", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
 			tasks: [{ entity: "deeperdarker:angler_fish", id: "4E58333200000009", title: "Eliminar 10 peces de angler", type: "kill", value: 10L }]
@@ -114,7 +114,7 @@
 			description: [
 				"Eliminar el fango viviente."
 			]
-			icon: { id: "deeperdarker:sludge" }
+			icon: { id: "deeperdarker:sludge_spawn_egg" }
 			id: "4E58333200000010"
 			rewards: [{ count: 3, id: "28358333200000008", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
 			tasks: [{ entity: "deeperdarker:sludge", id: "4E58333200000010", title: "Eliminar 5 fango viviente", type: "kill", value: 5L }]
@@ -125,7 +125,7 @@
 			description: [
 				"Detectar el templo antiguo."
 			]
-			icon: { id: "deeperdarker:ancient_temple" }
+			icon: { id: "minecraft:chiseled_deepslate" }
 			id: "4E58333200000011"
 			rewards: [{ count: 3, id: "28358333200000009", item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }, team_reward: true, type: "item" }]
 			tasks: [{ structure: "deeperdarker:ancient_temple", id: "4E58333200000011", title: "Detectar templo antiguo", type: "structure" }]

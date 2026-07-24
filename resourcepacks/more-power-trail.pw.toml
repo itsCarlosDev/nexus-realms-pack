@@ -1,0 +1,13 @@
+name = "More Power Trail"
+filename = "more_power.zip"
+side = "client"
+
+[download]
+hash-format = "sha1"
+hash = "48b6bc5cd018b1a8f06d5646b08065b7f8a70351"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 7690641
+project-id = 1380269

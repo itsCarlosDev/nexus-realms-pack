@@ -1,0 +1,5 @@
+ui_x = 20
+ui_y = 10
+global_charge = false
+custom_charge = false
+disable_abyss_blast_break = true

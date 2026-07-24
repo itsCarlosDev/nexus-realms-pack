@@ -1,0 +1,12 @@
+# Book of Dragons client integration for Nexus Realms.
+[client]
+sprintMode = "TOGGLE"
+cameraRollEnabled = true
+thirdPersonDistance = 8.0
+firstPersonFovOffset = 0.0
+barrelRollEnabled = false
+speedFovEffectEnabled = true
+speedFovEffectStrength = 1.0
+dragonMouseSensitivity = 1.0
+ridingCameraPerspective = "THIRD_PERSON"
+rememberLastCameraPerspective = false

@@ -1,0 +1,18 @@
+{
+  "maintenanceEnabled": true,
+  "restartEnabled": true,
+  "restartSchedule": "02:00",
+  "cleanupEnabled": true,
+  "cleanupCheckInterval": 600,
+  "itemEntityThreshold": 2000,
+  "minimumItemAge": 3600,
+  "warnings": {
+    "restart15m": "⚠️ Reinicio programado en 15 minutos. Guarda tu progreso.",
+    "restart5m": "⚠️ Reinicio programado en 5 minutos. Guarda tu progreso.",
+    "restart1m": "⚠️ Reinicio programado en 1 minuto. Guarda tu progreso.",
+    "restart10s": "⚠️ Reinicio programado en 10 segundos. Se cerrará el servidor.",
+    "cleanup60s": "⚠️ Limpieza de ítems iniciada en 60 segundos.",
+    "cleanup30s": "⚠️ Limpieza de ítems iniciada en 30 segundos.",
+    "cleanup10s": "⚠️ Limpieza de ítems iniciada en 10 segundos."
+  }
+}

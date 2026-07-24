@@ -1,0 +1,13 @@
+name = "Epic Fight BDHill Reforge the Sword Edge"
+filename = "【Released】BDHill Reforge the Sword Edge-2.0_1.20.1.zip"
+side = "client"
+
+[download]
+hash-format = "sha1"
+hash = "5c838569a3954f7bf2fd706c77b23f8d8f213173"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 7631787
+project-id = 1331176

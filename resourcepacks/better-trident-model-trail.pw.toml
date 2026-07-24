@@ -1,0 +1,13 @@
+name = "Better Trident Model Trail"
+filename = "trident trail.zip"
+side = "client"
+
+[download]
+hash-format = "sha1"
+hash = "9e2473aa001f5c8379fd40751cd68ae898af7f0d"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 7355973
+project-id = 1409363

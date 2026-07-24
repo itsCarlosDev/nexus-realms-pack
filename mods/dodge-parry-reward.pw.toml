@@ -1,0 +1,13 @@
+name = "Epic Fight: Dodge Parry Reward"
+filename = "dodge_parry_reward-1.20.1forge-20.14.3.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "8a0301b8a55b3349b029dfcbbea3d9438b05e82c"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 7867343
+project-id = 1304607

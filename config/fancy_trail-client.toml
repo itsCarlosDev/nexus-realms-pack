@@ -1,0 +1,20 @@
+[starry_trail]
+intensity = 0.5
+starScale = 1.2
+opacity = 0.2
+layers = 1
+texture = "fancy_trail:textures/effect/star.png"
+
+[chromatic_aberration]
+chromaticEffect = 2.4
+
+[additional_particles]
+speed = 0.64
+particleType = "minecraft:end_rod"
+
+[flowing_effect]
+intensity = 0.4
+speed = 0.8
+
+[common_air_trail]
+isOpenAir = true

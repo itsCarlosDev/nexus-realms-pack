@@ -1,0 +1,30 @@
+{
+  "maintenanceEnabled": true,
+  "dedicatedServerOnly": true,
+
+  "restart": {
+    "enabled": true,
+    "time": "02:00"
+  },
+
+  "cleanup": {
+    "enabled": true,
+    "checkIntervalSeconds": 600,
+    "itemEntityThreshold": 2000,
+    "minimumItemAgeSeconds": 3600,
+    "cancelIfBelowThresholdAtExecution": true,
+    "protectCustomNamedItems": true
+  },
+
+  "messages": {
+    "restart15m": "⚠️ Reinicio programado en 15 minutos. Guarda tu progreso.",
+    "restart5m": "⚠️ Reinicio programado en 5 minutos. Guarda tu progreso.",
+    "restart1m": "⚠️ Reinicio programado en 1 minuto. Guarda tu progreso.",
+    "restart10s": "⚠️ Reinicio programado en 10 segundos. El servidor se cerrará de forma segura.",
+
+    "cleanup60s": "⚠️ Se ha detectado una acumulación elevada de objetos. Limpieza controlada en 60 segundos.",
+    "cleanup30s": "⚠️ Limpieza controlada de objetos en 30 segundos.",
+    "cleanup10s": "⚠️ Limpieza controlada de objetos en 10 segundos.",
+    "cleanupDone": "Limpieza completada: {count} objetos antiguos eliminados."
+  }
+}

@@ -1,0 +1,13 @@
+name = "Epic Fight - Super Golem"
+filename = "super_golem-20.12.2.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "802df899c50a9bc77bc4169be208a7edc48872bd"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 7090178
+project-id = 1236331
