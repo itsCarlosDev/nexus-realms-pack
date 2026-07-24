@@ -246,7 +246,7 @@ Yaw usados: sur `0`, oeste `90`, norte `180`, este `-90`.
 | Enlace del Nexus | `nexus_liaison` | Recolección, caza, exploración y apoyo opcional | Casa de Contratos | Contratos del Nexus `4E58434F4E545231` | OPERATIVA V1; interior en construcción | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/nexus_liaison.npc.snbt ~ ~ ~` |
 | Intendente del Distrito | `district_steward` | Logística y necesidades colectivas futuras | Intendencia del Nexus | ninguno; logística comunitaria futura | EN CONSTRUCCIÓN | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/district_steward.npc.snbt ~ ~ ~` |
 | Conservadora del Mercado | `market_curator` | Trofeos, reliquias y descubrimientos permanentes | Museo del Nexus | Museo del Nexus `4E584D5553455531` | OPERATIVA V1; interior en construcción | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/market_curator.npc.snbt ~ ~ ~` |
-| Expedicionario del Nexus | `nether_expeditionary` | Expediciones dimensionales y guía de Realms | Acceso/expedición dimensional | Nether `4E584E4554483031`; Aether `4E58414554483031` | OPERATIVO V1 | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/nether_expeditionary.npc.snbt ~ ~ ~` |
+| Expedicionario del Nexus | `nether_expeditionary` | Expediciones dimensionales y guía de Realms | Acceso/expedición dimensional | Nether `4E584E4554483031`; Aether `4E58414554483031`; Otherside `4E583333324F5448` | OPERATIVO V1 | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/nether_expeditionary.npc.snbt ~ ~ ~` | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/nether_expeditionary.npc.snbt ~ ~ ~` |
 
 La Oficina de Proyectos usa FTB Quests para registrar entregas consumibles y
 compartir su progreso entre miembros del mismo equipo FTB. Cada recompensa es
@@ -279,19 +279,32 @@ no ejecuta teleports, portales, concesiones de stages ni comandos de desbloqueo:
 History Stages conserva toda la autoridad dimensional. Las instalaciones físicas
 y cualquier representación de las investigaciones se preparan manualmente.
 
-Estado consolidado verificado: Oficina de Proyectos, Casa de Contratos, Museo y
-Observatorio están operativos en V1. La Intendencia permanece en construcción;
-el Pack 32.4 no está aplicado en el árbol actual, su preset declara que todavía
-no ofrece servicios y no existe un capítulo funcional asociado.
+Estado consolidado verificado: Oficina de Proyectos, Casa de Contratos,
+Intendencia del Nexus, Museo del Nexus y Observatorio del Nexus están
+OPERATIVOS V1. Sus interiores físicos pueden seguir en construcción, pero sus
+funciones de FTB Quests y NPCs están integradas.
 
 La Expedición al Nether queda disponible desde Era II mediante el Expedicionario
 y el capítulo `expedicion_al_nether`. La Expedición al Aether se abre desde el
-mismo NPC y su capítulo `expedicion_al_aether` depende de Era III. Los botones
-solo abren FTB Quests. La entrada real usa los portales nativos y las
-restricciones `minecraft:the_nether` y `aether:the_aether` ya configuradas en
-History Stages; no hay teleports, listeners, stages concedidos ni portales
-alternativos. La V1 del Aether cubre preparación, recursos, criaturas y sus
-tres dungeons nativos. End y Otherside permanecen reservados para Era IV.
+mismo NPC mediante `expedicion_al_aether` desde Era III. Desde Era IV, el
+Expedicionario también ofrece la Expedición al Otherside mediante
+`expedicion_al_otherside`.
+
+Los botones únicamente abren sus capítulos de FTB Quests. La entrada real a cada
+Realm usa sus mecanismos nativos y History Stages mantiene la autoridad sobre
+las restricciones dimensionales. No existen teleports personalizados, listeners
+paralelos ni stages concedidos desde estas expediciones.
+
+La progresión dimensional integrada queda:
+
+- Era II: Nether.
+- Era III: Aether.
+- Era IV: End y Otherside.
+
+La V1 de Otherside cubre progresión mediante el `Heart of the Deep`, acceso por
+el portal nativo, exploración, recursos, criaturas y el `Ancient Temple`. El End
+permanece como Realm de Era IV, pero todavía no dispone de un capítulo propio de
+expedición.
 
 En el mundo auditado, el Mercader es la única excepción operativa: no debe
 importarse otra copia, sino conservarse y moverse la entidad indicada en la
@@ -599,3 +612,4 @@ archivos NPC aislados ni `waystones.dat`. Tras instalar el pack:
 
 Nunca borrar a ciegas la carpeta `easy_npc`, editar archivos `.dat` del mundo o
 reutilizar UUIDs de otro save.
+

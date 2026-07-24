@@ -1,0 +1,13 @@
+name = "Mandalas GUI - Dark Mode KOTS Compat"
+filename = "Mandalas GUI - Dark Mode KOTS Compat 2.8.zip"
+side = "client"
+
+[download]
+hash-format = "sha1"
+hash = "95c3a1dc547f90447b04cda445c46c82e96a810d"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 8005127
+project-id = 1452633

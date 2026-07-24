@@ -1,0 +1,13 @@
+name = "Simple Custom Early Loading"
+filename = "SimpleCustomEarlyLoading-2.0-forge.jar"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/Bi8o4aLw/versions/VKycIWxc/SimpleCustomEarlyLoading-2.0-forge.jar"
+hash-format = "sha512"
+hash = "c5d4dea2d7642a94fe4db20b50003b419322e9e092192d9abbf9bbebc3c83812ebbe5988f922682cd3ea425e7a5f64d71c5119be1da3a88bef98a4f51c2174fe"
+
+[update]
+[update.modrinth]
+mod-id = "Bi8o4aLw"
+version = "VKycIWxc"
