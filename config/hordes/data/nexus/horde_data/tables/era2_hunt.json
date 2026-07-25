@@ -1,31 +1,31 @@
 [
   {
-    "entity": "undead_revamp2:therabidus",
-    "weight": 45,
-    "first_day": 0,
-    "last_day": 0
-  },
-  {
-    "entity": "born_in_chaos_v1:decaying_zombie",
+    "entity": "born_in_chaos_v1:dread_hound",
     "weight": 25,
     "first_day": 0,
     "last_day": 0
   },
   {
-    "entity": "born_in_chaos_v1:decrepit_skeleton",
+    "entity": "undead_revamp2:thewolf",
+    "weight": 20,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "undead_revamp2:therod",
     "weight": 15,
     "first_day": 0,
     "last_day": 0
   },
   {
     "entity": "born_in_chaos_v1:zombie_lumberjack",
-    "weight": 10,
+    "weight": 20,
     "first_day": 0,
     "last_day": 0
   },
   {
-    "entity": "born_in_chaos_v1:zombie_fisherman",
-    "weight": 5,
+    "entity": "born_in_chaos_v1:skeleton_thrasher",
+    "weight": 20,
     "first_day": 0,
     "last_day": 0
   }

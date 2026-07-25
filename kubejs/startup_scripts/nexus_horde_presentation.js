@@ -179,6 +179,25 @@ function nexusHordePresentationCurrentEra(server) {
   )
 }
 
+function nexusHordePresentationCurrentTheme(server) {
+  var presentationThemeData =
+    server.persistentData
+
+  var presentationTheme =
+    presentationThemeData.contains(
+      'nexusHordeTheme'
+    )
+      ? String(
+          presentationThemeData.getString(
+            'nexusHordeTheme'
+          )
+        )
+      : ''
+
+  return presentationTheme ||
+    'Incursion del Nexus'
+}
+
 function nexusHordePresentationEraMessages(state) {
   return NEXUS_HORDE_PRESENTATION_ERA_MESSAGES[state.era] ||
     NEXUS_HORDE_PRESENTATION_ERA_MESSAGES[1]
@@ -512,8 +531,8 @@ function nexusHordePresentationBossbarCountdown(
 
   var presentationText =
     presentationTicksLeft <= 0
-      ? '☠ EL NEXUS SE ESTA ABRIENDO'
-      : `☠ EL NEXUS SE ABRE EN ${presentationSecondsLeft} s`
+      ? `☠ ${state.themeName} · EL NEXUS SE ESTA ABRIENDO`
+      : `☠ ${state.themeName} · EL NEXUS SE ABRE EN ${presentationSecondsLeft} s`
 
   nexusHordePresentationBossbarSetName(
     state,
@@ -577,7 +596,7 @@ function nexusHordePresentationBossbarWave(state) {
     )
 
     presentationText =
-      `☠ ${presentationWaveLabel} · IRRUPCION ${state.spawnedCount}/${presentationMaximum}`
+      `☠ ${presentationWaveLabel} · ${state.themeName} · IRRUPCION ${state.spawnedCount}/${presentationMaximum}`
   } else {
     presentationMaximum = Math.max(
       1,
@@ -592,7 +611,7 @@ function nexusHordePresentationBossbarWave(state) {
     )
 
     presentationText =
-      `☠ ${presentationWaveLabel} · ${presentationAlive} RESTANTES`
+      `☠ ${presentationWaveLabel} · ${state.themeName} · ${presentationAlive} RESTANTES`
   }
 
   nexusHordePresentationBossbarSetName(
@@ -746,10 +765,13 @@ function nexusHordePresentationShowStart(state) {
       NEXUS_HORDE_PRESENTATION_START_MESSAGES
     )
 
-  var presentationSubtitle =
+  var presentationEraSubtitle =
     nexusHordePresentationEraMessages(state)
       .startSubtitle ||
     'El pulso ha rasgado el velo.'
+
+  var presentationSubtitle =
+    `${state.themeName} · ${presentationEraSubtitle}`
 
   var presentationServer =
     state.player.getServer()
@@ -781,8 +803,8 @@ function nexusHordePresentationShowWaveAnnouncement(
 
   var presentationText =
     state.currentWave >= state.totalWaves
-      ? presentationWaveMessage
-      : `${nexusHordePresentationWaveLabel(state)} · ${presentationWaveMessage}`
+      ? `${presentationWaveMessage} · ${state.themeName}`
+      : `${nexusHordePresentationWaveLabel(state)} · ${presentationWaveMessage} · ${state.themeName}`
 
   nexusHordePresentationActionbar(
     state.player,
@@ -973,6 +995,11 @@ function nexusHordePresentationCreateState(
         player.getServer()
       ),
 
+    themeName:
+      nexusHordePresentationCurrentTheme(
+        player.getServer()
+      ),
+
     preparing: true,
 
     preparationEndsAt:
@@ -1025,6 +1052,26 @@ function nexusHordePresentationCleanup(
   nexusHordePresentationStates.delete(
     state.playerId
   )
+}
+
+function nexusHordePresentationCancel(player) {
+  if (!player) return false
+
+  var presentationState =
+    nexusHordePresentationStates.get(
+      nexusHordePresentationPlayerId(
+        player
+      )
+    )
+
+  if (!presentationState) return false
+
+  nexusHordePresentationCleanup(
+    presentationState,
+    player.getServer()
+  )
+
+  return true
 }
 
 function nexusHordePresentationRemoveEntity(
@@ -1480,6 +1527,9 @@ if (typeof global !== 'undefined') {
       nexusHordePresentationMarkWaveCleared,
 
     showVictory:
-      nexusHordePresentationShowVictory
+      nexusHordePresentationShowVictory,
+
+    cancel:
+      nexusHordePresentationCancel
   }
 }

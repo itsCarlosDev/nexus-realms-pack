@@ -1,0 +1,50 @@
+[
+  {
+    "entity": "irons_spellbooks:cultist",
+    "weight": 25,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "irons_spellbooks:pyromancer",
+    "weight": 10,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "irons_spellbooks:cryomancer",
+    "weight": 10,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "irons_spellbooks:archevoker",
+    "weight": 5,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "irons_spellbooks:magehunter_vindicator",
+    "weight": 10,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "irons_spellbooks:catacombs_zombie",
+    "weight": 25,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "undead_revamp2:thespitter",
+    "weight": 5,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "born_in_chaos_v1:fallen_chaos_knight",
+    "weight": 10,
+    "first_day": 0,
+    "last_day": 0
+  }
+]

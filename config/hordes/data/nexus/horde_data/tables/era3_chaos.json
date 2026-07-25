@@ -1,0 +1,32 @@
+[
+  {
+    "entity": "born_in_chaos_v1:zombie_bruiser",
+    "weight": 12,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "born_in_chaos_v1:skeleton_thrasher",
+    "weight": 25,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "born_in_chaos_v1:dread_hound",
+    "weight": 20,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "born_in_chaos_v1:zombie_clown",
+    "weight": 18,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "born_in_chaos_v1:bone_imp",
+    "weight": 25,
+    "first_day": 0,
+    "last_day": 0
+  }
+]

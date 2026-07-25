@@ -149,6 +149,25 @@ function nexusHordeDirectorCleanupState(state) {
   nexusHordeDirectorStates.delete(state.playerId)
 }
 
+function nexusHordeDirectorCancelForPlayer(player) {
+  if (!player) return false
+
+  var directorState =
+    nexusHordeDirectorStates.get(
+      nexusHordeDirectorPlayerId(
+        player
+      )
+    )
+
+  if (!directorState) return false
+
+  nexusHordeDirectorCleanupState(
+    directorState
+  )
+
+  return true
+}
+
 function nexusHordeDirectorWaveAmount(state) {
   try {
     var directorSpawnData = state.horde.getSpawnData()
@@ -763,3 +782,10 @@ ForgeEvents.onEvent(
     )
   }
 )
+
+if (typeof global !== 'undefined') {
+  global.NexusHordeDirector = {
+    cancelForPlayer:
+      nexusHordeDirectorCancelForPlayer
+  }
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "entity": "irons_spellbooks:cultist",
+    "weight": 20,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "irons_spellbooks:magehunter_vindicator",
+    "weight": 8,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "irons_spellbooks:catacombs_zombie",
+    "weight": 30,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "undead_revamp2:thespitter",
+    "weight": 5,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "born_in_chaos_v1:decrepit_skeleton",
+    "weight": 22,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "realmrpg_demons:imp",
+    "weight": 15,
+    "first_day": 0,
+    "last_day": 0
+  }
+]

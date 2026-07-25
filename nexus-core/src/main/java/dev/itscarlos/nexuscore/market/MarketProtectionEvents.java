@@ -28,7 +28,7 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = NexusCore.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public final class MarketProtectionEvents {
     private static final Component PROTECTED_MESSAGE = Component.literal("Esta zona está protegida por el Nexus.");
-    private static final Component ENTER_MESSAGE = Component.literal("El Nexus protege esta zona.");
+    private static final Component ENTER_MESSAGE = Component.literal("Bienvenido al mercado, el Nexus protege esta zona.");
     private static final Component EXIT_MESSAGE = Component.literal("Has abandonado la protección del Nexus.");
     private static final long MESSAGE_COOLDOWN_TICKS = 40L;
     private static final int BOUNDARY_CHECK_INTERVAL_TICKS = 10;
