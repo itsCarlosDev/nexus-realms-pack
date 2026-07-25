@@ -1,31 +1,25 @@
 [
   {
     "entity": "undead_revamp2:therabidus",
-    "weight": 45,
+    "weight": 40,
     "first_day": 0,
     "last_day": 0
   },
   {
     "entity": "born_in_chaos_v1:decaying_zombie",
-    "weight": 25,
-    "first_day": 0,
-    "last_day": 0
-  },
-  {
-    "entity": "born_in_chaos_v1:decrepit_skeleton",
-    "weight": 15,
+    "weight": 30,
     "first_day": 0,
     "last_day": 0
   },
   {
     "entity": "born_in_chaos_v1:zombie_lumberjack",
-    "weight": 10,
+    "weight": 15,
     "first_day": 0,
     "last_day": 0
   },
   {
     "entity": "born_in_chaos_v1:zombie_fisherman",
-    "weight": 5,
+    "weight": 15,
     "first_day": 0,
     "last_day": 0
   }

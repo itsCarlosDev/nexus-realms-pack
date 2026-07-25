@@ -19,6 +19,102 @@ const NEXUS_ERA_RECOVERY_DELAY_TICKS = 100
 const NEXUS_ERA_SAFE_LOCK_DAY = 2147483647
 const NEXUS_ERA_CONFIG_PATH = 'config/nexuscore/eras.json'
 
+const NEXUS_ERA_HORDE_THEMES = {
+  1: [
+    {
+      id: 'podredumbre',
+      name: 'Marea de podredumbre',
+      table: 'nexus:era1_decay'
+    },
+    {
+      id: 'legion_osea',
+      name: 'Legion osea',
+      table: 'nexus:era1_bones'
+    },
+    {
+      id: 'carroneros',
+      name: 'Carroneros del velo',
+      table: 'nexus:era1_scavengers'
+    }
+  ],
+  2: [
+    {
+      id: 'caceria',
+      name: 'Caceria nocturna',
+      table: 'nexus:era2_hunt'
+    },
+    {
+      id: 'brote',
+      name: 'Brote biohazard',
+      table: 'nexus:era2_plague'
+    },
+    {
+      id: 'incursion_imp',
+      name: 'Incursion de los imps',
+      table: 'nexus:era2_imps'
+    }
+  ],
+  3: [
+    {
+      id: 'caos',
+      name: 'Vanguardia del caos',
+      table: 'nexus:era3_chaos'
+    },
+    {
+      id: 'culto',
+      name: 'Culto del umbral',
+      table: 'nexus:era3_cult'
+    },
+    {
+      id: 'brecha_demonica',
+      name: 'Brecha demoniaca',
+      table: 'nexus:era3_demons'
+    }
+  ],
+  4: [
+    {
+      id: 'apocalipsis',
+      name: 'Apocalipsis del Nexus',
+      table: 'nexus:era4_apocalypse'
+    },
+    {
+      id: 'infernal',
+      name: 'Legion infernal',
+      table: 'nexus:era4_infernal'
+    },
+    {
+      id: 'arcano',
+      name: 'Convergencia arcana',
+      table: 'nexus:era4_arcane'
+    }
+  ]
+}
+
+const NEXUS_ERA_HORDE_REWARDS = {
+  1: {
+    silver: 2,
+    gold: 0
+  },
+  2: {
+    silver: 3,
+    gold: 0
+  },
+  3: {
+    silver: 5,
+    gold: 0
+  },
+  4: {
+    silver: 2,
+    gold: 1
+  }
+}
+
+const NEXUS_ERA_SILVER_COIN =
+  'kubejs:nexus_silver_coin'
+
+const NEXUS_ERA_GOLD_COIN =
+  'kubejs:nexus_gold_coin'
+
 const NEXUS_CAMPAIGN_LENGTH_DAYS = 30
 const NEXUS_CAMPAIGN_DAY_MILLIS = 24 * 60 * 60 * 1000
 
@@ -812,6 +908,55 @@ function nexusEraData(server) {
     )
   }
 
+  if (!data.contains('nexusHordeTable')) {
+    data.putString(
+      'nexusHordeTable',
+      ''
+    )
+  }
+
+  if (!data.contains('nexusHordeTheme')) {
+    data.putString(
+      'nexusHordeTheme',
+      ''
+    )
+  }
+
+  if (!data.contains('nexusHordeEra')) {
+    data.putInt(
+      'nexusHordeEra',
+      0
+    )
+  }
+
+  if (!data.contains('nexusLastHordeTable')) {
+    data.putString(
+      'nexusLastHordeTable',
+      ''
+    )
+  }
+
+  if (!data.contains('nexusPreviousHordeTable')) {
+    data.putString(
+      'nexusPreviousHordeTable',
+      ''
+    )
+  }
+
+  if (!data.contains('nexusLastHordeRewardedCount')) {
+    data.putInt(
+      'nexusLastHordeRewardedCount',
+      0
+    )
+  }
+
+  if (!data.contains('nexusLastHordeRewardSummary')) {
+    data.putString(
+      'nexusLastHordeRewardSummary',
+      ''
+    )
+  }
+
   if (!data.contains('nexusHordeStartConfirmed')) {
     data.putBoolean(
       'nexusHordeStartConfirmed',
@@ -879,6 +1024,21 @@ function nexusEraClearGlobalHorde(data) {
   data.putString(
     'nexusHordeParticipantUUIDs',
     '[]'
+  )
+
+  data.putString(
+    'nexusHordeTable',
+    ''
+  )
+
+  data.putString(
+    'nexusHordeTheme',
+    ''
+  )
+
+  data.putInt(
+    'nexusHordeEra',
+    0
   )
 
   data.putBoolean(
@@ -1070,6 +1230,18 @@ function nexusEraDescribe(server) {
       )
     }`,
 
+    `Tema activo: ${
+      data.getString(
+        'nexusHordeTheme'
+      ) || 'ninguno'
+    }`,
+
+    `Tabla activa: ${
+      data.getString(
+        'nexusHordeTable'
+      ) || 'ninguna'
+    }`,
+
     `Inicio nativo confirmado: ${
       data.getBoolean(
         'nexusHordeStartConfirmed'
@@ -1087,6 +1259,16 @@ function nexusEraDescribe(server) {
         'nexusHordeParticipantCount'
       )
     }`,
+
+    `Ultima recompensa: ${
+      data.getString(
+        'nexusLastHordeRewardSummary'
+      ) || 'ninguna'
+    } para ${
+      data.getInt(
+        'nexusLastHordeRewardedCount'
+      )
+    } jugador(es)`,
 
     `Ultimo fallo: ${
       data.getString(
@@ -1773,6 +1955,267 @@ function nexusEraFindOnlinePlayer(
   return found
 }
 
+function nexusEraHordeThemeHash(value) {
+  const text =
+    String(value)
+
+  let hash = 0
+
+  for (
+    let index = 0;
+    index < text.length;
+    index += 1
+  ) {
+    hash = (
+      (
+        hash * 31
+      ) +
+      text.charCodeAt(index)
+    ) | 0
+  }
+
+  return Math.abs(hash)
+}
+
+function nexusEraChooseHordeTheme(
+  data,
+  era,
+  currentDay
+) {
+  const themes =
+    NEXUS_ERA_HORDE_THEMES[era] ||
+    NEXUS_ERA_HORDE_THEMES[1]
+
+  const lastTable =
+    data.getString(
+      'nexusLastHordeTable'
+    )
+
+  const previousTable =
+    data.getString(
+      'nexusPreviousHordeTable'
+    )
+
+  let available =
+    themes.filter(theme =>
+      theme.table !== lastTable &&
+      theme.table !== previousTable
+    )
+
+  if (available.length === 0) {
+    available =
+      themes.filter(theme =>
+        theme.table !== lastTable
+      )
+  }
+
+  if (available.length === 0) {
+    available = themes.slice()
+  }
+
+  const seed =
+    `${currentDay}:${era}:${lastTable}:${previousTable}`
+
+  const index =
+    nexusEraHordeThemeHash(seed) %
+    available.length
+
+  return available[index]
+}
+
+function nexusEraParticipantIds(data) {
+  try {
+    const parsed =
+      JSON.parse(
+        data.getString(
+          'nexusHordeParticipantUUIDs'
+        ) || '[]'
+      )
+
+    return Array.isArray(parsed)
+      ? parsed.map(value =>
+          String(value)
+        )
+      : []
+  } catch (error) {
+    nexusEraLogErrorOnce(
+      'participant-json',
+      'Nexus Realms: no se pudo leer la lista de participantes de la Horda.',
+      error
+    )
+
+    return []
+  }
+}
+
+function nexusEraHordeReward(era) {
+  return (
+    NEXUS_ERA_HORDE_REWARDS[era] ||
+    NEXUS_ERA_HORDE_REWARDS[1]
+  )
+}
+
+function nexusEraHordeRewardText(reward) {
+  const parts = []
+
+  if (reward.gold > 0) {
+    parts.push(
+      `${reward.gold} moneda${reward.gold === 1 ? '' : 's'} de oro`
+    )
+  }
+
+  if (reward.silver > 0) {
+    parts.push(
+      `${reward.silver} moneda${reward.silver === 1 ? '' : 's'} de plata`
+    )
+  }
+
+  return parts.length > 0
+    ? parts.join(' y ')
+    : 'sin recompensa'
+}
+
+function nexusEraRewardHordeParticipants(
+  server,
+  data,
+  anchor
+) {
+  const era =
+    Math.max(
+      1,
+      Math.min(
+        4,
+        data.getInt(
+          'nexusHordeEra'
+        ) ||
+        data.getInt(
+          'nexusEra'
+        ) ||
+        1
+      )
+    )
+
+  const reward =
+    nexusEraHordeReward(era)
+
+  const participantIds =
+    nexusEraParticipantIds(data)
+
+  const anchorId =
+    String(anchor.uuid)
+
+  if (
+    !participantIds.includes(
+      anchorId
+    )
+  ) {
+    participantIds.push(
+      anchorId
+    )
+  }
+
+  const rewarded = []
+  const skipped = []
+
+  participantIds.forEach(
+    participantId => {
+      const participant =
+        nexusEraFindOnlinePlayer(
+          server,
+          participantId
+        )
+
+      if (!participant) {
+        skipped.push(
+          `${participantId}:offline`
+        )
+
+        return
+      }
+
+      try {
+        if (
+          nexusEraDimensionId(
+            participant.level
+          ) !==
+          nexusEraDimensionId(
+            anchor.level
+          ) ||
+          anchor.distanceToSqr(
+            participant
+          ) >
+          NEXUS_ERA_PARTICIPANT_RADIUS_SQR
+        ) {
+          skipped.push(
+            `${participantId}:far`
+          )
+
+          return
+        }
+      } catch (error) {
+        skipped.push(
+          `${participantId}:position_error`
+        )
+
+        return
+      }
+
+      const participantName =
+        String(
+          participant
+            .getGameProfile()
+            .getName()
+        )
+
+      if (reward.gold > 0) {
+        server.runCommandSilent(
+          `give ${participantName} ${NEXUS_ERA_GOLD_COIN} ${reward.gold}`
+        )
+      }
+
+      if (reward.silver > 0) {
+        server.runCommandSilent(
+          `give ${participantName} ${NEXUS_ERA_SILVER_COIN} ${reward.silver}`
+        )
+      }
+
+      participant.tell(
+        `§6Recompensa de la Horda: §f${nexusEraHordeRewardText(reward)}.`
+      )
+
+      rewarded.push(
+        participantId
+      )
+    }
+  )
+
+  data.putInt(
+    'nexusLastHordeRewardedCount',
+    rewarded.length
+  )
+
+  data.putString(
+    'nexusLastHordeRewardSummary',
+    nexusEraHordeRewardText(
+      reward
+    )
+  )
+
+  console.info(
+    `[Nexus Horde] Recompensa de Era ${era}: ` +
+    `${nexusEraHordeRewardText(reward)}; ` +
+    `rewarded=${rewarded.length}; ` +
+    `skipped=${skipped.length}.`
+  )
+
+  return {
+    era: era,
+    reward: reward,
+    rewarded: rewarded,
+    skipped: skipped
+  }
+}
+
 function nexusEraCleanupAuxiliaryState(
   player
 ) {
@@ -1854,7 +2297,8 @@ function nexusEraClaimGlobalHorde(
   data,
   anchor,
   currentDay,
-  participants
+  participants,
+  theme
 ) {
   data.putBoolean(
     'nexusHordeActive',
@@ -1892,6 +2336,27 @@ function nexusEraClaimGlobalHorde(
         player =>
           String(player.uuid)
       )
+    )
+  )
+
+  data.putString(
+    'nexusHordeTable',
+    String(
+      theme.table
+    )
+  )
+
+  data.putString(
+    'nexusHordeTheme',
+    String(
+      theme.name
+    )
+  )
+
+  data.putInt(
+    'nexusHordeEra',
+    data.getInt(
+      'nexusEra'
     )
   )
 
@@ -1967,12 +2432,33 @@ function nexusEraConfirmStartedHorde(
     ''
   )
 
+  const confirmedTable =
+    data.getString(
+      'nexusHordeTable'
+    )
+
+  if (confirmedTable) {
+    data.putString(
+      'nexusPreviousHordeTable',
+      data.getString(
+        'nexusLastHordeTable'
+      )
+    )
+
+    data.putString(
+      'nexusLastHordeTable',
+      confirmedTable
+    )
+  }
+
   nexusEraPendingStart = null
   nexusEraLoggedStartFailureDay = -1
 
   console.info(
     `[Nexus Horde] Inicio nativo confirmado para ${String(player.uuid)} ` +
-    `en el dia ${currentDay}.`
+    `en el dia ${currentDay}; ` +
+    `theme=${data.getString('nexusHordeTheme')}; ` +
+    `table=${data.getString('nexusHordeTable')}.`
   )
 }
 
@@ -2120,12 +2606,26 @@ function nexusEraCompleteHorde(player) {
     playerId
   )
 
+  const rewardResult =
+    nexusEraRewardHordeParticipants(
+      server,
+      data,
+      player
+    )
+
+  const completedTheme =
+    data.getString(
+      'nexusHordeTheme'
+    )
+
   nexusEraClearGlobalHorde(
     data
   )
 
   console.info(
-    `[Nexus Horde] Evento completado en el dia ${completedDay}.`
+    `[Nexus Horde] Evento completado en el dia ${completedDay}; ` +
+    `theme=${completedTheme || 'unknown'}; ` +
+    `rewarded=${rewardResult.rewarded.length}.`
   )
 
   return true
@@ -2267,11 +2767,21 @@ function nexusEraTryStartScheduledHorde(
         .getName()
     )
 
+  const hordeTheme =
+    nexusEraChooseHordeTheme(
+      data,
+      data.getInt(
+        'nexusEra'
+      ),
+      currentDay
+    )
+
   nexusEraClaimGlobalHorde(
     data,
     anchor,
     currentDay,
-    selection.participants
+    selection.participants,
+    hordeTheme
   )
 
   nexusEraPendingStart = {
@@ -2293,7 +2803,7 @@ function nexusEraTryStartScheduledHorde(
     commandResult =
       Number(
         server.runCommandSilent(
-          `hordes start ${anchorName} 0`
+          `hordes start ${anchorName} 0 ${hordeTheme.table}`
         )
       )
   } catch (error) {

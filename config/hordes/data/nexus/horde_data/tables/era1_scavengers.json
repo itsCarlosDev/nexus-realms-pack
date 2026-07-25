@@ -1,0 +1,26 @@
+[
+  {
+    "entity": "born_in_chaos_v1:zombie_lumberjack",
+    "weight": 30,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "born_in_chaos_v1:zombie_fisherman",
+    "weight": 30,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "born_in_chaos_v1:decaying_zombie",
+    "weight": 25,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "irons_spellbooks:catacombs_zombie",
+    "weight": 15,
+    "first_day": 0,
+    "last_day": 0
+  }
+]
