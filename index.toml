@@ -43,11 +43,11 @@ hash = "b2f8513094f6472d835e09ab9633cb724e5085733aba351f208008d784894f07"
 
 [[files]]
 file = "config/defaultoptions-common.toml"
-hash = "334c9c5f19ee2fb572e24a4d9e00c0d34c9cd4fddc799f2cc53c3cc6a7b93e05"
+hash = "cd0e85dcbeeeef2dd8857543a55096f8643ab970005c49bde963ec81caee344f"
 
 [[files]]
 file = "config/defaultoptions/keybindings.txt"
-hash = "3516a4d0b09672a6c5b2f420ed35647031c4c7c9cd1ff78d51044bb6a287017a"
+hash = "6ae37825bfbfe671515b41c2f74396edce5ad98d7d6fcd418ac1de37c4560592"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/arcane_master.npc.snbt"
@@ -279,7 +279,7 @@ hash = "77a21ef52efc8d03b25da6888027829746df0f912fb04d472c97245a74e9b957"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/intendencia_del_nexus.snbt"
-hash = "1a68e46985b1435d44ca12c78f158c768dc91b19ff119b580e453df5a1c7e30d"
+hash = "87b93cd3fbf03bd1c9ffc2a493f3546408217f84020ae20a1a713e7cfae313c5"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/museo_del_nexus.snbt"
@@ -434,8 +434,16 @@ file = "config/p1nero_ec-common.toml"
 hash = "349b88be3dca1518b712bcdd4134fe601938a93774420232617de796dc4b0bd0"
 
 [[files]]
+file = "config/pmmo-client.toml"
+hash = "7bdafb23b0d048e024d39f4ae784efeb7604f04ff575786d33ea6e81f6dec0b5"
+
+[[files]]
 file = "config/shouldersurfing-client.toml"
 hash = "052725e520f5b1952946a103799fc43de7bebbd610d081fabc90361804b8dec6"
+
+[[files]]
+file = "config/sidebar_buttons.json"
+hash = "683e48eb46a4b6bbce973a2b5aec2fa2fa6eb922beeead44a7e8d718936513f4"
 
 [[files]]
 file = "config/tacz-client.toml"
@@ -444,6 +452,10 @@ hash = "0caa9d53d89c106cad7bc03514c04e683811323ec5e44d81ea689e2a9726a130"
 [[files]]
 file = "config/tacztweaks.json"
 hash = "5e3d04e3da6a6c7e1e1e63fde62f66aa2aa2baffe081fa50213c9dd7d38bd292"
+
+[[files]]
+file = "config/voicechat/voicechat-server.properties"
+hash = "572f2b78d6ff8fb0d36ab814cb36cef8ad8a9d6446ef65c738285ee27f856ba6"
 
 [[files]]
 file = "config/wom-client.toml"
@@ -522,16 +534,104 @@ file = "kubejs/assets/kubejs/textures/item/nexus_silver_coin.png"
 hash = "fe493c23232cc14a1a3be2158370edde9b0d03ec4884efac11adec48c7fa6dbe"
 
 [[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/birch_branches.json"
+hash = "25c3d504b142f9756c3f3457d8e5249293898ef30aaa796d86174e90dc59ee23"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/carrot_sword.json"
+hash = "e8a9662abae648043e04b7d4359d8caa87e60da5d9f214d14cc9f1f8e01db8cd"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/dark_ritual_dagger.json"
+hash = "9c244c5018e3813dab9635a463f2e897fb91bfe29463888563ea3aa7efab454a"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/darkwarblade.json"
+hash = "21336a24533f91d4b85b823b6344deed105f39ba2b8fd80a3d6632ab4e2c69f2"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/frostbitten_blade.json"
+hash = "78b0fff0f0f0e18b8abaf4f33180efe5afbde4253a479bed2565d8b9de386de1"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/great_reaper_axe.json"
+hash = "78b0fff0f0f0e18b8abaf4f33180efe5afbde4253a479bed2565d8b9de386de1"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/icy_sweetness.json"
+hash = "78b0fff0f0f0e18b8abaf4f33180efe5afbde4253a479bed2565d8b9de386de1"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/intoxicating_dagger.json"
+hash = "9c244c5018e3813dab9635a463f2e897fb91bfe29463888563ea3aa7efab454a"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/nightmare_scythe.json"
+hash = "78b0fff0f0f0e18b8abaf4f33180efe5afbde4253a479bed2565d8b9de386de1"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/nut_hammer.json"
+hash = "25c3d504b142f9756c3f3457d8e5249293898ef30aaa796d86174e90dc59ee23"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/sharpened_dark_metal_sword.json"
+hash = "9c244c5018e3813dab9635a463f2e897fb91bfe29463888563ea3aa7efab454a"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/shell_mace.json"
+hash = "9c244c5018e3813dab9635a463f2e897fb91bfe29463888563ea3aa7efab454a"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/skullbreaker_hammer.json"
+hash = "78b0fff0f0f0e18b8abaf4f33180efe5afbde4253a479bed2565d8b9de386de1"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/soul_cutlass.json"
+hash = "9c244c5018e3813dab9635a463f2e897fb91bfe29463888563ea3aa7efab454a"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/soulbane.json"
+hash = "9f94314f0b727e4a3cb58c8412f857c905d7be7ae4363baeb9e956b879778617"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/spider_bite_sword.json"
+hash = "9c244c5018e3813dab9635a463f2e897fb91bfe29463888563ea3aa7efab454a"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/spiritual_sword.json"
+hash = "e8a9662abae648043e04b7d4359d8caa87e60da5d9f214d14cc9f1f8e01db8cd"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/supreme_measure.json"
+hash = "97ea0e82fd81de3dcdb99056fa0ed46c165e63a1eaa0e94f352d225b80711cbc"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/sweet_axe.json"
+hash = "25c3d504b142f9756c3f3457d8e5249293898ef30aaa796d86174e90dc59ee23"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/sweet_sword.json"
+hash = "e8a9662abae648043e04b7d4359d8caa87e60da5d9f214d14cc9f1f8e01db8cd"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/trident_hayfork.json"
+hash = "80ca8844f18752c3735d814a7d2fed7c521b8ebfe835a64cbe98bbb002303f55"
+
+[[files]]
+file = "kubejs/data/born_in_chaos_v1/pmmo/items/wood_splitter_axe.json"
+hash = "9c244c5018e3813dab9635a463f2e897fb91bfe29463888563ea3aa7efab454a"
+
+[[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "46ec09ad46f3476033a6c734612a01bc50b4d9e3735db6169653847043949659"
+hash = "47d5b84f77cd908e925b52e3ce18851deab0a6f4f745301eff51d12750e7fd6a"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_disable_vanilla_zombies.js"
-hash = "a4c6fec689f5379fd4772ccf11ddf2033ed3d5611277db326bc25fe1d72c5b5d"
+hash = "516720a8278e3fe0048c3ec9a2f332e2b6c03687efd69ba368bda4985ef9c87b"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_era_calendar.js"
-hash = "3f4ed5854a92e536e76950f81b45330a3c566b8e12981490fa8cd13f581a27b4"
+hash = "18351e24c273db87a613780827b33ab807896ef490e9ccc7838b1495cf862f95"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_export_entity_ids.js"
@@ -588,7 +688,7 @@ metafile = true
 
 [[files]]
 file = "mods/allomancy.pw.toml"
-hash = "c0c9cf4a22858d9fe476ef5fd75ce62a697c54e337e473dbbe81daa63cc8d4b3"
+hash = "6fd0bfd6c9f207af69eca8e52d5522e8bf4f72dcadd4e432acbda613c04baf7f"
 metafile = true
 
 [[files]]
@@ -608,7 +708,7 @@ metafile = true
 
 [[files]]
 file = "mods/appleskin.pw.toml"
-hash = "793693a85f3c87d4e899ee0c58deabc53690bf5a70f17343f28fd5063ce8a1e1"
+hash = "e6f41277fe8e850cee0d1e9e554f54312a67206fc9b45eeac9905cc55c03e5ee"
 metafile = true
 
 [[files]]
@@ -692,6 +792,11 @@ hash = "b66345a42cf78fc591a935a17907d135370348a015125fd06de6aba168240362"
 metafile = true
 
 [[files]]
+file = "mods/camera-mod.pw.toml"
+hash = "5ec12b0d9bffad74891bbfd36c2463ce3a66fcae594d985a008ec46856de32ff"
+metafile = true
+
+[[files]]
 file = "mods/cerbons-api.pw.toml"
 hash = "b04f3690005952fb2f0d93b742a00d4b25547cbb4e2975aaca89fb0af58a9539"
 metafile = true
@@ -728,7 +833,7 @@ metafile = true
 
 [[files]]
 file = "mods/cloth-config.pw.toml"
-hash = "10ad81feaa9aae206b640ef1ed5fff723d7a1aac317c59ddb4e2a682e588c097"
+hash = "c138f39c62413c84b08e415150ed24e398387b8094e4bf482d2978b6d3863d43"
 metafile = true
 
 [[files]]
@@ -738,7 +843,7 @@ metafile = true
 
 [[files]]
 file = "mods/cmdcam.pw.toml"
-hash = "dfa89261dcac7fcc222f8a910665806d49cf95b650e35fd3f6693596f1cec036"
+hash = "b1594687e49efac809d90262d5d3378c90d58c0e780f5fd164a21f541ed023c8"
 metafile = true
 
 [[files]]
@@ -843,7 +948,7 @@ metafile = true
 
 [[files]]
 file = "mods/dynamic-fps.pw.toml"
-hash = "acb2f4b1300c24188642c03692c6cfaf35f3edbfbffc53a32506bbc4fa930d0c"
+hash = "70eb6e1674e173285168b5b5e4a44bc2a6d588033585c66fecb5e496b734c88c"
 metafile = true
 
 [[files]]
@@ -963,7 +1068,7 @@ metafile = true
 
 [[files]]
 file = "mods/epic-tweaks.pw.toml"
-hash = "620c59cdb9248352446eb21b349251dc10458bffef391f2789c9f0a4ec78a3c5"
+hash = "aca1ef9f0867ccc994d811db0383fb54cc21215a302eb73d0f19eef04d42cf96"
 metafile = true
 
 [[files]]
@@ -992,6 +1097,11 @@ hash = "197ae024f6d018efc44da09a5324c2cec24219e3213b3fd2a34b9b6f2f0f7f01"
 metafile = true
 
 [[files]]
+file = "mods/falling-tree.pw.toml"
+hash = "c403c22a6334812040538866bc4851f28358c1d8f8b44f029f4c1c82f94ca5e1"
+metafile = true
+
+[[files]]
 file = "mods/familiarslib.pw.toml"
 hash = "2070c109fedb37cb34bf9a46b425439d82b457c4cf491a4eabde34d9ad0b8d8a"
 metafile = true
@@ -1008,7 +1118,7 @@ metafile = true
 
 [[files]]
 file = "mods/fancymenu.pw.toml"
-hash = "0189f27ab57f4dfa8ff5255e109f1cdffa6145f0992c73b4c382663231d87f29"
+hash = "685c171e17870fb0c1aa54eeb0e6af58eeb4492cf083278820506cb388afc380"
 metafile = true
 
 [[files]]
@@ -1072,11 +1182,6 @@ hash = "efda76423b21f9bfab4ad8d0411f0b06a199ab7e3e12ca16dc0586c1828b8f07"
 metafile = true
 
 [[files]]
-file = "mods/fwa.pw.toml"
-hash = "f4c2535e8b6e5bed303a9062aadddf9c71372431acbc17017f1214b62aa98288"
-metafile = true
-
-[[files]]
 file = "mods/fzzy-config.pw.toml"
 hash = "82c1bd758e0562f94f461b297930876b64c2e99feea47b3815efb3da02e0a059"
 metafile = true
@@ -1084,6 +1189,11 @@ metafile = true
 [[files]]
 file = "mods/geckolib.pw.toml"
 hash = "898fd2704dd260ae8f3dc20b4416439751f0a9e76367c4f0bbdac886b6987802"
+metafile = true
+
+[[files]]
+file = "mods/glitchcore.pw.toml"
+hash = "c46659c3e873e0ca121f5215991ae8bc989132a3fea0c2da9eed0f22a947b2b9"
 metafile = true
 
 [[files]]
@@ -1117,6 +1227,11 @@ hash = "5851bef35e786bfcdb837dfc380c4bd22c857434b2997235a551b3a0cf72d158"
 metafile = true
 
 [[files]]
+file = "mods/immediatelyfast.pw.toml"
+hash = "1a9564ded8e9cd1f843f9de7fc87ffbf73033aab51494205458b0e58cc0ab194"
+metafile = true
+
+[[files]]
 file = "mods/immersive-messages-api.pw.toml"
 hash = "0fc131b61967727753c9133231eb5ef70557af3f3f2e91ceb8498b4609177f32"
 metafile = true
@@ -1128,12 +1243,7 @@ metafile = true
 
 [[files]]
 file = "mods/inventory-hud-forge.pw.toml"
-hash = "7cfc0e01f487f385b420af27e14dcdf1ce6f912c9ffecfa933fcdbb93c21e279"
-metafile = true
-
-[[files]]
-file = "mods/inventory-particles.pw.toml"
-hash = "47346406ef5538b8d3b8eba6b1b84eea83984533e566122de59d54f41d5c4cdc"
+hash = "9928c8f1f67cdc3ccdddef9fe63831a328b44dca1f6be9ebc086fc7d25747826"
 metafile = true
 
 [[files]]
@@ -1148,7 +1258,7 @@ metafile = true
 
 [[files]]
 file = "mods/item-borders.pw.toml"
-hash = "1be8443ff17db60170347dd46ab54bd809508030e5dc050e230b49c15ec3e850"
+hash = "175953670aa8af658a60be96577eac7202cbef7b01c4d8b7689d100a46f327bc"
 metafile = true
 
 [[files]]
@@ -1188,7 +1298,7 @@ metafile = true
 
 [[files]]
 file = "mods/legendary-tooltips.pw.toml"
-hash = "35c0251ad56fdf68faef3ea142fe0b76016937ab6fa52b65ce222ea7d1fb5b74"
+hash = "241481e9d7d3778a6c8e582413014279a9dd0f92f5ad0c963b1c1aaea94f123f"
 metafile = true
 
 [[files]]
@@ -1253,7 +1363,7 @@ metafile = true
 
 [[files]]
 file = "mods/nexus-core-0.6.2.jar"
-hash = "c58fb176a7afa0e6620cf9c2d3b1adf72025b30171779b9e4a8f68e7c1dfa43a"
+hash = "8827e4f9fd3040b1292cd99ff1d597866d3671ba254fc6b823c84f96b87e28cc"
 
 [[files]]
 file = "mods/not-enough-animations.pw.toml"
@@ -1271,6 +1381,11 @@ hash = "f83b253ca6a8e6f2f847952704da0e1fb00e65cbb10b7c9cb15d1a1780618da0"
 metafile = true
 
 [[files]]
+file = "mods/overflowing-bars.pw.toml"
+hash = "460172a12bf51c500547b3b961785d8e036ce5e6f0318d6d20dad8d69deeae1b"
+metafile = true
+
+[[files]]
 file = "mods/p1neros-epic-bow.pw.toml"
 hash = "732fdaa182c0550c1578e392ad230e1e4e45554bb1778653936af606cdcb55c7"
 metafile = true
@@ -1282,7 +1397,7 @@ metafile = true
 
 [[files]]
 file = "mods/particle-core.pw.toml"
-hash = "f2dac6ca0291f11a8f544bf38d8417fedcd25682dcc1fda2c4d6d3c9bc5f9e42"
+hash = "49b45092802ea261047c7d4c4866feb99992f39e92b4e2089140408661d61830"
 metafile = true
 
 [[files]]
@@ -1312,7 +1427,7 @@ metafile = true
 
 [[files]]
 file = "mods/presence-footsteps-forge.pw.toml"
-hash = "fc6fbe4edaef15637092d30600743dec1bc9bf6055f71a5ff026df108fa2b532"
+hash = "7cc7116fee8b525e93630dc9a4d79b5a6f0ae07434cad71280fad75224442502"
 metafile = true
 
 [[files]]
@@ -1337,7 +1452,7 @@ metafile = true
 
 [[files]]
 file = "mods/puzzles-lib.pw.toml"
-hash = "4dd7038889da90e145f9d074bec64a61aaae12dc57c875aa7ad99b8b2e07979b"
+hash = "5ca42f4c23aee558ed76923d4fb92ecee736ebacb53790445c09d46bd9ccb27e"
 metafile = true
 
 [[files]]
@@ -1432,7 +1547,7 @@ metafile = true
 
 [[files]]
 file = "mods/sound-physics-remastered.pw.toml"
-hash = "ee2d9154be68ef20293596a3f65810111fd35a802f1e8292e9ba8872de463a14"
+hash = "01d628d71fd20a235492879b37853c2301066aee4234df0acd62c6990b319d26"
 metafile = true
 
 [[files]]
@@ -1498,6 +1613,11 @@ metafile = true
 [[files]]
 file = "mods/timeless-and-classics-zero.pw.toml"
 hash = "733b8967d6f263e9cc7ca2f001067be6ed8e21c214d73afb4e7fb418fa3e4364"
+metafile = true
+
+[[files]]
+file = "mods/tough-as-nails.pw.toml"
+hash = "25a7f3e2027095f0c0ea8d500ed15b2ab58374b5645b248fe28cec570de5ad74"
 metafile = true
 
 [[files]]
@@ -1631,6 +1751,18 @@ hash = "2eb3e909cc46e39d8b9e762f39c36b0579744118d619beb6a174d264951d6248"
 metafile = true
 
 [[files]]
+file = "resourcepacks/NexusRealms_ES/assets/nexusrealms/textures/skills/woodcutting.png"
+hash = "8dea40bac06c6f14bb0ad9e8b47de63250f6d6a46ae9439b85ddd1377f1edb49"
+
+[[files]]
+file = "resourcepacks/NexusRealms_ES/assets/pmmo/lang/es_es.json"
+hash = "c622e0846c68a764043dbe4e0fcecee5569fd21dc5bcb3840592016ad9027f2c"
+
+[[files]]
+file = "resourcepacks/NexusRealms_ES/pack.mcmeta"
+hash = "eb6a2e402661890e05ac7d0c6f0d027d1cc8bf49317b9f1f9dabff10f572401d"
+
+[[files]]
 file = "resourcepacks/Vulmoons calaclysm remake_0.5.zip"
 hash = "c146eff2d40485a04c148d44305b0d16a7413652880dc3f51348c1a05e40904b"
 
@@ -1672,6 +1804,11 @@ metafile = true
 [[files]]
 file = "resourcepacks/fa-player-extension.pw.toml"
 hash = "2e1a6866e4366cebe200dcf71ab52923b7653f76dc48741b93411ee3bf77372a"
+metafile = true
+
+[[files]]
+file = "resourcepacks/fancy-gui-overhaul-dark.pw.toml"
+hash = "42c53d2e68d9510d22406353c79aceaf6e1373e429ea7db5120eb2a90fe8969d"
 metafile = true
 
 [[files]]

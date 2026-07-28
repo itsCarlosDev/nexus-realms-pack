@@ -144,11 +144,10 @@ public final class ClassSyncEvents {
         }
 
         return NexusSpecialization.fromId(
-            player
-                .getPersistentData()
-                .getString(
-                    "nexus_specialization"
-                )
+            ClassData.getPersistentRoleValue(
+                player,
+                "nexus_specialization"
+            )
         );
     }
 

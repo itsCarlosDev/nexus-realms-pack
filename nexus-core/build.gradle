@@ -110,7 +110,16 @@ tasks.register('marketSpawnPolicyCheck', JavaExec) {
     mainClass = 'dev.itscarlos.nexuscore.market.MarketSpawnPolicyCheck'
 }
 
+tasks.register('keybindProfilePolicyCheck', JavaExec) {
+    group = 'verification'
+    description = 'Validates neutral keybind migration and class-profile safety.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'dev.itscarlos.nexuscore.client.KeybindProfilePolicyCheck'
+}
+
 tasks.named('check') {
     dependsOn tasks.named('marketProtectionCheck')
     dependsOn tasks.named('marketSpawnPolicyCheck')
+    dependsOn tasks.named('keybindProfilePolicyCheck')
 }

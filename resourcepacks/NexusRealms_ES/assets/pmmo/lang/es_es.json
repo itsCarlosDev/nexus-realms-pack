@@ -1,0 +1,10 @@
+{
+  "perk.pmmo.skill_source": "Habilidad utilizada: %s",
+  "perk.pmmo.attribute": "Modificación de atributos",
+  "perk.pmmo.attribute.description": "Modifica el atributo indicado según el nivel de la habilidad.",
+  "perk.pmmo.attribute.status1": "Atributo modificado: %s",
+  "perk.pmmo.attribute.status2": "Aumenta en %s por nivel",
+  "perk.pmmo.attribute.status3": "Bonificación aplicada según tu nivel",
+  "perk.pmmo.temp_attribute": "Modificación temporal de atributos",
+  "perk.minecraft": "Minecraft"
+}

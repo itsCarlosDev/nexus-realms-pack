@@ -11,7 +11,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 /**
- * Client-only command used to manually reapply the recommended keybind profile.
+ * Client-only recovery command for reapplying the synchronized class profile.
  */
 @Mod.EventBusSubscriber(
     modid = NexusCore.MOD_ID,
@@ -26,34 +26,23 @@ public final class NexusKeybindCommand {
     @SubscribeEvent
     public static void register(RegisterClientCommandsEvent event) {
         event.getDispatcher().register(
-            Commands.literal("nexus_keybinds_apply")
+            Commands.literal("nexus_keybind_reapply")
                 .executes(context -> {
-                    boolean applied =
-                        KeybindProfileManager.forceApplyCurrentClass();
+                    ClientConnectionEvents.scheduleProfileApply();
 
                     Minecraft minecraft = Minecraft.getInstance();
 
                     if (minecraft.player != null) {
-                        if (applied) {
-                            minecraft.player.displayClientMessage(
-                                Component.literal(
-                                    "[Nexus] Perfil de controles reaplicado."
-                                ),
-                                false
-                            );
-                        } else {
-                            minecraft.player.displayClientMessage(
-                                Component.literal(
-                                    "[Nexus] No se ha detectado una clase activa."
-                                ),
-                                false
-                            );
-                        }
+                        minecraft.player.displayClientMessage(
+                            Component.literal(
+                                "[Nexus] Reaplicación del perfil programada "
+                                    + "para dentro de dos ticks."
+                            ),
+                            false
+                        );
                     }
 
-                    return applied
-                        ? Command.SINGLE_SUCCESS
-                        : 0;
+                    return Command.SINGLE_SUCCESS;
                 })
         );
     }

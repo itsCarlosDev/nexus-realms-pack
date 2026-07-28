@@ -1462,12 +1462,6 @@ function nexusEraSet(
       nexusEraClearPending(data)
     }
 
-    syncHistoryStages(
-      server,
-      newEra,
-      'era_unchanged'
-    )
-
     return 'unchanged'
   }
 
@@ -3516,9 +3510,6 @@ ServerEvents.loaded(event => {
     nexusEraData(
       event.server
     )
-
-  nexusEraHistoryStagesLoadSyncAtTick =
-    nexusEraServerTicks + 100
 
   if (
     data.getBoolean(

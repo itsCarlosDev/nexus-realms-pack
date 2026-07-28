@@ -15,6 +15,8 @@ public final class ClientClassState {
     private static NexusSpecialization currentSpecialization =
         NexusSpecialization.NONE;
 
+    private static boolean synchronizedFromServer;
+
     private ClientClassState() {
     }
 
@@ -24,6 +26,10 @@ public final class ClientClassState {
 
     public static NexusSpecialization getSpecialization() {
         return currentSpecialization;
+    }
+
+    public static boolean isSynchronizedFromServer() {
+        return synchronizedFromServer;
     }
 
     public static void accept(
@@ -41,14 +47,15 @@ public final class ClientClassState {
                 ? specialization
                 : NexusSpecialization.NONE;
 
-        KeybindProfileManager.applyCurrentClass();
+        synchronizedFromServer = true;
+        ClientConnectionEvents.scheduleProfileApply();
     }
 
     public static void reset() {
         currentClass = NexusClass.NONE;
         currentSpecialization =
             NexusSpecialization.NONE;
-
-        KeybindProfileManager.reset();
+        synchronizedFromServer = false;
+        ClientConnectionEvents.cancelProfileApply();
     }
 }

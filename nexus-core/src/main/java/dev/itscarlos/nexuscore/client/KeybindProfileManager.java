@@ -2,14 +2,18 @@ package dev.itscarlos.nexuscore.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.itscarlos.nexuscore.NexusClass;
+import dev.itscarlos.nexuscore.NexusCore;
 import dev.itscarlos.nexuscore.NexusSpecialization;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.client.settings.IKeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,9 +25,6 @@ import java.util.Set;
  */
 public final class KeybindProfileManager {
 
-    private static NexusClass lastKnownClass = NexusClass.NONE;
-    private static NexusSpecialization lastKnownSpecialization = NexusSpecialization.NONE;
-
     private static final Map<String, Binding> WARRIOR_PROFILE = new HashMap<>();
     private static final Map<String, Binding> ARCANIST_PROFILE = new HashMap<>();
     private static final Map<String, Binding> METALLURGIST_PROFILE = new HashMap<>();
@@ -34,6 +35,45 @@ public final class KeybindProfileManager {
 
     private static final Binding UNBOUND =
         new Binding(InputConstants.UNKNOWN, KeyModifier.NONE);
+
+    /*
+     * UNKNOWN is only a profile marker. It is never written to a KeyMapping.
+     * Restricted actions keep a valid code and are disabled through their
+     * Forge conflict context instead. MENU is used only when both the current
+     * and official default bindings are legacy UNKNOWN and no class profile
+     * supplies a valid binding; the disabled context prevents it from firing.
+     */
+    private static final Binding SAFE_DISABLED_FALLBACK =
+        key(GLFW.GLFW_KEY_MENU);
+
+    private static final IKeyConflictContext DISABLED_CONTEXT =
+        new IKeyConflictContext() {
+            @Override
+            public boolean isActive() {
+                return false;
+            }
+
+            @Override
+            public boolean conflicts(IKeyConflictContext other) {
+                return false;
+            }
+        };
+
+    private static final Map<KeyMapping, IKeyConflictContext>
+        ORIGINAL_CONTEXTS = new IdentityHashMap<>();
+
+    static final String EPIC_FIGHT_TOOLTIP_MAPPING =
+        "key.epicfight.show_tooltip";
+
+    /*
+     * Epic Fight 20.14.17 declares WEAPON_INNATE_SKILL_TOOLTIP as a GUI
+     * mapping with GLFW_KEY_LEFT_SHIFT (340). It is neutral UI, not a Warrior
+     * combat ability. Nexus Core only uses this default to migrate the legacy
+     * UNKNOWN value written by older class profiles; valid user choices are
+     * always preserved.
+     */
+    private static final Binding EPIC_FIGHT_TOOLTIP_DEFAULT =
+        key(GLFW.GLFW_KEY_LEFT_SHIFT);
 
     static {
         /*
@@ -60,6 +100,18 @@ public final class KeybindProfileManager {
         COMMON_PROFILE.put(
             "key.disable_voice_chat",
             UNBOUND
+        );
+
+         // PMMO: no mostrar la lista completa de habilidades al pulsar Alt.
+        COMMON_PROFILE.put(
+            "key.pmmo.showList",
+            UNBOUND
+        );
+
+        // Cámara en tercera persona para todas las clases.
+        COMMON_PROFILE.put(
+            "key.togglePerspective",
+            key(GLFW.GLFW_KEY_F5)
         );
 
         COMMON_PROFILE.put(
@@ -224,23 +276,17 @@ public final class KeybindProfileManager {
             keyWithModifier(GLFW.GLFW_KEY_C, KeyModifier.ALT)
         );
 
-        COMMON_PROFILE.put(
-            "key.fancytoasts.config_menu",
-            keyWithModifier(GLFW.GLFW_KEY_K, KeyModifier.CONTROL)
-        );
-
-
         /*
          * STRICT MAGE CONFLICT CLEANUP
          *
          * Reserve the Mage gameplay keys so each unmodified key has a single
          * action:
          *
-         * G        -> Iron's Spellbooks spell wheel
+         * R        -> Iron's Spellbooks spell wheel (Arcanist)
          * H        -> Familiar screen
-         * X        -> Cast spell
+         * V        -> Cast spell
          * Z        -> Summon familiar
-         * R        -> Allomancy burn
+         * R        -> Allomancy burn (Metallurgist)
          * Left Alt -> Spell bar modifier
          * J        -> JourneyMap
          *
@@ -408,7 +454,7 @@ public final class KeybindProfileManager {
 
         COMMON_PROFILE.put(
             "key.freecam.toggle",
-            keyWithModifier(GLFW.GLFW_KEY_F4, KeyModifier.CONTROL)
+            key(GLFW.GLFW_KEY_F4)
         );
 
         /*
@@ -438,11 +484,6 @@ public final class KeybindProfileManager {
         WARRIOR_PROFILE.put(
             "key.epicskills.open_skill_tree",
             key(GLFW.GLFW_KEY_N)
-        );
-
-        WARRIOR_PROFILE.put(
-            "key.epicfight.show_tooltip",
-            key(GLFW.GLFW_KEY_LEFT_SHIFT)
         );
 
         WARRIOR_PROFILE.put(
@@ -645,15 +686,15 @@ public final class KeybindProfileManager {
         /*
          * ARCANIST — MAGE SPECIALIZATION
          *
-         * G        -> Iron's Spellbooks spell wheel
-         * X        -> Cast spell
+         * R        -> Iron's Spellbooks spell wheel
+         * V        -> Cast spell
          * Left Alt -> Spell bar modifier
          * Z        -> Summon familiar
          * H        -> Familiar screen
          */
         ARCANIST_PROFILE.put(
             "key.irons_spellbooks.spell_wheel",
-            key(GLFW.GLFW_KEY_G)
+            key(GLFW.GLFW_KEY_R)
         );
 
         ARCANIST_PROFILE.put(
@@ -663,7 +704,7 @@ public final class KeybindProfileManager {
 
         ARCANIST_PROFILE.put(
             "key.irons_spellbooks.spellbook_cast",
-            key(GLFW.GLFW_KEY_X)
+            key(GLFW.GLFW_KEY_V)
         );
 
         ARCANIST_PROFILE.put(
@@ -851,7 +892,7 @@ public final class KeybindProfileManager {
 
         GUNSLINGER_PROFILE.put(
             "key.tacz.refit.desc",
-            key(GLFW.GLFW_KEY_F4)
+            key(GLFW.GLFW_KEY_F9)
         );
 
         GUNSLINGER_PROFILE.put(
@@ -902,13 +943,6 @@ public final class KeybindProfileManager {
         NexusClass currentClass = getCurrentClass();
         NexusSpecialization currentSpecialization = getCurrentSpecialization();
 
-        if (
-            currentClass == lastKnownClass &&
-            currentSpecialization == lastKnownSpecialization
-        ) {
-            return false;
-        }
-
         if (currentClass == NexusClass.NONE) {
             applyNoClassProfile();
             return false;
@@ -956,63 +990,23 @@ public final class KeybindProfileManager {
             return;
         }
 
-        Map<String, Binding> activeProfile = switch (nexusClass) {
-            case WARRIOR -> WARRIOR_PROFILE;
-
-            case MAGE -> switch (specialization) {
-                case ARCANIST -> ARCANIST_PROFILE;
-                case METALLURGIST -> METALLURGIST_PROFILE;
-                default -> Map.of();
-            };
-
-            case GUNSLINGER -> GUNSLINGER_PROFILE;
-            default -> Map.of();
-        };
-
         Map<String, KeyMapping> mappingsByName =
             collectMappings(minecraft);
 
-        /*
-         * First disable every class and specialization mapping managed by
-         * Nexus Core. This prevents controls from a previous role surviving
-         * after a class or Mage specialization switch.
-         */
-        for (String mappingName : MANAGED_CLASS_MAPPINGS) {
-            KeyMapping mapping =
-                mappingsByName.get(mappingName);
+        boolean changed =
+            migrateLegacyNeutralMappings(mappingsByName);
 
-            if (mapping != null) {
-                applyBinding(
-                    mapping,
-                    UNBOUND
-                );
-            }
-        }
-
-        /*
-         * Apply the shared clean layout.
-         */
-        applyBindings(
+        changed |= applyProfileToMappings(
             mappingsByName,
-            COMMON_PROFILE
+            nexusClass,
+            specialization
         );
 
-        /*
-         * Enable only the active class/specialization profile.
-         */
-        applyBindings(
-            mappingsByName,
-            activeProfile
+        finishKeyChanges(
+            minecraft,
+            changed
         );
 
-        KeyMapping.resetMapping();
-        minecraft.options.save();
-
-        lastKnownClass = nexusClass;
-        lastKnownSpecialization =
-            nexusClass == NexusClass.MAGE
-                ? specialization
-                : NexusSpecialization.NONE;
     }
 
     public static void applyNoClassProfile() {
@@ -1025,29 +1019,20 @@ public final class KeybindProfileManager {
         Map<String, KeyMapping> mappingsByName =
             collectMappings(minecraft);
 
-        for (String mappingName : MANAGED_CLASS_MAPPINGS) {
-            KeyMapping mapping =
-                mappingsByName.get(mappingName);
+        boolean changed =
+            migrateLegacyNeutralMappings(mappingsByName);
 
-            if (mapping != null) {
-                applyBinding(
-                    mapping,
-                    UNBOUND
-                );
-            }
-        }
-
-        applyBindings(
+        changed |= applyProfileToMappings(
             mappingsByName,
-            COMMON_PROFILE
+            NexusClass.NONE,
+            NexusSpecialization.NONE
         );
 
-        KeyMapping.resetMapping();
-        minecraft.options.save();
+        finishKeyChanges(
+            minecraft,
+            changed
+        );
 
-        lastKnownClass = NexusClass.NONE;
-        lastKnownSpecialization =
-            NexusSpecialization.NONE;
     }
 
     private static Map<String, KeyMapping> collectMappings(
@@ -1065,30 +1050,309 @@ public final class KeybindProfileManager {
         return mappingsByName;
     }
 
-    private static void applyBindings(
+    static boolean applyProfileToMappings(
         Map<String, KeyMapping> mappingsByName,
-        Map<String, Binding> bindings
+        NexusClass nexusClass,
+        NexusSpecialization specialization
     ) {
+        Map<String, Binding> activeProfile =
+            activeProfileFor(
+                nexusClass,
+                specialization
+            );
+
+        boolean changed = false;
+
+        /*
+         * Disable every class mapping at runtime before enabling the active
+         * role. This prevents controls leaking across class changes without
+         * persisting GLFW_KEY_UNKNOWN (-1) to options.txt.
+         */
+        for (String mappingName : MANAGED_CLASS_MAPPINGS) {
+            KeyMapping mapping =
+                mappingsByName.get(mappingName);
+
+            if (mapping != null) {
+                changed |= disableMapping(
+                    mappingName,
+                    mapping
+                );
+            }
+        }
+
+        changed |= applyBindings(
+            mappingsByName,
+            COMMON_PROFILE,
+            false
+        );
+
+        changed |= applyBindings(
+            mappingsByName,
+            activeProfile,
+            true
+        );
+
+        return changed;
+    }
+
+    private static Map<String, Binding> activeProfileFor(
+        NexusClass nexusClass,
+        NexusSpecialization specialization
+    ) {
+        if (nexusClass == null) {
+            return Map.of();
+        }
+
+        return switch (nexusClass) {
+            case WARRIOR -> WARRIOR_PROFILE;
+
+            case MAGE -> switch (
+                specialization == null
+                    ? NexusSpecialization.NONE
+                    : specialization
+            ) {
+                case ARCANIST -> ARCANIST_PROFILE;
+                case METALLURGIST -> METALLURGIST_PROFILE;
+                default -> Map.of();
+            };
+
+            case GUNSLINGER -> GUNSLINGER_PROFILE;
+            default -> Map.of();
+        };
+    }
+
+    private static boolean applyBindings(
+        Map<String, KeyMapping> mappingsByName,
+        Map<String, Binding> bindings,
+        boolean preserveValidKey
+    ) {
+        boolean changed = false;
+
         for (Map.Entry<String, Binding> entry : bindings.entrySet()) {
             KeyMapping mapping = mappingsByName.get(entry.getKey());
 
             if (mapping != null) {
-                applyBinding(
+                changed |= applyConfiguredBinding(
+                    entry.getKey(),
                     mapping,
-                    entry.getValue()
+                    entry.getValue(),
+                    preserveValidKey
                 );
             }
         }
+
+        return changed;
     }
 
-    private static void applyBinding(
+    private static boolean applyConfiguredBinding(
+        String mappingName,
+        KeyMapping mapping,
+        Binding binding,
+        boolean preserveValidKey
+    ) {
+        if (isUnknown(binding.key())) {
+            return disableMapping(
+                mappingName,
+                mapping
+            );
+        }
+
+        restoreOriginalContext(mapping);
+
+        if (
+            preserveValidKey &&
+            !isUnknown(mapping.getKey())
+        ) {
+            return false;
+        }
+
+        return applyBinding(
+            mapping,
+            binding
+        );
+    }
+
+    private static boolean disableMapping(
+        String mappingName,
+        KeyMapping mapping
+    ) {
+        rememberOriginalContext(mapping);
+
+        boolean changed = false;
+
+        if (isUnknown(mapping.getKey())) {
+            changed = applyBinding(
+                mapping,
+                safeDisabledBinding(
+                    mappingName,
+                    mapping
+                )
+            );
+        }
+
+        if (mapping.getKeyConflictContext() != DISABLED_CONTEXT) {
+            mapping.setKeyConflictContext(
+                DISABLED_CONTEXT
+            );
+        }
+
+        mapping.setDown(false);
+
+        return changed;
+    }
+
+    private static void rememberOriginalContext(
+        KeyMapping mapping
+    ) {
+        if (mapping.getKeyConflictContext() == DISABLED_CONTEXT) {
+            return;
+        }
+
+        ORIGINAL_CONTEXTS.putIfAbsent(
+            mapping,
+            mapping.getKeyConflictContext()
+        );
+    }
+
+    private static void restoreOriginalContext(
+        KeyMapping mapping
+    ) {
+        IKeyConflictContext originalContext =
+            ORIGINAL_CONTEXTS.get(mapping);
+
+        if (
+            originalContext != null &&
+            mapping.getKeyConflictContext() != originalContext
+        ) {
+            mapping.setKeyConflictContext(
+                originalContext
+            );
+        }
+    }
+
+    private static Binding safeDisabledBinding(
+        String mappingName,
+        KeyMapping mapping
+    ) {
+        Binding defaultBinding =
+            new Binding(
+                mapping.getDefaultKey(),
+                mapping.getDefaultKeyModifier()
+            );
+
+        if (!isUnknown(defaultBinding.key())) {
+            return defaultBinding;
+        }
+
+        Binding configuredBinding =
+            firstValidConfiguredBinding(mappingName);
+
+        return configuredBinding != null
+            ? configuredBinding
+            : SAFE_DISABLED_FALLBACK;
+    }
+
+    private static Binding firstValidConfiguredBinding(
+        String mappingName
+    ) {
+        for (
+            Map<String, Binding> profile :
+            List.of(
+                WARRIOR_PROFILE,
+                ARCANIST_PROFILE,
+                METALLURGIST_PROFILE,
+                GUNSLINGER_PROFILE,
+                COMMON_PROFILE
+            )
+        ) {
+            Binding binding = profile.get(mappingName);
+
+            if (
+                binding != null &&
+                !isUnknown(binding.key())
+            ) {
+                return binding;
+            }
+        }
+
+        return null;
+    }
+
+    private static boolean isUnknown(
+        InputConstants.Key key
+    ) {
+        return key.equals(InputConstants.UNKNOWN);
+    }
+
+    private static boolean applyBinding(
         KeyMapping mapping,
         Binding binding
     ) {
+        if (
+            mapping.getKey().equals(binding.key()) &&
+            mapping.getKeyModifier() == binding.modifier()
+        ) {
+            return false;
+        }
+
         mapping.setKeyModifierAndCode(
             binding.modifier(),
             binding.key()
         );
+
+        return true;
+    }
+
+    static boolean migrateLegacyNeutralMapping(
+        KeyMapping mapping
+    ) {
+        if (!mapping.getKey().equals(InputConstants.UNKNOWN)) {
+            return false;
+        }
+
+        return applyBinding(
+            mapping,
+            EPIC_FIGHT_TOOLTIP_DEFAULT
+        );
+    }
+
+    static boolean isClassManagedMapping(
+        String mappingName
+    ) {
+        return MANAGED_CLASS_MAPPINGS.contains(mappingName);
+    }
+
+    private static boolean migrateLegacyNeutralMappings(
+        Map<String, KeyMapping> mappingsByName
+    ) {
+        KeyMapping tooltipMapping =
+            mappingsByName.get(EPIC_FIGHT_TOOLTIP_MAPPING);
+
+        if (
+            tooltipMapping == null ||
+            !migrateLegacyNeutralMapping(tooltipMapping)
+        ) {
+            return false;
+        }
+
+        NexusCore.LOGGER.info(
+            "Migrated legacy UNKNOWN Epic Fight tooltip keybind to its "
+                + "official Left Shift default."
+        );
+
+        return true;
+    }
+
+    private static void finishKeyChanges(
+        Minecraft minecraft,
+        boolean changed
+    ) {
+        if (!changed) {
+            return;
+        }
+
+        KeyMapping.resetMapping();
+        minecraft.options.save();
     }
 
     private static NexusClass getCurrentClass() {
@@ -1097,12 +1361,6 @@ public final class KeybindProfileManager {
 
     private static NexusSpecialization getCurrentSpecialization() {
         return ClientClassState.getSpecialization();
-    }
-
-    public static void reset() {
-        lastKnownClass = NexusClass.NONE;
-        lastKnownSpecialization =
-            NexusSpecialization.NONE;
     }
 
     private static Binding key(int glfwKey) {

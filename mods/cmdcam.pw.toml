@@ -1,6 +1,6 @@
 name = "CMDCam"
 filename = "CMDCam_FORGE_v2.2.0_mc1.20.1.jar"
-side = "both"
+side = "client"
 
 [download]
 url = "https://cdn.modrinth.com/data/hZw3uqi3/versions/as7nPEt0/CMDCam_FORGE_v2.2.0_mc1.20.1.jar"
