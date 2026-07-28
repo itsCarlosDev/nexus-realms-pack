@@ -21,8 +21,8 @@ public enum NexusSpecialization {
         }
 
         return switch (value.trim().toLowerCase()) {
-            case "arcanist" -> ARCANIST;
-            case "metallurgist" -> METALLURGIST;
+            case "arcanist", "arcanista" -> ARCANIST;
+            case "metallurgist", "metalomante" -> METALLURGIST;
             default -> NONE;
         };
     }

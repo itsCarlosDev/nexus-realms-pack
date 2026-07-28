@@ -99,6 +99,11 @@ public final class InventoryProgressionPanel {
         }
 
         GuiGraphics graphics = event.getGuiGraphics();
+
+        // Vanilla puede dejar el texto del tooltip pendiente en el buffer.
+        // Debemos procesarlo antes de dibujar manualmente el panel en Render.Post.
+        graphics.flush();
+
         Font font = Minecraft.getInstance().font;
         EraDefinition era = EraRegistry.get(state.era());
 
@@ -112,20 +117,26 @@ public final class InventoryProgressionPanel {
             graphics.renderComponentTooltip(
                 font,
                 List.of(
-                    Component.literal("Progresi\u00F3n del Nexus"),
-                    Component.literal("Era " + era.roman() + " \u00B7 " + era.name())
+                    Component.literal("Progresión del Nexus"),
+                    Component.literal("Era " + era.roman() + " · " + era.name())
                 ),
                 event.getMouseX(),
                 event.getMouseY()
             );
-        } else if (screenState.quest.visible && screenState.quest.isMouseOver(event.getMouseX(), event.getMouseY())) {
+        } else if (
+            screenState.quest.visible
+                && screenState.quest.isMouseOver(event.getMouseX(), event.getMouseY())
+        ) {
             graphics.renderTooltip(
                 font,
-                Component.literal("Abre FTB Quests para consultar la progresi\u00F3n"),
+                Component.literal("Abre FTB Quests para consultar la progresión"),
                 event.getMouseX(),
                 event.getMouseY()
             );
         }
+
+        // Finaliza también el contenido añadido manualmente por Nexus Core.
+        graphics.flush();
     }
 
     private static Layout resolveLayout(InventoryScreen screen) {

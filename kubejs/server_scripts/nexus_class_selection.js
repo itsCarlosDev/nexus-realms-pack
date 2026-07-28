@@ -75,8 +75,7 @@ const NEXUS_ALLOMANCY_BASE_POWERS = [
 
 const $NexusIndividualStageData = Java.loadClass('net.bananemdnsa.historystages.util.IndividualStageData')
 const $NexusStageManager = Java.loadClass('net.bananemdnsa.historystages.data.StageManager')
-const $NexusSyncIndividualStagesPacket = Java.loadClass('net.bananemdnsa.historystages.network.SyncIndividualStagesPacket')
-const $NexusHistoryPacketHandler = Java.loadClass('net.bananemdnsa.historystages.network.PacketHandler')
+const $NexusHistoryStagesCompat = Java.loadClass('dev.itscarlos.nexuscore.HistoryStagesCompat')
 
 let nexusClassStageWarningLogged = false
 let nexusAllomancyWarningLogged = false
@@ -264,11 +263,9 @@ function nexusSyncSpecialization(player, reason) {
     if (stageChanged) {
       specializationStageData.setDirty()
       specializationStageData.refreshCache()
-      $NexusHistoryPacketHandler.sendIndividualStagesToPlayer(
-        new $NexusSyncIndividualStagesPacket(
-          specializationStageData.getUnlockedStages(specializationPlayerUuid)
-        ),
-        player
+      $NexusHistoryStagesCompat.sendIndividualStages(
+        player,
+        specializationStageData.getUnlockedStages(specializationPlayerUuid)
       )
     }
 
@@ -478,12 +475,10 @@ function nexusSyncClassStages(player, reason) {
 
     synchronizedStageData.setDirty()
     synchronizedStageData.refreshCache()
-    $NexusHistoryPacketHandler.sendIndividualStagesToPlayer(
-      new $NexusSyncIndividualStagesPacket(
+    $NexusHistoryStagesCompat.sendIndividualStages(
+        player,
         synchronizedStageData.getUnlockedStages(synchronizedPlayerUuid)
-      ),
-      player
-    )
+      )
 
     if (reason === 'login') {
       console.info(

@@ -8,5 +8,8 @@ TODO.md
 CHANGELOG.md
 docs/
 scripts/
+tools/
 !config/hordes/data/hordes/horde_data/scripts/default.json
 nexus-core/
+.nexus-disabled-mods/
+mods/nexus-core-0.6.2.jar.before_tooltip_fix

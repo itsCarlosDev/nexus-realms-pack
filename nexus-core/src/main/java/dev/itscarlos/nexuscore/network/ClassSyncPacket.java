@@ -52,15 +52,19 @@ public record ClassSyncPacket(
         NetworkEvent.Context context =
             contextSupplier.get();
 
-        context.enqueueWork(() ->
-            DistExecutor.unsafeRunWhenOn(
-                Dist.CLIENT,
-                () -> () ->
-                    ClientClassState.accept(
-                        packet.nexusClass(),
-                        packet.specialization()
-                    )
-            )
+        /*
+         * ProgressionNetwork registers this packet with consumerMainThread,
+         * so Forge has already queued this handler on the client thread.
+         * Enqueuing a second task here made the class-state update occur in a
+         * later, untracked lifecycle step.
+         */
+        DistExecutor.unsafeRunWhenOn(
+            Dist.CLIENT,
+            () -> () ->
+                ClientClassState.accept(
+                    packet.nexusClass(),
+                    packet.specialization()
+                )
         );
 
         context.setPacketHandled(true);

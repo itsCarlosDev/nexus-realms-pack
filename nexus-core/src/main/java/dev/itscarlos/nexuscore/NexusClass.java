@@ -22,9 +22,18 @@ public enum NexusClass {
         }
 
         return switch (value.trim().toLowerCase()) {
-            case "warrior" -> WARRIOR;
-            case "mage" -> MAGE;
-            case "gunslinger" -> GUNSLINGER;
+            case "warrior", "guerrero" -> WARRIOR;
+            case
+                "mage",
+                "mago",
+                "arcanist",
+                "arcanista",
+                "metallurgist",
+                "metalomante" -> MAGE;
+            case
+                "gunslinger",
+                "gunner",
+                "pistolero" -> GUNSLINGER;
             default -> NONE;
         };
     }
