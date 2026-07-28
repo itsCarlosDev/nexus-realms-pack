@@ -1,0 +1,8 @@
+{
+  "replace": true,
+  "values": [
+    {"id": "unusual_prehistory:mesozoic_fossil", "required": false},
+    {"id": "unusual_prehistory:paleozoic_fossil", "required": false},
+    {"id": "unusual_prehistory:petrified_tree", "required": false}
+  ]
+}
