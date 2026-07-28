@@ -534,6 +534,38 @@ file = "kubejs/assets/kubejs/textures/item/nexus_silver_coin.png"
 hash = "fe493c23232cc14a1a3be2158370edde9b0d03ec4884efac11adec48c7fa6dbe"
 
 [[files]]
+file = "kubejs/data/alshanex_familiars/tags/blocks/block_freeze_blacklist.json"
+hash = "c825d55e6ec9d7fb6962824f5cf2281abb40f6354a62b7850fe2430244451c2d"
+
+[[files]]
+file = "kubejs/data/alshanex_familiars/tags/blocks/freeze_destroyable.json"
+hash = "61969b6762c5b816ea024f834528dbc7d04ea4b1d08166c1df7f97d48186d711"
+
+[[files]]
+file = "kubejs/data/alshanex_familiars/tags/blocks/freeze_ignore.json"
+hash = "61969b6762c5b816ea024f834528dbc7d04ea4b1d08166c1df7f97d48186d711"
+
+[[files]]
+file = "kubejs/data/alshanex_familiars/tags/entity_types/freezeable_entities.json"
+hash = "94e2ae458e9eb2ae12b280e2bc1ca42b11f7fb6e922895107595438774eb1fd2"
+
+[[files]]
+file = "kubejs/data/bookofdragons/advancements/dragon_hunter.json"
+hash = "4972e67c5a812ae863fcf9907c71c141ec9bb59c3519863ce3146438d4039bfa"
+
+[[files]]
+file = "kubejs/data/bookofdragons/loot_tables/chests/mystery_burrow.json"
+hash = "0d87cdd5f799a122d2a00da0a200d405730ab5531b82be81dcc1690637832161"
+
+[[files]]
+file = "kubejs/data/bookofdragons/loot_tables/chests/sharp_nest.json"
+hash = "1e33c7404bd5920032900da5b8d9c68a0ab89b0314bc9acb3b30d3c7e3c4b3c9"
+
+[[files]]
+file = "kubejs/data/bookofdragons/loot_tables/chests/stoker_den.json"
+hash = "450cbb45562c0040cd0dede693fa36b7df9cee729331e1d0b8582b526f804ff3"
+
+[[files]]
 file = "kubejs/data/born_in_chaos_v1/pmmo/items/birch_branches.json"
 hash = "25c3d504b142f9756c3f3457d8e5249293898ef30aaa796d86174e90dc59ee23"
 
@@ -620,6 +652,150 @@ hash = "80ca8844f18752c3735d814a7d2fed7c521b8ebfe835a64cbe98bbb002303f55"
 [[files]]
 file = "kubejs/data/born_in_chaos_v1/pmmo/items/wood_splitter_axe.json"
 hash = "9c244c5018e3813dab9635a463f2e897fb91bfe29463888563ea3aa7efab454a"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/china_cabinet_open_birch.json"
+hash = "684f06636001d4b8ec49684aa31bb9cb6923ee0ff4f17d77e2fcc76440da6f43"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/china_cabinet_open_black.json"
+hash = "edd79df7831ca6814f12502ed123c5eae904646f2010627567fcee81cbee1110"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/china_cabinet_open_cherry.json"
+hash = "6d7dd9547dbd49135c87b41706866f34c8c04da7d2fad641c76b8d8714aaf99a"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/china_cabinet_open_ebony.json"
+hash = "527c439d6f81074de8650dbbd0762301954afd0b5619cf8995dae2bc74c2eb4e"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/china_cabinet_open_oak.json"
+hash = "2ae3b4f37fc18eec1a8998591c73886849a466e765c9ee0ad18792ce58f39fd3"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/china_cabinet_open_palm.json"
+hash = "1753d1da34ec46ab6d00202cd71536bfd521b7a3b60a125c6e2128c99d36d606"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/china_cabinet_open_spruce.json"
+hash = "a705f421d2da990f33804f526d82578bd4f26468e88ab3b5625488c3303a0a75"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/china_cabinet_open_white.json"
+hash = "711d66177bb147d608c8dc3391d9e74e4e86951820ebf560286a1e1afa5cc566"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/laptop_closed_black.json"
+hash = "2e0b20d980805d5f806ae82160949522f744f18d0707b531988f68468d88c153"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/laptop_closed_pink.json"
+hash = "9ec2253dae2d9e4d65eb6683d618a946a8a3904a5adfb30a3dc8b200b982076f"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/laptop_closed_silver.json"
+hash = "db051dc5ba2cd82931584e4279902931fa5a7e474500ae90833c544b46ffeafb"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/picnic_basket.json"
+hash = "8aa5d90090e9e52dfdaf176514d3f3a75a15807c348427df34a603af01666725"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/picnic_basket_closed.json"
+hash = "8aa5d90090e9e52dfdaf176514d3f3a75a15807c348427df34a603af01666725"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/school_desk_open_black.json"
+hash = "22371a422c7f49a88bdcf12442f55aa7f5d8ddfc98b9b8bb98219ddbc3fb391e"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/school_desk_open_blue.json"
+hash = "b7c355671a93d657768477c213579016f200ea858f9dedf3920ec58f796a32be"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/school_desk_open_cyan.json"
+hash = "bd9544dd0dcae83a9f8dbb5133ed20da2ae7c90960f52a6f7bc46fe2f1cf0d61"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/school_desk_open_gray.json"
+hash = "10875a60fd9203f11c91488b479a7e6b0fa6b8f0bb6646e644745c7b49570f6f"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/school_desk_open_green.json"
+hash = "55d8b8ce17fffc2cda568b3b49d510cba89051ec838c05f753237faadd262a17"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/school_desk_open_light_blue.json"
+hash = "7be556a2bfddcda35515ba12dd36acbb1c4b9f5c0f8d35cb30e228a5d63e9a27"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/school_desk_open_light_gray.json"
+hash = "a8a01108af664e6f5f1fbe1c3f9618e76b4be72e7cf9514b697d2566e9184555"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/school_desk_open_lime.json"
+hash = "06c97675b1d36662dd12e35abaa6c05d3be92bb0bc05546f8cf4d9c8b8580db9"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/school_desk_open_magenta.json"
+hash = "5caa1feb910c6a6b1ab80a689a548ba0b0b17d007cf2c5dae9e9623495332aa8"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/school_desk_open_orange.json"
+hash = "f5bcbc6fe033d9c8181bf7dc89f660627b7b1898a04368eecfd5e5cedb50fc54"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/school_desk_open_pink.json"
+hash = "dfc07056127c6203752c7ca2c6e52e10a3a3d5011e49f8e764f453c10375ac18"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/school_desk_open_purple.json"
+hash = "90b4ebc1f432f5195cc5723456a6ec886c1610d397b36d07eb34531485a2ece5"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/school_desk_open_red.json"
+hash = "d2180b96f5e5e451c75076f1bc0954b8de81c16bc1f08e9ce583fb803f4fe7fb"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/school_desk_open_white.json"
+hash = "5fd9b569c85a811b8d5adc602b94e37eb4a8c1ee6ecbd390417ff7b7b4ac91d4"
+
+[[files]]
+file = "kubejs/data/decocraft/loot_tables/blocks/school_desk_open_yellow.json"
+hash = "1052452f95946be24ad390bc168b54e6c11090c2ee3b57346a341cfd7d64f134"
+
+[[files]]
+file = "kubejs/data/irons_spellbooks/loot_tables/chests/catacombs/crypt_loot.json"
+hash = "5699548b9dd09aaf042d27dbd35f344f57f304c06287fa5d327cd4e455aaf2f5"
+
+[[files]]
+file = "kubejs/data/irons_spellbooks/loot_tables/chests/citadel/citadel_tomes.json"
+hash = "281c7e11c15272347c4d712fa5b5151d8ffeb3f6edb58a3e552536d852d8fc1a"
+
+[[files]]
+file = "kubejs/data/starcatcher/data_maps/item/catch_modifiers.json"
+hash = "13f44bb4703476926fe248291e0732d2b55c74ff975faa4da17c217b66afc576"
+
+[[files]]
+file = "kubejs/data/unusual_prehistory/tags/blocks/accelerates_egg_hatching.json"
+hash = "6aa64230bf1d230f147cffa0c4e940f2fa77b94ca6c609737e8586b7474010f5"
+
+[[files]]
+file = "kubejs/data/unusual_prehistory/tags/worldgen/structure/on_fossil_maps.json"
+hash = "13f95fc2aac4be37c1065d76096106d35ea43601a34092a144c4f519e01d3dd5"
+
+[[files]]
+file = "kubejs/data/unusual_prehistory/tags/worldgen/structure/on_mesozoic_fossil_maps.json"
+hash = "c5e7253d87f7837545359705288a242f789cd3244f939d8d7b9b8d003568d102"
+
+[[files]]
+file = "kubejs/data/unusual_prehistory/tags/worldgen/structure/on_paleozoic_fossil_maps.json"
+hash = "0cd514eda39d8c8b40aac3e19133b0b1b925535145383bdfb075391ee0d59a2c"
+
+[[files]]
+file = "kubejs/data/unusual_prehistory/tags/worldgen/structure/on_petrified_tree_maps.json"
+hash = "f6c6abd5f9d4d040cac4a7e4123e8bb00f5321b4e822ca1820428b26fe66e268"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
