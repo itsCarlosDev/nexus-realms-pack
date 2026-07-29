@@ -28,6 +28,458 @@ Do not migrate to Minecraft `1.21.1` for now. Nexus Realms is targeting Forge 1.
 | Quests / classes / progression | FTB Quests, KubeJS | Usually `both`. Use for class progression and onboarding. Superior RPG and Mushoku Tensei are inspiration only, not full imports. |
 | Resource packs / shaders | Resource packs, shader packs | Usually `client`. Keep optional unless required for UI or identity. |
 
+## Pack 16.0 - Class Selection Logic
+
+### Mods added
+
+- KubeJS - `both`, backend scripting for first class selection logic.
+- Rhino - `both`, installed as a KubeJS dependency.
+- Architectury API - `both`, already present and confirmed as a KubeJS dependency.
+
+### Backend added
+
+- Initial class selection backend with persistent player state, class tags, starter kits, and an operator reset command.
+- Classes covered in the first logic pass: Guerrero, Mago, and Pistolero.
+- The current selector is chat-command based: `/nexus_select warrior`, `/nexus_select mage`, or `/nexus_select gunslinger`.
+
+### Intentionally excluded from Pack 16.0
+
+- No FancyMenu yet. The full-screen class menu belongs in Pack 16.1 after this backend is validated.
+- No Konkrete yet, because FancyMenu is not installed in this pack.
+- No GameStages.
+- No OpenLoader or Paxi.
+- No new Epic Fight work in `dev`; combat-class integration stays experimental until compatibility is fixed.
+
+## Pack 16.1 - Class Selection FancyMenu UI
+
+### Mods added
+
+- FancyMenu - `client`, visual frontend for the class selector.
+- Konkrete - `client`, FancyMenu dependency.
+- Melody - `client`, FancyMenu dependency.
+
+### UI foundation added
+
+- Placeholder class images for Guerrero, Mago, and Pistolero under `config/fancymenu/assets/nexus/class_selection/`.
+- KubeJS bridge that keeps the chat fallback and attempts to open the planned Custom GUI `nexus_class_selection`.
+- The visual GUI is expected to call `/nexus_select <class>` and must not give items directly.
+- Pre-existing Epic Fight experiment entries were removed from this branch so the class selection UI remains isolated from combat experiments.
+
+### Intentionally excluded from Pack 16.1
+
+- No GameStages.
+- No OpenLoader or Paxi.
+- No Epic Fight integration or replacement mods.
+
+## Pack 16.2 - Class Quest Progression Foundation
+
+### Existing mods used
+
+- FTB Quests - already present, used as the future class progression layer.
+- FTB Teams - already present, review team/shared quest progress carefully before enabling class-critical rewards.
+- FTB Library - already present, required by the FTB stack.
+- Quests Additions - already present, available for quest tooling if needed.
+
+### Foundation added
+
+- Documented Warrior, Mage, and Gunslinger quest paths.
+- Prepared the progression model around existing KubeJS class tags.
+- No active FTB Quests SNBT files were created because this repo does not yet contain a verified quest file format to copy.
+
+### Intentionally excluded from Pack 16.2
+
+- No new mods installed.
+- No GameStages.
+- No OpenLoader or Paxi.
+- No Epic Fight.
+
+## Pack 16.3 - Mage Class Expansion
+
+### Mods tested and reverted
+
+- T.O Magic 'n Extras - Iron's Spells Addon - tested with file `traveloptics-6.3.0-1.20.1.jar`, then reverted.
+- Alex's Caves - removed because it was added only for T.O Magic 'n Extras.
+- Apothic Attributes - removed because it was added only for T.O Magic 'n Extras.
+- Placebo - removed because it was added only for Apothic Attributes.
+- L_Ender's Cataclysm - kept because it was already part of the pack before this experiment.
+
+### Mage direction
+
+- Iron's Spells remains the main magic system.
+- T.O Magic 'n Extras is rejected temporarily because the dependency chain added caves/bosses content and still failed Prism validation.
+- Mage expansion is postponed until a cleaner addon or safer version is validated.
+- Mage starter kit now uses a verified Iron's Spells copper spell book with `irons_spellbooks:acupuncture` in Pack 16.4.
+
+### Intentionally excluded from Pack 16.3
+
+- No Ars Nouveau.
+- No Occultism.
+- No Forbidden & Arcanus.
+- No Botania.
+- No Malum.
+- No Hexerei.
+- No Mobbility.
+- No Monsters & Spellbooks.
+- No KubeJS Iron's Spells addon.
+- No GameStages.
+- No OpenLoader or Paxi.
+- No Epic Fight.
+
+## Pack 16.4 - Real Class Starter Kits
+
+### Backend updated
+
+- KubeJS starter kits now support item objects with optional NBT.
+- Warrior kit uses Simply Swords.
+- Mage kit uses Iron's Spells with a real spell book NBT payload.
+- Gunslinger kit uses TaCZ gun and ammo NBT.
+- Class state is still saved before item delivery to avoid duplication.
+
+### No new mods
+
+- Uses already-installed Simply Swords, Iron's Spells, and TaCZ.
+- No GameStages.
+- No OpenLoader or Paxi.
+- No Epic Fight.
+
+## Pack 16.5 - Warrior Epic Fight Integration
+
+### Mods added
+
+- Epic Fight - `both`, Warrior combat foundation.
+- EpicFight-Nightfall - `both`, Warrior combat expansion.
+- Epic Fight: Skill Tree - `both`, Warrior progression layer.
+- Epic Fight - Invincible Lib - `both`, dependency for Nightfall.
+- Epic Fight - Avalon - `both`, dependency for Nightfall.
+- AAA Particles - `both`, Nightfall particle dependency.
+
+### Mods removed
+
+- Better Combat was removed because Epic Fight is now the primary Warrior combat system.
+- Combat Roll was removed because Epic Fight handles the Warrior combat movement layer.
+
+### Mods preserved
+
+- Simply Swords remains installed for Warrior weapons.
+- Punchy remains installed and needs manual blacklist review.
+- TaCZ and Shoulder Surfing remain installed for Pistolero.
+- Iron's Spells remains installed for Mago.
+- T.O Magic remains rejected/postponed from Pack 16.3 and is not reinstalled here.
+
+### Backend updated
+
+- `kubejs/server_scripts/nexus_class_restrictions.js` adds conservative item-use restrictions by class tag.
+- Warrior namespaces: `simplyswords`, `epicfight`, `epicfight_nightfall`, `efn`, `nightfall`.
+- Mage namespaces: `irons_spellbooks`, `traveloptics`.
+- Gunslinger namespace: `tacz`.
+- No GameStages.
+- No OpenLoader or Paxi.
+
+## Pack 16.5.3 - Gunslinger gun and class restrictions
+
+### Backend updated
+
+- Gunslinger starter gun now uses the exact TaCZ Glock 17 NBT path.
+- `tacz:modern_kinetic_gun` without `GunId:"tacz:glock_17"` is treated as a generic/broken starter item and should not be used.
+- Warrior restrictions now include `simplyswords`, `epicfight`, `epicfight_nightfall`, `efn`, `nightfall`, `epicskills`, `epic_fight_avalon`, and `invincible`.
+- Mage restrictions include `irons_spellbooks` and future-proof `traveloptics`.
+- Gunslinger restrictions include `tacz`.
+- `ItemEvents.rightClicked` blocks direct use when available.
+- `PlayerEvents.tick` adds a lightweight main hand/offhand warning guard.
+- `/nexus_class_debug` was added for class restriction diagnostics.
+
+### Limitation
+
+- Epic Fight Battle Mode could not be force-disabled from KubeJS `server_scripts` with a verified API in this pack.
+- Separation is enforced through items, kits, tags, quests, and progression.
+
+## Pack 16.5.4 - Restriction UX and Epic Fight unarmed review
+
+### Backend updated
+
+- Restriction warnings now use vanilla actionbar commands when possible.
+- Warning sound uses a short `minecraft:block.note_block.bass` playsound.
+- Chat is only a fallback with cooldown.
+- Classless players get a long-cooldown prompt instead of repeated restriction spam.
+- Reset flow now uses cleaner messaging and attempts to reopen FancyMenu.
+
+### Investigation notes
+
+- TaCZ starter gun now uses `GunId:"tacz:glock_17"`.
+- If the TaCZ icon remains purple/black while `/kubejs hand` shows the correct GunId, treat it as a TaCZ inventory icon/render issue until the creative item proves extra NBT is required.
+- No versioned Epic Fight config/API was found in the repo to disable unarmed/empty-hand Battle Mode safely.
+- No clear Punchy config file was found; Punchy blacklist remains manual through its UI.
+
+## Pack 16.5.5 - Block non-Warrior unarmed combat
+
+### Backend updated
+
+- `EntityEvents.hurt` cancels direct melee damage from Mage, Gunslinger, and classless players when their main hand is empty.
+- Warrior remains allowed to use unarmed/Epic Fight melee.
+- Damage with a held item that belongs to another class is also cancelled.
+- The visual Epic Fight Battle Mode may still activate client-side; the server-side mitigation blocks damage.
+- Non-Warriors were initially forced back to Epic Fight Mining Mode every 20 ticks with `/epicfight mode mining <player>`.
+- Pack 16.5.6 replaces that command loop with Epic Tweaks and leaves the KubeJS command path disabled by default.
+- Gunslinger starter gun remains Glock 17 with `GunId:"tacz:glock_17"`.
+
+### Keybind plan
+
+- `R` is reserved for TaCZ Reload.
+- `Z` is Iron's Spells Spell Wheel Hold.
+- `G` is Epic Fight Battle/Mining Toggle.
+- `K` is Epic Fight Skill Tree GUI.
+- Default Options and Balm are already installed, but no generated keybind files are committed until tested in Prism.
+
+## Pack 16.5.6 - Epic Tweaks mode enforcement
+
+### Mod added
+
+- Epic Tweaks - `both`, Forge 1.20.1, installed with packwiz.
+
+### Mode control
+
+- Epic Tweaks becomes the primary controller for Epic Fight Battle/Mining Mode.
+- `canSwitchPlayerMode=false` is not used as the final solution because it also blocks Warrior.
+- `canSwitchPlayerMode` should stay true; use `/gamerule canSwitchPlayerMode true` in Prism test worlds if it was changed.
+- Desired generated Epic Tweaks config:
+  - `autoswitch_mode = true`
+  - `enforce_mode = true`
+  - `filter_animation_first_person = true`
+- KubeJS command enforcement with `/epicfight mode mining <player>` is disabled by default.
+- KubeJS still handles class item restrictions, actionbar warnings, and unarmed melee damage mitigation.
+- Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
+
+### Keybind plan
+
+- `R` is TaCZ Reload.
+- Iron's Spells Spell Wheel Hold moves to `Z` or `V`.
+- Epic Fight Battle/Mining Toggle is Not Bound.
+- Epic Fight Skill Tree GUI uses `K`.
+- JEI Show Recipe uses `U`; Show Uses uses `Y`.
+
+## Pack 16.6 - Default Options and Keybind Foundation
+
+### Mods present
+
+- Default Options - `client`, Forge 1.20.1, managed by packwiz.
+- Balm - `both`, Forge 1.20.1, managed by packwiz.
+
+### Scope
+
+- No `options.txt` root file is generated or versioned.
+- No manual `keybindings.txt` is invented.
+- Generated Default Options files are postponed to Pack 16.6.1 after Prism validation.
+- Epic Tweaks remains installed.
+- Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
+- Pack 16.10 resolves Battle Mode per-class enforcement with Epic Tweaks, Epic Fight item preferences, Air as Preferred Tool, and Epic Fight Toggle set to Not Bound.
+
+### Keybind target
+
+- TaCZ Reload: `R`.
+- Iron's Spells Spell Wheel Hold: `Z`.
+- Epic Fight Toggle Battle/Mining Mode: Not Bound.
+- Epic Fight Skill Tree GUI: `K`.
+- JEI Show Recipe: `U`.
+- JEI Show Uses: `Y`.
+
+## Pack 16.7 - Class System QA and Polish
+
+### Backend
+
+- Adds `/nexus_class_status [player]` for class state checks.
+- Adds `/nexus_testkit <class> [player]` as a QA kit command that does not change class.
+- Adds `/nexus_resetclass_clean <player>` for controlled clean test runs.
+- Improves `/nexus_class_debug` with persistentData, NBT summary, TaCZ GunId, and the Epic Tweaks mode-control note.
+- Keeps Gunslinger starter on Glock 17 with `GunId:"tacz:glock_17"`.
+- Pack 16.10 later solves Epic Fight Battle Mode per-class enforcement through Epic Tweaks and item preferences.
+
+### QA
+
+- Adds `docs/class-testing-checklist.md`.
+- Keeps Default Options/keybind export as a separate Prism-generated step.
+
+## Pack 16.8 - Class Progression Foundation
+
+### FTB Quests status
+
+- FTB Quests is present in the pack and will be the class progression frontend.
+- FTB Library and FTB Teams are present.
+- Quests Additions is present.
+
+### Scope
+
+- KubeJS remains the source of truth for class state, kits, tags, and reset/debug commands.
+- No final FTB Quests files are created in this pack.
+- No Battle Mode solution is attempted in this pack.
+- Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
+
+### Docs added
+
+- `docs/class-progression-plan.md`
+- `docs/ftb-quests-class-design.md`
+- `docs/class-balance-notes.md`
+- `docs/class-progression-testing.md`
+
+## Pack 16.10 - Epic Fight Air Tool and Mode Enforcement
+
+### Final class mode architecture
+
+- KubeJS blocks items by class.
+- Epic Tweaks controls Epic Fight Battle/Mining Mode using item preferences.
+- `canSwitchPlayerMode` stays `true`; `false` is rejected because it also blocks Warrior.
+- Air / `minecraft:air` must be set to Preferred Tool in Epic Fight Item Preferences.
+- Epic Fight Toggle Battle/Mining Mode must be Not Bound through generated Default Options keybinds.
+- Mage and Gunslinger stay in Mining/Vanilla Mode with empty hand, Iron's Spells spellbooks, or TaCZ guns.
+- Warrior enters Battle Mode automatically with compatible Warrior weapons.
+- Punchy remains installed for normal empty-hand and vanilla interactions.
+- No invented Epic Fight, Epic Tweaks, Default Options, root `options.txt`, or `air.json` files are added.
+- Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
+
+## Pack 16.11 - Class System QA and Final Polish
+
+- Pack 16.10 prepared the final class mode architecture; Pack 16.11 closes QA and documentation polish.
+- KubeJS remains responsible for class item restrictions.
+- Epic Tweaks remains responsible for Battle/Mining Mode.
+- `config/epictweaks-client.toml` is copied from the Prism generated config after validating `autoswitch_mode = true`, `enforce_mode = true`, and `filter_animation_first_person = true`.
+- `canSwitchPlayerMode` stays `true`.
+- Aggressive `/epicfight mode mining <player>` command enforcement stays disabled by default.
+- Non-Warrior empty-hand melee blocking stays disabled by default so Punchy/vanilla behavior remains available to Mage and Gunslinger.
+- Epic Fight Air / `minecraft:air` Preferred Tool remains a manual Prism confirmation because the generated `epicfight-client.toml` did not contain it.
+- Default Options keybind export remains manual because `config/defaultoptions/keybindings.txt` was not generated.
+- Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`; Taurus 9 is not the active starter.
+- No new mods are added.
+
+## Pack 17.0 - Nexus Realms Creator Tools
+
+Normal pack:
+- CMDCam
+- CreativeCore
+- Not Enough Animations
+- Emotecraft
+- AmbientSounds 6
+- Sound Physics Remastered
+- Simple Voice Chat
+
+Creator-only instance:
+- Freecam
+- ReForgedPlay
+- Distant Horizons
+- Embeddium
+- Oculus
+- Shaders
+
+## Pack 18.0 - Visual Resource Packs and Fresh Animations
+
+Mods:
+- Entity Model Features
+- Entity Texture Features
+- Entity Culling
+
+Resource packs:
+- Fresh Animations
+- FA+Details
+- FA+Emissive
+- FA+Player
+- Fresh Animations x Baby Animals Remastered
+- AL's Piglins Revamped + FA
+- Detailed Animations Reworked
+- Better Fresher 3D Books
+- Fresh Buckets 3D UI
+- Fresh Flowers and Plants
+- Fresh Food
+- Fresh Skeleton Physics
+- LowOnFire
+- MushroomsPlus
+- Actually 3D Stuff
+
+Installed in Pack 18.0:
+- FA+Details
+- FA+Emissive
+- MushroomsPlus
+
+Already present before Pack 18.0:
+- Entity Model Features
+- Entity Texture Features
+- Entity Culling
+- Fresh Animations
+- FA+Player
+- LowOnFire
+
+Pending:
+- Fresh Animations x Baby Animals Remastered
+- AL's Piglins Revamped + FA
+- Detailed Animations Reworked
+- Better Fresher 3D Books
+- Fresh Buckets 3D UI
+- Fresh Flowers and Plants
+- Fresh Food
+- Fresh Skeleton Physics
+- Actually 3D Stuff
+- Weskerson's 3D Items
+- BabyAnimalsRemastered_1.21.5
+- Baha's 3D Beds
+
+## Pack 19.0 - RPG Loot UI, Inventory, Visual Polish and QoL
+
+Loot/UI:
+- Loot Journal
+- Legendary Tooltips
+- Item Borders
+- Inventory HUD+
+- Equipment Compare
+
+Inventory:
+- Sophisticated Core
+- Sophisticated Backpacks
+
+QoL:
+- RightClickHarvest
+- Dynamic FPS
+- Particle Core
+- Continuity, if Forge 1.20.1 works without Connector/Sinytra
+- Charm of Undying
+- Better Totem of Undying, pending duplication review
+- Emojiful
+
+Installed in Pack 19.0:
+- Loot Journal
+- Legendary Tooltips
+- Item Borders
+- Inventory HUD+
+- Equipment Compare
+- Sophisticated Core
+- Sophisticated Backpacks
+- RightClickHarvest
+- Dynamic FPS
+- Particle Core
+- Charm of Undying
+- Emojiful
+
+New dependencies:
+- Fragmentum
+- Prism
+- JamLib
+- Fzzy Config
+
+Pending:
+- Continuity, because it attempted to install Sinytra Connector and Forgified Fabric API.
+- Better Totem of Undying, while Charm of Undying is tested first.
+
+## Pack 16.5.1 - Remove Better Combat compatibility leftover
+
+### Mods and resourcepacks removed
+
+- FA: Player Extension Compat was removed because it installs `fape_compat-0.5.jar`.
+- FA: Player Extension X Better Combat was removed because it is only useful with Better Combat.
+
+### Crash fixed
+
+- Prism crashed during startup at `fape_compat.mixins.json:BCAttackAdjustmentMixin`.
+- The crash happened because `fape_compat` tried to mix into Better Combat classes after Better Combat was removed.
+- Better Combat and Combat Roll remain removed.
+- Epic Fight remains the Warrior combat foundation.
+- Fresh Animations and Fresh Animations: Player Extension remain available as visual resource packs.
+
 ## Block 2 - QoL/UI
 
 - Just Enough Items (JEI) - `client`
@@ -311,6 +763,414 @@ Pack 8 adds a small Create production block focused on automation and technical 
 - Test Farmer's Delight integration with Create Slice & Dice, including cutting, cooking, and automated food workflows.
 - Test JEI recipes for Create Crafts & Additions and Create Slice & Dice.
 - Test Create contraptions, belts, funnels, deployers, mechanical arms, and redstone with Alternate Current still enabled.
+
+## Pack 9 - Prehistoric Wildlife & Oceans
+
+Pack 9 adds the first prehistoric wildlife and hostile ocean block without adding heavy dimensions, large worldgen passes, quest systems, economy, extra bosses, or broad combat overhauls.
+
+### Mods added
+
+- Unusual Prehistory 2 - `both`, fossils, prehistoric creatures, plants, and progression for reviving dinosaurs.
+- Ben's Sharks - `both`, sharks, ocean creatures, and Megalodon.
+- Alex's Mobs - `both`, dangerous fauna and a livelier survival world.
+- Patchouli - `both`, guide/book support and documentation dependency.
+- Citadel - `both`, required dependency for Alex's Mobs.
+
+### Pending prehistoric and related candidates
+
+- Prehistoric Fauna remains pending because it adds dimensions/worldgen and should be evaluated only after Pack 9 is stable.
+- Jurassic Saga remains pending as a separate DNA/Jurassic Park-style system.
+- Alex's Caves remains pending for a future caves/worldgen block, not this pack.
+- Alex's Delight remains pending for a later food/cooking block.
+- Prehistoric Nature remains pending.
+- Ancient Nature remains pending.
+- Primitive Invasion remains pending.
+
+### Discarded for now
+
+- Jurassic Reborn remains discarded for now.
+
+### Notes
+
+- Do not add several large prehistoric mods at once; this avoids duplicated fossils, mobs, spawns, worldgen, and performance problems.
+- Prehistoric Fauna is a possible Pack 9.1 candidate if Pack 9 is stable in Prism and server testing.
+- Alex's Caves belongs in a future caves/worldgen pack instead of this wildlife and ocean block.
+
+### Prism validation
+
+- Confirm the client starts and joins a world with Unusual Prehistory 2, Ben's Sharks, Alex's Mobs, Patchouli, Citadel, and existing GeckoLib installed.
+- Test dinosaur/fossil progression from Unusual Prehistory 2 and confirm Patchouli content opens without missing dependency errors.
+- Test ocean exploration and Megalodon/shark spawns from Ben's Sharks.
+- Test Alex's Mobs spawns, AI behavior, drops, and server tick impact in forests, caves, oceans, deserts, and villages.
+- Watch entity density and main-thread performance before adding Prehistoric Fauna, Alex's Caves, or additional mob packs.
+
+## Pack 10 - Worldgen / Settlements / Exploration
+
+Pack 10 adds a conservative world, settlement, biome, and exploration block before deciding the final world generation stack.
+
+### Mods added
+
+- ChoiceTheorem's Overhauled Village - `server`, improved villages and pillager outposts.
+- Mystic's Biomes - `both`, new Overworld biomes.
+- TerraBlender - `both`, biome library required for biome generation.
+- Explorer's Compass - `both`, structure location utility that complements Nature's Compass.
+
+### Pending worldgen and structure candidates
+
+- Terralith remains pending because it is a large worldgen overhaul.
+- Regions Unexplored remains pending because it is a large biome/worldgen expansion.
+- Biomes O' Plenty remains pending because it is a large biome/worldgen expansion.
+- Repurposed Structures remains pending.
+- Towns and Towers remains pending.
+- Dungeons and Taverns remains pending.
+- When Dungeons Arise remains pending.
+- Prehistoric Fauna remains pending so prehistoric worldgen is not mixed into this block.
+- Alex's Caves remains pending for a later caves/worldgen pass.
+- Jurassic Saga remains pending as a separate prehistoric progression system.
+- CTOV compat packs remain pending until the final worldgen stack is known.
+
+### Notes
+
+- Do not add large worldgen overhauls in this pack; this avoids too many terrain, biome, and structure changes at once.
+- Test this pack in a new world before promoting it to `main`.
+- Do not create the definitive world yet.
+
+### Prism validation
+
+- Create a new test world and confirm CTOV villages and pillager outposts generate correctly.
+- Explore multiple Overworld regions and confirm Mystic's Biomes and TerraBlender load without generation errors.
+- Use Explorer's Compass to locate vanilla and modded structures, then compare with JourneyMap and Nature's Compass workflows.
+- Watch world creation time, chunk generation time, server TPS, and entity density before adding Terralith, Regions Unexplored, Prehistoric Fauna, or Alex's Caves.
+
+## Pack 11 - Combat foundation / Nightfall style
+
+Pack 11 adds the combat foundation for a darker RPG/soulslike feel without adding bosses, firearms, quests, economy, or an extreme animation overhaul.
+
+### Mods added
+
+- Better Combat - `both`, RPG/soulslike combat foundation with animations, combos, and hitboxes.
+- Simply Swords - `both`, medieval and fantasy weapon variety for the Warrior role.
+- Combat Roll - `both`, dodge/roll defensive mobility for soulslike combat.
+
+### Pending combat and boss candidates
+
+- Boss Checklist remains pending for a later boss tracking pass.
+- Boss Checklist Addon remains pending for a later boss tracking pass.
+- Cataclysm remains pending for a dedicated bosses pack.
+- Bosses Rise remains pending for a dedicated bosses pack.
+- Raids Enhanced remains pending.
+- Cult of Azazel remains pending.
+- TaCZ remains pending for a later firearms/survival tension pack.
+- Better Combat compat/configs remain pending after Prism validation.
+- KubeJS balance remains pending for later progression and combat tuning.
+- Default Options final keybinds remain pending until combat, JourneyMap, spells, and future firearms controls are reviewed together.
+
+### Discarded for now
+
+- Epic Fight remains discarded for now because it can conflict more heavily with armor, Iron's Spells, TaCZ, and render/animation mods.
+- Better Combat Particle remains discarded because it is not a clear Forge 1.20.1 candidate for this pack.
+- Mobbility remains discarded for now.
+- ParCool remains discarded for now.
+
+### Notes
+
+- This pack only adds the combat foundation.
+- Bosses and boss tracking will be added in a later pack.
+- TaCZ will be added later, and its controls should be resolved through Default Options.
+- Review keybind conflicts between Combat Roll, JourneyMap, CinematicZoom Original, Shoulder Surfing Reloaded, Iron's Spells, and future TaCZ controls.
+
+### Prism validation
+
+- Confirm the client starts and joins a world with Better Combat, Simply Swords, Combat Roll, and playerAnimator installed.
+- Test first-person and third-person melee attacks with vanilla weapons, Simply Swords weapons, shields, and Iron's Spells equipment.
+- Test Combat Roll keybinds against JourneyMap, CinematicZoom Original, Shoulder Surfing Reloaded, Controlling, and spell controls.
+- Test multiplayer hit registration, stamina/mobility feel, weapon animations, and server TPS before adding bosses or firearms.
+
+## Pack 12 - Bosses / Rise / Endgame progression
+
+Pack 12 adds the first real boss/endgame block and a visual boss progression list without adding firearms, quests, economy, extra worldgen packs, or general mob packs.
+
+### Mods added
+
+- L_Ender's Cataclysm - `both`, bosses, dungeons, structures, and endgame rewards.
+- Bosses'Rise - `both`, soulslike bosses in its own dungeons.
+- Boss Checklist - `both`, boss list/progression UI for players.
+- Boss Checklist Addon - `both`, expanded boss entries for the checklist.
+- Lionfish API - `both`, dependency added automatically for L_Ender's Cataclysm.
+
+### Pending boss, raid, and progression candidates
+
+- Cult of Azazel remains pending because it may affect Nether/worldgen.
+- Daily Boss remains pending.
+- Daily Boss X Bosses Rise remains pending.
+- TaCZ remains pending for a later Biohazard/Pistolero pack.
+- KubeJS balance remains pending for progression and reward tuning.
+- FTB Quests remains pending for structured progression.
+- Custom rewards remain pending until KubeJS/quests are added.
+
+### Discarded for now
+
+- Epic Fight remains discarded for now.
+- Better Combat Particle remains discarded for now.
+- Boss mods not verified for Forge 1.20.1 remain discarded for now.
+
+### Notes
+
+- This pack adds base bosses and boss tracking, but reward balance will be handled later with KubeJS and quests.
+- Do not create the definitive world yet.
+- Test this pack in a new world before promoting it to `main`.
+
+### Prism validation
+
+- Confirm the client starts and joins a new world with Cataclysm, Bosses'Rise, Boss Checklist, Boss Checklist Addon, and Lionfish API installed.
+- Check the Boss Checklist UI and confirm entries appear for installed bosses.
+- Locate or spawn-test early boss structures in a disposable world and verify no worldgen/load errors appear.
+- Test boss combat with Better Combat, Simply Swords, Combat Roll, Iron's Spells, Alex's Mobs, and existing HUD mods.
+- Watch TPS, entity counts, loot balance, and difficulty spikes before adding raids, quests, firearms, or additional boss packs.
+
+## Pack 12.1 - Bosses expansion / Raids / Ocean threats
+
+Pack 12.1 expands the boss and special-threat layer with more bosses, mini-bosses, dangerous raids, and hostile ocean exploration without adding TaCZ, quests, economy, KubeJS balance, or extra resource packs.
+
+### Mods added
+
+- Mowzie's Mobs - `both`, enemies and bosses with advanced AI, quality animations, and magical rewards.
+- Bosses of Mass Destruction Forge - `both`, additional bosses tied to structures and endgame exploration.
+- Raids:Enhanced - `both`, mini-bosses and extra threats during raids.
+- Aquamirae [Forge Edition] - `both`, hostile ocean content, Ship Graveyard, enemies, and dark exploration atmosphere.
+- CERBON's API - `both`, dependency added automatically for Bosses of Mass Destruction Forge.
+- FDLib - `both`, dependency added automatically for Raids:Enhanced.
+- Obscure API [Forge Edition] - `both`, dependency added automatically for Aquamirae.
+- FA: Player Extension Compat - removed in Pack 16.5.1 because it installed `fape_compat-0.5.jar` and crashed after Better Combat was removed.
+
+### Resourcepacks added
+
+- Fresh Animations: Player Extension - `both`, resource pack for player animations in the Fresh Animations style.
+- FA: Player Extension X Better Combat - removed in Pack 16.5.1 because Better Combat is no longer installed.
+
+### Pending boss, raid, and progression candidates
+
+- Daily Boss remains pending.
+- Daily Boss x Bosses'Rise remains pending.
+- Daily Boss - More Bosses remains pending.
+- Cult of Azazel remains pending.
+- Alex's Caves remains pending for a later caves/worldgen pass.
+- Mowzie's compat packs remain pending unless a specific compatibility need appears.
+- Aquamirae Delight remains pending for a later food/cooking pass if needed.
+- KubeJS balance remains pending.
+- FTB Quests remains pending.
+- Custom rewards remain pending.
+- Spawn and difficulty configuration remains pending.
+- Boss Checklist configuration remains pending if any new boss is not detected automatically.
+
+### Discarded for now
+
+- Ice and Fire remains discarded for now because it is large and can overlap with dragons, bosses, and worldgen.
+- The Graveyard remains discarded for now.
+- Born in Chaos remains discarded for now.
+- Mutant Monsters remains discarded for now.
+- Fresh Moves remains discarded for now.
+- Trailer Player Animations remains discarded for now.
+- Detailed Animations remains discarded for now.
+
+### Notes
+
+- This pack expands bosses and special threats, but fine balance will be handled later with KubeJS and quests.
+- Do not create the definitive world yet.
+- Test this pack in a new world before promoting it to `main`.
+- Review performance because Mowzie's Mobs, Aquamirae, Cataclysm, and Bosses'Rise together can increase entity, AI, and structure-generation load.
+- Check whether Boss Checklist detects the new bosses automatically; if not, leave checklist configuration for a later pass.
+- Fresh Animations: Player Extension requires EMF and ETF.
+- Test Fresh Animations: Player Extension visually with Better Combat, Combat Roll, Shoulder Surfing Reloaded, YDM's Weapon Master, and Punchy.
+- Recommended resource pack order: FA: Player Extension X Better Combat, Fresh Animations: Player Extension, Fresh Animations, other visual resource packs, Default.
+- Test FA: Player Extension X Better Combat and FA: Player Extension Compat in third person with a vanilla sword, Simply Swords weapons, Better Combat, Combat Roll, Shoulder Surfing Reloaded, YDM's Weapon Master, and Punchy.
+- If attacking still looks frozen or wrong, remove Fresh Animations: Player Extension and FA: Player Extension X Better Combat before testing Fresh Moves.
+
+### Prism validation
+
+- Confirm the client starts and joins a new world with Mowzie's Mobs, Bosses of Mass Destruction Forge, Raids:Enhanced, Aquamirae, and their dependencies installed.
+- Test Mowzie's Mobs encounters, Bosses of Mass Destruction structures, Aquamirae ocean/Ship Graveyard content, and Raids:Enhanced invasion events in a disposable world.
+- Check Boss Checklist and Boss Checklist Addon entries for the new bosses.
+- Test player animations with Fresh Animations: Player Extension in first person and third person.
+- Test Better Combat attacks with FA: Player Extension X Better Combat above Fresh Animations: Player Extension in the resource pack order.
+- Test the FA: Player Extension Compat client mod with Better Combat / playerAnimator attacks.
+- Watch TPS, chunk generation, entity counts, raid difficulty, loot balance, and ocean exploration difficulty before adding Daily Boss, Cult of Azazel, TaCZ, quests, or KubeJS balance.
+
+## Pack 13 - Fishing Guild Foundation
+
+Pack 13 adds the technical foundation for a future Fishing Guild progression layer without adding final quest content, economy, KubeJS scripting, or extra large worldgen beyond The Fisherman House.
+
+### Mods added
+
+- Starcatcher - `both`, main fishing expansion with rare fish and fishing catalog/progression support.
+- The Fisherman House - `both`, fisherman structures in oceans/beaches to give the future fishing guild a physical world anchor.
+- FTB Quests - `both`, base quest system for future fishing commissions and general pack progression.
+- FTB Library - `both`, Forge 1.20.1 dependency for FTB Quests.
+- FTB Teams - `both`, Forge 1.20.1 dependency for FTB Quests team-based progression.
+- Quests Additions - `both`, Forge 1.20.1 addon for expanded tasks/rewards and repeatable quests.
+
+### Notes
+
+- This pack installs the technical foundation, but it does not create the final quests yet.
+- Fishing quests will be created in a later content/config pack.
+- FTB XMod Compat is not installed yet.
+- Item Filters is not installed unless it becomes necessary later.
+- Watch that FTB Library, FTB Teams, and FTB Quests remain Forge 1.20.1 files even though CurseForge displays their project titles as NeoForge.
+- Future ideas: deliver common fish, deliver rare fish, night fishing, rain fishing, visit The Fisherman House, cook fish with Farmer's Delight, and reward food, experience, or future currency.
+- Watch The Fisherman House generation in a new world.
+- Watch Starcatcher compatibility with Farmer's Delight.
+
+### Prism validation
+
+- Confirm the client starts and joins a new world with Starcatcher, The Fisherman House, FTB Quests, FTB Library, FTB Teams, and Quests Additions installed.
+- Check Starcatcher fishing, catalog/progression UI, rare fish behavior, and loot integration.
+- Locate or spawn-test The Fisherman House structures in a disposable world.
+- Open the FTB Quests UI and confirm Quests Additions loads without requiring KubeJS, Item Filters, or FTB XMod Compat.
+- Test with Farmer's Delight installed before creating final fishing quests.
+
+## Pack 13.1 - Bossbar UI Cleanup
+
+### Changes
+
+- Removed Immersive Damage Indicators because it caused duplicated/inaccurate boss health bars when testing Frostmaw.
+- Boss mods remain installed.
+- Boss Checklist remains installed.
+- This is a visual cleanup pack before Firearms/TaCZ.
+
+### Notes
+
+- Test required in Prism: spawn or locate Frostmaw and verify only one boss health bar appears.
+- Check that the remaining boss bar decreases correctly when damaging the boss.
+- Also test Cataclysm/Bosses'Rise boss bars if possible.
+- If duplicate bossbars still appear, next investigation should focus on Boss Checklist/configs or bossbar resource packs, not on adding new mods.
+
+## Pack 14 - Firearms Foundation / TaCZ Base
+
+### Mods added
+
+- [TaCZ] Timeless and Classics Zero Guns - `both`, base for the future Pistolero/Biohazard role with firearms, ammunition, attachments, and modern combat.
+
+### Notes
+
+- This pack only installs the technical firearms foundation.
+- No armed NPCs are added yet.
+- No extra gunpacks are added yet.
+- No Create integration is added yet.
+- Ammo, recipes, loot, and progression balance will be handled later with KubeJS/quests/config.
+- Test visual compatibility with Better Combat, Combat Roll, Shoulder Surfing Reloaded, YDM's Weapon Master, Punchy, and player animation mods.
+- Watch sound, recoil, zoom, keybinds, and FPS.
+- Watch compatibility with Sound Physics Remastered and AmbientSounds.
+
+### Prism validation
+
+- Confirm the client starts and joins a world with TaCZ installed.
+- Check basic gun handling, reloads, attachments, ammo behavior, recoil, zoom, sounds, and keybind conflicts.
+- Test first-person and third-person visuals with Better Combat, Combat Roll, Shoulder Surfing Reloaded, YDM's Weapon Master, Punchy, Fresh Animations, and playerAnimator.
+- Check sound behavior with Sound Physics Remastered, AmbientSounds, Presence Footsteps, and other audio mods.
+- Do not add extra gunpacks, NPC gun mods, Create integrations, quests, loot tables, or KubeJS balance until this base passes Prism testing.
+
+## Pack 14.1 - TaCZ + Punchy Compatibility / Biohazard Camera Cleanup
+
+### Changes
+
+- Kept Punchy installed.
+- Punchy is already on a Forge 1.20.1 version with regex blacklist support.
+- Added Shoulder Surfing Reloaded: Camera Fixes & Additions to improve TaCZ crosshair/camera behavior with Shoulder Surfing.
+- Planned Punchy item exclusion for TaCZ using regex `^tacz:.*$` if the real config schema is available.
+- Documented Biohazard-style Shoulder Surfing camera tuning.
+- Documented keybind cleanup.
+
+### Notes
+
+- Punchy must stay installed.
+- TaCZ must stay installed.
+- The double AK render should be fixed by excluding `tacz:*` items from Punchy, not by removing Punchy.
+- Codex could not verify a Punchy config schema in the repo, so config must be done manually in Prism first and then exported/copied later.
+- Final Default Options export is still postponed until the pack is closed because no `config/defaultoptions` keybinding structure exists in the repo yet.
+- Shoulder Surfing camera tuning should be done manually in Prism because no real Shoulder Surfing config file exists in the repo yet.
+
+### Prism validation
+
+- Add `^tacz:.*$` to the Punchy item blacklist/exclusion if the Punchy menu exposes it.
+- Confirm TaCZ no longer double-renders AKs or other guns in first person while Punchy remains enabled.
+- Tune Shoulder Surfing to right shoulder, medium-close distance, visible character, visible weapon, and usable crosshair.
+- Confirm SSR Camera Fixes aligns TaCZ shots with the crosshair in shoulder camera.
+- Clean keybinds so `R` is only TaCZ Reload, Combat Roll is `Left Alt`, and Oculus Reload Shaders is `F8` or `F10`.
+- After final controls are accepted, export keys later with `/defaultoptions saveKeys`.
+
+## Pack 14.2 - TaCZ Punchy Stabilization
+
+### Changes
+
+- Punchy is kept installed.
+- TaCZ is kept installed.
+- SSR Camera Fixes/Additions is removed because it caused broken Shoulder Surfing camera/mouse/WASD behavior.
+- TaCZ weapons must be excluded from Punchy through Punchy's Item Blacklist, preferably with regex `^tacz:.*$`.
+- Keybind plan updated: R only for TaCZ Reload, Combat Roll on Left Alt, Oculus Reload Shaders on F10/Unbound, Punchy menu on F8.
+
+### Notes
+
+- Shoulder Surfing Reloaded base remains installed.
+- Do not add gunpacks, weapon NPCs, Create TaCZ integration, KubeJS, CraftTweaker, custom mixins, or replacement camera mods in this stabilization pack.
+- No root `options.txt` is committed.
+- Default Options keybind export remains postponed until controls are tested in Prism.
+
+### Prism validation
+
+- Open Punchy with F8 and add `^tacz:.*$` to Item Blacklist if regex is supported; otherwise add TaCZ weapons/items manually.
+- Confirm normal tools still use Punchy but TaCZ guns no longer double-render.
+- Confirm Shoulder Surfing base no longer has the broken Camera Fixes WASD/mouse behavior.
+- Set R only to TaCZ Reload, Combat Roll to Left Alt, Oculus Reload Shaders to F10 or Unbound, and JourneyMap fullscreen to J.
+- Export final tested controls later with `/defaultoptions saveKeys`.
+
+## Pack 14.3 - Biohazard Gunplay Alignment
+
+### Mods added
+
+- Third Person Shooting: Zero - `client`, integrates TaCZ with Shoulder Surfing 5 for third-person shooting/camera behavior in a Biohazard-style setup.
+- TaCZ Tweaks - `both`, QoL improvements and adjustments for TaCZ 1.1.8.
+- TaCZ Ammo Query - `client`, JEI improvement showing which weapons use each ammunition type.
+- YetAnotherConfigLib - `client`, automatic dependency for TaCZ Tweaks.
+
+### Notes
+
+- Punchy remains installed.
+- TaCZ remains installed.
+- Shoulder Surfing Reloaded base remains installed.
+- SSR Camera Fixes/Additions remains excluded because it broke camera/WASD/mouse behavior.
+- TaCZ Additions is postponed for a future Pack 14.4 if this pack works well.
+- No extra gunpacks are added.
+- No armed NPCs are added.
+- No Create integration is added yet.
+- Test camera, recoil, ADS, hip-fire, Shoulder Surfing, Punchy blacklist, and keybinds carefully.
+
+### Prism validation
+
+- Test TaCZ ADS and hip-fire with Shoulder Surfing base and Third Person Shooting: Zero.
+- Check whether third-person projectiles and crosshair feel aligned.
+- Confirm TaCZ Ammo Query exposes ammunition-to-weapon information in JEI.
+- Review TaCZ Tweaks options and only change gameplay balance after separate testing.
+- Keep Punchy's TaCZ blacklist active with `^tacz:.*$` or manual TaCZ item entries.
+
+## Experimental Branch - Warrior Epic Fight Experiment
+
+### Mods added
+
+- Epic Fight - `both`, soulslike combat system for testing an advanced Warrior role.
+- EpicFight-Nightfall - `both`, movement/combat addon inspired by NightfallCraft.
+- Epic Fight: Skill Tree - `both`, skill tree progression for the Warrior role.
+- Epic Fight - Invincible Lib - `both`, dependency required by EpicFight-Nightfall in this experiment.
+- Epic Fight - Avalon - `both`, dependency required by EpicFight-Nightfall in this experiment.
+
+### Notes
+
+- This is not part of stable `dev` yet.
+- This is a test on an experimental branch.
+- Better Combat is not removed yet.
+- Combat Roll is not removed yet.
+- TaCZ, Punchy, and Shoulder Surfing are not removed.
+- The goal is to verify whether Epic Fight can coexist with the current stack or whether classes/systems need separation.
+- If it breaks TaCZ, Punchy, Better Combat, Combat Roll, or player animations, do not merge this branch to `dev`.
 
 ## Initial candidate list
 

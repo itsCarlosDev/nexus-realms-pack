@@ -1,0 +1,218 @@
+# Pack 16.5 - Warrior Epic Fight Integration
+
+## Objetivo
+
+Usar Epic Fight como sistema principal del Guerrero.
+
+## Mods añadidos
+
+- Epic Fight
+- EpicFight-Nightfall
+- Epic Fight: Skill Tree
+- Epic Fight - Invincible Lib
+- Epic Fight - Avalon
+- AAA Particles
+
+## Mods sustituidos
+
+- Better Combat eliminado.
+- Combat Roll eliminado.
+- Simply Swords se mantiene.
+- `FA: Player Extension Compat` eliminado porque instala `fape_compat-0.5.jar` y depende de mixins de Better Combat.
+- `FA: Player Extension X Better Combat` eliminado porque es un resource pack de compatibilidad exclusivo para Better Combat.
+- Pack 16.5.1 corrige el crash de arranque `fape_compat.mixins.json:BCAttackAdjustmentMixin` causado por la ausencia de Better Combat.
+
+## Arquitectura de clases
+
+Guerrero:
+
+- Epic Fight
+- EpicFight-Nightfall
+- Skill Tree
+- Simply Swords
+
+Mago:
+
+- Iron's Spells base
+- T.O Magic permanece rechazado/postergado hasta validar una opcion mas limpia
+
+Pistolero:
+
+- TaCZ
+- Shoulder Surfing
+
+## Limitacion
+
+Epic Fight se carga globalmente.
+No se puede cargar solo para Guerrero.
+La separacion se hace mediante:
+
+- kits;
+- tags;
+- restricciones KubeJS;
+- quests;
+- progresion.
+
+## Restricciones KubeJS
+
+`kubejs/server_scripts/nexus_class_restrictions.js` bloquea usos de item por namespace cuando el jugador no tiene el tag de clase correcto.
+
+Guerrero:
+
+- `simplyswords:*`
+- `epicfight:*`
+- `epicfight_nightfall:*`
+- `efn:*`
+- `nightfall:*`
+
+Mago:
+
+- `irons_spellbooks:*`
+- `traveloptics:*` como future-proofing, aunque T.O Magic no esta instalado.
+
+Pistolero:
+
+- `tacz:*`
+
+La primera version usa eventos de click derecho de item. El bloqueo de ataques basicos, click izquierdo o acciones internas de mods puede necesitar eventos/configuracion adicional si KubeJS no los expone de forma fiable.
+
+Pack 16.5.3 refuerza esta capa:
+
+- `epicskills:*`, `epic_fight_avalon:*` e `invincible:*` tambien quedan reservados al Guerrero.
+- `PlayerEvents.tick` revisa mano principal/offhand de forma ligera cada ~1 segundo por jugador.
+- El guardia no borra ni mueve items; solo avisa y apoya el bloqueo de eventos.
+- `/nexus_class_debug` permite comprobar el namespace y la clase requerida del item en mano.
+- Battle Mode de Epic Fight sigue siendo una limitacion tecnica: no se encontro una API fiable desde KubeJS `server_scripts` para forzarlo solo a Guerrero.
+
+Pack 16.5.4 mejora la UX:
+
+- Los avisos de restriccion usan actionbar y un sonido corto de nota cuando los comandos vanilla funcionan.
+- El chat solo queda como fallback con cooldown.
+- Jugadores sin clase reciben un aviso espaciado para elegir clase, no spam por el guardia de mano.
+- Se reviso el repo buscando config de Epic Fight para unarmed/empty-hand, pero no hay archivo versionado claro para desactivar ese comportamiento sin inventar formato.
+- Guerrero mantiene Epic Fight con armas; Mago y Pistolero quedan mitigados por bloqueo de items/progresion hasta encontrar API/config fiable para Battle Mode.
+
+Pack 16.5.5 bloquea el daño melee sin arma:
+
+- `EntityEvents.hurt` cancela daño melee directo de Mago, Pistolero y jugadores sin clase cuando atacan con mano principal vacia.
+- Guerrero conserva el daño unarmed/Epic Fight.
+- Si un jugador golpea con un item de otra clase, el daño tambien se bloquea.
+- Battle Mode puede seguir visualmente activo en cliente; el servidor bloquea la parte jugable del daño.
+- El intento de forzar Mining Mode por comando cada 20 ticks queda reemplazado en Pack 16.5.6 por Epic Tweaks.
+- El fallback por comando existe en KubeJS, pero esta desactivado por defecto para evitar conflictos.
+- Guerrero queda excluido de restricciones de modo y puede usar Battle Mode con su equipo.
+
+Pack 16.5.6 anade Epic Tweaks:
+
+- Epic Tweaks controla Battle/Mining Mode segun el item en mano.
+- `canSwitchPlayerMode=false` no es una solucion valida porque bloquea tambien al Guerrero.
+- `canSwitchPlayerMode` debe quedar en `true` para que Epic Tweaks pueda aplicar autoswitch/enforce.
+- Config deseada tras generar el archivo en Prism:
+  - `autoswitch_mode = true`
+  - `enforce_mode = true`
+  - `filter_animation_first_person = true`
+- Mago y Pistolero deben permanecer en Vanilla/Mining Mode con mano vacia, spellbook o TaCZ.
+- Guerrero debe entrar en Epic Fight/Battle Mode con armas de combate.
+- KubeJS sigue encargado de restricciones por clase, no de controlar la tecla directamente.
+
+Pack 16.6 prepara Default Options:
+
+- Pack 16.10 cierra el control final de Battle/Mining Mode por clase con Epic Tweaks y preferencias de item.
+- Este pack prepara Default Options para desactivar la tecla manual de Epic Fight.
+- KubeJS bloquea items por clase y cancela algunos casos de dano, pero no controla el estado cliente de Epic Fight.
+- `canSwitchPlayerMode=false` bloquea tambien al Guerrero, asi que no sirve como solucion final.
+- `canSwitchPlayerMode=true` permite el cambio manual si la tecla existe.
+- La solucion final usa Epic Tweaks, keybind manual sin asignar y Air / `minecraft:air` como Preferred Tool.
+- Default Options se prepara para distribuir Epic Fight Toggle como Not Bound.
+
+Pack 16.7 pule QA:
+
+- Prepara QA para comprobar la arquitectura final de Battle/Mining Mode.
+- `/nexus_class_debug` recuerda que Epic Tweaks es el controlador esperado de Battle/Mining Mode.
+- `/nexus_class_status` permite revisar clase persistente y tags.
+- `/nexus_testkit` y `/nexus_givekit` permiten probar kits sin cambiar clase.
+- Glock 17 sigue siendo el starter oficial del Pistolero.
+
+Pack 16.10 cierra la arquitectura de modo Epic Fight:
+
+- KubeJS bloquea items por clase.
+- Epic Tweaks controla Battle/Mining Mode segun preferencias de item.
+- `canSwitchPlayerMode` debe quedar en `true`.
+- Air / `minecraft:air` debe configurarse como Preferred Tool desde Epic Fight Item Preferences.
+- Epic Fight Toggle Battle/Mining Mode debe quedar Not Bound con Default Options.
+- Mago y Pistolero usan Punchy/vanilla, Iron's Spells o TaCZ sin entrar en Battle Mode con mano vacia.
+- Guerrero conserva Epic Fight con armas de Guerrero y Simply Swords.
+- El fallback `/epicfight mode mining <player>` queda desactivado por defecto.
+- Si no existen configs generadas en `config/`, se documenta el flujo manual de Prism y no se inventan archivos.
+
+Pack 16.11 cierra QA y pulido:
+
+- `config/epictweaks-client.toml` se versiona tras validar los valores generados en Prism.
+- No se copia `epicfight-client.toml` porque Air / `minecraft:air` no estaba confirmado como Preferred Tool en el archivo generado.
+- No se copia Default Options porque no existe `config/defaultoptions/keybindings.txt` generado.
+- El bloqueo KubeJS de melee sin arma para no-Guerreros queda apagado por defecto para preservar Punchy/vanilla.
+- `/nexus_class_status` muestra persistentData, tags, restricciones activas y recordatorios de Epic Tweaks/Air/keybind.
+- Glock 17 sigue siendo el starter activo del Pistolero; Taurus 9 no se reintroduce.
+
+## Pack 16.5.2 - Starter kit backend fix
+
+- El fallo de entrega de kits no venia de Epic Fight, IDs ni NBT.
+- La causa era `TypeError: redeclaration of var count` en el script de seleccion de clase.
+- `nexusCreateKitItem` y `nexusGiveKitItem` usan `itemCount` para evitar la redeclaracion en Rhino/KubeJS.
+- El fallback automatico de comandos por chat se elimina; FancyMenu queda como selector principal.
+- `/nexus_class_help` queda disponible como ayuda manual.
+- `/nexus_givekit <class> [player]` queda disponible para pruebas de operador.
+- `/nexus_testkit <class> [player]` queda disponible como alias de QA.
+- `/nexus_class_status [player]` muestra estado de clase sin modificar datos.
+
+## Punchy
+
+Punchy se mantiene.
+Blacklist manual recomendada:
+
+- `^tacz:.*$`
+- `^simplyswords:.*$`
+- `^epicfight:.*$`
+- `^epicfight_nightfall:.*$`
+- `^efn:.*$`
+- `^nightfall:.*$`
+
+## Keybinds recomendadas
+
+- Epic Fight Battle/Mining Toggle: Not Bound
+- TaCZ Reload: R
+- Iron's Spells Spell Wheel Hold: Z
+- Punchy Menu: F8
+- JourneyMap: J
+- Oculus Reload Shaders: F10 o Unbound
+- Epic Fight Open Configuration Screen: Not Bound
+- Epic Fight Dodge/Skill: revisar manualmente
+
+## Riesgos
+
+- Epic Fight puede afectar TaCZ.
+- Epic Fight puede afectar Punchy.
+- Epic Fight puede afectar magia.
+- Hay que probar Pistolero disparando.
+- Hay que probar Mago casteando.
+- Hay que probar Guerrero en Battle Mode.
+
+## Checklist Prism
+
+1. Arrancar instancia.
+2. Crear mundo nuevo.
+3. Elegir Guerrero.
+4. Probar iron glaive.
+5. Activar Battle Mode de Epic Fight.
+6. Abrir Skill Tree.
+7. Probar arma Simply Swords.
+8. Resetear clase.
+9. Elegir Mago.
+10. Probar Copper Spell Book.
+11. Confirmar que Epic Fight no rompe magia.
+12. Resetear clase.
+13. Elegir Pistolero.
+14. Probar Glock 17 y municion 9mm.
+15. Confirmar que disparar no activa ataques raros.
+16. Probar Shoulder Surfing.
+17. Revisar latest.log.

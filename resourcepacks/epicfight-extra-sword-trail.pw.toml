@@ -1,0 +1,13 @@
+name = "EpicFight-Extra's Sword Trail Optimization Pack"
+filename = "epicfightx_better_trail1.5.zip"
+side = "client"
+
+[download]
+hash-format = "sha1"
+hash = "20ba4215cd537489e423efad34f88d8977bb9d3a"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 7690496
+project-id = 1453643

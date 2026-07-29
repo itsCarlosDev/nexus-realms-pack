@@ -1,0 +1,32 @@
+[
+  {
+    "entity": "born_in_chaos_v1:dread_hound",
+    "weight": 25,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "undead_revamp2:thewolf",
+    "weight": 20,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "undead_revamp2:therod",
+    "weight": 15,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "born_in_chaos_v1:zombie_lumberjack",
+    "weight": 20,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "born_in_chaos_v1:skeleton_thrasher",
+    "weight": 20,
+    "first_day": 0,
+    "last_day": 0
+  }
+]

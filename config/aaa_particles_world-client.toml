@@ -1,0 +1,6 @@
+enable_lightning = false
+enable_explosion = false
+enable_loot_beam = true
+enable_loot_sound = true
+enable_crit = false
+enable_magical_crit = false

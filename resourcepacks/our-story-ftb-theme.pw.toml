@@ -1,0 +1,13 @@
+name = "Our Story: FTB Quest & Mod Theme"
+filename = "OurStory FTB Theme - 2.0 - 1.20.1.zip"
+side = "client"
+
+[download]
+hash-format = "sha1"
+hash = "b3c28d834f6bbf7f4e200daac751f6b340c5d732"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 7340950
+project-id = 1258522

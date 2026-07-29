@@ -1,0 +1,126 @@
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+}
+
+version = '0.6.3'
+group = 'dev.itscarlos'
+
+base {
+    archivesName = 'nexus-core'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 17
+}
+
+minecraft {
+    mappings channel: 'official', version: '1.20.1'
+    copyIdeResources = true
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                nexuscore {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            args '--nogui'
+            mods {
+                nexuscore {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.20.1-47.4.10'
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    def replaceProperties = [
+        minecraft_version: '1.20.1',
+        forge_version: '47.4.10',
+        mod_id: 'nexuscore',
+        mod_name: 'Nexus Core',
+        mod_license: 'All Rights Reserved',
+        mod_version: project.version,
+        mod_authors: 'Carlos',
+        mod_description: 'Synchronized era progression, UI, and configurable Nexus Market protection.'
+    ]
+
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml']) {
+        expand replaceProperties + [project: project]
+    }
+
+    from(rootProject.file('../config/nexuscore/eras.json')) {
+        into 'assets/nexuscore/progression'
+    }
+}
+
+tasks.named('jar', Jar).configure {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+
+    manifest {
+        attributes([
+            'Specification-Title': 'nexuscore',
+            'Specification-Vendor': 'Carlos',
+            'Specification-Version': '1',
+            'Implementation-Title': project.name,
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': 'Carlos',
+            'MixinConfigs': 'nexuscore.mixins.json'
+        ])
+    }
+}
+
+tasks.register('marketProtectionCheck', JavaExec) {
+    group = 'verification'
+    description = 'Validates Nexus Market cylindrical region boundary rules.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'dev.itscarlos.nexuscore.market.MarketRegionCheck'
+}
+
+tasks.register('marketSpawnPolicyCheck', JavaExec) {
+    group = 'verification'
+    description = 'Validates Nexus Market hostile spawn policy exceptions.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'dev.itscarlos.nexuscore.market.MarketSpawnPolicyCheck'
+}
+
+tasks.register('keybindProfilePolicyCheck', JavaExec) {
+    group = 'verification'
+    description = 'Validates neutral keybind migration and class-profile safety.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'dev.itscarlos.nexuscore.client.KeybindProfilePolicyCheck'
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('marketProtectionCheck')
+    dependsOn tasks.named('marketSpawnPolicyCheck')
+    dependsOn tasks.named('keybindProfilePolicyCheck')
+}
