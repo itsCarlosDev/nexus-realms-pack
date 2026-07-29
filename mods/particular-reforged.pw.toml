@@ -1,7 +1,6 @@
 name = "Particular ✨ Reforged"
 filename = "particular-1.20.1-Forge-1.5.5.jar"
-side = "client"
-
+side = "both"
 [download]
 url = "https://cdn.modrinth.com/data/pYFUU6cq/versions/yF5bwxik/particular-1.20.1-Forge-1.5.5.jar"
 hash-format = "sha512"

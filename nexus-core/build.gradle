@@ -5,7 +5,7 @@ plugins {
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
 }
 
-version = '0.6.2'
+version = '0.6.3'
 group = 'dev.itscarlos'
 
 base {
@@ -89,7 +89,8 @@ tasks.named('jar', Jar).configure {
             'Specification-Version': '1',
             'Implementation-Title': project.name,
             'Implementation-Version': project.version,
-            'Implementation-Vendor': 'Carlos'
+            'Implementation-Vendor': 'Carlos',
+            'MixinConfigs': 'nexuscore.mixins.json'
         ])
     }
 }

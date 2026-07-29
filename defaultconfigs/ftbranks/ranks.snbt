@@ -1,44 +1,34 @@
 {
-  player: {
-    name: "PLAYER",
+  traveler: {
+    name: "Viajero del Nexus",
     power: 1,
-    condition: "always_active"
-  },
-  moderator: {
-    name: "MODERATOR",
-    power: 50,
-    "ftbranks.name_format": "&8[&7MOD&8]&r {name}",
-    "command.kick": true
-  },
-  admin: {
-    name: "ADMIN",
-    power: 80,
-    "ftbranks.name_format": "&8[&3ADMIN&8]&r {name}",
-    "command.kick": true,
-    "command.ban": true,
-    "command.ban-ip": true,
-    "command.pardon": true,
-    "command.pardon-ip": true,
-    "command.whitelist": true,
-    "command.nexus_market": true,
-    "command.nexus_resetclass": true,
-    "command.nexus_resetclass_clean": true,
-    "command.nexus_era.set": true,
-    "command.nexus_era.advance": true,
-    "command.nexus_era.request": true,
-    "command.nexus_era.sync": true,
-    "command.nexus_campaign.start": true,
-    "command.nexus_campaign.pause": true,
-    "command.nexus_campaign.resume": true,
-    "command.nexus_campaign.restart": true,
-    "command.nexus_campaign.set_day": true,
-    "command.nexus_specialization.unlock": true
+    condition: "always_active",
+    "ftbranks.name_format": "&8[&7Viajero del Nexus&8]&r {name}",
+    "ftbessentials.home.max": 5,
+    "command.home": true,
+    "command.sethome": true,
+    "command.delhome": true,
+    "command.listhomes": true,
+    "command.tpa": true,
+    "command.tpahere": true,
+    "command.tpaccept": true,
+    "command.tpdeny": true,
+    "command.spawn": true,
+    "command.back": true,
+    "command.warp": false,
+    "command.setwarp": false,
+    "command.delwarp": false,
+    "command.listwarps": false
   },
   owner: {
-    name: "OWNER",
+    name: "Fundador del Nexus",
     power: 100,
     condition: "op",
-    "ftbranks.name_format": "&8[&5OWNER&8]&r {name}",
-    "command": true
+    "ftbranks.name_format": "&8[&6Fundador del Nexus&8]&r {name}",
+    "command": true,
+    "command.warp": true,
+    "command.setwarp": true,
+    "command.delwarp": true,
+    "command.listwarps": true
   }
 }

@@ -1,19 +1,6 @@
 hash-format = "sha256"
 
 [[files]]
-file = ".clinerules/00-gpt-oss-tool-policy.md"
-hash = "03e33617ac4e6d444e436aaf51474a8602b5588464d1c553dd2f1de0e677f85b"
-
-[[files]]
-file = "AGENTS.md"
-hash = "5a557e8ff010b0d03e9b658deeecfd5b42cb9ffaaa7d39e2b77808e0cbffb0b8"
-
-[[files]]
-file = "backup_mod_metadata/simple-custom-early-loading.pw.toml"
-hash = "d613bcd9564a91fd57c5ddfffbd845a895fed283e7655e296b3d7755d2d6de0b"
-metafile = true
-
-[[files]]
 file = "config/Undead_mobs.toml"
 hash = "c29f4573c1531f5cd6c37e24623a971b4390c00da284f09f9ebe36ccd233c3a7"
 
@@ -454,10 +441,6 @@ file = "config/tacztweaks.json"
 hash = "5e3d04e3da6a6c7e1e1e63fde62f66aa2aa2baffe081fa50213c9dd7d38bd292"
 
 [[files]]
-file = "config/voicechat/voicechat-server.properties"
-hash = "572f2b78d6ff8fb0d36ab814cb36cef8ad8a9d6446ef65c738285ee27f856ba6"
-
-[[files]]
 file = "config/wom-client.toml"
 hash = "0f25c264a423a465643c6913825a12c1c5fd4543d4947e7c35f9092d94703e32"
 
@@ -466,8 +449,16 @@ file = "config/wom.toml"
 hash = "9a815f027b3f7e710598560842a2ac3db33bcf75356c994e90fd563bbc81e094"
 
 [[files]]
+file = "defaultconfigs/ftbessentials-server.snbt"
+hash = "9da4f7e38ed6db0c400f4d6999212b161168ccdbe8cca71a9232347c75bba261"
+
+[[files]]
 file = "defaultconfigs/ftbranks/ranks.snbt"
-hash = "233be88d1f93a75a9f685986cc492e5d91109b07deae4fb64689c67ef5004dce"
+hash = "0c7a6c3102e214caecc9bf9307234a6080f29acac79fac874b0f888a856c5bb9"
+
+[[files]]
+file = "defaultconfigs/journeymap-server.toml"
+hash = "54b3efba9771a065d87ad20aa3d75cff7fb643bb1257490ea79774edf18447e2"
 
 [[files]]
 file = "generated/schematics/nexus_market_spawn_nexus_realms_v4.schem"
@@ -799,7 +790,7 @@ hash = "f6c6abd5f9d4d040cac4a7e4123e8bb00f5321b4e822ca1820428b26fe66e268"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "47d5b84f77cd908e925b52e3ce18851deab0a6f4f745301eff51d12750e7fd6a"
+hash = "b2b59c74ef3a740401e71367317f0d780ae3ce38544f72d15be4a7c9f63285ed"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_disable_vanilla_zombies.js"
@@ -969,7 +960,7 @@ metafile = true
 
 [[files]]
 file = "mods/camera-mod.pw.toml"
-hash = "5ec12b0d9bffad74891bbfd36c2463ce3a66fcae594d985a008ec46856de32ff"
+hash = "605d1f1ae3de3633229406d58ebff0fc51b159a9d6107cdf30a48d80ad9746b2"
 metafile = true
 
 [[files]]
@@ -1064,7 +1055,7 @@ metafile = true
 
 [[files]]
 file = "mods/creativecore.pw.toml"
-hash = "d584896433cab9fdba6034182ce0f8376cfd5eb1255fa98ed47e535b94f7674b"
+hash = "47736af1584283072d721e4f2700929a0fabe67b36e2175fc48b0964db70ab8b"
 metafile = true
 
 [[files]]
@@ -1080,11 +1071,6 @@ metafile = true
 [[files]]
 file = "mods/curios.pw.toml"
 hash = "1315cd56b0b4a5b3d53374cebf4f1f3cd0546b05058740847bd226c1d1ccab39"
-metafile = true
-
-[[files]]
-file = "mods/customizable-fps-display.pw.toml"
-hash = "7777707a31c98e7e0674158a253244ef7145eac7019fb487d34446b445bcc2b8"
 metafile = true
 
 [[files]]
@@ -1294,7 +1280,7 @@ metafile = true
 
 [[files]]
 file = "mods/fancymenu.pw.toml"
-hash = "685c171e17870fb0c1aa54eeb0e6af58eeb4492cf083278820506cb388afc380"
+hash = "41add8f6fcdf0c4bb6e1400a326401a892fb0c8aa111452368b6099f19027d91"
 metafile = true
 
 [[files]]
@@ -1335,6 +1321,11 @@ metafile = true
 [[files]]
 file = "mods/freecam.pw.toml"
 hash = "5c2edd9eb7d86b2b2a34c393022cb376f2667dacd143533412f4c7c731357509"
+metafile = true
+
+[[files]]
+file = "mods/ftb-essentials.pw.toml"
+hash = "8a185af41fb24e83e4497c9362943723b6afee585cf8a3bf280ac155d29bf593"
 metafile = true
 
 [[files]]
@@ -1538,8 +1529,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.2.jar"
-hash = "8827e4f9fd3040b1292cd99ff1d597866d3671ba254fc6b823c84f96b87e28cc"
+file = "mods/nexus-core-0.6.3.jar"
+hash = "f9732fc03dff5cf2ade8892dc607a88bf657e7bcd0e03e5a32936d07b6d79dae"
 
 [[files]]
 file = "mods/not-enough-animations.pw.toml"
@@ -1578,7 +1569,7 @@ metafile = true
 
 [[files]]
 file = "mods/particular-reforged.pw.toml"
-hash = "54376a2e67fdd97cee71042aba6fd7c870c46611e68c06ce2ab12182c2543036"
+hash = "c1d0abea46b1222932cfd8a8ec2593d37b3729169986d5bdf1950a0af5eb6c46"
 metafile = true
 
 [[files]]
@@ -1608,7 +1599,7 @@ metafile = true
 
 [[files]]
 file = "mods/pretty-rain.pw.toml"
-hash = "b9ec4ecd23b415b2ec3b4dca7b5efbe3b7918944e890362eecf6c90270399d30"
+hash = "d9618b2a5b8cfaf6dcaada84e41f68a8774337bab06ef2c0a5032b73e7b0aa8e"
 metafile = true
 
 [[files]]
@@ -1738,7 +1729,7 @@ metafile = true
 
 [[files]]
 file = "mods/status-effect-bars-reforged.pw.toml"
-hash = "9d4682b34e59eab9183ac89ff20c4d45b854e15b051453e752f4d953789ac02c"
+hash = "37339c192fd4f6c634c9482ae6b2c5e9ca0bff959258dd9cd719047aa72c64da"
 metafile = true
 
 [[files]]
@@ -1827,13 +1818,18 @@ hash = "46c4d14c74900e3164fe58fad70c47bc0ace039aa4cbcaa6d1843b6f96ab0689"
 metafile = true
 
 [[files]]
+file = "mods/waterframes.pw.toml"
+hash = "67d3ea0f6c097f6c25d9c677671a806056d0f4af930d230b9f959495a06ac432"
+metafile = true
+
+[[files]]
 file = "mods/watermedia-binaries.pw.toml"
-hash = "3ef23f21b86395b4c8cf8cfbf38f23fbc859aaff99e874b5ce6c901abeee3e29"
+hash = "c02aad3d93103a83bf910ea8048d3fc3a44ae8984e016a5c1180e0d8672bfca6"
 metafile = true
 
 [[files]]
 file = "mods/watermedia.pw.toml"
-hash = "ba187a6558343c579f0022e13f0ebec9447bf69de4cd05787ed03759b7b4315e"
+hash = "5a3f03ebf7579e7d95368f70bc5ab9b637a8a56415c9af04267b8592027e6b33"
 metafile = true
 
 [[files]]

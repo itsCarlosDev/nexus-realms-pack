@@ -135,7 +135,7 @@ El bypass se aplica a romper, colocar, modificar con herramientas y utilizar cub
 Una acción directa bloqueada muestra:
 
 ```text
-Esta zona está protegida por el Nexus.
+Esta zona esta protegida por el Nexus.
 ```
 
 El mensaje tiene un cooldown por jugador de 40 ticks. No usa títulos ni comprobaciones por tick.

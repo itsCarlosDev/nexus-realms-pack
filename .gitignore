@@ -16,11 +16,13 @@ realms_persistence.json
 # Pack exports and archives
 *.mrpack
 *.zip
+_site/
+dist/
 
 # Manual mod jars should not be committed unless there is a specific reason.
 # Prefer packwiz metadata from Modrinth/CurseForge.
 mods/*.jar
-!mods/nexus-core-0.6.2.jar
+!mods/nexus-core-*.jar
 
 # NexusCore local build output
 nexus-core/.gradle/
@@ -28,12 +30,23 @@ nexus-core/build/
 nexus-core/run/
 
 # Java and Minecraft generated files
+*.class
+*.pyc
+__pycache__/
 *.log
 *.tmp
 *.bak
 *.old
 hs_err_pid*
 replay_recordings/
+
+# Local validation, patching, and backup work
+.tmp-validation/
+.tmp-production-patcher/
+.nexus-server-patches/
+.nexus-disabled-mods/
+backup_mod_metadata/
+backups/
 
 # IDE/editor temporary files
 .idea/

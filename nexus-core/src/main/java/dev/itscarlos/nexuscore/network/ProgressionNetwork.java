@@ -14,7 +14,8 @@ import net.minecraftforge.network.simple.SimpleChannel;
 public final class ProgressionNetwork {
 
     /*
-     * Protocol 6 adds Mage specialization data to ClassSyncPacket.
+     * Protocol 6 is retained for the existing progression and class packets.
+     * The Epic Fight registry bridge uses its own isolated channel.
      */
     private static final String PROTOCOL = "6";
 
