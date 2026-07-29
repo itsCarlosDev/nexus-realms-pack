@@ -1,0 +1,429 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "square"
+	filename: "pesca_del_nexus"
+	group: "4E5850474C4F4241"
+	icon: { id: "aquaculture:iron_fishing_rod" }
+	id: "4E58464953483031"
+	images: [
+		{ alpha: 170, color: 2256678, height: 11.0d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 25.0d, x: 11.0d, y: 1.0d }
+		{ alpha: 190, color: 5629400, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 25.0d, x: 11.0d, y: -4.5d }
+	]
+	order_index: 12
+	quest_links: []
+	subtitle: ["Una actividad opcional de pesca, colección e ingreso complementario desde Era I."]
+	quests: [
+		{
+			dependencies: ["4E58504552413031"]
+			description: [
+				"El Pescador del Nexus abre esta rama opcional desde Era I."
+				"El lago es el punto de partida; algunas especies exigirán explorar otras aguas cercanas del Overworld."
+			]
+			icon: { id: "minecraft:fishing_rod" }
+			id: "2720000000003101"
+			shape: "hexagon"
+			size: 1.25d
+			tasks: [{ id: "272B000000003101", title: "Conocer al Pescador del Nexus", type: "checkmark" }]
+			title: "El lago despierta"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2720000000003101"]
+			description: ["Una caña vanilla basta para comenzar. Aquaculture amplía las capturas sin reemplazar la pesca normal."]
+			icon: { id: "minecraft:fishing_rod" }
+			id: "2720000000003102"
+			rewards: [{
+				count: 3
+				id: "281C000000003102"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "272B000000003102"
+				item: { Count: 1b, id: "minecraft:fishing_rod" }
+				title: "Preparar una caña"
+				type: "item"
+			}]
+			title: "Primer aparejo"
+			x: 2.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2720000000003102"]
+			description: ["El bluegill es una captura común de agua dulce y una buena primera entrada para la colección."]
+			icon: { id: "aquaculture:bluegill" }
+			id: "2720000000003103"
+			rewards: [{
+				count: 3
+				id: "281C000000003103"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				id: "272B000000003103"
+				item: { Count: 1b, id: "aquaculture:bluegill" }
+				title: "Capturar un bluegill"
+				type: "item"
+			}]
+			title: "Primera captura"
+			x: 4.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2720000000003103"]
+			description: ["Minnow, perch y carp comparten muchas aguas dulces templadas. Reúne una pequeña muestra, no una colección completa."]
+			icon: { id: "aquaculture:perch" }
+			id: "2720000000003104"
+			rewards: [{
+				count: 4
+				id: "281C000000003104"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [
+				{ id: "272B000000003104", item: { Count: 1b, id: "aquaculture:minnow" }, title: "Capturar un minnow", type: "item" }
+				{ id: "272B000000003105", item: { Count: 1b, id: "aquaculture:perch" }, title: "Capturar un perch", type: "item" }
+				{ id: "272B000000003106", item: { Count: 1b, id: "aquaculture:carp" }, title: "Capturar un carp", type: "item" }
+			]
+			title: "Habitantes de agua dulce"
+			x: 6.0d
+			y: -1.5d
+		}
+		{
+			dependencies: ["2720000000003103"]
+			description: ["La caña y el anzuelo de hierro son mejoras básicas fabricables en Era I; no conceden ninguna progresión por sí mismos."]
+			icon: { id: "aquaculture:iron_hook" }
+			id: "2720000000003105"
+			rewards: [{
+				count: 4
+				id: "281C000000003105"
+				item: { Count: 1b, id: "aquaculture:worm" }
+				type: "item"
+			}]
+			tasks: [
+				{ id: "272B000000003107", item: { Count: 1b, id: "aquaculture:iron_fishing_rod" }, title: "Fabricar una caña de hierro", type: "item" }
+				{ id: "272B000000003108", item: { Count: 1b, id: "aquaculture:iron_hook" }, title: "Fabricar un anzuelo de hierro", type: "item" }
+			]
+			title: "Aparejos resistentes"
+			x: 6.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["2720000000003104"]
+			description: ["Repite capturas comunes para aprender el ritmo de la pesca sin depender de botín raro."]
+			icon: { id: "aquaculture:minnow" }
+			id: "2720000000003106"
+			rewards: [{
+				count: 5
+				id: "281C000000003106"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [
+				{ count: 3L, id: "272B000000003109", item: { Count: 1b, id: "aquaculture:bluegill" }, title: "Reunir 3 bluegill", type: "item" }
+				{ count: 3L, id: "272B000000003110", item: { Count: 1b, id: "aquaculture:minnow" }, title: "Reunir 3 minnow", type: "item" }
+				{ count: 3L, id: "272B000000003111", item: { Count: 1b, id: "aquaculture:perch" }, title: "Reunir 3 perch", type: "item" }
+			]
+			title: "Pesca paciente"
+			x: 8.0d
+			y: -1.5d
+		}
+		{
+			dependencies: ["2720000000003106"]
+			description: [
+				"No todas las especies viven en el lago. Busca aguas dulces o ríos cercanos del Overworld."
+				"Las colecciones específicas por bioma quedan para una ampliación futura."
+			]
+			icon: { id: "aquaculture:rainbow_trout" }
+			id: "2720000000003107"
+			tasks: [
+				{ id: "272B000000003112", item: { Count: 1b, id: "aquaculture:rainbow_trout" }, title: "Capturar un rainbow trout", type: "item" }
+				{ id: "272B000000003113", item: { Count: 1b, id: "aquaculture:smallmouth_bass" }, title: "Capturar un smallmouth bass", type: "item" }
+			]
+			title: "Otras orillas"
+			x: 10.0d
+			y: -1.5d
+		}
+		{
+			dependencies: ["2720000000003105"]
+			description: ["Un cuchillo de filetear básico permite aprovechar las capturas comunes como alimento."]
+			icon: { id: "aquaculture:wooden_fillet_knife" }
+			id: "2720000000003108"
+			rewards: [{
+				count: 4
+				id: "281C000000003108"
+				item: { Count: 1b, id: "minecraft:charcoal" }
+				type: "item"
+			}]
+			tasks: [
+				{ id: "272B000000003114", item: { Count: 1b, id: "aquaculture:wooden_fillet_knife" }, title: "Fabricar un cuchillo de filetear", type: "item" }
+				{ count: 4L, id: "272B000000003115", item: { Count: 1b, id: "aquaculture:fish_fillet_raw" }, title: "Preparar 4 filetes crudos", type: "item" }
+			]
+			title: "Del pez al plato"
+			x: 8.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["2720000000003108"]
+			description: ["Cocina parte de la pesca para convertir la colección en provisiones de viaje."]
+			icon: { id: "aquaculture:fish_fillet_cooked" }
+			id: "2720000000003109"
+			rewards: [{
+				count: 4
+				id: "281C000000003109"
+				item: { Count: 1b, id: "aquaculture:worm" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 4L
+				id: "272B000000003116"
+				item: { Count: 1b, id: "aquaculture:fish_fillet_cooked" }
+				title: "Cocinar 4 filetes"
+				type: "item"
+			}]
+			title: "Provisiones del lago"
+			x: 10.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["2720000000003107", "2720000000003109"]
+			description: [
+				"Has completado la colección inicial de Pesca del Nexus."
+				"Ahora puedes continuar con colecciones por zonas, desafíos y encargos periódicos."
+			]
+			icon: { id: "aquaculture:tackle_box" }
+			id: "2720000000003110"
+			shape: "octagon"
+			size: 1.45d
+			rewards: [{
+				id: "281C000000003110"
+				item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+				type: "item"
+			}]
+			tasks: [{ id: "272B000000003117", title: "Cerrar la colección V1", type: "checkmark" }]
+			title: "Colección inicial completada"
+			x: 12.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2720000000003110"]
+			description: [
+				"Amplía la colección de agua dulce con especies menos habituales, pero todavía razonables de encontrar."
+				"Esta rama no consume las capturas: solo registra el descubrimiento."
+			]
+			icon: { id: "aquaculture:brown_trout" }
+			id: "2720000000003111"
+			rewards: [{
+				count: 3
+				id: "281C000000003111"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [
+				{ id: "272B000000003118", item: { Count: 1b, id: "aquaculture:brown_trout" }, title: "Capturar un brown trout", type: "item" }
+				{ id: "272B000000003119", item: { Count: 1b, id: "aquaculture:gar" }, title: "Capturar un gar", type: "item" }
+			]
+			title: "Colección de aguas templadas"
+			x: 14.0d
+			y: -3.0d
+		}
+		{
+			dependencies: ["2720000000003111"]
+			description: [
+				"Las costas del Overworld contienen una fauna distinta a la del lago."
+				"Busca océanos o playas; no se requiere ninguna dimensión bloqueada."
+			]
+			icon: { id: "aquaculture:atlantic_herring" }
+			id: "2720000000003112"
+			rewards: [{
+				count: 4
+				id: "281C000000003112"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [
+				{ id: "272B000000003120", item: { Count: 1b, id: "aquaculture:atlantic_herring" }, title: "Capturar un atlantic herring", type: "item" }
+				{ id: "272B000000003121", item: { Count: 1b, id: "aquaculture:jellyfish" }, title: "Capturar una jellyfish", type: "item" }
+				{ id: "272B000000003122", item: { Count: 1b, id: "aquaculture:red_grouper" }, title: "Capturar un red grouper", type: "item" }
+			]
+			title: "Colección costera"
+			x: 16.0d
+			y: -3.0d
+		}
+		{
+			dependencies: ["2720000000003110"]
+			description: ["Las aguas de regiones secas albergan especies propias. Reúne una muestra pequeña sin buscar capturas excepcionales."]
+			icon: { id: "aquaculture:synodontis" }
+			id: "2720000000003113"
+			rewards: [{
+				count: 3
+				id: "281C000000003113"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [
+				{ id: "272B000000003123", item: { Count: 1b, id: "aquaculture:synodontis" }, title: "Capturar un synodontis", type: "item" }
+				{ id: "272B000000003124", item: { Count: 1b, id: "aquaculture:boulti" }, title: "Capturar un boulti", type: "item" }
+			]
+			title: "Aguas de clima seco"
+			x: 14.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2720000000003113"]
+			description: ["En la jungla cambian tanto el entorno como las capturas. Esta meta continúa dentro del Overworld."]
+			icon: { id: "aquaculture:piranha" }
+			id: "2720000000003114"
+			rewards: [{
+				count: 3
+				id: "281C000000003114"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [
+				{ id: "272B000000003125", item: { Count: 1b, id: "aquaculture:piranha" }, title: "Capturar una piranha", type: "item" }
+				{ id: "272B000000003126", item: { Count: 1b, id: "aquaculture:tambaqui" }, title: "Capturar un tambaqui", type: "item" }
+			]
+			title: "Ríos de la jungla"
+			x: 16.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2720000000003114"]
+			description: ["Los humedales guardan capturas distintas. Dos leeches bastan para cerrar esta ruta de exploración acuática."]
+			icon: { id: "aquaculture:leech" }
+			id: "2720000000003115"
+			rewards: [{
+				count: 3
+				id: "281C000000003115"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [{
+				count: 2L
+				id: "272B000000003127"
+				item: { Count: 1b, id: "aquaculture:leech" }
+				title: "Reunir 2 leeches"
+				type: "item"
+			}]
+			title: "Humedales vivos"
+			x: 18.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2720000000003110"]
+			description: ["Organiza los aparejos y prepara una reserva de comida. Es un reto de constancia, no de rareza."]
+			icon: { id: "aquaculture:tackle_box" }
+			id: "2720000000003116"
+			rewards: [{
+				count: 8
+				id: "281C000000003116"
+				item: { Count: 1b, id: "aquaculture:worm" }
+				type: "item"
+			}]
+			tasks: [
+				{ id: "272B000000003128", item: { Count: 1b, id: "aquaculture:tackle_box" }, title: "Preparar una tackle box", type: "item" }
+				{ count: 16L, id: "272B000000003129", item: { Count: 1b, id: "aquaculture:fish_fillet_cooked" }, title: "Cocinar 16 filetes", type: "item" }
+			]
+			title: "Despensa organizada"
+			x: 14.0d
+			y: 3.0d
+		}
+		{
+			dependencies: ["2720000000003112", "2720000000003115", "2720000000003116"]
+			description: [
+				"Has cerrado las colecciones, rutas y desafíos de esta ampliación."
+				"Los encargos periódicos ya están disponibles como ingreso secundario controlado."
+			]
+			icon: { id: "aquaculture:gold_fishing_rod" }
+			id: "2720000000003117"
+			shape: "octagon"
+			size: 1.45d
+			rewards: [{
+				count: 4
+				id: "281C000000003117"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [{ id: "272B000000003130", title: "Completar Pesca del Nexus V2", type: "checkmark" }]
+			title: "Dominio de las aguas"
+			x: 18.0d
+			y: 3.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["2720000000003117"]
+			description: [
+				"Entrega capturas comunes al Pescador. Los peces se consumen al completar el encargo."
+				"Disponible de nuevo 24 horas después de reclamar la recompensa."
+			]
+			icon: { id: "aquaculture:bluegill" }
+			id: "2720000000003118"
+			repeat_cooldown: 86400
+			rewards: [{
+				count: 2
+				id: "281C000000003118"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: true, count: 8L, id: "272B000000003131", item: { Count: 1b, id: "aquaculture:bluegill" }, title: "Entregar 8 bluegill", type: "item" }
+				{ consume_items: true, count: 8L, id: "272B000000003132", item: { Count: 1b, id: "aquaculture:minnow" }, title: "Entregar 8 minnow", type: "item" }
+			]
+			title: "Contrato: capturas comunes"
+			x: 20.0d
+			y: 1.5d
+		}
+		{
+			can_repeat: true
+			dependencies: ["2720000000003117"]
+			description: [
+				"Entrega una cesta variada de agua dulce. Todas las capturas se consumen."
+				"Disponible de nuevo 24 horas después de reclamar la recompensa."
+			]
+			icon: { id: "aquaculture:perch" }
+			id: "2720000000003119"
+			repeat_cooldown: 86400
+			rewards: [{
+				count: 3
+				id: "281C000000003119"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: true, count: 5L, id: "272B000000003133", item: { Count: 1b, id: "aquaculture:perch" }, title: "Entregar 5 perch", type: "item" }
+				{ consume_items: true, count: 5L, id: "272B000000003134", item: { Count: 1b, id: "aquaculture:carp" }, title: "Entregar 5 carp", type: "item" }
+				{ consume_items: true, count: 3L, id: "272B000000003135", item: { Count: 1b, id: "aquaculture:brown_trout" }, title: "Entregar 3 brown trout", type: "item" }
+			]
+			title: "Contrato: cesta variada"
+			x: 20.0d
+			y: 3.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["2720000000003117"]
+			description: [
+				"Entrega una remesa costera sin capturas raras. Todos los objetos se consumen."
+				"Disponible de nuevo 48 horas después de reclamar la recompensa."
+			]
+			icon: { id: "aquaculture:atlantic_herring" }
+			id: "2720000000003120"
+			repeat_cooldown: 172800
+			rewards: [{
+				count: 4
+				id: "281C000000003120"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: true, count: 6L, id: "272B000000003136", item: { Count: 1b, id: "aquaculture:atlantic_herring" }, title: "Entregar 6 atlantic herring", type: "item" }
+				{ consume_items: true, count: 3L, id: "272B000000003137", item: { Count: 1b, id: "aquaculture:jellyfish" }, title: "Entregar 3 jellyfish", type: "item" }
+			]
+			title: "Contrato: remesa costera"
+			x: 20.0d
+			y: 4.5d
+		}
+	]
+	title: "Pesca del Nexus"
+}

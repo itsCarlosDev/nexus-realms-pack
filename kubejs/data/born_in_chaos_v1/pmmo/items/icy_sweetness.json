@@ -1,0 +1,7 @@
+{
+  "requirements": {
+    "WEAPON": {
+      "combat": 40
+    }
+  }
+}

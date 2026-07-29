@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.itscarlos.nexuscore.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "EpicFightNetworkManagerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

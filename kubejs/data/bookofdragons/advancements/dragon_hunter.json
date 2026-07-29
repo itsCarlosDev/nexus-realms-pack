@@ -1,0 +1,36 @@
+{
+  "parent": "bookofdragons:meet_hooligan",
+  "display": {
+    "icon": {
+      "item": "bookofdragons:barrens_roost_map"
+    },
+    "title": {
+      "translate": "advancements.bookofdragons.dragon_hunter.title"
+    },
+    "description": {
+      "translate": "advancements.bookofdragons.dragon_hunter.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_roost_map": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bookofdragons:barrens_roost_map",
+              "bookofdragons:cave_roost_map",
+              "bookofdragons:cliff_roost_map",
+              "bookofdragons:glade_roost_map",
+              "bookofdragons:wetland_roost_map"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

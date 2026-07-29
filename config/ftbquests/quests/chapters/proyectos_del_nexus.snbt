@@ -1,0 +1,180 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "square"
+	filename: "proyectos_del_nexus"
+	group: "4E5850474C4F4241"
+	icon: { id: "minecraft:scaffolding" }
+	id: "4E5850524F4A3031"
+	images: [
+		{ alpha: 170, color: 5528654, height: 11.0d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 19.0d, x: 8.0d, y: 1.0d }
+		{ alpha: 190, color: 13802074, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 19.0d, x: 8.0d, y: -4.5d }
+	]
+	order_index: 13
+	quest_links: []
+	subtitle: ["Entregas comunitarias que registran la evolución del asentamiento; las obras físicas se aplican manualmente."]
+	quests: [
+		{
+			dependencies: ["4E58504552413031"]
+			description: [
+				"La Maestre de Obras coordina proyectos comunitarios para que Nexus Market crezca con sus habitantes."
+				"FTB Quests registra y comparte las entregas dentro de tu equipo. Completar un proyecto no construye ni modifica el mundo automáticamente."
+			]
+			icon: { id: "minecraft:wooden_axe" }
+			id: "2730000000003201"
+			shape: "hexagon"
+			size: 1.25d
+			tasks: [{ id: "273B000000003201", title: "Conocer la Oficina de Proyectos", type: "checkmark" }]
+			title: "El Market sigue creciendo"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2730000000003201"]
+			description: [
+				"Entrega materiales comunes para acondicionar fachadas, mostradores y espacios de trabajo de las tiendas."
+				"La entrega queda registrada; Carlos decidirá y aplicará después cualquier cambio físico en el Market."
+			]
+			icon: { id: "minecraft:oak_planks" }
+			id: "2730000000003202"
+			rewards: [{
+				count: 4
+				id: "281D000000003202"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: true, count: 128L, id: "273B000000003202", item: { Count: 1b, id: "minecraft:oak_planks" }, title: "Entregar 128 tablones de roble", type: "item" }
+				{ consume_items: true, count: 64L, id: "273B000000003203", item: { Count: 1b, id: "minecraft:cobblestone" }, title: "Entregar 64 adoquines", type: "item" }
+				{ consume_items: true, count: 32L, id: "273B000000003204", item: { Count: 1b, id: "minecraft:glass" }, title: "Entregar 32 bloques de cristal", type: "item" }
+			]
+			title: "Proyecto I · Locales en marcha"
+			x: 2.5d
+			y: -2.5d
+		}
+		{
+			dependencies: ["2730000000003201"]
+			description: [
+				"Prepara materiales para iluminar recorridos y completar caminos seguros entre las zonas del Market."
+				"Este proyecto representa infraestructura básica; no coloca bloques por sí mismo."
+			]
+			icon: { id: "minecraft:lantern" }
+			id: "2730000000003203"
+			rewards: [{
+				count: 4
+				id: "281D000000003203"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: true, count: 64L, id: "273B000000003205", item: { Count: 1b, id: "minecraft:stone_bricks" }, title: "Entregar 64 ladrillos de piedra", type: "item" }
+				{ consume_items: true, count: 32L, id: "273B000000003206", item: { Count: 1b, id: "minecraft:gravel" }, title: "Entregar 32 bloques de grava", type: "item" }
+				{ consume_items: true, count: 16L, id: "273B000000003207", item: { Count: 1b, id: "minecraft:lantern" }, title: "Entregar 16 faroles", type: "item" }
+			]
+			title: "Proyecto I · Luz y caminos"
+			x: 2.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2730000000003201"]
+			description: [
+				"Reúne piedra y hierro para reforzar puestos defensivos y puntos vulnerables del asentamiento."
+				"La Guardia continúa siendo responsable de la defensa; este registro no crea guardianes ni fortificaciones."
+			]
+			icon: { id: "minecraft:iron_bars" }
+			id: "2730000000003204"
+			rewards: [{
+				count: 5
+				id: "281D000000003204"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: true, count: 64L, id: "273B000000003208", item: { Count: 1b, id: "minecraft:cobbled_deepslate" }, title: "Entregar 64 bloques de pizarra profunda", type: "item" }
+				{ consume_items: true, count: 32L, id: "273B000000003209", item: { Count: 1b, id: "minecraft:iron_bars" }, title: "Entregar 32 barrotes de hierro", type: "item" }
+				{ consume_items: true, count: 32L, id: "273B000000003210", item: { Count: 1b, id: "minecraft:iron_ingot" }, title: "Entregar 32 lingotes de hierro", type: "item" }
+			]
+			title: "Proyecto I · Defensas preparadas"
+			x: 2.5d
+			y: 2.5d
+		}
+		{
+			dependencies: ["2730000000003201", "4E58504552413032"]
+			description: [
+				"Con la Era II, el asentamiento necesita reservas organizadas para expediciones y rutas más largas."
+				"La entrega prepara logística futura; no abre dimensiones ni sustituye al Expedicionario."
+			]
+			icon: { id: "minecraft:barrel" }
+			id: "2730000000003205"
+			rewards: [{
+				count: 5
+				id: "281D000000003205"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: true, count: 16L, id: "273B000000003211", item: { Count: 1b, id: "minecraft:barrel" }, title: "Entregar 16 barriles", type: "item" }
+				{ consume_items: true, count: 32L, id: "273B000000003212", item: { Count: 1b, id: "minecraft:bread" }, title: "Entregar 32 panes", type: "item" }
+				{ consume_items: true, count: 32L, id: "273B000000003213", item: { Count: 1b, id: "minecraft:cooked_chicken" }, title: "Entregar 32 pollos cocinados", type: "item" }
+				{ consume_items: true, count: 16L, id: "273B000000003214", item: { Count: 1b, id: "minecraft:leather" }, title: "Entregar 16 cueros", type: "item" }
+			]
+			title: "Proyecto II · Reservas de expedición"
+			x: 5.0d
+			y: -1.5d
+		}
+		{
+			dependencies: ["2730000000003201", "4E58504552413033"]
+			description: [
+				"La Era III permite preparar conducciones, medidas de seguridad y componentes para futuros espacios arcano-industriales."
+				"El proyecto solo registra los recursos reunidos; no instala máquinas ni sistemas mágicos."
+			]
+			icon: { id: "minecraft:amethyst_block" }
+			id: "2730000000003206"
+			rewards: [{
+				count: 6
+				id: "281D000000003206"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: true, count: 16L, id: "273B000000003215", item: { Count: 1b, id: "minecraft:copper_block" }, title: "Entregar 16 bloques de cobre", type: "item" }
+				{ consume_items: true, count: 64L, id: "273B000000003216", item: { Count: 1b, id: "minecraft:redstone" }, title: "Entregar 64 polvos de redstone", type: "item" }
+				{ consume_items: true, count: 16L, id: "273B000000003217", item: { Count: 1b, id: "minecraft:amethyst_block" }, title: "Entregar 16 bloques de amatista", type: "item" }
+				{ consume_items: true, count: 32L, id: "273B000000003218", item: { Count: 1b, id: "minecraft:iron_ingot" }, title: "Entregar 32 lingotes de hierro", type: "item" }
+			]
+			title: "Proyecto III · Infraestructura convergente"
+			x: 7.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2730000000003201", "4E58504552413034"]
+			description: [
+				"En la Era IV, el Nexus puede reservar materiales para estabilizar futuras ampliaciones del asentamiento."
+				"Completar la entrega no anuncia una obra terminada ni concede progreso de Era."
+			]
+			icon: { id: "minecraft:obsidian" }
+			id: "2730000000003207"
+			rewards: [{
+				count: 8
+				id: "281D000000003207"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: true, count: 32L, id: "273B000000003219", item: { Count: 1b, id: "minecraft:obsidian" }, title: "Entregar 32 bloques de obsidiana", type: "item" }
+				{ consume_items: true, count: 16L, id: "273B000000003220", item: { Count: 1b, id: "minecraft:ender_pearl" }, title: "Entregar 16 perlas de ender", type: "item" }
+				{ consume_items: true, count: 8L, id: "273B000000003221", item: { Count: 1b, id: "minecraft:diamond" }, title: "Entregar 8 diamantes", type: "item" }
+				{ consume_items: true, count: 16L, id: "273B000000003222", item: { Count: 1b, id: "minecraft:gold_ingot" }, title: "Entregar 16 lingotes de oro", type: "item" }
+			]
+			title: "Proyecto IV · Anclaje del Nexus"
+			x: 10.0d
+			y: 0.0d
+		}
+	]
+	title: "Proyectos del Nexus"
+}

@@ -1,0 +1,13 @@
+name = "DMC5 Yamato for Nightfall"
+filename = "DMC5 yamato for Nightfall v1.2.zip"
+side = "client"
+
+[download]
+hash-format = "sha1"
+hash = "e673b3b3fc1bf3cadc00da08742637dc5d672650"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 7432571
+project-id = 1369431

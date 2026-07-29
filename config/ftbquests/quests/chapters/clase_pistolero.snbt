@@ -1,0 +1,116 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "square"
+	filename: "clase_pistolero"
+	group: "4E5850474C4F4241"
+	icon: { id: "tacz:modern_kinetic_gun" }
+	id: "4E5847554E534C31"
+	images: [
+		{ alpha: 175, color: 2763310, height: 4.8d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 13.0d, x: 5.0d, y: 0.0d }
+		{ alpha: 205, color: 16760576, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 13.0d, x: 5.0d, y: -2.35d }
+	]
+	order_index: 9
+	quest_links: []
+	subtitle: ["Precisión, disciplina y un arsenal escalonado."]
+	quests: [
+		{
+			dependencies: ["2700000000000003"]
+			description: ["Sigue esta rama si elegiste Pistolero. Cada era abre un nivel más exigente del arsenal."]
+			icon: { id: "tacz:modern_kinetic_gun" }
+			id: "2700000000001301"
+			shape: "rsquare"
+			size: 1.3d
+			tasks: [{ id: "27B0000000001301", title: "Confirmar la senda del Pistolero", type: "checkmark" }]
+			title: "Pólvora y precisión"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2700000000001301", "4E58504552413031"]
+			description: ["Practica seguridad, recarga y control con la Glock 17 del kit inicial."]
+			icon: { id: "tacz:modern_kinetic_gun" }
+			id: "2700000000001302"
+			tasks: [{ id: "27B0000000001302", title: "Dominar la Glock 17", type: "checkmark" }]
+			title: "Primer cargador"
+			x: 2.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2700000000001302"]
+			description: ["Entrena disparos medidos, recargas seguras y uso de cobertura sin gastar munición como relleno."]
+			icon: { id: "minecraft:target" }
+			id: "2710000000001305"
+			rewards: [{
+				count: 8
+				id: "281C000000001301"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				type: "item"
+			}]
+			tasks: [{ id: "271B000000001305", title: "Completar entrenamiento de precisión", type: "checkmark" }]
+			title: "Disciplina de tiro"
+			x: 4.0d
+			y: -1.0d
+		}
+		{
+			dependencies: ["2700000000001302", "4E58504552413032"]
+			description: ["El MP5A5 representa el salto a armas medias sin exigir coleccionar todo el tier."]
+			icon: { id: "tacz:modern_kinetic_gun" }
+			id: "2700000000001303"
+			tasks: [{ id: "27B0000000001303", title: "Dominar el MP5A5", type: "checkmark" }]
+			title: "Tirador de campo"
+			x: 4.0d
+			y: 1.0d
+		}
+		{
+			dependencies: ["2700000000001303", "4E58504552413033"]
+			description: ["El M4A1 introduce un arsenal avanzado y versátil durante la Era III."]
+			icon: { id: "tacz:modern_kinetic_gun" }
+			id: "2710000000001306"
+			shape: "diamond"
+			size: 1.2d
+			tasks: [{ id: "271B000000001306", title: "Dominar el M4A1", type: "checkmark" }]
+			title: "Arsenal avanzado"
+			x: 6.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2710000000001306"]
+			description: ["Adapta distancia, cobertura y posición antes de entrar en desafíos de endgame."]
+			icon: { id: "minecraft:spyglass" }
+			id: "2710000000001307"
+			tasks: [{ id: "271B000000001307", title: "Completar entrenamiento de largo alcance", type: "checkmark" }]
+			title: "Control del campo"
+			x: 8.0d
+			y: -1.0d
+		}
+		{
+			dependencies: ["2710000000001307", "4E58504552413034"]
+			description: ["El M107 representa el dominio final. No se entrega munición ni accesorios NBT como recompensa."]
+			icon: { id: "tacz:modern_kinetic_gun" }
+			id: "2700000000001304"
+			shape: "octagon"
+			size: 1.5d
+			rewards: [
+				{
+					command: "/experience add @s 4 levels"
+					elevate_perms: true
+					id: "271A000000001304"
+					silent: true
+					title: "Experiencia de tirador"
+					type: "command"
+				}
+				{
+					count: 3
+					id: "281C000000001302"
+					item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
+					type: "item"
+				}
+			]
+			tasks: [{ id: "27B0000000001304", title: "Dominar el M107", type: "checkmark" }]
+			title: "Arsenal del Nexus"
+			x: 10.0d
+			y: 0.0d
+		}
+	]
+	title: "Pistolero"
+}

@@ -1,0 +1,246 @@
+# Class selection plan
+
+## Objective
+
+Pack 16.0 creates the safe backend for Nexus Realms class selection before building a visual FancyMenu flow. The first version detects players without a class, lets them choose one class, persists the result, assigns a class tag, gives a small starter kit, and gives admins a reset command.
+
+## Why KubeJS first
+
+KubeJS gives the pack a server-side logic layer that can be tested before adding UI complexity. Starting with commands makes the important rules clear: one class per player, persistent state, no duplicate starter kits, and admin recovery if a player needs to be reset.
+
+## Why FancyMenu waits for Pack 16.1
+
+FancyMenu is intentionally not installed in Pack 16.0. The visual class screen should call into a backend that is already proven in Prism and on a server. Pack 16.1 can add FancyMenu and Konkrete after the command flow is stable.
+
+## Classes
+
+- Guerrero
+- Mago
+- Pistolero
+
+## Persistent player data
+
+- `nexus_class_chosen`: boolean. `true` means the player has already chosen a class.
+- `nexus_class`: string. Stores `warrior`, `mage`, or `gunslinger`.
+
+## Tags
+
+- `nexus_class_warrior`
+- `nexus_class_mage`
+- `nexus_class_gunslinger`
+
+## Commands
+
+- `/nexus_select warrior`
+- `/nexus_select mage`
+- `/nexus_select gunslinger`
+- `/nexus_resetclass <player>`: operator level 2 admin command. It clears class tags and class persistent data, but does not clear inventory.
+
+## Current starter kits
+
+Guerrero:
+
+- `simplyswords:iron_glaive` x1
+- `minecraft:shield` x1
+- `minecraft:bread` x16
+
+Mago:
+
+- `irons_spellbooks:copper_spell_book` x1 with `irons_spellbooks:acupuncture` level 1
+- `minecraft:amethyst_shard` x8
+- `minecraft:bread` x16
+
+Pistolero:
+
+- `tacz:modern_kinetic_gun` x1 with `GunId:"tacz:glock_17"`
+- `tacz:ammo` x16 with `AmmoId:"tacz:9mm"`
+- `minecraft:bread` x16
+
+## Starter kit notes
+
+- Pack 16.4 uses verified IDs/NBT from `/kubejs hand`.
+- KubeJS still marks `nexus_class_chosen` before giving items to avoid kit duplication.
+- If a starter kit item fails, KubeJS logs the item error and keeps the class locked in.
+
+## Future FTB Quests integration
+
+FTB Quests can later read class tags or route players through class-specific quest chapters. Pack 16.0 does not create quests or quest gates yet.
+
+## Future FancyMenu integration
+
+Pack 16.1 should add FancyMenu and Konkrete, then build a full-screen class selection menu with buttons that run:
+
+- `/nexus_select warrior`
+- `/nexus_select mage`
+- `/nexus_select gunslinger`
+
+The menu must still rely on the KubeJS backend to prevent duplicate choices and duplicate kits.
+
+## Pack 16.1 - FancyMenu frontend foundation
+
+- FancyMenu is the visual frontend for class selection.
+- KubeJS remains the source of truth for class selection, validation, tags, persistence, and starter kits.
+- The selected class is still saved in player `persistentData` with `nexus_class_chosen` and `nexus_class`.
+- The visual GUI must not give items directly. Its buttons only call `/nexus_select warrior`, `/nexus_select mage`, or `/nexus_select gunslinger`.
+- If FancyMenu or the Custom GUI fails to open, the chat-command fallback remains available.
+
+## Pack 16.2 - Class quest progression foundation
+
+- FTB Quests will provide the class progression layer.
+- KubeJS remains the source of truth for class selection and persistence.
+- The existing class tags are the bridge for quest visibility/progression: `nexus_class_warrior`, `nexus_class_mage`, and `nexus_class_gunslinger`.
+- Recipe balance and class restrictions are not implemented yet.
+- Epic Fight is not touched in this pack.
+
+## Pack 16.3 - Mage class expansion
+
+- Iron's Spells remains the primary magic system for the Mago class.
+- T.O Magic 'n Extras was tested and then reverted because it continued to fail in Prism after pulling in Alex's Caves, Apothic Attributes/AttributesLib, Placebo, and L_Ender's Cataclysm.
+- Mage expansion is postponed until a cleaner Iron's Spells addon or a safer version is validated.
+- No other large standalone magic system is added in this pack.
+- `/nexus_select` and `/nexus_resetclass` are unchanged.
+
+## Pack 16.4 - Real class starter kits
+
+- Warrior starts with `simplyswords:iron_glaive`, shield, and bread.
+- Mage starts with `irons_spellbooks:copper_spell_book` containing `irons_spellbooks:acupuncture` level 1, amethyst shards, and bread.
+- Gunslinger starts with `tacz:modern_kinetic_gun` using `tacz:glock_17`, `tacz:ammo` 9mm, and bread.
+- Starter kit item NBT is handled in KubeJS with per-item error logging.
+- FancyMenu and FTB Quests still do not grant starter kits directly.
+
+## Pack 16.4.2 - Starter kit delivery fix
+
+- `nexusGiveStarterKit` now creates each stack through `nexusCreateKitItem`.
+- Optional NBT is supported with a fallback item creation path.
+- Every delivered item is logged.
+- Failed items are reported without stopping the rest of the kit.
+- `/nexus_select` still locks the class before trying to deliver items.
+
+## Pack 16.5.2 - Kit delivery and chat UX fix
+
+- Fixed the KubeJS/Rhino `TypeError: redeclaration of var count` kit delivery failure.
+- Kit creation now uses `itemCount` consistently and keeps NBT support.
+- Added `/nexus_givekit <class> [player]` for operator kit testing without changing class state.
+- Removed the automatic command-list chat fallback on login.
+- FancyMenu remains the primary class selector.
+- `/nexus_class_help` is the manual fallback for command instructions.
+- `/nexus_class_menu` reopens the visual selector for players without a class.
+
+## Pack 16.5.3 - Gunslinger gun and class system enforcement
+
+- Fixed the Gunslinger starter gun by creating the Glock 17 with the exact TaCZ `GunId` NBT.
+- `tacz:modern_kinetic_gun` without NBT is only a generic TaCZ item and should not be used in kits.
+- Hardened class restrictions by namespace for Warrior, Mage, and Gunslinger systems.
+- Added a lightweight hand/offhand guard so restricted items warn even when a mod does not pass through the right-click event.
+- Added `/nexus_class_debug` for checking class tags, held item namespace, required class, and restriction result.
+- Epic Fight Battle Mode could not be disabled reliably from KubeJS `server_scripts`; mitigation is item/progression restriction.
+
+## Pack 16.5.4 - Restriction UX and Epic Fight unarmed mitigation
+
+- Restriction warnings now prefer actionbar messages with a short vanilla sound.
+- Chat fallback is only used if the actionbar command fails.
+- Classless players no longer receive restriction spam every second; they get a long-cooldown prompt to choose a class.
+- Reset messaging is cleaner and tries to reopen FancyMenu automatically.
+- TaCZ starter gun now uses Glock 17 because `/kubejs hand` confirmed the desired `GunId`.
+- The remaining purple/black TaCZ icon is documented as likely inventory render/icon behavior unless the creative item proves extra NBT is required.
+- No reliable versioned Epic Fight config/API was found to disable unarmed/empty-hand Battle Mode from KubeJS.
+- Punchy blacklist remains manual because no clear Punchy config file exists in the repo.
+
+## Pack 16.5.5 - Non-Warrior unarmed combat block
+
+- Added a server-side damage guard with `EntityEvents.hurt`.
+- Mago, Pistolero, and classless players cannot deal direct melee damage with an empty main hand.
+- Guerrero can still use unarmed/Epic Fight melee.
+- Damage with another class's restricted held item is cancelled at damage level.
+- Spell, projectile, TaCZ, mob, and environmental damage are not intentionally blocked.
+- Epic Fight Battle Mode may still activate visually on the client; this pack blocks the gameplay damage path.
+- The direct KubeJS command enforcement was replaced in Pack 16.5.6 by Epic Tweaks.
+- Combat keybind plan: `R` is TaCZ Reload, `Z` or `V` is Iron's Spells Spell Wheel, and Epic Fight Battle/Mining toggle is Not Bound.
+- Default Options and Balm are installed, but final keybind export remains a Prism-tested future step.
+
+## Pack 16.5.6 - Epic Tweaks mode enforcement
+
+- Epic Tweaks is added to control Epic Fight Battle/Mining Mode based on held item.
+- `canSwitchPlayerMode=false` is not a valid final solution because it also blocks Warrior.
+- `canSwitchPlayerMode` should stay `true`; Prism test worlds can run `/gamerule canSwitchPlayerMode true` if needed.
+- Desired Epic Tweaks config after first launch:
+  - `autoswitch_mode = true`
+  - `enforce_mode = true`
+  - `filter_animation_first_person = true`
+- KubeJS no longer forces `/epicfight mode mining <player>` every second by default.
+- KubeJS remains responsible for class item restrictions, actionbar warnings, and unarmed damage mitigation.
+- Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
+
+## Pack 16.6 - Default Options and keybind foundation
+
+- Default Options and Balm are present through packwiz.
+- This pack documents how to generate default keybinds without committing root `options.txt`.
+- Final keybind plan:
+  - TaCZ Reload: `R`
+  - Iron's Spells Spell Wheel Hold: `Z`
+  - Epic Fight Toggle Battle/Mining Mode: Not Bound
+  - Epic Fight Skill Tree GUI: `K`
+  - JEI Recipe/Uses: `U`/`Y`
+- Pack 16.10 resolves Battle/Mining Mode with Epic Tweaks, Epic Fight item preferences, Air as Preferred Tool, and Epic Fight Toggle set to Not Bound.
+- `canSwitchPlayerMode=false` is not used because it also blocks Warrior.
+- Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
+
+## Pack 16.7 - Class System QA and polish
+
+- `/nexus_class_status [player]` reports persistent class state, chosen flag, class tags, and path text.
+- `/nexus_testkit <class> [player]` is an operator alias for quick kit testing without changing class state.
+- `/nexus_resetclass_clean <player>` resets class state and clears inventory for test runs.
+- `/nexus_class_debug` now includes persistentData, held item NBT summary, TaCZ GunId when present, and the Epic Tweaks mode-control note.
+- Class selection messages are shorter and class-flavored.
+- Glock 17 remains the official Gunslinger starter.
+- Pack 16.10 supersedes the research note with Epic Tweaks plus Epic Fight item preferences.
+
+## Pack 16.8 - Class progression foundation
+
+- FTB Quests is the planned frontend for class progression.
+- KubeJS remains the source of truth for class choice, starter kits, tags, and reset/debug commands.
+- No definitive quest files are created until the repo has a verified FTB Quests structure or the chapters are exported from Prism.
+- Progression docs added:
+  - `docs/class-progression-plan.md`
+  - `docs/ftb-quests-class-design.md`
+  - `docs/class-balance-notes.md`
+  - `docs/class-progression-testing.md`
+- Pack 16.10 defines the final Epic Fight mode architecture.
+- Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`.
+
+## Pack 16.11 - Class System QA and Final Polish
+
+- Pack 16.10 prepared the final Epic Fight mode architecture; Pack 16.11 closes QA and polish.
+- `/nexus_class_status [player]` reports chosen class, `persistentData.nexus_class_chosen`, `persistentData.nexus_class`, class tags, restriction summary, and Epic Tweaks/Air/keybind reminders.
+- KubeJS blocks class items only; Epic Tweaks controls Battle/Mining Mode.
+- `canSwitchPlayerMode` stays `true`.
+- Aggressive `/epicfight mode mining <player>` command enforcement stays disabled by default.
+- Non-Warrior empty-hand melee blocking is disabled by default so Mage and Gunslinger keep Punchy/vanilla empty-hand behavior.
+- `config/epictweaks-client.toml` is versioned after validation from Prism.
+- Epic Fight Air / `minecraft:air` Preferred Tool and Default Options keybind export remain manual until generated files are confirmed.
+- Gunslinger starter remains Glock 17 with `GunId:"tacz:glock_17"`; Taurus 9 is not the active starter.
+
+## Pack 16.5 - Warrior Epic Fight integration
+
+- Epic Fight becomes the Warrior combat foundation.
+- EpicFight-Nightfall, Epic Fight: Skill Tree, Invincible Lib, Avalon, and AAA Particles are added for the Warrior stack.
+- Better Combat and Combat Roll are removed from this branch.
+- KubeJS remains the source of truth for class selection, persistent data, tags, and starter kits.
+- `nexus_class_warrior`, `nexus_class_mage`, and `nexus_class_gunslinger` now also drive conservative item-use restrictions.
+- FancyMenu still only calls `/nexus_select <class>`.
+- FTB Quests still provides progression later and does not assign the class.
+- The restriction layer uses item interaction events first; basic attack blocking may need more work if Epic Fight/TaCZ expose no reliable KubeJS event.
+
+## Prism test checklist
+
+- Start a new test world or join with a player that has no class data.
+- Confirm the chat selector appears on first login.
+- Run `/nexus_select warrior` and confirm the player receives `simplyswords:iron_glaive`, shield, and bread.
+- Confirm the player gets `nexus_class_warrior`.
+- Try `/nexus_select mage` after choosing warrior and confirm it is rejected.
+- Repeat with a fresh/reset player for `mage` and `gunslinger`.
+- As an operator, run `/nexus_resetclass <player>`.
+- Confirm class tags are removed and the player can choose again.
+- Confirm reset does not clear inventory.
+- Use `/nexus_resetclass_clean <player>` only for clean QA runs where inventory clearing is intended.
+- Restart the world/server and confirm the selected class remains saved.

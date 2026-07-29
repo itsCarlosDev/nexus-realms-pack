@@ -1,0 +1,239 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "square"
+	filename: "contratos_del_nexus"
+	group: "4E5850474C4F4241"
+	icon: { id: "minecraft:writable_book" }
+	id: "4E58434F4E545231"
+	images: [
+		{ alpha: 170, color: 3540526, height: 12.0d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 18.0d, x: 7.0d, y: 1.5d }
+		{ alpha: 190, color: 10193896, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 18.0d, x: 7.0d, y: -4.45d }
+	]
+	order_index: 14
+	quest_links: []
+	subtitle: ["Encargos secundarios de Era I para recolección, caza, exploración y apoyo al asentamiento."]
+	quests: [
+		{
+			dependencies: ["4E58504552413031"]
+			description: [
+				"La Casa de Contratos publica trabajos opcionales según las necesidades cotidianas del asentamiento."
+				"No sustituyen la campaña, las clases, las Hordas, la pesca ni los Proyectos del Nexus."
+			]
+			icon: { id: "minecraft:writable_book" }
+			id: "2740000000003201"
+			shape: "hexagon"
+			size: 1.25d
+			tasks: [{ id: "274B000000003201", title: "Conocer la Casa de Contratos", type: "checkmark" }]
+			title: "El tablón del Nexus"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["2740000000003201"]
+			description: [
+				"Entrega piedra y combustible comunes para reparaciones menores. Los materiales se consumen al completar el encargo."
+				"Disponible de nuevo 24 horas después de reclamar la recompensa."
+			]
+			icon: { id: "minecraft:cobblestone" }
+			id: "2740000000003202"
+			repeat_cooldown: 86400
+			rewards: [{
+				count: 1
+				id: "281E000000003202"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: true, count: 64L, id: "274B000000003202", item: { Count: 1b, id: "minecraft:cobblestone" }, title: "Entregar 64 adoquines", type: "item" }
+				{ consume_items: true, count: 16L, id: "274B000000003203", item: { Count: 1b, id: "minecraft:coal" }, title: "Entregar 16 carbones", type: "item" }
+			]
+			title: "Recolección · Piedra para reparaciones"
+			x: 2.5d
+			y: -4.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["2740000000003201"]
+			description: [
+				"Aporta madera y arena para trabajos cotidianos que no forman parte de un proyecto comunitario mayor."
+				"Disponible de nuevo 24 horas después de reclamar la recompensa."
+			]
+			icon: { id: "minecraft:oak_log" }
+			id: "2740000000003203"
+			repeat_cooldown: 86400
+			rewards: [{
+				count: 1
+				id: "281E000000003203"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: true, count: 32L, id: "274B000000003204", item: { Count: 1b, id: "minecraft:oak_log" }, title: "Entregar 32 troncos de roble", type: "item" }
+				{ consume_items: true, count: 32L, id: "274B000000003205", item: { Count: 1b, id: "minecraft:sand" }, title: "Entregar 32 bloques de arena", type: "item" }
+			]
+			title: "Recolección · Materiales de oficio"
+			x: 5.0d
+			y: -4.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["2740000000003201"]
+			description: [
+				"Reduce la presencia de esqueletos comunes fuera de la zona protegida del Market. No exige participar en una Horda."
+				"Disponible de nuevo 24 horas después de reclamar la recompensa."
+			]
+			icon: { id: "minecraft:bow" }
+			id: "2740000000003204"
+			repeat_cooldown: 86400
+			rewards: [{
+				count: 2
+				id: "281E000000003204"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				entity: "minecraft:skeleton"
+				id: "274B000000003206"
+				title: "Eliminar 12 esqueletos"
+				type: "kill"
+				value: 12L
+			}]
+			title: "Caza · Flechas en la noche"
+			x: 2.5d
+			y: -1.5d
+		}
+		{
+			can_repeat: true
+			dependencies: ["2740000000003201"]
+			description: [
+				"Limpia nidos de arañas comunes durante tus recorridos por el Overworld. Es una cacería secundaria, no un objetivo de Horda."
+				"Disponible de nuevo 24 horas después de reclamar la recompensa."
+			]
+			icon: { id: "minecraft:string" }
+			id: "2740000000003205"
+			repeat_cooldown: 86400
+			rewards: [{
+				count: 2
+				id: "281E000000003205"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				entity: "minecraft:spider"
+				id: "274B000000003207"
+				title: "Eliminar 12 arañas"
+				type: "kill"
+				value: 12L
+			}]
+			title: "Caza · Nidos en la maleza"
+			x: 5.0d
+			y: -1.5d
+		}
+		{
+			can_repeat: true
+			dependencies: ["2740000000003201"]
+			description: [
+				"Trae pequeñas muestras de zonas secas y frías del Overworld para los registros del asentamiento."
+				"Disponible de nuevo 48 horas después de reclamar la recompensa."
+			]
+			icon: { id: "minecraft:cactus" }
+			id: "2740000000003206"
+			repeat_cooldown: 172800
+			rewards: [{
+				count: 1
+				id: "281E000000003206"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: true, count: 8L, id: "274B000000003208", item: { Count: 1b, id: "minecraft:cactus" }, title: "Entregar 8 cactus", type: "item" }
+				{ consume_items: true, count: 8L, id: "274B000000003209", item: { Count: 1b, id: "minecraft:sweet_berries" }, title: "Entregar 8 bayas dulces", type: "item" }
+			]
+			title: "Exploración · Muestras de frontera"
+			x: 2.5d
+			y: 1.5d
+		}
+		{
+			can_repeat: true
+			dependencies: ["2740000000003201"]
+			description: [
+				"Recoge materiales de riberas del Overworld como prueba de un reconocimiento de campo sencillo."
+				"Disponible de nuevo 48 horas después de reclamar la recompensa."
+			]
+			icon: { id: "minecraft:clay_ball" }
+			id: "2740000000003207"
+			repeat_cooldown: 172800
+			rewards: [{
+				count: 1
+				id: "281E000000003207"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: true, count: 32L, id: "274B000000003210", item: { Count: 1b, id: "minecraft:clay_ball" }, title: "Entregar 32 bolas de arcilla", type: "item" }
+				{ consume_items: true, count: 16L, id: "274B000000003211", item: { Count: 1b, id: "minecraft:sugar_cane" }, title: "Entregar 16 cañas de azúcar", type: "item" }
+			]
+			title: "Exploración · Registro de riberas"
+			x: 5.0d
+			y: 1.5d
+		}
+		{
+			can_repeat: true
+			dependencies: ["2740000000003201"]
+			description: [
+				"Repón alimentos comunes para los turnos de trabajo y vigilancia del asentamiento."
+				"Disponible de nuevo 24 horas después de reclamar la recompensa."
+			]
+			icon: { id: "minecraft:bread" }
+			id: "2740000000003208"
+			repeat_cooldown: 86400
+			rewards: [{
+				count: 1
+				id: "281E000000003208"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: true, count: 16L, id: "274B000000003212", item: { Count: 1b, id: "minecraft:bread" }, title: "Entregar 16 panes", type: "item" }
+				{ consume_items: true, count: 16L, id: "274B000000003213", item: { Count: 1b, id: "minecraft:cooked_chicken" }, title: "Entregar 16 pollos cocinados", type: "item" }
+			]
+			title: "Apoyo · Despensa de guardia"
+			x: 2.5d
+			y: 4.0d
+		}
+		{
+			can_repeat: true
+			dependencies: ["2740000000003201"]
+			description: [
+				"Mantén una reserva pequeña de iluminación para reparaciones y emergencias cotidianas."
+				"Disponible de nuevo 24 horas después de reclamar la recompensa."
+			]
+			icon: { id: "minecraft:torch" }
+			id: "2740000000003209"
+			repeat_cooldown: 86400
+			rewards: [{
+				count: 1
+				id: "281E000000003209"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: true, count: 32L, id: "274B000000003214", item: { Count: 1b, id: "minecraft:torch" }, title: "Entregar 32 antorchas", type: "item" }
+				{ consume_items: true, count: 8L, id: "274B000000003215", item: { Count: 1b, id: "minecraft:charcoal" }, title: "Entregar 8 carbones vegetales", type: "item" }
+			]
+			title: "Apoyo · Reserva de iluminación"
+			x: 5.0d
+			y: 4.0d
+		}
+	]
+	title: "Contratos del Nexus"
+}

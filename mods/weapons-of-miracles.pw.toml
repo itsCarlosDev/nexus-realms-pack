@@ -1,0 +1,13 @@
+name = "Weapons of Miracles - Epic Fight"
+filename = "WeaponsOfMiracles-2.0.15-mc1.20.1-forge.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "2d9bf004620c3743812d89130c3c943628f173b2"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 7517612
+project-id = 918614

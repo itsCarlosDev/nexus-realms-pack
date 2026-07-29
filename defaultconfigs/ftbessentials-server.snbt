@@ -1,0 +1,89 @@
+// FTB Essentials 2001.2.4 defaults for Nexus Realms.
+// The mod copies these values to <world>/serverconfig/ftbessentials.snbt.
+{
+  teleportation: {
+    back: {
+      enabled: true
+      cooldown: 30
+      warmup: 3
+      max: 10
+      only_on_death: false
+    }
+    spawn: {
+      enabled: true
+      cooldown: 10
+      warmup: 3
+    }
+    playerspawn: {
+      enabled: true
+      cooldown: 10
+      warmup: 0
+    }
+    warp: {
+      enabled: true
+      cooldown: 10
+      warmup: 3
+    }
+    home: {
+      enabled: true
+      cooldown: 10
+      warmup: 3
+      max: 5
+    }
+    tpa: {
+      enabled: true
+      cooldown: 10
+      warmup: 3
+    }
+    rtp: {
+      enabled: false
+    }
+    tpl: {
+      enabled: true
+    }
+    tpx: {
+      enabled: true
+    }
+    jump: {
+      enabled: true
+    }
+  }
+  misc: {
+    kickme: {
+      enabled: false
+    }
+    trashcan: {
+      enabled: false
+    }
+    rec: {
+      enabled: false
+    }
+    hat: {
+      enabled: false
+    }
+    nick: {
+      enabled: false
+    }
+    enderchest: {
+      enabled: false
+    }
+    crafting: {
+      enabled: false
+    }
+    stonecutter: {
+      enabled: false
+    }
+    anvil: {
+      enabled: false
+    }
+    smithing: {
+      enabled: false
+    }
+    leaderboard: {
+      enabled: false
+    }
+    near: {
+      enabled: false
+    }
+  }
+}

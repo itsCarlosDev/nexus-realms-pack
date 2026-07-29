@@ -1,0 +1,6 @@
+{
+  "replace": true,
+  "values": [
+    {"id": "unusual_prehistory:petrified_tree", "required": false}
+  ]
+}

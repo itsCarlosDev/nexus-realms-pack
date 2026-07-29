@@ -1,0 +1,13 @@
+name = "Unusual Prehistory 2"
+filename = "Unusual-Prehistory-2-1.20.1-1.4.3.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/KwCqEdeN/versions/vqKSOCni/Unusual-Prehistory-2-1.20.1-1.4.3.jar"
+hash-format = "sha512"
+hash = "60d7287e8ce1542c9234ef06d7f4976000a0b8ebfdb005c821b4a4b30c6ed4e7386f5e74331f0dd639683f6be1d855397e243672c6e0ff525a347a4a89a2ee8d"
+
+[update]
+[update.modrinth]
+mod-id = "KwCqEdeN"
+version = "vqKSOCni"

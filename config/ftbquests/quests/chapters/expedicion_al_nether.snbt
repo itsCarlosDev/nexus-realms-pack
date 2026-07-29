@@ -1,0 +1,292 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: "square"
+	filename: "expedicion_al_nether"
+	group: "4E5850474C4F4241"
+	icon: { id: "minecraft:blaze_rod" }
+	id: "4E584E4554483031"
+	images: [
+		{ alpha: 175, color: 6623498, height: 12.0d, image: "ftblibrary:textures/gui/background_squares.png", order: -100, width: 27.0d, x: 11.0d, y: 1.0d }
+		{ alpha: 205, color: 15158332, height: 0.12d, image: "ftblibrary:textures/gui/background_squares.png", order: -90, width: 27.0d, x: 11.0d, y: -4.95d }
+	]
+	order_index: 17
+	quest_links: []
+	subtitle: ["Primera expedición dimensional del Nexus · disponible desde Era II."]
+	quests: [
+		{
+			dependencies: ["4E58504552413032"]
+			description: [
+				"El Nether es la primera conexión dimensional estable del Nexus. Esta expedición comienza cuando Era II permite cruzar el portal vanilla."
+				"El capítulo orienta y registra la incursión: no concede stages, no abre portales y no sustituye a History Stages."
+			]
+			icon: { id: "minecraft:compass" }
+			id: "2770000000003601"
+			shape: "hexagon"
+			size: 1.3d
+			tasks: [{ id: "277B000000003601", title: "Revisar el plan del Expedicionario", type: "checkmark" }]
+			title: "Expedición I · La frontera infernal"
+			x: 0.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2770000000003601"]
+			description: [
+				"El oro reduce la hostilidad de los piglins; un escudo, un arco, alimento y una ruta de regreso completan la preparación básica."
+				"El equipo solo se comprueba y permanece en tu inventario."
+			]
+			icon: { id: "minecraft:golden_boots" }
+			id: "2770000000003602"
+			rewards: [{
+				count: 2
+				id: "2830000000003602"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: false, id: "277B000000003602", item: { Count: 1b, id: "minecraft:golden_boots" }, title: "Preparar botas de oro", type: "item" }
+				{ consume_items: false, id: "277B000000003603", item: { Count: 1b, id: "minecraft:shield" }, title: "Preparar un escudo", type: "item" }
+				{ consume_items: false, id: "277B000000003604", item: { Count: 1b, id: "minecraft:bow" }, title: "Preparar un arco", type: "item" }
+				{ consume_items: false, count: 16L, id: "277B000000003605", item: { Count: 1b, id: "minecraft:cooked_beef" }, title: "Reservar 16 filetes cocinados", type: "item" }
+			]
+			title: "Preparación · Equipo de incursión"
+			x: 2.5d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2770000000003602"]
+			description: [
+				"Cruza el portal vanilla cuando History Stages haya habilitado Era II."
+				"La tarea nativa de FTB Quests solo comprueba tu presencia en minecraft:the_nether."
+			]
+			icon: { id: "minecraft:flint_and_steel" }
+			id: "2770000000003603"
+			rewards: [{
+				count: 3
+				id: "2830000000003603"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				dimension: "minecraft:the_nether"
+				id: "277B000000003606"
+				title: "Entrar en el Nether"
+				type: "dimension"
+			}]
+			title: "Primera incursión · Cruzar el umbral"
+			x: 5.0d
+			y: 0.0d
+		}
+		{
+			dependencies: ["2770000000003603"]
+			description: ["Reúne muestras abundantes para reconocer el terreno y preparar futuras construcciones y procesos alquímicos."]
+			icon: { id: "minecraft:quartz" }
+			id: "2770000000003604"
+			rewards: [{
+				count: 2
+				id: "2830000000003604"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: false, count: 32L, id: "277B000000003607", item: { Count: 1b, id: "minecraft:netherrack" }, title: "Reunir 32 netherrack", type: "item" }
+				{ consume_items: false, count: 16L, id: "277B000000003608", item: { Count: 1b, id: "minecraft:quartz" }, title: "Reunir 16 cuarzos", type: "item" }
+				{ consume_items: false, count: 8L, id: "277B000000003609", item: { Count: 1b, id: "minecraft:glowstone_dust" }, title: "Reunir 8 polvos de piedra luminosa", type: "item" }
+			]
+			title: "Primera incursión · Recursos fundamentales"
+			x: 7.5d
+			y: -3.0d
+		}
+		{
+			dependencies: ["2770000000003603"]
+			description: ["Compara cuatro ambientes del Nether mediante materiales comunes, sin exigir una lista exhaustiva de biomas."]
+			icon: { id: "minecraft:crimson_fungus" }
+			id: "2770000000003605"
+			rewards: [{
+				count: 2
+				id: "2830000000003605"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [
+				{ consume_items: false, id: "277B000000003610", item: { Count: 1b, id: "minecraft:crimson_fungus" }, title: "Localizar un hongo carmesí", type: "item" }
+				{ consume_items: false, id: "277B000000003611", item: { Count: 1b, id: "minecraft:warped_fungus" }, title: "Localizar un hongo distorsionado", type: "item" }
+				{ consume_items: false, id: "277B000000003612", item: { Count: 1b, id: "minecraft:basalt" }, title: "Recoger una muestra de basalto", type: "item" }
+				{ consume_items: false, id: "277B000000003613", item: { Count: 1b, id: "minecraft:soul_sand" }, title: "Recoger arena de almas", type: "item" }
+			]
+			title: "Exploración · Paisajes infernales"
+			x: 7.5d
+			y: 3.0d
+		}
+		{
+			dependencies: ["2770000000003604"]
+			description: [
+				"YUNG's Better Nether Fortresses configura un complejo mayor que conserva blazes y esqueletos del Wither."
+				"FTB Quests comprueba directamente la estructura betterfortresses:fortress."
+			]
+			icon: { id: "minecraft:nether_bricks" }
+			id: "2770000000003606"
+			rewards: [{
+				count: 4
+				id: "2830000000003606"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				id: "277B000000003614"
+				structure: "betterfortresses:fortress"
+				title: "Entrar en una fortaleza del Nether"
+				type: "structure"
+			}]
+			title: "Exploración · Fortaleza reconstruida"
+			x: 10.0d
+			y: -3.0d
+		}
+		{
+			dependencies: ["2770000000003606"]
+			description: ["La verruga del Nether convierte la fortaleza en la base de la alquimia posterior sin regalar pociones ni materiales avanzados."]
+			icon: { id: "minecraft:nether_wart" }
+			id: "2770000000003607"
+			rewards: [{
+				count: 2
+				id: "2830000000003607"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				consume_items: false
+				count: 16L
+				id: "277B000000003615"
+				item: { Count: 1b, id: "minecraft:nether_wart" }
+				title: "Recuperar 16 verrugas del Nether"
+				type: "item"
+			}]
+			title: "Progresión · Cultivo alquímico"
+			x: 12.5d
+			y: -4.5d
+		}
+		{
+			dependencies: ["2770000000003606"]
+			description: ["Los blazes son una amenaza estable de la fortaleza. Supera una patrulla sin convertir esta rama en una cacería de boss."]
+			icon: { id: "minecraft:blaze_rod" }
+			id: "2770000000003608"
+			rewards: [{
+				count: 3
+				id: "2830000000003608"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				entity: "minecraft:blaze"
+				id: "277B000000003616"
+				title: "Eliminar 5 blazes"
+				type: "kill"
+				value: 5L
+			}]
+			title: "Peligros · Guardia de la fortaleza"
+			x: 12.5d
+			y: -1.5d
+		}
+		{
+			dependencies: ["2770000000003605"]
+			description: [
+				"Los mosquitos carmesí de Alex's Mobs habitan los bosques carmesí y atacan a exploradores y criaturas de sangre caliente."
+				"No se exige su probóscide: su drop tiene una probabilidad reducida."
+			]
+			icon: { id: "alexsmobs:spawn_egg_crimson_mosquito" }
+			id: "2770000000003609"
+			rewards: [{
+				count: 3
+				id: "2830000000003609"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				entity: "alexsmobs:crimson_mosquito"
+				id: "277B000000003617"
+				title: "Eliminar 3 mosquitos carmesí"
+				type: "kill"
+				value: 3L
+			}]
+			title: "Peligros · Sed carmesí"
+			x: 10.0d
+			y: 1.5d
+		}
+		{
+			dependencies: ["2770000000003605"]
+			description: ["Los cubos de magma aparecen en deltas de basalto y también forman parte de las defensas de la fortaleza mejorada."]
+			icon: { id: "minecraft:magma_cream" }
+			id: "2770000000003610"
+			rewards: [{
+				count: 2
+				id: "2830000000003610"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				entity: "minecraft:magma_cube"
+				id: "277B000000003618"
+				title: "Eliminar 5 cubos de magma"
+				type: "kill"
+				value: 5L
+			}]
+			title: "Peligros · Corazón de magma"
+			x: 12.5d
+			y: 1.5d
+		}
+		{
+			dependencies: ["2770000000003603"]
+			description: ["Los ghasts obligan a mantener cobertura, distancia y una ruta clara de regreso durante cualquier travesía abierta."]
+			icon: { id: "minecraft:ghast_tear" }
+			id: "2770000000003611"
+			rewards: [{
+				count: 3
+				id: "2830000000003611"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{
+				entity: "minecraft:ghast"
+				id: "277B000000003619"
+				title: "Eliminar 3 ghasts"
+				type: "kill"
+				value: 3L
+			}]
+			title: "Peligros · Fuego sobre el vacío"
+			x: 10.0d
+			y: 4.5d
+		}
+		{
+			dependencies: ["2770000000003607", "2770000000003608", "2770000000003609", "2770000000003610", "2770000000003611"]
+			description: [
+				"Has regresado con rutas, recursos y experiencia suficiente para mantener operativa la primera conexión dimensional del Nexus."
+				"Aether, End y Otherside continúan sujetos a sus Eras y a futuras expediciones."
+			]
+			icon: { id: "minecraft:compass" }
+			id: "2770000000003612"
+			shape: "diamond"
+			size: 1.4d
+			rewards: [{
+				count: 4
+				id: "2830000000003612"
+				item: { Count: 1b, id: "kubejs:nexus_bronze_coin" }
+				team_reward: true
+				type: "item"
+			}]
+			tasks: [{ id: "277B000000003620", title: "Cerrar el informe de la primera expedición", type: "checkmark" }]
+			title: "Cierre V1 · Ruta estabilizada"
+			x: 15.0d
+			y: 0.0d
+		}
+	]
+	title: "Expedición al Nether"
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "entity": "realmrpg_demons:imp",
+    "weight": 30,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "realmrpg_demons:imp_guard",
+    "weight": 20,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "realmrpg_demons:chort",
+    "weight": 10,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "realmrpg_demons:demon_minion",
+    "weight": 20,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "born_in_chaos_v1:dread_hound",
+    "weight": 20,
+    "first_day": 0,
+    "last_day": 0
+  }
+]

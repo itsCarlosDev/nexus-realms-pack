@@ -1,0 +1,26 @@
+[
+  {
+    "entity": "born_in_chaos_v1:decrepit_skeleton",
+    "weight": 40,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "minecraft:skeleton",
+    "weight": 30,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "minecraft:husk",
+    "weight": 20,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "undead_revamp2:therabidus",
+    "weight": 10,
+    "first_day": 0,
+    "last_day": 0
+  }
+]

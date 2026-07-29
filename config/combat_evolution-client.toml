@@ -1,0 +1,10 @@
+[music]
+playCEMusic = true
+
+[hud]
+hudType = "combat_evolution:default"
+iconDisplay = true
+showTextDisplay = true
+iconAlignment = "CENTER"
+iconX = 30.0
+iconY = 30.0
