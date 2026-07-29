@@ -98,9 +98,14 @@ jobs:
       - name: Check out smoke-test tool
         uses: actions/checkout@v6
 
+      - name: Wait for GitHub Pages propagation
+        shell: bash
+        run: sleep 60
+
       - name: Smoke-test the production Packwiz site
+        shell: bash
         run: >-
           python3 tools/release/pack_release.py --root . smoke
-          --base-url https://itscarlosdev.github.io/nexus-realms-pack/
-          --attempts 12
+          --base-url "${{ steps.deployment.outputs.page_url }}"
+          --attempts 30
           --delay 10
