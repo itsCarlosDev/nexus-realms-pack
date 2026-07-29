@@ -55,9 +55,11 @@ jobs:
           curl --fail --location --silent --show-error \
             "$bootstrap_url" \
             --output "$RUNNER_TEMP/packwiz-installer-bootstrap.jar"
+
           (
             cd "$RUNNER_TEMP"
-            sha256sum --check "$GITHUB_WORKSPACE/tools/prism/bootstrap.sha256"
+            sha256sum --check \
+              "$GITHUB_WORKSPACE/tools/prism/bootstrap.sha256"
           )
 
       - name: Build isolated Pages site and distribution archives
@@ -65,11 +67,47 @@ jobs:
         run: |
           set -euo pipefail
           generated_at="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+
           python3 tools/release/pack_release.py --root . build \
             --output _site \
             --bootstrap "$RUNNER_TEMP/packwiz-installer-bootstrap.jar" \
             --commit "$GITHUB_SHA" \
             --generated-at "$generated_at"
+
+      - name: Create GitHub Pages entry point
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cat > _site/index.html <<'HTML'
+          <!doctype html>
+          <html lang="es">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Nexus Realms</title>
+          </head>
+          <body>
+            <h1>Nexus Realms</h1>
+            <p>Distribución oficial del modpack mediante Packwiz.</p>
+            <ul>
+              <li><a href="pack.toml">pack.toml</a></li>
+              <li><a href="index.toml">index.toml</a></li>
+              <li><a href="manifest.json">manifest.json</a></li>
+              <li>
+                <a href="downloads/NexusRealms-Prism.zip">
+                  Descargar instancia para Prism Launcher
+                </a>
+              </li>
+            </ul>
+          </body>
+          </html>
+          HTML
+
+          test -f _site/index.html
+          test -f _site/pack.toml
+          test -f _site/index.toml
+          test -f _site/manifest.json
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
@@ -82,30 +120,45 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
       pages: write
       id-token: write
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Deploy GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
+  smoke:
+    needs: deploy
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
       - name: Check out smoke-test tool
         uses: actions/checkout@v6
 
-      - name: Wait for GitHub Pages propagation
+      - name: Wait for GitHub Pages activation
         shell: bash
-        run: sleep 60
+        run: sleep 30
 
       - name: Smoke-test the production Packwiz site
         shell: bash
-        run: >-
-          python3 tools/release/pack_release.py --root . smoke
-          --base-url "${{ steps.deployment.outputs.page_url }}"
-          --attempts 30
-          --delay 10
+        run: |
+          set -euo pipefail
+
+          python3 tools/release/pack_release.py --root . smoke \
+            --base-url "${{ needs.deploy.outputs.page_url }}" \
+            --attempts 30 \
+            --delay 10
