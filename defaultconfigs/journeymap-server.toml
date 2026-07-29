@@ -1,0 +1,6 @@
+
+[admins]
+	# The only server administrator is also the only operator.
+	opAccess = true
+	# UUID is used instead of a player name to prevent impersonation.
+	serverAdmins = ["<OWNER_UUID>"]

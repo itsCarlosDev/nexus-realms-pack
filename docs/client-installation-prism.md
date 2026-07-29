@@ -1,55 +1,32 @@
-# Client installation with Prism Launcher
+# Nexus Realms client with Prism Launcher
 
-This guide is for friends joining Nexus Realms.
+Production clients use only:
 
-## Requirements
-
-- Prism Launcher installed.
-- Java compatible with Minecraft 1.20.1 Forge.
-- The Nexus Realms pack URL:
-  ```txt
-  URL_DEL_PACK_TOML
-  ```
-
-Final URL format:
-
-```txt
+```text
 https://itscarlosdev.github.io/nexus-realms-pack/pack.toml
 ```
 
-## Option A: import a prepared instance
+## Import the prepared instance
 
-If Carlos provides a prepared Prism instance, import it into Prism Launcher and check that the pre-launch command points to the final pack URL.
+1. Download `NexusRealms-Prism.zip` from:
+   `https://itscarlosdev.github.io/nexus-realms-pack/downloads/NexusRealms-Prism.zip`.
+2. In Prism Launcher, choose **Add Instance** and **Import**.
+3. Select the downloaded ZIP.
+4. Select a Java 17 runtime if Prism does not choose one automatically.
 
-## Option B: create the instance manually
-
-1. Open Prism Launcher.
-2. Create a new instance.
-3. Select Minecraft `1.20.1`.
-4. Install Forge using the exact Forge version chosen for the server.
-5. Download `packwiz-installer-bootstrap.jar`.
-6. Put `packwiz-installer-bootstrap.jar` in the instance folder.
-7. Open instance settings.
-8. Enable custom commands.
-9. Set the pre-launch command:
+The template defines Minecraft `1.20.1`, Forge `47.4.10` and this exact
+pre-launch command:
 
 ```bash
-"$INST_JAVA" -jar packwiz-installer-bootstrap.jar URL_DEL_PACK_TOML
+"$INST_JAVA" -jar packwiz-installer-bootstrap.jar https://itscarlosdev.github.io/nexus-realms-pack/pack.toml
 ```
 
-Replace `URL_DEL_PACK_TOML` with:
+Packwiz runs before Minecraft. It downloads added and changed files and asks
+for confirmation when files managed by a previous pack version must be
+removed. Do not cancel that synchronization when joining the production
+server.
 
-```txt
-https://itscarlosdev.github.io/nexus-realms-pack/pack.toml
-```
-
-## Updating
-
-Every time the game starts, the pre-launch command checks the pack and updates changed files automatically.
-
-If the instance does not update:
-
-- Confirm the GitHub Pages URL opens in a browser.
-- Confirm the pre-launch command has the correct URL.
-- Confirm `packwiz-installer-bootstrap.jar` is in the instance folder.
-
+The export contains only `instance.cfg`, `mmc-pack.json` and the official
+Packwiz bootstrap under `minecraft/`. It contains no account, save, log,
+crash report, screenshot, token, personal audio setting or personal
+`options.txt`.

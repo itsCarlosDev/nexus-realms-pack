@@ -1,46 +1,78 @@
-# Server installation
+# Nexus Realms production server
 
-Nexus Realms servers should update from the same `pack.toml` URL as clients.
+Production updates use only:
 
-## Requirements
-
-- Forge server for Minecraft `1.20.1`.
-- The exact Forge version used by the Prism clients.
-- `packwiz-installer-bootstrap.jar` in the server folder.
-- Java installed.
-
-## Update command
-
-Run this in the server folder:
-
-```bash
-java -jar packwiz-installer-bootstrap.jar -g -s server URL_DEL_PACK_TOML
-```
-
-Example final URL format:
-
-```txt
+```text
 https://itscarlosdev.github.io/nexus-realms-pack/pack.toml
 ```
 
-The `-s server` option downloads only mods marked as:
+## One-time installation
 
-- `side = "server"`
-- `side = "both"`
+1. Install the Forge `1.20.1-47.4.10` dedicated server.
+2. Put the official `packwiz-installer-bootstrap.jar` in the server root.
+3. Download and extract:
+   `https://itscarlosdev.github.io/nexus-realms-pack/downloads/NexusRealms-ServerRuntime.zip`
+   into the server root. It creates `nexus-runtime/`.
+4. Keep the hosting panel configured to use Java 17.
+5. Use the startup command below.
 
-It skips client-only mods such as shaders, minimaps, camera tools, and visual optimization mods.
+## PrismNodes/Pterodactyl startup command
 
-## Example start.sh
+Run from the server root:
 
 ```bash
-#!/usr/bin/env bash
-set -euo pipefail
-
-PACK_URL="https://itscarlosdev.github.io/nexus-realms-pack/pack.toml"
-
-java -jar packwiz-installer-bootstrap.jar -g -s server "$PACK_URL"
-java -Xms4G -Xmx8G -jar forge-server.jar nogui
+SERVER_ROOT="$PWD" NEXUS_PACK_URL="https://itscarlosdev.github.io/nexus-realms-pack/pack.toml" JAVA_BIN=java NEXUS_ALLOW_OFFLINE_START=false NEXUS_REQUIRE_UPDATE=true bash "$PWD/nexus-runtime/update-server.sh"
 ```
 
-Adjust memory and the Forge server jar name for your host.
+After a validated update, the wrapper starts Forge with the same structure as
+the generated local `run.sh`:
 
+```bash
+"$JAVA_BIN" @user_jvm_args.txt @libraries/net/minecraftforge/forge/1.20.1-47.4.10/unix_args.txt nogui
+```
+
+The wrapper acquires `.nexus-update.lock`, verifies Java 17, downloads and
+validates the published Packwiz index, runs the installer with side `server`,
+applies the SHA-256-allowlisted Java patches, verifies protected state and
+starts Forge only after every check succeeds. Update output is appended to
+`logs/nexus-update.log`.
+
+For production HTTPS updates, the wrapper also downloads the patcher source
+and JourneyMap initialization template published by `main`, verifies them
+against `server/runtime.sha256`, and uses the verified cached copies.
+
+`NEXUS_REQUIRE_UPDATE=true` blocks startup when the production update is
+unavailable or invalid. An intentional emergency offline start requires both:
+
+```bash
+NEXUS_REQUIRE_UPDATE=false
+NEXUS_ALLOW_OFFLINE_START=true
+```
+
+Localhost is rejected by default. A development-only local Packwiz URL also
+requires:
+
+```bash
+NEXUS_ALLOW_LOCAL_PACK_URL=true
+```
+
+## Protected operational state
+
+Packwiz is rejected if its index manages the active world from `level-name`,
+JourneyMap server state, Simple Voice Chat server state or the server identity
+files. Before and after an update, the wrapper hashes:
+
+- the complete active world, including `level.dat`, `playerdata`, `entities`,
+  `region`, `data`, Easy NPC, FTB Quests, FTB Essentials homes and rank data;
+- `ops.json`, `whitelist.json`, bans and `usercache.json`;
+- `server.properties` and `eula.txt`;
+- `journeymap/server/`;
+- `config/voicechat/voicechat-server.properties`;
+- `.env` and `secrets/` when present.
+
+Missing FTB Essentials, FTB Ranks and JourneyMap world configuration may be
+initialized once. Existing operational copies are never replaced.
+
+The owner gate requires `ops.json` to contain only <OWNER_NAME>
+(`<OWNER_UUID>`) at level 4 and requires
+`op-permission-level=4`.

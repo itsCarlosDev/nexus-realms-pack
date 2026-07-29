@@ -1,0 +1,106 @@
+name: Validate and publish Nexus Realms
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: "1.26.5"
+          cache: false
+
+      - name: Install pinned Packwiz
+        shell: bash
+        run: |
+          set -euo pipefail
+          go install github.com/packwiz/packwiz@dfd8b68a4796
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
+      - name: Refresh Packwiz twice and require a clean result
+        shell: bash
+        run: |
+          set -euo pipefail
+          packwiz refresh
+          packwiz refresh
+          git diff --exit-code
+
+      - name: Validate Packwiz index and repository safety
+        run: python3 tools/release/pack_release.py --root . validate
+
+      - name: Download pinned Packwiz bootstrap
+        shell: bash
+        run: |
+          set -euo pipefail
+          bootstrap_url="$(cat tools/prism/bootstrap.url)"
+          curl --fail --location --silent --show-error \
+            "$bootstrap_url" \
+            --output "$RUNNER_TEMP/packwiz-installer-bootstrap.jar"
+          (
+            cd "$RUNNER_TEMP"
+            sha256sum --check "$GITHUB_WORKSPACE/tools/prism/bootstrap.sha256"
+          )
+
+      - name: Build isolated Pages site and distribution archives
+        shell: bash
+        run: |
+          set -euo pipefail
+          generated_at="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+          python3 tools/release/pack_release.py --root . build \
+            --output _site \
+            --bootstrap "$RUNNER_TEMP/packwiz-installer-bootstrap.jar" \
+            --commit "$GITHUB_SHA" \
+            --generated-at "$generated_at"
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Check out smoke-test tool
+        uses: actions/checkout@v6
+
+      - name: Smoke-test the production Packwiz site
+        run: >-
+          python3 tools/release/pack_release.py --root . smoke
+          --base-url https://itscarlosdev.github.io/nexus-realms-pack/
+          --attempts 12
+          --delay 10
