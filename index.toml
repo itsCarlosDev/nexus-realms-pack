@@ -281,10 +281,6 @@ file = "config/fancymenu/legacy_checklist.txt"
 hash = "9a25d3dc708e43eabafce5479a13c02dae15bc7f673afb2745b8b2ba48a97dc0"
 
 [[files]]
-file = "config/fancymenu/options.txt"
-hash = "7b0a4bdffd3ed405d3380f8623d4b15043d5721b9a9717f60aaa72b10345bbb6"
-
-[[files]]
 file = "config/fancymenu/ui_themes/cherry_blossom.json"
 hash = "993c16664fe2d1b9e8ad107bf1c19c1dbb244729c403ed058ca2e54616dc5452"
 
