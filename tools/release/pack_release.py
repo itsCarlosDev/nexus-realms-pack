@@ -379,7 +379,10 @@ def build_site(
 
     published_files = []
     for path in sorted(
-        item for item in output.rglob("*") if item.is_file() and item.name != "manifest.json"
+        item
+        for item in output.rglob("*")
+        if item.is_file()
+        and item.name not in {"manifest.json", ".nojekyll"}
     ):
         relative = path.relative_to(output).as_posix()
         published_files.append(
