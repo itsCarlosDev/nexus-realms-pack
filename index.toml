@@ -125,6 +125,50 @@ file = "config/fancymenu/assets/channels4_profile.png"
 hash = "d9298bcad1afb8e4151bea3ee5f7ab836a6a6311e626913a85dfb9b4144d0f53"
 
 [[files]]
+file = "config/fancymenu/assets/images/background.png"
+hash = "01aed22da5526abcc02bf2b829f505b38efb8893ea02c54645fb6a9d9d969479"
+
+[[files]]
+file = "config/fancymenu/assets/images/channels4_profile.png"
+hash = "d9298bcad1afb8e4151bea3ee5f7ab836a6a6311e626913a85dfb9b4144d0f53"
+
+[[files]]
+file = "config/fancymenu/assets/images/logo16.png"
+hash = "20efa76acf507906abc5f913883083c0ffa72ed3d1a2cb6accf2366fde4f73aa"
+
+[[files]]
+file = "config/fancymenu/assets/images/logo32.png"
+hash = "41fc72a7f9274d1c11f479e3ba73762e708d43f473dd736d60989a890260dbf0"
+
+[[files]]
+file = "config/fancymenu/assets/images/logomac.icns"
+hash = "ff65de099cea0cd13c4959982f580c3ee1fac30eb61be53384fad908316f2b9e"
+
+[[files]]
+file = "config/fancymenu/assets/images/mage_expl.png"
+hash = "45b84fd5c66c02e8947437b027ead4182ee5015fa7db2f851bc611ae71789e3b"
+
+[[files]]
+file = "config/fancymenu/assets/images/mage_expl2.png"
+hash = "867ed61347374e3235fe191b8de633b35e49c48a6af653c127b901e13e0c76a9"
+
+[[files]]
+file = "config/fancymenu/assets/images/metal_expl.png"
+hash = "820292d2c2c1919a7f2edc312e636318179f9a8f3f813661a2f9536386ff26ab"
+
+[[files]]
+file = "config/fancymenu/assets/images/pistolero_expl.png"
+hash = "60f91fa573eb785e30004f70dcd1b818008a52f256f50902270be5fd9c9672e0"
+
+[[files]]
+file = "config/fancymenu/assets/images/warrior.png"
+hash = "492ae1fd21089f7ea6f7ef6ce1b7f1b1a1e43ddece79ba7f43586fd2e6bce495"
+
+[[files]]
+file = "config/fancymenu/assets/logo.gif"
+hash = "06fbe6da84a497b88b5825f5314a28469a09a3fe5c6ebe6c618b97914753e0a3"
+
+[[files]]
 file = "config/fancymenu/assets/nexus/class_selection/gunslinger.png"
 hash = "19c0ab190e17e0fabc11cf111b5a89ad746eaf9217d1a17155d913fd97deeb6c"
 
@@ -137,16 +181,96 @@ file = "config/fancymenu/assets/nexus/class_selection/warrior.png"
 hash = "3973f8dae8a52665d087126cbe084ae97efea402e72af2008a1895caab31a3e4"
 
 [[files]]
+file = "config/fancymenu/assets/videos/choose_clases.mp4"
+hash = "16c8080cc1ba24105ce4e9d1dc3315ee7c73fe40a03039c3ae8d640b4a61d307"
+
+[[files]]
+file = "config/fancymenu/assets/videos/choose_mage.mp4"
+hash = "8640b7255e1debea334ef8625f4b9735a6db7e775b80f58edebf07f5153b5b69"
+
+[[files]]
+file = "config/fancymenu/assets/videos/clases.mp4"
+hash = "f5d48dd1434aea669ac1defa380831e415267652e8e148cd2a10e0591b301419"
+
+[[files]]
+file = "config/fancymenu/assets/videos/magic2.mp4"
+hash = "db31bc594d68c3756263daeaaad84a527e797127f354344bae722b86220d56e7"
+
+[[files]]
+file = "config/fancymenu/assets/videos/startvideo.mp4"
+hash = "ae92d050c04fbaede9fc607d620acc2e237e2167587b21b99eec3738763d8183"
+
+[[files]]
+file = "config/fancymenu/audio_element_controller_metas.json"
+hash = "346a42e28fd81d50be426db1e963927128c7164477cc117c0c3bdde8f646cde3"
+
+[[files]]
 file = "config/fancymenu/custom_gui_screens.txt"
-hash = "03c72627be804aa7ead03578391c5f4a7d6745a577e0599b4a7242316b6ecf1f"
+hash = "169cd4a685fd553eb7f537ce56176ee3e16e68482990b7918249ed7b620f6ded"
 
 [[files]]
 file = "config/fancymenu/customizablemenus.txt"
-hash = "535db450a125a856472e38d6c9cd7ed94961e83a9c19fcaab25c6b6ccb515c60"
+hash = "68ab8d8745c06b7537f90c64514b4b599b890f9f7bd98c94d2856765ea116e6d"
+
+[[files]]
+file = "config/fancymenu/customization/controls_screen_layout.txt"
+hash = "7d9b1f29d4ba98c96f6984bdb149669b6962c17f22faa9c2c3548c0eee2ecdd6"
+
+[[files]]
+file = "config/fancymenu/customization/disconnected_screen_layout.txt"
+hash = "23aaa6981276548a960e80bc3c978b0a4d78f27279abe487c72c88dda22b4d4e"
+
+[[files]]
+file = "config/fancymenu/customization/drippy_loading_overlay_layout.txt"
+hash = "9fd523d6f8fbc11f4572e77501317a4f5cb700c1c734309944a88666cd1c75f1"
+
+[[files]]
+file = "config/fancymenu/customization/gunslier_expl.txt"
+hash = "3374744ca43463e7487bd4d7f8e5a461341ccec3fff9e38afaa0e3b1240f85ed"
+
+[[files]]
+file = "config/fancymenu/customization/inventory_screen_layout.txt"
+hash = "f9511a1dfcb40f8b94da69f43c1d375b6475aac758a0d0fe99f3cae7c0bac20f"
+
+[[files]]
+file = "config/fancymenu/customization/mage_expl.txt"
+hash = "abec32949e0788789cf54eb369dea2148f765045de29a87984921686ca5f7cf7"
+
+[[files]]
+file = "config/fancymenu/customization/mage_expl2.txt"
+hash = "eddc18c04148c3d34056739a00cba67e30f0d24a99e63db58ff413685cbbd733"
+
+[[files]]
+file = "config/fancymenu/customization/metalurgist_expl.txt"
+hash = "6ad411fd09eb8acd7f33f0d0912744411041c340012e54a1531d64b00ae00011"
+
+[[files]]
+file = "config/fancymenu/customization/metalurgist_expl2.txt"
+hash = "73b924073c8160c444ccb2ed89adeb15da74e46ab9cd52e4b5458ed6cee61974"
 
 [[files]]
 file = "config/fancymenu/customization/nexus_class_selection_layout.txt"
-hash = "5e5142cf37fdffcbc75ea920a677bbe0f7b761b8c242de5705abac8c6fd0ca78"
+hash = "5e7be9806b98db611eb0cb821a5b9df9a00341131f7b62c44c9fcb7149471f43"
+
+[[files]]
+file = "config/fancymenu/customization/nexus_class_selection_mage.txt"
+hash = "585f5b7fa256f1e9e999f148e2ecd5bdd3ea66d09536f56db980fa887ae45fe5"
+
+[[files]]
+file = "config/fancymenu/customization/options_screen_layout.txt"
+hash = "765a61c753de4988e889b7b680853d1db6df211c1257a60e832fbd070d0d8198"
+
+[[files]]
+file = "config/fancymenu/customization/pause_screen_layout.txt"
+hash = "056e0907152f6111885456347098eb48ecfa6c2d8fdc719574207ea0d804bb06"
+
+[[files]]
+file = "config/fancymenu/customization/title_screen_layout.txt"
+hash = "dd6c012b53ac71ed430cfed3affaf47f032b946188c6dd796589dcaa7f549590"
+
+[[files]]
+file = "config/fancymenu/customization/warrior_expl.txt"
+hash = "dddf9922397152f9c5d68d16b1336abf8d64483ee822a068503c419634ef1554"
 
 [[files]]
 file = "config/fancymenu/layout_editor/widgets/element_layer_control.lewidget"
@@ -155,6 +279,10 @@ hash = "051d700ea7ff1bd626063d60f9a9cd65a0af1fed5903706d1e70fce20bcb2495"
 [[files]]
 file = "config/fancymenu/legacy_checklist.txt"
 hash = "9a25d3dc708e43eabafce5479a13c02dae15bc7f673afb2745b8b2ba48a97dc0"
+
+[[files]]
+file = "config/fancymenu/options.txt"
+hash = "7b0a4bdffd3ed405d3380f8623d4b15043d5721b9a9717f60aaa72b10345bbb6"
 
 [[files]]
 file = "config/fancymenu/ui_themes/cherry_blossom.json"
@@ -195,6 +323,10 @@ hash = "cfa46554bbb027efe3c2184a073ee652000acac2500cd5136764f901355ec0cd"
 [[files]]
 file = "config/fancymenu/user_variables.db"
 hash = "3d7d4cda73d6bde134a568ccbe4e8d2e7fbe701570012b71fa45acdb2258c823"
+
+[[files]]
+file = "config/fancymenu/video_element_controller_metas.json"
+hash = "9c23a3855c1963bb0787ee422f0dc2cb8e401456b8368afdf9fe4c6af32a5da8"
 
 [[files]]
 file = "config/fancytoasts/general.json"
@@ -1824,12 +1956,12 @@ metafile = true
 
 [[files]]
 file = "mods/watermedia-binaries.pw.toml"
-hash = "c02aad3d93103a83bf910ea8048d3fc3a44ae8984e016a5c1180e0d8672bfca6"
+hash = "3ef23f21b86395b4c8cf8cfbf38f23fbc859aaff99e874b5ce6c901abeee3e29"
 metafile = true
 
 [[files]]
 file = "mods/watermedia.pw.toml"
-hash = "5a3f03ebf7579e7d95368f70bc5ab9b637a8a56415c9af04267b8592027e6b33"
+hash = "ba187a6558343c579f0022e13f0ebec9447bf69de4cd05787ed03759b7b4315e"
 metafile = true
 
 [[files]]
