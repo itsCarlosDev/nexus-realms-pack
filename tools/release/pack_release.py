@@ -475,10 +475,23 @@ def fetch(url: str, timeout: float = 30.0) -> bytes:
         url,
         headers={"User-Agent": "NexusRealms-Pages-SmokeTest/1"},
     )
-    with urllib.request.urlopen(request, timeout=timeout) as response:
-        if response.status != 200:
-            raise ReleaseError(f"HTTP {response.status}: {url}")
-        return response.read()
+
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            if response.status != 200:
+                raise ReleaseError(f"HTTP {response.status}: {url}")
+
+            return response.read()
+
+    except urllib.error.HTTPError as error:
+        raise ReleaseError(
+            f"HTTP {error.code}: {url}"
+        ) from error
+
+    except urllib.error.URLError as error:
+        raise ReleaseError(
+            f"URL error for {url}: {error.reason}"
+        ) from error
 
 
 def smoke_remote(base_url: str) -> None:
