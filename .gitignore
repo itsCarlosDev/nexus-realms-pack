@@ -64,6 +64,3 @@ Desktop.ini
 .env
 .env.*
 secrets/
-
-# FancyMenu production configuration
-!config/fancymenu/options.txt

@@ -30,3 +30,6 @@ server.properties
 world/
 journeymap/server/
 config/voicechat/voicechat-server.properties
+
+# FancyMenu local user settings
+config/fancymenu/options.txt
