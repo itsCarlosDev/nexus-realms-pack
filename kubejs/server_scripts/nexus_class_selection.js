@@ -851,11 +851,11 @@ function nexusSyncClassStages(player, reason) {
       return false
     }
 
-    const synchronizedClassId =
+    const nexusStageSyncClassId =
       nexusGetPersistentClass(player)
 
     const synchronizedExpectedStage =
-      NEXUS_CLASS_STAGE_IDS[synchronizedClassId] || null
+      NEXUS_CLASS_STAGE_IDS[nexusStageSyncClassId] || null
 
     const synchronizedStageData =
       $NexusIndividualStageData.get(player.level)
@@ -918,7 +918,7 @@ function nexusSyncClassStages(player, reason) {
       console.info(
         `[Nexus Realms] Reconciled class stages for ` +
         `${nexusPlayerName(player)}: ` +
-        `class=${synchronizedClassId}, changes=${changes}`
+        `class=${nexusStageSyncClassId}, changes=${changes}`
       )
     }
 

@@ -108,7 +108,19 @@ def safe_relative(value: str) -> PurePosixPath:
 def forbidden_reason(path: PurePosixPath) -> str | None:
     lower_parts = tuple(part.lower() for part in path.parts)
     name = lower_parts[-1]
-    if name in FORBIDDEN_FILE_NAMES or name.startswith(".env."):
+    relative_text = path.as_posix().lower()
+    allowed_options_paths = {
+        "config/defaultoptions/options.txt",
+        "config/drippyloadingscreen/options.txt",
+        "config/fancymenu/options.txt",
+    }
+    if (
+        (
+            name in FORBIDDEN_FILE_NAMES
+            and relative_text not in allowed_options_paths
+        )
+        or name.startswith(".env.")
+    ):
         return f"operational/personal file name {name!r}"
     if any(part in FORBIDDEN_SEGMENTS for part in lower_parts):
         return "runtime, world, backup or secret directory"
