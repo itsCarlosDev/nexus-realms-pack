@@ -1,0 +1,30 @@
+
+[progressionHud]
+	#Deprecated: the persistent progression HUD was removed in Nexus Core 0.4.1.
+	enabled = true
+	#Deprecated compatibility value.
+	#Allowed Values: TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT
+	anchor = "TOP_LEFT"
+	#Deprecated compatibility value.
+	#Range: 0 ~ 10000
+	offsetX = 8
+	#Deprecated compatibility value.
+	#Range: 0 ~ 10000
+	offsetY = 48
+	#Deprecated compatibility value.
+	#Allowed Values: NORMAL, COMPACT
+	mode = "NORMAL"
+
+[progressionInventory]
+	#Show the Nexus progression tab attached to the inventory.
+	showTab = true
+	#Open the compact progression panel when the first inventory of the session is opened.
+	openByDefault = false
+	#Remember the open/closed panel state while Minecraft remains running.
+	rememberSessionState = true
+	#Panel scale. AUTO follows Minecraft GUI scale and available inventory space.
+	#Allowed Values: AUTO
+	scale = "AUTO"
+	#Preferred tab position. The panel only opens on the left when that space is free.
+	#Allowed Values: AUTO, LEFT, TOP
+	preferredPosition = "AUTO"

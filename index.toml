@@ -1,6 +1,10 @@
 hash-format = "sha256"
 
 [[files]]
+file = "config/InventoryHUD/curios.json"
+hash = "b98027a7c3a0a1af9479cb6ebd7ba5deccccbdaf043d575f96224a61f14fb5a9"
+
+[[files]]
 file = "config/Undead_mobs.toml"
 hash = "c29f4573c1531f5cd6c37e24623a971b4390c00da284f09f9ebe36ccd233c3a7"
 
@@ -17,8 +21,48 @@ file = "config/allomancy-common.toml"
 hash = "b81c1888539560e012c0a9a3456fd8efebd69d2ff05d64f9cbf9023245ea33be"
 
 [[files]]
+file = "config/block_factorys_bosses-client.toml"
+hash = "c25636c2cd5540632145da5a6d52c4d84c67d01159b982d2b4a665cc27ff3755"
+
+[[files]]
 file = "config/bookofdragons-client.toml"
 hash = "0e5dafd404127b92540aec9e1340d61397d32b1ed8f8752a3e240f0bb7711ce0"
+
+[[files]]
+file = "config/classicbar-client.toml"
+hash = "6135ca5edbf7dfa233f3fe720f7e118814940dca83f902f3ab38d5372641c89d"
+
+[[files]]
+file = "config/classicbar/absorption.json"
+hash = "15e398e469ddb800a8fe046eda25b6e64c5672783c7794ded69a5e9bdda9871d"
+
+[[files]]
+file = "config/classicbar/air.json"
+hash = "b3d90bbe3eac66c880815e30889e8b11a32b52dcb89e1334471c8feba9337cfc"
+
+[[files]]
+file = "config/classicbar/armor.json"
+hash = "231636115ff3dfa5edc340620e6c78f224488156139ea9ade085e951bb329fed"
+
+[[files]]
+file = "config/classicbar/armor_toughness.json"
+hash = "acda2e74398acdcb9e21eb38ce0517e970c269bc23ba84c37c2fcda37e5a6deb"
+
+[[files]]
+file = "config/classicbar/food.json"
+hash = "bacf953a7830b7616a5ae79636f81f36ba7beed421e4d87ea7b6981fbe51960c"
+
+[[files]]
+file = "config/classicbar/health.json"
+hash = "8baa60a3e9df977569643625070ca2eb39631498fbb6a6b1ab05730f1b1ecc65"
+
+[[files]]
+file = "config/classicbar/mount_health.json"
+hash = "eb21ee69d01f69ca299c26bfd3748e8aaf1bda945ab27bd1ef3d65596e73282a"
+
+[[files]]
+file = "config/classicbar/toughasnails_thirst.json"
+hash = "b35aae703271c4de5e7a5ff2d7f5a9d5a1cc9115e384755bd9ccf2f5717fa788"
 
 [[files]]
 file = "config/combat_evolution-client.toml"
@@ -29,12 +73,32 @@ file = "config/combat_evolution-common.toml"
 hash = "b2f8513094f6472d835e09ab9633cb724e5085733aba351f208008d784894f07"
 
 [[files]]
+file = "config/combatroll/client.json5"
+hash = "4a4b38365d66f44b505e8764b99a058e82e8459175b0f993a9b9dd9a8d55460a"
+
+[[files]]
+file = "config/combatroll/hud_config.json"
+hash = "842e51cce176229503f8d21fa3e83505d6b9ae3fdee0baedef22c68fcbaa4942"
+
+[[files]]
 file = "config/defaultoptions-common.toml"
-hash = "cd0e85dcbeeeef2dd8857543a55096f8643ab970005c49bde963ec81caee344f"
+hash = "4ed722448220742363cdb785678faceb3b36ab77998b47bd628f3f93093073a3"
 
 [[files]]
 file = "config/defaultoptions/keybindings.txt"
 hash = "6ae37825bfbfe671515b41c2f74396edce5ad98d7d6fcd418ac1de37c4560592"
+
+[[files]]
+file = "config/defaultoptions/options.txt"
+hash = "2ace2c282587d2fae88ef552503f253ce83599cf06a04896dba049da65da25f9"
+
+[[files]]
+file = "config/drippyloadingscreen/options.txt"
+hash = "5746d2495105c37ad8203fe8e5de4aecb469380eee8ad9ec2963da7536faa849"
+
+[[files]]
+file = "config/dynamic_resource_bars-client.json"
+hash = "712908f15d3a5267c72583034a05dde7c0f4684c2add5af1d37f674b64e71b93"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/arcane_master.npc.snbt"
@@ -99,6 +163,10 @@ hash = "7fddfc40ec6d26f14d33c6d2aca7b321905ebed01949b5082946f5e12b5dd1ee"
 [[files]]
 file = "config/easy_npc/preset/humanoid/warrior_master.npc.snbt"
 hash = "4f7d3c2002698e8b028bdcba758e2894d40748ba89362de5c1c285cf245c8ac1"
+
+[[files]]
+file = "config/easy_npc/security.cfg"
+hash = "dd6d0bf71622fbc947f0d38683fc1281b8cbe8cee3ac02b880173f7af63e416d"
 
 [[files]]
 file = "config/efn_enhance-client.toml"
@@ -262,11 +330,11 @@ hash = "765a61c753de4988e889b7b680853d1db6df211c1257a60e832fbd070d0d8198"
 
 [[files]]
 file = "config/fancymenu/customization/pause_screen_layout.txt"
-hash = "056e0907152f6111885456347098eb48ecfa6c2d8fdc719574207ea0d804bb06"
+hash = "c6240a45b7390384e1645c46299506cf091f1616cc93ac2484bd159609544b80"
 
 [[files]]
 file = "config/fancymenu/customization/title_screen_layout.txt"
-hash = "dd6c012b53ac71ed430cfed3affaf47f032b946188c6dd796589dcaa7f549590"
+hash = "688cf95a151fc9cd7a0a12331161bed8ae33f0a8f160d869e31eb168abfc9d6c"
 
 [[files]]
 file = "config/fancymenu/customization/warrior_expl.txt"
@@ -279,6 +347,10 @@ hash = "051d700ea7ff1bd626063d60f9a9cd65a0af1fed5903706d1e70fce20bcb2495"
 [[files]]
 file = "config/fancymenu/legacy_checklist.txt"
 hash = "9a25d3dc708e43eabafce5479a13c02dae15bc7f673afb2745b8b2ba48a97dc0"
+
+[[files]]
+file = "config/fancymenu/options.txt"
+hash = "6de4348dba92b7ac4a807ae1be6b8a7a5b2a6ce4d78faaa0d42a2ce6ec9c2a4a"
 
 [[files]]
 file = "config/fancymenu/ui_themes/cherry_blossom.json"
@@ -521,6 +593,18 @@ file = "config/hordes/data/nexus/horde_data/tables/era4_infernal.json"
 hash = "84deabed2c5c2789f1a37e3c15336f099be9b99cfe55059dd44bce63d9287c44"
 
 [[files]]
+file = "config/immersivedamageindicators-client.toml"
+hash = "e117530d7f769917c301bd088b1e3201d12f0a343fe9946cd8a1039124259249"
+
+[[files]]
+file = "config/immersivemessages-client.toml"
+hash = "316eaff842eeadf008aba094c924bedaf0486fc906698932fe434c2e5c5443ac"
+
+[[files]]
+file = "config/immersiveui.yaml"
+hash = "534f2120968484ac5a3a13aa0cb16eedf8c938bcf8476b657074a6e6ddd75328"
+
+[[files]]
 file = "config/indestructible-client.toml"
 hash = "586ef3d0753c126e76b27844b890697a62ba699dbbdf57c16e68c8af15f4a988"
 
@@ -530,7 +614,7 @@ hash = "745314a1c698699ea1c933542668af6bce7e04f8922bd870d0098dc1de969228"
 
 [[files]]
 file = "config/inventoryhud-client.toml"
-hash = "450b3e6a8b57a8c439b60fc3a678f0088e7e96ecab205f5d94aa4ad442831e4d"
+hash = "45430c44e3b5ad549a3d1f2abec3d75001cf5ad8814df0d67abeea2263fc1831"
 
 [[files]]
 file = "config/maintenance.json"
@@ -541,8 +625,16 @@ file = "config/nexus_maintenance.json"
 hash = "a596db103ac4a9561af5b5c8a88ecce4f0d3058c19e32dd13d361124d9c35412"
 
 [[files]]
+file = "config/nexuscore-client.toml"
+hash = "dc321748b43ed1641d686839eafa0077bed46fd4cf67c39f1cdcfbc2e16e048f"
+
+[[files]]
 file = "config/nexuscore/eras.json"
 hash = "7c85cf6c4996ba6259024dafa0d1615f3f16093204f22fa59983d97ce0a0546c"
+
+[[files]]
+file = "config/overflowingbars-client.toml"
+hash = "7fe4f5443d2d1ad58da593f170b3bf0b66a67aeb698dd73eee37e840a35b84b5"
 
 [[files]]
 file = "config/p1nero_ec-common.toml"
@@ -550,7 +642,11 @@ hash = "349b88be3dca1518b712bcdd4134fe601938a93774420232617de796dc4b0bd0"
 
 [[files]]
 file = "config/pmmo-client.toml"
-hash = "7bdafb23b0d048e024d39f4ae784efeb7604f04ff575786d33ea6e81f6dec0b5"
+hash = "f2a4549c401cc9c05162a593280169c64c67be8cc4468d11bd7c640d1a54d53e"
+
+[[files]]
+file = "config/questsadditions-client.toml"
+hash = "e1fd6b4ceb7bc23058fd0f33eb7b42aaa9cc0e1f033804ea0799b2f0cc51a964"
 
 [[files]]
 file = "config/shouldersurfing-client.toml"
@@ -558,7 +654,19 @@ hash = "052725e520f5b1952946a103799fc43de7bebbd610d081fabc90361804b8dec6"
 
 [[files]]
 file = "config/sidebar_buttons.json"
-hash = "683e48eb46a4b6bbce973a2b5aec2fa2fa6eb922beeead44a7e8d718936513f4"
+hash = "2b9a63fae71bebf519bebe428d1f2b0faf556138770dd828e75f60f676a7b3bc"
+
+[[files]]
+file = "config/simple-custom-early-loading.json"
+hash = "a8e9d91799a30e09c2146d950cc145db1e71c010bf5a9fb4e58aef11077c5042"
+
+[[files]]
+file = "config/simple-custom-early-loading/background.png"
+hash = "01aed22da5526abcc02bf2b829f505b38efb8893ea02c54645fb6a9d9d969479"
+
+[[files]]
+file = "config/statuseffectbars-client.toml"
+hash = "a7ed5a0f60502619a761735d23b2884474f4cdd16134e7dc2accb5debf57125f"
 
 [[files]]
 file = "config/tacz-client.toml"
@@ -579,6 +687,14 @@ hash = "9a815f027b3f7e710598560842a2ac3db33bcf75356c994e90fd563bbc81e094"
 [[files]]
 file = "defaultconfigs/ftbessentials-server.snbt"
 hash = "9da4f7e38ed6db0c400f4d6999212b161168ccdbe8cca71a9232347c75bba261"
+
+[[files]]
+file = "defaultconfigs/ftblibrary/ftblibrary-client.snbt"
+hash = "7cf44bc2b79d6798ac1b0bca7dc52ab570a14ade2c11eccf4e1272ce6e081001"
+
+[[files]]
+file = "defaultconfigs/ftbquests/client-config.snbt"
+hash = "9e81651d680291e2c8ab65f4a1168a9f8ccb974d688cf8203d9abf843c8bd346"
 
 [[files]]
 file = "defaultconfigs/ftbranks/ranks.snbt"
@@ -918,7 +1034,7 @@ hash = "f6c6abd5f9d4d040cac4a7e4123e8bb00f5321b4e822ca1820428b26fe66e268"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "b2b59c74ef3a740401e71367317f0d780ae3ce38544f72d15be4a7c9f63285ed"
+hash = "6e2a71280300d904cc18916c593278b944ff33bf9ba0c6dbd13d1a27e9744e8a"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_disable_vanilla_zombies.js"
@@ -926,6 +1042,10 @@ hash = "516720a8278e3fe0048c3ec9a2f332e2b6c03687efd69ba368bda4985ef9c87b"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_era_calendar.js"
+hash = "bf121135cec6d3e87ad2d4bba4588e0fdcd966c691664e4fd4ffc11050adb620"
+
+[[files]]
+file = "kubejs/server_scripts/nexus_era_calendar.js.backup_2026-07-31_13-38-50"
 hash = "18351e24c273db87a613780827b33ab807896ef490e9ccc7838b1495cf862f95"
 
 [[files]]
@@ -1389,6 +1509,11 @@ metafile = true
 [[files]]
 file = "mods/falling-tree.pw.toml"
 hash = "c403c22a6334812040538866bc4851f28358c1d8f8b44f029f4c1c82f94ca5e1"
+metafile = true
+
+[[files]]
+file = "mods/familiarslib-fix.pw.toml"
+hash = "d3d649997e80e988143deb045cb28641dc6ca290feaeba9c7166ad1968da68d0"
 metafile = true
 
 [[files]]

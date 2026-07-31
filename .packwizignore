@@ -32,4 +32,7 @@ journeymap/server/
 config/voicechat/voicechat-server.properties
 
 # FancyMenu local user settings
-config/fancymenu/options.txt
+
+# Unused Simple Custom Early Loading assets.
+config/simple-custom-early-loading/logo.gif
+config/simple-custom-early-loading/logo.png

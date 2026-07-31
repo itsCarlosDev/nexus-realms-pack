@@ -56,7 +56,7 @@
 #Settings for Potions HUD
 [potionshud]
 	#Is Potions HUD enabled
-	Potions = false
+	Potions = true
 	#Potion HUD alpha
 	#Range: 0 ~ 100
 	potAlpha = 100
@@ -95,16 +95,16 @@
 	yPos = 26
 	#Armor HUD vertical align
 	#Allowed Values: TOP, CENTER, BOTTOM
-	armValign = "BOTTOM"
+	armValign = "CENTER"
 	#Armor HUD horizontal align
 	#Allowed Values: LEFT, MIDDLE, RIGHT
-	armHalign = "LEFT"
+	armHalign = "RIGHT"
 	#Armor HUD position (X)
 	#Range: -9999 ~ 9999
-	xArmPos = 10
+	xArmPos = 94
 	#Armor HUD position (Y)
 	#Range: -9999 ~ 9999
-	yArmPos = 70
+	yArmPos = 0
 	#Potion HUD vertical align
 	#Allowed Values: TOP, CENTER, BOTTOM
 	potValign = "TOP"
@@ -113,10 +113,10 @@
 	potHalign = "LEFT"
 	#Potion HUD position (X)
 	#Range: -9999 ~ 9999
-	xPotionPos = 12
+	xPotionPos = 9
 	#Potion HUD position (Y)
 	#Range: -9999 ~ 9999
-	yPotionPos = 29
+	yPotionPos = 33
 	#Helmet position (X)
 	#Range: -9999 ~ 9999
 	helmPosX = 103
@@ -220,4 +220,3 @@
 	lastNotifiedVersion = "2001.6.5-build.26"
 	#Notify more than once
 	keepNotifying = true
-
