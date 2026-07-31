@@ -1,0 +1,21 @@
+{
+  "bar_settings": {
+    "color_provider": {
+      "secondary": "#ff00a3e2",
+      "primary_under_effect": "#ff5a891c",
+      "secondary_under_effect": "#ff85cf25",
+      "mob_effect": "toughasnails:thirst",
+      "primary": "#ff1c5ee4",
+      "type": "dual_effect"
+    },
+    "show_text": true,
+    "show_icon": true,
+    "icon": "toughasnails:textures/gui/icons.png",
+    "enabled": false,
+    "side": "right",
+    "fitted": false
+  },
+  "show_saturation": true,
+  "show_exhaustion": true,
+  "show_predicted_healing": true
+}
