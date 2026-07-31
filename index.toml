@@ -330,11 +330,11 @@ hash = "765a61c753de4988e889b7b680853d1db6df211c1257a60e832fbd070d0d8198"
 
 [[files]]
 file = "config/fancymenu/customization/pause_screen_layout.txt"
-hash = "c00a6a072e5f092dadcf04526cf874d781235724648b2c70cd7f942e97bea7dd"
+hash = "c6240a45b7390384e1645c46299506cf091f1616cc93ac2484bd159609544b80"
 
 [[files]]
 file = "config/fancymenu/customization/title_screen_layout.txt"
-hash = "dd6c012b53ac71ed430cfed3affaf47f032b946188c6dd796589dcaa7f549590"
+hash = "688cf95a151fc9cd7a0a12331161bed8ae33f0a8f160d869e31eb168abfc9d6c"
 
 [[files]]
 file = "config/fancymenu/customization/warrior_expl.txt"
@@ -1042,6 +1042,10 @@ hash = "516720a8278e3fe0048c3ec9a2f332e2b6c03687efd69ba368bda4985ef9c87b"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_era_calendar.js"
+hash = "bf121135cec6d3e87ad2d4bba4588e0fdcd966c691664e4fd4ffc11050adb620"
+
+[[files]]
+file = "kubejs/server_scripts/nexus_era_calendar.js.backup_2026-07-31_13-38-50"
 hash = "18351e24c273db87a613780827b33ab807896ef490e9ccc7838b1495cf862f95"
 
 [[files]]
@@ -1505,6 +1509,11 @@ metafile = true
 [[files]]
 file = "mods/falling-tree.pw.toml"
 hash = "c403c22a6334812040538866bc4851f28358c1d8f8b44f029f4c1c82f94ca5e1"
+metafile = true
+
+[[files]]
+file = "mods/familiarslib-fix.pw.toml"
+hash = "d3d649997e80e988143deb045cb28641dc6ca290feaeba9c7166ad1968da68d0"
 metafile = true
 
 [[files]]

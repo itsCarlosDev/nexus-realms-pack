@@ -1047,6 +1047,155 @@ function nexusEraClearGlobalHorde(data) {
   )
 }
 
+
+function nexusCampaignResetProduction(
+  server
+) {
+  if (!server) {
+    return {
+      status: 'server_unavailable',
+      history: null
+    }
+  }
+
+  const data =
+    nexusEraData(server)
+
+  if (
+    data.getBoolean(
+      'nexusHordeActive'
+    )
+  ) {
+    return {
+      status: 'horde_active',
+      history: null
+    }
+  }
+
+  // Limpia cualquier estado temporal de una tentativa de Horda.
+  nexusEraPendingStart = null
+  nexusEraRecoveryPending = false
+  nexusEraRecoveryAtTick = -1
+  nexusEraLoggedStartFailureDay = -1
+  nexusEraHistoryStagesLoadSyncAtTick = -1
+
+  nexusEraObservedNativeHordes.clear()
+
+  server.players.forEach(player => {
+    nexusEraCleanupAuxiliaryState(
+      player
+    )
+  })
+
+  // Reinicia por completo el calendario independiente de 30 dias.
+  data.putBoolean(
+    'nexusCampaignStarted',
+    false
+  )
+
+  data.putLong(
+    'nexusCampaignEpochMillis',
+    -1
+  )
+
+  data.putBoolean(
+    'nexusCampaignPaused',
+    false
+  )
+
+  data.putLong(
+    'nexusCampaignPausedAtMillis',
+    -1
+  )
+
+  data.putLong(
+    'nexusCampaignPausedTotalMillis',
+    0
+  )
+
+  // Devuelve la progresion global a Preparacion.
+  data.putInt(
+    'nexusEra',
+    0
+  )
+
+  data.putInt(
+    'nexusEraUnlockDay',
+    -1
+  )
+
+  data.putInt(
+    'nexusEraMilestoneCompleted',
+    0
+  )
+
+  nexusEraClearPending(
+    data
+  )
+
+  // Elimina todo el historial y la programacion de Hordas de prueba.
+  nexusEraClearGlobalHorde(
+    data
+  )
+
+  data.putInt(
+    'nexusLastHordeCompletedDay',
+    -1
+  )
+
+  data.putInt(
+    'nexusNextHordeDay',
+    -1
+  )
+
+  data.putInt(
+    'nexusLastHordeStartedDay',
+    -1
+  )
+
+  data.putString(
+    'nexusLastHordeTable',
+    ''
+  )
+
+  data.putString(
+    'nexusPreviousHordeTable',
+    ''
+  )
+
+  data.putInt(
+    'nexusLastHordeRewardedCount',
+    0
+  )
+
+  data.putString(
+    'nexusLastHordeRewardSummary',
+    ''
+  )
+
+  data.putString(
+    'nexusHordeLastFailureReason',
+    ''
+  )
+
+  const history =
+    syncHistoryStages(
+      server,
+      0,
+      'production_reset'
+    )
+
+  console.warn(
+    '[Nexus Campaign] Reinicio integral de produccion ejecutado; ' +
+    `historySync=${history.ok}.`
+  )
+
+  return {
+    status: 'reset',
+    history: history
+  }
+}
+
 function nexusEraEnsureHordeSchedule(
   server,
   data
@@ -3441,6 +3590,90 @@ ServerEvents.commandRegistry(
                     ctx.source,
                     'Calendario reiniciado al dia 1/30; era e hitos conservados.'
                   )
+
+                  return 1
+                })
+            )
+        )
+        .then(
+          Commands.literal(
+            'reset_production'
+          )
+            .requires(
+              source =>
+                source.hasPermission(4)
+            )
+            .executes(ctx => {
+              nexusEraReply(
+                ctx.source,
+                'ATENCION: este comando borra la progresion global de pruebas. ' +
+                'Usa /nexus_campaign reset_production confirm.'
+              )
+
+              return 0
+            })
+            .then(
+              Commands.literal('confirm')
+                .executes(ctx => {
+                  const result =
+                    nexusCampaignResetProduction(
+                      ctx.source.server
+                    )
+
+                  if (
+                    result.status ===
+                    'horde_active'
+                  ) {
+                    nexusEraReply(
+                      ctx.source,
+                      'No se puede ejecutar el reinicio integral durante una Horda activa.'
+                    )
+
+                    return 0
+                  }
+
+                  if (
+                    result.status ===
+                    'server_unavailable'
+                  ) {
+                    nexusEraReply(
+                      ctx.source,
+                      'El servidor no esta disponible.'
+                    )
+
+                    return 0
+                  }
+
+                  nexusEraReply(
+                    ctx.source,
+                    'Reinicio integral completado: campana detenida, Era 0, ' +
+                    'hitos, Hordas, recompensas y avances de prueba eliminados.'
+                  )
+
+                  if (
+                    result.history &&
+                    !result.history.ok
+                  ) {
+                    nexusEraReply(
+                      ctx.source,
+                      'Aviso: no se pudo sincronizar History Stages: ' +
+                      `${result.history.error}. Usa /nexus_era sync tras corregirlo.`
+                    )
+                  } else {
+                    nexusEraReply(
+                      ctx.source,
+                      'History Stages sincronizado y bloqueado para Era 0.'
+                    )
+                  }
+
+                  nexusEraDescribe(
+                    ctx.source.server
+                  ).forEach(line => {
+                    nexusEraReply(
+                      ctx.source,
+                      line
+                    )
+                  })
 
                   return 1
                 })
