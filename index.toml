@@ -1034,7 +1034,7 @@ hash = "f6c6abd5f9d4d040cac4a7e4123e8bb00f5321b4e822ca1820428b26fe66e268"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "43de8c8f8d2eabdb50c2e864339b5c022833ca7936b687fc4be10ef9fc1526f4"
+hash = "bae0a88df956718b0c8bd3fcabd79b097d4c9ce4fbefef919c4b3e0d2a53f124"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_disable_vanilla_zombies.js"
@@ -2264,4 +2264,9 @@ metafile = true
 [[files]]
 file = "resourcepacks/true-nitwit-texture.pw.toml"
 hash = "e039605a381bcfa89833e8df07087fa43ae3b20dce7c17fb36f0be6816d7b34b"
+metafile = true
+
+[[files]]
+file = "shaderpacks/potato-shaders.pw.toml"
+hash = "fa71274d0ebd0056fab164ee6d349508cc405ebd6a16045b7ba65dcf8323060a"
 metafile = true
