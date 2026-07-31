@@ -645,6 +645,10 @@ file = "config/pmmo-client.toml"
 hash = "f2a4549c401cc9c05162a593280169c64c67be8cc4468d11bd7c640d1a54d53e"
 
 [[files]]
+file = "config/punchy/punchy_config.json"
+hash = "f0914475eda7e80a6b331ae4204c16298c619411b98d73537a1c165c9cfcf090"
+
+[[files]]
 file = "config/questsadditions-client.toml"
 hash = "e1fd6b4ceb7bc23058fd0f33eb7b42aaa9cc0e1f033804ea0799b2f0cc51a964"
 
