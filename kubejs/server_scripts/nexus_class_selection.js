@@ -851,74 +851,79 @@ function nexusSyncClassStages(player, reason) {
       return false
     }
 
-    const nexusStageSyncClassId =
-      nexusGetPersistentClass(player)
+    var stageSyncContext = {
+      classId: nexusGetPersistentClass(player),
+      stageData: $NexusIndividualStageData.get(player.level),
+      playerUuid: player.uuid,
+      expectedStage: null,
+      changes: 0
+    }
 
-    const synchronizedExpectedStage =
-      NEXUS_CLASS_STAGE_IDS[nexusStageSyncClassId] || null
+    stageSyncContext.expectedStage =
+      NEXUS_CLASS_STAGE_IDS[stageSyncContext.classId] || null
 
-    const synchronizedStageData =
-      $NexusIndividualStageData.get(player.level)
+    for (
+      var stageIndex = 0;
+      stageIndex < NEXUS_CLASS_STAGE_LIST.length;
+      stageIndex++
+    ) {
+      var stageId =
+        NEXUS_CLASS_STAGE_LIST[stageIndex]
 
-    const synchronizedPlayerUuid =
-      player.uuid
+      var shouldHaveStage =
+        stageId === stageSyncContext.expectedStage
 
-    let changes = 0
+      var hasStage =
+        stageSyncContext.stageData.hasStage(
+          stageSyncContext.playerUuid,
+          stageId
+        )
 
-    NEXUS_CLASS_STAGE_LIST.forEach(
-      stageId => {
-        const shouldHaveStage =
-          stageId === synchronizedExpectedStage
+      if (
+        shouldHaveStage &&
+        !hasStage
+      ) {
+        stageSyncContext.stageData.addStage(
+          stageSyncContext.playerUuid,
+          stageId
+        )
 
-        const hasStage =
-          synchronizedStageData.hasStage(
-            synchronizedPlayerUuid,
-            stageId
-          )
+        stageSyncContext.changes++
+      } else if (
+        !shouldHaveStage &&
+        hasStage
+      ) {
+        stageSyncContext.stageData.removeStage(
+          stageSyncContext.playerUuid,
+          stageId
+        )
 
-        if (
-          shouldHaveStage &&
-          !hasStage
-        ) {
-          synchronizedStageData.addStage(
-            synchronizedPlayerUuid,
-            stageId
-          )
-
-          changes++
-        } else if (
-          !shouldHaveStage &&
-          hasStage
-        ) {
-          synchronizedStageData.removeStage(
-            synchronizedPlayerUuid,
-            stageId
-          )
-
-          changes++
-        }
+        stageSyncContext.changes++
       }
-    )
+    }
 
-    if (changes === 0) {
+    if (stageSyncContext.changes === 0) {
       return true
     }
 
-    synchronizedStageData.setDirty()
-    synchronizedStageData.refreshCache()
+    stageSyncContext.stageData.setDirty()
+    stageSyncContext.stageData.refreshCache()
 
     $NexusHistoryStagesCompat.sendIndividualStages(
       player,
-      synchronizedStageData.getUnlockedStages(
-        synchronizedPlayerUuid
+      stageSyncContext.stageData.getUnlockedStages(
+        stageSyncContext.playerUuid
       )
     )
 
     if (reason === 'login') {
       console.info(
-        `[Nexus Realms] Reconciled class stages for ` +
-        `${nexusPlayerName(player)}: ` +
-        `class=${nexusStageSyncClassId}, changes=${changes}`
+        '[Nexus Realms] Reconciled class stages for ' +
+        nexusPlayerName(player) +
+        ': class=' +
+        stageSyncContext.classId +
+        ', changes=' +
+        stageSyncContext.changes
       )
     }
 
@@ -928,7 +933,9 @@ function nexusSyncClassStages(player, reason) {
       nexusClassStageWarningLogged = true
 
       console.warn(
-        `[Nexus Realms] Unable to synchronize individual class stages: ${error}`
+        '[Nexus Realms] Unable to synchronize ' +
+        'individual class stages: ' +
+        error
       )
     }
 
