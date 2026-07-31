@@ -10,5 +10,8 @@
 		"toggle.rain": false,
 		"toggle.day": false,
 		"toggle.night": false
+	},
+	"ftbessentials": {
+		"trash_can": true
 	}
 }

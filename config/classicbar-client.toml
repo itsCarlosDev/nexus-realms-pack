@@ -1,0 +1,5 @@
+
+[general]
+	#Range: 0.0 ~ 1.7976931348623157E308
+	transition_speed = 3.0
+	priority = ["health", "mount_health", "food", "toughasnails_thirst", "air", "armor", "absorption", "armor_toughness"]

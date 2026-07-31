@@ -64,3 +64,12 @@ Desktop.ini
 .env
 .env.*
 secrets/
+
+# Distributable mod options. The personal root options.txt remains ignored.
+!config/defaultoptions/options.txt
+!config/drippyloadingscreen/options.txt
+!config/fancymenu/options.txt
+
+# Unused Simple Custom Early Loading source assets kept locally.
+config/simple-custom-early-loading/logo.gif
+config/simple-custom-early-loading/logo.png
