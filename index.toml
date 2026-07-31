@@ -2176,6 +2176,11 @@ hash = "2eb3e909cc46e39d8b9e762f39c36b0579744118d619beb6a174d264951d6248"
 metafile = true
 
 [[files]]
+file = "potato-shaders.pw.toml"
+hash = "fa71274d0ebd0056fab164ee6d349508cc405ebd6a16045b7ba65dcf8323060a"
+metafile = true
+
+[[files]]
 file = "resourcepacks/NexusRealms_ES/assets/nexusrealms/textures/skills/woodcutting.png"
 hash = "8dea40bac06c6f14bb0ad9e8b47de63250f6d6a46ae9439b85ddd1377f1edb49"
 
