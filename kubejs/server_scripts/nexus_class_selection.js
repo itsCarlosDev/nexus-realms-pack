@@ -333,28 +333,31 @@ function nexusSyncSpecialization(player, reason) {
       return false
     }
 
-    const rawSpecialization =
-      nexusGetRawSpecialization(player)
+    var specializationSyncContext = {
+      raw: nexusGetRawSpecialization(player),
+      classId: nexusGetPersistentClass(player),
+      expected: null,
+      stageData: $NexusIndividualStageData.get(player.level),
+      playerUuid: player.uuid,
+      correctedPersistentData: false,
+      stageChanged: false,
+      ids: Object.keys(NEXUS_SPECIALIZATION_DATA),
+      currentId: null,
+      currentStageId: null,
+      shouldHaveStage: false,
+      hasStage: false
+    }
 
-    const specializationClassId =
-      nexusGetPersistentClass(player)
-
-    const expectedSpecialization =
-      specializationClassId === 'mage' &&
-      NEXUS_SPECIALIZATION_DATA[rawSpecialization]
-        ? rawSpecialization
+    specializationSyncContext.expected =
+      specializationSyncContext.classId === 'mage' &&
+      NEXUS_SPECIALIZATION_DATA[
+        specializationSyncContext.raw
+      ]
+        ? specializationSyncContext.raw
         : null
 
-    const specializationStageData =
-      $NexusIndividualStageData.get(player.level)
-
-    const specializationPlayerUuid = player.uuid
-
-    let correctedPersistentData = false
-    let stageChanged = false
-
     if (
-      expectedSpecialization === 'metallurgist' &&
+      specializationSyncContext.expected === 'metallurgist' &&
       !player.persistentData.getBoolean(
         'nexus_specialization_metallurgist_unlocked'
       )
@@ -364,86 +367,106 @@ function nexusSyncSpecialization(player, reason) {
         true
       )
 
-      correctedPersistentData = true
+      specializationSyncContext.correctedPersistentData = true
     }
 
     if (
-      !expectedSpecialization &&
-      rawSpecialization
+      !specializationSyncContext.expected &&
+      specializationSyncContext.raw
     ) {
       player.persistentData.remove(
         'nexus_specialization'
       )
 
-      correctedPersistentData = true
+      specializationSyncContext.correctedPersistentData = true
     }
 
-    Object.keys(NEXUS_SPECIALIZATION_DATA).forEach(
-      specializationId => {
-        const stageId =
-          NEXUS_SPECIALIZATION_DATA[specializationId].stageId
+    for (
+      var specializationIndex = 0;
+      specializationIndex <
+      specializationSyncContext.ids.length;
+      specializationIndex++
+    ) {
+      specializationSyncContext.currentId =
+        specializationSyncContext.ids[
+          specializationIndex
+        ]
 
-        const shouldHaveStage =
-          specializationId === expectedSpecialization
+      specializationSyncContext.currentStageId =
+        NEXUS_SPECIALIZATION_DATA[
+          specializationSyncContext.currentId
+        ].stageId
 
-        const hasStage =
-          specializationStageData.hasStage(
-            specializationPlayerUuid,
-            stageId
-          )
+      specializationSyncContext.shouldHaveStage =
+        specializationSyncContext.currentId ===
+        specializationSyncContext.expected
 
-        if (
-          shouldHaveStage &&
-          !hasStage
-        ) {
-          specializationStageData.addStage(
-            specializationPlayerUuid,
-            stageId
-          )
+      specializationSyncContext.hasStage =
+        specializationSyncContext.stageData.hasStage(
+          specializationSyncContext.playerUuid,
+          specializationSyncContext.currentStageId
+        )
 
-          stageChanged = true
-        } else if (
-          !shouldHaveStage &&
-          hasStage
-        ) {
-          specializationStageData.removeStage(
-            specializationPlayerUuid,
-            stageId
-          )
+      if (
+        specializationSyncContext.shouldHaveStage &&
+        !specializationSyncContext.hasStage
+      ) {
+        specializationSyncContext.stageData.addStage(
+          specializationSyncContext.playerUuid,
+          specializationSyncContext.currentStageId
+        )
 
-          stageChanged = true
-        }
+        specializationSyncContext.stageChanged = true
+      } else if (
+        !specializationSyncContext.shouldHaveStage &&
+        specializationSyncContext.hasStage
+      ) {
+        specializationSyncContext.stageData.removeStage(
+          specializationSyncContext.playerUuid,
+          specializationSyncContext.currentStageId
+        )
+
+        specializationSyncContext.stageChanged = true
       }
-    )
+    }
 
-    if (stageChanged) {
-      specializationStageData.setDirty()
-      specializationStageData.refreshCache()
+    if (specializationSyncContext.stageChanged) {
+      specializationSyncContext.stageData.setDirty()
+      specializationSyncContext.stageData.refreshCache()
 
       $NexusHistoryStagesCompat.sendIndividualStages(
         player,
-        specializationStageData.getUnlockedStages(
-          specializationPlayerUuid
+        specializationSyncContext.stageData.getUnlockedStages(
+          specializationSyncContext.playerUuid
         )
       )
     }
 
     nexusSyncAllomancyPowers(
       player,
-      expectedSpecialization,
+      specializationSyncContext.expected,
       reason
     )
 
     if (
-      (stageChanged || correctedPersistentData) &&
+      (
+        specializationSyncContext.stageChanged ||
+        specializationSyncContext.correctedPersistentData
+      ) &&
       reason === 'login'
     ) {
       console.info(
-        `[Nexus Realms] Reconciled specialization for ` +
-        `${nexusPlayerName(player)}: ` +
-        `class=${specializationClassId}, ` +
-        `specialization=${expectedSpecialization || 'none'}, ` +
-        `stageChanged=${stageChanged}`
+        '[Nexus Realms] Reconciled specialization for ' +
+        nexusPlayerName(player) +
+        ': class=' +
+        specializationSyncContext.classId +
+        ', specialization=' +
+        (
+          specializationSyncContext.expected ||
+          'none'
+        ) +
+        ', stageChanged=' +
+        specializationSyncContext.stageChanged
       )
     }
 
@@ -453,13 +476,16 @@ function nexusSyncSpecialization(player, reason) {
       nexusClassStageWarningLogged = true
 
       console.warn(
-        `[Nexus Realms] Unable to synchronize Mage specialization: ${error}`
+        '[Nexus Realms] Unable to synchronize ' +
+        'Mage specialization: ' +
+        error
       )
     }
 
     return false
   }
 }
+
 
 function nexusCurrentGlobalEra(player) {
   const globalEraData = player.server.persistentData
