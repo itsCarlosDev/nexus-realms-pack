@@ -49,7 +49,7 @@ key_key.pmmo.subVein:key.keyboard.right.bracket:NONE
 key_key.pmmo.cyclevein:key.keyboard.apostrophe:NONE
 key_key.pmmo.showList:key.keyboard.left.alt:NONE
 key_key.pmmo.vein:key.keyboard.grave.accent:NONE
-key_key.pmmo.openMenu:key.keyboard.p:NONE
+key_key.pmmo.openMenu:key.keyboard.f9:NONE
 key_key.dynamic_fps.toggle_forced:key.keyboard.unknown:NONE
 key_key.dynamic_fps.toggle_disabled:key.keyboard.unknown:NONE
 key_key.burn:key.keyboard.v:NONE
@@ -212,8 +212,8 @@ key_key.cataclysm.ability:key.keyboard.f1:SHIFT
 key_key.cataclysm.helmet_ability:key.keyboard.f2:SHIFT
 key_key.cataclysm.chestplate_ability:key.keyboard.f3:SHIFT
 key_key.cataclysm.boots_ability:key.keyboard.f4:SHIFT
-key_key.next_image:key.keyboard.down:NONE
-key_key.previous_image:key.keyboard.up:NONE
+key_key.next_image:key.keyboard.end:NONE
+key_key.previous_image:key.keyboard.home:NONE
 key_key.deeperdarker.boost:key.keyboard.d:ALT
 key_key.deeperdarker.transmit:key.keyboard.t:CONTROL
 key_key.ftbteams.open_gui:key.keyboard.unknown:NONE

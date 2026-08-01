@@ -4,7 +4,7 @@
 
 ### Arquitectura
 
-Nexus Core `0.6.2` es la única fuente de verdad para la protección territorial del hub. El sistema no consulta ni modifica History Stages, clases, especializaciones, FTB Quests, Easy NPC o la economía.
+Nexus Core `0.6.6` es la única fuente de verdad para la protección territorial del hub. El sistema no consulta ni modifica History Stages, clases, especializaciones, FTB Quests, Easy NPC o la economía.
 
 La protección nace desactivada y sin coordenadas:
 
@@ -96,6 +96,30 @@ El comando raíz tampoco es visible ni ejecutable para jugadores sin permisos ad
 | pisoteo de cultivo | cancela `FarmlandTrampleEvent` |
 | ignición directa | el bloque de fuego colocado por el jugador queda cubierto por `EntityPlaceEvent` |
 
+### Compatibilidad específica con Automobility
+
+Automobility `0.4.2` modifica terreno desde dos rutas que no publican los eventos Forge anteriores:
+
+- `BaseHarvesterFrontAttachment#harvest` destruye vegetación/cultivos en la huella del accesorio;
+- `BasePlowRearAttachment#plow` sustituye bloques para el backhoe y el paver.
+
+Nexus Core `0.6.6` intercepta únicamente esos dos métodos y cancela la operación completa si cualquier bloque de su huella coincide con la región protegida. Fuera del mercado no cambia el comportamiento. Un conductor real con bypass administrativo conserva la operación; un vehículo sin conductor no obtiene bypass.
+
+`PlayerInteractEvent.RightClickBlock` también bloquea dentro del mercado el `dash_panel` que convierte pendientes y la inserción/extracción de componentes en `automobile_assembler`. Abrir la estación sin una herramienta de modificación, conducir, entrar y salir del vehículo siguen permitidos. No se escanean entidades, no se eliminan vehículos y no se manipulan inventarios.
+
+### Compatibilidad específica con Camera Mod
+
+El marco `camera:image_frame` es una entidad. Nexus Core `0.6.6` bloquea para
+jugadores sin bypass su colocación, inserción o retirada de foto, apertura del
+redimensionado, paquete directo de redimensionado y ataque/rotura cuando el
+marco está dentro del mercado. Tomar fotos, usar el álbum y renderizar marcos
+permanecen permitidos, y fuera del mercado no cambia el comportamiento.
+
+La integración también corrige la creación del directorio padre de los JPEG y
+rechaza fragmentos de subida con longitud, desplazamiento o tamaño imposible
+antes de que Camera reserve o copie el buffer. No elimina fotos existentes ni
+limpia automáticamente archivos huérfanos.
+
 Las explosiones conservan sus efectos fuera del cilindro. No se cancela toda una explosión parcialmente solapada y tampoco se elimina su daño a entidades; se protege la arquitectura.
 
 ### Fuego
@@ -171,7 +195,7 @@ Procedimiento:
 
 ## CHECKLIST RUNTIME PARA CARLOS
 
-1. Arrancar con `nexus-core-0.6.2.jar`.
+1. Arrancar con `nexus-core-0.6.6.jar`.
 2. Ejecutar `/nexus_market status`: debe indicar desactivada y configuración incompleta en un mundo nuevo.
 3. Ejecutar `/nexus_market enable`: debe rechazar la activación incompleta.
 4. Situarse en el centro y ejecutar `/nexus_market set_center`.
@@ -208,6 +232,10 @@ Procedimiento:
 18. Generar un hostil mediante comando y otro mediante huevo dentro del mercado; ambos deben aparecer.
 19. Iniciar una Horda y confirmar spawn `EVENT`, avance de oleadas y finalización dentro del mercado.
 20. Atraer un enemigo desde fuera y confirmar que puede cruzar el límite y ser combatido por los guardianes.
+21. Con Automobility y jugador normal, probar harvester, grass cutter, backhoe y paver dentro y fuera del límite.
+22. Dentro del mercado, comprobar que no se puede convertir una pendiente con `dash_panel` ni cambiar componentes del assembler, pero sí abrir interfaces y conducir.
+23. Repetir las operaciones de Automobility con un OP nivel 2 para validar el bypass.
+24. Con jugador normal, probar dentro/fuera del mercado la colocación, inserción, retirada, redimensionado y rotura de `camera:image_frame`; repetir dentro con OP nivel 2.
 
 No automatizar estas pruebas mediante SendKeys, WinAPI o simulación de ratón.
 
@@ -219,5 +247,8 @@ No automatizar estas pruebas mediante SendKeys, WinAPI o simulación de ratón.
 - cambios de terreno de mobs que no pasen por `EntityPlaceEvent`;
 - daño de explosiones a entidades;
 - permisos específicos por contenedor.
+- La caché de subidas de Camera sigue siendo propia del mod y no dispone de
+  timeout ni separación por jugador; Nexus Core solo valida límites antes de
+  delegar en ella. WATERFrAMES fue retirado, no sustituido.
 
 Estas extensiones no deben implementarse con polling por tick ni mediante History Stages.

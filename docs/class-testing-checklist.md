@@ -250,7 +250,7 @@ After Pack 19.0:
 
 ```bash
 grep -RniE "Nexus Realms|nexus_class|epicfight|epictweaks|autoswitch|enforce|minecraft:air|Preferred|tacz|glock_17|irons_spellbooks|simplyswords|error|exception" \
-"/Users/carlosmoralesartes/Library/Application Support/PrismLauncher/instances/Nexus Realms DEV/minecraft/logs/latest.log" | tail -250
+"<PRISM_INSTANCE>/minecraft/logs/latest.log" | tail -250
 ```
 
 ## Pack 16.11 notes

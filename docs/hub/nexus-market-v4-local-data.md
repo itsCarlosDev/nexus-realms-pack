@@ -2,10 +2,10 @@
 
 ## Fuentes locales
 
-- Repositorio: `<LOCAL_USER_HOME>\Documents\Proyectos_Github\NexusRealms_dev`
+- Repositorio: `<NEXUS_REALMS_DEV_ROOT>`
 - Rama comprobada: `dev`
-- Instancia: `<LOCAL_USER_HOME>\AppData\Roaming\PrismLauncher\instances\NexusRealmsDEV-instance(1)\minecraft`
-- Schematic analizado: `<LOCAL_USER_HOME>\Desktop\nexus_market_spawn_nexus_realms_v3.schem`
+- Instancia: `%APPDATA%\PrismLauncher\instances\NexusRealmsDEV-instance(1)\minecraft`
+- Schematic analizado: `<LOCAL_SCHEMATIC_PATH>\nexus_market_spawn_nexus_realms_v3.schem`
 - SHA-256 del schematic: `ada57e923137a638c8bdbb04ad83359e53886469bed6768c5050fe71e091bd10`
 - Cliente local: Minecraft `1.20.1`, `world_version` `3465`
 
@@ -128,7 +128,7 @@ No se encontraron IDs base inexistentes. Los defectos comprobados son un estado 
 | Dato | Valor |
 |---|---|
 | Archivo | `decocraft-3.0.4-1.20.1-slim.jar` |
-| Ruta | `<LOCAL_USER_HOME>\AppData\Roaming\PrismLauncher\instances\NexusRealmsDEV-instance(1)\minecraft\mods\decocraft-3.0.4-1.20.1-slim.jar` |
+| Ruta | `%APPDATA%\PrismLauncher\instances\NexusRealmsDEV-instance(1)\minecraft\mods\decocraft-3.0.4-1.20.1-slim.jar` |
 | Tamaño | `94319937` bytes |
 | SHA-1 | `5e98ca7929590361bee24c64a0c140447e67ea78` |
 | `modId` | `decocraft` |

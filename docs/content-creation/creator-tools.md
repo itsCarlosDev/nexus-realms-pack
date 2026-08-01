@@ -2,6 +2,12 @@
 
 Nexus Realms combina CMDCam para recorridos reproducibles y Freecam para localizar encuadres. OBS realiza la captura final.
 
+La auditoría técnica del sistema fotográfico persistente está en
+[`docs/mods/camera-waterframes-integration.md`](../mods/camera-waterframes-integration.md).
+Camera Mod `1.20.1-1.0.20` es el único sistema fotográfico elegido. WATERFrAMES
+`2.2.0-beta.6` se ha descartado y retirado del pack; no se distribuyen displays
+remotos, URL, vídeo, GIF ni audio mediante ese mod.
+
 ## CMDCam
 
 - `P`: añadir un punto a la ruta.

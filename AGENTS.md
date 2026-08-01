@@ -13,7 +13,7 @@ Working branch: `dev`
 
 Canonical development repository:
 
-`<LOCAL_USER_HOME>\Documents\Proyectos_Github\NexusRealms_dev`
+`<NEXUS_REALMS_DEV_ROOT>`
 
 A previous repository copy may exist at:
 
@@ -39,9 +39,8 @@ Run:
 
 `git status --short`
 
-The Git root must resolve to:
-
-`<LOCAL_USER_HOME>/Documents/Proyectos_Github/NexusRealms_dev`
+The Git root must resolve to the active worktree supplied by the development
+environment, and its directory name must be `NexusRealms_dev`.
 
 The branch must be:
 
@@ -468,11 +467,11 @@ Request or inspect the exact external file only when access is available and app
 
 The current verified Prism Launcher DEV instance is:
 
-`<LOCAL_USER_HOME>\AppData\Roaming\PrismLauncher\instances\NexusRealmsDEV-instance(1)\minecraft`
+`%APPDATA%\PrismLauncher\instances\NexusRealmsDEV-instance(1)\minecraft`
 
 The currently verified active Minecraft options file is:
 
-`<LOCAL_USER_HOME>\AppData\Roaming\PrismLauncher\instances\NexusRealmsDEV-instance(1)\minecraft\options.txt`
+`%APPDATA%\PrismLauncher\instances\NexusRealmsDEV-instance(1)\minecraft\options.txt`
 
 When investigating active keybindings, use this file as the current runtime source unless evidence shows that the active DEV instance has changed.
 
@@ -486,7 +485,7 @@ is NOT the Minecraft keybinding configuration.
 
 Backup copies under:
 
-`<LOCAL_USER_HOME>\Documents\NexusRealms_local_backups\`
+`%USERPROFILE%\Documents\NexusRealms_local_backups\`
 
 are not authoritative for current runtime configuration.
 
