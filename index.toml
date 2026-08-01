@@ -777,6 +777,14 @@ file = "kubejs/assets/kubejs/textures/item/nexus_silver_coin.png"
 hash = "fe493c23232cc14a1a3be2158370edde9b0d03ec4884efac11adec48c7fa6dbe"
 
 [[files]]
+file = "kubejs/data/alshanex_familiars/loot_tables/chests/hunter_campsite/generic.json"
+hash = "9dc956bbde8b8d4ae26ecf1f3d88f40835ba5bb42e284122c8462fa9abdca468"
+
+[[files]]
+file = "kubejs/data/alshanex_familiars/loot_tables/chests/hunter_campsite/skeleton_drops.json"
+hash = "045b30995f4796288d4548907e476fbf30de0cbaf509880fab6d11a4158535d9"
+
+[[files]]
 file = "kubejs/data/alshanex_familiars/tags/blocks/block_freeze_blacklist.json"
 hash = "c825d55e6ec9d7fb6962824f5cf2281abb40f6354a62b7850fe2430244451c2d"
 
@@ -897,6 +905,10 @@ file = "kubejs/data/born_in_chaos_v1/pmmo/items/wood_splitter_axe.json"
 hash = "9c244c5018e3813dab9635a463f2e897fb91bfe29463888563ea3aa7efab454a"
 
 [[files]]
+file = "kubejs/data/crittersandcompanions/loot_modifiers/inject_clams.json"
+hash = "bcd2d79c69b9073e5e650b7d29278cc39329ec385a6b60fdc0024650dbc102eb"
+
+[[files]]
 file = "kubejs/data/decocraft/loot_tables/blocks/china_cabinet_open_birch.json"
 hash = "684f06636001d4b8ec49684aa31bb9cb6923ee0ff4f17d77e2fcc76440da6f43"
 
@@ -1009,6 +1021,10 @@ file = "kubejs/data/decocraft/loot_tables/blocks/school_desk_open_yellow.json"
 hash = "1052452f95946be24ad390bc168b54e6c11090c2ee3b57346a341cfd7d64f134"
 
 [[files]]
+file = "kubejs/data/invincible/capabilities/weapons/types/custom_combo_demo.json"
+hash = "be8bc5d25585276c83d849c5006428259c84bdeb6617fc8bd05a014dc49ec3d9"
+
+[[files]]
 file = "kubejs/data/irons_spellbooks/loot_tables/chests/catacombs/crypt_loot.json"
 hash = "5699548b9dd09aaf042d27dbd35f344f57f304c06287fa5d327cd4e455aaf2f5"
 
@@ -1051,10 +1067,6 @@ hash = "516720a8278e3fe0048c3ec9a2f332e2b6c03687efd69ba368bda4985ef9c87b"
 [[files]]
 file = "kubejs/server_scripts/nexus_era_calendar.js"
 hash = "bf121135cec6d3e87ad2d4bba4588e0fdcd966c691664e4fd4ffc11050adb620"
-
-[[files]]
-file = "kubejs/server_scripts/nexus_era_calendar.js.backup_2026-07-31_13-38-50"
-hash = "18351e24c273db87a613780827b33ab807896ef490e9ccc7838b1495cf862f95"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_export_entity_ids.js"
