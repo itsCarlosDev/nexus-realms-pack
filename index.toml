@@ -1038,7 +1038,7 @@ hash = "f6c6abd5f9d4d040cac4a7e4123e8bb00f5321b4e822ca1820428b26fe66e268"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "bae0a88df956718b0c8bd3fcabd79b097d4c9ce4fbefef919c4b3e0d2a53f124"
+hash = "4e6ae1c816ed427b8cda997e931a2f61fcada8ed7f686f1c8282bbf10077ffc0"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_disable_vanilla_zombies.js"
