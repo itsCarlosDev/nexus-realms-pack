@@ -282,34 +282,67 @@ function nexusSyncAllomancyPowers(
   }
 
   try {
-    const allomancyTargetName = String(player.username)
+    var allomancySyncContext = {
+      targetName: String(player.username),
+      shouldGrantMetallurgistPowers:
+        specializationId === 'metallurgist',
+      commands: [],
+      powerIndex: 0,
+      commandIndex: 0
+    }
 
-    const shouldGrantMetallurgistPowers =
-      specializationId === 'metallurgist'
-
-    const allomancyCommands = shouldGrantMetallurgistPowers
-      ? NEXUS_ALLOMANCY_BASE_POWERS.map(
-          power =>
-            `allomancy add ${power} ${allomancyTargetName}`
+    if (
+      allomancySyncContext.shouldGrantMetallurgistPowers
+    ) {
+      while (
+        allomancySyncContext.powerIndex <
+        NEXUS_ALLOMANCY_BASE_POWERS.length
+      ) {
+        allomancySyncContext.commands.push(
+          'allomancy add ' +
+            NEXUS_ALLOMANCY_BASE_POWERS[
+              allomancySyncContext.powerIndex
+            ] +
+            ' ' +
+            allomancySyncContext.targetName
         )
-      : [
-          `allomancy remove all ${allomancyTargetName}`
-        ]
 
-    allomancyCommands.forEach(
-      command => player.server.runCommandSilent(command)
-    )
+        allomancySyncContext.powerIndex++
+      }
+    } else {
+      allomancySyncContext.commands.push(
+        'allomancy remove all ' +
+          allomancySyncContext.targetName
+      )
+    }
+
+    while (
+      allomancySyncContext.commandIndex <
+      allomancySyncContext.commands.length
+    ) {
+      player.server.runCommandSilent(
+        allomancySyncContext.commands[
+          allomancySyncContext.commandIndex
+        ]
+      )
+
+      allomancySyncContext.commandIndex++
+    }
 
     if (
       reason === 'selection' ||
       reason === 'unlock'
     ) {
       console.info(
-        `[Nexus Realms] Allomancy powers synchronized for ` +
-        `${allomancyTargetName}: ` +
-        `${shouldGrantMetallurgistPowers
-          ? 'base Metalomante powers granted'
-          : 'powers revoked'}`
+        '[Nexus Realms] Allomancy powers synchronized for ' +
+          allomancySyncContext.targetName +
+          ': ' +
+          (
+            allomancySyncContext
+              .shouldGrantMetallurgistPowers
+              ? 'base Metalomante powers granted'
+              : 'powers revoked'
+          )
       )
     }
 
@@ -319,13 +352,16 @@ function nexusSyncAllomancyPowers(
       nexusAllomancyWarningLogged = true
 
       console.warn(
-        `[Nexus Realms] Unable to synchronize Allomancy powers: ${error}`
+        '[Nexus Realms] Unable to synchronize ' +
+          'Allomancy powers: ' +
+          error
       )
     }
 
     return false
   }
 }
+
 
 function nexusSyncSpecialization(player, reason) {
   try {
