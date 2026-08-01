@@ -617,6 +617,10 @@ file = "config/inventoryhud-client.toml"
 hash = "45430c44e3b5ad549a3d1f2abec3d75001cf5ad8814df0d67abeea2263fc1831"
 
 [[files]]
+file = "config/logbegone.json"
+hash = "ace2596c2d96e2724407f1f0a62eebcee40dc5e12e035849dd879d8ab06a5a5f"
+
+[[files]]
 file = "config/maintenance.json"
 hash = "ec113e1d407dbfc1e13fcd4873547990aa8b473ba0e73da8dbfc1d32ea8a9751"
 
@@ -1738,6 +1742,11 @@ metafile = true
 [[files]]
 file = "mods/lionfish-api.pw.toml"
 hash = "300eb043e53e956e58c9ff56d261d2473b473a387eef3dcfec44324c8d330a39"
+metafile = true
+
+[[files]]
+file = "mods/log-begone.pw.toml"
+hash = "dce6fa268df602cfa84ed377a253c80a1492994d5eeadde732fb74f72ecc742f"
 metafile = true
 
 [[files]]
