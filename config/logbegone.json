@@ -1,0 +1,10 @@
+{
+  "logbegone": {
+    "phrases": [
+      "Unknown skill tree id: dodge_parry_reward:passive_old",
+      "Tag alshanex_familiars:hunter/",
+      "Tag alshanex_familiars:druid/"
+    ],
+    "regex": []
+  }
+}
