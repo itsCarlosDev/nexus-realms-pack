@@ -86,7 +86,7 @@ hash = "4ed722448220742363cdb785678faceb3b36ab77998b47bd628f3f93093073a3"
 
 [[files]]
 file = "config/defaultoptions/keybindings.txt"
-hash = "6ae37825bfbfe671515b41c2f74396edce5ad98d7d6fcd418ac1de37c4560592"
+hash = "9fc86c0e6fa1e7a8ac050e777c2e702a0758bb05c250bf51cda2ccdcbf8d46c5"
 
 [[files]]
 file = "config/defaultoptions/options.txt"
@@ -617,8 +617,8 @@ file = "config/inventoryhud-client.toml"
 hash = "45430c44e3b5ad549a3d1f2abec3d75001cf5ad8814df0d67abeea2263fc1831"
 
 [[files]]
-file = "config/logbegone.json"
-hash = "ace2596c2d96e2724407f1f0a62eebcee40dc5e12e035849dd879d8ab06a5a5f"
+file = "config/logbegone.toml"
+hash = "c3451c920033fad98c217a68fa9c3e5b824c1db7403dd401e732bf217fbab1d6"
 
 [[files]]
 file = "config/maintenance.json"
@@ -1057,8 +1057,12 @@ file = "kubejs/data/unusual_prehistory/tags/worldgen/structure/on_petrified_tree
 hash = "f6c6abd5f9d4d040cac4a7e4123e8bb00f5321b4e822ca1820428b26fe66e268"
 
 [[files]]
+file = "kubejs/server_scripts/nexus_automobility_create_recipes.js"
+hash = "a0ba113448751d06feccec90b0f502226a1d03dc28c16bc1af30da36b9c3f3b1"
+
+[[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "4e6ae1c816ed427b8cda997e931a2f61fcada8ed7f686f1c8282bbf10077ffc0"
+hash = "7a66d3d01b85904fb4afca82a69ea2779df6ccc4625bf72026d59c06b3a45f78"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_disable_vanilla_zombies.js"
@@ -1075,6 +1079,10 @@ hash = "4265fd115b6a31ab203dc300f171928aa6a68ade6615d56b78c7709cdbf32d6a"
 [[files]]
 file = "kubejs/server_scripts/nexus_maintenance.js"
 hash = "c71b7bdc2346d5e18bbd42692ab3004fd98b265168f96c7a0ee39e53459be52d"
+
+[[files]]
+file = "kubejs/server_scripts/nexus_tacz_restrictions.js"
+hash = "9903479f0335e19b3e43ce2830bec1d8180eb56ae52078676aeab61b1ade3d67"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_economy_items.js"
@@ -1164,6 +1172,11 @@ metafile = true
 [[files]]
 file = "mods/atlas-lib.pw.toml"
 hash = "e78a95a5dea14600ea73936a1209d3f6a44ece2d2122ea1b94fc6ecbb763f820"
+metafile = true
+
+[[files]]
+file = "mods/automobility.pw.toml"
+hash = "5e3ff30d77ab34aba80c887c01838d408a20e4730726c98feffbf15c568a7b5b"
 metafile = true
 
 [[files]]
@@ -1807,8 +1820,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.3.jar"
-hash = "f9732fc03dff5cf2ade8892dc607a88bf657e7bcd0e03e5a32936d07b6d79dae"
+file = "mods/nexus-core-0.6.6.jar"
+hash = "96b525f681d5c97ca51c317f38091bb7e1f09c5aa1dfdab8bcaf773a0c425a6f"
 
 [[files]]
 file = "mods/not-enough-animations.pw.toml"
@@ -2031,6 +2044,11 @@ hash = "b4d15c5213b212c0cbefbb5f426ec29a1ac0e051b7f41bd463b5c5a203d8ae8b"
 metafile = true
 
 [[files]]
+file = "mods/tacz-weapons-and-tactics-mod.pw.toml"
+hash = "aca7de14aa01b8082c14d3ced2dbd155afa61e2bb4befe53cbcc9e93ec4333a5"
+metafile = true
+
+[[files]]
 file = "mods/terrablender.pw.toml"
 hash = "14117b94c456598c9acece143c7a0da3cf56d13182d035a74a2da8a52dd19cbd"
 metafile = true
@@ -2093,11 +2111,6 @@ metafile = true
 [[files]]
 file = "mods/voiceless-survival.pw.toml"
 hash = "46c4d14c74900e3164fe58fad70c47bc0ace039aa4cbcaa6d1843b6f96ab0689"
-metafile = true
-
-[[files]]
-file = "mods/waterframes.pw.toml"
-hash = "67d3ea0f6c097f6c25d9c677671a806056d0f4af930d230b9f959495a06ac432"
 metafile = true
 
 [[files]]

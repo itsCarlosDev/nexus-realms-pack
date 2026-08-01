@@ -22,7 +22,15 @@ nexus-core/
 backup_mod_metadata/
 _site/
 dist/
+backup_*.zip
+*.mrpack
 mods/nexus-core-0.6.2.jar.before_tooltip_fix
+Iniciar_Server_local.md
+camera_images/
+saves/
+logs/
+crash-reports/
+screenshots/
 
 # Server-owned operational state. These paths must never be managed by packwiz.
 ops.json
