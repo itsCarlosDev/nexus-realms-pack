@@ -3,10 +3,12 @@ package dev.itscarlos.nexuscore.market;
 import dev.itscarlos.nexuscore.NexusCore;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
@@ -29,6 +31,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDestroyBlockEvent;
 import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
@@ -40,12 +43,31 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod.EventBusSubscriber(
     modid = NexusCore.MOD_ID,
     bus = Mod.EventBusSubscriber.Bus.FORGE
 )
 public final class MarketProtectionEvents {
+    private static final ResourceLocation CAMERA_IMAGE_FRAME =
+        new ResourceLocation("camera", "image_frame");
+    private static final ResourceLocation AUTOMOBILITY_ASSEMBLER =
+        new ResourceLocation("automobility", "automobile_assembler");
+
+    private static final ResourceLocation AUTOMOBILITY_DASH_PANEL =
+        new ResourceLocation("automobility", "dash_panel");
+
+    private static final Set<ResourceLocation> AUTOMOBILITY_ASSEMBLER_TOOLS =
+        Set.of(
+            new ResourceLocation("automobility", "automobile_frame"),
+            new ResourceLocation("automobility", "automobile_engine"),
+            new ResourceLocation("automobility", "automobile_wheel"),
+            new ResourceLocation("automobility", "front_attachment"),
+            new ResourceLocation("automobility", "rear_attachment"),
+            new ResourceLocation("automobility", "crowbar")
+        );
+
     private static final Component PROTECTED_MESSAGE =
         Component.literal("Esta zona está protegida por el Nexus.");
 
@@ -281,6 +303,127 @@ public final class MarketProtectionEvents {
             )
             || (player != null
                 && MarketProtection.hasAdminBypass(player))) {
+            return;
+        }
+
+        event.setCanceled(true);
+        notifyPlayer(player);
+    }
+
+    /**
+     * Automobility has two item-use paths that modify the world without
+     * passing through a Forge placement or tool-modification event:
+     * converting slopes with a dash panel, and mutating an assembler's
+     * installed components. Empty-hand station access remains allowed.
+     */
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void onAutomobilityBlockInteraction(
+        PlayerInteractEvent.RightClickBlock event
+    ) {
+        if (!(event.getLevel() instanceof ServerLevel level)
+            || !(event.getEntity() instanceof ServerPlayer player)
+            || MarketProtection.hasAdminBypass(player)
+            || !MarketProtection.isInsideProtectedMarket(
+                level,
+                event.getPos()
+            )) {
+            return;
+        }
+
+        ResourceLocation itemId = ForgeRegistries.ITEMS.getKey(
+            event.getItemStack().getItem()
+        );
+        ResourceLocation blockId = ForgeRegistries.BLOCKS.getKey(
+            level.getBlockState(event.getPos()).getBlock()
+        );
+
+        boolean modifiesSlope = AUTOMOBILITY_DASH_PANEL.equals(itemId);
+        boolean modifiesAssembler = AUTOMOBILITY_ASSEMBLER.equals(blockId)
+            && AUTOMOBILITY_ASSEMBLER_TOOLS.contains(itemId);
+
+        if (!modifiesSlope && !modifiesAssembler) {
+            return;
+        }
+
+        event.setCancellationResult(InteractionResult.FAIL);
+        event.setCanceled(true);
+        notifyPlayer(player);
+    }
+
+    /**
+     * Camera image frames are hanging entities rather than blocks. Protect
+     * their placement separately while leaving photography and rendering
+     * untouched.
+     */
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void onCameraFramePlacement(
+        PlayerInteractEvent.RightClickBlock event
+    ) {
+        if (!(event.getLevel() instanceof ServerLevel level)
+            || !(event.getEntity() instanceof ServerPlayer player)
+            || MarketProtection.hasAdminBypass(player)
+            || !CAMERA_IMAGE_FRAME.equals(
+                ForgeRegistries.ITEMS.getKey(
+                    event.getItemStack().getItem()
+                )
+            )) {
+            return;
+        }
+
+        BlockPos clickedPos = event.getPos();
+        BlockPos framePos = clickedPos.relative(
+            event.getHitVec().getDirection()
+        );
+
+        if (!MarketProtection.isInsideProtectedMarket(level, clickedPos)
+            && !MarketProtection.isInsideProtectedMarket(
+                level,
+                framePos
+            )) {
+            return;
+        }
+
+        event.setCancellationResult(InteractionResult.FAIL);
+        event.setCanceled(true);
+        notifyPlayer(player);
+    }
+
+    /** Blocks image insertion/removal and the normal resize GUI in Market. */
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void onCameraFrameInteraction(
+        PlayerInteractEvent.EntityInteract event
+    ) {
+        Entity target = event.getTarget();
+
+        if (!(target.level() instanceof ServerLevel level)
+            || !(event.getEntity() instanceof ServerPlayer player)
+            || MarketProtection.hasAdminBypass(player)
+            || !isCameraImageFrame(target)
+            || !MarketProtection.isInsideProtectedMarket(
+                level,
+                target.blockPosition()
+            )) {
+            return;
+        }
+
+        event.setCancellationResult(InteractionResult.FAIL);
+        event.setCanceled(true);
+        notifyPlayer(player);
+    }
+
+    /** Camera processes frame damage only when a player attacks it. */
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void onCameraFrameAttack(AttackEntityEvent event) {
+        Entity target = event.getTarget();
+
+        if (!(target.level() instanceof ServerLevel level)
+            || !(event.getEntity() instanceof ServerPlayer player)
+            || MarketProtection.hasAdminBypass(player)
+            || !isCameraImageFrame(target)
+            || !MarketProtection.isInsideProtectedMarket(
+                level,
+                target.blockPosition()
+            )) {
             return;
         }
 
@@ -562,6 +705,12 @@ public final class MarketProtectionEvents {
         }
 
         return false;
+    }
+
+    private static boolean isCameraImageFrame(Entity entity) {
+        return CAMERA_IMAGE_FRAME.equals(
+            ForgeRegistries.ENTITY_TYPES.getKey(entity.getType())
+        );
     }
 
     private static boolean isInsideOrNearProtectedMarket(

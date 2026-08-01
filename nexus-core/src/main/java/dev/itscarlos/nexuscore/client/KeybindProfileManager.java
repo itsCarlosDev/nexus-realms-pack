@@ -75,6 +75,15 @@ public final class KeybindProfileManager {
     private static final Binding EPIC_FIGHT_TOOLTIP_DEFAULT =
         key(GLFW.GLFW_KEY_LEFT_SHIFT);
 
+    private static final String GUNSLINGER_REFIT_MAPPING =
+        "key.tacz.refit.desc";
+
+    private static final Binding LEGACY_GUNSLINGER_REFIT_F9 =
+        key(GLFW.GLFW_KEY_F9);
+
+    private static final Binding GUNSLINGER_REFIT_DEFAULT =
+        key(GLFW.GLFW_KEY_Z);
+
     static {
         /*
          * COMMON CONFLICT CLEANUP
@@ -108,6 +117,11 @@ public final class KeybindProfileManager {
             UNBOUND
         );
 
+        // PMMO: abrir el glosario con F9 sin modificadores.
+        COMMON_PROFILE.put(
+            "key.pmmo.openMenu",
+            key(GLFW.GLFW_KEY_F9)
+        );
         // Cámara en tercera persona para todas las clases.
         COMMON_PROFILE.put(
             "key.togglePerspective",
@@ -891,8 +905,8 @@ public final class KeybindProfileManager {
         );
 
         GUNSLINGER_PROFILE.put(
-            "key.tacz.refit.desc",
-            key(GLFW.GLFW_KEY_F9)
+            GUNSLINGER_REFIT_MAPPING,
+            GUNSLINGER_REFIT_DEFAULT
         );
 
         GUNSLINGER_PROFILE.put(
@@ -996,6 +1010,10 @@ public final class KeybindProfileManager {
         boolean changed =
             migrateLegacyNeutralMappings(mappingsByName);
 
+        changed |= migrateLegacyGunslingerRefitMapping(
+            mappingsByName
+        );
+
         changed |= applyProfileToMappings(
             mappingsByName,
             nexusClass,
@@ -1021,6 +1039,10 @@ public final class KeybindProfileManager {
 
         boolean changed =
             migrateLegacyNeutralMappings(mappingsByName);
+
+        changed |= migrateLegacyGunslingerRefitMapping(
+            mappingsByName
+        );
 
         changed |= applyProfileToMappings(
             mappingsByName,
@@ -1341,6 +1363,42 @@ public final class KeybindProfileManager {
         );
 
         return true;
+    }
+
+    private static boolean migrateLegacyGunslingerRefitMapping(
+        Map<String, KeyMapping> mappingsByName
+    ) {
+        return migrateLegacyGunslingerRefitMapping(
+            mappingsByName.get(GUNSLINGER_REFIT_MAPPING)
+        );
+    }
+
+    static boolean migrateLegacyGunslingerRefitMapping(
+        KeyMapping refitMapping
+    ) {
+        if (
+            refitMapping == null ||
+            !refitMapping.getKey().equals(
+                LEGACY_GUNSLINGER_REFIT_F9.key()
+            ) ||
+            refitMapping.getKeyModifier() !=
+                LEGACY_GUNSLINGER_REFIT_F9.modifier()
+        ) {
+            return false;
+        }
+
+        boolean changed = applyBinding(
+            refitMapping,
+            GUNSLINGER_REFIT_DEFAULT
+        );
+
+        if (changed) {
+            NexusCore.LOGGER.info(
+                "Migrated legacy TaCZ Refit keybind from F9 to Z."
+            );
+        }
+
+        return changed;
     }
 
     private static void finishKeyChanges(

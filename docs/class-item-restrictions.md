@@ -1,6 +1,6 @@
 # Class item restrictions
 
-> **Estado actual:** este documento conserva el diseño histórico de los packs de clase. La aplicación activa fue sustituida por stages individuales de History Stages. `nexus_class_restrictions.js` y `nexus_tacz_restrictions.js` están retirados; Nexus Core no registra listeners de bloqueo ni manipula inventarios.
+> **Estado actual:** History Stages es la fuente de verdad de las restricciones por clase. `nexus_tacz_restrictions.js` complementa exclusivamente esa política cancelando acciones nativas de TaCZ que no deben depender de mover, borrar o reemplazar el arma.
 
 ## Objetivo
 
@@ -45,8 +45,8 @@ Solo Pistolero:
 ## Arquitectura actual
 
 - KubeJS sigue siendo la fuente de clase, selector, tags, persistentData, FancyMenu y kits.
-- NexusCore (`nexuscore`) es el mini-mod Forge que bloquea uso y dano real.
-- TaCZ JS expone eventos KubeJS mediante `TimelessGunEvents`; `nexus_tacz_restrictions.js` cancela disparo, recarga, melee y dano de arma para no-Pistoleros.
+- History Stages aplica la restricción `nexus_class_gunslinger` a los objetos `tacz:*`, incluidos los contenidos de Weapons and Tactics que se materializan como objetos TaCZ con datos NBT.
+- TaCZ expone eventos KubeJS mediante `TimelessGunEvents`; `nexus_tacz_restrictions.js` cancela disparo, cambio de modo, inicio de recarga, melee y daño de arma para no-Pistoleros.
 - KubeJS mantiene `/nexus_class_debug` y `/nexus_inventory_debug` como diagnostico solamente.
 - GameStages/ItemStages quedan reservados para progresion por eras, no para clases en esta fase.
 
@@ -57,7 +57,7 @@ El guardia no borra, no dropea y no mueve items. Si un item restringido esta en 
 Items from another class may exist in the inventory and may remain visually in main hand/offhand.
 
 If a wrong-class item is detected in main hand/offhand:
-- NexusCore cancels use/damage through Forge events.
+- History Stages applies the configured class-stage item restriction.
 - KubeJS does not move the item.
 - The item is never deleted.
 - NBT is preserved because no inventory mutation happens.
@@ -65,11 +65,13 @@ If a wrong-class item is detected in main hand/offhand:
 This is required because some mods, especially TaCZ and Epic Fight, may process combat outside simple right-click handlers.
 
 TaCZ is handled at two layers:
-- `nexus_tacz_restrictions.js` cancels native TaCZ events: `gunShoot`, `gunFire`, `gunReload`, `gunMelee`, `gunFireSelect`, `gunFinishReload` and `entityHurtByGunPre`.
-- NexusCore remains the Forge fallback for generic right click, combat and `tacz:*` bullet damage.
+- History Stages restricts `tacz:*` item access for players without `nexus_class_gunslinger`.
+- `nexus_tacz_restrictions.js` cancels native TaCZ events: `gunShoot`, `gunFire`, `gunReload`, `gunMelee`, `gunFireSelect` and `entityHurtByGunPre`.
+
+TaCZ 1.1.8 does not expose the acting entity on `gunFinishReload`. The earlier cancelable `gunReload` event therefore blocks the non-Gunslinger path before completion without globally canceling reload completion for valid players. This behavior remains pending runtime validation.
 
 The enforcement must:
-- block use/damage in NexusCore;
+- keep class/item access in History Stages;
 - block native TaCZ gun events for non-Gunslingers;
 - avoid all KubeJS inventory movement;
 - avoid `player.give`, automatic drop fallback and vanilla `/item replace` hand enforcement;

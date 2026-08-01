@@ -200,31 +200,49 @@ function nexusGetPersistentSpecialization(player) {
 }
 
 function nexusGetSpecializationStageState(player) {
-  const result = {
-    available: false,
-    arcanist: false,
-    metallurgist: false
+  var nexusSpecializationStageReadContext = {
+    result: {
+      available: false,
+      arcanist: false,
+      metallurgist: false
+    },
+    stageData: null,
+    ids: Object.keys(NEXUS_SPECIALIZATION_DATA),
+    index: 0,
+    currentId: null
   }
 
   try {
     if (!nexusClassStageDefinitionsAvailable()) {
-      return result
+      return nexusSpecializationStageReadContext.result
     }
 
-    const specializationStageData =
+    nexusSpecializationStageReadContext.stageData =
       $NexusIndividualStageData.get(player.level)
 
-    result.available = true
+    nexusSpecializationStageReadContext.result.available = true
 
-    Object.keys(NEXUS_SPECIALIZATION_DATA).forEach(
-      specializationId => {
-        result[specializationId] =
-          specializationStageData.hasStage(
-            player.uuid,
-            NEXUS_SPECIALIZATION_DATA[specializationId].stageId
-          )
-      }
-    )
+    while (
+      nexusSpecializationStageReadContext.index <
+      nexusSpecializationStageReadContext.ids.length
+    ) {
+      nexusSpecializationStageReadContext.currentId =
+        nexusSpecializationStageReadContext.ids[
+          nexusSpecializationStageReadContext.index
+        ]
+
+      nexusSpecializationStageReadContext.result[
+        nexusSpecializationStageReadContext.currentId
+      ] =
+        nexusSpecializationStageReadContext.stageData.hasStage(
+          player.uuid,
+          NEXUS_SPECIALIZATION_DATA[
+            nexusSpecializationStageReadContext.currentId
+          ].stageId
+        )
+
+      nexusSpecializationStageReadContext.index++
+    }
   } catch (error) {
     if (!nexusClassStageWarningLogged) {
       nexusClassStageWarningLogged = true
@@ -235,7 +253,7 @@ function nexusGetSpecializationStageState(player) {
     }
   }
 
-  return result
+  return nexusSpecializationStageReadContext.result
 }
 
 function nexusSpecializationStagesCoherent(
