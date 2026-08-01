@@ -28,6 +28,7 @@ BOOTSTRAP_SHA256 = (
 
 FORBIDDEN_FILE_NAMES = {
     ".env",
+    "iniciar_server_local.md",
     "ops.json",
     "server.properties",
     "whitelist.json",
@@ -42,6 +43,7 @@ FORBIDDEN_FILE_NAMES = {
     "realms_persistence.json",
 }
 FORBIDDEN_SEGMENTS = {
+    "camera_images",
     "saves",
     "world",
     "playerdata",
@@ -60,6 +62,18 @@ SECRET_PATTERNS = {
     "AWS access key": re.compile(rb"\b(?:AKIA|ASIA)[A-Z0-9]{16}\b"),
     "Discord webhook": re.compile(
         rb"https://(?:canary\.|ptb\.)?discord(?:app)?\.com/api/webhooks/\d+/[A-Za-z0-9._-]+"
+    ),
+    "OpenAI token": re.compile(
+        rb"\bsk-(?:proj-|svcacct-)?[A-Za-z0-9_-]{20,}\b"
+    ),
+    "JWT": re.compile(
+        rb"\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b"
+    ),
+    "credential-bearing URL": re.compile(
+        rb"https?://[^\s/:@]+:[^\s/@]+@[^\s]+"
+    ),
+    "local user path": re.compile(
+        rb"(?:[A-Za-z]:\\[U]sers\\[^\\\r\n]+|/[U]sers/[^/\r\n]+|/[h]ome/[^/\r\n]+)"
     ),
 }
 
@@ -126,6 +140,12 @@ def forbidden_reason(path: PurePosixPath) -> str | None:
         return "runtime, world, backup or secret directory"
     if name.endswith("~") or any(name.endswith(suffix) for suffix in FORBIDDEN_SUFFIXES):
         return "backup/export suffix"
+    if (
+        len(lower_parts) == 1
+        and name.startswith("backup_")
+        and name.endswith(".zip")
+    ):
+        return "root backup archive"
     if (
         len(lower_parts) >= 3
         and lower_parts[-3:] == (

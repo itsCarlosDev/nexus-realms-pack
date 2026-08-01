@@ -5,7 +5,7 @@ plugins {
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
 }
 
-version = '0.6.3'
+version = '0.6.6'
 group = 'dev.itscarlos'
 
 base {
@@ -119,7 +119,25 @@ tasks.register('keybindProfilePolicyCheck', JavaExec) {
     mainClass = 'dev.itscarlos.nexuscore.client.KeybindProfilePolicyCheck'
 }
 
+tasks.register('automobilityMarketPolicyCheck', JavaExec) {
+    group = 'verification'
+    description = 'Validates the exact Automobility attachment footprint policy.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'dev.itscarlos.nexuscore.market.AutomobilityMarketPolicyCheck'
+}
+
+tasks.register('cameraIntegrationPolicyCheck', JavaExec) {
+    group = 'verification'
+    description = 'Validates Camera upload bounds and image storage policy.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'dev.itscarlos.nexuscore.camera.CameraIntegrationPolicyCheck'
+}
+
 tasks.named('check') {
+    dependsOn tasks.named('automobilityMarketPolicyCheck')
+    dependsOn tasks.named('cameraIntegrationPolicyCheck')
     dependsOn tasks.named('marketProtectionCheck')
     dependsOn tasks.named('marketSpawnPolicyCheck')
     dependsOn tasks.named('keybindProfilePolicyCheck')

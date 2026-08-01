@@ -12,6 +12,8 @@ usercache.json
 usernamecache.json
 launcher_profiles.json
 realms_persistence.json
+Iniciar_Server_local.md
+camera_images/
 
 # Pack exports and archives
 *.mrpack

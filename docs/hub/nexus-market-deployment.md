@@ -29,7 +29,7 @@ Auditoría local realizada el 18 de julio de 2026, sin modificar el save.
 
 | Dato | Valor comprobado |
 |---|---|
-| Instancia Prism | `C:\Users\spend\AppData\Roaming\PrismLauncher\instances\NexusRealmsDEV-instance(1)` |
+| Instancia Prism | `%APPDATA%\PrismLauncher\instances\NexusRealmsDEV-instance(1)` |
 | Directorio Minecraft | `...\NexusRealmsDEV-instance(1)\minecraft` |
 | Carpeta del mundo | `...\minecraft\saves\Mundo nuevo (5)` |
 | Nombre interno | `Mundo nuevo` |
@@ -612,4 +612,3 @@ archivos NPC aislados ni `waystones.dat`. Tras instalar el pack:
 
 Nunca borrar a ciegas la carpeta `easy_npc`, editar archivos `.dat` del mundo o
 reutilizar UUIDs de otro save.
-

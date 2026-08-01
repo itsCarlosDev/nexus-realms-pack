@@ -16,6 +16,9 @@ public final class KeybindProfilePolicyCheck {
     private static final String GUARD_MAPPING =
         "key.epicfight.guard";
 
+    private static final String PMMO_GLOSSARY_MAPPING =
+        "key.pmmo.openMenu";
+
     private KeybindProfilePolicyCheck() {
     }
 
@@ -36,9 +39,73 @@ public final class KeybindProfilePolicyCheck {
         toleratesUnregisteredMappings();
         classSyncSchedulesDeferredApplication();
         keepsGuardBindingUnchanged();
+        pmmoGlossaryOwnsPlainF9();
+        migratesLegacyGunslingerRefitOnlyOnce();
 
         System.out.println(
-            "Keybind profile policy checks passed: 16/16"
+            "Keybind profile policy checks passed: 18/18"
+        );
+    }
+
+    private static void pmmoGlossaryOwnsPlainF9()
+        throws Exception {
+        String[] profileNames = {
+            "COMMON_PROFILE",
+            "WARRIOR_PROFILE",
+            "ARCANIST_PROFILE",
+            "METALLURGIST_PROFILE",
+            "GUNSLINGER_PROFILE"
+        };
+
+        for (String profileName : profileNames) {
+            for (
+                Map.Entry<String, Object> entry :
+                profile(profileName).entrySet()
+            ) {
+                if (
+                    bindingKey(entry.getValue()).getValue() ==
+                        GLFW.GLFW_KEY_F9 &&
+                    bindingModifier(entry.getValue()) == KeyModifier.NONE
+                ) {
+                    require(
+                        PMMO_GLOSSARY_MAPPING.equals(entry.getKey()),
+                        "Plain F9 must be reserved for PMMO Open Glossary"
+                    );
+                }
+            }
+        }
+
+        Object glossaryBinding =
+            profile("COMMON_PROFILE").get(PMMO_GLOSSARY_MAPPING);
+
+        require(
+            glossaryBinding != null &&
+            bindingKey(glossaryBinding).getValue() == GLFW.GLFW_KEY_F9 &&
+            bindingModifier(glossaryBinding) == KeyModifier.NONE,
+            "PMMO Open Glossary must use plain F9 in COMMON_PROFILE"
+        );
+    }
+
+    private static void migratesLegacyGunslingerRefitOnlyOnce() {
+        KeyMapping refitMapping = mapping(
+            "key.tacz.refit.desc",
+            GLFW.GLFW_KEY_F9
+        );
+
+        require(
+            KeybindProfileManager
+                .migrateLegacyGunslingerRefitMapping(refitMapping),
+            "Legacy TaCZ Refit F9 must migrate to Z"
+        );
+        require(
+            refitMapping.getKey().getValue() == GLFW.GLFW_KEY_Z &&
+            refitMapping.getKeyModifier() == KeyModifier.NONE,
+            "Migrated TaCZ Refit must use plain Z"
+        );
+        require(
+            !KeybindProfileManager
+                .migrateLegacyGunslingerRefitMapping(refitMapping),
+            "TaCZ Refit migration must be idempotent"
         );
     }
 

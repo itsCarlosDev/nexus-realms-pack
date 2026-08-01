@@ -200,31 +200,49 @@ function nexusGetPersistentSpecialization(player) {
 }
 
 function nexusGetSpecializationStageState(player) {
-  const result = {
-    available: false,
-    arcanist: false,
-    metallurgist: false
+  var nexusSpecializationStageReadContext = {
+    result: {
+      available: false,
+      arcanist: false,
+      metallurgist: false
+    },
+    stageData: null,
+    ids: Object.keys(NEXUS_SPECIALIZATION_DATA),
+    index: 0,
+    currentId: null
   }
 
   try {
     if (!nexusClassStageDefinitionsAvailable()) {
-      return result
+      return nexusSpecializationStageReadContext.result
     }
 
-    const specializationStageData =
+    nexusSpecializationStageReadContext.stageData =
       $NexusIndividualStageData.get(player.level)
 
-    result.available = true
+    nexusSpecializationStageReadContext.result.available = true
 
-    Object.keys(NEXUS_SPECIALIZATION_DATA).forEach(
-      specializationId => {
-        result[specializationId] =
-          specializationStageData.hasStage(
-            player.uuid,
-            NEXUS_SPECIALIZATION_DATA[specializationId].stageId
-          )
-      }
-    )
+    while (
+      nexusSpecializationStageReadContext.index <
+      nexusSpecializationStageReadContext.ids.length
+    ) {
+      nexusSpecializationStageReadContext.currentId =
+        nexusSpecializationStageReadContext.ids[
+          nexusSpecializationStageReadContext.index
+        ]
+
+      nexusSpecializationStageReadContext.result[
+        nexusSpecializationStageReadContext.currentId
+      ] =
+        nexusSpecializationStageReadContext.stageData.hasStage(
+          player.uuid,
+          NEXUS_SPECIALIZATION_DATA[
+            nexusSpecializationStageReadContext.currentId
+          ].stageId
+        )
+
+      nexusSpecializationStageReadContext.index++
+    }
   } catch (error) {
     if (!nexusClassStageWarningLogged) {
       nexusClassStageWarningLogged = true
@@ -235,7 +253,7 @@ function nexusGetSpecializationStageState(player) {
     }
   }
 
-  return result
+  return nexusSpecializationStageReadContext.result
 }
 
 function nexusSpecializationStagesCoherent(
@@ -282,34 +300,67 @@ function nexusSyncAllomancyPowers(
   }
 
   try {
-    const allomancyTargetName = String(player.username)
+    var allomancySyncContext = {
+      targetName: String(player.username),
+      shouldGrantMetallurgistPowers:
+        specializationId === 'metallurgist',
+      commands: [],
+      powerIndex: 0,
+      commandIndex: 0
+    }
 
-    const shouldGrantMetallurgistPowers =
-      specializationId === 'metallurgist'
-
-    const allomancyCommands = shouldGrantMetallurgistPowers
-      ? NEXUS_ALLOMANCY_BASE_POWERS.map(
-          power =>
-            `allomancy add ${power} ${allomancyTargetName}`
+    if (
+      allomancySyncContext.shouldGrantMetallurgistPowers
+    ) {
+      while (
+        allomancySyncContext.powerIndex <
+        NEXUS_ALLOMANCY_BASE_POWERS.length
+      ) {
+        allomancySyncContext.commands.push(
+          'allomancy add ' +
+            NEXUS_ALLOMANCY_BASE_POWERS[
+              allomancySyncContext.powerIndex
+            ] +
+            ' ' +
+            allomancySyncContext.targetName
         )
-      : [
-          `allomancy remove all ${allomancyTargetName}`
-        ]
 
-    allomancyCommands.forEach(
-      command => player.server.runCommandSilent(command)
-    )
+        allomancySyncContext.powerIndex++
+      }
+    } else {
+      allomancySyncContext.commands.push(
+        'allomancy remove all ' +
+          allomancySyncContext.targetName
+      )
+    }
+
+    while (
+      allomancySyncContext.commandIndex <
+      allomancySyncContext.commands.length
+    ) {
+      player.server.runCommandSilent(
+        allomancySyncContext.commands[
+          allomancySyncContext.commandIndex
+        ]
+      )
+
+      allomancySyncContext.commandIndex++
+    }
 
     if (
       reason === 'selection' ||
       reason === 'unlock'
     ) {
       console.info(
-        `[Nexus Realms] Allomancy powers synchronized for ` +
-        `${allomancyTargetName}: ` +
-        `${shouldGrantMetallurgistPowers
-          ? 'base Metalomante powers granted'
-          : 'powers revoked'}`
+        '[Nexus Realms] Allomancy powers synchronized for ' +
+          allomancySyncContext.targetName +
+          ': ' +
+          (
+            allomancySyncContext
+              .shouldGrantMetallurgistPowers
+              ? 'base Metalomante powers granted'
+              : 'powers revoked'
+          )
       )
     }
 
@@ -319,13 +370,16 @@ function nexusSyncAllomancyPowers(
       nexusAllomancyWarningLogged = true
 
       console.warn(
-        `[Nexus Realms] Unable to synchronize Allomancy powers: ${error}`
+        '[Nexus Realms] Unable to synchronize ' +
+          'Allomancy powers: ' +
+          error
       )
     }
 
     return false
   }
 }
+
 
 function nexusSyncSpecialization(player, reason) {
   try {
