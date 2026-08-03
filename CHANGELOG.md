@@ -1,5 +1,61 @@
 # Changelog
 
+## [Unreleased]
+
+### Añadido
+
+### Modificado
+
+### Corregido
+
+### Equilibrio
+
+### Técnico
+
+### Nexus Core
+- Versión incluida actualmente: 0.6.6-camera-market-v1.
+
+---
+
+## [1.0.0] - Pendiente
+
+### Añadido
+- Sistema de clases Guerrero, Mago y Pistolero.
+- Especializaciones Arcanista y Metalomante para Mago.
+- Progresión por eras mediante HistoryStages.
+- Misiones y progresión mediante FTB Quests.
+- Sistema de hordas de cuatro oleadas.
+- Integración de Automobility.
+- Integración segura de Camera Mod.
+- Integración de Weapons and Tactics.
+- Mercado protegido mediante Nexus Core.
+
+### Modificado
+- JourneyMap pasa a instalarse únicamente en los clientes.
+- Metalomante permanece como especialización exclusiva del Mago.
+- Las restricciones de combate se validan mediante KubeJS y Nexus Core.
+
+### Corregido
+- Eliminación completa de WATERFrAMES.
+- Correcciones de restricciones de clase.
+- Correcciones de sincronización de Allomancy.
+- Correcciones de keybinds y perfiles de clase.
+- Correcciones del actualizador del servidor.
+- Correcciones de recursos y datapacks inválidos.
+
+### Equilibrio
+- Pendiente de completar las pruebas finales de clases, armas, hordas y bosses.
+
+### Técnico
+- Minecraft 1.20.1.
+- Forge 47.4.10.
+- Java 17.
+- Publicación mediante Packwiz y GitHub Actions.
+- Distribución mediante GitHub Pages.
+
+### Nexus Core
+- Nexus Core 0.6.6-camera-market-v1.
+
 ## Pack 16.14.1 - TaCZ native class enforcement
 
 - Added TaCZ JS (`taczjs-forge-1.4.2+mc1.20.1.jar`) through packwiz.
