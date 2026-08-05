@@ -1653,7 +1653,7 @@ metafile = true
 
 [[files]]
 file = "mods/fusion-connected-textures.pw.toml"
-hash = "3aecd288d042c0a7a5a3a767afadf86803cb7c0c87ab5d0b19308200116edeea"
+hash = "c007b2a2485325119e54205dae422fc7e8f385b7f655c2becbb0e06c6cddff18"
 metafile = true
 
 [[files]]
@@ -1723,7 +1723,7 @@ metafile = true
 
 [[files]]
 file = "mods/inventory-profiles-next.pw.toml"
-hash = "fa90c23becb1613663b566b5955c0dcdc390caabffc9b323f6642f44811ac4c0"
+hash = "5900123bd3234db14a14722f3a70b4cb89a9405b93820a402a74f8264919a466"
 metafile = true
 
 [[files]]
@@ -1788,7 +1788,7 @@ metafile = true
 
 [[files]]
 file = "mods/libipn.pw.toml"
-hash = "ee79f551b7aede4b923fc6df137c4ebbb1dd21eb80a3aaba6da8be93ac5010e7"
+hash = "0c0340c165c197f65c9bcfb1505457e18ad85268d351b34c3d67a9318a69544a"
 metafile = true
 
 [[files]]
