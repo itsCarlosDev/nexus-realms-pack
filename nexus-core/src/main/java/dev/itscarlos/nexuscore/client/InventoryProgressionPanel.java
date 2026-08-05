@@ -117,8 +117,8 @@ public final class InventoryProgressionPanel {
             graphics.renderComponentTooltip(
                 font,
                 List.of(
-                    Component.literal("Progresión del Nexus"),
-                    Component.literal("Era " + era.roman() + " · " + era.name())
+                    Component.literal("Progresi\u00F3n del Nexus"),
+                    Component.literal("Era " + era.roman() + " - " + era.name())
                 ),
                 event.getMouseX(),
                 event.getMouseY()
