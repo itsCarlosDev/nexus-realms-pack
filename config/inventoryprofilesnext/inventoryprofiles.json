@@ -1,11 +1,11 @@
 {
-    "ModSettings": {
-        "enable_profiles": {
-            "value": false
-        },
-        "first_run": false
+  "ModSettings": {
+    "enable_profiles": {
+      "value": false
     },
-    "GuiSettings": {
-        "continuous_crafting_saved_value": false
-    }
+    "first_run": false
+  },
+  "GuiSettings": {
+    "continuous_crafting_saved_value": false
+  }
 }
