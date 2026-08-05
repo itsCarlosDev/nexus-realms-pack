@@ -626,7 +626,7 @@ hash = "99bea4234878d568ce09ac60eadb97880d42ac2247820c96ab4e14bf1f278e02"
 
 [[files]]
 file = "config/inventoryprofilesnext/inventoryprofiles.json"
-hash = "3d95a94e5801ab53f47d5f57f76ca656a6c5aaa59141200fc9826bee3799b568"
+hash = "27568c8806acea8eebf89d0a3e7cfba0b06f8aa2d89c646b71f7d1ca100e1fda"
 
 [[files]]
 file = "config/logbegone.toml"
