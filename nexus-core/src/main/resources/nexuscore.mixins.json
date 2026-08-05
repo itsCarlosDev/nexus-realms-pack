@@ -13,6 +13,7 @@
     "EpicFightNetworkManagerMixin"
   ],
   "client": [
+    "client.EpicFightClassModeMixin",
     "client.BerserkerSkillMixin",
     "client.GuiExperienceLevelMixin"
   ],
