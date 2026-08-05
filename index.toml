@@ -5,6 +5,10 @@ file = "config/InventoryHUD/curios.json"
 hash = "b98027a7c3a0a1af9479cb6ebd7ba5deccccbdaf043d575f96224a61f14fb5a9"
 
 [[files]]
+file = "config/Obscuria/loot_journal-client.toml"
+hash = "8eb31a530242a716f2dbb73fe90dd63b2b486955855299ab5c885fa66d784f55"
+
+[[files]]
 file = "config/Undead_mobs.toml"
 hash = "c29f4573c1531f5cd6c37e24623a971b4390c00da284f09f9ebe36ccd233c3a7"
 
@@ -90,7 +94,7 @@ hash = "9fc86c0e6fa1e7a8ac050e777c2e702a0758bb05c250bf51cda2ccdcbf8d46c5"
 
 [[files]]
 file = "config/defaultoptions/options.txt"
-hash = "2ace2c282587d2fae88ef552503f253ce83599cf06a04896dba049da65da25f9"
+hash = "af661833cb9c8b32e9e330508e60ab4ef43d87ab26a710a6570a20f280a93422"
 
 [[files]]
 file = "config/drippyloadingscreen/options.txt"
@@ -615,6 +619,14 @@ hash = "745314a1c698699ea1c933542668af6bce7e04f8922bd870d0098dc1de969228"
 [[files]]
 file = "config/inventoryhud-client.toml"
 hash = "45430c44e3b5ad549a3d1f2abec3d75001cf5ad8814df0d67abeea2263fc1831"
+
+[[files]]
+file = "config/inventoryprofilesnext/integrationHints/player-defined.json"
+hash = "99bea4234878d568ce09ac60eadb97880d42ac2247820c96ab4e14bf1f278e02"
+
+[[files]]
+file = "config/inventoryprofilesnext/inventoryprofiles.json"
+hash = "3d95a94e5801ab53f47d5f57f76ca656a6c5aaa59141200fc9826bee3799b568"
 
 [[files]]
 file = "config/logbegone.toml"
@@ -1300,18 +1312,23 @@ hash = "2d862b35349b49f7f636b9bc7d67971d9319e13df3ef1bf1e1d4a8cf35a10bd7"
 metafile = true
 
 [[files]]
+file = "mods/connected-glass.pw.toml"
+hash = "26cfffc0a877575da0a92aa6481b8afd2c9a847731c0f80fe9f8fa014dac87ba"
+metafile = true
+
+[[files]]
 file = "mods/controlling.pw.toml"
 hash = "4063abe583282834b2f78e3b3e6b9ee4d231a680f74c020e405a4ef196f21ee4"
 metafile = true
 
 [[files]]
-file = "mods/coroutil.pw.toml"
-hash = "b2c7739b56ef71f50a86658cfa67375796beafd391c4dbe26a5de8cd92b9b685"
+file = "mods/corail-tombstone.pw.toml"
+hash = "17dd1533cc14ed5b0eeca234ea6b14a6677ba6b1330c29d507d58dffbd1acb6f"
 metafile = true
 
 [[files]]
-file = "mods/corpse.pw.toml"
-hash = "d62480bc696affd0a714d4cd74b5dc64a072b9d67d505b52df87ebcdf9650a79"
+file = "mods/coroutil.pw.toml"
+hash = "b2c7739b56ef71f50a86658cfa67375796beafd391c4dbe26a5de8cd92b9b685"
 metafile = true
 
 [[files]]
@@ -1635,6 +1652,11 @@ hash = "efda76423b21f9bfab4ad8d0411f0b06a199ab7e3e12ca16dc0586c1828b8f07"
 metafile = true
 
 [[files]]
+file = "mods/fusion-connected-textures.pw.toml"
+hash = "3aecd288d042c0a7a5a3a767afadf86803cb7c0c87ab5d0b19308200116edeea"
+metafile = true
+
+[[files]]
 file = "mods/fzzy-config.pw.toml"
 hash = "82c1bd758e0562f94f461b297930876b64c2e99feea47b3815efb3da02e0a059"
 metafile = true
@@ -1700,6 +1722,11 @@ hash = "9928c8f1f67cdc3ccdddef9fe63831a328b44dca1f6be9ebc086fc7d25747826"
 metafile = true
 
 [[files]]
+file = "mods/inventory-profiles-next.pw.toml"
+hash = "fa90c23becb1613663b566b5955c0dcdc390caabffc9b323f6642f44811ac4c0"
+metafile = true
+
+[[files]]
 file = "mods/irons-lib.pw.toml"
 hash = "d088e252d73788a36d179161308ac884f979201fb4ee880473aeb22ede59947a"
 metafile = true
@@ -1757,6 +1784,11 @@ metafile = true
 [[files]]
 file = "mods/lendercataclysm.pw.toml"
 hash = "fbf967b492d575d65f066941652400dc32b998a16ac477a4b8f0efc2f681296a"
+metafile = true
+
+[[files]]
+file = "mods/libipn.pw.toml"
+hash = "ee79f551b7aede4b923fc6df137c4ebbb1dd21eb80a3aaba6da8be93ac5010e7"
 metafile = true
 
 [[files]]
@@ -1876,6 +1908,11 @@ metafile = true
 [[files]]
 file = "mods/playeranimator.pw.toml"
 hash = "765987a78e5d8c782d0da2de99998b43b5907d6c41347d3804045ad109e4a586"
+metafile = true
+
+[[files]]
+file = "mods/playerrevive.pw.toml"
+hash = "93e79f423eafdfeb26a0ce9907f4a7dc63b8fdbb2a8702393b24ceec50954d6d"
 metafile = true
 
 [[files]]
@@ -2024,6 +2061,11 @@ hash = "37339c192fd4f6c634c9482ae6b2c5e9ca0bff959258dd9cd719047aa72c64da"
 metafile = true
 
 [[files]]
+file = "mods/supermartijn642s-core-lib.pw.toml"
+hash = "0582ea67ffb267fb5e2e130cbc1701c8461ea86391cdb80673053ba4bf54da62"
+metafile = true
+
+[[files]]
 file = "mods/sword-soaring.pw.toml"
 hash = "fd4314342ab27256d844fbd0644a51a073afbafd4cea330546b198deeac34816"
 metafile = true
@@ -2036,6 +2078,11 @@ metafile = true
 [[files]]
 file = "mods/tacz-js.pw.toml"
 hash = "cde19e59ab12587b05eca77bc467f0d2a6bf33c26edb5e6edbfa906f249a335b"
+metafile = true
+
+[[files]]
+file = "mods/tacz-sbw-playerrevive-gun-mod-compitability.pw.toml"
+hash = "94461f5f35745fe81fda66f916b7428cbaba9e9eab210d7fb051e87f48e820d2"
 metafile = true
 
 [[files]]
@@ -2081,6 +2128,11 @@ metafile = true
 [[files]]
 file = "mods/tough-as-nails.pw.toml"
 hash = "25a7f3e2027095f0c0ea8d500ed15b2ab58374b5645b248fe28cec570de5ad74"
+metafile = true
+
+[[files]]
+file = "mods/trashslot.pw.toml"
+hash = "310605ccc700e5bdc05c2470da918dc3f7babc23eacfa81937367e461efa2a09"
 metafile = true
 
 [[files]]
@@ -2212,6 +2264,18 @@ metafile = true
 file = "mods/yungs-better-witch-huts.pw.toml"
 hash = "2eb3e909cc46e39d8b9e762f39c36b0579744118d619beb6a174d264951d6248"
 metafile = true
+
+[[files]]
+file = "resourcepacks/NexusRealms/assets/minecraft/sounds.json"
+hash = "4335136273901c04eea150da9d959ff4087609fdada6330673e5e414fb6fda3f"
+
+[[files]]
+file = "resourcepacks/NexusRealms/assets/nexus/sounds/music/nexus_main_theme.ogg"
+hash = "66f5e5714647da7e8382a0afcc4159aa24785438c44d5cb14f3a05571bd3c031"
+
+[[files]]
+file = "resourcepacks/NexusRealms/pack.mcmeta"
+hash = "dd46f70f7202e3911e1723357e6dbaa50668ef2e10a523fb77921561ac4415d8"
 
 [[files]]
 file = "resourcepacks/NexusRealms_ES/assets/nexusrealms/textures/skills/woodcutting.png"

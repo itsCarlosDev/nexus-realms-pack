@@ -93,14 +93,14 @@ public final class MarketProtectionCommands {
             return 0;
         }
 
-        source.sendSuccess(() -> Component.literal("Protección del Nexus Market activada."), true);
+        source.sendSuccess(() -> Component.literal("Proteccion del Nexus Market activada."), true);
         return 1;
     }
 
     private static int disable(CommandSourceStack source) {
         MarketProtectionData.get(source.getServer()).disable();
         source.sendSuccess(
-            () -> Component.literal("Protección del Nexus Market desactivada; la configuración se conserva."),
+            () -> Component.literal("Proteccion del Nexus Market desactivada; la configuración se conserva."),
             true
         );
         return 1;
@@ -109,7 +109,7 @@ public final class MarketProtectionCommands {
     private static int status(CommandSourceStack source) {
         MarketProtectionData data = MarketProtectionData.get(source.getServer());
         source.sendSuccess(
-            () -> Component.literal("Protección Nexus Market: " + (data.enabled() ? "ACTIVADA" : "DESACTIVADA")),
+            () -> Component.literal("Proteccion Nexus Market: " + (data.enabled() ? "ACTIVADA" : "DESACTIVADA")),
             false
         );
         source.sendSuccess(

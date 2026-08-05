@@ -1,0 +1,233 @@
+diff --git a/nexus-core/build.gradle b/nexus-core/build.gradle
+index 2a8f457..810c5ad 100644
+--- a/nexus-core/build.gradle
++++ b/nexus-core/build.gradle
+@@ -5,7 +5,7 @@ plugins {
+     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+ }
+ 
+-version = '0.6.6'
++version = '0.6.7'
+ group = 'dev.itscarlos'
+ 
+ base {
+@@ -30,6 +30,8 @@ minecraft {
+             workingDirectory project.file('run')
+             property 'forge.logging.markers', 'REGISTRIES'
+             property 'forge.logging.console.level', 'debug'
++            property 'mixin.env.remapRefMap', 'true'
++            property 'mixin.env.refMapRemappingFile', project.file('build/createSrgToMcp/output.srg').absolutePath
+             mods {
+                 nexuscore {
+                     source sourceSets.main
+@@ -41,6 +43,8 @@ minecraft {
+             workingDirectory project.file('run')
+             property 'forge.logging.markers', 'REGISTRIES'
+             property 'forge.logging.console.level', 'debug'
++            property 'mixin.env.remapRefMap', 'true'
++            property 'mixin.env.refMapRemappingFile', project.file('build/createSrgToMcp/output.srg').absolutePath
+             args '--nogui'
+             mods {
+                 nexuscore {
+@@ -51,8 +55,37 @@ minecraft {
+     }
+ }
+ 
++repositories {
++    maven {
++        url = 'https://maven.latvian.dev/releases'
++        content {
++            includeGroup 'dev.latvian.mods'
++            includeGroup 'dev.latvian.apps'
++        }
++    }
++    maven {
++        url = 'https://maven.architectury.dev/'
++        content {
++            includeGroup 'dev.architectury'
++        }
++    }
++    maven {
++        url = 'https://jitpack.io'
++        content {
++            includeGroup 'com.github.rtyley'
++        }
++    }
++}
++
+ dependencies {
+     minecraft 'net.minecraftforge:forge:1.20.1-47.4.10'
++
++    // Keep userdev on the same real KubeJS stack as the Packwiz pack. These
++    // dependencies are runtime-only: Nexus Core remains reflectively coupled
++    // and its production JAR does not bundle KubeJS or its dependencies.
++    runtimeOnly fg.deobf('dev.architectury:architectury-forge:9.2.14')
++    runtimeOnly fg.deobf('dev.latvian.mods:rhino-forge:2001.2.3-build.10')
++    runtimeOnly fg.deobf('dev.latvian.mods:kubejs-forge:2001.6.5-build.26')
+ }
+ 
+ tasks.named('processResources', ProcessResources).configure {
+@@ -135,10 +168,19 @@ tasks.register('cameraIntegrationPolicyCheck', JavaExec) {
+     mainClass = 'dev.itscarlos.nexuscore.camera.CameraIntegrationPolicyCheck'
+ }
+ 
++tasks.register('shutdownHangDiagnosticCheck', JavaExec) {
++    group = 'verification'
++    description = 'Validates shutdown watchdog safety and JVM report structure.'
++    dependsOn tasks.named('testClasses')
++    classpath = sourceSets.test.runtimeClasspath
++    mainClass = 'dev.itscarlos.nexuscore.diagnostics.ShutdownHangDiagnosticCheck'
++}
++
+ tasks.named('check') {
+     dependsOn tasks.named('automobilityMarketPolicyCheck')
+     dependsOn tasks.named('cameraIntegrationPolicyCheck')
+     dependsOn tasks.named('marketProtectionCheck')
+     dependsOn tasks.named('marketSpawnPolicyCheck')
+     dependsOn tasks.named('keybindProfilePolicyCheck')
++    dependsOn tasks.named('shutdownHangDiagnosticCheck')
+ }
+diff --git a/nexus-core/src/main/java/dev/itscarlos/nexuscore/NexusCore.java b/nexus-core/src/main/java/dev/itscarlos/nexuscore/NexusCore.java
+index 21632e7..500d271 100644
+--- a/nexus-core/src/main/java/dev/itscarlos/nexuscore/NexusCore.java
++++ b/nexus-core/src/main/java/dev/itscarlos/nexuscore/NexusCore.java
+@@ -14,7 +14,7 @@ import org.slf4j.Logger;
+ public final class NexusCore {
+     public static final String MOD_ID = "nexuscore";
+     public static final String BUILD_ID =
+-        "0.6.6-camera-market-v1";
++        "0.6.7-shutdown-diagnostic-v1";
+     public static final Logger LOGGER = LogUtils.getLogger();
+ 
+     public NexusCore() {
+diff --git a/nexus-core/src/main/java/dev/itscarlos/nexuscore/market/MarketProtectionCommands.java b/nexus-core/src/main/java/dev/itscarlos/nexuscore/market/MarketProtectionCommands.java
+index 0500e71..4a63a07 100644
+--- a/nexus-core/src/main/java/dev/itscarlos/nexuscore/market/MarketProtectionCommands.java
++++ b/nexus-core/src/main/java/dev/itscarlos/nexuscore/market/MarketProtectionCommands.java
+@@ -93,14 +93,14 @@ public final class MarketProtectionCommands {
+             return 0;
+         }
+ 
+-        source.sendSuccess(() -> Component.literal("Protecci├│n del Nexus Market activada."), true);
++        source.sendSuccess(() -> Component.literal("Proteccion del Nexus Market activada."), true);
+         return 1;
+     }
+ 
+     private static int disable(CommandSourceStack source) {
+         MarketProtectionData.get(source.getServer()).disable();
+         source.sendSuccess(
+-            () -> Component.literal("Protecci├│n del Nexus Market desactivada; la configuraci├│n se conserva."),
++            () -> Component.literal("Proteccion del Nexus Market desactivada; la configuraci├│n se conserva."),
+             true
+         );
+         return 1;
+@@ -109,7 +109,7 @@ public final class MarketProtectionCommands {
+     private static int status(CommandSourceStack source) {
+         MarketProtectionData data = MarketProtectionData.get(source.getServer());
+         source.sendSuccess(
+-            () -> Component.literal("Protecci├│n Nexus Market: " + (data.enabled() ? "ACTIVADA" : "DESACTIVADA")),
++            () -> Component.literal("Proteccion Nexus Market: " + (data.enabled() ? "ACTIVADA" : "DESACTIVADA")),
+             false
+         );
+         source.sendSuccess(
+diff --git a/nexus-core/src/main/java/dev/itscarlos/nexuscore/progression/KubeJsServerData.java b/nexus-core/src/main/java/dev/itscarlos/nexuscore/progression/KubeJsServerData.java
+index b31bd7a..4feafdb 100644
+--- a/nexus-core/src/main/java/dev/itscarlos/nexuscore/progression/KubeJsServerData.java
++++ b/nexus-core/src/main/java/dev/itscarlos/nexuscore/progression/KubeJsServerData.java
+@@ -3,36 +3,85 @@ package dev.itscarlos.nexuscore.progression;
+ import dev.itscarlos.nexuscore.NexusCore;
+ import java.lang.reflect.Method;
+ import java.util.Map;
++import java.util.Optional;
++import java.util.Set;
+ import java.util.concurrent.ConcurrentHashMap;
+ import net.minecraft.nbt.CompoundTag;
+ import net.minecraft.server.MinecraftServer;
+ 
+ public final class KubeJsServerData {
++    private static final String PERSISTENT_DATA_INTERFACE =
++        "dev.latvian.mods.kubejs.core.WithPersistentData";
+     private static final String ACCESSOR = "kjs$getPersistentData";
+     private static final long CAMPAIGN_DAY_MILLIS = 86_400_000L;
+     private static final int CAMPAIGN_LENGTH_DAYS = 30;
+-    private static final Map<Class<?>, Method> ACCESSORS = new ConcurrentHashMap<>();
++    private static final Map<Class<?>, Optional<Method>> ACCESSORS = new ConcurrentHashMap<>();
++    private static final Set<Class<?>> INVOCATION_WARNINGS = ConcurrentHashMap.newKeySet();
+ 
+     private KubeJsServerData() {
+     }
+ 
+     public static CompoundTag get(MinecraftServer server) {
++        Optional<Method> resolved = ACCESSORS.computeIfAbsent(
++            server.getClass(),
++            KubeJsServerData::resolveAccessor
++        );
++        if (resolved.isEmpty()) {
++            return null;
++        }
++
+         try {
+-            Method accessor = ACCESSORS.computeIfAbsent(server.getClass(), type -> {
+-                try {
+-                    return type.getMethod(ACCESSOR);
+-                } catch (ReflectiveOperationException exception) {
+-                    throw new IllegalStateException(exception);
+-                }
+-            });
+-            Object value = accessor.invoke(server);
++            Object value = resolved.get().invoke(server);
+             return value instanceof CompoundTag tag ? tag : null;
+-        } catch (Exception exception) {
+-            NexusCore.LOGGER.error("Unable to read KubeJS server persistentData.", exception);
++        } catch (ReflectiveOperationException exception) {
++            if (INVOCATION_WARNINGS.add(server.getClass())) {
++                NexusCore.LOGGER.error(
++                    "Unable to invoke KubeJS server persistentData accessor; "
++                        + "progression data is unavailable for this server instance.",
++                    exception
++                );
++            }
+             return null;
+         }
+     }
+ 
++    private static Optional<Method> resolveAccessor(Class<?> serverType) {
++        try {
++            Class<?> persistentDataInterface = Class.forName(
++                PERSISTENT_DATA_INTERFACE,
++                false,
++                serverType.getClassLoader()
++            );
++            if (!persistentDataInterface.isAssignableFrom(serverType)) {
++                NexusCore.LOGGER.warn(
++                    "KubeJS persistentData interface is present but was not injected into {}; "
++                        + "progression data is unavailable.",
++                    serverType.getName()
++                );
++                return Optional.empty();
++            }
++
++            Method accessor = persistentDataInterface.getMethod(ACCESSOR);
++            NexusCore.LOGGER.info(
++                "KubeJS server persistentData integration active via {}.",
++                PERSISTENT_DATA_INTERFACE
++            );
++            return Optional.of(accessor);
++        } catch (ClassNotFoundException exception) {
++            NexusCore.LOGGER.warn(
++                "KubeJS persistentData interface is unavailable; progression data is unavailable."
++            );
++            return Optional.empty();
++        } catch (NoSuchMethodException exception) {
++            NexusCore.LOGGER.warn(
++                "KubeJS persistentData interface does not expose {}; progression data is unavailable.",
++                ACCESSOR,
++                exception
++            );
++            return Optional.empty();
++        }
++    }
++
+     public static ProgressionState readProgression(MinecraftServer server) {
+         CompoundTag data = get(server);
+         if (data == null) {
