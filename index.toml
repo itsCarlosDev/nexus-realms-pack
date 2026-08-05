@@ -90,7 +90,7 @@ hash = "9fc86c0e6fa1e7a8ac050e777c2e702a0758bb05c250bf51cda2ccdcbf8d46c5"
 
 [[files]]
 file = "config/defaultoptions/options.txt"
-hash = "2ace2c282587d2fae88ef552503f253ce83599cf06a04896dba049da65da25f9"
+hash = "af661833cb9c8b32e9e330508e60ab4ef43d87ab26a710a6570a20f280a93422"
 
 [[files]]
 file = "config/drippyloadingscreen/options.txt"
@@ -2212,6 +2212,18 @@ metafile = true
 file = "mods/yungs-better-witch-huts.pw.toml"
 hash = "2eb3e909cc46e39d8b9e762f39c36b0579744118d619beb6a174d264951d6248"
 metafile = true
+
+[[files]]
+file = "resourcepacks/NexusRealms/assets/minecraft/sounds.json"
+hash = "4335136273901c04eea150da9d959ff4087609fdada6330673e5e414fb6fda3f"
+
+[[files]]
+file = "resourcepacks/NexusRealms/assets/nexus/sounds/music/nexus_main_theme.ogg"
+hash = "66f5e5714647da7e8382a0afcc4159aa24785438c44d5cb14f3a05571bd3c031"
+
+[[files]]
+file = "resourcepacks/NexusRealms/pack.mcmeta"
+hash = "dd46f70f7202e3911e1723357e6dbaa50668ef2e10a523fb77921561ac4415d8"
 
 [[files]]
 file = "resourcepacks/NexusRealms_ES/assets/nexusrealms/textures/skills/woodcutting.png"
