@@ -2061,6 +2061,11 @@ hash = "37339c192fd4f6c634c9482ae6b2c5e9ca0bff959258dd9cd719047aa72c64da"
 metafile = true
 
 [[files]]
+file = "mods/superior-hammers.pw.toml"
+hash = "3fcb389a21390d8fbd0ee304c6d47c22aabf23d90439fb2c8fdb25f649411c31"
+metafile = true
+
+[[files]]
 file = "mods/supermartijn642s-core-lib.pw.toml"
 hash = "0582ea67ffb267fb5e2e130cbc1701c8461ea86391cdb80673053ba4bf54da62"
 metafile = true
