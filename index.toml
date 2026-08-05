@@ -1821,7 +1821,7 @@ metafile = true
 
 [[files]]
 file = "mods/nexus-core-0.6.6.jar"
-hash = "96b525f681d5c97ca51c317f38091bb7e1f09c5aa1dfdab8bcaf773a0c425a6f"
+hash = "c7b6cce053d1a9161b5b73539cafdcae01537e16b179109e3a618af995c95ed0"
 
 [[files]]
 file = "mods/not-enough-animations.pw.toml"
