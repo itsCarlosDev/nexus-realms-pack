@@ -1883,6 +1883,11 @@ hash = "765987a78e5d8c782d0da2de99998b43b5907d6c41347d3804045ad109e4a586"
 metafile = true
 
 [[files]]
+file = "mods/playerrevive.pw.toml"
+hash = "93e79f423eafdfeb26a0ce9907f4a7dc63b8fdbb2a8702393b24ceec50954d6d"
+metafile = true
+
+[[files]]
 file = "mods/pots-and-mimics-rpg.pw.toml"
 hash = "cc335b14ea69222d7aa291f5faf4eeb8d27d1246c22c305a73c7a01f31e98d67"
 metafile = true
@@ -2040,6 +2045,11 @@ metafile = true
 [[files]]
 file = "mods/tacz-js.pw.toml"
 hash = "cde19e59ab12587b05eca77bc467f0d2a6bf33c26edb5e6edbfa906f249a335b"
+metafile = true
+
+[[files]]
+file = "mods/tacz-sbw-playerrevive-gun-mod-compitability.pw.toml"
+hash = "94461f5f35745fe81fda66f916b7428cbaba9e9eab210d7fb051e87f48e820d2"
 metafile = true
 
 [[files]]
