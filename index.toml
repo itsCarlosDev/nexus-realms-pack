@@ -5,6 +5,10 @@ file = "config/InventoryHUD/curios.json"
 hash = "b98027a7c3a0a1af9479cb6ebd7ba5deccccbdaf043d575f96224a61f14fb5a9"
 
 [[files]]
+file = "config/Obscuria/loot_journal-client.toml"
+hash = "8eb31a530242a716f2dbb73fe90dd63b2b486955855299ab5c885fa66d784f55"
+
+[[files]]
 file = "config/Undead_mobs.toml"
 hash = "c29f4573c1531f5cd6c37e24623a971b4390c00da284f09f9ebe36ccd233c3a7"
 
