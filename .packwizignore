@@ -44,3 +44,4 @@ config/voicechat/voicechat-server.properties
 # Unused Simple Custom Early Loading assets.
 config/simple-custom-early-loading/logo.gif
 config/simple-custom-early-loading/logo.png
+nexus-before-epicfight-class-fix.diff

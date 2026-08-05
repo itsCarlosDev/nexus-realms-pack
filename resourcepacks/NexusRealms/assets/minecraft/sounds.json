@@ -1,0 +1,11 @@
+{
+  "music.menu": {
+    "replace": true,
+    "sounds": [
+      {
+        "name": "nexus:music/nexus_main_theme",
+        "stream": true
+      }
+    ]
+  }
+}
