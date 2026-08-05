@@ -6,7 +6,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
 }
 
-version = '0.6.9'
+version = '0.6.10'
 group = 'dev.itscarlos'
 
 base {
@@ -126,6 +126,8 @@ tasks.named('processResources', ProcessResources).configure {
 }
 
 tasks.named('jar', Jar).configure {
+    finalizedBy 'reobfJar'
+    
     preserveFileTimestamps = false
     reproducibleFileOrder = true
 
