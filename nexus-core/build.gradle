@@ -5,7 +5,7 @@ plugins {
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
 }
 
-version = '0.6.6'
+version = '0.6.7'
 group = 'dev.itscarlos'
 
 base {
@@ -30,6 +30,8 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', project.file('build/createSrgToMcp/output.srg').absolutePath
             mods {
                 nexuscore {
                     source sourceSets.main
@@ -41,6 +43,8 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', project.file('build/createSrgToMcp/output.srg').absolutePath
             args '--nogui'
             mods {
                 nexuscore {
@@ -51,8 +55,44 @@ minecraft {
     }
 }
 
+tasks.withType(net.minecraftforge.gradle.common.util.runs.MinecraftRunTask)
+    .matching { it.name == 'runServer' }
+    .configureEach {
+        // ForgeGradle leaves run-task stdin disconnected; only the local server needs console commands.
+        standardInput = System.in
+    }
+
+repositories {
+    maven {
+        url = 'https://maven.latvian.dev/releases'
+        content {
+            includeGroup 'dev.latvian.mods'
+            includeGroup 'dev.latvian.apps'
+        }
+    }
+    maven {
+        url = 'https://maven.architectury.dev/'
+        content {
+            includeGroup 'dev.architectury'
+        }
+    }
+    maven {
+        url = 'https://jitpack.io'
+        content {
+            includeGroup 'com.github.rtyley'
+        }
+    }
+}
+
 dependencies {
     minecraft 'net.minecraftforge:forge:1.20.1-47.4.10'
+
+    // Keep userdev on the same real KubeJS stack as the Packwiz pack. These
+    // dependencies are runtime-only: Nexus Core remains reflectively coupled
+    // and its production JAR does not bundle KubeJS or its dependencies.
+    runtimeOnly fg.deobf('dev.architectury:architectury-forge:9.2.14')
+    runtimeOnly fg.deobf('dev.latvian.mods:rhino-forge:2001.2.3-build.10')
+    runtimeOnly fg.deobf('dev.latvian.mods:kubejs-forge:2001.6.5-build.26')
 }
 
 tasks.named('processResources', ProcessResources).configure {
@@ -135,10 +175,19 @@ tasks.register('cameraIntegrationPolicyCheck', JavaExec) {
     mainClass = 'dev.itscarlos.nexuscore.camera.CameraIntegrationPolicyCheck'
 }
 
+tasks.register('shutdownHangDiagnosticCheck', JavaExec) {
+    group = 'verification'
+    description = 'Validates shutdown watchdog safety and JVM report structure.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'dev.itscarlos.nexuscore.diagnostics.ShutdownHangDiagnosticCheck'
+}
+
 tasks.named('check') {
     dependsOn tasks.named('automobilityMarketPolicyCheck')
     dependsOn tasks.named('cameraIntegrationPolicyCheck')
     dependsOn tasks.named('marketProtectionCheck')
     dependsOn tasks.named('marketSpawnPolicyCheck')
     dependsOn tasks.named('keybindProfilePolicyCheck')
+    dependsOn tasks.named('shutdownHangDiagnosticCheck')
 }
