@@ -110,7 +110,7 @@
 	#Whether zombie players, drowned players and husk players are immune to all damage from non player sources.
 	zombiePlayersOnlyHurtByPlayers = false
 	#Whether zombie players, drowned players and husk players store items dropped by the player that spawned them.
-	zombiePlayersStoreItems = true
+	zombiePlayersStoreItems = false
 	#Do zombie players despawn in peaceful mode?
 	zombiePlayersDespawnPeaceful = false
 
