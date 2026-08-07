@@ -327,19 +327,24 @@ else
       for runtime_file in \
         'NexusServerPatcher.java' \
         'templates/journeymap.server.global.config'; do
-        expected_runtime_hash="$(
-          awk -v file="$runtime_file" '
-            $2 == file && $1 ~ /^[0-9a-fA-F]{64}$/ {
-              print toupper($1)
-              count++
-            }
-            END {
-              if (count != 1) {
-                exit 1
-              }
-            }
-          ' "$runtime_hashes"
-        )" || fail "Invalid runtime hash entry: $runtime_file"
+       expected_runtime_hash=''
+        runtime_match_count=0
+
+        while read -r runtime_hash runtime_name runtime_extra; do
+          runtime_hash="${runtime_hash%$'\r'}"
+          runtime_name="${runtime_name%$'\r'}"
+
+          if [ "$runtime_name" = "$runtime_file" ] &&
+             [ "${#runtime_hash}" -eq 64 ] &&
+             [[ "$runtime_hash" =~ ^[0-9a-fA-F]+$ ]]; then
+            expected_runtime_hash="${runtime_hash^^}"
+            runtime_match_count=$((runtime_match_count + 1))
+          fi
+        done < "$runtime_hashes"
+
+        if [ "$runtime_match_count" -ne 1 ]; then
+          fail "Invalid runtime hash entry: $runtime_file"
+        fi
         runtime_download="$work_dir/$(basename -- "$runtime_file")"
         curl --fail --silent --show-error --location \
           --connect-timeout 10 --max-time 30 \
