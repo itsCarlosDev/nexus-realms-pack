@@ -6,7 +6,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
 }
 
-version = '0.6.11'
+version = '0.6.12'
 group = 'dev.itscarlos'
 
 base {
@@ -83,6 +83,12 @@ repositories {
             includeGroup 'com.github.rtyley'
         }
     }
+    maven {
+        url = 'https://www.cursemaven.com'
+        content {
+            includeGroup 'curse.maven'
+        }
+    }
 }
 
 dependencies {
@@ -94,6 +100,7 @@ dependencies {
     runtimeOnly fg.deobf('dev.architectury:architectury-forge:9.2.14')
     runtimeOnly fg.deobf('dev.latvian.mods:rhino-forge:2001.2.3-build.10')
     runtimeOnly fg.deobf('dev.latvian.mods:kubejs-forge:2001.6.5-build.26')
+    compileOnly fg.deobf('curse.maven:curios-309927:6418456')
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 

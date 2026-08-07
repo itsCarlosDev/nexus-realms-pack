@@ -31,7 +31,7 @@
       max: 5
     }
     tpa: {
-      enabled: true
+      enabled: false
       cooldown: 10
       warmup: 3
     }

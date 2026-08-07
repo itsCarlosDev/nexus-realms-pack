@@ -35,7 +35,7 @@ public final class ClassSyncEvents {
         PlayerEvent.PlayerLoggedInEvent event
     ) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            sync(player, true);
+            sync(player, true, false);
         }
     }
 
@@ -44,7 +44,7 @@ public final class ClassSyncEvents {
         PlayerEvent.PlayerRespawnEvent event
     ) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            sync(player, true);
+            sync(player, true, false);
         }
     }
 
@@ -53,7 +53,7 @@ public final class ClassSyncEvents {
         PlayerEvent.PlayerChangedDimensionEvent event
     ) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            sync(player, true);
+            sync(player, true, false);
         }
     }
 
@@ -89,13 +89,29 @@ public final class ClassSyncEvents {
             return;
         }
 
-        sync(player, false);
+        sync(player, false, false);
+    }
+
+    /**
+     * Sends the fully reconciled class immediately. This is the only sync
+     * entry point intended for the transaction authority after commit/repair.
+     */
+    public static void forceSync(ServerPlayer player) {
+        sync(player, true, true);
     }
 
     private static void sync(
         ServerPlayer player,
-        boolean force
+        boolean force,
+        boolean allowDuringTransaction
     ) {
+        if (
+            !allowDuringTransaction
+            && ClassData.hasActiveClassChangeJournal(player)
+        ) {
+            return;
+        }
+
         NexusClass currentClass =
             ClassData.getPlayerClass(player);
 
