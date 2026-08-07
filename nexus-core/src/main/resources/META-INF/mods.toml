@@ -29,3 +29,10 @@ mandatory=true
 versionRange="[2001.6.5,)"
 ordering="AFTER"
 side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="curios"
+mandatory=true
+versionRange="[5.14.1,5.15)"
+ordering="AFTER"
+side="BOTH"

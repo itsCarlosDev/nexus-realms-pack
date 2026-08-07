@@ -75,7 +75,7 @@ public final class MarketProtectionEvents {
         Component.literal("Bienvenido al mercado, el Nexus protege esta zona.");
 
     private static final Component EXIT_MESSAGE =
-        Component.literal("Has abandonado la protección del Nexus.");
+        Component.literal("Has abandonado la proteccion del Nexus.");
 
     /*
      * Las entidades generadas por nexus_horde_director.js reciben una

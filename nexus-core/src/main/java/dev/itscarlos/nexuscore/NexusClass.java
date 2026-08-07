@@ -37,4 +37,21 @@ public enum NexusClass {
             default -> NONE;
         };
     }
+
+    /**
+     * Parses the authoritative persistent class field. Unlike {@link #fromId},
+     * this deliberately rejects UI aliases and specialization identifiers.
+     */
+    public static NexusClass fromPersistentId(String value) {
+        if (value == null) {
+            return NONE;
+        }
+
+        return switch (value.trim()) {
+            case "warrior" -> WARRIOR;
+            case "mage" -> MAGE;
+            case "gunslinger" -> GUNSLINGER;
+            default -> NONE;
+        };
+    }
 }

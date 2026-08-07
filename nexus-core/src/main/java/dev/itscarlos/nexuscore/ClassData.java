@@ -18,15 +18,23 @@ public final class ClassData {
     }
 
     public static NexusClass getPlayerClass(ServerPlayer player) {
-        NexusClass persistentClass = NexusClass.fromId(
-            getPersistentRoleValue(
-                player,
-                "nexus_class"
-            )
+        String persistentValue = getPersistentRoleValue(
+            player,
+            "nexus_class"
         );
+        NexusClass persistentClass =
+            NexusClass.fromPersistentId(persistentValue);
 
         if (persistentClass != NexusClass.NONE) {
             return persistentClass;
+        }
+
+        /*
+         * A non-empty invalid value is authoritative corruption. Do not mask
+         * it with a stale scoreboard tag; /nexus_repairclass must reconcile it.
+         */
+        if (!persistentValue.isBlank()) {
+            return NexusClass.NONE;
         }
 
         if (player.getTags().contains("nexus_class_warrior")) {
@@ -61,6 +69,19 @@ public final class ClassData {
         return kubeJsData == null
             ? ""
             : kubeJsData.getString(key);
+    }
+
+    static boolean hasActiveClassChangeJournal(
+        ServerPlayer player
+    ) {
+        String phase = getPersistentRoleValue(
+            player,
+            "nexus_class_change_phase"
+        );
+
+        return !phase.isBlank()
+            && !"IDLE".equals(phase)
+            && !"COMPLETED".equals(phase);
     }
 
     private static CompoundTag getKubeJsPersistentData(

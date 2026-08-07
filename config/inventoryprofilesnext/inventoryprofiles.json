@@ -1,11 +1,19 @@
 {
-  "ModSettings": {
-    "enable_profiles": {
-      "value": false
+    "ModSettings": {
+        "enable_profiles": {
+            "value": false
+        },
+        "first_run": false
     },
-    "first_run": false
-  },
-  "GuiSettings": {
-    "continuous_crafting_saved_value": false
-  }
+    "GuiSettings": {
+        "continuous_crafting_saved_value": false
+    },
+    "AutoRefillSettings": {
+        "visual_replace_success_notification": {
+            "value": false
+        },
+        "visual_replace_failed_notification": {
+            "value": false
+        }
+    }
 }
