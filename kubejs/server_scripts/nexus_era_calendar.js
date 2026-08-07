@@ -1047,7 +1047,6 @@ function nexusEraClearGlobalHorde(data) {
   )
 }
 
-
 function nexusCampaignResetProduction(
   server
 ) {
@@ -2605,6 +2604,28 @@ function nexusEraConfirmStartedHorde(
   )
 }
 
+// Compatibilidad con The Hordes.
+// 1.6.3f usa isActive(ServerPlayer).
+// Versiones posteriores pueden usar isActive().
+function nexusEraNativeHordeIsActive(
+  horde,
+  player
+) {
+  if (!horde || !player) {
+    return false
+  }
+
+  try {
+    return Boolean(
+      horde.isActive()
+    )
+  } catch (noArgumentMethodUnavailable) {
+    return Boolean(
+      horde.isActive(player)
+    )
+  }
+}
+
 function nexusEraValidatePendingStart(
   server
 ) {
@@ -2656,7 +2677,10 @@ function nexusEraValidatePendingStart(
   ) {
     try {
       if (
-        pending.horde.isActive()
+        nexusEraNativeHordeIsActive(
+          pending.horde,
+          player
+        )
       ) {
         nexusEraConfirmStartedHorde(
           data,
