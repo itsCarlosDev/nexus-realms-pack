@@ -221,6 +221,8 @@ verify_protected_unchanged() {
   fi
 }
 
+published_commit=''
+
 pack_available=true
 if ! curl --fail --silent --show-error --location \
   --connect-timeout 10 --max-time 30 \
@@ -238,6 +240,27 @@ if [ "$pack_available" = false ]; then
   log '[WARN] Pack unavailable; validating the installed server before offline start.'
 else
   pack_base="${NEXUS_PACK_URL%/*}"
+  manifest_url="$pack_base/manifest.json"
+
+  curl --fail --silent --show-error --location \
+    --connect-timeout 10 --max-time 30 \
+    "$manifest_url" \
+    -o "$work_dir/manifest.json"
+
+  published_commit="$(
+    sed -n -E \
+      's/^[[:space:]]*"commit"[[:space:]]*:[[:space:]]*"([0-9a-fA-F]{40})".*$/\1/p' \
+      "$work_dir/manifest.json" |
+      head -n 1 |
+      tr 'A-F' 'a-f'
+  )"
+
+  if ! printf '%s\n' "$published_commit" |
+    grep -Eq '^[0-9a-f]{40}$'; then
+    fail 'Published manifest does not contain a valid commit.'
+  fi
+
+  log "Published Nexus release: $published_commit"
   index_file="$(
     awk '
       /^\[index\]$/ { in_index = 1; next }
@@ -411,6 +434,20 @@ fi
 
 log 'Update validation completed; protected operational state is unchanged.'
 
+if [ -n "${published_commit:-}" ]; then
+  installed_release_tmp="$SERVER_ROOT/.nexus-installed-release.tmp"
+  installed_release="$SERVER_ROOT/.nexus-installed-release"
+
+  printf '%s\n' "$published_commit" \
+    > "$installed_release_tmp"
+
+  mv -f \
+    "$installed_release_tmp" \
+    "$installed_release"
+
+  log "Installed Nexus release: $published_commit"
+fi
+
 if [ "$NEXUS_PREPARE_ONLY" = true ]; then
   log 'NEXUS_PREPARE_ONLY=true; Forge launch skipped.'
   exit 0
@@ -419,6 +456,28 @@ fi
 log 'Starting Forge 1.20.1-47.4.10 with the validated Unix argument file.'
 cd -- "$SERVER_ROOT"
 "$JAVA_BIN" @user_jvm_args.txt "@$FORGE_ARGS" nogui
+
 server_exit=$?
+
 log "Forge exited with code $server_exit."
+
+update_request="$SERVER_ROOT/.nexus-update-requested"
+
+if [ -f "$update_request" ]; then
+  requested_release="$(
+    tr -d '\r\n' < "$update_request"
+  )"
+
+  rm -f -- "$update_request"
+
+  log \
+    "Automatic Nexus update restart requested: $requested_release"
+
+  # Liberar lock y staging antes de volver a ejecutar el updater.
+  cleanup
+  trap - EXIT
+
+  exec bash "$SCRIPT_DIR/update-server.sh"
+fi
+
 exit "$server_exit"

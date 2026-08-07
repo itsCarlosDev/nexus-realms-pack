@@ -538,7 +538,7 @@ hash = "a3b9a27731c57319cd942ccf32d72db39ff4cd741e49db74fed897c41c40a44d"
 
 [[files]]
 file = "config/hordes-common.toml"
-hash = "3ef03dbe41773ad0843f9f7f72ee74ddebc4204907683ab32c4785d1c0badd4a"
+hash = "547045ab1f807d494f22c6580cc9b04e5cdb8b2b8b5488249c54f0c6d814262f"
 
 [[files]]
 file = "config/hordes/data/hordes/horde_data/scripts/default.json"
@@ -1860,8 +1860,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.11.jar"
-hash = "d2d0fdcc072a40c205a14edd79bfe64aff63c98a6bc0a8a29df2fe56cd26783f"
+file = "mods/nexus-core-0.6.13.jar"
+hash = "57bf0e1e4d47367d6197455ba9761006e1c79b7cab23fcf6678c5312002cbf5a"
 
 [[files]]
 file = "mods/not-enough-animations.pw.toml"
