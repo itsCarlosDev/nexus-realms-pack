@@ -10,16 +10,20 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Keeps Epic Fight exclusive to the Warrior class.
+ * Keeps Epic Fight exclusive to the local Warrior player.
  *
  * Epic Tweaks may request Battle Mode automatically when the held item is
  * considered a combat item. Gunslingers and Mages must still be able to use
  * vanilla swords, but those swords must remain in vanilla combat mode.
+ *
+ * This mixin intentionally targets LocalPlayerPatch rather than PlayerPatch:
+ * remote players must still be allowed to enter Epic Fight mode so their
+ * animations are rendered correctly on non-Warrior clients.
  */
 @Pseudo
 @Mixin(
     targets =
-        "yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch",
+        "yesman.epicfight.client.world.capabilites.entitypatch.player.LocalPlayerPatch",
     remap = false,
     priority = 1500
 )
@@ -42,21 +46,22 @@ public abstract class EpicFightClassModeMixin {
     ) {
         /*
          * Do not make a class decision before the authoritative server state
-         * has reached the client. This prevents an incorrect restriction
-         * during login and dimension transitions.
+         * has reached the client.
          */
         if (!ClientClassState.isSynchronizedFromServer()) {
             return;
         }
 
+        /*
+         * Warriors may use Epic Fight normally.
+         */
         if (ClientClassState.get() == NexusClass.WARRIOR) {
             return;
         }
 
         /*
-         * A Mage, Gunslinger or synchronized player without a class must not
-         * enter Epic Fight mode. Force vanilla mode in case Battle Mode was
-         * already active, then cancel the attempted transition.
+         * Only the LOCAL Mage/Gunslinger is forced to vanilla mode.
+         * Remote Warrior players are not affected by this mixin.
          */
         this.toVanillaMode(synchronize);
         callbackInfo.cancel();
