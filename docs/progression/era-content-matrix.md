@@ -33,7 +33,7 @@ existentes. Los portales y accesos siguen siendo los nativos de cada dimensión.
 ## Especializaciones del Mago
 
 - **Arcanista:** futura especialización de Iron's Spells. La matriz ya separa iniciación, desarrollo, avanzado y endgame, pero no crea todavía su stage ni selector.
-- **Metalomante (`metallurgist`):** especialización avanzada y mutuamente excluyente del Mago. Allomancy usa Mage AND `nexus_specialization_metallurgist`: ocho poderes básicos en Era III y metales avanzados/Lerasium en Era IV. No es una cuarta clase.
+- **Metalomante (`metallurgist`):** especialización disponible desde el inicio y mutuamente excluyente del Mago. Allomancy usa Mage AND `nexus_specialization_metallurgist` y concede sus ocho poderes básicos al entrar; los objetos básicos y avanzados conservan por separado su balance global de Era III/IV. No es una cuarta clase.
 
 ## Preparación tecnológica futura
 

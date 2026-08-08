@@ -17,8 +17,8 @@
 		{
 			dependencies: ["4E58504552413033", "2700000000001104"]
 			description: [
-				"Rama avanzada del Mago disponible cuando la Era III está activa."
-				"Completa el rito para seguir siendo Mago y añadir la especialización Metalomante."
+				"Metalomante está disponible desde el inicio como especialización del Mago."
+				"Este rito registra el hito histórico de la Senda del Metal; no cambia tu clase ni desbloquea la especialización."
 			]
 			hide_until_deps_complete: true
 			icon: { id: "minecraft:raw_iron" }
@@ -31,7 +31,7 @@
 					elevate_perms: true
 					id: "4E584D4554523031"
 					silent: true
-					title: "Desbloquear Metalomante"
+					title: "Registrar la Senda del Metal"
 					type: "command"
 				}
 				{

@@ -36,7 +36,7 @@ Las restricciones combinan el stage de Era y el stage individual sin listeners p
 | Clase base | Especialización | Stage adicional | Era mínima | Estado |
 | --- | --- | --- | ---: | --- |
 | Mago | Arcanista (`arcanist`) | `nexus_specialization_arcanist` | I | Implementada; contenido Iron's Spells inequívoco requiere Mage AND Arcanist |
-| Mago | Metalomante (`metallurgist`) | `nexus_specialization_metallurgist` | III | Implementada; Allomancy requiere Mage AND Metalomante y separa poderes básicos de Era III del avance Mistborn de Era IV |
+| Mago | Metalomante (`metallurgist`) | `nexus_specialization_metallurgist` | I | Implementada desde el inicio; Allomancy requiere Mage AND Metalomante, mientras los objetos siguen su balance global de Era III/IV |
 
 Solo puede existir uno de estos stages a la vez. Warrior, Gunslinger y los jugadores sin clase conservan cero especializaciones de Mago.
 

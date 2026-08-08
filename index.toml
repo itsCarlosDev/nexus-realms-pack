@@ -306,7 +306,7 @@ hash = "f9511a1dfcb40f8b94da69f43c1d375b6475aac758a0d0fe99f3cae7c0bac20f"
 
 [[files]]
 file = "config/fancymenu/customization/mage_expl.txt"
-hash = "abec32949e0788789cf54eb369dea2148f765045de29a87984921686ca5f7cf7"
+hash = "63d3b0dcb59775d31210868d6604ba740d17576a9e0bd70e357696c56fb453e6"
 
 [[files]]
 file = "config/fancymenu/customization/mage_expl2.txt"
@@ -314,7 +314,7 @@ hash = "eddc18c04148c3d34056739a00cba67e30f0d24a99e63db58ff413685cbbd733"
 
 [[files]]
 file = "config/fancymenu/customization/metalurgist_expl.txt"
-hash = "6ad411fd09eb8acd7f33f0d0912744411041c340012e54a1531d64b00ae00011"
+hash = "2f9298018d41ec398d4501e95fe1ed4ecea6cf975e9082e04d9101a2078115c8"
 
 [[files]]
 file = "config/fancymenu/customization/metalurgist_expl2.txt"
@@ -322,7 +322,7 @@ hash = "73b924073c8160c444ccb2ed89adeb15da74e46ab9cd52e4b5458ed6cee61974"
 
 [[files]]
 file = "config/fancymenu/customization/nexus_class_selection_layout.txt"
-hash = "5e7be9806b98db611eb0cb821a5b9df9a00341131f7b62c44c9fcb7149471f43"
+hash = "64799c970cdc37312b2feb884241e1078609c2aa370d0ff981788101a5800b99"
 
 [[files]]
 file = "config/fancymenu/customization/nexus_class_selection_mage.txt"
@@ -434,7 +434,7 @@ hash = "5231838efe3b2f4a2ea04f013264e4e1c8e1b814267d3bebbc18bcabea2a6c56"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/clase_mago.snbt"
-hash = "e3ad93d8904f316be746844089665281f3d869331ca94bee07f4d3f1d52b1ec0"
+hash = "94cc89d12ec38666a0acc07fe52fc03fa760496ce8d610dbe1bbafd540810b74"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/clase_pistolero.snbt"
@@ -490,7 +490,7 @@ hash = "1eac5f1ee93fa7bf79c6004be82d389447143cc75cd063017f00b3f3c9a53a6c"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/senda_del_metal.snbt"
-hash = "3d4d5cada658be97d338c2cdab54118ec7d21ec24851dbdb0a23bc178d97cb5e"
+hash = "fbe903aa9dc36eb7ff63646f4a0634edbeef451dc56fccd3b7f3469f1e2c1714"
 
 [[files]]
 file = "config/ftbquests/quests/data.snbt"
@@ -1077,8 +1077,12 @@ file = "kubejs/server_scripts/nexus_automobility_create_recipes.js"
 hash = "a0ba113448751d06feccec90b0f502226a1d03dc28c16bc1af30da36b9c3f3b1"
 
 [[files]]
+file = "kubejs/server_scripts/nexus_class_change.js"
+hash = "062757f07dca5126ad590be33c56770f09839bf6de6c446932d538bbfbc198ba"
+
+[[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "7a66d3d01b85904fb4afca82a69ea2779df6ccc4625bf72026d59c06b3a45f78"
+hash = "757fe7aa46018fcacc0f92bbc7350d90e29ca8a1ab2e6f2a566c2148e9bb5898"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_disable_vanilla_zombies.js"
@@ -1860,8 +1864,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.13.jar"
-hash = "57bf0e1e4d47367d6197455ba9761006e1c79b7cab23fcf6678c5312002cbf5a"
+file = "mods/nexus-core-0.6.21.jar"
+hash = "b8b98820298abf3bf1ca5461edc61d687a873a710a2ddf35de176eb0e9b275da"
 
 [[files]]
 file = "mods/not-enough-animations.pw.toml"
