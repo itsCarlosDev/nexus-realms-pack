@@ -23,7 +23,7 @@ El JAR registra 116 items concretos: materiales, menas, bloques, flakes, patrone
 
 Arcanista y Metalomante son mutuamente excluyentes. Guerrero, Pistolero y jugadores sin clase conservan cero stages de especialización Mage.
 
-La recompensa de `senda_del_metal.snbt` ejecuta `/nexus_specialization unlock metallurgist`. El comando exige Mago y Era III, registra el desbloqueo persistente, selecciona Metalomante y reconcilia History Stages.
+Metalomante está disponible desde el inicio con el estado estructural Mago + Metalomante. La recompensa de `senda_del_metal.snbt` conserva `/nexus_specialization unlock metallurgist` únicamente para registrar el hito histórico; no autoriza ni selecciona la especialización, no exige Era III y no sustituye el cambio transaccional.
 
 ## Mecánica nativa auditada
 
@@ -129,7 +129,7 @@ El NPC no concede stages, poderes ni Lerasium. La regla global de Era IV bloquea
 
 1. Confirmar que Forge 47.4.10 carga Allomancy 4.6.5.
 2. Verificar que Arcanista, Guerrero y Pistolero no reciben poderes al entrar.
-3. Desbloquear Metalomante en Era III y ejecutar `/allomancy get`: deben aparecer los ocho poderes base.
+3. Seleccionar Metalomante sin Era III ni unlock histórico y ejecutar `/allomancy get`: deben aparecer los ocho poderes base.
 4. Confirmar que grinder, vial y flakes solo pueden usarse con Mage + Metalomante.
 5. Cambiar a Arcanista o resetear y verificar `/allomancy get`: `none`.
 6. En Era IV, consumir Lerasium y confirmar `all`.

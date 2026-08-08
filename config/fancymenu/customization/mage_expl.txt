@@ -344,7 +344,7 @@ layout_action_executable_blocks {
 
 element {
   button_element_executable_block_identifier = e8d3af4c-3128-42b0-b0d3-f5bd9c191d73-1784763432052
-  [executable_action_instance:f148d1e1-2255-4d4d-a8c5-c091e5d57f9d-1784763451086][action_type:sendmessage] = /nexus_specialization select arcanist
+  [executable_action_instance:f148d1e1-2255-4d4d-a8c5-c091e5d57f9d-1784763451086][action_type:sendmessage] = /nexus_select arcanist
   [executable_block:e8d3af4c-3128-42b0-b0d3-f5bd9c191d73-1784763432052][type:generic] = [executables:f148d1e1-2255-4d4d-a8c5-c091e5d57f9d-1784763451086;]
   underline_label_on_hover = false
   transparent_background = false
@@ -497,4 +497,3 @@ element {
   nine_slice_slider_handle_border_x = 5
   nine_slice_slider_handle_border_y = 5
 }
-

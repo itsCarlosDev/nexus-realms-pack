@@ -107,8 +107,8 @@
 		{
 			dependencies: ["2700000000001103", "4E58504552413033"]
 			description: [
-				"En Era III llega la decisión: Arcanista o Metalomante."
-				"Arcanista profundiza en Iron's Spells; Metalomante exige completar La Senda del Metal."
+				"Arcanista y Metalomante están disponibles desde la selección de especialización inicial."
+				"En Era III, estas ramas profundizan en Iron's Spells y en La Senda del Metal sin desbloquear la elección."
 			]
 			icon: { id: "minecraft:amethyst_shard" }
 			id: "2700000000001104"

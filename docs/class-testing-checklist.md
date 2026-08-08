@@ -18,8 +18,7 @@
 ## Mage test
 
 ```mcfunction
-/nexus_resetclass_clean <OWNER_NAME>
-/nexus_select mage
+/nexus_changeclass <OWNER_NAME> mage
 ```
 
 Probar:
@@ -43,8 +42,7 @@ Resultado esperado:
 ## Gunslinger test
 
 ```mcfunction
-/nexus_resetclass_clean <OWNER_NAME>
-/nexus_select gunslinger
+/nexus_changeclass <OWNER_NAME> gunslinger
 ```
 
 Probar:
@@ -69,8 +67,7 @@ Resultado esperado:
 ## Warrior test
 
 ```mcfunction
-/nexus_resetclass_clean <OWNER_NAME>
-/nexus_select warrior
+/nexus_changeclass <OWNER_NAME> warrior
 ```
 
 Probar:
@@ -105,7 +102,29 @@ Tambien probar:
 /nexus_class_status <OWNER_NAME>
 /nexus_class_menu
 /nexus_class_help
+/nexus_changeclass_status <OWNER_NAME>
+/nexus_repairclass <OWNER_NAME>
 ```
+
+## Transaction and recovery QA
+
+- Initial `/nexus_select warrior|arcanist|metallurgist|gunslinger` remains free, preserves inventory, creates no cooldown, and does not require selecting Mage first.
+- A later `/nexus_changeclass <player> <class>` costs exactly 41 Minecraft levels and starts a 12-hour cooldown.
+- With 40 levels, the command returns failure without journal, charge, inventory mutation, kit, or cooldown.
+- With an external container open, the server closes it, reports `interfaz cerrada; activa de nuevo el altar`, and makes no other change.
+- Cover hotbar, main inventory, armor, offhand, cursor, personal 2x2 crafting, functional Curios, cosmetic Curios, and an NBT container stack.
+- Confirm success preserves those locations; only incompatible equipped items may move safely into main inventory, while Ender Chest and external storage remain unchanged.
+- Inject/reproduce a failure before `OLD_STATE_REVOKED`; confirm exact inventory, Curios, XP, class, specialization, tags, and stages rollback.
+- Inject/reproduce a failure at or after `OLD_STATE_REVOKED`; confirm login performs forward recovery without another XP charge or duplicate kit.
+- Confirm recovery stops after three failed attempts and leaves `RECOVERY_REQUIRED` for administration.
+- Confirm Warrior/Mage/Gunslinger initial kits are delivered by deficit and preserve the Glock/ammo NBT.
+- Confirm the Arcanist initial spellbook delivery is also idempotent and preserves its spell-container NBT; later changes deliver no starter kit.
+- Confirm direct Metalomante selection succeeds as `mage + metallurgist` without Era III or the historical unlock key.
+- Confirm direct Arcanista -> Metalomante selection is rejected outside `/nexus_changeclass`, so the full cost and cooldown cannot be bypassed.
+- Confirm leaving a valid Metalomante revokes Allomancy through its public capability and verifies zero powers.
+- Confirm `/nexus_repairclass` charges nothing, starts no cooldown, gives no kit, and uses only the exact persistent class as authority.
+- Confirm repair removes only equipped incompatible armor/offhand/Curios when the vanilla main inventory can accept every stack.
+- Test commands from an OP player, dedicated-server console, and command block.
 
 ## Non-warrior unarmed melee QA
 

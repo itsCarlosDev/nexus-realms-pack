@@ -273,7 +273,7 @@ public final class ServerUpdateWatcher {
         else {
             broadcast(
                 server,
-                "§6[Nexus] §fNueva actualización disponible."
+                "§6[Nexus] §fNueva actualización disponible, ¡Debes reiniciar el cliente!."
             );
 
             broadcast(

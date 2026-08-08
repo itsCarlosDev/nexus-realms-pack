@@ -344,7 +344,7 @@ layout_action_executable_blocks {
 
 element {
   button_element_executable_block_identifier = 0cd651de-978e-440a-bd20-f7ad87f546e9-1784763814751
-  [executable_action_instance:ae802fff-0ca5-40e9-8758-4b6f83475fbf-1784764138262][action_type:sendmessage] = /nexus_specialization select metallurgist
+  [executable_action_instance:ae802fff-0ca5-40e9-8758-4b6f83475fbf-1784764138262][action_type:sendmessage] = /nexus_select metallurgist
   [executable_block:0cd651de-978e-440a-bd20-f7ad87f546e9-1784763814751][type:generic] = [executables:ae802fff-0ca5-40e9-8758-4b6f83475fbf-1784764138262;]
   underline_label_on_hover = false
   transparent_background = false
@@ -497,4 +497,3 @@ element {
   nine_slice_slider_handle_border_x = 5
   nine_slice_slider_handle_border_y = 5
 }
-

@@ -6,7 +6,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
 }
 
-version = '0.6.13'
+version = '0.6.21'
 group = 'dev.itscarlos'
 
 base {
@@ -101,6 +101,7 @@ dependencies {
     runtimeOnly fg.deobf('dev.latvian.mods:rhino-forge:2001.2.3-build.10')
     runtimeOnly fg.deobf('dev.latvian.mods:kubejs-forge:2001.6.5-build.26')
     compileOnly fg.deobf('curse.maven:curios-309927:6418456')
+    compileOnly files('libs/epic-fight-20.14.17-mc1.20.1-forge.jar')
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
@@ -199,7 +200,16 @@ tasks.register('shutdownHangDiagnosticCheck', JavaExec) {
     mainClass = 'dev.itscarlos.nexuscore.diagnostics.ShutdownHangDiagnosticCheck'
 }
 
+tasks.register('classChangePolicyCheck', JavaExec) {
+    group = 'verification'
+    description = 'Validates class-change XP, cooldown, and recovery boundaries.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'dev.itscarlos.nexuscore.ClassChangePolicyCheck'
+}
+
 tasks.named('check') {
+    dependsOn tasks.named('classChangePolicyCheck')
     dependsOn tasks.named('automobilityMarketPolicyCheck')
     dependsOn tasks.named('cameraIntegrationPolicyCheck')
     dependsOn tasks.named('marketProtectionCheck')

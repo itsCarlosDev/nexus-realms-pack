@@ -10,7 +10,8 @@
     "CameraImageToolsMixin",
     "CameraPacketManagerMixin",
     "CameraResizeFrameMessageMixin",
-    "EpicFightNetworkManagerMixin"
+    "EpicFightNetworkManagerMixin",
+    "HistoryStagesCuriosEquipLockHandlerMixin"
   ],
   "client": [
     "client.EpicFightClassModeMixin",

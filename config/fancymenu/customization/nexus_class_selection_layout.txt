@@ -422,13 +422,13 @@ element {
 
 element {
   button_element_executable_block_identifier = 3498d296-80ba-489c-97fb-274a06fa3480-1783112949075
-  [executable_action_instance:2c19a9f2-feb3-4068-9566-89576deb02ad-1784758881744][action_type:sendmessage] = /nexus_select mage
+  [executable_action_instance:2c19a9f2-feb3-4068-9566-89576deb02ad-1784758881744][action_type:sendmessage] = /nexus_select arcanist
   [executable_block:3498d296-80ba-489c-97fb-274a06fa3480-1783112949075][type:generic] = [executables:2c19a9f2-feb3-4068-9566-89576deb02ad-1784758881744;]
   underline_label_on_hover = false
   transparent_background = false
   restartbackgroundanimations = true
   nine_slice_custom_background = false
-  label = Elegir Mago
+  label = Elegir Arcanista
   navigatable = true
   widget_active_state_requirement_container_identifier = 536ee9ca-0c0c-48b8-aa70-ed81c034b37b-1783112949075
   [loading_requirement_container_meta:536ee9ca-0c0c-48b8-aa70-ed81c034b37b-1783112949075] = [groups:][instances:]
@@ -662,7 +662,7 @@ element {
   transparent_background = false
   restartbackgroundanimations = true
   nine_slice_custom_background = false
-  label = Info Alquimista
+  label = Info Arcanista
   navigatable = true
   widget_active_state_requirement_container_identifier = 117d368b-a887-41eb-b4b1-b8600e9350f5-1784764812800
   [loading_requirement_container_meta:117d368b-a887-41eb-b4b1-b8600e9350f5-1784764812800] = [groups:][instances:]
@@ -731,4 +731,3 @@ element {
   nine_slice_slider_handle_border_x = 5
   nine_slice_slider_handle_border_y = 5
 }
-

@@ -114,8 +114,32 @@ const $NexusHistoryStagesCompat = Java.loadClass(
   'dev.itscarlos.nexuscore.HistoryStagesCompat'
 )
 
+let $NexusAllomancerCapability = null
+let $NexusAllomancyNetwork = null
+let $NexusAllomancyMetal = null
+
+try {
+  $NexusAllomancerCapability = Java.loadClass(
+    'com.legobmw99.allomancy.modules.powers.data.AllomancerCapability'
+  )
+  $NexusAllomancyNetwork = Java.loadClass(
+    'com.legobmw99.allomancy.network.Network'
+  )
+  $NexusAllomancyMetal = Java.loadClass(
+    'com.legobmw99.allomancy.api.enums.Metal'
+  )
+} catch (allomancyLoadError) {
+  console.warn(
+    '[Nexus Realms] Allomancy public API unavailable: ' +
+    allomancyLoadError
+  )
+}
+
 let nexusClassStageWarningLogged = false
 let nexusAllomancyWarningLogged = false
+let nexusSpecializationWarningLogged = false
+let nexusClassStageAvailabilityDetail = 'not_checked'
+let nexusSpecializationSyncDetail = 'not_checked'
 
 const NEXUS_CLASS_PATH_MESSAGES = {
   warrior: '⚔️ Guerrero elegido. Tu senda marcial comienza.',
@@ -147,29 +171,51 @@ function nexusGetPersistentClass(player) {
 }
 
 function nexusClassStageDefinitionsAvailable() {
+  var stageDefinitionCheck = {
+    index: 0,
+    stageId: '',
+    missing: []
+  }
+
   try {
-    var nexusClassIndividualStageDefinitions =
-      $NexusStageManager.getIndividualStages()
+    nexusClassStageAvailabilityDetail = 'checking'
 
-    var nexusMissingIndividualStages = NEXUS_INDIVIDUAL_STAGE_LIST.filter(
-      stageId => !nexusClassIndividualStageDefinitions.containsKey(stageId)
-    )
+    while (stageDefinitionCheck.index < NEXUS_INDIVIDUAL_STAGE_LIST.length) {
+      stageDefinitionCheck.stageId =
+        NEXUS_INDIVIDUAL_STAGE_LIST[stageDefinitionCheck.index]
 
-    if (nexusMissingIndividualStages.length > 0) {
+      if (
+        !nexusStageBoolean(
+          $NexusStageManager.isIndividualStage(stageDefinitionCheck.stageId)
+        )
+      ) {
+        stageDefinitionCheck.missing.push(stageDefinitionCheck.stageId)
+      }
+
+      stageDefinitionCheck.index++
+    }
+
+    if (stageDefinitionCheck.missing.length > 0) {
+      nexusClassStageAvailabilityDetail =
+        'missing=' + stageDefinitionCheck.missing.join(',')
+
       if (!nexusClassStageWarningLogged) {
         nexusClassStageWarningLogged = true
 
         console.warn(
           `[Nexus Realms] Missing History Stages class definitions: ` +
-          `${nexusMissingIndividualStages.join(', ')}`
+          `${stageDefinitionCheck.missing.join(', ')}`
         )
       }
 
       return false
     }
 
+    nexusClassStageAvailabilityDetail = 'ok'
     return true
   } catch (error) {
+    nexusClassStageAvailabilityDetail = 'definition_error=' + String(error)
+
     if (!nexusClassStageWarningLogged) {
       nexusClassStageWarningLogged = true
 
@@ -256,16 +302,20 @@ function nexusGetSpecializationStageState(player) {
   return nexusSpecializationStageReadContext.result
 }
 
+function nexusStageBoolean(value) {
+  return value === true || String(value).toLowerCase() === 'true'
+}
+
 function nexusSpecializationStagesCoherent(
   classId,
   specializationId,
   stageState
 ) {
-  if (!stageState.available) {
+  if (!nexusStageBoolean(stageState.available)) {
     return false
   }
 
-  const expectedSpecialization =
+  var expectedSpecializationStage =
     classId === 'mage' &&
     NEXUS_SPECIALIZATION_DATA[specializationId]
       ? specializationId
@@ -274,8 +324,8 @@ function nexusSpecializationStagesCoherent(
   return Object.keys(NEXUS_SPECIALIZATION_DATA).every(
     candidate => {
       return (
-        stageState[candidate] ===
-        (candidate === expectedSpecialization)
+        nexusStageBoolean(stageState[candidate]) ===
+        (candidate === expectedSpecializationStage)
       )
     }
   )
@@ -286,7 +336,21 @@ function nexusSyncAllomancyPowers(
   specializationId,
   reason
 ) {
-  if (!Platform.isLoaded('allomancy')) {
+  var allomancySyncContext = {
+    data: null,
+    grantMetallurgist: false,
+    expectedPowerCount: 0,
+    powersVerified: false,
+    index: 0,
+    powerId: ''
+  }
+
+  if (
+    !Platform.isLoaded('allomancy') ||
+    !$NexusAllomancerCapability ||
+    !$NexusAllomancyNetwork ||
+    !$NexusAllomancyMetal
+  ) {
     if (!nexusAllomancyWarningLogged) {
       nexusAllomancyWarningLogged = true
 
@@ -300,51 +364,71 @@ function nexusSyncAllomancyPowers(
   }
 
   try {
-    var allomancySyncContext = {
-      targetName: String(player.username),
-      shouldGrantMetallurgistPowers:
-        specializationId === 'metallurgist',
-      commands: [],
-      powerIndex: 0,
-      commandIndex: 0
+    allomancySyncContext.data = player.getCapability(
+      $NexusAllomancerCapability.PLAYER_CAP
+    ).orElse(null)
+
+    if (!allomancySyncContext.data) {
+      return false
     }
 
-    if (
-      allomancySyncContext.shouldGrantMetallurgistPowers
-    ) {
+    allomancySyncContext.grantMetallurgist =
+      specializationId === 'metallurgist'
+
+    allomancySyncContext.data.setUninvested()
+
+    if (allomancySyncContext.grantMetallurgist) {
       while (
-        allomancySyncContext.powerIndex <
-        NEXUS_ALLOMANCY_BASE_POWERS.length
+        allomancySyncContext.index <
+          NEXUS_ALLOMANCY_BASE_POWERS.length
       ) {
-        allomancySyncContext.commands.push(
-          'allomancy add ' +
-            NEXUS_ALLOMANCY_BASE_POWERS[
-              allomancySyncContext.powerIndex
-            ] +
-            ' ' +
-            allomancySyncContext.targetName
-        )
+        allomancySyncContext.powerId =
+          NEXUS_ALLOMANCY_BASE_POWERS[allomancySyncContext.index]
 
-        allomancySyncContext.powerIndex++
+        allomancySyncContext.data.addPower(
+          $NexusAllomancyMetal.valueOf(
+            String(allomancySyncContext.powerId).toUpperCase()
+          )
+        )
+        allomancySyncContext.index++
       }
-    } else {
-      allomancySyncContext.commands.push(
-        'allomancy remove all ' +
-          allomancySyncContext.targetName
-      )
     }
 
-    while (
-      allomancySyncContext.commandIndex <
-      allomancySyncContext.commands.length
-    ) {
-      player.server.runCommandSilent(
-        allomancySyncContext.commands[
-          allomancySyncContext.commandIndex
-        ]
-      )
+    $NexusAllomancyNetwork.sync(
+      allomancySyncContext.data,
+      player
+    )
 
-      allomancySyncContext.commandIndex++
+    allomancySyncContext.expectedPowerCount =
+      allomancySyncContext.grantMetallurgist
+        ? NEXUS_ALLOMANCY_BASE_POWERS.length
+        : 0
+
+    allomancySyncContext.powersVerified =
+      Number(allomancySyncContext.data.getPowerCount()) ===
+        allomancySyncContext.expectedPowerCount
+
+    allomancySyncContext.index = 0
+    while (
+      allomancySyncContext.powersVerified &&
+      allomancySyncContext.grantMetallurgist &&
+      allomancySyncContext.index < NEXUS_ALLOMANCY_BASE_POWERS.length
+    ) {
+      allomancySyncContext.powerId =
+        NEXUS_ALLOMANCY_BASE_POWERS[allomancySyncContext.index]
+
+      allomancySyncContext.powersVerified = nexusStageBoolean(
+        allomancySyncContext.data.hasPower(
+          $NexusAllomancyMetal.valueOf(
+            String(allomancySyncContext.powerId).toUpperCase()
+          )
+        )
+      )
+      allomancySyncContext.index++
+    }
+
+    if (!allomancySyncContext.powersVerified) {
+      return false
     }
 
     if (
@@ -353,11 +437,10 @@ function nexusSyncAllomancyPowers(
     ) {
       console.info(
         '[Nexus Realms] Allomancy powers synchronized for ' +
-          allomancySyncContext.targetName +
+          String(player.username) +
           ': ' +
           (
-            allomancySyncContext
-              .shouldGrantMetallurgistPowers
+            allomancySyncContext.grantMetallurgist
               ? 'base Metalomante powers granted'
               : 'powers revoked'
           )
@@ -380,10 +463,52 @@ function nexusSyncAllomancyPowers(
   }
 }
 
+function nexusGetAllomancyData(player) {
+  if (
+    !$NexusAllomancerCapability ||
+    !$NexusAllomancyNetwork
+  ) {
+    return null
+  }
+
+  return player.getCapability(
+    $NexusAllomancerCapability.PLAYER_CAP
+  ).orElse(null)
+}
+
+function nexusRestoreAllomancyData(player, snapshot) {
+  var allomancyRestoreData
+
+  try {
+    allomancyRestoreData = nexusGetAllomancyData(player)
+
+    if (!allomancyRestoreData || !snapshot) {
+      return false
+    }
+
+    allomancyRestoreData.load(snapshot.copy())
+    $NexusAllomancyNetwork.sync(allomancyRestoreData, player)
+
+    return allomancyRestoreData.save().equals(snapshot)
+  } catch (error) {
+    console.error(
+      '[Nexus Realms] Unable to restore Allomancy snapshot: ' +
+      error
+    )
+
+    return false
+  }
+}
+
 
 function nexusSyncSpecialization(player, reason) {
+  nexusSpecializationSyncDetail = 'started'
+
   try {
     if (!nexusClassStageDefinitionsAvailable()) {
+      nexusSpecializationSyncDetail =
+        'stage_definitions_unavailable:' +
+        nexusClassStageAvailabilityDetail
       return false
     }
 
@@ -399,30 +524,23 @@ function nexusSyncSpecialization(player, reason) {
       currentId: null,
       currentStageId: null,
       shouldHaveStage: false,
-      hasStage: false
+      hasStage: false,
+      stagesSent: true,
+      allomancySynced: false,
+      verifiedStages: null,
+      stagesCoherent: false,
+      allomancyData: null,
+      allomancyPowerCount: -1
     }
 
     specializationSyncContext.expected =
       specializationSyncContext.classId === 'mage' &&
       NEXUS_SPECIALIZATION_DATA[
         specializationSyncContext.raw
-      ]
+      ] &&
+      specializationSyncContext.raw !== 'none'
         ? specializationSyncContext.raw
         : null
-
-    if (
-      specializationSyncContext.expected === 'metallurgist' &&
-      !player.persistentData.getBoolean(
-        'nexus_specialization_metallurgist_unlocked'
-      )
-    ) {
-      player.persistentData.putBoolean(
-        'nexus_specialization_metallurgist_unlocked',
-        true
-      )
-
-      specializationSyncContext.correctedPersistentData = true
-    }
 
     if (
       !specializationSyncContext.expected &&
@@ -456,9 +574,11 @@ function nexusSyncSpecialization(player, reason) {
         specializationSyncContext.expected
 
       specializationSyncContext.hasStage =
-        specializationSyncContext.stageData.hasStage(
-          specializationSyncContext.playerUuid,
-          specializationSyncContext.currentStageId
+        nexusStageBoolean(
+          specializationSyncContext.stageData.hasStage(
+            specializationSyncContext.playerUuid,
+            specializationSyncContext.currentStageId
+          )
         )
 
       if (
@@ -488,19 +608,68 @@ function nexusSyncSpecialization(player, reason) {
       specializationSyncContext.stageData.setDirty()
       specializationSyncContext.stageData.refreshCache()
 
-      $NexusHistoryStagesCompat.sendIndividualStages(
+      specializationSyncContext.stagesSent =
+        $NexusHistoryStagesCompat.sendIndividualStages(
         player,
         specializationSyncContext.stageData.getUnlockedStages(
           specializationSyncContext.playerUuid
         )
       )
+
+      if (!specializationSyncContext.stagesSent) {
+        nexusSpecializationSyncDetail =
+          'history_stages_send_failed'
+        return false
+      }
     }
 
-    nexusSyncAllomancyPowers(
-      player,
-      specializationSyncContext.expected,
-      reason
-    )
+    specializationSyncContext.allomancySynced =
+      nexusSyncAllomancyPowers(
+        player,
+        specializationSyncContext.expected,
+        reason
+      )
+
+    if (!specializationSyncContext.allomancySynced) {
+      specializationSyncContext.allomancyData =
+        nexusGetAllomancyData(player)
+
+      if (specializationSyncContext.allomancyData) {
+        specializationSyncContext.allomancyPowerCount = Number(
+          specializationSyncContext.allomancyData.getPowerCount()
+        )
+      }
+
+      nexusSpecializationSyncDetail =
+        'allomancy_sync_failed:' +
+        'expected=' +
+        (specializationSyncContext.expected || 'none') +
+        ',power_count=' +
+        specializationSyncContext.allomancyPowerCount
+      return false
+    }
+
+    specializationSyncContext.verifiedStages =
+      nexusGetSpecializationStageState(player)
+
+    specializationSyncContext.stagesCoherent =
+      nexusSpecializationStagesCoherent(
+        specializationSyncContext.classId,
+        specializationSyncContext.expected,
+        specializationSyncContext.verifiedStages
+      )
+
+    if (!specializationSyncContext.stagesCoherent) {
+      nexusSpecializationSyncDetail =
+        'stage_verification_failed:' +
+        'expected=' +
+        (specializationSyncContext.expected || 'none') +
+        ',arcanist=' +
+        specializationSyncContext.verifiedStages.arcanist +
+        ',metallurgist=' +
+        specializationSyncContext.verifiedStages.metallurgist
+      return false
+    }
 
     if (
       (
@@ -524,10 +693,14 @@ function nexusSyncSpecialization(player, reason) {
       )
     }
 
+    nexusSpecializationSyncDetail = 'ok'
     return true
   } catch (error) {
-    if (!nexusClassStageWarningLogged) {
-      nexusClassStageWarningLogged = true
+    nexusSpecializationSyncDetail =
+      'exception=' + String(error)
+
+    if (!nexusSpecializationWarningLogged) {
+      nexusSpecializationWarningLogged = true
 
       console.warn(
         '[Nexus Realms] Unable to synchronize ' +
@@ -540,6 +713,10 @@ function nexusSyncSpecialization(player, reason) {
   }
 }
 
+function nexusGetSpecializationSyncDetail() {
+  return nexusSpecializationSyncDetail
+}
+
 
 function nexusCurrentGlobalEra(player) {
   const globalEraData = player.server.persistentData
@@ -547,6 +724,10 @@ function nexusCurrentGlobalEra(player) {
   return globalEraData.contains('nexusEra')
     ? Number(globalEraData.getInt('nexusEra'))
     : 0
+}
+
+function nexusCanSelectMetallurgist(player) {
+  return nexusGetPersistentClass(player) === 'mage'
 }
 
 function nexusSpecializationFeedback(viewer, message) {
@@ -601,7 +782,7 @@ function nexusTellSpecializationStatus(viewer, target) {
 
   nexusSpecializationFeedback(
     viewer,
-    `Metalomante desbloqueado: ` +
+    `Marca historica Metalomante: ` +
     `${target.persistentData.getBoolean(
       'nexus_specialization_metallurgist_unlocked'
     ) ? 'si' : 'no'}`
@@ -648,6 +829,18 @@ function nexusSelectSpecialization(
     nexusGetPersistentSpecialization(target)
 
   if (
+    currentSpecialization !== 'none' &&
+    currentSpecialization !== specializationId
+  ) {
+    nexusSpecializationFeedback(
+      viewer,
+      'Los cambios entre Arcanista y Metalomante deben realizarse mediante el altar de cambio de clase.'
+    )
+
+    return 0
+  }
+
+  if (
     currentSpecialization === specializationId &&
     nexusSpecializationStagesCoherent(
       'mage',
@@ -655,23 +848,16 @@ function nexusSelectSpecialization(
       stages
     )
   ) {
-    nexusSyncAllomancyPowers(
-      target,
-      specializationId,
-      'selection'
-    )
-
-    const repeatedSelectionFailures =
-      nexusGiveSpecializationStarterKit(
+    if (
+      !nexusSyncAllomancyPowers(
         target,
-        specializationId
+        specializationId,
+        'selection'
       )
-
-    if (repeatedSelectionFailures > 0) {
+    ) {
       nexusSpecializationFeedback(
         viewer,
-        `La especializacion ya estaba seleccionada, ` +
-        `pero fallaron ${repeatedSelectionFailures} objetos del kit.`
+        'La especializacion existe, pero Allomancy no pudo verificarse.'
       )
 
       return 0
@@ -772,50 +958,18 @@ function nexusSelectSpecialization(
 }
 
 function nexusUnlockMetallurgist(viewer, target) {
-  if (
-    nexusGetPersistentClass(target) !== 'mage'
-  ) {
-    nexusSpecializationFeedback(
-      viewer,
-      'Metalomante solo puede desbloquearse para un Mago.'
-    )
-
-    return 0
-  }
-
-  if (
-    nexusCurrentGlobalEra(target) < 3
-  ) {
-    nexusSpecializationFeedback(
-      viewer,
-      'Metalomante requiere Era III - Era Arcano-Industrial.'
-    )
-
-    return 0
-  }
-
   target.persistentData.putBoolean(
     'nexus_specialization_metallurgist_unlocked',
     true
   )
 
-  const result =
-    nexusSelectSpecialization(
-      viewer,
-      target,
-      'metallurgist'
-    )
+  nexusSpecializationFeedback(
+    viewer,
+    `Marca historica Metalomante registrada para ` +
+    `${nexusPlayerName(target)}; no es un requisito de seleccion.`
+  )
 
-  if (result > 0) {
-    target.tell('METALOMANTE')
-
-    target.tell(
-      'El Nexus responde tambien a los metales. ' +
-      'Has aprendido a canalizar sus poderes fundamentales.'
-    )
-  }
-
-  return result
+  return 1
 }
 
 function nexusResetSpecialization(viewer, target) {
@@ -852,43 +1006,56 @@ function nexusResetSpecialization(viewer, target) {
 }
 
 function nexusGetClassStageState(player) {
-  const result = {
-    available: false,
-    warrior: false,
-    mage: false,
-    gunslinger: false
+  var classStageReadContext = {
+    result: {
+      available: false,
+      detail: 'not_checked',
+      warrior: false,
+      mage: false,
+      gunslinger: false
+    },
+    stageData: null,
+    playerUuid: null
   }
 
   try {
     if (!nexusClassStageDefinitionsAvailable()) {
-      return result
+      classStageReadContext.result.detail =
+        nexusClassStageAvailabilityDetail
+      return classStageReadContext.result
     }
 
-    const classStageData =
+    classStageReadContext.stageData =
       $NexusIndividualStageData.get(player.level)
 
-    const playerUuid = player.uuid
+    classStageReadContext.playerUuid = player.uuid
+    classStageReadContext.result.available = true
+    classStageReadContext.result.detail = 'ok'
 
-    result.available = true
-
-    result.warrior =
-      classStageData.hasStage(
-        playerUuid,
+    classStageReadContext.result.warrior = nexusStageBoolean(
+      classStageReadContext.stageData.hasStage(
+        classStageReadContext.playerUuid,
         NEXUS_CLASS_STAGE_IDS.warrior
       )
+    )
 
-    result.mage =
-      classStageData.hasStage(
-        playerUuid,
+    classStageReadContext.result.mage = nexusStageBoolean(
+      classStageReadContext.stageData.hasStage(
+        classStageReadContext.playerUuid,
         NEXUS_CLASS_STAGE_IDS.mage
       )
+    )
 
-    result.gunslinger =
-      classStageData.hasStage(
-        playerUuid,
+    classStageReadContext.result.gunslinger = nexusStageBoolean(
+      classStageReadContext.stageData.hasStage(
+        classStageReadContext.playerUuid,
         NEXUS_CLASS_STAGE_IDS.gunslinger
       )
+    )
   } catch (error) {
+    classStageReadContext.result.available = false
+    classStageReadContext.result.detail = 'stage_data_error=' + String(error)
+
     if (!nexusClassStageWarningLogged) {
       nexusClassStageWarningLogged = true
 
@@ -898,27 +1065,27 @@ function nexusGetClassStageState(player) {
     }
   }
 
-  return result
+  return classStageReadContext.result
 }
 
 function nexusClassStagesCoherent(
   classId,
   stageState
 ) {
-  if (!stageState.available) {
+  if (!nexusStageBoolean(stageState.available)) {
     return false
   }
 
-  const expectedStage =
+  var expectedClassStage =
     NEXUS_CLASS_STAGE_IDS[classId] || null
 
   return Object.keys(NEXUS_CLASS_STAGE_IDS).every(
     candidateClass => {
       return (
-        stageState[candidateClass] ===
+        nexusStageBoolean(stageState[candidateClass]) ===
         (
           candidateClass === classId &&
-          expectedStage !== null
+          expectedClassStage !== null
         )
       )
     }
@@ -936,7 +1103,8 @@ function nexusSyncClassStages(player, reason) {
       stageData: $NexusIndividualStageData.get(player.level),
       playerUuid: player.uuid,
       expectedStage: null,
-      changes: 0
+      changes: 0,
+      stagesSent: false
     }
 
     stageSyncContext.expectedStage =
@@ -983,18 +1151,35 @@ function nexusSyncClassStages(player, reason) {
     }
 
     if (stageSyncContext.changes === 0) {
-      return true
+      return nexusClassStagesCoherent(
+        stageSyncContext.classId,
+        nexusGetClassStageState(player)
+      )
     }
 
     stageSyncContext.stageData.setDirty()
     stageSyncContext.stageData.refreshCache()
 
-    $NexusHistoryStagesCompat.sendIndividualStages(
-      player,
-      stageSyncContext.stageData.getUnlockedStages(
-        stageSyncContext.playerUuid
+    stageSyncContext.stagesSent =
+      $NexusHistoryStagesCompat.sendIndividualStages(
+        player,
+        stageSyncContext.stageData.getUnlockedStages(
+          stageSyncContext.playerUuid
+        )
       )
-    )
+
+    if (!stageSyncContext.stagesSent) {
+      return false
+    }
+
+    if (
+      !nexusClassStagesCoherent(
+        stageSyncContext.classId,
+        nexusGetClassStageState(player)
+      )
+    ) {
+      return false
+    }
 
     if (reason === 'login') {
       console.info(
@@ -1038,7 +1223,11 @@ function nexusShowClassSelector(player) {
   )
 
   player.tell(
-    '/nexus_select mage - Mago'
+    '/nexus_select arcanist - Arcanista'
+  )
+
+  player.tell(
+    '/nexus_select metallurgist - Metalomante'
   )
 
   player.tell(
@@ -1230,66 +1419,16 @@ function nexusGiveSpecializationStarterKit(
   player,
   specializationId
 ) {
-  const specializationData =
-    NEXUS_SPECIALIZATION_DATA[specializationId]
-
-  if (!specializationData) {
-    return 0
-  }
-
-  const starterKit =
-    specializationData.starterKit || []
-
-  if (starterKit.length === 0) {
-    return 0
-  }
-
-  const grantKey =
-    `nexus_specialization_${specializationId}_starter_kit_given`
-
-  if (
-    player.persistentData.getBoolean(grantKey)
-  ) {
-    return 0
-  }
-
-  let failedItems = 0
-
-  starterKit.forEach(
-    entry => {
-      try {
-        nexusGiveKitItem(
-          player,
-          entry
-        )
-      } catch (error) {
-        failedItems++
-
-        console.error(
-          `Nexus Realms: failed to give specialization item ` +
-          `${entry.id} to ${nexusPlayerName(player)}: ${error}`
-        )
-      }
-    }
-  )
-
-  if (failedItems === 0) {
-    player.persistentData.putBoolean(
-      grantKey,
-      true
+  if (global.nexusDeliverSpecializationKit) {
+    return global.nexusDeliverSpecializationKit(
+      player,
+      specializationId
     )
-
-    player.tell(
-      `Kit inicial de ${specializationData.displayName} entregado.`
-    )
-  } else {
-    player.tell(
-      `No se pudieron entregar todos los objetos de ` +
-      `${specializationData.displayName}.`
-    )
+      ? 0
+      : 1
   }
 
-  return failedItems
+  return 1
 }
 
 function nexusClearArcanistStarterKit(target) {
@@ -1303,6 +1442,10 @@ function nexusClearArcanistStarterKit(target) {
   target.persistentData.remove(
     'nexus_specialization_arcanist_starter_kit_given'
   )
+
+  target.persistentData.remove(
+    'nexus_specialization_arcanist_starter_kit_index'
+  )
 }
 
 function nexusClearClassTags(player) {
@@ -1311,39 +1454,12 @@ function nexusClearClassTags(player) {
   )
 }
 
-function nexusResetClassState(target) {
-  nexusClearClassTags(target)
-  nexusClearArcanistStarterKit(target)
-
-  target.persistentData.putBoolean(
-    'nexus_class_chosen',
-    false
-  )
-
-  target.persistentData.remove(
-    'nexus_class'
-  )
-
-  target.persistentData.remove(
-    'nexus_specialization'
-  )
-
-  target.persistentData.remove(
-    'nexus_specialization_metallurgist_unlocked'
-  )
-
-  nexusSyncClassStages(
-    target,
-    'reset'
-  )
-
-  nexusSyncSpecialization(
-    target,
-    'reset'
-  )
-}
-
 function nexusTellClassStatus(viewer, target) {
+  if (global.nexusTellClassChangeStatus) {
+    global.nexusTellClassChangeStatus(viewer, target)
+    return
+  }
+
   const classChosen =
     target.persistentData.getBoolean(
       'nexus_class_chosen'
@@ -1458,22 +1574,51 @@ function nexusResolveOptionalTarget(
   }
 }
 
+global.nexusClassSelectionApi = {
+  classData: NEXUS_CLASS_DATA,
+  classTags: NEXUS_CLASS_TAGS,
+  classStageIds: NEXUS_CLASS_STAGE_IDS,
+  classStageList: NEXUS_CLASS_STAGE_LIST,
+  specializationData: NEXUS_SPECIALIZATION_DATA,
+  specializationStageList: NEXUS_SPECIALIZATION_STAGE_LIST,
+  classPathMessages: NEXUS_CLASS_PATH_MESSAGES,
+  mageSpecializationGuiId: NEXUS_MAGE_SPECIALIZATION_GUI_ID,
+  getPersistentClass: nexusGetPersistentClass,
+  getRawSpecialization: nexusGetRawSpecialization,
+  getPersistentSpecialization: nexusGetPersistentSpecialization,
+  getClassStageState: nexusGetClassStageState,
+  getSpecializationStageState: nexusGetSpecializationStageState,
+  classStagesCoherent: nexusClassStagesCoherent,
+  specializationStagesCoherent: nexusSpecializationStagesCoherent,
+  syncClassStages: nexusSyncClassStages,
+  syncSpecialization: nexusSyncSpecialization,
+  getSpecializationSyncDetail: nexusGetSpecializationSyncDetail,
+  syncAllomancyPowers: nexusSyncAllomancyPowers,
+  getAllomancyData: nexusGetAllomancyData,
+  restoreAllomancyData: nexusRestoreAllomancyData,
+  canSelectMetallurgist: nexusCanSelectMetallurgist,
+  currentGlobalEra: nexusCurrentGlobalEra,
+  createKitItem: nexusCreateKitItem,
+  clearClassTags: nexusClearClassTags,
+  clearArcanistStarterKit: nexusClearArcanistStarterKit,
+  openClassSelector: nexusOpenClassSelector,
+  runServerCommand: nexusRunServerCommand,
+  tellActionbar: nexusTellActionbar,
+  playerName: nexusPlayerName
+}
+
 PlayerEvents.loggedIn(event => {
   const player = event.player
 
-  nexusSyncClassStages(
-    player,
-    'login'
-  )
-
-  nexusSyncSpecialization(
-    player,
-    'login'
-  )
-
-  if (!nexusHasClass(player)) {
-    nexusOpenClassSelector(player)
+  if (global.nexusClassChangeLogin) {
+    global.nexusClassChangeLogin(player)
+    return
   }
+
+  console.error(
+    '[Nexus Realms] Class transaction authority unavailable at login; ' +
+    'selection UI suppressed.'
+  )
 })
 
 ServerEvents.commandRegistry(event => {
@@ -1498,110 +1643,41 @@ ServerEvents.commandRegistry(event => {
                 .getResult(ctx, 'class')
                 .toLowerCase()
 
-            const classData =
-              NEXUS_CLASS_DATA[classId]
+            const initialTargetValid =
+              [
+                'warrior',
+                'mage',
+                'arcanist',
+                'metallurgist',
+                'gunslinger'
+              ].indexOf(classId) >= 0
 
             if (!player) {
               return 0
             }
 
-            if (!classData) {
+            if (!initialTargetValid) {
               player.tell(
-                'Clase no valida. Usa: warrior, mage o gunslinger.'
+                'Clase no valida. Usa: warrior, arcanist, metallurgist o gunslinger.'
               )
 
               return 0
             }
 
-            if (nexusHasClass(player)) {
+            if (!global.nexusChangeClass) {
               player.tell(
-                'Ya elegiste una clase. ' +
-                'Pide a un admin que reinicie tu camino ' +
-                'si necesitas cambiarla.'
+                'La autoridad transaccional de clases no esta disponible.'
               )
 
               return 0
             }
 
-            player.persistentData.putBoolean(
-              'nexus_class_chosen',
+            return global.nexusChangeClass(
+              ctx.source,
+              player,
+              classId,
               true
             )
-
-            player.persistentData.putString(
-              'nexus_class',
-              classId
-            )
-
-            player.persistentData.remove(
-              'nexus_specialization'
-            )
-
-            nexusClearClassTags(player)
-            player.addTag(classData.tag)
-
-            nexusSyncClassStages(
-              player,
-              'selection'
-            )
-
-            nexusSyncSpecialization(
-              player,
-              'selection'
-            )
-
-            const failedItems =
-              nexusGiveStarterKit(
-                player,
-                classId,
-                true
-              )
-
-            nexusRunServerCommand(
-              player.server,
-              `closeguiscreen ${player.username}`
-            )
-
-            if (classId === 'mage') {
-              player.server.scheduleInTicks(
-                5,
-                callback => {
-                  nexusRunServerCommand(
-                    player.server,
-                    `openguiscreen ` +
-                    `${NEXUS_MAGE_SPECIALIZATION_GUI_ID} ` +
-                    `${player.username}`
-                  )
-                }
-              )
-            }
-
-            const pathMessage =
-              NEXUS_CLASS_PATH_MESSAGES[classId] ||
-              `Clase elegida: ${classData.displayName}.`
-
-            if (failedItems > 0) {
-              player.tell(pathMessage)
-
-              player.tell(
-                'Algunos objetos del kit no pudieron entregarse. ' +
-                'Revisa latest.log.'
-              )
-            } else {
-              nexusTellActionbar(
-                player,
-                pathMessage,
-                'gold'
-              )
-
-              player.tell(pathMessage)
-
-              player.tell(
-                'Kit inicial entregado.'
-              )
-            }
-
-            return 1
           })
       )
   )
@@ -1616,7 +1692,8 @@ ServerEvents.commandRegistry(event => {
           console.info(
             'Nexus Realms class commands: ' +
             '/nexus_select warrior, ' +
-            '/nexus_select mage, ' +
+            '/nexus_select arcanist, ' +
+            '/nexus_select metallurgist, ' +
             '/nexus_select gunslinger'
           )
 
@@ -1660,43 +1737,29 @@ ServerEvents.commandRegistry(event => {
             source => source.hasPermission(2)
           )
           .executes(ctx => {
-            const viewer =
-              ctx.source.player
-
             const target =
               Arguments.PLAYER.getResult(
                 ctx,
                 'player'
               )
 
-            if (viewer) {
-              nexusTellClassStatus(
-                viewer,
+            if (global.nexusTellClassChangeStatus) {
+              global.nexusTellClassChangeStatus(
+                ctx.source,
                 target
               )
-            } else {
-              const targetClass =
-                nexusGetPersistentClass(target)
-
-              const classStages =
-                nexusGetClassStageState(target)
-
-              console.info(
-                `Nexus Realms: ${nexusPlayerName(target)} ` +
-                `class=${targetClass} ` +
-                `chosen=${target.persistentData.getBoolean(
-                  'nexus_class_chosen'
-                ) === true} ` +
-                `warrior=${classStages.warrior} ` +
-                `mage=${classStages.mage} ` +
-                `gunslinger=${classStages.gunslinger} ` +
-                `coherent=${nexusClassStagesCoherent(
-                  targetClass,
-                  classStages
-                )}`
-              )
+              return 1
             }
 
+            const viewer = ctx.source.player
+            if (!viewer) {
+              console.info(
+                'Nexus Realms: class change status API unavailable.'
+              )
+              return 0
+            }
+
+            nexusTellClassStatus(viewer, target)
             return 1
           })
       )
@@ -2153,26 +2216,17 @@ ServerEvents.commandRegistry(event => {
             const admin =
               ctx.source.player
 
-            nexusResetClassState(target)
-
-            target.tell(
-              'Tu clase fue reiniciada. ' +
-              'Abre el selector para elegir un nuevo camino.'
-            )
-
-            nexusOpenClassSelector(target)
+            const resetMessage =
+              '/nexus_resetclass esta deshabilitado. Usa ' +
+              '/nexus_changeclass o /nexus_repairclass.'
 
             if (admin) {
-              admin.tell(
-                `Clase reiniciada para ${target.username}.`
-              )
+              admin.tell(resetMessage)
             } else {
-              console.info(
-                `Nexus Realms: class reset for ${target.username}.`
-              )
+              console.info(`Nexus Realms: ${resetMessage}`)
             }
 
-            return 1
+            return 0
           })
       )
   )
@@ -2197,33 +2251,17 @@ ServerEvents.commandRegistry(event => {
             const admin =
               ctx.source.player
 
-            nexusResetClassState(target)
-
-            nexusRunServerCommand(
-              target.server,
-              `clear ${target.username}`
-            )
-
-            target.tell(
-              'Tu clase e inventario de prueba fueron reiniciados. ' +
-              'Abre el selector para elegir un nuevo camino.'
-            )
-
-            nexusOpenClassSelector(target)
+            const cleanResetMessage =
+              '/nexus_resetclass_clean esta deshabilitado. Usa ' +
+              '/nexus_changeclass o /nexus_repairclass.'
 
             if (admin) {
-              admin.tell(
-                `Clase e inventario de prueba reiniciados ` +
-                `para ${target.username}.`
-              )
+              admin.tell(cleanResetMessage)
             } else {
-              console.info(
-                `Nexus Realms: clean class reset for ` +
-                `${target.username}.`
-              )
+              console.info(`Nexus Realms: ${cleanResetMessage}`)
             }
 
-            return 1
+            return 0
           })
       )
   )
