@@ -629,6 +629,10 @@ file = "config/inventoryprofilesnext/inventoryprofiles.json"
 hash = "74a943508274fa342dbdc9095a2410c6991d7bdeb58ad490193f780dcff63aa4"
 
 [[files]]
+file = "config/irons_spellbooks-client.toml"
+hash = "f2c4f6b18dfaf1909a9a9df8567865f2dc9e908608801da6dccbdf13b8cb8070"
+
+[[files]]
 file = "config/logbegone.toml"
 hash = "c3451c920033fad98c217a68fa9c3e5b824c1db7403dd401e732bf217fbab1d6"
 
@@ -718,7 +722,7 @@ hash = "9e81651d680291e2c8ab65f4a1168a9f8ccb974d688cf8203d9abf843c8bd346"
 
 [[files]]
 file = "defaultconfigs/ftbranks/ranks.snbt"
-hash = "0c7a6c3102e214caecc9bf9307234a6080f29acac79fac874b0f888a856c5bb9"
+hash = "2838edf1d3eb899f2500b827405659625757bd815849cf13b27953e403a4b0fc"
 
 [[files]]
 file = "defaultconfigs/journeymap-server.toml"
