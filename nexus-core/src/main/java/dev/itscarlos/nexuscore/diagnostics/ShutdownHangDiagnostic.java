@@ -1432,17 +1432,34 @@ public final class ShutdownHangDiagnostic {
             boolean daemon = safeThreadBoolean(thread::isDaemon, true);
             long id = thread.getId();
 
-            if (!daemon && !baselineThreadIds.contains(id) && !isIgnoredDiagnosticThread(name)) {
+            if (
+                !daemon &&
+                !baselineThreadIds.contains(id) &&
+                !isIgnoredDiagnosticThread(name)
+            ) {
                 reasons.add(DiscoveryReason.NEW_NON_DAEMON);
             }
-            if (GENERIC_POOL_THREAD.matcher(name).matches()) {
+
+            if (
+                !daemon &&
+                GENERIC_POOL_THREAD.matcher(name).matches()
+            ) {
                 reasons.add(DiscoveryReason.GENERIC_POOL_NAME);
             }
-            if (containsExecutorFrame(stack)) {
+
+            if (
+                !daemon &&
+                containsExecutorFrame(stack)
+            ) {
                 reasons.add(DiscoveryReason.EXECUTOR_STACK);
             }
-            if (shutdownStarted.get() && !daemon && !"DestroyJavaVM".equals(name)
-                && !isIgnoredDiagnosticThread(name)) {
+
+            if (
+                shutdownStarted.get() &&
+                !daemon &&
+                !"DestroyJavaVM".equals(name) &&
+                !isIgnoredDiagnosticThread(name)
+            ) {
                 reasons.add(DiscoveryReason.SHUTDOWN_NON_DAEMON);
             }
             return reasons;
