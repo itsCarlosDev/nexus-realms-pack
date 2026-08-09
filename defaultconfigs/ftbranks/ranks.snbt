@@ -15,10 +15,10 @@
     "command.tpdeny": true,
     "command.spawn": true,
     "command.back": true,
-    "command.warp": false,
+    "command.warp": true,
     "command.setwarp": false,
     "command.delwarp": false,
-    "command.listwarps": false
+    "command.listwarps": true
   },
   owner: {
     name: "Fundador del Nexus",
