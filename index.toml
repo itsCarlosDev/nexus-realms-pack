@@ -1908,8 +1908,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.23.jar"
-hash = "c759bc141d426c50ad679d50a9958337bb321f1e41af6813cadaf3257a1ac182"
+file = "mods/nexus-core-0.6.24.jar"
+hash = "526104b8682035e5335ec8144f53ea0a572903e5cf6025eb0daf94b8f1d9120c"
 
 [[files]]
 file = "mods/not-enough-animations.pw.toml"

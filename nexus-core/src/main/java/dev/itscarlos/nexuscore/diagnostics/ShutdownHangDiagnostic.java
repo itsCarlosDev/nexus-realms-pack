@@ -15,6 +15,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.security.CodeSource;
+import java.security.ProtectionDomain;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -49,10 +51,10 @@ import net.minecraftforge.fml.loading.FMLPaths;
  * Produces one non-destructive JVM thread report when a dedicated server remains
  * alive long after Forge begins its orderly shutdown.
  *
- * <p>The shutdown watchdog is complemented by a bounded in-memory sampler. The
- * sampler starts after {@link ServerStartedEvent}, follows suspicious
- * non-daemon/executor threads while the server is healthy, and appends their
- * pre-shutdown history only when the 45-second hang report is generated.</p>
+ * <p>The shutdown watchdog is complemented by a bounded in-memory sampler and
+ * a size-bounded JFR ThreadStart recording. JFR starts during Nexus Core
+ * construction; the polling sampler starts after {@link ServerStartedEvent}.
+ * Both are consumed only when the 45-second hang report is generated.</p>
  */
 @Mod.EventBusSubscriber(
     modid = NexusCore.MOD_ID,
@@ -71,12 +73,15 @@ public final class ShutdownHangDiagnostic {
     static final int MAX_SAMPLES_PER_CANDIDATE = 64;
     static final int MAX_TOTAL_RETAINED_SAMPLES = 512;
     static final int MAX_STACK_DEPTH = 96;
+    static final long JFR_MAX_SIZE_BYTES = 16L * 1024L * 1024L;
 
     private static final Pattern GENERIC_POOL_THREAD =
         Pattern.compile("^pool-\\d+-thread-\\d+$");
     private static final DateTimeFormatter FILE_TIMESTAMP =
         DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
     private static final Controller CONTROLLER = new Controller(REPORT_DELAY);
+    private static final JfrThreadCreationRecorder JFR_THREAD_CREATION_RECORDER =
+        new JfrThreadCreationRecorder(JFR_MAX_SIZE_BYTES);
     private static final ThreadHistoryMonitor THREAD_HISTORY_MONITOR =
         new ThreadHistoryMonitor(
             DISCOVERY_INTERVAL,
@@ -90,19 +95,57 @@ public final class ShutdownHangDiagnostic {
     static {
         safeInfo(
             "{} Component registered for dedicated-server shutdown events; timeout={} seconds, "
-                + "threadHistoryDiscovery={} ms, focusedSampling={} ms",
+                + "threadHistoryDiscovery={} ms, focusedSampling={} ms, jfrMaxSize={} bytes",
             LOG_PREFIX,
             REPORT_DELAY.toSeconds(),
             DISCOVERY_INTERVAL.toMillis(),
-            FOCUSED_SAMPLE_INTERVAL.toMillis()
+            FOCUSED_SAMPLE_INTERVAL.toMillis(),
+            JFR_MAX_SIZE_BYTES
         );
     }
 
     private ShutdownHangDiagnostic() {
     }
 
+    /**
+     * Starts the bounded ThreadStart recording during Nexus Core construction,
+     * before the rest of Nexus Core initializes. Repeated calls are harmless.
+     */
+    public static void initialize() {
+        try {
+            JfrThreadCreationRecorder.StartResult result = JFR_THREAD_CREATION_RECORDER.start();
+            if (result == JfrThreadCreationRecorder.StartResult.STARTED) {
+                JfrThreadCreationRecorder.StatusSnapshot status =
+                    JFR_THREAD_CREATION_RECORDER.status();
+                safeInfo(
+                    "{} Bounded JFR thread creation capture started "
+                        + "(event={}, stackTraces=true, maxSize={} bytes, toDisk={}, dumpOnExit={})",
+                    LOG_PREFIX,
+                    status.eventName(),
+                    status.maxSizeBytes(),
+                    status.toDisk(),
+                    status.dumpOnExit()
+                );
+            } else if (result == JfrThreadCreationRecorder.StartResult.FAILED) {
+                JfrThreadCreationRecorder.StatusSnapshot status =
+                    JFR_THREAD_CREATION_RECORDER.status();
+                safeWarn(
+                    "{} JFR thread creation capture unavailable; bounded ThreadMXBean diagnostics remain active. reason={}",
+                    LOG_PREFIX,
+                    value(status.startFailure())
+                );
+            }
+        } catch (Throwable error) {
+            safeError(
+                LOG_PREFIX + " Failed to initialize JFR thread creation capture; server will continue",
+                error
+            );
+        }
+    }
+
     @SubscribeEvent
     public static void onServerStarted(ServerStartedEvent event) {
+        initialize();
         try {
             if (THREAD_HISTORY_MONITOR.start()) {
                 safeInfo(
@@ -303,12 +346,25 @@ public final class ShutdownHangDiagnostic {
         line(report, "");
 
         appendInterpretation(report, lifecycle.phase());
-        appendCaptureWarnings(report, captureWarnings);
 
         List<ThreadRecord> nonDaemon = snapshot.threads().stream()
             .filter(record -> Boolean.FALSE.equals(record.daemon()))
             .sorted(THREAD_ORDER)
             .toList();
+        List<ThreadRecord> relevantResiduals = nonDaemon.stream()
+            .filter(ShutdownHangDiagnostic::isRelevantResidualThread)
+            .toList();
+        Set<Long> relevantResidualIds = relevantResiduals.stream()
+            .map(ThreadRecord::id)
+            .collect(Collectors.toCollection(LinkedHashSet::new));
+        JfrThreadCreationRecorder.CaptureSnapshot jfrSnapshot = null;
+        try {
+            jfrSnapshot = JFR_THREAD_CREATION_RECORDER.captureAndClose(relevantResidualIds);
+        } catch (Throwable error) {
+            captureWarnings.add("JFR ThreadStart correlation failed: " + describe(error));
+        }
+        appendCaptureWarnings(report, captureWarnings);
+
         Set<Long> prioritizedIds = nonDaemon.stream()
             .map(ThreadRecord::id)
             .collect(Collectors.toCollection(LinkedHashSet::new));
@@ -318,6 +374,12 @@ public final class ShutdownHangDiagnostic {
             .toList();
 
         appendPreShutdownHistory(report, historySnapshot, prioritizedIds);
+        appendJfrThreadCreationCorrelation(
+            report,
+            jfrSnapshot,
+            relevantResiduals,
+            historySnapshot
+        );
 
         line(report, "NON-DAEMON THREADS");
         line(report, "==================");
@@ -372,6 +434,7 @@ public final class ShutdownHangDiagnostic {
             return null;
         } finally {
             THREAD_HISTORY_MONITOR.stopAndClear();
+            JFR_THREAD_CREATION_RECORDER.close();
         }
     }
 
@@ -566,7 +629,7 @@ public final class ShutdownHangDiagnostic {
         line(report, "Candidates retained: " + snapshot.candidates().size());
         line(report, "Candidates discarded by limit: " + snapshot.discardedCandidates());
         line(report, "Samples retained globally: " + snapshot.totalRetainedSamples());
-        line(report, "JFR ThreadStart capture: not enabled; safe bounded ThreadMXBean polling was used.");
+        line(report, "JFR ThreadStart capture: see JFR THREAD CREATION CORRELATION below.");
         line(
             report,
             "Sampling: discovery=" + snapshot.discoveryIntervalMillis()
@@ -611,6 +674,204 @@ public final class ShutdownHangDiagnostic {
         }
     }
 
+    private static void appendJfrThreadCreationCorrelation(
+        StringBuilder report,
+        JfrThreadCreationRecorder.CaptureSnapshot snapshot,
+        List<ThreadRecord> residuals,
+        ThreadHistorySnapshot historySnapshot
+    ) {
+        JfrThreadCreationRecorder.StatusSnapshot status = snapshot == null
+            ? JFR_THREAD_CREATION_RECORDER.status()
+            : snapshot.status();
+
+        line(report, "JFR THREAD CREATION CORRELATION");
+        line(report, "===================================");
+        line(
+            report,
+            "jfrAvailable=" + (
+                status.availabilityChecked()
+                    ? Boolean.toString(status.available())
+                    : "NOT_CHECKED"
+            )
+        );
+        line(report, "jfrStartAttempted=" + status.startAttempted());
+        line(report, "jfrStartedSuccessfully=" + status.startedSuccessfully());
+        line(report, "recordingStartInstant=" + value(status.startedInstant()));
+        line(report, "enabledEvent=" + status.eventName());
+        line(report, "stackTracesEnabled=" + status.stackTracesEnabled());
+        line(report, "recordingToDisk=" + status.toDisk());
+        line(report, "dumpOnExit=" + status.dumpOnExit());
+        line(
+            report,
+            "maxSize=" + status.maxSizeBytes() + " bytes ("
+                + String.format(java.util.Locale.ROOT, "%.2f MiB", status.maxSizeBytes() / 1_048_576.0)
+                + ")"
+        );
+        line(report, "maxAge=" + status.maxAgeDescription());
+        line(report, "startFailure=" + (status.startFailure() == null ? "NONE" : status.startFailure()));
+        line(report, "captureAttempted=" + (snapshot != null && snapshot.captureAttempted()));
+        line(report, "threadStartEventsScanned=" + (snapshot == null ? 0L : snapshot.eventsScanned()));
+        line(
+            report,
+            "residualJavaThreadIdsRequested=" + (
+                snapshot == null ? List.of() : snapshot.requestedJavaThreadIds()
+            )
+        );
+        line(
+            report,
+            "captureFailure=" + (
+                snapshot == null
+                    ? "capture did not return a snapshot"
+                    : snapshot.captureFailure() == null ? "NONE" : snapshot.captureFailure()
+            )
+        );
+        line(
+            report,
+            "correlationMethod=exact Java thread ID; thread names are reported only as supporting evidence"
+        );
+        line(
+            report,
+            "duplicateJavaThreadIdHandling=latest retained ThreadStart event selected; matching count reported"
+        );
+        line(
+            report,
+            "retentionPolicy=size-bounded circular JFR repository; no persistent .jfr diagnostic file is retained"
+        );
+        line(report, "");
+
+        if (residuals.isEmpty()) {
+            line(report, "No relevant residual non-daemon thread required JFR correlation.");
+            line(report, "");
+        }
+
+        for (ThreadRecord residual : residuals) {
+            JfrThreadCreationRecorder.ThreadStartEvidence evidence = snapshot == null
+                ? null
+                : snapshot.evidenceByJavaThreadId().get(residual.id());
+            CandidateHistorySnapshot history = historySnapshot.candidates().stream()
+                .filter(candidate -> candidate.id() == residual.id())
+                .findFirst()
+                .orElse(null);
+
+            line(report, "Residual thread creation evidence:");
+            line(report, "  finalName=" + residual.name());
+            line(report, "  javaThreadId=" + residual.id());
+            line(report, "  daemon=" + value(residual.daemon()));
+            line(report, "  finalState=" + value(residual.state()));
+            line(report, "  firstObservedByPolling=" + (history == null ? "NOT_AVAILABLE" : history.firstSeen()));
+            line(report, "  correlationKey=javaThreadId");
+            line(report, "  threadNameUsedForCorrelation=false");
+            line(report, "  jfrThreadStartMatched=" + (evidence != null));
+
+            if (evidence == null) {
+                line(report, "  creationStackAvailable=false");
+                line(report, "  firstExternalClass=NOT_CAPTURED");
+                line(report, "  firstExternalClassResource=NOT_AVAILABLE");
+                line(report, "  firstExternalProtectionDomainCodeSource=NOT_AVAILABLE");
+                line(report, "  possibleJarAssociation=NOT_AVAILABLE");
+                line(
+                    report,
+                    "  limitation=No retained jdk.ThreadStart event matched this live Java thread ID. "
+                        + "The thread may predate recording startup, its event may have been evicted by the size bound, "
+                        + "or JFR capture may have degraded. This is not attribution evidence."
+                );
+                line(report, "  creationStack:");
+                line(report, "    <not captured>");
+                line(report, "");
+                continue;
+            }
+
+            JfrThreadCreationRecorder.ThreadIdentity startedThread = evidence.startedThread();
+            line(report, "  matchingThreadStartEventsForJavaId=" + evidence.matchingEventCount());
+            line(report, "  threadStartInstant=" + evidence.startInstant());
+            line(
+                report,
+                "  threadStartAtOrBeforeFirstPollingObservation=" + (
+                    history == null
+                        ? "NOT_AVAILABLE"
+                        : !evidence.startInstant().isAfter(history.firstSeen())
+                )
+            );
+            appendJfrThreadIdentity(report, "startedThread", startedThread);
+            appendJfrThreadIdentity(report, "creatorParentThread", evidence.parentThread());
+            appendJfrThreadIdentity(report, "eventThread", evidence.eventThread());
+            line(
+                report,
+                "  finalNameEqualsRecordedStartName=" + (
+                    startedThread != null && residual.name().equals(startedThread.name())
+                )
+            );
+            line(report, "  creationStackAvailable=" + evidence.stackAvailable());
+            line(report, "  creationStackTruncated=" + evidence.stackTruncated());
+
+            JfrThreadCreationRecorder.CreationFrame firstExternal = evidence.creationStack().stream()
+                .filter(frame -> isExternalClassName(frame.className()))
+                .findFirst()
+                .orElse(null);
+            ResourceAssociation association = firstExternal == null
+                ? null
+                : resolveExternalAssociation(
+                    firstExternal.className(),
+                    findLiveThreadById(residual.id())
+                );
+            if (association == null) {
+                line(report, "  firstExternalClass=NOT_CAPTURED");
+                line(report, "  firstExternalClassResource=NOT_AVAILABLE");
+                line(report, "  firstExternalProtectionDomainCodeSource=NOT_AVAILABLE");
+                line(report, "  possibleJarAssociation=NOT_AVAILABLE");
+            } else {
+                line(report, "  firstExternalClass=" + association.className());
+                line(report, "  firstExternalClassResource=" + association.resourceUrl());
+                line(
+                    report,
+                    "  firstExternalProtectionDomainCodeSource=" + association.protectionDomainCodeSource()
+                );
+                line(report, "  possibleJarAssociation=" + association.jarAssociation());
+                line(report, "  associationLimitation=" + association.limitation());
+            }
+
+            line(report, "  creationStack:");
+            if (evidence.creationStack().isEmpty()) {
+                line(report, "    <empty or unavailable>");
+            } else {
+                for (JfrThreadCreationRecorder.CreationFrame frame : evidence.creationStack()) {
+                    line(
+                        report,
+                        "    at " + frame.className() + "." + frame.methodName()
+                            + "(line=" + (frame.lineNumber() < 0 ? "unavailable" : frame.lineNumber())
+                            + ", bci=" + frame.bytecodeIndex()
+                            + ", frameType=" + value(frame.frameType())
+                            + ", javaFrame=" + frame.javaFrame() + ")"
+                    );
+                }
+            }
+            line(report, "");
+        }
+
+        line(
+            report,
+            "Limitations: only ThreadStart events created after recordingStartInstant can match; "
+                + "Java thread ID is primary identity, while names may be generic or may change; "
+                + "class/JAR associations remain classloader-dependent evidence rather than fault proof."
+        );
+        line(report, "");
+    }
+
+    private static void appendJfrThreadIdentity(
+        StringBuilder report,
+        String label,
+        JfrThreadCreationRecorder.ThreadIdentity identity
+    ) {
+        if (identity == null) {
+            line(report, "  " + label + "=NOT_AVAILABLE");
+            return;
+        }
+        line(report, "  " + label + "Name=" + value(identity.name()));
+        line(report, "  " + label + "JavaThreadId=" + identity.javaThreadId());
+        line(report, "  " + label + "OsThreadId=" + identity.osThreadId());
+        line(report, "  " + label + "JfrIdentityId=" + identity.recordedThreadIdentityId());
+    }
+
     private static void appendCandidateHistory(
         StringBuilder report,
         CandidateHistorySnapshot candidate,
@@ -639,10 +900,15 @@ public final class ShutdownHangDiagnostic {
         if (association == null) {
             line(report, "  firstExternalClass=NOT_CAPTURED");
             line(report, "  firstExternalClassResource=NOT_AVAILABLE");
+            line(report, "  firstExternalProtectionDomainCodeSource=NOT_AVAILABLE");
             line(report, "  possibleJarAssociation=NOT_AVAILABLE");
         } else {
             line(report, "  firstExternalClass=" + association.className());
             line(report, "  firstExternalClassResource=" + association.resourceUrl());
+            line(
+                report,
+                "  firstExternalProtectionDomainCodeSource=" + association.protectionDomainCodeSource()
+            );
             line(report, "  possibleJarAssociation=" + association.jarAssociation());
             line(report, "  associationLimitation=" + association.limitation());
         }
@@ -918,10 +1184,13 @@ public final class ShutdownHangDiagnostic {
     }
 
     private static boolean isExternalFrame(StackTraceElement frame) {
-        if (frame == null) {
+        return frame != null && isExternalClassName(frame.getClassName());
+    }
+
+    private static boolean isExternalClassName(String className) {
+        if (className == null || className.isBlank() || className.startsWith("<")) {
             return false;
         }
-        String className = frame.getClassName();
         return !(className.startsWith("java.")
             || className.startsWith("javax.")
             || className.startsWith("jdk.")
@@ -993,10 +1262,17 @@ public final class ShutdownHangDiagnostic {
             return null;
         }
 
-        String className = firstExternal.getClassName();
+        return resolveExternalAssociation(firstExternal.getClassName(), thread);
+    }
+
+    private static ResourceAssociation resolveExternalAssociation(
+        String className,
+        Thread thread
+    ) {
         String resourceName = className.replace('.', '/') + ".class";
         ClassLoader preferredLoader = null;
-        String limitation = "Resource URL is association evidence only; the owning component is not proven.";
+        String limitation = "ProtectionDomain/code-source and resource URLs are classloader-dependent "
+            + "association evidence only; the owning component is not proven.";
 
         try {
             if (thread != null) {
@@ -1006,15 +1282,16 @@ public final class ShutdownHangDiagnostic {
             // Fallback loaders below remain available.
         }
 
+        ClassLoader fallbackLoader = ShutdownHangDiagnostic.class.getClassLoader();
         URL resource = null;
+        String protectionDomainCodeSource = "NOT_AVAILABLE";
         try {
             if (preferredLoader != null) {
                 resource = preferredLoader.getResource(resourceName);
             }
             if (resource == null) {
-                ClassLoader fallback = ShutdownHangDiagnostic.class.getClassLoader();
-                if (fallback != null) {
-                    resource = fallback.getResource(resourceName);
+                if (fallbackLoader != null) {
+                    resource = fallbackLoader.getResource(resourceName);
                 }
             }
             if (resource == null) {
@@ -1024,25 +1301,103 @@ public final class ShutdownHangDiagnostic {
             return new ResourceAssociation(
                 className,
                 "unavailable (" + describe(error) + ")",
+                protectionDomainCodeSource,
                 "unavailable",
                 limitation
             );
         }
 
+        Class<?> resolvedClass = tryLoadClass(className, preferredLoader);
+        if (resolvedClass == null && fallbackLoader != preferredLoader) {
+            resolvedClass = tryLoadClass(className, fallbackLoader);
+        }
+        if (resolvedClass == null) {
+            resolvedClass = tryLoadClass(className, safeSystemClassLoader());
+        }
+        if (resolvedClass != null) {
+            try {
+                ProtectionDomain protectionDomain = resolvedClass.getProtectionDomain();
+                CodeSource codeSource = protectionDomain == null ? null : protectionDomain.getCodeSource();
+                URL location = codeSource == null ? null : codeSource.getLocation();
+                if (location != null) {
+                    protectionDomainCodeSource = location.toExternalForm();
+                }
+            } catch (Throwable error) {
+                protectionDomainCodeSource = "unavailable (" + describe(error) + ")";
+            }
+        }
+
         if (resource == null) {
-            return new ResourceAssociation(className, "NOT_FOUND", "NOT_AVAILABLE", limitation);
+            String association = "NOT_AVAILABLE".equals(protectionDomainCodeSource)
+                || protectionDomainCodeSource.startsWith("unavailable (")
+                ? "NOT_AVAILABLE"
+                : protectionDomainCodeSource;
+            return new ResourceAssociation(
+                className,
+                "NOT_FOUND",
+                protectionDomainCodeSource,
+                association,
+                limitation
+            );
         }
 
         String externalForm = resource.toExternalForm();
-        String association = externalForm;
-        int separator = externalForm.indexOf("!/");
-        if (separator >= 0) {
-            association = externalForm.substring(0, separator);
-            if (association.startsWith("jar:")) {
-                association = association.substring("jar:".length());
+        String association = protectionDomainCodeSource;
+        if ("NOT_AVAILABLE".equals(association) || association.startsWith("unavailable (")) {
+            association = externalForm;
+            int separator = externalForm.indexOf("!/");
+            if (separator >= 0) {
+                association = externalForm.substring(0, separator);
+                if (association.startsWith("jar:")) {
+                    association = association.substring("jar:".length());
+                }
             }
         }
-        return new ResourceAssociation(className, externalForm, association, limitation);
+        return new ResourceAssociation(
+            className,
+            externalForm,
+            protectionDomainCodeSource,
+            association,
+            limitation
+        );
+    }
+
+    private static Class<?> tryLoadClass(String className, ClassLoader loader) {
+        if (loader == null) {
+            return null;
+        }
+        try {
+            return Class.forName(className, false, loader);
+        } catch (Throwable ignored) {
+            return null;
+        }
+    }
+
+    private static ClassLoader safeSystemClassLoader() {
+        try {
+            return ClassLoader.getSystemClassLoader();
+        } catch (Throwable ignored) {
+            return null;
+        }
+    }
+
+    private static Thread findLiveThreadById(long id) {
+        try {
+            for (Thread thread : Thread.getAllStackTraces().keySet()) {
+                if (thread.getId() == id) {
+                    return thread;
+                }
+            }
+        } catch (Throwable ignored) {
+            // Fallback classloaders in resolveExternalAssociation remain available.
+        }
+        return null;
+    }
+
+    private static boolean isRelevantResidualThread(ThreadRecord record) {
+        return !"DestroyJavaVM".equals(record.name())
+            && !WATCHDOG_THREAD_NAME.equals(record.name())
+            && !HISTORY_MONITOR_THREAD_NAME.equals(record.name());
     }
 
     private static String formatLocal(Instant instant) {
@@ -1985,6 +2340,7 @@ public final class ShutdownHangDiagnostic {
     private record ResourceAssociation(
         String className,
         String resourceUrl,
+        String protectionDomainCodeSource,
         String jarAssociation,
         String limitation
     ) {
