@@ -354,19 +354,19 @@ function nexusEraDimensionId(level) {
     return value
   }
 
-  let parsed =
+  let nexusEraParsedDimension =
     value.substring(
       separator + 3
     )
 
-  if (parsed.endsWith(']')) {
-    parsed = parsed.substring(
+  if (nexusEraParsedDimension.endsWith(']')) {
+    nexusEraParsedDimension = nexusEraParsedDimension.substring(
       0,
-      parsed.length - 1
+      nexusEraParsedDimension.length - 1
     )
   }
 
-  return parsed
+  return nexusEraParsedDimension
 }
 
 function nexusEraDefinition(era) {
@@ -2165,20 +2165,58 @@ function nexusEraChooseHordeTheme(
   return available[index]
 }
 
+function nexusEraSameNativeHorde(left, right) {
+  if (left === right) return true
+  if (!left || !right) return false
+
+  try {
+    return left.equals(right)
+  } catch (ignored) {
+    return false
+  }
+}
+
 function nexusEraParticipantIds(data) {
   try {
-    const parsed =
+    var nexusEraParticipantJson =
       JSON.parse(
         data.getString(
           'nexusHordeParticipantUUIDs'
         ) || '[]'
       )
 
-    return Array.isArray(parsed)
-      ? parsed.map(value =>
-          String(value)
+    if (!Array.isArray(nexusEraParticipantJson)) {
+      return []
+    }
+
+    var nexusEraUniqueParticipantIds = []
+    var nexusEraSeenParticipantIds = new Set()
+
+    nexusEraParticipantJson.forEach(value => {
+      var nexusEraCandidateParticipantId =
+        String(value || '').trim().toLowerCase()
+
+      if (
+        !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(
+          nexusEraCandidateParticipantId
+        ) ||
+        nexusEraSeenParticipantIds.has(
+          nexusEraCandidateParticipantId
         )
-      : []
+      ) {
+        return
+      }
+
+      nexusEraSeenParticipantIds.add(
+        nexusEraCandidateParticipantId
+      )
+
+      nexusEraUniqueParticipantIds.push(
+        nexusEraCandidateParticipantId
+      )
+    })
+
+    return nexusEraUniqueParticipantIds
   } catch (error) {
     nexusEraLogErrorOnce(
       'participant-json',
@@ -2242,19 +2280,6 @@ function nexusEraRewardHordeParticipants(
 
   const participantIds =
     nexusEraParticipantIds(data)
-
-  const anchorId =
-    String(anchor.uuid)
-
-  if (
-    !participantIds.includes(
-      anchorId
-    )
-  ) {
-    participantIds.push(
-      anchorId
-    )
-  }
 
   const rewarded = []
   const skipped = []
@@ -2721,7 +2746,10 @@ function nexusEraValidatePendingStart(
   }
 }
 
-function nexusEraCompleteHorde(player) {
+function nexusEraCompleteHorde(
+  player,
+  expectedAnchorId
+) {
   if (!player) return false
 
   const server =
@@ -2730,8 +2758,10 @@ function nexusEraCompleteHorde(player) {
   const data =
     nexusEraData(server)
 
-  const playerId =
-    String(player.uuid)
+  const playerId = String(player.uuid)
+  const anchorId = expectedAnchorId
+    ? String(expectedAnchorId)
+    : playerId
 
   if (
     !data.getBoolean(
@@ -2744,7 +2774,7 @@ function nexusEraCompleteHorde(player) {
   if (
     data.getString(
       'nexusHordeAnchorUUID'
-    ) !== playerId
+    ) !== anchorId
   ) {
     return false
   }
@@ -2770,7 +2800,7 @@ function nexusEraCompleteHorde(player) {
   nexusEraPendingStart = null
 
   nexusEraObservedNativeHordes.delete(
-    playerId
+    anchorId
   )
 
   const rewardResult =
@@ -3142,10 +3172,6 @@ function nexusEraBridgeOnHordeEnd(
   const data =
     nexusEraData(server)
 
-  nexusEraObservedNativeHordes.delete(
-    playerId
-  )
-
   if (
     !data.getBoolean(
       'nexusHordeActive'
@@ -3154,13 +3180,28 @@ function nexusEraBridgeOnHordeEnd(
     return
   }
 
+  const anchorId = data.getString(
+    'nexusHordeAnchorUUID'
+  )
+
+  const observedHorde =
+    nexusEraObservedNativeHordes.get(
+      anchorId
+    )
+
   if (
-    data.getString(
-      'nexusHordeAnchorUUID'
-    ) !== playerId
+    anchorId !== playerId &&
+    !nexusEraSameNativeHorde(
+      observedHorde,
+      event.getHorde()
+    )
   ) {
     return
   }
+
+  nexusEraObservedNativeHordes.delete(
+    anchorId
+  )
 
   if (event.wasCommand()) {
     nexusEraPendingStart = null
@@ -3180,8 +3221,31 @@ function nexusEraBridgeOnHordeEnd(
     )
   } else {
     nexusEraCompleteHorde(
-      player
+      player,
+      anchorId
     )
+  }
+}
+
+function nexusEraHordeContext(server) {
+  if (!server) return null
+
+  const data = nexusEraData(server)
+
+  if (
+    !data.getBoolean(
+      'nexusHordeActive'
+    )
+  ) {
+    return null
+  }
+
+  return {
+    anchorId: data.getString(
+      'nexusHordeAnchorUUID'
+    ),
+    participantIds:
+      nexusEraParticipantIds(data)
   }
 }
 
@@ -3193,7 +3257,10 @@ global.NexusEraCalendar = {
     nexusEraBridgeOnHordeStart,
 
   onHordeEnd:
-    nexusEraBridgeOnHordeEnd
+    nexusEraBridgeOnHordeEnd,
+
+  getHordeContext:
+    nexusEraHordeContext
 }
 
 ServerEvents.commandRegistry(

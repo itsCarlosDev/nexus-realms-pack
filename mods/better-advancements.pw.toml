@@ -1,0 +1,13 @@
+name = "Better Advancements"
+filename = "BetterAdvancements-NeoForge-1.20.1-0.6.0.73.jar"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/Q2OqKxDG/versions/b7M4dLeR/BetterAdvancements-NeoForge-1.20.1-0.6.0.73.jar"
+hash-format = "sha512"
+hash = "652e7e2d324c9a555df43966c2b49b41465c3df3ec69d33377e56d988247baa550f4d9e8052ce7d8b86ef44a48e9a4e4c700180a2ee657531bc6994fdd738d81"
+
+[update]
+[update.modrinth]
+mod-id = "Q2OqKxDG"
+version = "b7M4dLeR"

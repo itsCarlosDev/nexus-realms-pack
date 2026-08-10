@@ -1,6 +1,6 @@
 name = "Just Enough Items (JEI)"
 filename = "jei-1.20.1-forge-15.20.0.133.jar"
-side = "client"
+side = "both"
 
 [download]
 url = "https://cdn.modrinth.com/data/u6dRKJwZ/versions/vnxhddW4/jei-1.20.1-forge-15.20.0.133.jar"

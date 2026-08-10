@@ -1,0 +1,14 @@
+name = "Create: Enchantment Industry"
+filename = "create_enchantment_industry-1.4.0-for-create-6.0.8.jar"
+side = "both"
+pin = true
+
+[download]
+url = "https://cdn.modrinth.com/data/JWGBpFUP/versions/fBncZZdn/create_enchantment_industry-1.4.0-for-create-6.0.8.jar"
+hash-format = "sha512"
+hash = "13b77b8756df87c3d94c5a4a4df89e783cf62690f4ab6f97d2e1fb44a56ae3a4b8dbaca3aada104c697a8f5d132ab316ed243dff41b6a66a060fc3feb500c710"
+
+[update]
+[update.modrinth]
+mod-id = "JWGBpFUP"
+version = "fBncZZdn"

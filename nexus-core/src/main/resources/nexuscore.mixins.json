@@ -11,7 +11,8 @@
     "CameraPacketManagerMixin",
     "CameraResizeFrameMessageMixin",
     "EpicFightNetworkManagerMixin",
-    "HistoryStagesCuriosEquipLockHandlerMixin"
+    "HistoryStagesCuriosEquipLockHandlerMixin",
+    "HordeTrackPlayerGoalMixin"
   ],
   "client": [
     "client.EpicFightClassModeMixin",

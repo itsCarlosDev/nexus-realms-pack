@@ -1094,7 +1094,7 @@ hash = "516720a8278e3fe0048c3ec9a2f332e2b6c03687efd69ba368bda4985ef9c87b"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_era_calendar.js"
-hash = "ba1b93ec8ede117bd73ab817b86a0ba7dae70933c74019dd46960feba396175f"
+hash = "28a420b31e6bcdbcab803afe3e947db8d9a39afcf6d64d9a697eeb1726d05499"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_export_entity_ids.js"
@@ -1122,15 +1122,15 @@ hash = "211da8a3f317447b2104b2dde04146414470fb9750acd22ef218a32c1f092761"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_director.js"
-hash = "36e248b2c63414269a47127f83e6419b056d9bbb0c230cdb9134a721745a8231"
+hash = "ba7c344605dfb0dd085ff8317ab5eab09bc82fe22492d3fca927ce86a1c5aacb"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_presentation.js"
-hash = "8e3e52612b1ebfd6eea67a3d9733da47bdffcac6cf36ae829c8384521e9ba987"
+hash = "8d6f44095ed1fc95962abeb6d7dff7c3b1700a9a8207d4a42f056f55143e05ff"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_reentry_guard.js"
-hash = "fb7a00480ba28713caf3b63a27fb34614740a7043ef92855fae75bfddf71edbe"
+hash = "e444142f8463f77f7c4dbd28921664c5f6416b22e89db3cdcd1ae8005aef0e07"
 
 [[files]]
 file = "mods/aaa-particles-world.pw.toml"
@@ -1140,6 +1140,11 @@ metafile = true
 [[files]]
 file = "mods/aaa-particles.pw.toml"
 hash = "3c0461086c5aa1dd89f197aabcd68580161b66ce6486eb99dce4028b3540904c"
+metafile = true
+
+[[files]]
+file = "mods/accelerated-decay.pw.toml"
+hash = "920c34a04af6fc921bbf12df0e701ccb0e0faadb961fe66d84916cf1f9f24e80"
 metafile = true
 
 [[files]]
@@ -1220,6 +1225,11 @@ metafile = true
 [[files]]
 file = "mods/bens-sharks.pw.toml"
 hash = "b2f03cfde6bf4642eea41b5a23e36e97c19cdb8c9d0dde64fe25681e43edd2d2"
+metafile = true
+
+[[files]]
+file = "mods/better-advancements.pw.toml"
+hash = "8851ef68c7776585e1bfabb8f95b1f5a2ababb7264a679a9bf562b7ac0d137ec"
 metafile = true
 
 [[files]]
@@ -1323,6 +1333,11 @@ hash = "b1594687e49efac809d90262d5d3378c90d58c0e780f5fd164a21f541ed023c8"
 metafile = true
 
 [[files]]
+file = "mods/collective.pw.toml"
+hash = "0e70a9f05b4b5cafaeed0417a3cfae2dd36bd88cce06a4b688d240d9b90ddfb2"
+metafile = true
+
+[[files]]
 file = "mods/combat-evolution.pw.toml"
 hash = "2d862b35349b49f7f636b9bc7d67971d9319e13df3ef1bf1e1d4a8cf35a10bd7"
 metafile = true
@@ -1358,8 +1373,18 @@ hash = "87be52b8aaa9864eab1ec2df8c862cd01a084989b07c4cdbfaa21c57a9a778a6"
 metafile = true
 
 [[files]]
+file = "mods/create-enchantment-industry.pw.toml"
+hash = "ab87291892e58660835460db9f262f01ea129e457cf0c20f4932e2637965212f"
+metafile = true
+
+[[files]]
+file = "mods/create-steam-n-rails.pw.toml"
+hash = "4c091982c192238cc7b2cefbb3a6e634edc6d7a780e547d693df7f4e3e1b04be"
+metafile = true
+
+[[files]]
 file = "mods/create.pw.toml"
-hash = "9d7971a7af2ff4a96a0e5aede76f9cf8dc978da601e2754f79d6ec8631125bb9"
+hash = "fb5c251cf4997fa65ca043bab7c9ecbd02e108031584a3e26276b77d212de23c"
 metafile = true
 
 [[files]]
@@ -1415,6 +1440,11 @@ metafile = true
 [[files]]
 file = "mods/doggy-talents-next.pw.toml"
 hash = "6ae6b7e84d0d7c0cbaea4d8b4fdd2ea12520de3fff876e734faf9db1f6035c4b"
+metafile = true
+
+[[files]]
+file = "mods/double-doors.pw.toml"
+hash = "354515e4c9017acf24464556a4b56f3e15d0302308d09a9fe80817b05b6e4ff5"
 metafile = true
 
 [[files]]
@@ -1758,6 +1788,11 @@ hash = "175953670aa8af658a60be96577eac7202cbef7b01c4d8b7689d100a46f327bc"
 metafile = true
 
 [[files]]
+file = "mods/jade-addons-forge.pw.toml"
+hash = "2e88de6ccb041493cc6fa75ce102892ddb88529d5c380ba288c7b5f928a4f998"
+metafile = true
+
+[[files]]
 file = "mods/jade.pw.toml"
 hash = "0fbcc8cf03336e6bed425e2115fc4ff1a3a05be5c655228b305e70380eb08b57"
 metafile = true
@@ -1769,12 +1804,17 @@ metafile = true
 
 [[files]]
 file = "mods/jei.pw.toml"
-hash = "70b6ea05468e6d225411202256afdc30fd42535a67289a778891a31738606794"
+hash = "70ac9d84719ceb1baa01e853b49898940766440206dfa2092b4647a256d0765a"
 metafile = true
 
 [[files]]
 file = "mods/journeymap.pw.toml"
 hash = "d72743d8c2d0bc9c970bf0f69767fa7ad4f8a0e89ff12bebe292d284238327e3"
+metafile = true
+
+[[files]]
+file = "mods/just-enough-resources-jer.pw.toml"
+hash = "02977d28acd2089c39dbe5b65fd08e78094fb650b4afc810f757cb5cea1fbda8"
 metafile = true
 
 [[files]]
@@ -1868,12 +1908,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.21.jar"
-hash = "b8b98820298abf3bf1ca5461edc61d687a873a710a2ddf35de176eb0e9b275da"
-
-[[files]]
-file = "mods/nexus-core-0.6.22.jar"
-hash = "bb94ee909e70a20650bbd82af8c35fd8bf8061b79b99080e4f2685a24c8230c0"
+file = "mods/nexus-core-0.6.23.jar"
+hash = "c759bc141d426c50ad679d50a9958337bb321f1e41af6813cadaf3257a1ac182"
 
 [[files]]
 file = "mods/not-enough-animations.pw.toml"
@@ -1941,6 +1977,11 @@ hash = "93e79f423eafdfeb26a0ce9907f4a7dc63b8fdbb2a8702393b24ceec50954d6d"
 metafile = true
 
 [[files]]
+file = "mods/polymorph.pw.toml"
+hash = "4ab869d8784f4ac318b5c92fa3d9e65f997352b8b57f34b409ca6f171637f0fe"
+metafile = true
+
+[[files]]
 file = "mods/pots-and-mimics-rpg.pw.toml"
 hash = "cc335b14ea69222d7aa291f5faf4eeb8d27d1246c22c305a73c7a01f31e98d67"
 metafile = true
@@ -1978,6 +2019,11 @@ metafile = true
 [[files]]
 file = "mods/quests-additions.pw.toml"
 hash = "d9e13a1c9bb74d5b456ffd7541627f5cf700a5949c3994c2a6673df7046bfb27"
+metafile = true
+
+[[files]]
+file = "mods/rack-it-up.pw.toml"
+hash = "3177a30f640e6ce7c4e5b2f1725be61cf3727a55c29792d40afbbf91de8a04da"
 metafile = true
 
 [[files]]
