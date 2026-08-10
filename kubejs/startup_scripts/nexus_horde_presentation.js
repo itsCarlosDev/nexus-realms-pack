@@ -7,7 +7,7 @@
 // - evita comandos redundantes de bossbar;
 // - diferencia la irrupcion del combate activo;
 // - conserva la API y los nombres usados por nexus_horde_director.js;
-// - mantiene una presentacion personal y consistente para el propietario de la horda.
+// - comparte una unica presentacion sincronizada con los participantes globales.
 
 const NEXUS_HORDE_PRESENTATION_TOTAL_WAVES = 4
 const NEXUS_HORDE_PRESENTATION_PREPARATION_TICKS = 200
@@ -105,6 +105,18 @@ const NEXUS_HORDE_PRESENTATION_WAVE_MESSAGES = {
 const nexusHordePresentationStates = new Map()
 const nexusHordePresentationLoggedErrors = new Set()
 let nexusHordePresentationServerTick = 0
+var nexusHordePresentationSupportClass = null
+
+try {
+  nexusHordePresentationSupportClass = Java.loadClass(
+    'dev.itscarlos.nexuscore.horde.HordePresentationSupport'
+  )
+} catch (error) {
+  console.error(
+    'Nexus Realms Hordes: Nexus Core no expone HordePresentationSupport.'
+  )
+  console.error(error)
+}
 
 function nexusHordePresentationLogErrorOnce(key, message, error) {
   if (nexusHordePresentationLoggedErrors.has(key)) return
@@ -155,6 +167,124 @@ function nexusHordePresentationSafeId(value) {
 
 function nexusHordePresentationEntityId(entity) {
   return String(entity.uuid)
+}
+
+function nexusHordePresentationContext(server) {
+  try {
+    if (
+      global.NexusEraCalendar &&
+      typeof global.NexusEraCalendar.getHordeContext ===
+        'function'
+    ) {
+      return global.NexusEraCalendar.getHordeContext(
+        server
+      )
+    }
+  } catch (error) {
+    nexusHordePresentationLogErrorOnce(
+      `context:${String(error)}`,
+      'Nexus Realms Hordes: no se pudo leer el contexto global.',
+      error
+    )
+  }
+
+  return null
+}
+
+function nexusHordePresentationSameHorde(left, right) {
+  if (left === right) return true
+  if (!left || !right) return false
+
+  try {
+    return left.equals(right)
+  } catch (ignored) {
+    return false
+  }
+}
+
+function nexusHordePresentationRecipients(state) {
+  var presentationRecipients = []
+
+  state.server.players.forEach(player => {
+    var presentationPlayerId =
+      nexusHordePresentationPlayerId(player)
+
+    if (
+      !state.participantIds.includes(
+        presentationPlayerId
+      )
+    ) {
+      return
+    }
+
+    try {
+      if (
+        player.isAlive() &&
+        !player.isSpectator() &&
+        String(player.level.dimension) ===
+          state.dimensionId
+      ) {
+        presentationRecipients.push(player)
+      }
+    } catch (ignored) {
+      // Un participante no disponible se reincorpora al volver a ser valido.
+    }
+  })
+
+  return presentationRecipients
+}
+
+function nexusHordePresentationForEachRecipient(
+  state,
+  action
+) {
+  nexusHordePresentationRecipients(state).forEach(
+    action
+  )
+}
+
+function nexusHordePresentationFindStateByHorde(horde) {
+  var presentationFoundState = null
+
+  nexusHordePresentationStates.forEach(
+    presentationState => {
+      if (
+        !presentationFoundState &&
+        nexusHordePresentationSameHorde(
+          presentationState.horde,
+          horde
+        )
+      ) {
+        presentationFoundState = presentationState
+      }
+    }
+  )
+
+  return presentationFoundState
+}
+
+function nexusHordePresentationFindStateForPlayer(player) {
+  var presentationPlayerId =
+    nexusHordePresentationPlayerId(player)
+  var presentationState =
+    nexusHordePresentationStates.get(
+      presentationPlayerId
+    )
+
+  if (presentationState) return presentationState
+
+  nexusHordePresentationStates.forEach(candidate => {
+    if (
+      !presentationState &&
+      candidate.participantIds.includes(
+        presentationPlayerId
+      )
+    ) {
+      presentationState = candidate
+    }
+  })
+
+  return presentationState
 }
 
 function nexusHordePresentationComponent(text, color, bold) {
@@ -262,15 +392,40 @@ function nexusHordePresentationActionbar(
   )
 }
 
+function nexusHordePresentationActionbarForState(
+  state,
+  text,
+  color
+) {
+  nexusHordePresentationForEachRecipient(
+    state,
+    player => {
+      nexusHordePresentationActionbar(
+        player,
+        text,
+        color
+      )
+    }
+  )
+}
+
 function nexusHordePresentationPlaySoundAtPlayer(
   state,
   sound,
   volume,
   pitch
 ) {
-  nexusHordePresentationRunSilent(
-    state.player.getServer(),
-    `execute at ${state.playerName} run playsound ${sound} master ${state.playerName} ~ ~ ~ ${volume} ${pitch}`
+  nexusHordePresentationForEachRecipient(
+    state,
+    player => {
+      var presentationName =
+        nexusHordePresentationPlayerName(player)
+
+      nexusHordePresentationRunSilent(
+        state.server,
+        `execute at ${presentationName} run playsound ${sound} master ${presentationName} ~ ~ ~ ${volume} ${pitch}`
+      )
+    }
   )
 }
 
@@ -282,9 +437,17 @@ function nexusHordePresentationParticleAtPlayer(
   speed,
   count
 ) {
-  nexusHordePresentationRunSilent(
-    state.player.getServer(),
-    `execute at ${state.playerName} run particle ${particle} ${offset} ${delta} ${speed} ${count} normal ${state.playerName}`
+  nexusHordePresentationForEachRecipient(
+    state,
+    player => {
+      var presentationName =
+        nexusHordePresentationPlayerName(player)
+
+      nexusHordePresentationRunSilent(
+        state.server,
+        `execute at ${presentationName} run particle ${particle} ${offset} ${delta} ${speed} ${count} normal ${presentationName}`
+      )
+    }
   )
 }
 
@@ -295,7 +458,8 @@ function nexusHordePresentationBossbarResetCache(state) {
     style: null,
     max: null,
     value: null,
-    visible: null
+    visible: null,
+    players: null
   }
 }
 
@@ -304,7 +468,7 @@ function nexusHordePresentationBossbarRemove(
   server
 ) {
   nexusHordePresentationRunSilent(
-    server || state.player.getServer(),
+    server || state.server,
     `bossbar remove ${state.bossbarId}`
   )
 
@@ -329,7 +493,7 @@ function nexusHordePresentationBossbarSetName(
   state.bossbarCache.name = presentationNameKey
 
   nexusHordePresentationRunSilent(
-    state.player.getServer(),
+    state.server,
     `bossbar set ${state.bossbarId} name ${nexusHordePresentationComponent(text, color, false)}`
   )
 }
@@ -346,7 +510,7 @@ function nexusHordePresentationBossbarSetColor(
   state.bossbarCache.color = color
 
   nexusHordePresentationRunSilent(
-    state.player.getServer(),
+    state.server,
     `bossbar set ${state.bossbarId} color ${color}`
   )
 }
@@ -363,7 +527,7 @@ function nexusHordePresentationBossbarSetStyle(
   state.bossbarCache.style = style
 
   nexusHordePresentationRunSilent(
-    state.player.getServer(),
+    state.server,
     `bossbar set ${state.bossbarId} style ${style}`
   )
 }
@@ -386,7 +550,7 @@ function nexusHordePresentationBossbarSetMax(
   state.bossbarCache.max = presentationMaximum
 
   nexusHordePresentationRunSilent(
-    state.player.getServer(),
+    state.server,
     `bossbar set ${state.bossbarId} max ${presentationMaximum}`
   )
 }
@@ -417,7 +581,7 @@ function nexusHordePresentationBossbarSetValue(
   state.bossbarCache.value = presentationValue
 
   nexusHordePresentationRunSilent(
-    state.player.getServer(),
+    state.server,
     `bossbar set ${state.bossbarId} value ${presentationValue}`
   )
 }
@@ -438,14 +602,14 @@ function nexusHordePresentationBossbarSetVisible(
     presentationVisible
 
   nexusHordePresentationRunSilent(
-    state.player.getServer(),
+    state.server,
     `bossbar set ${state.bossbarId} visible ${presentationVisible}`
   )
 }
 
 function nexusHordePresentationBossbarCreate(state) {
   var presentationServer =
-    state.player.getServer()
+    state.server
 
   nexusHordePresentationBossbarRemove(
     state,
@@ -463,10 +627,7 @@ function nexusHordePresentationBossbarCreate(state) {
 
   if (!presentationCreated) return
 
-  nexusHordePresentationRunSilent(
-    presentationServer,
-    `bossbar set ${state.bossbarId} players ${state.playerName}`
-  )
+  nexusHordePresentationBossbarRefreshPlayers(state)
 
   nexusHordePresentationBossbarSetName(
     state,
@@ -497,6 +658,41 @@ function nexusHordePresentationBossbarCreate(state) {
   nexusHordePresentationBossbarSetVisible(
     state,
     true
+  )
+}
+
+function nexusHordePresentationBossbarRefreshPlayers(state) {
+  if (
+    !state.bossbarAvailable ||
+    !nexusHordePresentationSupportClass
+  ) {
+    return
+  }
+
+  var presentationRecipientIds =
+    nexusHordePresentationRecipients(state)
+      .map(player =>
+        nexusHordePresentationPlayerId(player)
+      )
+      .sort()
+
+  var presentationPlayersKey =
+    presentationRecipientIds.join(',')
+
+  if (
+    state.bossbarCache.players ===
+      presentationPlayersKey
+  ) {
+    return
+  }
+
+  state.bossbarCache.players =
+    presentationPlayersKey
+
+  nexusHordePresentationSupportClass.setBossbarPlayers(
+    state.server,
+    state.bossbarId,
+    presentationPlayersKey
   )
 }
 
@@ -663,8 +859,8 @@ function nexusHordePresentationShowWarnings(
         presentationPhase.id
       )
 
-      nexusHordePresentationActionbar(
-        state.player,
+      nexusHordePresentationActionbarForState(
+        state,
         nexusHordePresentationSelectNarrative(
           state,
           presentationPhase.id,
@@ -773,22 +969,27 @@ function nexusHordePresentationShowStart(state) {
   var presentationSubtitle =
     `${state.themeName} · ${presentationEraSubtitle}`
 
-  var presentationServer =
-    state.player.getServer()
+  nexusHordePresentationForEachRecipient(
+    state,
+    player => {
+      var presentationName =
+        nexusHordePresentationPlayerName(player)
 
-  nexusHordePresentationRunSilent(
-    presentationServer,
-    `title ${state.playerName} times 10 50 15`
-  )
+      nexusHordePresentationRunSilent(
+        state.server,
+        `title ${presentationName} times 10 50 15`
+      )
 
-  nexusHordePresentationRunSilent(
-    presentationServer,
-    `title ${state.playerName} subtitle ${nexusHordePresentationComponent(presentationSubtitle, 'dark_purple', false)}`
-  )
+      nexusHordePresentationRunSilent(
+        state.server,
+        `title ${presentationName} subtitle ${nexusHordePresentationComponent(presentationSubtitle, 'dark_purple', false)}`
+      )
 
-  nexusHordePresentationRunSilent(
-    presentationServer,
-    `title ${state.playerName} title ${nexusHordePresentationComponent(presentationTitle, 'red', true)}`
+      nexusHordePresentationRunSilent(
+        state.server,
+        `title ${presentationName} title ${nexusHordePresentationComponent(presentationTitle, 'red', true)}`
+      )
+    }
   )
 }
 
@@ -806,8 +1007,8 @@ function nexusHordePresentationShowWaveAnnouncement(
       ? `${presentationWaveMessage} · ${state.themeName}`
       : `${nexusHordePresentationWaveLabel(state)} · ${presentationWaveMessage} · ${state.themeName}`
 
-  nexusHordePresentationActionbar(
-    state.player,
+  nexusHordePresentationActionbarForState(
+    state,
     presentationText,
     state.currentWave >= state.totalWaves
       ? 'dark_red'
@@ -829,12 +1030,9 @@ function nexusHordePresentationShowWaveAnnouncement(
 function nexusHordePresentationMarkWaveCleared(
   player
 ) {
-  var presentationPlayerId =
-    nexusHordePresentationPlayerId(player)
-
   var presentationState =
-    nexusHordePresentationStates.get(
-      presentationPlayerId
+    nexusHordePresentationFindStateForPlayer(
+      player
     )
 
   if (
@@ -873,8 +1071,8 @@ function nexusHordePresentationMarkWaveCleared(
     1
   )
 
-  nexusHordePresentationActionbar(
-    player,
+  nexusHordePresentationActionbarForState(
+    presentationState,
     'OLEADA SUPERADA',
     'green'
   )
@@ -888,12 +1086,9 @@ function nexusHordePresentationMarkWaveCleared(
 }
 
 function nexusHordePresentationShowVictory(player) {
-  var presentationPlayerId =
-    nexusHordePresentationPlayerId(player)
-
   var presentationState =
-    nexusHordePresentationStates.get(
-      presentationPlayerId
+    nexusHordePresentationFindStateForPlayer(
+      player
     )
 
   if (
@@ -902,9 +1097,6 @@ function nexusHordePresentationShowVictory(player) {
   ) return
 
   presentationState.victoryPresented = true
-
-  var presentationServer =
-    player.getServer()
 
   var presentationSubtitle =
     nexusHordePresentationEraMessages(
@@ -938,25 +1130,35 @@ function nexusHordePresentationShowVictory(player) {
     1
   )
 
-  nexusHordePresentationRunSilent(
-    presentationServer,
-    `title ${presentationState.playerName} times 10 70 20`
-  )
+  nexusHordePresentationForEachRecipient(
+    presentationState,
+    presentationRecipient => {
+      var presentationName =
+        nexusHordePresentationPlayerName(
+          presentationRecipient
+        )
 
-  nexusHordePresentationRunSilent(
-    presentationServer,
-    `title ${presentationState.playerName} subtitle ${nexusHordePresentationComponent(presentationSubtitle, 'green', false)}`
-  )
+      nexusHordePresentationRunSilent(
+        presentationState.server,
+        `title ${presentationName} times 10 70 20`
+      )
 
-  nexusHordePresentationRunSilent(
-    presentationServer,
-    `title ${presentationState.playerName} title ${nexusHordePresentationComponent('EL NEXUS RESISTE', 'gold', true)}`
-  )
+      nexusHordePresentationRunSilent(
+        presentationState.server,
+        `title ${presentationName} subtitle ${nexusHordePresentationComponent(presentationSubtitle, 'green', false)}`
+      )
 
-  nexusHordePresentationActionbar(
-    player,
-    'La Horda ha sido derrotada.',
-    'green'
+      nexusHordePresentationRunSilent(
+        presentationState.server,
+        `title ${presentationName} title ${nexusHordePresentationComponent('EL NEXUS RESISTE', 'gold', true)}`
+      )
+
+      nexusHordePresentationActionbar(
+        presentationRecipient,
+        'La Horda ha sido derrotada.',
+        'green'
+      )
+    }
   )
 
   nexusHordePresentationPlaySoundAtPlayer(
@@ -972,10 +1174,26 @@ function nexusHordePresentationCreateState(
 ) {
   var presentationPlayerId =
     nexusHordePresentationPlayerId(player)
+  var presentationServer = player.getServer()
+  var presentationContext =
+    nexusHordePresentationContext(
+      presentationServer
+    )
+  var presentationParticipantIds =
+    presentationContext &&
+    String(presentationContext.anchorId) ===
+      presentationPlayerId &&
+    Array.isArray(presentationContext.participantIds)
+      ? presentationContext.participantIds.slice()
+      : [presentationPlayerId]
 
   var presentationState = {
     player: player,
     playerId: presentationPlayerId,
+    server: presentationServer,
+    horde: null,
+    participantIds: presentationParticipantIds,
+    dimensionId: String(player.level.dimension),
 
     playerName:
       nexusHordePresentationPlayerName(player),
@@ -1058,10 +1276,8 @@ function nexusHordePresentationCancel(player) {
   if (!player) return false
 
   var presentationState =
-    nexusHordePresentationStates.get(
-      nexusHordePresentationPlayerId(
-        player
-      )
+    nexusHordePresentationFindStateForPlayer(
+      player
     )
 
   if (!presentationState) return false
@@ -1153,6 +1369,10 @@ function nexusHordePresentationRefreshSpawnPhase(
 
 function nexusHordePresentationTickState(state) {
   try {
+    nexusHordePresentationBossbarRefreshPlayers(
+      state
+    )
+
     if (state.preparing) {
       var presentationRemaining = Math.max(
         0,
@@ -1227,6 +1447,9 @@ ForgeEvents.onEvent(
         presentationStartPlayer
       )
 
+    presentationStartState.horde =
+      event.getHorde()
+
     nexusHordePresentationStates.set(
       presentationStartPlayerId,
       presentationStartState
@@ -1256,14 +1479,9 @@ ForgeEvents.onEvent(
     var presentationWavePlayer =
       event.getPlayer()
 
-    var presentationWavePlayerId =
-      nexusHordePresentationPlayerId(
-        presentationWavePlayer
-      )
-
     var presentationWaveState =
-      nexusHordePresentationStates.get(
-        presentationWavePlayerId
+      nexusHordePresentationFindStateByHorde(
+        event.getHorde()
       )
 
     if (!presentationWaveState) {
@@ -1271,6 +1489,12 @@ ForgeEvents.onEvent(
         nexusHordePresentationCreateState(
           presentationWavePlayer
         )
+
+      presentationWaveState.horde =
+        event.getHorde()
+
+      var presentationWavePlayerId =
+        presentationWaveState.playerId
 
       nexusHordePresentationStates.set(
         presentationWavePlayerId,
@@ -1328,14 +1552,9 @@ ForgeEvents.onEvent(
 ForgeEvents.onEvent(
   'net.smileycorp.hordes.common.event.HordeSpawnEntityEvent',
   event => {
-    var presentationSpawnPlayer =
-      event.getPlayer()
-
     var presentationSpawnState =
-      nexusHordePresentationStates.get(
-        nexusHordePresentationPlayerId(
-          presentationSpawnPlayer
-        )
+      nexusHordePresentationFindStateByHorde(
+        event.getHorde()
       )
 
     if (!presentationSpawnState) return
@@ -1407,20 +1626,15 @@ ForgeEvents.onEvent(
 ForgeEvents.onEvent(
   'net.smileycorp.hordes.common.event.HordeEndEvent',
   event => {
-    var presentationEndPlayer =
-      event.getPlayer()
-
     var presentationEndState =
-      nexusHordePresentationStates.get(
-        nexusHordePresentationPlayerId(
-          presentationEndPlayer
-        )
+      nexusHordePresentationFindStateByHorde(
+        event.getHorde()
       )
 
     if (presentationEndState) {
       nexusHordePresentationCleanup(
         presentationEndState,
-        presentationEndPlayer.getServer()
+        presentationEndState.server
       )
     }
   }
@@ -1429,39 +1643,23 @@ ForgeEvents.onEvent(
 ForgeEvents.onEvent(
   'net.minecraftforge.event.entity.player.PlayerEvent$PlayerLoggedOutEvent',
   event => {
-    var presentationLogoutPlayer =
-      event.getEntity()
-
-    var presentationLogoutState =
-      nexusHordePresentationStates.get(
-        nexusHordePresentationPlayerId(
-          presentationLogoutPlayer
-        )
-      )
-
-    if (presentationLogoutState) {
-      nexusHordePresentationCleanup(
-        presentationLogoutState,
-        presentationLogoutPlayer.getServer()
-      )
-    }
+    nexusHordePresentationStates.forEach(
+      presentationLogoutState => {
+        presentationLogoutState.bossbarCache.players =
+          null
+      }
+    )
   }
 )
 
 ForgeEvents.onEvent(
   'net.minecraftforge.event.entity.player.PlayerEvent$PlayerLoggedInEvent',
   event => {
-    var presentationLoginPlayer =
-      event.getEntity()
-
-    var presentationStaleState =
-      nexusHordePresentationCreateState(
-        presentationLoginPlayer
-      )
-
-    nexusHordePresentationBossbarRemove(
-      presentationStaleState,
-      presentationLoginPlayer.getServer()
+    nexusHordePresentationStates.forEach(
+      presentationLoginState => {
+        presentationLoginState.bossbarCache.players =
+          null
+      }
     )
   }
 )

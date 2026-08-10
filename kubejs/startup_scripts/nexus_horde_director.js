@@ -15,6 +15,18 @@ const nexusHordeDirectorStates = new Map()
 const nexusHordeDirectorEntityOwners = new Map()
 const nexusHordeDirectorLoggedErrors = new Set()
 let nexusHordeDirectorServerTick = 0
+var nexusHordeDirectorTargetingClass = null
+
+try {
+  nexusHordeDirectorTargetingClass = Java.loadClass(
+    'dev.itscarlos.nexuscore.horde.HordeTargeting'
+  )
+} catch (error) {
+  console.error(
+    'Nexus Horde Director: Nexus Core no expone HordeTargeting.'
+  )
+  console.error(error)
+}
 
 function nexusHordeDirectorLogErrorOnce(key, message, error) {
   if (nexusHordeDirectorLoggedErrors.has(key)) return
@@ -45,12 +57,162 @@ function nexusHordeDirectorPresentationApi() {
   return global.NexusHordePresentation || null
 }
 
+function nexusHordeDirectorContext(server) {
+  try {
+    if (
+      global.NexusEraCalendar &&
+      typeof global.NexusEraCalendar.getHordeContext ===
+        'function'
+    ) {
+      return global.NexusEraCalendar.getHordeContext(
+        server
+      )
+    }
+  } catch (error) {
+    nexusHordeDirectorLogErrorOnce(
+      `context:${String(error)}`,
+      'Nexus Horde Director: no se pudo leer el contexto global.',
+      error
+    )
+  }
+
+  return null
+}
+
+function nexusHordeDirectorSameHorde(left, right) {
+  if (left === right) return true
+  if (!left || !right) return false
+
+  try {
+    return left.equals(right)
+  } catch (ignored) {
+    return false
+  }
+}
+
+function nexusHordeDirectorFindStateByHorde(horde) {
+  var directorFoundState = null
+
+  nexusHordeDirectorStates.forEach(directorState => {
+    if (
+      !directorFoundState &&
+      nexusHordeDirectorSameHorde(
+        directorState.horde,
+        horde
+      )
+    ) {
+      directorFoundState = directorState
+    }
+  })
+
+  return directorFoundState
+}
+
+function nexusHordeDirectorIsValidParticipant(
+  state,
+  player
+) {
+  if (!player) return false
+
+  var directorPlayerId =
+    nexusHordeDirectorPlayerId(player)
+
+  if (
+    !state.participantIds.includes(
+      directorPlayerId
+    )
+  ) {
+    return false
+  }
+
+  try {
+    return (
+      player.isAlive() &&
+      !player.isSpectator() &&
+      String(player.level.dimension) ===
+        state.dimensionId
+    )
+  } catch (ignored) {
+    return false
+  }
+}
+
+function nexusHordeDirectorEnsureTechnicalPlayer(state) {
+  var directorPreferredPlayer = null
+
+  state.server.players.forEach(player => {
+    if (
+      nexusHordeDirectorPlayerId(player) ===
+        state.playerId &&
+      nexusHordeDirectorIsValidParticipant(
+        state,
+        player
+      )
+    ) {
+      directorPreferredPlayer = player
+    }
+  })
+
+  if (directorPreferredPlayer) {
+    state.player = directorPreferredPlayer
+    state.paused = false
+    return true
+  }
+
+  if (
+    nexusHordeDirectorIsValidParticipant(
+      state,
+      state.player
+    )
+  ) {
+    state.paused = false
+    return true
+  }
+
+  var directorReplacement = null
+
+  state.server.players.forEach(player => {
+    if (
+      !directorReplacement &&
+      nexusHordeDirectorIsValidParticipant(
+        state,
+        player
+      )
+    ) {
+      directorReplacement = player
+    }
+  })
+
+  if (!directorReplacement) {
+    state.paused = true
+    return false
+  }
+
+  state.player = directorReplacement
+  state.paused = false
+  return true
+}
+
 function nexusHordeDirectorCreateState(player, horde) {
   var directorPlayerId = nexusHordeDirectorPlayerId(player)
+  var directorServer = player.getServer()
+  var directorContext =
+    nexusHordeDirectorContext(directorServer)
+  var directorParticipantIds =
+    directorContext &&
+    String(directorContext.anchorId) ===
+      directorPlayerId &&
+    Array.isArray(directorContext.participantIds)
+      ? directorContext.participantIds.slice()
+      : [directorPlayerId]
 
   return {
     player: player,
     playerId: directorPlayerId,
+    server: directorServer,
+    participantIds: directorParticipantIds,
+    participantCsv: directorParticipantIds.join(','),
+    dimensionId: String(player.level.dimension),
     horde: horde,
     tag: `nexus_horde_${nexusHordeDirectorSafeId(directorPlayerId)}`,
 
@@ -92,6 +254,16 @@ function nexusHordeDirectorForgetEntity(
     // Una entidad eliminada o descargada puede no aceptar ya cambios de tag.
   }
 
+  try {
+    if (nexusHordeDirectorTargetingClass) {
+      nexusHordeDirectorTargetingClass.clear(
+        directorRecord.entity
+      )
+    }
+  } catch (ignored) {
+    // La entidad puede haberse descargado o eliminado.
+  }
+
   if (removeFromNativeTracking) {
     try {
       state.horde.removeEntity(directorRecord.entity)
@@ -102,6 +274,7 @@ function nexusHordeDirectorForgetEntity(
         error
       )
     }
+
   }
 
   return true
@@ -372,7 +545,15 @@ function nexusHordeDirectorRefreshTrackedState(state) {
 }
 
 function nexusHordeDirectorTickState(state) {
-  if (state.paused || state.completing) return
+  if (state.completing) return
+
+  if (
+    !nexusHordeDirectorEnsureTechnicalPlayer(
+      state
+    )
+  ) {
+    return
+  }
 
   if (state.phase === 'preparing') {
     if (
@@ -501,14 +682,9 @@ ForgeEvents.onEvent(
 ForgeEvents.onEvent(
   'net.smileycorp.hordes.common.event.HordeSpawnEntityEvent',
   event => {
-    var directorSpawnPlayer =
-      event.getPlayer()
-
     var directorSpawnState =
-      nexusHordeDirectorStates.get(
-        nexusHordeDirectorPlayerId(
-          directorSpawnPlayer
-        )
+      nexusHordeDirectorFindStateByHorde(
+        event.getHorde()
       )
 
     if (
@@ -534,6 +710,21 @@ ForgeEvents.onEvent(
       nexusHordeDirectorLogErrorOnce(
         `tag:${directorSpawnEntityId}:${String(error)}`,
         `Nexus Horde Director: no se pudo etiquetar ${directorSpawnEntityId}`,
+        error
+      )
+    }
+
+    try {
+      if (nexusHordeDirectorTargetingClass) {
+        nexusHordeDirectorTargetingClass.configure(
+          directorSpawnEntity,
+          directorSpawnState.participantCsv
+        )
+      }
+    } catch (error) {
+      nexusHordeDirectorLogErrorOnce(
+        `targeting:${directorSpawnEntityId}:${String(error)}`,
+        `Nexus Horde Director: no se pudo distribuir el tracking de ${directorSpawnEntityId}`,
         error
       )
     }
@@ -672,10 +863,8 @@ ForgeEvents.onEvent(
   'net.smileycorp.hordes.common.event.HordeEndEvent',
   event => {
     var directorEndState =
-      nexusHordeDirectorStates.get(
-        nexusHordeDirectorPlayerId(
-          event.getPlayer()
-        )
+      nexusHordeDirectorFindStateByHorde(
+        event.getHorde()
       )
 
     if (directorEndState) {
@@ -689,16 +878,22 @@ ForgeEvents.onEvent(
 ForgeEvents.onEvent(
   'net.minecraftforge.event.entity.player.PlayerEvent$PlayerLoggedOutEvent',
   event => {
-    var directorLogoutState =
-      nexusHordeDirectorStates.get(
-        nexusHordeDirectorPlayerId(
-          event.getEntity()
-        )
+    var directorLogoutId =
+      nexusHordeDirectorPlayerId(
+        event.getEntity()
       )
 
-    if (directorLogoutState) {
-      directorLogoutState.paused = true
-    }
+    nexusHordeDirectorStates.forEach(
+      directorLogoutState => {
+        if (
+          nexusHordeDirectorPlayerId(
+            directorLogoutState.player
+          ) === directorLogoutId
+        ) {
+          directorLogoutState.paused = true
+        }
+      }
+    )
   }
 )
 
@@ -708,19 +903,24 @@ ForgeEvents.onEvent(
     var directorLoginPlayer =
       event.getEntity()
 
-    var directorLoginState =
-      nexusHordeDirectorStates.get(
-        nexusHordeDirectorPlayerId(
-          directorLoginPlayer
-        )
+    var directorLoginId =
+      nexusHordeDirectorPlayerId(
+        directorLoginPlayer
       )
 
-    if (directorLoginState) {
-      directorLoginState.player =
-        directorLoginPlayer
-
-      directorLoginState.paused = false
-    }
+    nexusHordeDirectorStates.forEach(
+      directorLoginState => {
+        if (
+          directorLoginState.participantIds.includes(
+            directorLoginId
+          )
+        ) {
+          nexusHordeDirectorEnsureTechnicalPlayer(
+            directorLoginState
+          )
+        }
+      }
+    )
   }
 )
 

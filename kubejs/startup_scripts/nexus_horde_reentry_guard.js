@@ -1,15 +1,16 @@
-// Nexus Realms - exclusion de reentrada para el comando nativo de The Hordes.
-// No controla el ciclo de la Horda: solo impide volver a iniciar una Horda
-// para un jugador que ya tenga una activa.
+// Nexus Realms - exclusion global de reentrada para el comando nativo de The Hordes.
+// No controla el ciclo de la Horda: impide iniciar una segunda Horda mientras
+// el unico evento global de Nexus Realms siga activo.
 //
 // Comandos nativos contemplados por The Hordes 1.20.1:
 // - /hordes start <duracion> [tabla]
 // - /hordes start <jugador|selector> <duracion> [tabla]
 //
-// Si un selector incluye varios jugadores y al menos uno ya tiene una Horda
-// activa, se cancela el comando completo para evitar una ejecucion parcial.
+// Cualquier intento posterior se cancela por completo para evitar eventos
+// paralelos o una ejecucion parcial mediante selectores.
 
 var nexusHordeReentryActivePlayers = new Set()
+var nexusHordeReentryEventOwners = new Map()
 var nexusHordeReentryLoggedErrors = new Set()
 
 function nexusHordeReentryLogErrorOnce(key, message, error) {
@@ -35,6 +36,40 @@ function nexusHordeReentryPlayerName(player) {
   } catch (ignored) {
     return nexusHordeReentryPlayerId(player)
   }
+}
+
+function nexusHordeReentrySameHorde(left, right) {
+  if (left === right) return true
+  if (!left || !right) return false
+
+  try {
+    return left.equals(right)
+  } catch (ignored) {
+    return false
+  }
+}
+
+function nexusHordeReentryOwnerForHorde(horde) {
+  var ownerId =
+    nexusHordeReentryEventOwners.get(horde)
+
+  if (ownerId) return ownerId
+
+  nexusHordeReentryEventOwners.forEach(
+    (candidateOwnerId, candidateHorde) => {
+      if (
+        !ownerId &&
+        nexusHordeReentrySameHorde(
+          candidateHorde,
+          horde
+        )
+      ) {
+        ownerId = candidateOwnerId
+      }
+    }
+  )
+
+  return ownerId
 }
 
 function nexusHordeReentryCommandText(event) {
@@ -252,33 +287,12 @@ ForgeEvents.onEvent(
       return
     }
 
-    var reentryTargets =
-      nexusHordeReentryResolveTargets(event)
-
-    // Si no existe un objetivo válido, el comando
-    // nativo tampoco iniciará una Horda.
-    if (reentryTargets.length === 0) {
-      return
-    }
-
-    var reentryActiveTargets =
-      nexusHordeReentryActiveTargets(
-        reentryTargets
-      )
-
-    if (
-      reentryActiveTargets.length === 0
-    ) {
-      return
-    }
-
-    // Se cancela el comando completo si uno de los
-    // jugadores seleccionados ya tiene una Horda.
+    // Nexus solo admite una Horda nativa activa. El primer inicio
+    // pasa con el conjunto vacio; cualquier reentrada posterior se bloquea.
     event.setCanceled(true)
 
-    nexusHordeReentryNotifyRejected(
-      event,
-      reentryActiveTargets
+    console.warn(
+      '[Nexus Horde] Inicio rechazado: ya existe una Horda activa.'
     )
   }
 )
@@ -288,11 +302,18 @@ ForgeEvents.onEvent(
   event => {
     var reentryPlayer =
       event.getPlayer()
-
-    nexusHordeReentryActivePlayers.add(
+    var reentryPlayerId =
       nexusHordeReentryPlayerId(
         reentryPlayer
       )
+
+    nexusHordeReentryActivePlayers.add(
+      reentryPlayerId
+    )
+
+    nexusHordeReentryEventOwners.set(
+      event.getHorde(),
+      reentryPlayerId
     )
   }
 )
@@ -300,14 +321,42 @@ ForgeEvents.onEvent(
 ForgeEvents.onEvent(
   'net.smileycorp.hordes.common.event.HordeEndEvent',
   event => {
-    var reentryPlayer =
-      event.getPlayer()
+    var reentryHorde = event.getHorde()
+    var reentryOwnerId =
+      nexusHordeReentryOwnerForHorde(
+        reentryHorde
+      )
+
+    if (!reentryOwnerId) {
+      reentryOwnerId =
+        nexusHordeReentryPlayerId(
+          event.getPlayer()
+        )
+    }
 
     nexusHordeReentryActivePlayers.delete(
-      nexusHordeReentryPlayerId(
-        reentryPlayer
-      )
+      reentryOwnerId
     )
+
+    var reentryFinishedEvents = []
+
+    nexusHordeReentryEventOwners.forEach(
+      (ownerId, horde) => {
+        if (
+          ownerId === reentryOwnerId ||
+          nexusHordeReentrySameHorde(
+            horde,
+            reentryHorde
+          )
+        ) {
+          reentryFinishedEvents.push(horde)
+        }
+      }
+    )
+
+    reentryFinishedEvents.forEach(horde => {
+      nexusHordeReentryEventOwners.delete(horde)
+    })
   }
 )
 
@@ -319,6 +368,34 @@ ForgeEvents.onEvent(
   'net.minecraftforge.event.server.ServerStoppingEvent',
   event => {
     nexusHordeReentryActivePlayers.clear()
+    nexusHordeReentryEventOwners.clear()
     nexusHordeReentryLoggedErrors.clear()
   }
 )
+
+if (typeof global !== 'undefined') {
+  global.NexusHordeReentryGuard = {
+    releasePlayer: player => {
+      var reentryPlayerId =
+        nexusHordeReentryPlayerId(player)
+
+      nexusHordeReentryActivePlayers.delete(
+        reentryPlayerId
+      )
+
+      var reentryReleasedEvents = []
+
+      nexusHordeReentryEventOwners.forEach(
+        (ownerId, horde) => {
+          if (ownerId === reentryPlayerId) {
+            reentryReleasedEvents.push(horde)
+          }
+        }
+      )
+
+      reentryReleasedEvents.forEach(horde => {
+        nexusHordeReentryEventOwners.delete(horde)
+      })
+    }
+  }
+}
