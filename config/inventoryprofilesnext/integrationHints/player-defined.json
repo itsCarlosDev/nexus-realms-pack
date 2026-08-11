@@ -26,5 +26,49 @@
                 "top": 19
             }
         }
+    },
+    "net.minecraft.client.gui.screens.inventory.MerchantScreen": {
+        "buttonHints": {
+            "SETTINGS": {
+                "horizontalOffset": -5,
+                "top": 17
+            },
+            "VILLAGER_DO_GLOBAL_TRADES": {
+                "top": -31
+            },
+            "VILLAGER_DO_LOCAL_TRADES": {
+                "top": -30
+            }
+        }
+    },
+    "com.aetherteam.aether.client.gui.screen.inventory.AccessoriesScreen": {
+        "buttonHints": {
+            "MOVE_TO_CONTAINER": {
+                "horizontalOffset": -19
+            },
+            "SORT": {
+                "horizontalOffset": -43
+            },
+            "SORT_COLUMNS": {
+                "horizontalOffset": -31,
+                "bottom": -12
+            },
+            "SORT_ROWS": {
+                "horizontalOffset": -19,
+                "bottom": -24
+            },
+            "CONTINUOUS_CRAFTING": {
+                "horizontalOffset": -18,
+                "bottom": -5
+            },
+            "SHOW_EDITOR": {
+                "horizontalOffset": -5,
+                "top": 40
+            },
+            "SETTINGS": {
+                "horizontalOffset": -5,
+                "top": 13
+            }
+        }
     }
 }

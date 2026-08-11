@@ -6,7 +6,7 @@ hash = "b98027a7c3a0a1af9479cb6ebd7ba5deccccbdaf043d575f96224a61f14fb5a9"
 
 [[files]]
 file = "config/Obscuria/loot_journal-client.toml"
-hash = "8eb31a530242a716f2dbb73fe90dd63b2b486955855299ab5c885fa66d784f55"
+hash = "eab1c137a302ec9a34da7d7b934a6d74ffef979c9039088a1f021f6a57512bc6"
 
 [[files]]
 file = "config/Undead_mobs.toml"
@@ -94,7 +94,7 @@ hash = "9fc86c0e6fa1e7a8ac050e777c2e702a0758bb05c250bf51cda2ccdcbf8d46c5"
 
 [[files]]
 file = "config/defaultoptions/options.txt"
-hash = "af661833cb9c8b32e9e330508e60ab4ef43d87ab26a710a6570a20f280a93422"
+hash = "36e7ddb498fd27e2bf128a837da82fa8593e30c7232f2f28b79253dfceb88888"
 
 [[files]]
 file = "config/drippyloadingscreen/options.txt"
@@ -622,11 +622,19 @@ hash = "45430c44e3b5ad549a3d1f2abec3d75001cf5ad8814df0d67abeea2263fc1831"
 
 [[files]]
 file = "config/inventoryprofilesnext/integrationHints/player-defined.json"
-hash = "99bea4234878d568ce09ac60eadb97880d42ac2247820c96ab4e14bf1f278e02"
+hash = "973fe02109b5cca79a0e64192d871ec085b3d6f1a137fe6defbe8c0c58b2fb51"
+
+[[files]]
+file = "config/inventoryprofilesnext/integrationHints/sophisticatedbackpacks.json"
+hash = "56d444bbc8dc778c60e59dbc8a0ca0decc983301c0fd5c451f63aa86b8773589"
 
 [[files]]
 file = "config/inventoryprofilesnext/inventoryprofiles.json"
-hash = "74a943508274fa342dbdc9095a2410c6991d7bdeb58ad490193f780dcff63aa4"
+hash = "f8f0f85054d7f14fcb1f43b481e6201ca51217ecdf051bf77d4a7483d904ecc2"
+
+[[files]]
+file = "config/inventoryprofilesnext/villager-trading-config.json"
+hash = "d8159a94fc4562651a5c47dc83e46a7fd71dd70e143fca53d7b288393a87b4ef"
 
 [[files]]
 file = "config/irons_spellbooks-client.toml"
@@ -699,6 +707,10 @@ hash = "0caa9d53d89c106cad7bc03514c04e683811323ec5e44d81ea689e2a9726a130"
 [[files]]
 file = "config/tacztweaks.json"
 hash = "5e3d04e3da6a6c7e1e1e63fde62f66aa2aa2baffe081fa50213c9dd7d38bd292"
+
+[[files]]
+file = "config/watut-client.toml"
+hash = "e23a9f280da8ea145087bd7d05894376f21825cae586ef12ecd732b38866cc5a"
 
 [[files]]
 file = "config/wom-client.toml"
@@ -777,12 +789,32 @@ file = "h"
 hash = "99e340bd7017e3205712b6d07b1c4f75be6dc18469f0dd0c637eace02f665618"
 
 [[files]]
+file = "journeymap/config/5.10/journeymap.core.config"
+hash = "699eb3efa5c858fdd0574b9f8001b8f768da336d915e189b40a6f1d270c84bac"
+
+[[files]]
+file = "journeymap/config/5.10/journeymap.fullmap.config"
+hash = "3a512cbe098cef6594242afeceae9606d5f745d5959cdc4669dc358423d3cac4"
+
+[[files]]
 file = "journeymap/config/5.10/journeymap.minimap.config"
-hash = "b292a868699deff815881c8a4a0ffcca2dc19e84eaba7201d191a2359da196fd"
+hash = "568f0698b8ce944967794ef8acda85cce3930a3c903ba09b73af9bd6fa063b3d"
 
 [[files]]
 file = "journeymap/config/5.10/journeymap.minimap2.config"
-hash = "a185e4af3b71e5825466b8899ed7cfa8b91f78811d0deec5bf22f6ac93632775"
+hash = "e1f0935f9fdd5a74a65206faf3481763b1fe6ec55cec8efb40c1f10c0cc7a73d"
+
+[[files]]
+file = "journeymap/config/5.10/journeymap.topo.config"
+hash = "8f950f1d2fec134c0daa79191b88227d5976e4cf7dc71bbf732efc69a62f5b24"
+
+[[files]]
+file = "journeymap/config/5.10/journeymap.waypoint.config"
+hash = "0f7d1a19ec1f9d4f056952d79879d5aebdfd31bcf1d6ecdb83dcc7b237a6997b"
+
+[[files]]
+file = "journeymap/config/5.10/journeymap.webmap.config"
+hash = "2c939e2308e7d7d419af26ad342479690e8ae321c7af3ba64d8b0e897ccc8b5b"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/item/nexus_bronze_coin.png"
@@ -2392,11 +2424,6 @@ metafile = true
 [[files]]
 file = "resourcepacks/enchant-icons-countxd.pw.toml"
 hash = "d9e7e86ddb96102cedc1173006459c1cb4338698087bf16258abb23dd7889219"
-metafile = true
-
-[[files]]
-file = "resourcepacks/epic-fight-bdhill-reforge.pw.toml"
-hash = "5be211820843fc5320bc9084018bf47e4708bebb01304cb0f358fc22aed2ca8e"
 metafile = true
 
 [[files]]
