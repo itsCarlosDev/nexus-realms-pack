@@ -6,6 +6,6 @@
 	Difficulty = 3.0
 	GuideBook = true
 	PotatoParticles = false
-	PotatoShaders = false
+	PotatoShaders = true
 	OreRarity = 10.0
 	StructureGen = 15.0

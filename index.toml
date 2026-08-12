@@ -702,7 +702,7 @@ hash = "a7ed5a0f60502619a761735d23b2884474f4cdd16134e7dc2accb5debf57125f"
 
 [[files]]
 file = "config/ta_theotherside.toml"
-hash = "1485be9eb72e5e667ddd85be9d431fe56ade716bf41fdf4d35a7bd457e704315"
+hash = "c6215013fcb2f9b4ff8916a1e77be575997716fe1772a2fe89362b1a26d39c53"
 
 [[files]]
 file = "config/tacz-client.toml"
