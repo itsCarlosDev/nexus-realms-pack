@@ -646,7 +646,7 @@ hash = "f2c4f6b18dfaf1909a9a9df8567865f2dc9e908608801da6dccbdf13b8cb8070"
 
 [[files]]
 file = "config/logbegone.toml"
-hash = "c3451c920033fad98c217a68fa9c3e5b824c1db7403dd401e732bf217fbab1d6"
+hash = "2350f1f33765a4a55064f3281eb69a5d93dafbc192f1d37be270db96162c9764"
 
 [[files]]
 file = "config/maintenance.json"

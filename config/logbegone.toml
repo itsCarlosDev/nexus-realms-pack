@@ -1,7 +1,11 @@
 [logbegone]
-regex = []
+regex = [
+  "Registry entry listened Registry Entry \\[.* / fossil:.*\\] was not realized!"
+]
+
 phrases = [
   "Unknown skill tree id: dodge_parry_reward:passive_old",
   "Tag alshanex_familiars:hunter/",
-  "Tag alshanex_familiars:druid/"
+  "Tag alshanex_familiars:druid/",
+  "Mixin config accelerateddecay.mixins.json does not specify \"minVersion\" property"
 ]
