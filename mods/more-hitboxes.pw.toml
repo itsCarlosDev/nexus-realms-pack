@@ -1,0 +1,13 @@
+name = "More Hitboxes"
+filename = "morehitboxes-forge-1.20.1-1.9.2.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/BOVAW87Z/versions/dPJQUPu9/morehitboxes-forge-1.20.1-1.9.2.jar"
+hash-format = "sha512"
+hash = "4540869971009de3cc2c895a61fa1b84a715245202788df7124b6f5a31b82ca9854a2f1a8f14e8033d24669557cf31469d7ce61a0a4c68e90f3cfb83acc007f9"
+
+[update]
+[update.modrinth]
+mod-id = "BOVAW87Z"
+version = "dPJQUPu9"

@@ -1,0 +1,13 @@
+name = "Fossils and Archeology: Revival"
+filename = "fossil-forge-1.20.1-9.3.4.0.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/IJY7IqPP/versions/ChiOT0xS/fossil-forge-1.20.1-9.3.4.0.jar"
+hash-format = "sha512"
+hash = "e3f4b813b0c389a1f58079fe62285ac3d036956e6296f5c08361bb2d70ca445b6b09750ff6b00e4b36512c3423f206be933d47fe292b2d5e1389ff31372e5fae"
+
+[update]
+[update.modrinth]
+mod-id = "IJY7IqPP"
+version = "ChiOT0xS"

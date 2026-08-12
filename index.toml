@@ -1089,26 +1089,6 @@ file = "kubejs/data/starcatcher/data_maps/item/catch_modifiers.json"
 hash = "13f44bb4703476926fe248291e0732d2b55c74ff975faa4da17c217b66afc576"
 
 [[files]]
-file = "kubejs/data/unusual_prehistory/tags/blocks/accelerates_egg_hatching.json"
-hash = "6aa64230bf1d230f147cffa0c4e940f2fa77b94ca6c609737e8586b7474010f5"
-
-[[files]]
-file = "kubejs/data/unusual_prehistory/tags/worldgen/structure/on_fossil_maps.json"
-hash = "13f95fc2aac4be37c1065d76096106d35ea43601a34092a144c4f519e01d3dd5"
-
-[[files]]
-file = "kubejs/data/unusual_prehistory/tags/worldgen/structure/on_mesozoic_fossil_maps.json"
-hash = "c5e7253d87f7837545359705288a242f789cd3244f939d8d7b9b8d003568d102"
-
-[[files]]
-file = "kubejs/data/unusual_prehistory/tags/worldgen/structure/on_paleozoic_fossil_maps.json"
-hash = "0cd514eda39d8c8b40aac3e19133b0b1b925535145383bdfb075391ee0d59a2c"
-
-[[files]]
-file = "kubejs/data/unusual_prehistory/tags/worldgen/structure/on_petrified_tree_maps.json"
-hash = "f6c6abd5f9d4d040cac4a7e4123e8bb00f5321b4e822ca1820428b26fe66e268"
-
-[[files]]
 file = "kubejs/server_scripts/nexus_automobility_create_recipes.js"
 hash = "a0ba113448751d06feccec90b0f502226a1d03dc28c16bc1af30da36b9c3f3b1"
 
@@ -1231,7 +1211,7 @@ metafile = true
 
 [[files]]
 file = "mods/architectury-api.pw.toml"
-hash = "5e9edd1fd2395f14a0c8a4acbdbdd61e1047be1f0033deb3140d2ce0d093e9d8"
+hash = "4e81241ba2da06f425efc5e09fb6b38470125c1581c39e1310c5843a0b96ec76"
 metafile = true
 
 [[files]]
@@ -1685,6 +1665,11 @@ hash = "902bac905b93271f02bd0951a22bac06a3da24f5c237fcaeb469e14a7679e508"
 metafile = true
 
 [[files]]
+file = "mods/fossils-and-archeology-revival.pw.toml"
+hash = "cb875171dd2439cde172143e088b8c75550b1e4593ae8479a3122e5ebd973b78"
+metafile = true
+
+[[files]]
 file = "mods/fragmentum.pw.toml"
 hash = "b39121a323ad12d6fd4543e53b361386d73d825c4df60ca8f91a8ff1803e15e8"
 metafile = true
@@ -1915,6 +1900,11 @@ hash = "0d2ccd5f845ceb01ff78b093d9adc8686550513cce37cb052045fab8cbc03263"
 metafile = true
 
 [[files]]
+file = "mods/more-hitboxes.pw.toml"
+hash = "00d3f0aa041f2f6177cea20f3f21984e516c87a42fd332ea0a135315f1e666dc"
+metafile = true
+
+[[files]]
 file = "mods/mossylib.pw.toml"
 hash = "da21b44346758b1a5620a9f94493e5664fee10eee36a1b9f956125db7e8990b4"
 metafile = true
@@ -2079,6 +2069,11 @@ hash = "fa3c0a19b839ec89df408368ae4886ffa36179c1973335ce7cd4654f2fa842ca"
 metafile = true
 
 [[files]]
+file = "mods/resourceful-lib.pw.toml"
+hash = "ef0264b7d819848f72ab2f34643306187e712965a8246e1f733e1bd39d8fd681"
+metafile = true
+
+[[files]]
 file = "mods/rhino.pw.toml"
 hash = "5b92406160d9ea8a61ddf111caaecb7f6283678e2c40b08b72dce3eeaf20dc96"
 metafile = true
@@ -2209,6 +2204,16 @@ hash = "14117b94c456598c9acece143c7a0da3cf56d13182d035a74a2da8a52dd19cbd"
 metafile = true
 
 [[files]]
+file = "mods/the-abyss-chapter-ii.pw.toml"
+hash = "95a425fd38e680decba345a0f950c6a88bad81de52c5dccd48a8b600665d3aa1"
+metafile = true
+
+[[files]]
+file = "mods/the-bumblezone-forge.pw.toml"
+hash = "d26035fd302a32b7edff0b9dd22c78650e82f4f4f2682ca2992c4f6ca8f7744c"
+metafile = true
+
+[[files]]
 file = "mods/the-fisherman-house.pw.toml"
 hash = "298d8ba281c26cd5c3691f0c866cd139973d75482a0bdfc26cff3f07041e65db"
 metafile = true
@@ -2251,11 +2256,6 @@ metafile = true
 [[files]]
 file = "mods/txnilib.pw.toml"
 hash = "c2df41a37fec3a93afc4e2866705bf9e457d506ce8cd02e61c2f610d4f6a7617"
-metafile = true
-
-[[files]]
-file = "mods/unusual-prehistory-2.pw.toml"
-hash = "be3e8e2fd9cdecc81366d69e588d396d7a7ab3da1d3cb4205b4083df5bce6abd"
 metafile = true
 
 [[files]]
