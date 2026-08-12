@@ -713,6 +713,10 @@ file = "config/tacztweaks.json"
 hash = "5e3d04e3da6a6c7e1e1e63fde62f66aa2aa2baffe081fa50213c9dd7d38bd292"
 
 [[files]]
+file = "config/tombstone-server.toml"
+hash = "9d3331ee22399be554613638e5b6db87c6c054e3cbb4246ece584b54f1181e46"
+
+[[files]]
 file = "config/watut-client.toml"
 hash = "e23a9f280da8ea145087bd7d05894376f21825cae586ef12ecd732b38866cc5a"
 
