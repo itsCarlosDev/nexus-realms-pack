@@ -1105,6 +1105,18 @@ file = "kubejs/data/starcatcher/data_maps/item/catch_modifiers.json"
 hash = "13f44bb4703476926fe248291e0732d2b55c74ff975faa4da17c217b66afc576"
 
 [[files]]
+file = "kubejs/data/theabyss/loot_tables/entities/end_spider.json"
+hash = "cdb985008d0fb6bc247ea3cce2a432a03eacf75955b26dd2302fbb58bb0598b5"
+
+[[files]]
+file = "kubejs/data/theabyss/loot_tables/entities/slime_spider.json"
+hash = "cdb985008d0fb6bc247ea3cce2a432a03eacf75955b26dd2302fbb58bb0598b5"
+
+[[files]]
+file = "kubejs/data/theabyss/recipes/jungle_planks_rcp_2.json"
+hash = "4ccbf56477cead0eb89c4370230971f93c1631fedaf12a4e9e1b6307396d5c2f"
+
+[[files]]
 file = "kubejs/server_scripts/nexus_automobility_create_recipes.js"
 hash = "a0ba113448751d06feccec90b0f502226a1d03dc28c16bc1af30da36b9c3f3b1"
 
