@@ -25,6 +25,10 @@ file = "config/allomancy-common.toml"
 hash = "b81c1888539560e012c0a9a3456fd8efebd69d2ff05d64f9cbf9023245ea33be"
 
 [[files]]
+file = "config/betterstrongholds/forge-1_20/ores.json"
+hash = "b814497fd41c5338590ef78256798e26ffff121d68d0ab1290474e67abd34ec5"
+
+[[files]]
 file = "config/block_factorys_bosses-client.toml"
 hash = "c25636c2cd5540632145da5a6d52c4d84c67d01159b982d2b4a665cc27ff3755"
 
@@ -1079,6 +1083,10 @@ hash = "5fd9b569c85a811b8d5adc602b94e37eb4a8c1ee6ecbd390417ff7b7b4ac91d4"
 [[files]]
 file = "kubejs/data/decocraft/loot_tables/blocks/school_desk_open_yellow.json"
 hash = "1052452f95946be24ad390bc168b54e6c11090c2ee3b57346a341cfd7d64f134"
+
+[[files]]
+file = "kubejs/data/fossil/worldgen/template_pool/tar_site/tent_options.json"
+hash = "0335945c2125090357ed2c19d0ba4b9dd35c4d07cb996001409127a94a3ba4ba"
 
 [[files]]
 file = "kubejs/data/invincible/capabilities/weapons/types/custom_combo_demo.json"
@@ -2238,7 +2246,7 @@ metafile = true
 
 [[files]]
 file = "mods/theundead.pw.toml"
-hash = "099d62246ccfe7a2349d719fef9c7f8825792d226b03fefee6e039b41fccb66e"
+hash = "a3bb9d96c94fe44366ee7bd182b9e99fb27ddd99cf4cf43c42b47a07282f2561"
 metafile = true
 
 [[files]]
