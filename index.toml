@@ -1315,6 +1315,11 @@ hash = "aac40b70828c624076ca02d3c904d6ae743bbd469c88dfa20a14cd67668b4ccb"
 metafile = true
 
 [[files]]
+file = "mods/chunky.pw.toml"
+hash = "0e17f9758f6f67ef87aa6f8d5afc47901521a05904cd8470ef65063b48e69d73"
+metafile = true
+
+[[files]]
 file = "mods/cinematic-cataclysm.pw.toml"
 hash = "dee0bae5e1c16887b45cd72bf1c253e7152b0c9a9dfeac3ca1756c2258ba74a4"
 metafile = true
