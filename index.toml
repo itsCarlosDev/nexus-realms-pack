@@ -1085,6 +1085,10 @@ file = "kubejs/data/decocraft/loot_tables/blocks/school_desk_open_yellow.json"
 hash = "1052452f95946be24ad390bc168b54e6c11090c2ee3b57346a341cfd7d64f134"
 
 [[files]]
+file = "kubejs/data/fisherman_house/structures/fisherman_house.nbt"
+hash = "e769c32747d9b529e6c939e5577bf3258592212b3407565f6dbae87cce04a309"
+
+[[files]]
 file = "kubejs/data/fossil/worldgen/template_pool/tar_site/tent_options.json"
 hash = "0335945c2125090357ed2c19d0ba4b9dd35c4d07cb996001409127a94a3ba4ba"
 
@@ -1099,6 +1103,30 @@ hash = "5699548b9dd09aaf042d27dbd35f344f57f304c06287fa5d327cd4e455aaf2f5"
 [[files]]
 file = "kubejs/data/irons_spellbooks/loot_tables/chests/citadel/citadel_tomes.json"
 hash = "281c7e11c15272347c4d712fa5b5151d8ffeb3f6edb58a3e552536d852d8fc1a"
+
+[[files]]
+file = "kubejs/data/irons_spellbooks/structures/catacombs/throne_room/vault_block.nbt"
+hash = "5120feb5a9685f3a60c27c842419478a20548c38efd36901d9bc3bde2e4769ab"
+
+[[files]]
+file = "kubejs/data/irons_spellbooks/structures/citadel/citadel_vault.nbt"
+hash = "75f2f47e1808835f3c1779251e6f21903870de4b161d58b1cb8f23e5630a65fb"
+
+[[files]]
+file = "kubejs/data/irons_spellbooks/structures/evoker_fort/villager_spawns/villager_normal.nbt"
+hash = "a6fff3f2938d4a207059e59a1c69c8cec324dfa207dfd2fd1645c2b86ee35cb8"
+
+[[files]]
+file = "kubejs/data/irons_spellbooks/structures/ice_spider_den/cavern/fort_to_cavern.nbt"
+hash = "ddacdc5b9846ae83a8ae8da3927bb521bca103506835bdb5f483c974531ddcea"
+
+[[files]]
+file = "kubejs/data/irons_spellbooks/structures/pyromancer_tower/cellar_dungeon/stairway.nbt"
+hash = "23ee1518ced465406e3cd1a843a63c292cebdc9f2955bd670c09c49298b16540"
+
+[[files]]
+file = "kubejs/data/irons_spellbooks/structures/pyromancer_tower/staircase.nbt"
+hash = "e41e713a19107ff82386fa19042874270cffca20a95529411499dbcf2dab1857"
 
 [[files]]
 file = "kubejs/data/starcatcher/data_maps/item/catch_modifiers.json"
