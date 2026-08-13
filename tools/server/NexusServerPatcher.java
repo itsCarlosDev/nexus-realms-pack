@@ -29,12 +29,35 @@ import java.util.zip.ZipOutputStream;
  * Run directly with Java 17 source-file mode:
  *   java NexusServerPatcher.java --server-root /path/to/server --apply
  *
- * Modified JARs are never stored in Git. Only exact original and validated
- * patched SHA-256 hashes are accepted.
+ * Modified JARs are never stored in Git.
+ *
+ * Normal patches require exact allowlisted hashes. TxniLib additionally
+ * supports a locally attested generated hash because its server-only
+ * compatibility patch is structurally validated after generation.
  */
 public final class NexusServerPatcher {
     private static final String BACKUP_DIRECTORY =
         ".nexus-server-patches/originals";
+
+    private static final String GENERATED_HASH_DIRECTORY =
+        ".nexus-server-patches/generated-hashes";
+
+    /*
+    * Workaround de diagnóstico para Forge + Fabric API embebido en TxniLib.
+    *
+    * El heap dump de Nexus Realms mostró ServerLevel.loadedChunks reteniendo
+    * miles de chunks después de Chunky. Estos dos mixins forman parte del
+    * bookkeeping server-side de Fabric Lifecycle Events.
+    *
+    * IMPORTANTE:
+    * - no eliminamos TxniLib;
+    * - no eliminamos Fabric API completo;
+    * - solo desactivamos estos dos mixins en el dedicated server.
+    */
+    private static final List<String> TXNI_DISABLED_LIFECYCLE_MIXINS = List.of(
+        "ServerWorldMixin",
+        "ThreadedAnvilChunkStorageMixin"
+    );
 
     private enum Kind {
         REMOVE_ENTRY,
@@ -80,12 +103,13 @@ public final class NexusServerPatcher {
             "kubejs.plugins.txt"
         ),
         patch(
-            "TxniLib Fabric API server compatibility",
+            "TxniLib Fabric API server compatibility + lifecycle chunk-cache workaround",
             "txnilib-forge-1.0.24-1.20.1.jar",
             "71CA69345EF763903213E0B0DB3C9C07D2A090AD311D1DE66C31798A813A9D0E",
             Set.of(
                 "D8FFF1F3297547F070E32667ECB50C7D4E8DB81D3CD175A68D95850A363415B9",
-                "992951CF6CDABA4237B840E082EF210D3CAD85099D8D027182119415BA043D40"
+                "992951CF6CDABA4237B840E082EF210D3CAD85099D8D027182119415BA043D40",
+                "1FBC905E292BE737040584F35248ADFE0BEAC523A679B0D0D76F343EB83D4D05"
             ),
             Kind.TXNI_BUNDLE,
             ""
@@ -253,17 +277,80 @@ public final class NexusServerPatcher {
         }
 
         String currentHash = sha256(jar);
-        if (patch.patchedHashes().contains(currentHash)) {
-            if (!verify(jar, patch)) {
+        boolean knownPatchedHash =
+            patch.patchedHashes().contains(currentHash);
+
+        /*
+        * Primero probamos hashes finales ya conocidos.
+        *
+        * En TxniLib un hash antiguo puede corresponder al parche anterior,
+        * que todavía no eliminaba los mixins de lifecycle. En ese caso no
+        * abortamos: lo tratamos como una entrada legacy que hay que migrar.
+        */
+        if (knownPatchedHash) {
+            if (verify(jar, patch)) {
+                System.out.println(
+                    "[OK] " + patch.name() + ": known patched hash."
+                );
+                return;
+            }
+
+            if (patch.kind() != Kind.TXNI_BUNDLE) {
                 throw new IOException(
                     "Known patched hash failed validation: " + patch.file()
                 );
             }
-            System.out.println("[OK] " + patch.name() + ": known patched hash.");
-            return;
+
+            System.out.println(
+                "[MIGRATE] " + patch.name()
+                    + ": legacy TxniLib patch detected."
+            );
+            System.out.println(
+                "          Current SHA-256: " + currentHash
+            );
         }
 
-        if (!currentHash.equals(patch.originalHash())) {
+        /*
+        * Para TxniLib aceptamos también el SHA generado y validado por este
+        * mismo patcher en un arranque anterior.
+        */
+        if (
+            patch.kind() == Kind.TXNI_BUNDLE
+                && !knownPatchedHash
+        ) {
+            String rememberedHash =
+                readRememberedGeneratedHash(serverRoot, patch);
+
+            if (
+                rememberedHash != null
+                    && rememberedHash.equals(currentHash)
+            ) {
+                if (!verify(jar, patch)) {
+                    throw new IOException(
+                        "Remembered TxniLib hash failed structural validation: "
+                            + patch.file()
+                    );
+                }
+
+                System.out.println(
+                    "[OK] " + patch.name()
+                        + ": locally attested patched hash."
+                );
+                System.out.println(
+                    "     SHA-256: " + currentHash
+                );
+                return;
+            }
+        }
+
+        boolean acceptedLegacyTxniInput =
+            patch.kind() == Kind.TXNI_BUNDLE
+                && knownPatchedHash;
+
+        if (
+            !currentHash.equals(patch.originalHash())
+                && !acceptedLegacyTxniInput
+        ) {
             throw new IOException(
                 "[UNKNOWN HASH] " + patch.file()
                     + "\nExpected original: " + patch.originalHash()
@@ -273,11 +360,18 @@ public final class NexusServerPatcher {
         }
 
         if (!apply) {
-            System.out.println("[PLAN] " + patch.name() + ": patch required.");
+            System.out.println(
+                "[PLAN] " + patch.name() + ": patch required."
+            );
             return;
         }
 
-        Path backup = createOriginalBackup(serverRoot, jar, currentHash);
+        Path backup = createOriginalBackup(
+            serverRoot,
+            jar,
+            currentHash
+        );
+
         Path temporary = Files.createTempFile(
             jar.getParent(),
             "." + jar.getFileName() + ".nexus-",
@@ -291,30 +385,73 @@ public final class NexusServerPatcher {
 
             if (!verify(temporary, patch)) {
                 throw new IOException(
-                    "Patched JAR failed structural validation: " + patch.file()
+                    "Patched JAR failed structural validation: "
+                        + patch.file()
                 );
             }
 
             String patchedHash = sha256(temporary);
-            if (!patch.patchedHashes().contains(patchedHash)) {
+            boolean hardcodedOutput =
+                patch.patchedHashes().contains(patchedHash);
+
+            /*
+            * Para todos los parches salvo TxniLib seguimos exigiendo
+            * allowlist estática.
+            *
+            * TxniLib es especial porque acabamos de introducir una nueva
+            * transformación cuyo SHA final todavía no conocemos. El input
+            * está anclado a un hash conocido y la salida ya ha pasado
+            * verifyTxni(), por lo que podemos atestar localmente ese SHA.
+            */
+            if (
+                !hardcodedOutput
+                    && patch.kind() != Kind.TXNI_BUNDLE
+            ) {
                 throw new IOException(
-                    "Patched output is not allowlisted: " + patch.file()
-                        + "\nActual patched SHA-256: " + patchedHash
+                    "Patched output is not allowlisted: "
+                        + patch.file()
+                        + "\nActual patched SHA-256: "
+                        + patchedHash
+                );
+            }
+
+            if (
+                patch.kind() == Kind.TXNI_BUNDLE
+                    && !hardcodedOutput
+            ) {
+                System.out.println(
+                    "[TXNI] New structurally validated output SHA-256: "
+                        + patchedHash
                 );
             }
 
             safeReplace(temporary, jar);
 
             String installedHash = sha256(jar);
-            if (!installedHash.equals(patchedHash) || !verify(jar, patch)) {
+
+            if (
+                !installedHash.equals(patchedHash)
+                    || !verify(jar, patch)
+            ) {
                 throw new IOException(
-                    "Installed patch failed final validation: " + patch.file()
+                    "Installed patch failed final validation: "
+                        + patch.file()
+                );
+            }
+
+            if (patch.kind() == Kind.TXNI_BUNDLE) {
+                rememberGeneratedHash(
+                    serverRoot,
+                    patch,
+                    installedHash
                 );
             }
 
             System.out.println("[PATCHED] " + patch.name());
             System.out.println("          Backup: " + backup);
-            System.out.println("          SHA-256: " + installedHash);
+            System.out.println(
+                "          SHA-256: " + installedHash
+            );
         } finally {
             Files.deleteIfExists(temporary);
         }
@@ -366,6 +503,96 @@ public final class NexusServerPatcher {
             Files.deleteIfExists(temporary);
         }
         return backup;
+    }
+
+    private static Path generatedHashFile(
+        Path serverRoot,
+        PatchSpec patch
+    ) throws IOException {
+        Path root = serverRoot
+            .resolve(GENERATED_HASH_DIRECTORY)
+            .normalize();
+
+        if (!root.startsWith(serverRoot)) {
+            throw new IOException(
+                "Unsafe generated hash directory: " + root
+            );
+        }
+
+        Path result = root
+            .resolve(patch.file() + ".sha256")
+            .normalize();
+
+        if (!result.startsWith(root)) {
+            throw new IOException(
+                "Unsafe generated hash path: " + result
+            );
+        }
+
+        return result;
+    }
+
+    private static String readRememberedGeneratedHash(
+        Path serverRoot,
+        PatchSpec patch
+    ) throws IOException {
+        Path path = generatedHashFile(serverRoot, patch);
+
+        if (!Files.isRegularFile(path)) {
+            return null;
+        }
+
+        String value = Files
+            .readString(path, StandardCharsets.US_ASCII)
+            .trim()
+            .toUpperCase(Locale.ROOT);
+
+        if (!value.matches("[0-9A-F]{64}")) {
+            throw new IOException(
+                "Invalid remembered SHA-256 in " + path
+            );
+        }
+
+        return value;
+    }
+
+    private static void rememberGeneratedHash(
+        Path serverRoot,
+        PatchSpec patch,
+        String hash
+    ) throws IOException {
+        String normalized = hash
+            .trim()
+            .toUpperCase(Locale.ROOT);
+
+        if (!normalized.matches("[0-9A-F]{64}")) {
+            throw new IOException(
+                "Invalid generated SHA-256: " + hash
+            );
+        }
+
+        Path destination =
+            generatedHashFile(serverRoot, patch);
+
+        Files.createDirectories(destination.getParent());
+
+        Path temporary = Files.createTempFile(
+            destination.getParent(),
+            "." + patch.file() + ".",
+            ".tmp"
+        );
+
+        try {
+            Files.writeString(
+                temporary,
+                normalized + "\n",
+                StandardCharsets.US_ASCII
+            );
+
+            safeReplace(temporary, destination);
+        } finally {
+            Files.deleteIfExists(temporary);
+        }
     }
 
     private static void safeReplace(Path source, Path destination)
@@ -448,26 +675,62 @@ public final class NexusServerPatcher {
         };
     }
 
-    private static byte[] patchTxni(byte[] archive) throws Exception {
-        List<String> fabricApi = List.of("META-INF/jars/fabric-api-*.jar");
+    private static byte[] patchTxni(byte[] archive)
+        throws Exception {
+        List<String> fabricApi =
+            List.of("META-INF/jars/fabric-api-*.jar");
 
         archive = updateJson(
             archive,
-            concat(fabricApi, "*fabric-screen-api-v1-*.jar"),
+            concat(
+                fabricApi,
+                "*fabric-screen-api-v1-*.jar"
+            ),
             "fabric-screen-api-v1.mixins.json",
             root -> moveMixinsToClient(
                 root,
-                List.of("MouseMixin", "ScreenAccessor")
+                List.of(
+                    "MouseMixin",
+                    "ScreenAccessor"
+                )
             )
         );
 
         archive = updateJson(
             archive,
-            concat(fabricApi, "*fabric-object-builder-api-v1-*.jar"),
+            concat(
+                fabricApi,
+                "*fabric-object-builder-api-v1-*.jar"
+            ),
             "fabric-object-builder-v1.mixins.json",
             root -> removeMixins(
                 root,
-                List.of("TradeOffersTypeAwareBuyForOneEmeraldFactoryMixin")
+                List.of(
+                    "TradeOffersTypeAwareBuyForOneEmeraldFactoryMixin"
+                )
+            )
+        );
+
+        /*
+        * Nexus Realms memory workaround.
+        *
+        * El heap dump mostró ServerLevel.loadedChunks reteniendo miles
+        * de chunks tras terminar Chunky. Eliminamos conjuntamente las
+        * dos piezas server-side de Fabric Lifecycle Events que mantienen
+        * y actualizan ese bookkeeping.
+        *
+        * No se elimina Fabric Lifecycle Events completo y tampoco TxniLib.
+        */
+        archive = updateJson(
+            archive,
+            concat(
+                fabricApi,
+                "*fabric-lifecycle-events-v1-*.jar"
+            ),
+            "fabric-lifecycle-events-v1.mixins.json",
+            root -> removeMixins(
+                root,
+                TXNI_DISABLED_LIFECYCLE_MIXINS
             )
         );
 
@@ -502,11 +765,19 @@ public final class NexusServerPatcher {
         for (MixinVersion version : versions) {
             archive = updateJson(
                 archive,
-                concat(fabricApi, version.nestedPattern()),
+                concat(
+                    fabricApi,
+                    version.nestedPattern()
+                ),
                 version.config(),
-                root -> setStringProperty(root, "minVersion", version.value())
+                root -> setStringProperty(
+                    root,
+                    "minVersion",
+                    version.value()
+                )
             );
         }
+
         return archive;
     }
 
@@ -516,69 +787,117 @@ public final class NexusServerPatcher {
         String value
     ) {}
 
-    private static boolean verifyTxni(byte[] archive) throws Exception {
-        List<String> fabricApi = List.of("META-INF/jars/fabric-api-*.jar");
-        if (!verifyMixinMove(
-            readJson(
-                archive,
-                concat(fabricApi, "*fabric-screen-api-v1-*.jar"),
-                "fabric-screen-api-v1.mixins.json"
-            ),
-            List.of("MouseMixin", "ScreenAccessor")
-        )) {
-            return false;
-        }
+    private static boolean verifyTxni(byte[] archive)
+    throws Exception {
+    List<String> fabricApi =
+        List.of("META-INF/jars/fabric-api-*.jar");
 
-        Object trade = readJson(
+    if (!verifyMixinMove(
+        readJson(
             archive,
-            concat(fabricApi, "*fabric-object-builder-api-v1-*.jar"),
-            "fabric-object-builder-v1.mixins.json"
-        );
-        if (arrayStrings(object(trade).get("mixins")).contains(
+            concat(
+                fabricApi,
+                "*fabric-screen-api-v1-*.jar"
+            ),
+            "fabric-screen-api-v1.mixins.json"
+        ),
+        List.of(
+            "MouseMixin",
+            "ScreenAccessor"
+        )
+    )) {
+        return false;
+    }
+
+    Object trade = readJson(
+        archive,
+        concat(
+            fabricApi,
+            "*fabric-object-builder-api-v1-*.jar"
+        ),
+        "fabric-object-builder-v1.mixins.json"
+    );
+
+    if (
+        arrayStrings(
+            object(trade).get("mixins")
+        ).contains(
             "TradeOffersTypeAwareBuyForOneEmeraldFactoryMixin"
-        )) {
+        )
+    ) {
+        return false;
+    }
+
+    /*
+     * La salida solo se considera válida si los dos mixins asociados
+     * al bookkeeping server-side que estamos probando han desaparecido
+     * realmente del config cargado por Mixin.
+     */
+    Object lifecycle = readJson(
+        archive,
+        concat(
+            fabricApi,
+            "*fabric-lifecycle-events-v1-*.jar"
+        ),
+        "fabric-lifecycle-events-v1.mixins.json"
+    );
+
+    if (!verifyMixinsRemoved(
+        lifecycle,
+        TXNI_DISABLED_LIFECYCLE_MIXINS
+    )) {
+        return false;
+    }
+
+    List<MixinVersion> versions = List.of(
+        new MixinVersion(
+            "*fabric-item-group-api-v1-*.jar",
+            "fabric-item-group-api-v1.mixins.json",
+            "0.8.5"
+        ),
+        new MixinVersion(
+            "*fabric-item-group-api-v1-*.jar",
+            "fabric-item-group-api-v1.client.mixins.json",
+            "0.8.5"
+        ),
+        new MixinVersion(
+            "*fabric-item-api-v1-*.jar",
+            "fabric-item-api-v1.client.mixins.json",
+            "0.8.5"
+        ),
+        new MixinVersion(
+            "*fabric-data-attachment-api-v1-*.jar",
+            "fabric-data-attachment-api-v1.mixins.json",
+            "0.8.5"
+        ),
+        new MixinVersion(
+            "*fabric-data-attachment-api-v1-*.jar",
+            "fabric-data-attachment-api-v1.client.mixins.json",
+            "0.8.5"
+        )
+    );
+
+    for (MixinVersion version : versions) {
+        Object config = readJson(
+            archive,
+            concat(
+                fabricApi,
+                version.nestedPattern()
+            ),
+            version.config()
+        );
+
+        if (
+            !version.value().equals(
+                object(config).get("minVersion")
+            )
+        ) {
             return false;
         }
-
-        List<MixinVersion> versions = List.of(
-            new MixinVersion(
-                "*fabric-item-group-api-v1-*.jar",
-                "fabric-item-group-api-v1.mixins.json",
-                "0.8.5"
-            ),
-            new MixinVersion(
-                "*fabric-item-group-api-v1-*.jar",
-                "fabric-item-group-api-v1.client.mixins.json",
-                "0.8.5"
-            ),
-            new MixinVersion(
-                "*fabric-item-api-v1-*.jar",
-                "fabric-item-api-v1.client.mixins.json",
-                "0.8.5"
-            ),
-            new MixinVersion(
-                "*fabric-data-attachment-api-v1-*.jar",
-                "fabric-data-attachment-api-v1.mixins.json",
-                "0.8.5"
-            ),
-            new MixinVersion(
-                "*fabric-data-attachment-api-v1-*.jar",
-                "fabric-data-attachment-api-v1.client.mixins.json",
-                "0.8.5"
-            )
-        );
-        for (MixinVersion version : versions) {
-            Object config = readJson(
-                archive,
-                concat(fabricApi, version.nestedPattern()),
-                version.config()
-            );
-            if (!version.value().equals(object(config).get("minVersion"))) {
-                return false;
-            }
-        }
-        return true;
     }
+
+    return true;
+}
 
     private static byte[] patchFragmentum(
         byte[] archive,
@@ -678,6 +997,22 @@ public final class NexusServerPatcher {
                 return false;
             }
         }
+        return true;
+    }
+
+    private static boolean verifyMixinsRemoved(
+        Object root,
+        List<String> names
+    ) {
+        Set<String> mixins =
+            arrayStrings(object(root).get("mixins"));
+
+        for (String name : names) {
+            if (mixins.contains(name)) {
+                return false;
+            }
+        }
+
         return true;
     }
 
