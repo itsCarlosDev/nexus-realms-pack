@@ -25,7 +25,9 @@ public final class KeybindProfilePolicyCheck {
     public static void main(String[] args) throws Exception {
         normalizesRuntimeRoleNames();
         warriorReceivesExpectedProfile();
+        warriorAllomancyBindingsAreCollisionFree();
         mageReceivesExpectedProfile();
+        legacyMetallurgistProfileIsInactive();
         gunslingerReceivesExpectedProfile();
         classChangesReapplyContexts();
         emptyOrUnknownClassActivatesNoClassProfile();
@@ -41,9 +43,10 @@ public final class KeybindProfilePolicyCheck {
         keepsGuardBindingUnchanged();
         pmmoGlossaryOwnsPlainF9();
         migratesLegacyGunslingerRefitOnlyOnce();
+        migratesLegacyAllomancyBurnOnlyOnce();
 
         System.out.println(
-            "Keybind profile policy checks passed: 18/18"
+            "Keybind profile policy checks passed: 21/21"
         );
     }
 
@@ -53,7 +56,6 @@ public final class KeybindProfilePolicyCheck {
             "COMMON_PROFILE",
             "WARRIOR_PROFILE",
             "ARCANIST_PROFILE",
-            "METALLURGIST_PROFILE",
             "GUNSLINGER_PROFILE"
         };
 
@@ -106,6 +108,45 @@ public final class KeybindProfilePolicyCheck {
             !KeybindProfileManager
                 .migrateLegacyGunslingerRefitMapping(refitMapping),
             "TaCZ Refit migration must be idempotent"
+        );
+    }
+
+    private static void migratesLegacyAllomancyBurnOnlyOnce() {
+        for (int legacyKey : new int[] {
+            GLFW.GLFW_KEY_V,
+            GLFW.GLFW_KEY_R
+        }) {
+            KeyMapping burnMapping = mapping(
+                "key.burn",
+                legacyKey
+            );
+
+            require(
+                KeybindProfileManager
+                    .migrateLegacyAllomancyBurnMapping(burnMapping),
+                "Legacy Allomancy burn V/R must migrate to H"
+            );
+            require(
+                burnMapping.getKey().getValue() == GLFW.GLFW_KEY_H &&
+                burnMapping.getKeyModifier() == KeyModifier.NONE,
+                "Migrated Allomancy burn must use plain H"
+            );
+            require(
+                !KeybindProfileManager
+                    .migrateLegacyAllomancyBurnMapping(burnMapping),
+                "Allomancy burn migration must be idempotent"
+            );
+        }
+
+        KeyMapping customBurn = mapping(
+            "key.burn",
+            GLFW.GLFW_KEY_B
+        );
+
+        require(
+            !KeybindProfileManager
+                .migrateLegacyAllomancyBurnMapping(customBurn),
+            "Custom Allomancy burn bindings must be preserved"
         );
     }
 
@@ -164,6 +205,75 @@ public final class KeybindProfilePolicyCheck {
         );
     }
 
+    private static void warriorAllomancyBindingsAreCollisionFree()
+        throws Exception {
+        Map<String, Object> activeBindings =
+            new HashMap<>(profile("COMMON_PROFILE"));
+        activeBindings.putAll(profile("WARRIOR_PROFILE"));
+
+        Map<String, String> ownersByChord = new HashMap<>();
+
+        for (
+            Map.Entry<String, Object> entry :
+            activeBindings.entrySet()
+        ) {
+            InputConstants.Key key = bindingKey(entry.getValue());
+
+            if (key.equals(InputConstants.UNKNOWN)) {
+                continue;
+            }
+
+            String chord =
+                key.getType() + ":" + key.getValue() + ":" +
+                bindingModifier(entry.getValue());
+            String previous = ownersByChord.putIfAbsent(
+                chord,
+                entry.getKey()
+            );
+
+            require(
+                previous == null,
+                "Exact Warrior key collision: " + previous +
+                    " and " + entry.getKey() + " use " + chord
+            );
+        }
+
+        Object burn = profile("WARRIOR_PROFILE").get("key.burn");
+        Object switchMode = profile("WARRIOR_PROFILE").get(
+            "key.epicfight.switch_mode"
+        );
+
+        require(
+            burn != null &&
+            bindingKey(burn).getValue() == GLFW.GLFW_KEY_H &&
+            bindingModifier(burn) == KeyModifier.NONE,
+            "Warrior Allomancy selector must use plain H"
+        );
+        require(
+            switchMode != null &&
+            bindingKey(switchMode).getValue() == GLFW.GLFW_KEY_R &&
+            bindingModifier(switchMode) == KeyModifier.NONE,
+            "Epic Fight switch mode must retain plain R"
+        );
+
+        for (String metal : new String[] {
+            "iron", "steel", "tin", "pewter",
+            "zinc", "brass", "copper", "bronze",
+            "aluminum", "duralumin", "chromium", "nicrosil",
+            "gold", "electrum", "cadmium", "bendalloy"
+        }) {
+            Object binding = profile("WARRIOR_PROFILE").get(
+                "key.metals." + metal
+            );
+
+            require(
+                binding != null &&
+                bindingKey(binding).equals(InputConstants.UNKNOWN),
+                "Individual Allomancy shortcut must be disabled: " + metal
+            );
+        }
+    }
+
     private static void mageReceivesExpectedProfile()
         throws Exception {
         assertProfile(
@@ -171,11 +281,38 @@ public final class KeybindProfilePolicyCheck {
             NexusClass.MAGE,
             NexusSpecialization.ARCANIST
         );
-        assertProfile(
-            "METALLURGIST_PROFILE",
+    }
+
+    private static void legacyMetallurgistProfileIsInactive() {
+        Map<String, KeyMapping> mappings =
+            mappingsForManagedProfiles();
+
+        ClientClassState.accept(
             NexusClass.MAGE,
             NexusSpecialization.METALLURGIST
         );
+
+        require(
+            ClientClassState.getSpecialization() ==
+                NexusSpecialization.NONE,
+            "Legacy Metallurgist sync must sanitize to NONE"
+        );
+
+        ClientClassState.reset();
+
+        KeybindProfileManager.applyProfileToMappings(
+            mappings,
+            NexusClass.MAGE,
+            NexusSpecialization.METALLURGIST
+        );
+
+        for (KeyMapping mapping : mappings.values()) {
+            require(
+                !mapping.getKeyConflictContext().isActive(),
+                "Legacy Metallurgist must not activate " +
+                    mapping.getName()
+            );
+        }
     }
 
     private static void gunslingerReceivesExpectedProfile()

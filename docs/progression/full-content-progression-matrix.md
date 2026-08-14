@@ -27,8 +27,8 @@ Auditoría estática local de los registros y recursos presentes en los JAR de F
 - `GLOBAL`: disponible para todas las clases cuando se alcanza la era.
 - `MULTICLASE`: encaja en varios estilos; no se asigna en exclusiva sin una decisión de diseño.
 - `PENDIENTE DE DECISIÓN`: el registro existe, pero su potencia, NBT u obtención exige prueba antes de restringir.
-- Arcanista y Metalomante son especializaciones mutuamente excluyentes del Mago. Arcanista ya dispone de stage; Metalomante conserva el ID interno `metallurgist`.
-- Metalomante conserva el identificador interno `metallurgist`; Allomancy 4.6.5 se integra mediante Mage AND Metalomante y stages globales de Era III/IV.
+- Arcanista es la especialización disponible del Mago y dispone de stage propio.
+- Allomancy 4.6.6 se integra en Guerrero mediante `nexus_class_warrior` y los stages globales de Era III/IV; el ID `metallurgist` se conserva únicamente para migración y limpieza heredada.
 - En TaCZ, `tacz:modern_kinetic_gun`, `tacz:ammo` y `tacz:attachment` son contenedores con NBT. Las restricciones de armas evalúan `GunId`; munición y attachments no deben bloquearse como items base completos.
 
 ## Clasificación funcional
@@ -44,12 +44,12 @@ Auditoría estática local de los registros y recursos presentes en los JAR de F
 | Familia completa de armas `runic_*` | Simply Swords | III | Guerrero | — | Era III + Guerrero | Poder mágico avanzado; verificar recetas antes de fijar el subhito. |
 | Familia completa de armas `netherite_*` | Simply Swords | IV | Guerrero | — | Era IV + Guerrero | Arsenal del Nexus. |
 | Armas únicas (`brimstone_claymore`, `emberblade`, `frostfall`, `livyatan`, `soulkeeper`, `stormbringer`, `waking_lichblade` y resto de únicas) | Simply Swords | III | PENDIENTE DE DECISIÓN | — | Era III/IV; Guerrero o MULTICLASE según arma | No clasificarlas por nombre: revisar daño, habilidad y obtención individualmente. |
-| Grinder, vial y flakes de iron/steel/tin/pewter/zinc/brass/copper/bronze | Allomancy | III | Mago | Metalomante | Era III + Mage + `nexus_specialization_metallurgist` | **IMPLEMENTADA**. Entrada al sistema; pickup, loot, receta y almacenamiento permanecen permitidos. |
-| `allomancy:coin_bag` y `allomancy:mistcloak` | Allomancy | III | Mago | Metalomante | Era III + Mage + Metalomante | **IMPLEMENTADA**. Utilidad de combate ligada a la senda; no se manipulan inventarios. |
-| Flakes de aluminum/duralumin/chromium/nicrosil/gold/electrum/cadmium/bendalloy | Allomancy | IV | Mago | Metalomante | Era IV + Mage + Metalomante | **IMPLEMENTADA**. Metales avanzados, temporales y espirituales. |
-| `allomancy:lerasium_nugget` | Allomancy | IV | Mago | Metalomante | Era IV + Mage + Metalomante | **IMPLEMENTADA**. Su consumo llama a `setMistborn()` y concede los 16 poderes nativos. |
+| Grinder, vial y flakes de iron/steel/tin/pewter/zinc/brass/copper/bronze | Allomancy | III | Guerrero | — | Era III + Guerrero | **IMPLEMENTADA**. Entrada al sistema; los ocho poderes básicos se completan al reconciliar la clase. |
+| `allomancy:coin_bag` y `allomancy:mistcloak` | Allomancy | III | Guerrero | — | Era III + Guerrero | **IMPLEMENTADA**. Utilidad de combate ligada a la Senda del Metal; no se manipulan inventarios. |
+| Flakes de aluminum/duralumin/chromium/nicrosil/gold/electrum/cadmium/bendalloy | Allomancy | IV | Guerrero | — | Era IV + Guerrero | **IMPLEMENTADA**. Metales avanzados, temporales y espirituales. |
+| `allomancy:lerasium_nugget` | Allomancy | IV | Guerrero | — | Era IV + Guerrero | **IMPLEMENTADA**. Su consumo llama a `setMistborn()` y concede los 16 poderes nativos; la reconciliación Guerrero los preserva. |
 | Menas, raw ores, lingotes, nuggets, bloques y patrones | Allomancy | GLOBAL | GLOBAL | — | Libre | Material físico compartido con economía, construcción, herrería y Create. |
-| `allomancy:koloss_blade` y `allomancy:obsidian_dagger` | Allomancy | III/IV | PENDIENTE DE DECISIÓN | — | PENDIENTE BALANCE | Armas independientes; no se asignan automáticamente a Metalomante. |
+| `allomancy:koloss_blade` y `allomancy:obsidian_dagger` | Allomancy | III/IV | PENDIENTE DE DECISIÓN | — | PENDIENTE BALANCE | Armas independientes; no se asignan automáticamente a la Senda del Metal. |
 | Armas especiales (`air_tachi`, `ruinsgreatsword`, `hf_murasama*`, `yamato_dmc*`, `excalibur` y equivalentes) | Epic Fight Nightfall | III | Guerrero | — | Era III/IV + Guerrero | La mayoría son endgame; el tier exacto depende de receta/drop. |
 | Sets `duskfire_*` y `ruinfighter_*` | Epic Fight Nightfall | III | Guerrero | — | Era III/IV + Guerrero | Armadura de combate especializada; verificar estadísticas. |
 | Skillbooks de Nightfall | Epic Fight Nightfall | III | Guerrero | — | PENDIENTE DE DECISIÓN por skill/NBT | No restringir el contenedor genérico sin distinguir la habilidad. |
@@ -116,7 +116,7 @@ Auditoría estática local de los registros y recursos presentes en los JAR de F
 | Armas únicas Simply Swords/Nightfall, Relics y drops de bosses | **PENDIENTE BALANCE** |
 | Curios mágicos y Alshanex's Familiars | **PENDIENTE BALANCE** |
 | Arcanista: 91 entradas inequívocas de Iron's Spells con Mage AND Arcanist | **IMPLEMENTADA** |
-| Metalomante: grinder, vial, 16 flakes, coin bag, mistcloak y lerasium con Mage AND Metalomante | **IMPLEMENTADA** |
+| Guerrero — Senda del Metal: grinder, vial, 16 flakes, coin bag, mistcloak y lerasium con Guerrero AND Era | **IMPLEMENTADA** |
 | Armas independientes `koloss_blade` y `obsidian_dagger` | **PENDIENTE BALANCE** |
 
 La duplicación de un objeto exclusivo entre un stage global de era y su stage individual de clase es deliberada: expresa el requisito AND. No hay duplicados dentro de un mismo stage ni listeners propios de restricción.
@@ -139,7 +139,7 @@ La duplicación de un objeto exclusivo entre un stage global de era y su stage i
 5. Clasificar individualmente relics y drops de boss después de probar poder, obtención y compatibilidad de clase.
 6. Decidir si Alshanex's Familiars será global, multiclase o una afinidad de Mago.
 7. Definir los subhitos de Create/Createaddition sin bloquear componentes necesarios para arrancar máquinas.
-8. Validar runtime del ciclo de poderes nativos de Allomancy: ocho poderes base en Era III, Lerasium/Mistborn en Era IV y revocación al abandonar Metalomante.
+8. Validar runtime del ciclo de poderes nativos de Allomancy: ocho poderes base en Guerrero, Lerasium/Mistborn en Era IV y revocación al abandonar la clase.
 
 ## Contenido fuera de progresión o sin función útil
 
@@ -148,4 +148,4 @@ La duplicación de un objeto exclusivo entre un stage global de era y su stage i
 - Boss Checklist y su addon: interfaz informativa global, sin restricciones.
 - Clumps, Enchantment Descriptions, Shulker Box Tooltip, Cut Through, Freecam y herramientas de creación: QoL/desarrollo, siempre libres.
 - FantasyWeapons permanece retirado y no se clasifica.
-- Create Aeronautics no está instalado; Allomancy 4.6.5 sí está integrado como contenido exclusivo de Metalomante.
+- Create Aeronautics no está instalado; Allomancy 4.6.6 sí está integrado como contenido exclusivo de Guerrero.

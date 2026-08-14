@@ -216,10 +216,7 @@ function nexusResolveClassTarget(rawValue) {
     }
   }
 
-  if (
-    targetResolutionId === 'arcanist' ||
-    targetResolutionId === 'metallurgist'
-  ) {
+  if (targetResolutionId === 'arcanist') {
     return {
       id: targetResolutionId,
       mainClass: 'mage',
@@ -236,10 +233,7 @@ function nexusDestinationId(mainClass, specialization) {
 
   if (
     destinationMainClass === 'mage' &&
-    (
-      destinationSpecialization === 'arcanist' ||
-      destinationSpecialization === 'metallurgist'
-    )
+    destinationSpecialization === 'arcanist'
   ) {
     return destinationSpecialization
   }
@@ -331,7 +325,7 @@ function nexusFormatDuration(milliseconds) {
   return `${hours}h ${minutes}m`
 }
 
-function nexusAllomancyCoherent(player, specialization) {
+function nexusAllomancyCoherent(player, classId) {
   var allomancyCoherenceApi = nexusSelectionApi()
   var allomancyCoherenceData = allomancyCoherenceApi
     ? allomancyCoherenceApi.getAllomancyData(player)
@@ -345,8 +339,8 @@ function nexusAllomancyCoherent(player, specialization) {
   allomancyCoherenceCount =
     Number(allomancyCoherenceData.getPowerCount())
 
-  return specialization === 'metallurgist'
-    ? allomancyCoherenceCount === 8
+  return classId === 'warrior'
+    ? allomancyCoherenceCount >= 8
     : allomancyCoherenceCount === 0
 }
 
@@ -439,12 +433,6 @@ function nexusStateCoherent(player, classId) {
     stateCoherenceRawSpecialization === 'arcanist'
   ) {
     stateCoherenceSpecialization = 'arcanist'
-  } else if (
-    classId === 'mage' &&
-    stateCoherenceRawSpecialization === 'metallurgist' &&
-    stateCoherenceApi.canSelectMetallurgist(player)
-  ) {
-    stateCoherenceSpecialization = 'metallurgist'
   } else if (stateCoherenceRawSpecialization !== '') {
     return false
   }
@@ -457,9 +445,84 @@ function nexusStateCoherent(player, classId) {
     ) &&
     nexusAllomancyCoherent(
       player,
-      stateCoherenceSpecialization
+      classId
     )
   )
+}
+
+function nexusMigrateLegacyMetallurgist(player, reason) {
+  var migrationApi = nexusSelectionApi()
+  var migrationData = player.persistentData
+  var migrationRawClass = String(
+    migrationData.getString('nexus_class') || ''
+  )
+  var migrationRawSpecialization = String(
+    migrationData.getString('nexus_specialization') || ''
+  )
+
+  if (
+    migrationRawClass !== 'mage' ||
+    migrationRawSpecialization !== 'metallurgist'
+  ) {
+    return true
+  }
+
+  migrationApi.clearClassTags(player)
+
+  migrationData.putString(
+    'nexus_class',
+    'warrior'
+  )
+
+  migrationData.putBoolean(
+    'nexus_class_chosen',
+    true
+  )
+
+  migrationData.remove(
+    'nexus_specialization'
+  )
+
+  migrationData.remove(
+    'nexus_specialization_metallurgist_unlocked'
+  )
+
+  player.addTag(
+    migrationApi.classData.warrior.tag
+  )
+
+  if (
+    !migrationApi.syncClassStages(
+      player,
+      'legacy_migration'
+    ) ||
+    !migrationApi.syncSpecialization(
+      player,
+      'legacy_migration'
+    ) ||
+    !nexusStateCoherent(
+      player,
+      'warrior'
+    )
+  ) {
+    return false
+  }
+
+  $NexusClassSyncEvents.forceSync(player)
+
+  nexusAudit(
+    'legacy_metallurgist_migrated',
+    player,
+    {
+      from: 'mage+metallurgist',
+      to: 'warrior',
+      reason: String(reason || 'unspecified'),
+      kitDelivered: false,
+      cooldownApplied: false
+    }
+  )
+
+  return true
 }
 
 function nexusDestinationCoherent(
@@ -1422,7 +1485,10 @@ function nexusApplySpecializationState(
     )
 
   if (
-    targetClass !== 'mage' &&
+    (
+      targetClass !== 'mage' ||
+      applySpecializationId !== 'arcanist'
+    ) &&
     applySpecializationId !== ''
   ) {
     return false
@@ -1526,19 +1592,46 @@ function nexusFinalizeForward(player) {
   const api = nexusSelectionApi()
   const data = player.persistentData
 
-  const targetClass =
+  let targetClass =
     String(
       data.getString(
         NEXUS_CLASS_CHANGE_KEYS.newClass
       )
     )
 
-  const targetSpecialization =
+  let targetSpecialization =
     String(
       data.getString(
         NEXUS_CLASS_CHANGE_KEYS.newSpecialization
       ) || ''
     )
+
+  if (
+    targetClass === 'mage' &&
+    targetSpecialization === 'metallurgist'
+  ) {
+    targetClass = 'warrior'
+    targetSpecialization = ''
+
+    data.putString(
+      NEXUS_CLASS_CHANGE_KEYS.newClass,
+      targetClass
+    )
+
+    data.putString(
+      NEXUS_CLASS_CHANGE_KEYS.newSpecialization,
+      targetSpecialization
+    )
+
+    nexusAudit(
+      'legacy_journal_target_migrated',
+      player,
+      {
+        from: 'mage+metallurgist',
+        to: 'warrior'
+      }
+    )
+  }
 
   const targetId =
     nexusDestinationId(
@@ -1756,6 +1849,14 @@ function nexusRestoreOldState(player) {
       ) || ''
     )
 
+  if (
+    rollbackContext.oldClass === 'mage' &&
+    rollbackContext.oldSpecialization === 'metallurgist'
+  ) {
+    rollbackContext.oldClass = 'warrior'
+    rollbackContext.oldSpecialization = ''
+  }
+
   rollbackContext.snapshot =
     rollbackContext.data.getCompound(
       NEXUS_CLASS_CHANGE_KEYS.snapshot
@@ -1803,21 +1904,9 @@ function nexusRestoreOldState(player) {
     )
   )
 
-  if (
-    rollbackContext.data.getBoolean(
-      NEXUS_CLASS_CHANGE_KEYS
-        .oldMetallurgistUnlock
-    )
-  ) {
-    rollbackContext.data.putBoolean(
-      'nexus_specialization_metallurgist_unlocked',
-      true
-    )
-  } else {
-    rollbackContext.data.remove(
-      'nexus_specialization_metallurgist_unlocked'
-    )
-  }
+  rollbackContext.data.remove(
+    'nexus_specialization_metallurgist_unlocked'
+  )
 
   if (
     rollbackContext.oldSpecialization ===
@@ -1867,6 +1956,20 @@ function nexusRestoreOldState(player) {
   ) {
     throw new Error(
       'rollback_allomancy_restore_failed'
+    )
+  }
+
+  if (
+    !rollbackContext.api
+      .syncSpecialization(
+        player,
+        'rollback_post_restore'
+      )
+  ) {
+    throw new Error(
+      'rollback_allomancy_reconcile_failed:' +
+      rollbackContext.api
+        .getSpecializationSyncDetail()
     )
   }
 
@@ -2076,7 +2179,7 @@ function nexusChangeClass(
     nexusFeedback(
       source,
       player,
-      'Clase no valida. Usa warrior, mage, arcanist, metallurgist o gunslinger.',
+      'Clase no valida. Usa warrior, mage, arcanist o gunslinger.',
       true
     )
 
@@ -2495,6 +2598,17 @@ function nexusRepairClass(
     repairApi =
       nexusSelectionApi()
 
+    if (
+      !nexusMigrateLegacyMetallurgist(
+        player,
+        'repair'
+      )
+    ) {
+      throw new Error(
+        'legacy_metallurgist_migration_failed'
+      )
+    }
+
     repairRawClass =
       String(
         repairPersistentData.getString(
@@ -2550,17 +2664,8 @@ function nexusRepairClass(
 
     repairSpecializationValid =
       repairAuthoritativeClass === 'mage' &&
-      (
-        repairRawSpecialization ===
-          'arcanist' ||
-        (
-          repairRawSpecialization ===
-            'metallurgist' &&
-          repairApi.canSelectMetallurgist(
-            player
-          )
-        )
-      )
+      repairRawSpecialization ===
+        'arcanist'
 
     if (
       !repairSpecializationValid
@@ -3020,6 +3125,36 @@ function nexusClassChangeLogin(player) {
         ) {
           player.tell(
             'Tu cambio de clase necesita recuperacion administrativa.'
+          )
+
+          return
+        }
+
+        if (
+          !nexusMigrateLegacyMetallurgist(
+            player,
+            'login'
+          )
+        ) {
+          player.tell(
+            'No se pudo migrar tu antigua Senda del Metal; solicita /nexus_repairclass.'
+          )
+
+          return
+        }
+
+        if (
+          !nexusSelectionApi().syncClassStages(
+            player,
+            'login'
+          ) ||
+          !nexusSelectionApi().syncSpecialization(
+            player,
+            'login'
+          )
+        ) {
+          player.tell(
+            'No se pudo reconciliar tu clase; solicita /nexus_repairclass.'
           )
 
           return

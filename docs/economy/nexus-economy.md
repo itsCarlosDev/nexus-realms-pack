@@ -176,16 +176,16 @@ Las primeras filas representan las rutas base anteriores a las ampliaciones comu
 | Pistolero | 38 | 3 Plata + 8 Bronce |
 | Mago común | 18 | 1 Plata + 8 Bronce |
 | Arcanista | 40 | 4 Plata |
-| Metalomante | 50 | 5 Plata |
+| Senda del Metal (Guerrero) | 50 | 5 Plata |
 | exploración y primera defensa | 60 | 6 Plata |
 | pesca V2 opcional, recompensas únicas | 45 | 4 Plata + 5 Bronce |
 | principal + Guerrero/Pistolero + exploración | 504 | 5 Oro + 4 Bronce |
 | principal + Mago + Arcanista + exploración | 524 | 5 Oro + 2 Plata + 4 Bronce |
-| principal + Mago + Metalomante + exploración | 534 | 5 Oro + 3 Plata + 4 Bronce |
-| ruta máxima anterior + pesca V2 única | 579 | 5 Oro + 7 Plata + 9 Bronce |
-| ruta máxima única tras Pack 33.2 | 751 | 7 Oro + 5 Plata + 1 Bronce |
+| principal + Guerrero + Senda del Metal + exploración | 554 | 5 Oro + 5 Plata + 4 Bronce |
+| ruta máxima anterior + pesca V2 única | 599 | 5 Oro + 9 Plata + 9 Bronce |
+| ruta máxima única tras Pack 33.2 | 771 | 7 Oro + 7 Plata + 1 Bronce |
 
-El valor de `751 B` mantiene el mismo criterio acumulativo usado desde Pack 32.1: supone que un mismo miembro del equipo reclama todas las recompensas únicas añadidas a la ruta máxima anterior cuando esas quests son compatibles y completables.
+El valor de `771 B` mantiene el mismo criterio acumulativo usado desde Pack 32.1: supone que un mismo miembro del equipo reclama todas las recompensas únicas añadidas a la ruta máxima anterior cuando esas quests son compatibles y completables.
 
 No representa la suma de todas las ramas excluyentes del modpack.
 

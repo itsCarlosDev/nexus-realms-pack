@@ -44,10 +44,10 @@ Pack 27.2 utiliza únicamente campos SNBT nativos, iconos de objetos existentes 
 | Guerrero | Bronze, acero oscuro | square / octagon |
 | Mago base | Violet + Crystal Blue | hexagon |
 | Arcanista | Violet + Magenta moderado | diamond |
-| Metalomante | grafito + Bronze + Cyan | gear |
+| Senda del Metal (Guerrero) | grafito + Bronze + Cyan | gear |
 | Pistolero | metal oscuro + Warning Amber | rsquare |
 
-La bifurcación del Mago usa dos `quest_links` del mismo tamaño: Arcanista arriba y Metalomante abajo. Ninguna ruta se presenta como secundaria.
+El capítulo del Mago enlaza únicamente con Arcanista. Senda del Metal depende de la entrada del Guerrero y mantiene su identidad visual de engranajes.
 
 ## Pendiente de creación artística
 
@@ -57,7 +57,7 @@ Estos assets son opcionales. No deben añadirse como placeholders ni sustituir l
 | --- | --- | --- | --- | --- | --- |
 | `nexus_quests_stone_field.png` | fondo suave reutilizable | 256×256 | opaco, contraste bajo | piedra oscura sin ruido fino | `assets/nexusrealms/textures/gui/quests/nexus_quests_stone_field.png` |
 | `nexus_quests_arcane_trace.png` | detalle de Arcanista | 256×64 | alpha | runas violetas muy tenues | `assets/nexusrealms/textures/gui/quests/nexus_quests_arcane_trace.png` |
-| `nexus_quests_metal_trace.png` | detalle de Metalomante/Create | 256×64 | alpha | bronce, grafito y engranajes | `assets/nexusrealms/textures/gui/quests/nexus_quests_metal_trace.png` |
+| `nexus_quests_metal_trace.png` | detalle de Senda del Metal/Create | 256×64 | alpha | bronce, grafito y engranajes | `assets/nexusrealms/textures/gui/quests/nexus_quests_metal_trace.png` |
 | `nexus_quests_nexus_crack.png` | acento de Era IV | 256×64 | alpha | grieta cian con mínimo magenta | `assets/nexusrealms/textures/gui/quests/nexus_quests_nexus_crack.png` |
 | `nexus_quests_horde_mark.png` | señal de rama de hordas | 64×64 | alpha | marca roja erosionada | `assets/nexusrealms/textures/gui/quests/nexus_quests_horde_mark.png` |
 

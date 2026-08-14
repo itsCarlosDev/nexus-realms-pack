@@ -81,7 +81,7 @@ custom_gui {
 }
 
 custom_gui {
-  identifier = mage_expl_metalurgist_2
+  identifier = warrior_metal_path_info
   title = 
   allow_esc = true
   transparent_world_background = true
@@ -101,4 +101,3 @@ custom_gui {
   popup_mode = false
   popup_mode_background_overlay = true
 }
-

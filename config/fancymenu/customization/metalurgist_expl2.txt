@@ -1,7 +1,7 @@
 type = fancymenu_layout
 
 layout-meta {
-  identifier = mage_expl_metalurgist_2
+  identifier = warrior_metal_path_info
   render_custom_elements_behind_vanilla = false
   last_edited_time = 1784765141799
   is_enabled = true
@@ -419,4 +419,3 @@ element {
   nine_slice_slider_handle_border_x = 5
   nine_slice_slider_handle_border_y = 5
 }
-

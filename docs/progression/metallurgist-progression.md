@@ -1,58 +1,26 @@
-# Especialización Mago → Metalomante
+# Guerrero — Senda del Metal
+
+> El nombre del archivo se conserva para no romper enlaces históricos. Metalomante ya no es una especialización seleccionable.
 
 ## Mod integrado
 
 - Proyecto: Allomancy.
-- Autor: legobmw99.
 - Mod ID: `allomancy`.
-- Versión: `4.6.5`.
+- Versión Packwiz: `4.6.6`.
 - Minecraft: `1.20.1`.
-- Loader: Forge `[47,)`.
-- Artefacto oficial: Modrinth `mTS4CGDB`, versión `j4eaEJfx`.
-- Dependencias obligatorias externas: ninguna.
+- Loader: Forge.
 
-El JAR registra 116 items concretos: materiales, menas, bloques, flakes, patrones, tres consumibles del sistema, cuatro objetos de combate y extras. Los metales comunes, menas, lingotes, nuggets, bloques y patrones permanecen libres; no se bloquea el namespace completo.
+Allomancy usa una capability Forge propia para poderes, reservas y estado de combustión. El mod sincroniza esos datos con el cliente. `allomancy:lerasium_nugget` concede nativamente los 16 poderes mediante el estado Mistborn, por lo que continúa reservado para Era IV.
 
 ## Arquitectura Nexus
 
-- Clase principal: `mage`.
-- Especialización visible: Metalomante.
-- ID interno preservado: `metallurgist`.
-- Estado persistente: `player.persistentData.nexus_specialization = metallurgist`.
-- Stages simultáneos: `nexus_class_mage` + `nexus_specialization_metallurgist`.
+- Clase propietaria: `warrior`.
+- Stage de clase: `nexus_class_warrior`.
+- Especialización adicional: ninguna.
+- Selector/burn de Allomancy: `H`.
+- Atajos individuales de los 16 metales: sin asignar.
 
-Arcanista y Metalomante son mutuamente excluyentes. Guerrero, Pistolero y jugadores sin clase conservan cero stages de especialización Mage.
-
-Metalomante está disponible desde el inicio con el estado estructural Mago + Metalomante. La recompensa de `senda_del_metal.snbt` conserva `/nexus_specialization unlock metallurgist` únicamente para registrar el hito histórico; no autoriza ni selecciona la especialización, no exige Era III y no sustituye el cambio transaccional.
-
-## Mecánica nativa auditada
-
-Allomancy usa una capability Forge propia (`AllomancerCapability.PLAYER_CAP`) respaldada por `DefaultAllomancerData`. Guarda en NBT:
-
-- poderes disponibles;
-- cantidades y estado de combustión de cada metal;
-- datos auxiliares de muerte, spawn y poderes temporales.
-
-El mod sincroniza estos datos al entrar, reaparecer y cambiar de dimensión. Los poderes se copian al clon del jugador tras morir; las reservas de metal solo se conservan con `keepInventory` o en clones que no proceden de muerte.
-
-Comandos oficiales:
-
-- `/allomancy get [targets]`
-- `/allomancy add <metal|all|random> [targets]`
-- `/allomancy remove <metal|all|random> [targets]`
-- alias `/ap`
-
-`add` y `remove` requieren permiso 2. Tras cada cambio el propio mod sincroniza el cliente.
-
-El objeto `allomancy:lerasium_nugget` llama nativamente a `setMistborn()` al consumirse y concede los 16 poderes. Por eso se reserva para Era IV.
-
-La tecla predeterminada para quemar/detener metales es `V`. El HUD y las 16 teclas individuales de metal vienen sin asignar por defecto.
-
-## Integración de poderes
-
-La configuración oficial fija `random_mistings = false`; de otro modo Allomancy 4.6.5 concedería un poder aleatorio a cualquier jugador nuevo, independientemente de su clase.
-
-Al seleccionar o reconciliar Metalomante se usan los comandos oficiales para conceder los ocho poderes fundamentales:
+Al seleccionar o reconciliar Guerrero, Nexus añade solo los poderes básicos que falten:
 
 - iron;
 - steel;
@@ -63,75 +31,68 @@ Al seleccionar o reconciliar Metalomante se usan los comandos oficiales para con
 - copper;
 - bronze.
 
-Al abandonar Metalomante, cambiar de clase o resetear la especialización se ejecuta `/allomancy remove all <player>`. Esto revoca únicamente los poderes de la capability; no elimina items ni vacía las reservas metálicas guardadas. La operación es necesaria para que Allomancy siga siendo exclusiva de Metalomante.
+La reconciliación no llama a `setUninvested()` para Guerrero. Así conserva poderes avanzados obtenidos legítimamente y un estado Mistborn existente. Para Mago, Pistolero o jugadores sin clase sí revoca todos los poderes, sincroniza la capability y comprueba que el recuento sea cero.
 
-Limitación: si un jugador consumió Lerasium y después abandona la senda, el mod no ofrece un historial separado de poderes avanzados. Al volver a Metalomante recupera los ocho poderes base, no automáticamente el estado Mistborn anterior.
+La configuración oficial mantiene `random_mistings = false`, evitando poderes aleatorios fuera de la clase Guerrero.
 
-## Restricciones seguras
+## Migración heredada
 
-History Stages contiene los mismos 21 items de uso exclusivo en:
+El estado exacto `nexus_class=mage` + `nexus_specialization=metallurgist` se migra a Guerrero de forma idempotente durante login, reparación o recuperación transaccional.
 
-- `nexus_class_mage`;
-- `nexus_specialization_metallurgist`.
+La migración:
 
-La coincidencia ya validada de History Stages aplica el AND Mago + Metalomante. Pickup, loot, almacenamiento, movimiento, recetas, GUI e iconos permanecen permitidos; se bloquean las acciones de uso, ataque, rotura o equipamiento que no estén en `unlock_actions`.
+- conserva inventario, XP, quests, etapas globales y reservas metálicas;
+- no entrega kit, no cobra niveles y no crea cooldown;
+- sustituye la clase persistente y los tags/stages por Guerrero;
+- elimina el stage y la marca de desbloqueo heredados;
+- conserva los poderes existentes y completa únicamente los ocho básicos que falten;
+- fuerza una sincronización final de clase y capability.
 
-Items exclusivos incluidos:
+`config/historystages/individual/nexus_specialization_metallurgist.json` permanece como configuración residual vacía para limpiar el ID anterior de forma segura. No autoriza contenido ni demuestra una especialización activa.
 
-- `allomancy:allomantic_grinder`;
-- `allomancy:vial`;
+## Restricciones con History Stages
+
+Los 21 objetos exclusivos de uso alomántico están en `nexus_class_warrior` y se combinan con sus restricciones globales por era. Ya no aparecen en `nexus_class_mage` ni en el stage residual Metalomante.
+
+Objetos incluidos:
+
+- `allomancy:allomantic_grinder` y `allomancy:vial`;
 - los 16 `*_flakes` correspondientes a poderes;
-- `allomancy:coin_bag`;
-- `allomancy:mistcloak`;
+- `allomancy:coin_bag` y `allomancy:mistcloak`;
 - `allomancy:lerasium_nugget`.
 
-No se restringen `koloss_blade` ni `obsidian_dagger` en esta fase porque funcionan como armas independientes y necesitan una decisión de clase/balance.
+History Stages sigue siendo la autoridad de uso. No se añaden listeners paralelos ni se manipulan inventarios para imponer estas restricciones. `koloss_blade` y `obsidian_dagger` permanecen fuera de esta asignación porque son armas independientes.
 
 ## Balance por era
 
-### Era III · Metalomante
+### Era III — fundamentos
 
-- grinder y vial;
+- molino y vial;
 - flakes de iron, steel, tin, pewter, zinc, brass, copper y bronze;
-- ocho poderes fundamentales concedidos por el sistema Nexus mediante comandos nativos;
 - coin bag y mistcloak;
-- progreso inicial de «La Senda del Metal».
+- capítulo «Senda del Metal», dependiente de la entrada de Guerrero y Era III.
 
-### Era IV · Metalomante avanzado
+### Era IV — dominio avanzado
 
 - flakes de aluminum, duralumin, chromium, nicrosil, gold, electrum, cadmium y bendalloy;
-- `lerasium_nugget`, que concede el estado Mistborn nativo;
+- `lerasium_nugget` y transformación Mistborn nativa;
 - combinaciones temporales y espirituales avanzadas.
 
-No se crea una quinta era. Los metales vanilla y los materiales físicos comunes del mod pueden seguir recogiéndose, comerciándose, almacenándose y utilizándose en sistemas ajenos como Create; Lerasium conserva la excepción de Era IV.
+Los metales vanilla y materiales físicos comunes pueden seguir recogiéndose, comerciándose y utilizándose en otros sistemas. No se crea una quinta era.
 
-## Tienda del Metalomante · V1
+## Interfaz y NPC
 
-Estado: `OPERATIVA V1`, con el interior todavía en construcción.
+FancyMenu presenta «Guerrero — Senda del Metal», describe la progresión por eras y muestra `H` como selector. El menú de Mago ofrece únicamente Arcanista; cualquier pantalla heredada de información metálica redirige a Guerrero y no ejecuta comandos Metalomante.
 
-Disponible:
-
-- Maestro Metalomante;
-- acceso a `senda_del_metal`;
-- explicación de Metalomante como especialización avanzada del Mago;
-- orientación sobre los ocho poderes básicos de Era III y el avance de Era IV.
-
-Pendiente:
-
-- interior definitivo;
-- servicios especializados;
-- posible comercio de recursos;
-- contenido avanzado y balance final.
-
-El NPC no concede stages, poderes ni Lerasium. La regla global de Era IV bloquea `pickup`, `loot` y `recipe` de `allomancy:lerasium_nugget` antes de esa Era; el objeto permanece visible como icono y objetivo de la quest.
+El preset interno `metallurgist_master` conserva su ID estable, pero se muestra como «Maestro del Metal». Abre la Senda del Metal para consulta y no concede stages, poderes, clase ni Lerasium.
 
 ## Prueba runtime pendiente
 
-1. Confirmar que Forge 47.4.10 carga Allomancy 4.6.5.
-2. Verificar que Arcanista, Guerrero y Pistolero no reciben poderes al entrar.
-3. Seleccionar Metalomante sin Era III ni unlock histórico y ejecutar `/allomancy get`: deben aparecer los ocho poderes base.
-4. Confirmar que grinder, vial y flakes solo pueden usarse con Mage + Metalomante.
-5. Cambiar a Arcanista o resetear y verificar `/allomancy get`: `none`.
-6. En Era IV, consumir Lerasium y confirmar `all`.
-7. Reiniciar y morir para verificar la persistencia descrita.
-8. Comprobar cero pérdida o duplicación de items.
+1. Entrar con un Guerrero nuevo y confirmar ocho poderes básicos con `/allomancy get`.
+2. Abrir el selector con `H`; comprobar que `R`, `V`, `Shift+1..8` y `Alt+1..8` no colisionan con Allomancy.
+3. Consumir Lerasium en Era IV, reloguear y confirmar que la reconciliación conserva los 16 poderes.
+4. Cambiar de Guerrero a Mago o Pistolero y confirmar `none` sin pérdida de items ni reservas.
+5. Entrar con un perfil heredado Mago + Metalomante y verificar migración única a Guerrero sin coste, kit ni cooldown.
+6. Validar uso/bloqueo de los 21 objetos con las combinaciones de clase y era correspondientes.
+
+No se debe declarar esta integración operativa en juego hasta completar esas pruebas.

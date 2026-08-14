@@ -422,13 +422,13 @@ element {
 
 element {
   button_element_executable_block_identifier = 6bc74d06-4e3c-48f8-95f5-e6967f948933-1784756354558
-  [executable_action_instance:255c570f-e567-4edf-b4f6-36d19b900268-1784763776430][action_type:opengui] = mage_expl_metalurgic
+  [executable_action_instance:255c570f-e567-4edf-b4f6-36d19b900268-1784763776430][action_type:opengui] = nexus_class_selection
   [executable_block:6bc74d06-4e3c-48f8-95f5-e6967f948933-1784756354558][type:generic] = [executables:255c570f-e567-4edf-b4f6-36d19b900268-1784763776430;]
   underline_label_on_hover = false
   transparent_background = false
   restartbackgroundanimations = true
   nine_slice_custom_background = false
-  label = Metalurgia
+  label = Volver
   navigatable = true
   widget_active_state_requirement_container_identifier = 7fc8b0d2-3b0b-4ae5-8156-632ea4e41294-1784756354558
   [loading_requirement_container_meta:7fc8b0d2-3b0b-4ae5-8156-632ea4e41294-1784756354558] = [groups:][instances:]
@@ -497,4 +497,3 @@ element {
   nine_slice_slider_handle_border_x = 5
   nine_slice_slider_handle_border_y = 5
 }
-

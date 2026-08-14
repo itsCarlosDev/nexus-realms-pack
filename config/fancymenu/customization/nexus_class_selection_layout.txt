@@ -578,13 +578,13 @@ element {
 
 element {
   button_element_executable_block_identifier = cf387c25-afcd-4691-8dab-cf32748d69d1-1784764808843
-  [executable_action_instance:89d73250-7066-4e4a-bb6e-a4a66210e43e-1784764978478][action_type:opengui] = mage_expl_metalurgist_2
+  [executable_action_instance:89d73250-7066-4e4a-bb6e-a4a66210e43e-1784764978478][action_type:opengui] = warrior_metal_path_info
   [executable_block:cf387c25-afcd-4691-8dab-cf32748d69d1-1784764808843][type:generic] = [executables:89d73250-7066-4e4a-bb6e-a4a66210e43e-1784764978478;]
   underline_label_on_hover = false
   transparent_background = false
   restartbackgroundanimations = true
   nine_slice_custom_background = false
-  label = Info Metalurgista
+  label = Info Senda del Metal
   navigatable = true
   widget_active_state_requirement_container_identifier = 4390ba99-c46f-40bb-ae01-50f7cdf495e7-1784764808843
   [loading_requirement_container_meta:4390ba99-c46f-40bb-ae01-50f7cdf495e7-1784764808843] = [groups:][instances:]
