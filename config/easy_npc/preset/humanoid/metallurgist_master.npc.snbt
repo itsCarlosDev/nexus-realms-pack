@@ -3,7 +3,7 @@
     author:"Nexus Realms",
     category:"Nexus Market",
     created:1784332800000L,
-    description:"Maestro Metalomante: consulta segura de Senda del Metal sin conceder progresión.",
+description:"Maestro del Metal: consulta segura de la disciplina alomántica del Guerrero sin conceder progresión.",
     entityTypeId:"easy_npc:humanoid",
     modified:1784674002131L,
     name:"metallurgist_master",
@@ -27,7 +27,7 @@
     Brain:{memories:{}},
     CanPickUpLoot:0b,
     CanUpdate:1b,
-    CustomName:'{"color":"#D28A52","text":"Maestro Metalomante"}',
+CustomName:'{"color":"#D28A52","text":"Maestro del Metal"}',
     CustomNameVisible:1b,
     DialogData:{
       DialogDataSet:[{

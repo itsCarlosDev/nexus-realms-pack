@@ -20,20 +20,12 @@
 			x: 8.0d
 			y: -1.25d
 		}
-		{
-			id: "2720000000001102"
-			linked_quest: "4E584D4554513031"
-			shape: "gear"
-			size: 1.25d
-			x: 8.0d
-			y: 1.25d
-		}
 	]
-	subtitle: ["Conocimiento común antes de escoger una senda."]
+	subtitle: ["Conocimiento arcano y dominio de los hechizos."]
 	quests: [
 		{
 			dependencies: ["2700000000000003"]
-			description: ["Sigue esta rama si elegiste Mago. La formación inicial es común antes de elegir especialización."]
+			description: ["Sigue esta rama si elegiste Mago. Su especialización disponible es Arcanista."]
 			icon: { id: "irons_spellbooks:arcane_essence" }
 			id: "2700000000001101"
 			shape: "hexagon"
@@ -77,7 +69,7 @@
 		}
 		{
 			dependencies: ["2700000000001102", "2710000000001105", "4E58504552413032"]
-			description: ["Construye el espacio de estudio que compartirán ambas sendas mágicas."]
+			description: ["Construye el espacio de estudio de la senda del Arcanista."]
 			icon: { id: "irons_spellbooks:inscription_table" }
 			id: "2700000000001103"
 			rewards: [{
@@ -107,8 +99,8 @@
 		{
 			dependencies: ["2700000000001103", "4E58504552413033"]
 			description: [
-				"Arcanista y Metalomante están disponibles desde la selección de especialización inicial."
-				"En Era III, estas ramas profundizan en Iron's Spells y en La Senda del Metal sin desbloquear la elección."
+				"Arcanista es la especialización del Mago."
+				"En Era III profundiza en Iron's Spells, runas y canalización arcana."
 			]
 			icon: { id: "minecraft:amethyst_shard" }
 			id: "2700000000001104"
@@ -119,8 +111,8 @@
 			}]
 			shape: "diamond"
 			size: 1.5d
-			tasks: [{ id: "27B0000000001104", title: "Elegir una especialización", type: "checkmark" }]
-			title: "Dos sendas"
+			tasks: [{ id: "27B0000000001104", title: "Elegir Arcanista", type: "checkmark" }]
+			title: "La senda del Arcanista"
 			x: 6.0d
 			y: 0.0d
 		}

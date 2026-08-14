@@ -4,7 +4,7 @@
 
 - Se conserva el grupo `Nexus Realms` y los cuatro IDs de hito global conectados a `/nexus_era request`.
 - `Progresión Global`, que era una sucesión de checkmarks de prueba, se sustituye por `00 — Comienzo`.
-- Se conserva `Senda del Metal`, su ID de capítulo y el reward `/nexus_specialization unlock metallurgist`.
+- Se conserva `Senda del Metal` y su ID de capítulo; se elimina el reward heredado `/nexus_specialization unlock metallurgist` porque Allomancy se activa con Guerrero.
 - No se añade ningún temporizador, stage ni sistema de clase paralelo.
 
 ## Flujo principal
@@ -24,7 +24,7 @@ Las quests solicitan una era mediante el puente Nexus. El calendario global deci
 - Guerrero: guja de hierro, entrenamiento defensivo, mandoble de diamante, arma rúnica, equipo Nightfall y mandoble de netherite.
 - Mago base: esencia, tinta y estaciones de trabajo compartidas antes de elegir senda.
 - Arcanista: grimorio, runa, orbe, bastón, armadura mágica y grimorio final.
-- Metalomante: grinder, vial, ocho metales básicos, reservas, equipo propio, ocho metales avanzados, Lerasium y paso manual Mistborn.
+- Guerrero — Senda del Metal: grinder, vial, ocho metales básicos, reservas, equipo propio, ocho metales avanzados, Lerasium y paso manual Mistborn.
 - Pistolero: Glock 17, precisión, MP5A5, M4A1, largo alcance y M107. Las tareas de dominio son manuales porque el `GunId` vive en NBT y no se fuerza una coincidencia frágil.
 
 Las ramas son opcionales respecto al flujo global. Ninguna clase bloquea la finalización de una era.

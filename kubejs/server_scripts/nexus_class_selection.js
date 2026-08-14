@@ -80,7 +80,8 @@ const NEXUS_SPECIALIZATION_DATA = {
   metallurgist: {
     displayName: 'Metalomante',
     stageId: 'nexus_specialization_metallurgist',
-    starterKit: []
+    starterKit: [],
+    legacyOnly: true
   }
 }
 
@@ -238,7 +239,7 @@ function nexusGetPersistentSpecialization(player) {
   const specialization = nexusGetRawSpecialization(player)
 
   return (
-    NEXUS_SPECIALIZATION_DATA[specialization] &&
+    specialization === 'arcanist' &&
     nexusGetPersistentClass(player) === 'mage'
   )
     ? specialization
@@ -317,7 +318,7 @@ function nexusSpecializationStagesCoherent(
 
   var expectedSpecializationStage =
     classId === 'mage' &&
-    NEXUS_SPECIALIZATION_DATA[specializationId]
+    specializationId === 'arcanist'
       ? specializationId
       : null
 
@@ -333,12 +334,12 @@ function nexusSpecializationStagesCoherent(
 
 function nexusSyncAllomancyPowers(
   player,
-  specializationId,
+  classId,
   reason
 ) {
   var allomancySyncContext = {
     data: null,
-    grantMetallurgist: false,
+    grantWarrior: false,
     expectedPowerCount: 0,
     powersVerified: false,
     index: 0,
@@ -356,7 +357,7 @@ function nexusSyncAllomancyPowers(
 
       console.warn(
         '[Nexus Realms] Allomancy is not loaded; ' +
-        'Metalomante powers could not be synchronized.'
+        'Warrior powers could not be synchronized.'
       )
     }
 
@@ -372,12 +373,10 @@ function nexusSyncAllomancyPowers(
       return false
     }
 
-    allomancySyncContext.grantMetallurgist =
-      specializationId === 'metallurgist'
+    allomancySyncContext.grantWarrior =
+      classId === 'warrior'
 
-    allomancySyncContext.data.setUninvested()
-
-    if (allomancySyncContext.grantMetallurgist) {
+    if (allomancySyncContext.grantWarrior) {
       while (
         allomancySyncContext.index <
           NEXUS_ALLOMANCY_BASE_POWERS.length
@@ -385,13 +384,25 @@ function nexusSyncAllomancyPowers(
         allomancySyncContext.powerId =
           NEXUS_ALLOMANCY_BASE_POWERS[allomancySyncContext.index]
 
-        allomancySyncContext.data.addPower(
-          $NexusAllomancyMetal.valueOf(
-            String(allomancySyncContext.powerId).toUpperCase()
+        if (
+          !nexusStageBoolean(
+            allomancySyncContext.data.hasPower(
+              $NexusAllomancyMetal.valueOf(
+                String(allomancySyncContext.powerId).toUpperCase()
+              )
+            )
           )
-        )
+        ) {
+          allomancySyncContext.data.addPower(
+            $NexusAllomancyMetal.valueOf(
+              String(allomancySyncContext.powerId).toUpperCase()
+            )
+          )
+        }
         allomancySyncContext.index++
       }
+    } else {
+      allomancySyncContext.data.setUninvested()
     }
 
     $NexusAllomancyNetwork.sync(
@@ -400,18 +411,20 @@ function nexusSyncAllomancyPowers(
     )
 
     allomancySyncContext.expectedPowerCount =
-      allomancySyncContext.grantMetallurgist
+      allomancySyncContext.grantWarrior
         ? NEXUS_ALLOMANCY_BASE_POWERS.length
         : 0
 
     allomancySyncContext.powersVerified =
-      Number(allomancySyncContext.data.getPowerCount()) ===
-        allomancySyncContext.expectedPowerCount
+      allomancySyncContext.grantWarrior
+        ? Number(allomancySyncContext.data.getPowerCount()) >=
+          allomancySyncContext.expectedPowerCount
+        : Number(allomancySyncContext.data.getPowerCount()) === 0
 
     allomancySyncContext.index = 0
     while (
       allomancySyncContext.powersVerified &&
-      allomancySyncContext.grantMetallurgist &&
+      allomancySyncContext.grantWarrior &&
       allomancySyncContext.index < NEXUS_ALLOMANCY_BASE_POWERS.length
     ) {
       allomancySyncContext.powerId =
@@ -440,8 +453,8 @@ function nexusSyncAllomancyPowers(
           String(player.username) +
           ': ' +
           (
-            allomancySyncContext.grantMetallurgist
-              ? 'base Metalomante powers granted'
+            allomancySyncContext.grantWarrior
+              ? 'Warrior base powers reconciled'
               : 'powers revoked'
           )
       )
@@ -535,11 +548,8 @@ function nexusSyncSpecialization(player, reason) {
 
     specializationSyncContext.expected =
       specializationSyncContext.classId === 'mage' &&
-      NEXUS_SPECIALIZATION_DATA[
-        specializationSyncContext.raw
-      ] &&
-      specializationSyncContext.raw !== 'none'
-        ? specializationSyncContext.raw
+      specializationSyncContext.raw === 'arcanist'
+        ? 'arcanist'
         : null
 
     if (
@@ -552,6 +562,10 @@ function nexusSyncSpecialization(player, reason) {
 
       specializationSyncContext.correctedPersistentData = true
     }
+
+    player.persistentData.remove(
+      'nexus_specialization_metallurgist_unlocked'
+    )
 
     for (
       var specializationIndex = 0;
@@ -626,7 +640,7 @@ function nexusSyncSpecialization(player, reason) {
     specializationSyncContext.allomancySynced =
       nexusSyncAllomancyPowers(
         player,
-        specializationSyncContext.expected,
+        specializationSyncContext.classId,
         reason
       )
 
@@ -642,8 +656,8 @@ function nexusSyncSpecialization(player, reason) {
 
       nexusSpecializationSyncDetail =
         'allomancy_sync_failed:' +
-        'expected=' +
-        (specializationSyncContext.expected || 'none') +
+        'class=' +
+        specializationSyncContext.classId +
         ',power_count=' +
         specializationSyncContext.allomancyPowerCount
       return false
@@ -726,10 +740,6 @@ function nexusCurrentGlobalEra(player) {
     : 0
 }
 
-function nexusCanSelectMetallurgist(player) {
-  return nexusGetPersistentClass(player) === 'mage'
-}
-
 function nexusSpecializationFeedback(viewer, message) {
   if (viewer) {
     viewer.tell(message)
@@ -805,7 +815,16 @@ function nexusSelectSpecialization(
   if (!specializationData) {
     nexusSpecializationFeedback(
       viewer,
-      'Especializacion no valida. Usa: arcanist o metallurgist.'
+      'Especializacion no valida. Usa: arcanist.'
+    )
+
+    return 0
+  }
+
+  if (specializationData.legacyOnly) {
+    nexusSpecializationFeedback(
+      viewer,
+      'Metalomante ya no es seleccionable; Allomancy pertenece a Guerrero.'
     )
 
     return 0
@@ -816,7 +835,7 @@ function nexusSelectSpecialization(
   ) {
     nexusSpecializationFeedback(
       viewer,
-      'Las especializaciones Arcanista y Metalomante requieren la clase Mago.'
+      'Arcanista requiere la clase Mago.'
     )
 
     return 0
@@ -834,7 +853,7 @@ function nexusSelectSpecialization(
   ) {
     nexusSpecializationFeedback(
       viewer,
-      'Los cambios entre Arcanista y Metalomante deben realizarse mediante el altar de cambio de clase.'
+      'Los cambios de senda deben realizarse mediante el altar de cambio de clase.'
     )
 
     return 0
@@ -851,13 +870,13 @@ function nexusSelectSpecialization(
     if (
       !nexusSyncAllomancyPowers(
         target,
-        specializationId,
+        'mage',
         'selection'
       )
     ) {
       nexusSpecializationFeedback(
         viewer,
-        'La especializacion existe, pero Allomancy no pudo verificarse.'
+        'La especializacion existe, pero su estado no pudo verificarse.'
       )
 
       return 0
@@ -955,21 +974,6 @@ function nexusSelectSpecialization(
   return starterKitFailures > 0
     ? 0
     : 1
-}
-
-function nexusUnlockMetallurgist(viewer, target) {
-  target.persistentData.putBoolean(
-    'nexus_specialization_metallurgist_unlocked',
-    true
-  )
-
-  nexusSpecializationFeedback(
-    viewer,
-    `Marca historica Metalomante registrada para ` +
-    `${nexusPlayerName(target)}; no es un requisito de seleccion.`
-  )
-
-  return 1
 }
 
 function nexusResetSpecialization(viewer, target) {
@@ -1224,10 +1228,6 @@ function nexusShowClassSelector(player) {
 
   player.tell(
     '/nexus_select arcanist - Arcanista'
-  )
-
-  player.tell(
-    '/nexus_select metallurgist - Metalomante'
   )
 
   player.tell(
@@ -1596,7 +1596,6 @@ global.nexusClassSelectionApi = {
   syncAllomancyPowers: nexusSyncAllomancyPowers,
   getAllomancyData: nexusGetAllomancyData,
   restoreAllomancyData: nexusRestoreAllomancyData,
-  canSelectMetallurgist: nexusCanSelectMetallurgist,
   currentGlobalEra: nexusCurrentGlobalEra,
   createKitItem: nexusCreateKitItem,
   clearClassTags: nexusClearClassTags,
@@ -1648,7 +1647,6 @@ ServerEvents.commandRegistry(event => {
                 'warrior',
                 'mage',
                 'arcanist',
-                'metallurgist',
                 'gunslinger'
               ].indexOf(classId) >= 0
 
@@ -1658,7 +1656,7 @@ ServerEvents.commandRegistry(event => {
 
             if (!initialTargetValid) {
               player.tell(
-                'Clase no valida. Usa: warrior, arcanist, metallurgist o gunslinger.'
+                'Clase no valida. Usa: warrior, arcanist o gunslinger.'
               )
 
               return 0
@@ -1693,7 +1691,6 @@ ServerEvents.commandRegistry(event => {
             'Nexus Realms class commands: ' +
             '/nexus_select warrior, ' +
             '/nexus_select arcanist, ' +
-            '/nexus_select metallurgist, ' +
             '/nexus_select gunslinger'
           )
 
@@ -1827,62 +1824,6 @@ ServerEvents.commandRegistry(event => {
                     )
                   : 0
               })
-          )
-          .then(
-            Commands.literal('metallurgist')
-              .executes(ctx => {
-                const target =
-                  ctx.source.player
-
-                return target
-                  ? nexusSelectSpecialization(
-                      target,
-                      target,
-                      'metallurgist'
-                    )
-                  : 0
-              })
-          )
-      )
-      .then(
-        Commands.literal('unlock')
-          .requires(
-            source => source.hasPermission(2)
-          )
-          .then(
-            Commands.literal('metallurgist')
-              .executes(ctx => {
-                const target =
-                  ctx.source.player
-
-                return target
-                  ? nexusUnlockMetallurgist(
-                      target,
-                      target
-                    )
-                  : 0
-              })
-              .then(
-                Commands.argument(
-                  'player',
-                  Arguments.PLAYER.create(event)
-                )
-                  .executes(ctx => {
-                    const viewer =
-                      ctx.source.player
-
-                    const target =
-                      Arguments.PLAYER.getResult(
-                        ctx,
-                        'player'
-                      )
-
-                    return nexusUnlockMetallurgist(
-                      viewer,
-                      target
-                    )
-                  })
-              )
           )
       )
       .then(

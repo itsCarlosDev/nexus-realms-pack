@@ -18,7 +18,7 @@
 			dependencies: ["2700000000001104"]
 			description: [
 				"Arcanista profundiza en Iron's Spells sin abandonar la clase Mago."
-				"Esta decisión es excluyente con Metalomante."
+				"Es la especialización disponible para la clase Mago."
 			]
 			icon: { id: "irons_spellbooks:arcane_rune" }
 			id: "2700000000001201"

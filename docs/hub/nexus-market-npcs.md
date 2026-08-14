@@ -89,7 +89,7 @@ Los presets no incluyen `Pos`, `Owner`, UUID de entidad, `PresetUUID` ni `Naviga
 | `guard_captain` | Capitán de la Guardia | `easy_npc:preset/humanoid/guard_captain.npc.snbt` | `KNIGHT_01`, espada y escudo | exploración, hordas y bosses |
 | `warrior_master` | Maestro de Armas | `easy_npc:preset/humanoid/warrior_master.npc.snbt` | `KNIGHT_02`, espada y escudo | Guerrero |
 | `arcane_master` | Maestro Arcano | `easy_npc:preset/humanoid/arcane_master.npc.snbt` | `PROFESSOR_01`, libro encantado y amatista | Mago y Arcanista |
-| `metallurgist_master` | Maestro Metalomante | `easy_npc:preset/humanoid/metallurgist_master.npc.snbt` | `SECURITY_01`, cobre y brújula | Senda del Metal |
+| `metallurgist_master` | Maestro del Metal | `easy_npc:preset/humanoid/metallurgist_master.npc.snbt` | `SECURITY_01`, cobre y brújula | Senda del Metal |
 | `gunsmith` | Armero | `easy_npc:preset/humanoid/gunsmith.npc.snbt` | `SECURITY_01`, ballesta y catalejo | Pistolero |
 | `explorer` | Explorador | `easy_npc:preset/humanoid/explorer.npc.snbt` | `JAYJASONBO`, mapa y brújula | exploración y viajes |
 | `nexus_merchant` | Mercader del Nexus | `easy_npc:preset/humanoid/nexus_merchant.npc.snbt` | `JAYJASONBO`, esmeralda | cambio de moneda y suministros básicos |
@@ -111,7 +111,7 @@ El estado describe el servicio disponible: las seis tiendas son `OPERATIVA V1`, 
 |---|---|---|---|---|---|
 | Guerrero | Maestro de Armas (`warrior_master`) | Acceso a quests y orientación sobre combate cuerpo a cuerpo, resistencia, escudo y dominio de armas | Interior definitivo, servicios avanzados, posible entrenamiento y posible comercio especializado | `clase_guerrero` (`4E58434C41535731`) | OPERATIVA V1 |
 | Mago / Arcanista | Maestro Arcano (`arcane_master`) | Consulta de Mago y Arcanista | Estudio completo y servicios arcanos ampliados | `clase_mago` (`4E58434C41534D47`), `especializacion_arcanista` (`4E58415243414E31`) | OPERATIVA V1 |
-| Metalomante | Maestro Metalomante (`metallurgist_master`) | Senda del Metal y orientación sobre la progresión de Allomancy | Interior definitivo, servicios especializados, posible comercio de recursos y contenido avanzado | `senda_del_metal` (`4E584D4554414C31`) | OPERATIVA V1 |
+| Senda del Metal | Maestro del Metal (`metallurgist_master`) | Disciplina alomántica del Guerrero y orientación sobre su progresión | Interior definitivo, servicios especializados, posible comercio de recursos y contenido avanzado | `senda_del_metal` (`4E584D4554414C31`) | OPERATIVA V1 |
 | Pistolero | Armero (`gunsmith`) | Capítulo Pistolero y orientación sobre armas, munición y progresión por Eras | Interior definitivo, comercio de armas y munición, attachments y servicios especializados | `clase_pistolero` (`4E5847554E534C31`) | OPERATIVA V1 |
 | Exploración | Explorador (`explorer`) | Overworld, estructuras, criaturas, amenazas y preparación para Hordas | Expediciones y contratos del mundo abierto | `exploracion_y_hordas` (`4E584558504C4F31`) | OPERATIVA V1 |
 | Economía | Mercader del Nexus (`nexus_merchant`) | Bronce/Plata/Oro con valor 1/10/100: cuatro cambios y ocho ofertas de suministros (doce en total) | Nuevos comerciantes, sinks, servicios, contratos, cosméticos y economía avanzada | Ninguno; trading de Easy NPC | OPERATIVA V1 |
@@ -289,7 +289,7 @@ pendiente de pruebas manuales.
 |---|---|---|
 | 30.1 | Guerrero | V1 operativa con quests y orientación; entrenamiento y comercio especializado siguen pendientes |
 | 30.2 | Mago / Arcanista | Sin añadir todavía lecciones, servicios ni quests |
-| 30.3 | Metalomante | V1 operativa con Senda del Metal y orientación; servicios especializados y balance final siguen pendientes |
+| 30.3 | Senda del Metal | V1 operativa con orientación; servicios especializados y balance final siguen pendientes |
 | 30.4 | Pistolero | V1 operativa con capítulo y orientación; comercio, attachments, servicios y balance final siguen pendientes |
 | 30.5 | Mercader / economía | V1 operativa y auditada; precios, monedas y doce ofertas preservados; expansión y balance final pendientes |
 | 30.6 | Explorador | V1 operativa con orientación de Overworld/Hordas; expediciones y contratos siguen pendientes |
@@ -312,7 +312,7 @@ pendiente de pruebas manuales.
 | Capitán de la Guardia | «La Guardia del Nexus mantiene seguro el asentamiento y cubre sus accesos. Pero durante una verdadera incursión del Nexus, hasta nuestras defensas pueden ser puestas a prueba. Revisa aquí las hordas o las grandes cacerías.» |
 | Maestro de Armas | «La armería sigue en obras, pero el entrenamiento básico ya está disponible en la senda del Guerrero. Combate cuerpo a cuerpo, resistencia y dominio de armas —con el escudo como aliado— definen la clase. Los servicios avanzados llegarán con el local completo.» |
 | Maestro Arcano | «El estudio todavía no está preparado para lecciones completas; hasta el maná necesita un espacio estable. Mientras tanto, consulta aquí la senda del Mago o los estudios del Arcanista.» |
-| Maestro Metalomante | «El taller aún completa sus medidas de seguridad. La Metalomancia es una senda avanzada del Mago y solo responde cuando tu progreso lo permite: primero dominarás los ocho metales fundamentales; los poderes avanzados llegarán después. Cuando el taller esté completo ofrecerá más servicios.» |
+| Maestro del Metal | «El taller aún completa sus medidas de seguridad. La Alomancia forma parte del arsenal del Guerrero: dominarás ocho metales fundamentales y los poderes avanzados llegarán con la Era del Nexus. Pulsa H para abrir el selector alomántico. Cuando el taller esté completo ofrecerá más servicios.» |
 | Armero | «El taller aún se está acondicionando, pero este capítulo ya es la guía principal del Pistolero. Armas de fuego, munición y preparación definen la senda; el equipo avanzado llegará con las Eras. La venta y los servicios especializados esperan a que el local esté completo.» |
 | Explorador | «El puesto aún se está acondicionando, pero ya puedo orientarte sobre rutas, estructuras, criaturas y amenazas del Overworld, incluidas las Hordas. Más adelante prepararé expediciones y contratos de mundo abierto; para Nether, Aether, End u Otherside, habla con el Expedicionario del Nexus.» |
 | Mercader del Nexus | «La tienda sigue terminándose, pero el mostrador ya está abierto. Cambio moneda sin comisión y ofrezco suministros comunes; nada de poder, reliquias ni atajos.» |
@@ -367,7 +367,7 @@ Mapping por NPC:
 | Capitán de la Guardia | `exploracion_y_hordas`, `desafios_y_bosses` |
 | Maestro de Armas | `clase_guerrero` |
 | Maestro Arcano | `clase_mago`, `especializacion_arcanista` |
-| Maestro Metalomante | `senda_del_metal` |
+| Maestro del Metal | `senda_del_metal` |
 | Armero | `clase_pistolero` |
 | Explorador | `exploracion_y_hordas` |
 | Mercader del Nexus | ninguno |
@@ -379,7 +379,7 @@ Mapping por NPC:
 | Conservadora del Mercado | `museo_del_nexus` (`4E584D5553455531`) |
 | Expedicionario del Nexus | `expedicion_al_nether` (`4E584E4554483031`), `expedicion_al_aether` (`4E58414554483031`) |
 
-El Maestro Metalomante solo abre `senda_del_metal`. No ejecuta `allomancy add`, no cambia clases y no concede `nexus_specialization_metallurgist`. El desbloqueo continúa perteneciendo a la quest y al sistema de progresión existente.
+El Maestro del Metal solo abre `senda_del_metal`. No ejecuta `allomancy add`, no cambia clases y no concede stages. La capability se reconcilia con Guerrero y los objetos siguen la combinación de clase y era en History Stages.
 
 ## Despliegue manual
 

@@ -7,8 +7,8 @@ Las eras controlan potencia global y no sustituyen la clase ni sus futuros subhi
 | 0 · Preparación | 1 | Introducción breve | Overworld | Recursos básicos, hierro, construcción, decoración y sistemas globales libres; sin hordas automáticas | Clase, refugio, comida y suministros |
 | I · Edad del Hierro | 1 | Primer asentamiento defendido | Overworld | Armas iniciales de clase, magia inicial, pistolas de servicio, Create básico y primeras hordas | Fundamentos marciales, iniciación arcana, arma de servicio y mecánica inicial |
 | II · Edad del Diamante | 7 | Poder intermedio | Overworld + Nether | Diamante, tiers intermedios de clase, automatización, familiares, reliquias utilitarias y primeros drops especiales | Exploración, armamento reforzado, arsenal medio y automatización intermedia |
-| III · Era Arcano-Industrial | 14 | Magia e industria avanzadas | Overworld + Nether + Aether | Runic/armas avanzadas, Arcanista avanzado, rifles avanzados, brass/precision, energía y bosses intermedios | Arcano avanzado, industria avanzada, arsenal avanzado, reliquias y cacería de bosses |
-| IV · Era del Nexus | 21 | Convergencia endgame | Overworld + Nether + Aether + End + Otherside | Netherite, endgame de clase, tecnología sobrecargada, reliquias mayores y bosses finales | Acceso al Nexus, endgame de clase, reliquias, bosses finales y tecnología aérea futura |
+| III · Era Arcano-Industrial | 14 | Magia e industria avanzadas | Overworld + Nether + Aether | Runic/armas avanzadas, Allomancy básica del Guerrero, Arcanista avanzado, rifles avanzados, brass/precision, energía y bosses intermedios | Arcano avanzado, Senda del Metal, industria avanzada, arsenal avanzado, reliquias y cacería de bosses |
+| IV · Era del Nexus | 21 | Convergencia endgame | Overworld + Nether + Aether + End + Otherside | Netherite, Allomancy avanzada/Lerasium, endgame de clase, tecnología sobrecargada, reliquias mayores y bosses finales | Acceso al Nexus, endgame de clase, reliquias, bosses finales y tecnología aérea futura |
 
 ## Progresión dimensional
 
@@ -30,10 +30,10 @@ existentes. Los portales y accesos siguen siendo los nativos de cada dimensión.
 - Era III y IV se dividen mediante subhitos, no mediante nuevas eras.
 - La clasificación documental está terminada por familias; las restricciones masivas y las decisiones marcadas como pendientes aún no están implementadas.
 
-## Especializaciones del Mago
+## Especialización del Mago y Allomancy
 
-- **Arcanista:** futura especialización de Iron's Spells. La matriz ya separa iniciación, desarrollo, avanzado y endgame, pero no crea todavía su stage ni selector.
-- **Metalomante (`metallurgist`):** especialización disponible desde el inicio y mutuamente excluyente del Mago. Allomancy usa Mage AND `nexus_specialization_metallurgist` y concede sus ocho poderes básicos al entrar; los objetos básicos y avanzados conservan por separado su balance global de Era III/IV. No es una cuarta clase.
+- **Arcanista:** especialización disponible del Mago para Iron's Spells, con stage y selector propios.
+- **Allomancy:** disciplina integrada en Guerrero, no una especialización. Concede los ocho poderes básicos al reconciliar la clase y combina `nexus_class_warrior` con los stages globales de Era III/IV para sus objetos.
 
 ## Preparación tecnológica futura
 
@@ -55,4 +55,4 @@ Create Aeronautics no está instalado. Una integración futura debe reutilizar l
 - NBT variable de skillbooks, scrolls y TaCZ.
 - Tier exacto de armas únicas, relics y cada drop de boss.
 - Afinidad final de Alshanex's Familiars.
-- Diseño definitivo de Arcanista y balance runtime final de Metalomante.
+- Balance runtime final de Arcanista y de la Senda del Metal del Guerrero.

@@ -108,7 +108,7 @@ Tambien probar:
 
 ## Transaction and recovery QA
 
-- Initial `/nexus_select warrior|arcanist|metallurgist|gunslinger` remains free, preserves inventory, creates no cooldown, and does not require selecting Mage first.
+- Initial `/nexus_select warrior|arcanist|gunslinger` remains free, preserves inventory, creates no cooldown, and does not require selecting Mage first.
 - A later `/nexus_changeclass <player> <class>` costs exactly 41 Minecraft levels and starts a 12-hour cooldown.
 - With 40 levels, the command returns failure without journal, charge, inventory mutation, kit, or cooldown.
 - With an external container open, the server closes it, reports `interfaz cerrada; activa de nuevo el altar`, and makes no other change.
@@ -119,9 +119,9 @@ Tambien probar:
 - Confirm recovery stops after three failed attempts and leaves `RECOVERY_REQUIRED` for administration.
 - Confirm Warrior/Mage/Gunslinger initial kits are delivered by deficit and preserve the Glock/ammo NBT.
 - Confirm the Arcanist initial spellbook delivery is also idempotent and preserves its spell-container NBT; later changes deliver no starter kit.
-- Confirm direct Metalomante selection succeeds as `mage + metallurgist` without Era III or the historical unlock key.
-- Confirm direct Arcanista -> Metalomante selection is rejected outside `/nexus_changeclass`, so the full cost and cooldown cannot be bypassed.
-- Confirm leaving a valid Metalomante revokes Allomancy through its public capability and verifies zero powers.
+- Confirm direct `metallurgist` selection is rejected by `/nexus_select`, `/nexus_specialization`, and `/nexus_changeclass`.
+- Confirm an existing `mage + metallurgist` player migrates once to Warrior without XP cost, cooldown, starter kit, inventory mutation, or lost quest/era progress.
+- Confirm Warrior reconciliation grants any missing basic powers and preserves advanced powers/Mistborn; leaving Warrior revokes Allomancy and verifies zero powers.
 - Confirm `/nexus_repairclass` charges nothing, starts no cooldown, gives no kit, and uses only the exact persistent class as authority.
 - Confirm repair removes only equipped incompatible armor/offhand/Curios when the vanilla main inventory can accept every stack.
 - Test commands from an OP player, dedicated-server console, and command block.

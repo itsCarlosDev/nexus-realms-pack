@@ -159,12 +159,17 @@ public final class ClassSyncEvents {
             return NexusSpecialization.NONE;
         }
 
-        return NexusSpecialization.fromId(
+        NexusSpecialization specialization =
+            NexusSpecialization.fromId(
             ClassData.getPersistentRoleValue(
                 player,
                 "nexus_specialization"
             )
         );
+
+        return specialization == NexusSpecialization.ARCANIST
+            ? specialization
+            : NexusSpecialization.NONE;
     }
 
     private record SyncedRole(

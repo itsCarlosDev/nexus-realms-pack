@@ -43,7 +43,7 @@ public final class ClientClassState {
 
         currentSpecialization =
             currentClass == NexusClass.MAGE &&
-            specialization != null
+            specialization == NexusSpecialization.ARCANIST
                 ? specialization
                 : NexusSpecialization.NONE;
 

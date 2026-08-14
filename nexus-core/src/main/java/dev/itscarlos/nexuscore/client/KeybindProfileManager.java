@@ -27,7 +27,6 @@ public final class KeybindProfileManager {
 
     private static final Map<String, Binding> WARRIOR_PROFILE = new HashMap<>();
     private static final Map<String, Binding> ARCANIST_PROFILE = new HashMap<>();
-    private static final Map<String, Binding> METALLURGIST_PROFILE = new HashMap<>();
     private static final Map<String, Binding> GUNSLINGER_PROFILE = new HashMap<>();
     private static final Map<String, Binding> COMMON_PROFILE = new HashMap<>();
 
@@ -83,6 +82,18 @@ public final class KeybindProfileManager {
 
     private static final Binding GUNSLINGER_REFIT_DEFAULT =
         key(GLFW.GLFW_KEY_Z);
+
+    private static final String ALLOMANCY_BURN_MAPPING =
+        "key.burn";
+
+    private static final Binding ALLOMANCY_BURN_DEFAULT =
+        key(GLFW.GLFW_KEY_H);
+
+    private static final Binding LEGACY_ALLOMANCY_BURN_V =
+        key(GLFW.GLFW_KEY_V);
+
+    private static final Binding LEGACY_ALLOMANCY_BURN_R =
+        key(GLFW.GLFW_KEY_R);
 
     static {
         /*
@@ -300,7 +311,7 @@ public final class KeybindProfileManager {
          * H        -> Familiar screen
          * V        -> Cast spell
          * Z        -> Summon familiar
-         * R        -> Allomancy burn (Metallurgist)
+         * H        -> Allomancy selector/burn (Warrior)
          * Left Alt -> Spell bar modifier
          * J        -> JourneyMap
          *
@@ -744,114 +755,42 @@ public final class KeybindProfileManager {
         );
 
         /*
-         * METALLURGIST — MAGE SPECIALIZATION
+         * ALLOMANCY — WARRIOR CAPABILITY
          *
-         * R = Allomancy burn
-         *
-         * Basic Era III metals:
-         * Shift+1 Iron
-         * Shift+2 Steel
-         * Shift+3 Tin
-         * Shift+4 Pewter
-         * Shift+5 Zinc
-         * Shift+6 Brass
-         * Shift+7 Copper
-         * Shift+8 Bronze
-         *
-         * Advanced Era IV metals:
-         * Alt+1 Aluminum
-         * Alt+2 Duralumin
-         * Alt+3 Chromium
-         * Alt+4 Nicrosil
-         * Alt+5 Gold
-         * Alt+6 Electrum
-         * Alt+7 Cadmium
-         * Alt+8 Bendalloy
+         * H opens Allomancy's native metal selector. Individual metal
+         * shortcuts are optional in Allomancy 4.6.6 and remain disabled so
+         * they cannot collide with Invincible or Epic Fight modifiers.
          */
-        METALLURGIST_PROFILE.put(
-            "key.burn",
-            key(GLFW.GLFW_KEY_R)
+        WARRIOR_PROFILE.put(
+            ALLOMANCY_BURN_MAPPING,
+            ALLOMANCY_BURN_DEFAULT
         );
 
-        METALLURGIST_PROFILE.put(
-            "key.metals.iron",
-            keyWithModifier(GLFW.GLFW_KEY_1, KeyModifier.SHIFT)
-        );
-
-        METALLURGIST_PROFILE.put(
-            "key.metals.steel",
-            keyWithModifier(GLFW.GLFW_KEY_2, KeyModifier.SHIFT)
-        );
-
-        METALLURGIST_PROFILE.put(
-            "key.metals.tin",
-            keyWithModifier(GLFW.GLFW_KEY_3, KeyModifier.SHIFT)
-        );
-
-        METALLURGIST_PROFILE.put(
-            "key.metals.pewter",
-            keyWithModifier(GLFW.GLFW_KEY_4, KeyModifier.SHIFT)
-        );
-
-        METALLURGIST_PROFILE.put(
-            "key.metals.zinc",
-            keyWithModifier(GLFW.GLFW_KEY_5, KeyModifier.SHIFT)
-        );
-
-        METALLURGIST_PROFILE.put(
-            "key.metals.brass",
-            keyWithModifier(GLFW.GLFW_KEY_6, KeyModifier.SHIFT)
-        );
-
-        METALLURGIST_PROFILE.put(
-            "key.metals.copper",
-            keyWithModifier(GLFW.GLFW_KEY_7, KeyModifier.SHIFT)
-        );
-
-        METALLURGIST_PROFILE.put(
-            "key.metals.bronze",
-            keyWithModifier(GLFW.GLFW_KEY_8, KeyModifier.SHIFT)
-        );
-
-        METALLURGIST_PROFILE.put(
-            "key.metals.aluminum",
-            keyWithModifier(GLFW.GLFW_KEY_1, KeyModifier.ALT)
-        );
-
-        METALLURGIST_PROFILE.put(
-            "key.metals.duralumin",
-            keyWithModifier(GLFW.GLFW_KEY_2, KeyModifier.ALT)
-        );
-
-        METALLURGIST_PROFILE.put(
-            "key.metals.chromium",
-            keyWithModifier(GLFW.GLFW_KEY_3, KeyModifier.ALT)
-        );
-
-        METALLURGIST_PROFILE.put(
-            "key.metals.nicrosil",
-            keyWithModifier(GLFW.GLFW_KEY_4, KeyModifier.ALT)
-        );
-
-        METALLURGIST_PROFILE.put(
-            "key.metals.gold",
-            keyWithModifier(GLFW.GLFW_KEY_5, KeyModifier.ALT)
-        );
-
-        METALLURGIST_PROFILE.put(
-            "key.metals.electrum",
-            keyWithModifier(GLFW.GLFW_KEY_6, KeyModifier.ALT)
-        );
-
-        METALLURGIST_PROFILE.put(
-            "key.metals.cadmium",
-            keyWithModifier(GLFW.GLFW_KEY_7, KeyModifier.ALT)
-        );
-
-        METALLURGIST_PROFILE.put(
-            "key.metals.bendalloy",
-            keyWithModifier(GLFW.GLFW_KEY_8, KeyModifier.ALT)
-        );
+        for (
+            String metal : List.of(
+                "iron",
+                "steel",
+                "tin",
+                "pewter",
+                "zinc",
+                "brass",
+                "copper",
+                "bronze",
+                "aluminum",
+                "duralumin",
+                "chromium",
+                "nicrosil",
+                "gold",
+                "electrum",
+                "cadmium",
+                "bendalloy"
+            )
+        ) {
+            WARRIOR_PROFILE.put(
+                "key.metals." + metal,
+                UNBOUND
+            );
+        }
 
         /*
          * GUNSLINGER — STRICT CONFLICT-FREE LAYOUT
@@ -946,7 +885,6 @@ public final class KeybindProfileManager {
          */
         MANAGED_CLASS_MAPPINGS.addAll(WARRIOR_PROFILE.keySet());
         MANAGED_CLASS_MAPPINGS.addAll(ARCANIST_PROFILE.keySet());
-        MANAGED_CLASS_MAPPINGS.addAll(METALLURGIST_PROFILE.keySet());
         MANAGED_CLASS_MAPPINGS.addAll(GUNSLINGER_PROFILE.keySet());
     }
 
@@ -1014,6 +952,10 @@ public final class KeybindProfileManager {
             mappingsByName
         );
 
+        changed |= migrateLegacyAllomancyBurnMapping(
+            mappingsByName
+        );
+
         changed |= applyProfileToMappings(
             mappingsByName,
             nexusClass,
@@ -1041,6 +983,10 @@ public final class KeybindProfileManager {
             migrateLegacyNeutralMappings(mappingsByName);
 
         changed |= migrateLegacyGunslingerRefitMapping(
+            mappingsByName
+        );
+
+        changed |= migrateLegacyAllomancyBurnMapping(
             mappingsByName
         );
 
@@ -1134,7 +1080,7 @@ public final class KeybindProfileManager {
                     : specialization
             ) {
                 case ARCANIST -> ARCANIST_PROFILE;
-                case METALLURGIST -> METALLURGIST_PROFILE;
+                case METALLURGIST -> Map.of();
                 default -> Map.of();
             };
 
@@ -1282,7 +1228,6 @@ public final class KeybindProfileManager {
             List.of(
                 WARRIOR_PROFILE,
                 ARCANIST_PROFILE,
-                METALLURGIST_PROFILE,
                 GUNSLINGER_PROFILE,
                 COMMON_PROFILE
             )
@@ -1395,6 +1340,50 @@ public final class KeybindProfileManager {
         if (changed) {
             NexusCore.LOGGER.info(
                 "Migrated legacy TaCZ Refit keybind from F9 to Z."
+            );
+        }
+
+        return changed;
+    }
+
+    private static boolean migrateLegacyAllomancyBurnMapping(
+        Map<String, KeyMapping> mappingsByName
+    ) {
+        return migrateLegacyAllomancyBurnMapping(
+            mappingsByName.get(ALLOMANCY_BURN_MAPPING)
+        );
+    }
+
+    static boolean migrateLegacyAllomancyBurnMapping(
+        KeyMapping burnMapping
+    ) {
+        if (burnMapping == null) {
+            return false;
+        }
+
+        boolean legacyBinding =
+            (
+                burnMapping.getKey().equals(
+                    LEGACY_ALLOMANCY_BURN_V.key()
+                ) ||
+                burnMapping.getKey().equals(
+                    LEGACY_ALLOMANCY_BURN_R.key()
+                )
+            ) &&
+            burnMapping.getKeyModifier() == KeyModifier.NONE;
+
+        if (!legacyBinding) {
+            return false;
+        }
+
+        boolean changed = applyBinding(
+            burnMapping,
+            ALLOMANCY_BURN_DEFAULT
+        );
+
+        if (changed) {
+            NexusCore.LOGGER.info(
+                "Migrated legacy Allomancy burn keybind to H."
             );
         }
 

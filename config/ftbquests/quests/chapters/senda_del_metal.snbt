@@ -15,10 +15,10 @@
 	subtitle: ["Metales, reservas y el poder que responde desde dentro."]
 	quests: [
 		{
-			dependencies: ["4E58504552413033", "2700000000001104"]
+			dependencies: ["4E58504552413033", "2700000000001001"]
 			description: [
-				"Metalomante está disponible desde el inicio como especialización del Mago."
-				"Este rito registra el hito histórico de la Senda del Metal; no cambia tu clase ni desbloquea la especialización."
+				"La Senda del Metal forma parte del Guerrero y se activa automáticamente con su clase."
+				"En Era III comienza su progresión material: usa H para abrir el selector alomántico cuando tengas reservas."
 			]
 			hide_until_deps_complete: true
 			icon: { id: "minecraft:raw_iron" }
@@ -26,14 +26,6 @@
 			shape: "gear"
 			size: 1.5d
 			rewards: [
-				{
-					command: "/nexus_specialization unlock metallurgist"
-					elevate_perms: true
-					id: "4E584D4554523031"
-					silent: true
-					title: "Registrar la Senda del Metal"
-					type: "command"
-				}
 				{
 					id: "281C000000001401"
 					item: { Count: 1b, id: "kubejs:nexus_silver_coin" }
@@ -45,7 +37,7 @@
 				title: "Completar La Senda del Metal"
 				type: "checkmark"
 			}]
-			title: "El arte de los metales"
+			title: "El despertar del metal"
 			x: 0.0d
 			y: 0.0d
 		}
@@ -129,7 +121,7 @@
 					type: "item"
 				}
 			]
-			title: "Equipo del Metalomante"
+			title: "Equipo de la Senda del Metal"
 			x: 6.0d
 			y: 1.0d
 		}
@@ -204,5 +196,5 @@
 			y: -1.0d
 		}
 	]
-	title: "Mago — Metalomante"
+	title: "Guerrero — Senda del Metal"
 }

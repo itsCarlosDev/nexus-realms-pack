@@ -3,7 +3,7 @@
 ## Commands
 
 ```mcfunction
-/nexus_changeclass <player> <warrior|mage|arcanist|metallurgist|gunslinger>
+/nexus_changeclass <player> <warrior|mage|arcanist|gunslinger>
 /nexus_repairclass <player>
 /nexus_changeclass_status <player>
 /nexus_changeclass_clearcooldown <player>
@@ -11,7 +11,7 @@
 
 All four administrative commands require permission level 2 and an online target. A return value of `1` means the requested operation was fully verified. Any rejection, rollback, or pending recovery returns `0`.
 
-The public `/nexus_select` command delegates to the same authority for initial selection. Its player-facing destinations are `warrior`, `arcanist`, `metallurgist`, and `gunslinger`; `mage` remains as a compatibility target. Initial selection remains free, preserves inventory, creates no cooldown, and delivers the existing class/specialization starter kit atomically.
+The public `/nexus_select` command delegates to the same authority for initial selection. Its player-facing destinations are `warrior`, `arcanist`, and `gunslinger`; `mage` remains as a compatibility target. Initial selection remains free, preserves inventory, creates no cooldown, and delivers the existing class/specialization starter kit atomically.
 
 `/nexus_resetclass` and `/nexus_resetclass_clean` are deliberately disabled because they bypassed the transaction authority.
 
@@ -43,9 +43,11 @@ Use `/nexus_changeclass_clearcooldown <player>` only for administrative QA. It r
 
 Repair has no XP cost, cooldown, or kit. It reconciles chosen state, tags, History Stages, specialization, structural Mage compatibility, and Allomancy. It fixes cooldown only when the timestamp pair is demonstrably corrupt. Confirmed incompatible equipped armor/offhand/Curios are moved to the vanilla main inventory only when every affected stack fits; nothing is dropped or deleted.
 
-## Metalomante
+## Allomancy and legacy migration
 
-Metalomante requires only the structural state `nexus_class=mage` plus `nexus_specialization=metallurgist`. It is available without Era III and without `nexus_specialization_metallurgist_unlocked`; that old key is retained only as historical metadata. Global era stages may still balance access to Allomancy items, but they do not authorize the specialization. Allomancy powers are managed through the public capability, synchronized through `Network.sync`, and verified after grant/revocation.
+Allomancy belongs to `nexus_class=warrior`; it is not a selectable specialization. Warrior reconciliation adds any missing basic powers without resetting advanced powers or a valid Mistborn state. Reconciliation of Mage, Gunslinger, or no class revokes all powers through the public capability and verifies the result.
+
+The exact legacy state `nexus_class=mage` plus `nexus_specialization=metallurgist` migrates idempotently to Warrior during login, repair, rollback recovery, or forward recovery. The migration clears the legacy specialization stage and unlock marker, preserves inventory and progression, charges no XP, creates no cooldown, and gives no starter kit. The residual History Stages file remains empty only so old stage IDs can be removed safely.
 
 ## Offline escalation
 

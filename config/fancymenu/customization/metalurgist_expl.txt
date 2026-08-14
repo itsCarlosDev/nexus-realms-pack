@@ -344,13 +344,13 @@ layout_action_executable_blocks {
 
 element {
   button_element_executable_block_identifier = 0cd651de-978e-440a-bd20-f7ad87f546e9-1784763814751
-  [executable_action_instance:ae802fff-0ca5-40e9-8758-4b6f83475fbf-1784764138262][action_type:sendmessage] = /nexus_select metallurgist
+  [executable_action_instance:ae802fff-0ca5-40e9-8758-4b6f83475fbf-1784764138262][action_type:sendmessage] = /nexus_select warrior
   [executable_block:0cd651de-978e-440a-bd20-f7ad87f546e9-1784763814751][type:generic] = [executables:ae802fff-0ca5-40e9-8758-4b6f83475fbf-1784764138262;]
   underline_label_on_hover = false
   transparent_background = false
   restartbackgroundanimations = true
   nine_slice_custom_background = false
-  label = Seleccionar
+  label = Elegir Guerrero
   navigatable = true
   widget_active_state_requirement_container_identifier = 66426ace-0dff-4f72-b532-e95b03e88514-1784763814751
   [loading_requirement_container_meta:66426ace-0dff-4f72-b532-e95b03e88514-1784763814751] = [groups:][instances:]
@@ -422,7 +422,7 @@ element {
 
 element {
   button_element_executable_block_identifier = 1d206924-18fd-4a6c-b2d2-a7482dffac8d-1784764217903
-  [executable_action_instance:c4d80013-d366-43d1-ae54-ba481b764e85-1784764238709][action_type:opengui] = nexus_mage_selection
+  [executable_action_instance:c4d80013-d366-43d1-ae54-ba481b764e85-1784764238709][action_type:opengui] = nexus_class_selection
   [executable_block:1d206924-18fd-4a6c-b2d2-a7482dffac8d-1784764217903][type:generic] = [executables:c4d80013-d366-43d1-ae54-ba481b764e85-1784764238709;]
   underline_label_on_hover = false
   transparent_background = false

@@ -94,7 +94,7 @@ hash = "4ed722448220742363cdb785678faceb3b36ab77998b47bd628f3f93093073a3"
 
 [[files]]
 file = "config/defaultoptions/keybindings.txt"
-hash = "9fc86c0e6fa1e7a8ac050e777c2e702a0758bb05c250bf51cda2ccdcbf8d46c5"
+hash = "0d64a99918614761f0f49280e9b0b3cd3dd614dce78bbebcccf74011f1375502"
 
 [[files]]
 file = "config/defaultoptions/options.txt"
@@ -146,7 +146,7 @@ hash = "82c80b7c239cf8890d6e336660c8d16b81d8fe2fce27bf3bd8c37102e0d4c308"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/metallurgist_master.npc.snbt"
-hash = "cb5c05ffca807310c16bc08d83f9f68fe800cca93dcd8414d74923ee7cca6a1b"
+hash = "426b9e545460be90cccd49916af9352a79153ab30bc1629ad4543f8523b1e552"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nether_expeditionary.npc.snbt"
@@ -230,7 +230,7 @@ hash = "867ed61347374e3235fe191b8de633b35e49c48a6af653c127b901e13e0c76a9"
 
 [[files]]
 file = "config/fancymenu/assets/images/metal_expl.png"
-hash = "820292d2c2c1919a7f2edc312e636318179f9a8f3f813661a2f9536386ff26ab"
+hash = "63083d7d6949fff0968e91ae8e235f357ad80f2d85238d68bd6e336fb84ec0ca"
 
 [[files]]
 file = "config/fancymenu/assets/images/pistolero_expl.png"
@@ -282,7 +282,7 @@ hash = "346a42e28fd81d50be426db1e963927128c7164477cc117c0c3bdde8f646cde3"
 
 [[files]]
 file = "config/fancymenu/custom_gui_screens.txt"
-hash = "169cd4a685fd553eb7f537ce56176ee3e16e68482990b7918249ed7b620f6ded"
+hash = "18b3e2adf7ee72c6c4b7cc68fd7cd7b9f8f8d11755c24fb1d57f4ea4e55b7f65"
 
 [[files]]
 file = "config/fancymenu/customizablemenus.txt"
@@ -318,19 +318,19 @@ hash = "eddc18c04148c3d34056739a00cba67e30f0d24a99e63db58ff413685cbbd733"
 
 [[files]]
 file = "config/fancymenu/customization/metalurgist_expl.txt"
-hash = "2f9298018d41ec398d4501e95fe1ed4ecea6cf975e9082e04d9101a2078115c8"
+hash = "f551a9afb833d8f94f420bfdc616d60a523faa465ee015dda59798421042cdc6"
 
 [[files]]
 file = "config/fancymenu/customization/metalurgist_expl2.txt"
-hash = "73b924073c8160c444ccb2ed89adeb15da74e46ab9cd52e4b5458ed6cee61974"
+hash = "7471671b0978aa1ff0489fbbe7d1ad0b2dc755ff57ee4af051123b528b0b8ceb"
 
 [[files]]
 file = "config/fancymenu/customization/nexus_class_selection_layout.txt"
-hash = "64799c970cdc37312b2feb884241e1078609c2aa370d0ff981788101a5800b99"
+hash = "1d49bf74ad350d17f41c8a0f749a8dc2e0be10863b1ade7419d6008fc413bbaf"
 
 [[files]]
 file = "config/fancymenu/customization/nexus_class_selection_mage.txt"
-hash = "585f5b7fa256f1e9e999f148e2ecd5bdd3ea66d09536f56db980fa887ae45fe5"
+hash = "8b91231382b95307b1946fcb51133b32e94819667db7e909b142a1159fe3aef3"
 
 [[files]]
 file = "config/fancymenu/customization/options_screen_layout.txt"
@@ -438,7 +438,7 @@ hash = "5231838efe3b2f4a2ea04f013264e4e1c8e1b814267d3bebbc18bcabea2a6c56"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/clase_mago.snbt"
-hash = "94cc89d12ec38666a0acc07fe52fc03fa760496ce8d610dbe1bbafd540810b74"
+hash = "fe16c7cbdf92b5f799bf6c470aa9a10be370e0b62922faea1754264cfa86440f"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/clase_pistolero.snbt"
@@ -454,7 +454,7 @@ hash = "1510500bfeb367eb91b9ee03820e512d9900e761787084d1cb8f298b6c40fb81"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/especializacion_arcanista.snbt"
-hash = "b982fbfde4dc9eb3168763f4fb16db5d5b892ecc93bd74ce7ea354c8dd634823"
+hash = "162bf553e1abe7ade47e1be6683b685b77ea0b27d4ac864047b0901a0d060a67"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/expedicion_al_aether.snbt"
@@ -494,7 +494,7 @@ hash = "1eac5f1ee93fa7bf79c6004be82d389447143cc75cd063017f00b3f3c9a53a6c"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/senda_del_metal.snbt"
-hash = "fbe903aa9dc36eb7ff63646f4a0634edbeef451dc56fccd3b7f3469f1e2c1714"
+hash = "bceff8fd9ac8cf75fb33cb1f66ef44148ebe0bd5cdc314596ce9cb51226679e7"
 
 [[files]]
 file = "config/ftbquests/quests/data.snbt"
@@ -522,11 +522,11 @@ hash = "9837f4f087a57a1e2e37def5ea69f186dbf6778b5a2d8b58ae5fb0e211600fb8"
 
 [[files]]
 file = "config/historystages/individual/nexus_class_mage.json"
-hash = "da2782110b0a566c7f27ec62c6a2eb6a7656a5fbd4f6e9c054880df7df656cbb"
+hash = "1488ff3aded04c0bbf2183b8d576d370864c66a4d37139af259cd97ff008c304"
 
 [[files]]
 file = "config/historystages/individual/nexus_class_warrior.json"
-hash = "1b502fa2ff93be16dea449fc6709b6b6fe9a3df6fb372d868de5f4b536626d08"
+hash = "5533ea75883628900ebb0adb9e844dd7a75a981cd18e4df92a6b52c6f03fef5d"
 
 [[files]]
 file = "config/historystages/individual/nexus_specialization_arcanist.json"
@@ -534,7 +534,7 @@ hash = "d80a277cb8773cb1fada4fa3ed390440ca30909043092ad56ab0fdbf7563ced0"
 
 [[files]]
 file = "config/historystages/individual/nexus_specialization_metallurgist.json"
-hash = "ae135530e357e3ccd3747e431f09e38408fc5579803a79a59b64fea4f090f64b"
+hash = "936ae6e052a876fc7dc9dddf843dd6912085790a65a18093123953ec3b626805"
 
 [[files]]
 file = "config/hordes-client.toml"
@@ -1154,11 +1154,11 @@ hash = "a0ba113448751d06feccec90b0f502226a1d03dc28c16bc1af30da36b9c3f3b1"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_change.js"
-hash = "062757f07dca5126ad590be33c56770f09839bf6de6c446932d538bbfbc198ba"
+hash = "249913e2afe3571654fd67d5a81be6dd24e70283358740e1892c6a0cb48b754a"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "757fe7aa46018fcacc0f92bbc7350d90e29ca8a1ab2e6f2a566c2148e9bb5898"
+hash = "18eb15aefc121c53e50c8619cc9ea40838c03b7bd17180535b493badecf72b3c"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_disable_vanilla_zombies.js"
@@ -1995,8 +1995,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.24.jar"
-hash = "526104b8682035e5335ec8144f53ea0a572903e5cf6025eb0daf94b8f1d9120c"
+file = "mods/nexus-core-0.6.25.jar"
+hash = "a444732a6d771cf88e285b1516e39af47742f08595fce6a7461a26a5e02f3901"
 
 [[files]]
 file = "mods/not-enough-animations.pw.toml"
