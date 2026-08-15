@@ -1271,7 +1271,7 @@ metafile = true
 
 [[files]]
 file = "mods/architectury-api.pw.toml"
-hash = "4e81241ba2da06f425efc5e09fb6b38470125c1581c39e1310c5843a0b96ec76"
+hash = "5e9edd1fd2395f14a0c8a4acbdbdd61e1047be1f0033deb3140d2ce0d093e9d8"
 metafile = true
 
 [[files]]
@@ -2241,6 +2241,11 @@ metafile = true
 [[files]]
 file = "mods/tacz-ammo-query.pw.toml"
 hash = "a055bfa9442c993c5c455233090116a1a323c60fbb701dc4a4c0d13a6b2df77d"
+metafile = true
+
+[[files]]
+file = "mods/tacz-immersive-ballistic.pw.toml"
+hash = "17e6cf41dcbbc12912352950a9d35619ce0e0bebf217d599e0e7771abc450d38"
 metafile = true
 
 [[files]]
