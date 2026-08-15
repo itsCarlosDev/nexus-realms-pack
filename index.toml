@@ -1420,6 +1420,11 @@ hash = "2d862b35349b49f7f636b9bc7d67971d9319e13df3ef1bf1e1d4a8cf35a10bd7"
 metafile = true
 
 [[files]]
+file = "mods/comforts.pw.toml"
+hash = "58bf97ca61f74ea9a540f6e6090aef631155748c49b83a7a338b34d8dece9109"
+metafile = true
+
+[[files]]
 file = "mods/connected-glass.pw.toml"
 hash = "26cfffc0a877575da0a92aa6481b8afd2c9a847731c0f80fe9f8fa014dac87ba"
 metafile = true
@@ -1900,6 +1905,11 @@ hash = "02977d28acd2089c39dbe5b65fd08e78094fb650b4afc810f757cb5cea1fbda8"
 metafile = true
 
 [[files]]
+file = "mods/keerdms-binoculars.pw.toml"
+hash = "31d955d937042ed59a16dbe14441c471019edff17a6c7275c50755388c9de922"
+metafile = true
+
+[[files]]
 file = "mods/konkrete.pw.toml"
 hash = "90a70141bcec839b6a1aa647c91f97bb7b33b6b9e6ce6b3b18a4113aa7dff636"
 metafile = true
@@ -2154,6 +2164,11 @@ hash = "b8c7497acbf4890b4609b6b20de7affdd3482fc99af975d9ff6b29c075e1d8a7"
 metafile = true
 
 [[files]]
+file = "mods/security-craft.pw.toml"
+hash = "07018277086bf1bdc3f795777f0c15e50a88a0f5739863fb116679f29ce6db8c"
+metafile = true
+
+[[files]]
 file = "mods/servercore.pw.toml"
 hash = "874a064efc37398f5818a38666ea31263bd65ed0478b519b819f7a361bd0893e"
 metafile = true
@@ -2186,6 +2201,11 @@ metafile = true
 [[files]]
 file = "mods/simply-swords.pw.toml"
 hash = "e7b4f5d39d49d95fc3b11d7e39b29dc7206ef38274200f745912aae332d496e7"
+metafile = true
+
+[[files]]
+file = "mods/simply-traps.pw.toml"
+hash = "2a632372b5101ac10a01b1c94414b4d466c0ebf60c40bf487e325dacbe9c4ac6"
 metafile = true
 
 [[files]]

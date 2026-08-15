@@ -1,0 +1,13 @@
+name = "Simply Traps"
+filename = "simply_traps-1.7-forge-1.20.1.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "8d549b3c83fdcfcf43c09828499eb65e2bf01a6c"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 6980501
+project-id = 1172014
