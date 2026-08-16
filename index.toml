@@ -678,7 +678,7 @@ hash = "f2a4549c401cc9c05162a593280169c64c67be8cc4468d11bd7c640d1a54d53e"
 
 [[files]]
 file = "config/punchy/punchy_config.json"
-hash = "f0914475eda7e80a6b331ae4204c16298c619411b98d73537a1c165c9cfcf090"
+hash = "4ea61683de460ee8af0405252237b5c87523dbce8e1bc2469c79d832b58d2256"
 
 [[files]]
 file = "config/questsadditions-client.toml"
@@ -1206,7 +1206,7 @@ hash = "e444142f8463f77f7c4dbd28921664c5f6416b22e89db3cdcd1ae8005aef0e07"
 
 [[files]]
 file = "mods/aaa-particles-world.pw.toml"
-hash = "b99124384ca7fac35252b3ced56f6d5169b42261ebccbf4d6dec2cd4491a9ffd"
+hash = "dfed16b9cad0110aabd4e440567e52204383696e349db99a0770dedcaef55530"
 metafile = true
 
 [[files]]
@@ -2005,8 +2005,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.25.jar"
-hash = "a444732a6d771cf88e285b1516e39af47742f08595fce6a7461a26a5e02f3901"
+file = "mods/nexus-core-0.6.26.jar"
+hash = "70d71bb1f292d58b27196c6aa618c038295d98984e1a405f4b73b49be057c480"
 
 [[files]]
 file = "mods/not-enough-animations.pw.toml"
