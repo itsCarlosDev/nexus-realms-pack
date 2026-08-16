@@ -16,6 +16,7 @@
   ],
   "client": [
     "client.EpicFightClassModeMixin",
+    "client.EpicFightWitherRendererCompatMixin",
     "client.BerserkerSkillMixin",
     "client.GuiExperienceLevelMixin"
   ],
