@@ -118,7 +118,10 @@ jobs:
             --output _site \
             --bootstrap "$RUNNER_TEMP/packwiz-installer-bootstrap.jar" \
             --commit "$lite_commit" \
-            --generated-at "$generated_at"
+            --generated-at "$generated_at" \
+            --pack-url "https://itscarlosdev.github.io/nexus-realms-pack/lite/pack.toml" \
+            --prism-zip-name "NexusRealms-Lite-Prism.zip" \
+            --instance-name "Nexus Realms Lite"
 
       - name: Add Lite distribution to GitHub Pages
         shell: bash
@@ -132,6 +135,7 @@ jobs:
           test -f _site/lite/pack.toml
           test -f _site/lite/index.toml
           test -f _site/lite/manifest.json
+          test -f _site/lite/downloads/NexusRealms-Lite-Prism.zip
 
       # ============================================================
       # GITHUB PAGES ENTRY POINT
@@ -203,6 +207,12 @@ jobs:
                   Lite manifest.json
                 </a>
               </li>
+
+              <li>
+                <a href="lite/downloads/NexusRealms-Lite-Prism.zip">
+                  Descargar Nexus Realms Lite para Prism Launcher
+                </a>
+              </li>
             </ul>
           </body>
           </html>
@@ -219,6 +229,7 @@ jobs:
           test -f _site/lite/pack.toml
           test -f _site/lite/index.toml
           test -f _site/lite/manifest.json
+          test -f _site/lite/downloads/NexusRealms-Lite-Prism.zip
 
       # ============================================================
       # DEPLOY GITHUB PAGES
