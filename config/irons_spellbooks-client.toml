@@ -33,7 +33,7 @@
 	[UI.SpellBar]
 		#By default (Always), the spell bar always shows the spells in your equipped spellbook. Contextual will hide them when not in use.
 		#Allowed Values: Never, Always, Contextual
-		spellBarDisplay = "Always"
+		spellBarDisplay = "Contextual"
 		#Used to adjust spell bar's position.
 		spellBarXOffset = 0
 		spellBarYOffset = 0
@@ -59,11 +59,11 @@
 
 [Renderers]
 	#By default, both fireballs are replaced with an enhanced model used by fire spells.
-	replaceGhastFireballs = true
-	replaceBlazeFireballs = true
+	replaceGhastFireballs = false
+	replaceBlazeFireballs = false
 
 [Music]
-	enableBossMusic = true
+	enableBossMusic = false
 
 [Misc]
 	#Whether shield spells can collide with particles. Can affect performance. Default: true
@@ -73,7 +73,7 @@
 
 [Summons]
 	#Whether owned summons appear glowing to yourself. Default: true
-	ownedSummonsGlow = true
+	ownedSummonsGlow = false
 	#Hex Color Value of owned summons glow outline. Default: 0xAAFFAA
 	summonGlowColor = "0xAAFFAA"
 

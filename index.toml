@@ -18,7 +18,7 @@ hash = "f309641ba5598234a92a008bcbbaae53e2104cf8863b4e442d43aa5b5a376fcf"
 
 [[files]]
 file = "config/aaa_particles_world-client.toml"
-hash = "0cdc5abe9d12f5728cf65a42054518a4857b431b86c0c9e95f145ed1d9156100"
+hash = "38fbf954c7b27b183bf1c70c339bca3b6701b415409ea16ba0ae0dc3f7c755d0"
 
 [[files]]
 file = "config/allomancy-common.toml"
@@ -30,7 +30,7 @@ hash = "b814497fd41c5338590ef78256798e26ffff121d68d0ab1290474e67abd34ec5"
 
 [[files]]
 file = "config/block_factorys_bosses-client.toml"
-hash = "c25636c2cd5540632145da5a6d52c4d84c67d01159b982d2b4a665cc27ff3755"
+hash = "83d2bd9b68896c16209d973705fa926228932323a40184d2f096fe2e4e99837a"
 
 [[files]]
 file = "config/bookofdragons-client.toml"
@@ -98,7 +98,7 @@ hash = "0d64a99918614761f0f49280e9b0b3cd3dd614dce78bbebcccf74011f1375502"
 
 [[files]]
 file = "config/defaultoptions/options.txt"
-hash = "886da26497e9bf4753745eaf499af945c9c6851bad8321a79ff6151bf8d67eee"
+hash = "aaffeebd776e85ba773b0932a77926a70c594ee0070c1ff0d486069dfe0dce44"
 
 [[files]]
 file = "config/drippyloadingscreen/options.txt"
@@ -194,7 +194,7 @@ hash = "d702144b153d5b9ca40c39d2c9f6d5dcf24a25d58bde3edb969757e24040ef24"
 
 [[files]]
 file = "config/fancy_trail-client.toml"
-hash = "200d7a7ea2a8f51df46b0f965ec0b2418dcf67aa97b80292b72505c90aca0c2a"
+hash = "da468c05d59ff967b7f76447b2dacc16c71ea0bab95b67ccc4d75b74c58e5aaa"
 
 [[files]]
 file = "config/fancymenu/assets/channels4_profile.png"
@@ -538,7 +538,7 @@ hash = "936ae6e052a876fc7dc9dddf843dd6912085790a65a18093123953ec3b626805"
 
 [[files]]
 file = "config/hordes-client.toml"
-hash = "a3b9a27731c57319cd942ccf32d72db39ff4cd741e49db74fed897c41c40a44d"
+hash = "9f250d129aa7e01c51f20985bdfa91d9aa71c9e414b8526ec10280e528001b52"
 
 [[files]]
 file = "config/hordes-common.toml"
@@ -602,7 +602,7 @@ hash = "84deabed2c5c2789f1a37e3c15336f099be9b99cfe55059dd44bce63d9287c44"
 
 [[files]]
 file = "config/immersivedamageindicators-client.toml"
-hash = "e117530d7f769917c301bd088b1e3201d12f0a343fe9946cd8a1039124259249"
+hash = "8a8efcac660eb0ad635615e4f0b0bb2637913cdae530b5805f28fa9fab1fb5d0"
 
 [[files]]
 file = "config/immersivemessages-client.toml"
@@ -622,7 +622,7 @@ hash = "745314a1c698699ea1c933542668af6bce7e04f8922bd870d0098dc1de969228"
 
 [[files]]
 file = "config/inventoryhud-client.toml"
-hash = "45430c44e3b5ad549a3d1f2abec3d75001cf5ad8814df0d67abeea2263fc1831"
+hash = "bc64ad4050af099a4783499cc0ea4414c95474e7a7688875e2dde88da62d4a6e"
 
 [[files]]
 file = "config/inventoryprofilesnext/integrationHints/player-defined.json"
@@ -642,7 +642,7 @@ hash = "d8159a94fc4562651a5c47dc83e46a7fd71dd70e143fca53d7b288393a87b4ef"
 
 [[files]]
 file = "config/irons_spellbooks-client.toml"
-hash = "1803e2f1eeace2bbcd1ec146dab1cca4d18c44bafdd84497c9a1b8fbc02b0f61"
+hash = "c577d1fe900d823c0242d81f0fd11695757f93fe1de4a08dbcc2982a04803c1f"
 
 [[files]]
 file = "config/logbegone.toml"
@@ -710,7 +710,7 @@ hash = "c6215013fcb2f9b4ff8916a1e77be575997716fe1772a2fe89362b1a26d39c53"
 
 [[files]]
 file = "config/tacz-client.toml"
-hash = "0caa9d53d89c106cad7bc03514c04e683811323ec5e44d81ea689e2a9726a130"
+hash = "9c083a87d6d423622ad8741a5e7ea86a5fa0f9935f1d3b8a23f5fdcb26c4c3ce"
 
 [[files]]
 file = "config/tacztweaks.json"
@@ -722,7 +722,7 @@ hash = "9d3331ee22399be554613638e5b6db87c6c054e3cbb4246ece584b54f1181e46"
 
 [[files]]
 file = "config/watut-client.toml"
-hash = "e23a9f280da8ea145087bd7d05894376f21825cae586ef12ecd732b38866cc5a"
+hash = "72805733a78d9a5cb70f45b1ab99632e5a4cfe23a86698e4435f343e7ebe00f1"
 
 [[files]]
 file = "config/wom-client.toml"
@@ -1217,11 +1217,6 @@ metafile = true
 [[files]]
 file = "mods/accelerated-decay.pw.toml"
 hash = "920c34a04af6fc921bbf12df0e701ccb0e0faadb961fe66d84916cf1f9f24e80"
-metafile = true
-
-[[files]]
-file = "mods/advancement-plaques.pw.toml"
-hash = "7f243cdb7d52214593d8155a12de24d4992a781a94597eb09bf3ffb3396e5eb5"
 metafile = true
 
 [[files]]

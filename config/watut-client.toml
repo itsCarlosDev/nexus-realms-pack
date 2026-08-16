@@ -2,35 +2,35 @@
 #General mod settings
 [general]
 	#SETTING THESE CLIENT SIDE SETTINGS TO FALSE WILL OVERRIDE ANY OF THE SAME SERVER SETTINGS THAT ARE SET TO TRUE (for your client only)
-	dummySetting = true
+	dummySetting = false
 	#Sends relative mouse position and clicking
-	sendMouseInfo = true
+	sendMouseInfo = false
 	#Sends a calculated rate of typing. If off, uses a default value on server
-	sendTypingSpeed = true
+	sendTypingSpeed = false
 	#Sends when you open a Gui, and what Gui
-	sendActiveGui = true
+	sendActiveGui = false
 	#Sends when you go idle / return
-	sendIdleState = true
+	sendIdleState = false
 	#Enables or disables idle visual in the server player list tab screen
-	showIdleStatesInPlayerList = true
+	showIdleStatesInPlayerList = false
 	#Enables or disables idle visual above player head
-	showIdleStatesInPlayerAboveHead = true
+	showIdleStatesInPlayerAboveHead = false
 	#Setting false disables all animations
-	showPlayerAnimations = true
+	showPlayerAnimations = false
 	#Enables or disables typing animation
 	showPlayerAnimation_Typing = false
 	#Enables or disables idle animation
-	showPlayerAnimation_Idle = true
+	showPlayerAnimation_Idle = false
 	#Enables or disables the non typing animations used when showing the open Gui, such as head looking, arms moving up, arms pointing and clicking
 	showPlayerAnimation_Gui = false
 	#Show any Gui they're using that isn't chat typing related in world
-	showPlayerActiveNonChatGui = true
+	showPlayerActiveNonChatGui = false
 	#Show the chat typing Gui in world
-	showPlayerActiveChatGui = true
+	showPlayerActiveChatGui = false
 	#This is for the older non dynamic GUI only. If there isnt an exact Gui available for what the player is using, it will show the Chest Gui. If this is false, it will show nothing, lots of modded Guis will use this for now
-	showPlayerActiveGuiIfNotExactMatch = true
+	showPlayerActiveGuiIfNotExactMatch = false
 	#Show 'Player is typing...' on the chat screen
-	screenTypingVisible = true
+	screenTypingVisible = false
 	#Adjust the X position where the 'Player is typing...' text shows in the chat Gui
 	#Range: > -2147483648
 	screenTypingRelativePosition_X = 0
@@ -45,9 +45,9 @@
 	#String to use next to the typing player(s) name
 	screenTypingText = " is typing"
 	#Plays a sound when a player opens some Guis
-	playScreenOpenSounds = true
+	playScreenOpenSounds = false
 	#Plays a sutble sound when a player clicks their mouse in a Gui
-	playMouseClickSounds = true
+	playMouseClickSounds = false
 	#Adjusts the size of the gui visual that appears infront of a player, 2 = twice the size
 	#Range: 0.1 ~ 1.7976931348623157E308
 	particleSizeScale = 1.0

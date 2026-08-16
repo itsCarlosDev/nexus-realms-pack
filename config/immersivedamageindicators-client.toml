@@ -15,13 +15,13 @@
 Alpha = 255
 #.
 #If true, critical hits will add exclamation points.
-"Show Exclamation Point" = true
+"Show Exclamation Point" = false
 #.
 #If true, hits will change size based on how strong they are.
-"Do Size Effects" = true
+"Do Size Effects" = false
 #.
 #If true, hits will turn red based on how strong they are.
-"Do Color Effects" = true
+"Do Color Effects" = false
 #.
 #If true, hits will shake based on how strong they are.
-"Do Shake Effects" = true
+"Do Shake Effects" = false
