@@ -31,12 +31,12 @@ glintStrength:0.75
 damageTiltStrength:1.0
 highContrast:false
 gamma:0.5
-renderDistance:20
-simulationDistance:10
-entityDistanceScaling:0.75
+renderDistance:8
+simulationDistance:5
+entityDistanceScaling:0.5
 guiScale:3
-particles:0
-maxFps:250
+particles:2
+maxFps:60
 graphicsMode:0
 ao:false
 prioritizeChunkUpdates:0
@@ -63,7 +63,7 @@ chatHeightUnfocused:0.5019943882042254
 chatScale:1.0
 chatWidth:1.0
 notificationDisplayTime:1.0
-mipmapLevels:4
+mipmapLevels:2
 useNativeTransport:true
 mainHand:"right"
 attackIndicator:2

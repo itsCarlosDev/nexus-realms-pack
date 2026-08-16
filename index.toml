@@ -98,7 +98,7 @@ hash = "0d64a99918614761f0f49280e9b0b3cd3dd614dce78bbebcccf74011f1375502"
 
 [[files]]
 file = "config/defaultoptions/options.txt"
-hash = "36e7ddb498fd27e2bf128a837da82fa8593e30c7232f2f28b79253dfceb88888"
+hash = "886da26497e9bf4753745eaf499af945c9c6851bad8321a79ff6151bf8d67eee"
 
 [[files]]
 file = "config/drippyloadingscreen/options.txt"
@@ -2019,11 +2019,6 @@ hash = "3c3d256dbe9e2de78426ca571528ee3a9d43cd71d95c3abc93bd12d2f71430ec"
 metafile = true
 
 [[files]]
-file = "mods/oculus.pw.toml"
-hash = "f83b253ca6a8e6f2f847952704da0e1fb00e65cbb10b7c9cb15d1a1780618da0"
-metafile = true
-
-[[files]]
 file = "mods/openblocks-elevator.pw.toml"
 hash = "51bf17db22eee5fb80da0b2efe87b846f1165bafc67a789782c5fd976c406ffa"
 metafile = true
@@ -2081,11 +2076,6 @@ metafile = true
 [[files]]
 file = "mods/pots-and-mimics-rpg.pw.toml"
 hash = "cc335b14ea69222d7aa291f5faf4eeb8d27d1246c22c305a73c7a01f31e98d67"
-metafile = true
-
-[[files]]
-file = "mods/presence-footsteps-forge.pw.toml"
-hash = "7cc7116fee8b525e93630dc9a4d79b5a6f0ae07434cad71280fad75224442502"
 metafile = true
 
 [[files]]
@@ -2224,11 +2214,6 @@ hash = "ca765f4af15d9f567e5010146afea7eb4c31fd54e4f3af72bbd632fd43e2afb3"
 metafile = true
 
 [[files]]
-file = "mods/sound-physics-remastered.pw.toml"
-hash = "01d628d71fd20a235492879b37853c2301066aee4234df0acd62c6990b319d26"
-metafile = true
-
-[[files]]
 file = "mods/spark.pw.toml"
 hash = "0be4976227df8e261fd362889bf8e85b93e224d1b1c3cd2a11b73a9de3b64083"
 metafile = true
@@ -2351,11 +2336,6 @@ metafile = true
 [[files]]
 file = "mods/visual-workbench.pw.toml"
 hash = "873f24b47799ee61989b4d381e4cfab62c2735d2e3b6c940d18747f8ef1645ca"
-metafile = true
-
-[[files]]
-file = "mods/visuality-forge.pw.toml"
-hash = "736738062381bec4d55b726546b4fab7443bea0e5983e8af65b90c56da72da06"
 metafile = true
 
 [[files]]
@@ -2559,9 +2539,4 @@ metafile = true
 [[files]]
 file = "resourcepacks/true-nitwit-texture.pw.toml"
 hash = "e039605a381bcfa89833e8df07087fa43ae3b20dce7c17fb36f0be6816d7b34b"
-metafile = true
-
-[[files]]
-file = "shaderpacks/potato-shaders.pw.toml"
-hash = "fa71274d0ebd0056fab164ee6d349508cc405ebd6a16045b7ba65dcf8323060a"
 metafile = true
