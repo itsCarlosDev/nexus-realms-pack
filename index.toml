@@ -642,7 +642,7 @@ hash = "d8159a94fc4562651a5c47dc83e46a7fd71dd70e143fca53d7b288393a87b4ef"
 
 [[files]]
 file = "config/irons_spellbooks-client.toml"
-hash = "f2c4f6b18dfaf1909a9a9df8567865f2dc9e908608801da6dccbdf13b8cb8070"
+hash = "1803e2f1eeace2bbcd1ec146dab1cca4d18c44bafdd84497c9a1b8fbc02b0f61"
 
 [[files]]
 file = "config/logbegone.toml"

@@ -67,7 +67,7 @@
 
 [Misc]
 	#Whether shield spells can collide with particles. Can affect performance. Default: true
-	shieldParticleCollisions = true
+	shieldParticleCollisions = false
 	#Whether Trial Omen Effect particles should be reduced while in first person. Default: true
 	reduceTrialOmenParticles = true
 
