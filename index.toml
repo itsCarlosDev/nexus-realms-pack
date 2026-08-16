@@ -178,7 +178,7 @@ hash = "dd6d0bf71622fbc947f0d38683fc1281b8cbe8cee3ac02b880173f7af63e416d"
 
 [[files]]
 file = "config/efn_enhance-client.toml"
-hash = "2f62ab9108b4166ba3ea59870f891cdd1ff328327badeb9f109f4d0d3c38fe89"
+hash = "2e3e6236d25ecbec73265b58674c56d2f8addba20b716776d17148d633fe958f"
 
 [[files]]
 file = "config/epictweaks-client.toml"
@@ -194,7 +194,7 @@ hash = "d702144b153d5b9ca40c39d2c9f6d5dcf24a25d58bde3edb969757e24040ef24"
 
 [[files]]
 file = "config/fancy_trail-client.toml"
-hash = "d25fb0198108d6641541dbe360bca5bd9e58d4de63bffc04557bf2b3effdd003"
+hash = "200d7a7ea2a8f51df46b0f965ec0b2418dcf67aa97b80292b72505c90aca0c2a"
 
 [[files]]
 file = "config/fancymenu/assets/channels4_profile.png"

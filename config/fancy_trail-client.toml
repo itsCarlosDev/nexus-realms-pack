@@ -17,4 +17,4 @@ intensity = 0.4
 speed = 0.8
 
 [common_air_trail]
-isOpenAir = true
+isOpenAir = false
