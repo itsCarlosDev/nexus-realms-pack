@@ -1,0 +1,30 @@
+{
+  "enabled": true,
+  "mobs": {
+    "minecraft:zombie": {
+      "enabled": true,
+      "speed": 1.0,
+      "range": 12.0
+    },
+    "undead_revamp2:therabidus": {
+      "enabled": true,
+      "speed": 1.0,
+      "range": 12.0
+    },
+    "undead_revamp2:thesomnolence": {
+      "enabled": true,
+      "speed": 1.0,
+      "range": 12.0
+    },
+    "undead_revamp2:thespitter": {
+      "enabled": true,
+      "speed": 1.0,
+      "range": 12.0
+    },
+    "undead_revamp2:theheavy": {
+      "enabled": true,
+      "speed": 1.0,
+      "range": 12.0
+    }
+  }
+}
