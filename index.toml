@@ -94,7 +94,7 @@ hash = "4ed722448220742363cdb785678faceb3b36ab77998b47bd628f3f93093073a3"
 
 [[files]]
 file = "config/defaultoptions/keybindings.txt"
-hash = "db96f4edf953e929a209bd0febef2270984e6c85bb27843537fcf35d6810db52"
+hash = "a11fdefc5a382f47475e98cf39db45c466b614d334ed25392e8d04618a243a91"
 
 [[files]]
 file = "config/defaultoptions/options.txt"
@@ -2022,8 +2022,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.26.jar"
-hash = "70d71bb1f292d58b27196c6aa618c038295d98984e1a405f4b73b49be057c480"
+file = "mods/nexus-core-0.6.27.jar"
+hash = "3c0d1af9684ea76b0e2708bcc4a3d9b4f91f3066aa5cf9a14beeadd415eec0c1"
 
 [[files]]
 file = "mods/not-enough-animations.pw.toml"
