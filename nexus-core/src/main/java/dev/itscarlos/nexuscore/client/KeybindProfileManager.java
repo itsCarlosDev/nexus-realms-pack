@@ -86,6 +86,9 @@ public final class KeybindProfileManager {
     private static final String ALLOMANCY_BURN_MAPPING =
         "key.burn";
 
+    private static final String ALLOMANCY_HUD_MAPPING =
+        "key.hud";
+
     private static final Binding ALLOMANCY_BURN_DEFAULT =
         key(GLFW.GLFW_KEY_H);
 
@@ -373,7 +376,12 @@ public final class KeybindProfileManager {
 
         COMMON_PROFILE.put(
             "key.cinematiczoom.cinematic_zoom",
-            keyWithModifier(GLFW.GLFW_KEY_F6, KeyModifier.CONTROL)
+            key(GLFW.GLFW_KEY_M)
+        );
+
+        COMMON_PROFILE.put(
+            "key.mute_microphone",
+            keyWithModifier(GLFW.GLFW_KEY_DELETE, KeyModifier.ALT)
         );
 
         COMMON_PROFILE.put(
@@ -480,6 +488,11 @@ public final class KeybindProfileManager {
         COMMON_PROFILE.put(
             "key.freecam.toggle",
             key(GLFW.GLFW_KEY_F4)
+        );
+
+        COMMON_PROFILE.put(
+            "key.carry.desc",
+            key(GLFW.GLFW_KEY_INSERT)
         );
 
         /*
@@ -754,16 +767,19 @@ public final class KeybindProfileManager {
             key(GLFW.GLFW_KEY_H)
         );
 
-        /*
-         * ALLOMANCY — WARRIOR CAPABILITY
-         *
-         * H opens Allomancy's native metal selector. Individual metal
-         * shortcuts are optional in Allomancy 4.6.6 and remain disabled so
-         * they cannot collide with Invincible or Epic Fight modifiers.
-         */
         WARRIOR_PROFILE.put(
             ALLOMANCY_BURN_MAPPING,
             ALLOMANCY_BURN_DEFAULT
+        );
+
+        /*
+        * Allomancy 4.6.6 checks hud.isDown() on every keyboard and
+        * mouse press. Keep the HUD toggle disabled to prevent stale
+        * input state from repeatedly writing allomancy-client.toml.
+        */
+        WARRIOR_PROFILE.put(
+            ALLOMANCY_HUD_MAPPING,
+            UNBOUND
         );
 
         for (
@@ -910,7 +926,8 @@ public final class KeybindProfileManager {
 
     public static boolean forceApplyCurrentClass() {
         NexusClass currentClass = getCurrentClass();
-        NexusSpecialization currentSpecialization = getCurrentSpecialization();
+        NexusSpecialization currentSpecialization =
+            getCurrentSpecialization();
 
         if (currentClass == NexusClass.NONE) {
             applyNoClassProfile();
@@ -919,10 +936,22 @@ public final class KeybindProfileManager {
 
         applyProfile(
             currentClass,
-            currentSpecialization
+            currentSpecialization,
+            true
         );
 
         return true;
+    }
+
+    public static void applyProfile(
+        NexusClass nexusClass,
+        NexusSpecialization specialization
+    ) {
+        applyProfile(
+            nexusClass,
+            specialization,
+            false
+        );
     }
 
     public static void applyProfile(NexusClass nexusClass) {
@@ -932,9 +961,10 @@ public final class KeybindProfileManager {
         );
     }
 
-    public static void applyProfile(
+    private static void applyProfile(
         NexusClass nexusClass,
-        NexusSpecialization specialization
+        NexusSpecialization specialization,
+        boolean forceProfile
     ) {
         Minecraft minecraft = Minecraft.getInstance();
 
@@ -959,14 +989,14 @@ public final class KeybindProfileManager {
         changed |= applyProfileToMappings(
             mappingsByName,
             nexusClass,
-            specialization
+            specialization,
+            forceProfile
         );
 
         finishKeyChanges(
             minecraft,
             changed
         );
-
     }
 
     public static void applyNoClassProfile() {
@@ -1023,6 +1053,20 @@ public final class KeybindProfileManager {
         NexusClass nexusClass,
         NexusSpecialization specialization
     ) {
+        return applyProfileToMappings(
+            mappingsByName,
+            nexusClass,
+            specialization,
+            false
+        );
+    }
+
+    private static boolean applyProfileToMappings(
+        Map<String, KeyMapping> mappingsByName,
+        NexusClass nexusClass,
+        NexusSpecialization specialization,
+        boolean forceProfile
+    ) {
         Map<String, Binding> activeProfile =
             activeProfileFor(
                 nexusClass,
@@ -1031,12 +1075,17 @@ public final class KeybindProfileManager {
 
         boolean changed = false;
 
-        /*
-         * Disable every class mapping at runtime before enabling the active
-         * role. This prevents controls leaking across class changes without
-         * persisting GLFW_KEY_UNKNOWN (-1) to options.txt.
-         */
         for (String mappingName : MANAGED_CLASS_MAPPINGS) {
+            /*
+            * Active-profile mappings are handled below.
+            * Do not disable them first, otherwise an UNKNOWN mapping may be
+            * replaced by its mod default before Nexus has a chance to assign
+            * the intended profile binding.
+            */
+            if (activeProfile.containsKey(mappingName)) {
+                continue;
+            }
+
             KeyMapping mapping =
                 mappingsByName.get(mappingName);
 
@@ -1057,7 +1106,7 @@ public final class KeybindProfileManager {
         changed |= applyBindings(
             mappingsByName,
             activeProfile,
-            true
+            !forceProfile
         );
 
         return changed;
@@ -1127,6 +1176,12 @@ public final class KeybindProfileManager {
 
         restoreOriginalContext(mapping);
 
+        /*
+        * Clear stale runtime input state even when we preserve
+        * an already-valid user binding.
+        */
+        mapping.setDown(false);
+
         if (
             preserveValidKey &&
             !isUnknown(mapping.getKey())
@@ -1165,6 +1220,7 @@ public final class KeybindProfileManager {
         }
 
         mapping.setDown(false);
+        KeyMapping.resetMapping();
 
         return changed;
     }
@@ -1255,6 +1311,13 @@ public final class KeybindProfileManager {
         KeyMapping mapping,
         Binding binding
     ) {
+        /*
+        * A mapping can still be internally marked as pressed when its
+        * key is changed dynamically. Always clear the runtime state
+        * before applying/reapplying a Nexus profile.
+        */
+        mapping.setDown(false);
+
         if (
             mapping.getKey().equals(binding.key()) &&
             mapping.getKeyModifier() == binding.modifier()
@@ -1266,6 +1329,8 @@ public final class KeybindProfileManager {
             binding.modifier(),
             binding.key()
         );
+
+        mapping.setDown(false);
 
         return true;
     }

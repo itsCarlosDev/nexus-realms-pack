@@ -94,7 +94,7 @@ hash = "4ed722448220742363cdb785678faceb3b36ab77998b47bd628f3f93093073a3"
 
 [[files]]
 file = "config/defaultoptions/keybindings.txt"
-hash = "0d64a99918614761f0f49280e9b0b3cd3dd614dce78bbebcccf74011f1375502"
+hash = "db96f4edf953e929a209bd0febef2270984e6c85bb27843537fcf35d6810db52"
 
 [[files]]
 file = "config/defaultoptions/options.txt"
@@ -1153,6 +1153,14 @@ file = "kubejs/server_scripts/nexus_automobility_create_recipes.js"
 hash = "a0ba113448751d06feccec90b0f502226a1d03dc28c16bc1af30da36b9c3f3b1"
 
 [[files]]
+file = "kubejs/server_scripts/nexus_boss_announcement.js"
+hash = "60d243e259e2b8803adeed8ff251bed0e3eac74b8fb923d86e9da6c541576273"
+
+[[files]]
+file = "kubejs/server_scripts/nexus_boss_damage.js"
+hash = "fcc409061d05a62655b9a0c6d6a51637c9702f8eb3c2cf39008801e52b497b5a"
+
+[[files]]
 file = "kubejs/server_scripts/nexus_class_change.js"
 hash = "249913e2afe3571654fd67d5a81be6dd24e70283358740e1892c6a0cb48b754a"
 
@@ -1183,6 +1191,10 @@ hash = "9903479f0335e19b3e43ce2830bec1d8180eb56ae52078676aeab61b1ade3d67"
 [[files]]
 file = "kubejs/server_scripts/nexus_tpa.js"
 hash = "c0d329aefb309ad6288703355ffc83576d5e7efc4e2deccffcc91956671f937d"
+
+[[files]]
+file = "kubejs/startup_scripts/nexus_boss_balance.js"
+hash = "55ca4879c209f6e4b49fab42f99024019b786792661af1f5cba4923a832f4a95"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_economy_items.js"
@@ -1352,6 +1364,11 @@ metafile = true
 [[files]]
 file = "mods/camera-mod.pw.toml"
 hash = "605d1f1ae3de3633229406d58ebff0fc51b159a9d6107cdf30a48d80ad9746b2"
+metafile = true
+
+[[files]]
+file = "mods/carry-on.pw.toml"
+hash = "ba1bdad41e3c9ec131330f048fc6f9bcb753ca3e9bfa1e41d60d6ca11afbc2e6"
 metafile = true
 
 [[files]]
