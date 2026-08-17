@@ -94,7 +94,7 @@ hash = "4ed722448220742363cdb785678faceb3b36ab77998b47bd628f3f93093073a3"
 
 [[files]]
 file = "config/defaultoptions/keybindings.txt"
-hash = "0d64a99918614761f0f49280e9b0b3cd3dd614dce78bbebcccf74011f1375502"
+hash = "a11fdefc5a382f47475e98cf39db45c466b614d334ed25392e8d04618a243a91"
 
 [[files]]
 file = "config/defaultoptions/options.txt"
@@ -1362,6 +1362,11 @@ hash = "605d1f1ae3de3633229406d58ebff0fc51b159a9d6107cdf30a48d80ad9746b2"
 metafile = true
 
 [[files]]
+file = "mods/carry-on.pw.toml"
+hash = "ba1bdad41e3c9ec131330f048fc6f9bcb753ca3e9bfa1e41d60d6ca11afbc2e6"
+metafile = true
+
+[[files]]
 file = "mods/cerbons-api.pw.toml"
 hash = "b04f3690005952fb2f0d93b742a00d4b25547cbb4e2975aaca89fb0af58a9539"
 metafile = true
@@ -2012,8 +2017,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.26.jar"
-hash = "70d71bb1f292d58b27196c6aa618c038295d98984e1a405f4b73b49be057c480"
+file = "mods/nexus-core-0.6.27.jar"
+hash = "3c0d1af9684ea76b0e2708bcc4a3d9b4f91f3066aa5cf9a14beeadd415eec0c1"
 
 [[files]]
 file = "mods/not-enough-animations.pw.toml"
@@ -2511,11 +2516,6 @@ metafile = true
 [[files]]
 file = "resourcepacks/fa-player-extension.pw.toml"
 hash = "2e1a6866e4366cebe200dcf71ab52923b7653f76dc48741b93411ee3bf77372a"
-metafile = true
-
-[[files]]
-file = "resourcepacks/fancy-gui-overhaul-dark.pw.toml"
-hash = "42c53d2e68d9510d22406353c79aceaf6e1373e429ea7db5120eb2a90fe8969d"
 metafile = true
 
 [[files]]
