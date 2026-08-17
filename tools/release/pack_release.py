@@ -22,6 +22,9 @@ import zipfile
 
 
 PRODUCTION_URL = "https://itscarlosdev.github.io/nexus-realms-pack/pack.toml"
+STANDARD_PRISM_ZIP_NAME = "NexusRealms-Prism.zip"
+STANDARD_INSTANCE_NAME = "Nexus Realms"
+
 BOOTSTRAP_SHA256 = (
     "A8FBB24DC604278E97F4688E82D3D91A318B98EFC08D5DBFCBCBCAB6443D116C"
 )
@@ -330,6 +333,9 @@ def build_site(
     bootstrap: Path,
     commit: str,
     generated_at: str,
+    pack_url: str = PRODUCTION_URL,
+    prism_zip_name: str = STANDARD_PRISM_ZIP_NAME,
+    instance_name: str = STANDARD_INSTANCE_NAME,
 ) -> None:
     root = root.resolve()
     output = ensure_output_safe(root, output)
@@ -388,14 +394,62 @@ def build_site(
         runtime_entries,
     )
 
+    if (
+        PurePosixPath(prism_zip_name).name != prism_zip_name
+        or not prism_zip_name.endswith(".zip")
+    ):
+        raise ReleaseError(f"Unsafe Prism ZIP name: {prism_zip_name!r}")
+
+    if not instance_name.strip() or "\n" in instance_name or "\r" in instance_name:
+        raise ReleaseError(f"Invalid Prism instance name: {instance_name!r}")
+
+    try:
+        encoded_pack_url = pack_url.encode("ascii")
+    except UnicodeEncodeError as error:
+        raise ReleaseError("Packwiz URL must be ASCII") from error
+
+    if not pack_url.startswith("https://") or not pack_url.endswith("/pack.toml"):
+        raise ReleaseError(f"Invalid Packwiz production URL: {pack_url!r}")
+
     prism_instance = (root / "tools/prism/template/instance.cfg").read_bytes()
-    expected_command = (
+
+    standard_command = (
         b'PreLaunchCommand=\\"$INST_JAVA\\" -jar '
         b"packwiz-installer-bootstrap.jar "
         + PRODUCTION_URL.encode("ascii")
     )
-    if expected_command not in prism_instance:
-        raise ReleaseError("Prism template does not contain the production pre-launch command")
+
+    if standard_command not in prism_instance:
+        raise ReleaseError(
+            "Prism template does not contain the Standard production pre-launch command"
+        )
+
+    target_command = (
+        b'PreLaunchCommand=\\"$INST_JAVA\\" -jar '
+        b"packwiz-installer-bootstrap.jar "
+        + encoded_pack_url
+    )
+
+    prism_instance = prism_instance.replace(
+        standard_command,
+        target_command,
+        1,
+    )
+
+    standard_name = f"name={STANDARD_INSTANCE_NAME}".encode("utf-8")
+    target_name = f"name={instance_name}".encode("utf-8")
+
+    if standard_name not in prism_instance:
+        raise ReleaseError(
+            "Prism template does not contain the Standard instance name"
+        )
+
+    prism_instance = prism_instance.replace(
+        standard_name,
+        target_name,
+        1,
+    )
+
     prism_entries = {
         "instance.cfg": (prism_instance, 0o644),
         "mmc-pack.json": (
@@ -407,7 +461,11 @@ def build_site(
             0o644,
         ),
     }
-    write_zip(output / "downloads/NexusRealms-Prism.zip", prism_entries)
+
+    write_zip(
+        output / "downloads" / prism_zip_name,
+        prism_entries,
+    )
 
     published_files = []
     for path in sorted(
@@ -436,7 +494,7 @@ def build_site(
         "source": {
             "commit": commit,
             "generatedAt": generated_at,
-            "packUrl": PRODUCTION_URL,
+            "packUrl": pack_url,
         },
         "files": published_files,
     }
@@ -445,7 +503,12 @@ def build_site(
         encoding="utf-8",
         newline="\n",
     )
-    verify_site(output)
+    verify_site(
+        output,
+        prism_zip_name=prism_zip_name,
+        expected_pack_url=pack_url,
+        expected_instance_name=instance_name,
+    )
 
 
 def verify_zip_names(path: Path, expected: set[str]) -> None:
@@ -460,7 +523,12 @@ def verify_zip_names(path: Path, expected: set[str]) -> None:
                 raise ReleaseError(f"Unsafe ZIP member: {info.filename}")
 
 
-def verify_site(site: Path) -> None:
+def verify_site(
+    site: Path,
+    prism_zip_name: str = STANDARD_PRISM_ZIP_NAME,
+    expected_pack_url: str = PRODUCTION_URL,
+    expected_instance_name: str = STANDARD_INSTANCE_NAME,
+) -> None:
     site = site.resolve()
     _, indexed = validate_pack(site, scan_repository=False)
     manifest_path = site / "manifest.json"
@@ -486,14 +554,38 @@ def verify_site(site: Path) -> None:
         missing = expected_indexed - manifest_paths
         raise ReleaseError(f"Indexed files absent from manifest: {sorted(missing)}")
 
+    prism_zip = site / "downloads" / prism_zip_name
+
     verify_zip_names(
-        site / "downloads/NexusRealms-Prism.zip",
+        prism_zip,
         {
             "instance.cfg",
             "mmc-pack.json",
             "minecraft/packwiz-installer-bootstrap.jar",
         },
     )
+
+    with zipfile.ZipFile(prism_zip) as archive:
+        prism_instance = archive.read("instance.cfg")
+
+    expected_command = (
+        b'PreLaunchCommand=\\"$INST_JAVA\\" -jar '
+        b"packwiz-installer-bootstrap.jar "
+        + expected_pack_url.encode("ascii")
+    )
+
+    if expected_command not in prism_instance:
+        raise ReleaseError(
+            f"{prism_zip_name} does not point to {expected_pack_url}"
+        )
+
+    expected_name = f"name={expected_instance_name}".encode("utf-8")
+
+    if expected_name not in prism_instance.splitlines():
+        raise ReleaseError(
+            f"{prism_zip_name} does not use instance name "
+            f"{expected_instance_name!r}"
+        )
     verify_zip_names(
         site / "downloads/NexusRealms-ServerRuntime.zip",
         {
@@ -576,6 +668,15 @@ def main() -> int:
     build.add_argument("--bootstrap", type=Path, required=True)
     build.add_argument("--commit")
     build.add_argument("--generated-at")
+    build.add_argument("--pack-url", default=PRODUCTION_URL)
+    build.add_argument(
+        "--prism-zip-name",
+        default=STANDARD_PRISM_ZIP_NAME,
+    )
+    build.add_argument(
+        "--instance-name",
+        default=STANDARD_INSTANCE_NAME,
+    )
 
     verify = subparsers.add_parser("verify-site")
     verify.add_argument("--site", type=Path, default=Path("_site"))
@@ -602,7 +703,16 @@ def main() -> int:
             output = arguments.output
             if not output.is_absolute():
                 output = root / output
-            build_site(root, output, arguments.bootstrap, commit, generated_at)
+            build_site(
+                root,
+                output,
+                arguments.bootstrap,
+                commit,
+                generated_at,
+                pack_url=arguments.pack_url,
+                prism_zip_name=arguments.prism_zip_name,
+                instance_name=arguments.instance_name,
+            )
             print(f"Built and verified isolated Pages site: {output}")
         elif arguments.command == "verify-site":
             site = arguments.site

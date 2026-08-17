@@ -18,6 +18,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # ============================================================
+      # STANDARD
+      # ============================================================
+
       - name: Check out main
         uses: actions/checkout@v6
         with:
@@ -51,13 +55,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+
           bootstrap_url="$(cat tools/prism/bootstrap.url)"
+
           curl --fail --location --silent --show-error \
             "$bootstrap_url" \
             --output "$RUNNER_TEMP/packwiz-installer-bootstrap.jar"
 
           (
             cd "$RUNNER_TEMP"
+
             sha256sum --check \
               "$GITHUB_WORKSPACE/tools/prism/bootstrap.sha256"
           )
@@ -66,6 +73,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+
           generated_at="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
 
           python3 tools/release/pack_release.py --root . build \
@@ -73,6 +81,65 @@ jobs:
             --bootstrap "$RUNNER_TEMP/packwiz-installer-bootstrap.jar" \
             --commit "$GITHUB_SHA" \
             --generated-at "$generated_at"
+
+      # ============================================================
+      # LITE
+      # ============================================================
+
+      - name: Check out Lite branch
+        uses: actions/checkout@v6
+        with:
+          ref: lite
+          path: lite-source
+          fetch-depth: 0
+
+      - name: Validate Lite Packwiz
+        working-directory: lite-source
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          packwiz refresh
+          packwiz refresh
+          git diff --exit-code
+
+          python3 tools/release/pack_release.py --root . validate
+
+      - name: Build Lite Packwiz site
+        working-directory: lite-source
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          generated_at="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+          lite_commit="$(git rev-parse HEAD)"
+
+          python3 tools/release/pack_release.py --root . build \
+            --output _site \
+            --bootstrap "$RUNNER_TEMP/packwiz-installer-bootstrap.jar" \
+            --commit "$lite_commit" \
+            --generated-at "$generated_at" \
+            --pack-url "https://itscarlosdev.github.io/nexus-realms-pack/lite/pack.toml" \
+            --prism-zip-name "NexusRealms-Lite-Prism.zip" \
+            --instance-name "Nexus Realms Lite"
+
+      - name: Add Lite distribution to GitHub Pages
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p _site/lite
+
+          cp -a lite-source/_site/. _site/lite/
+
+          test -f _site/lite/pack.toml
+          test -f _site/lite/index.toml
+          test -f _site/lite/manifest.json
+          test -f _site/lite/downloads/NexusRealms-Lite-Prism.zip
+
+      # ============================================================
+      # GITHUB PAGES ENTRY POINT
+      # ============================================================
 
       - name: Create GitHub Pages entry point
         shell: bash
@@ -89,14 +156,61 @@ jobs:
           </head>
           <body>
             <h1>Nexus Realms</h1>
+
             <p>Distribución oficial del modpack mediante Packwiz.</p>
+
+            <h2>Nexus Realms Standard</h2>
+
             <ul>
-              <li><a href="pack.toml">pack.toml</a></li>
-              <li><a href="index.toml">index.toml</a></li>
-              <li><a href="manifest.json">manifest.json</a></li>
+              <li>
+                <a href="pack.toml">
+                  pack.toml
+                </a>
+              </li>
+
+              <li>
+                <a href="index.toml">
+                  index.toml
+                </a>
+              </li>
+
+              <li>
+                <a href="manifest.json">
+                  manifest.json
+                </a>
+              </li>
+
               <li>
                 <a href="downloads/NexusRealms-Prism.zip">
                   Descargar instancia para Prism Launcher
+                </a>
+              </li>
+            </ul>
+
+            <h2>Nexus Realms Lite</h2>
+
+            <ul>
+              <li>
+                <a href="lite/pack.toml">
+                  Lite pack.toml
+                </a>
+              </li>
+
+              <li>
+                <a href="lite/index.toml">
+                  Lite index.toml
+                </a>
+              </li>
+
+              <li>
+                <a href="lite/manifest.json">
+                  Lite manifest.json
+                </a>
+              </li>
+
+              <li>
+                <a href="lite/downloads/NexusRealms-Lite-Prism.zip">
+                  Descargar Nexus Realms Lite para Prism Launcher
                 </a>
               </li>
             </ul>
@@ -105,9 +219,21 @@ jobs:
           HTML
 
           test -f _site/index.html
+
+          # Standard
           test -f _site/pack.toml
           test -f _site/index.toml
           test -f _site/manifest.json
+
+          # Lite
+          test -f _site/lite/pack.toml
+          test -f _site/lite/index.toml
+          test -f _site/lite/manifest.json
+          test -f _site/lite/downloads/NexusRealms-Lite-Prism.zip
+
+      # ============================================================
+      # DEPLOY GITHUB PAGES
+      # ============================================================
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
@@ -138,6 +264,10 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+  # ================================================================
+  # PRODUCTION SMOKE TEST
+  # ================================================================
+
   smoke:
     needs: deploy
     runs-on: ubuntu-latest
@@ -153,12 +283,22 @@ jobs:
         shell: bash
         run: sleep 30
 
-      - name: Smoke-test the production Packwiz site
+      - name: Smoke-test the production Standard Packwiz site
         shell: bash
         run: |
           set -euo pipefail
 
           python3 tools/release/pack_release.py --root . smoke \
             --base-url "${{ needs.deploy.outputs.page_url }}" \
+            --attempts 30 \
+            --delay 10
+
+      - name: Smoke-test the production Lite Packwiz site
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          python3 tools/release/pack_release.py --root . smoke \
+            --base-url "${{ needs.deploy.outputs.page_url }}lite/" \
             --attempts 30 \
             --delay 10
