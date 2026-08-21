@@ -1,4 +1,3 @@
-@'
 # TODO
 
 ## Release
@@ -10,4 +9,3 @@
 
 - Keep Standard and Lite distributions validated through the GitHub Actions release pipeline.
 - Update this file only with confirmed project work that is still pending.
-'@ | Set-Content TODO.md -Encoding utf8
