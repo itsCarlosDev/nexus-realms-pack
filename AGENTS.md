@@ -181,11 +181,11 @@ Do not describe an inference as a verified repository fact.
 
 # Local model tool policy
 
-The workspace may be operated by Cline with GPT-OSS 20B.
+The workspace may be operated by Cline with Qwen3.8.
 
 The authoritative local-model tool policy is:
 
-`.clinerules/00-gpt-oss-tool-policy.md`
+`.clinerules/00-qwen3-8-agent-policy.md`
 
 Its rules are mandatory and take precedence for local-model filesystem and repository search behavior.
 
@@ -902,3 +902,4 @@ Do not push.
 Be concise.
 
 Do not claim more verification than was actually performed.
+

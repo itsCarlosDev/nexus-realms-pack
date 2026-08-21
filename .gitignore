@@ -90,3 +90,6 @@ secrets/
 # Unused Simple Custom Early Loading source assets kept locally.
 config/simple-custom-early-loading/logo.gif
 config/simple-custom-early-loading/logo.png
+
+# Accidental local diff/output files
+/h
