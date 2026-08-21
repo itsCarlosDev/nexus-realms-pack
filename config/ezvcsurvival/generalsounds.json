@@ -1,0 +1,61 @@
+{
+  "enabled": true,
+  "mobs": {
+    "minecraft:zombie": {
+      "enabled": true,
+      "speed": 1.0,
+      "range": 12.0,
+      "blocked_sounds": []
+    },
+    "undead_revamp2:therabidus": {
+      "enabled": true,
+      "speed": 1.0,
+      "range": 12.0,
+      "blocked_sounds": []
+    },
+    "undead_revamp2:thesomnolence": {
+      "enabled": true,
+      "speed": 1.0,
+      "range": 12.0,
+      "blocked_sounds": []
+    },
+    "undead_revamp2:thespitter": {
+      "enabled": true,
+      "speed": 1.0,
+      "range": 12.0,
+      "blocked_sounds": []
+    },
+    "undead_revamp2:theheavy": {
+      "enabled": true,
+      "speed": 1.0,
+      "range": 12.0,
+      "blocked_sounds": []
+    }
+  },
+  "sounds": {
+    "minecraft:block.wood.break": {
+      "enabled": true,
+      "speed_multiplier": 1.0,
+      "range_multiplier": 1.0,
+      "is_priority": false
+    },
+    "minecraft:block.wood.hit": {
+      "enabled": true,
+      "speed_multiplier": 1.0,
+      "range_multiplier": 1.0,
+      "is_priority": false
+    },
+    "minecraft:block.wood.place": {
+      "enabled": true,
+      "speed_multiplier": 1.0,
+      "range_multiplier": 1.0,
+      "is_priority": false
+    },
+    "minecraft:entity.generic.explode": {
+      "enabled": true,
+      "speed_multiplier": 1.0,
+      "range_multiplier": 12.0,
+      "is_priority": true
+    }
+  }
+}

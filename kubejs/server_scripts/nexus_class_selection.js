@@ -1279,7 +1279,7 @@ function nexusOpenClassSelector(player) {
   )
 
   player.server.scheduleInTicks(
-    40,
+    10,
     callback => {
       if (nexusHasClass(player)) {
         return

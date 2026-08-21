@@ -2,8 +2,6 @@
 set -Eeuo pipefail
 
 readonly PRODUCTION_PACK_URL='https://itscarlosdev.github.io/nexus-realms-pack/pack.toml'
-readonly OWNER_NAME='<OWNER_NAME>'
-readonly OWNER_UUID='<OWNER_UUID>'
 readonly BOOTSTRAP_SHA256='A8FBB24DC604278E97F4688E82D3D91A318B98EFC08D5DBFCBCBCAB6443D116C'
 readonly FORGE_ARGS='libraries/net/minecraftforge/forge/1.20.1-47.4.10/unix_args.txt'
 
@@ -61,7 +59,7 @@ require_boolean NEXUS_REQUIRE_UPDATE "$NEXUS_REQUIRE_UPDATE"
 require_boolean NEXUS_ALLOW_LOCAL_PACK_URL "$NEXUS_ALLOW_LOCAL_PACK_URL"
 require_boolean NEXUS_PREPARE_ONLY "$NEXUS_PREPARE_ONLY"
 
-for command_name in awk cmp curl find grep mktemp sed sha256sum sort; do
+for command_name in awk cmp curl find grep mktemp sed sha256sum sort tr; do
   require_command "$command_name"
 done
 
@@ -86,8 +84,13 @@ case "$NEXUS_PACK_URL" in
     ;;
 esac
 
-case "$SERVER_ROOT" in
-  *'Mundo nuevo (5)'*) fail 'Mundo nuevo (5) cannot be used as SERVER_ROOT.' ;;
+case "/$SERVER_ROOT/" in
+  */saves/*)
+    fail 'SERVER_ROOT must not be inside a Minecraft client saves directory.'
+    ;;
+  */PrismLauncher/instances/*|*/prismlauncher/instances/*)
+    fail 'SERVER_ROOT must not be inside a Prism Launcher client instance.'
+    ;;
 esac
 
 java_version="$("$JAVA_BIN" -version 2>&1 || true)"
@@ -102,13 +105,55 @@ if [ ! -f "$SERVER_ROOT/ops.json" ]; then
   fail 'Missing ops.json.'
 fi
 
+owner_uuid_count="$(
+  awk '{ count += gsub(/"uuid"[[:space:]]*:/, "") }
+       END { print count + 0 }' "$SERVER_ROOT/ops.json"
+)"
+owner_name_count="$(
+  awk '{ count += gsub(/"name"[[:space:]]*:/, "") }
+       END { print count + 0 }' "$SERVER_ROOT/ops.json"
+)"
+owner_level_count="$(
+  awk '{ count += gsub(/"level"[[:space:]]*:/, "") }
+       END { print count + 0 }' "$SERVER_ROOT/ops.json"
+)"
+owner_object_open_count="$(
+  awk '{ count += gsub(/\{/, "") }
+       END { print count + 0 }' "$SERVER_ROOT/ops.json"
+)"
+owner_object_close_count="$(
+  awk '{ count += gsub(/\}/, "") }
+       END { print count + 0 }' "$SERVER_ROOT/ops.json"
+)"
+owner_uuid="$(
+  sed -n -E \
+    's/.*"uuid"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/p' \
+    "$SERVER_ROOT/ops.json" |
+    awk 'NR == 1 { print; exit }' |
+    tr 'A-F' 'a-f'
+)"
+owner_name="$(
+  sed -n -E \
+    's/.*"name"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/p' \
+    "$SERVER_ROOT/ops.json" |
+    awk 'NR == 1 { print; exit }'
+)"
+
 if ! grep -Eq '^[[:space:]]*\[' "$SERVER_ROOT/ops.json" ||
-   [ "$(grep -Eoc '"uuid"[[:space:]]*:' "$SERVER_ROOT/ops.json")" -ne 1 ] ||
-   ! grep -Eq "\"uuid\"[[:space:]]*:[[:space:]]*\"$OWNER_UUID\"" "$SERVER_ROOT/ops.json" ||
-   ! grep -Eq "\"name\"[[:space:]]*:[[:space:]]*\"$OWNER_NAME\"" "$SERVER_ROOT/ops.json" ||
+   [ "$owner_uuid_count" -ne 1 ] ||
+   [ "$owner_name_count" -ne 1 ] ||
+   [ "$owner_level_count" -ne 1 ] ||
+   [ "$owner_object_open_count" -ne 1 ] ||
+   [ "$owner_object_close_count" -ne 1 ] ||
+   ! printf '%s\n' "$owner_uuid" |
+     grep -Eq '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$' ||
+   ! printf '%s\n' "$owner_name" | grep -Eq '^[A-Za-z0-9_]{3,16}$' ||
    ! grep -Eq '"level"[[:space:]]*:[[:space:]]*4[[:space:]]*(,|})' "$SERVER_ROOT/ops.json"; then
-  fail "ops.json must contain only $OWNER_NAME ($OWNER_UUID) at level 4."
+  fail 'ops.json must contain exactly one operator with a valid Minecraft name and UUID at level 4.'
 fi
+
+readonly OWNER_NAME="$owner_name"
+readonly OWNER_UUID="$owner_uuid"
 
 if ! grep -Eq '^op-permission-level=4$' "$SERVER_ROOT/server.properties"; then
   fail 'server.properties must contain op-permission-level=4.'
@@ -173,6 +218,7 @@ critical_files=(
   'banned-players.json'
   'banned-ips.json'
   'usercache.json'
+  'usernamecache.json'
   'eula.txt'
   'config/voicechat/voicechat-server.properties'
   "$level_name/level.dat"
@@ -185,11 +231,14 @@ protected_paths=(
   'banned-players.json'
   'banned-ips.json'
   'usercache.json'
+  'usernamecache.json'
   'eula.txt'
   '.env'
   'secrets'
   'config/voicechat/voicechat-server.properties'
   'journeymap/server'
+  'world_nether'
+  'world_the_end'
   "$level_name"
 )
 
@@ -219,6 +268,32 @@ verify_protected_unchanged() {
     restore_critical_files
     fail 'Protected operational state changed; critical files were restored and startup was stopped.'
   fi
+}
+
+set_journeymap_admin() {
+  local path="$1"
+  local temporary="$work_dir/journeymap-server.toml"
+
+  if ! awk -v uuid="$OWNER_UUID" '
+    BEGIN { matches = 0 }
+    /^[[:space:]]*serverAdmins[[:space:]]*=/ {
+      matches++
+      print "\tserverAdmins = [\"" uuid "\"]"
+      next
+    }
+    { print }
+    END { if (matches != 1) exit 42 }
+  ' "$path" > "$temporary"; then
+    fail "JourneyMap config must contain one serverAdmins field: $path"
+  fi
+
+  if cmp -s -- "$path" "$temporary"; then
+    rm -f -- "$temporary"
+    return
+  fi
+
+  mv -f -- "$temporary" "$path"
+  log 'Synchronized JourneyMap administrator from private ops.json.'
 }
 
 published_commit=''
@@ -303,7 +378,7 @@ else
 
   while IFS= read -r managed_path; do
     case "$managed_path" in
-      ops.json|server.properties|whitelist.json|banned-players.json|banned-ips.json|usercache.json|eula.txt|.env|.env/*|secrets|secrets/*|config/voicechat/voicechat-server.properties|journeymap/server|journeymap/server/*|"$level_name"|"$level_name"/*|world|world/*|saves|saves/*|logs|logs/*|crash-reports|crash-reports/*)
+      ops.json|server.properties|whitelist.json|banned-players.json|banned-ips.json|usercache.json|usernamecache.json|eula.txt|.env|.env.*|.env/*|secrets|secrets/*|config/voicechat/voicechat-server.properties|journeymap/server|journeymap/server/*|"$level_name"|"$level_name"/*|world|world/*|world_nether|world_nether/*|world_the_end|world_the_end/*|saves|saves/*|logs|logs/*|crash-reports|crash-reports/*)
         fail "Published Packwiz index manages protected path: $managed_path"
         ;;
     esac
@@ -415,6 +490,9 @@ if [ -d "$WORLD_ROOT" ]; then
       "$WORLD_ROOT/serverconfig/journeymap-server.toml"
     log 'Initialized missing JourneyMap administrative configuration.'
   fi
+
+  set_journeymap_admin \
+    "$WORLD_ROOT/serverconfig/journeymap-server.toml"
 fi
 
 snapshot_manifest "$work_dir/protected.before" "${protected_paths[@]}"

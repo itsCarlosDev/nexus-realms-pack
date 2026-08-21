@@ -157,7 +157,7 @@ La solucion final no es forzar comandos desde KubeJS. El estado Battle/Mining qu
 - Epic Fight Toggle Battle/Mining Mode debe quedar Not Bound para evitar cambios manuales accidentales.
 - `canSwitchPlayerMode=true` permite que Epic Tweaks haga autoswitch/enforce.
 - El comando `/epicfight mode mining <player>` queda solo como fallback apagado.
-- Si las configs generadas no existen, Carlos debe crearlas desde Prism y versionarlas despues de validarlas.
+- Si las configs generadas no existen, el mantenedor debe crearlas desde Prism y versionarlas despues de validarlas.
 
 ## Punchy
 

@@ -18,7 +18,7 @@
 ## Mage test
 
 ```mcfunction
-/nexus_changeclass <OWNER_NAME> mage
+/nexus_changeclass <TEST_PLAYER> mage
 ```
 
 Probar:
@@ -42,7 +42,7 @@ Resultado esperado:
 ## Gunslinger test
 
 ```mcfunction
-/nexus_changeclass <OWNER_NAME> gunslinger
+/nexus_changeclass <TEST_PLAYER> gunslinger
 ```
 
 Probar:
@@ -67,7 +67,7 @@ Resultado esperado:
 ## Warrior test
 
 ```mcfunction
-/nexus_changeclass <OWNER_NAME> warrior
+/nexus_changeclass <TEST_PLAYER> warrior
 ```
 
 Probar:
@@ -99,11 +99,11 @@ Resultado esperado:
 Tambien probar:
 
 ```mcfunction
-/nexus_class_status <OWNER_NAME>
+/nexus_class_status <TEST_PLAYER>
 /nexus_class_menu
 /nexus_class_help
-/nexus_changeclass_status <OWNER_NAME>
-/nexus_repairclass <OWNER_NAME>
+/nexus_changeclass_status <TEST_PLAYER>
+/nexus_repairclass <TEST_PLAYER>
 ```
 
 ## Transaction and recovery QA

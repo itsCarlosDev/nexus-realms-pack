@@ -5,27 +5,26 @@
 Nexus Realms usa una sola capa adicional de permisos: FTB Ranks. No usa
 LuckPerms ni listeners propios de permisos.
 
-El único operador y administrador permitido es:
+El único operador y administrador permitido se obtiene del `ops.json` privado:
 
-- usuario: `<OWNER_NAME>`
-- UUID: `<OWNER_UUID>`
-- nivel OP: `4`
+- identidad: una sola entrada válida, no versionada;
+- nivel OP: `4`;
 - rango interno: `owner`
 - nombre visual: `Fundador del Nexus`
 - prefijo: `[Fundador del Nexus]`
 
-`ops.json` no se distribuye con Packwiz. El archivo esperado está disponible
-solo como plantilla operativa en `tools/server/templates/ops.json`. El
-actualizador PowerShell exige que el archivo efectivo contenga exactamente
-esa única entrada antes de aplicar una actualización. También exige:
+`ops.json` no se distribuye con Packwiz y no existe una copia o plantilla con
+la identidad real en el repositorio. Los actualizadores exigen que el archivo
+efectivo contenga exactamente una entrada con nombre y UUID de Minecraft
+válidos antes de aplicar una actualización. También exigen:
 
 ```properties
 op-permission-level=4
 ```
 
 Ningún rango concede OP. El rango `owner` se activa con la condición real
-`op`; por ello la regla de un único operador es la que lo vincula
-exclusivamente a <OWNER_NAME>.
+`op`; por ello la regla de un único operador lo vincula exclusivamente a la
+identidad privada indicada en `ops.json`.
 
 ## Rango automático
 
@@ -164,11 +163,10 @@ La administración de JourneyMap sí usa la configuración Forge del mundo:
 <world>/serverconfig/journeymap-server.toml
 ```
 
-`opAccess` permanece activo y `serverAdmins` contiene únicamente el UUID de
-<OWNER_NAME>. Dado que no existe otro OP, solo <OWNER_NAME> dispone del panel
-administrativo. JourneyMap concede el botón de teleport a los OP aunque el
-permiso global esté desactivado, por lo que <OWNER_NAME> conserva el
-teletransporte administrativo completo.
+`opAccess` permanece activo. La configuración pública usa `serverAdmins = []`;
+durante la actualización, el wrapper escribe en la configuración efectiva
+únicamente el UUID derivado del `ops.json` privado. Dado que no existe otro OP,
+solo esa identidad dispone del panel y del teletransporte administrativo.
 
 Los viajeros pueden usar JourneyMap y gestionar waypoints personales, pero
 no pueden teletransportarse con JourneyMap. Usan `/home`, `/spawn`, `/back`
@@ -207,23 +205,23 @@ El actualizador PowerShell:
 6. crea o ajusta solo los campos necesarios de JourneyMap;
 7. no reemplaza configuraciones de rangos personalizadas.
 
-El helper Bash también valida el owner, protege byte por byte `ops.json` y
-`server.properties`, y solo crea configuraciones de mundo que todavía no
-existen.
+El helper Bash también deriva y valida el owner desde `ops.json`, protege byte
+por byte `ops.json` y `server.properties`, y sincroniza JourneyMap sin publicar
+la identidad.
 
 ## Pruebas runtime
 
 Las comprobaciones estáticas no sustituyen una sesión con dos identidades.
 Antes de producción se debe probar:
 
-1. <OWNER_NAME> conserva OP 4 y el formato Fundador del Nexus tras reiniciar.
+1. La identidad única de `ops.json` conserva OP 4 y el formato Fundador del Nexus tras reiniciar.
 2. Un jugador real sin OP recibe Viajero del Nexus y no puede ejecutar
    `/tp`, `/gamemode`, `/give` ni `/execute`.
 3. El mismo jugador crea cinco homes y el sexto falla con
    `Can't add any more homes!`.
 4. TPA requiere aceptación, caduca a los 60 segundos y se cancela durante
    el warmup por movimiento o daño.
-5. JourneyMap permite crear y gestionar waypoints; solo el owner puede usar
+5. JourneyMap permite crear y gestionar waypoints; solo el único OP puede usar
    su teleport, incluso entre dimensiones habilitadas.
 6. FTB Quests, FTB Teams, HistoryStages, clases y protección del mercado
    continúan funcionando.

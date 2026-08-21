@@ -73,6 +73,7 @@ files. Before and after an update, the wrapper hashes:
 Missing FTB Essentials, FTB Ranks and JourneyMap world configuration may be
 initialized once. Existing operational copies are never replaced.
 
-The owner gate requires `ops.json` to contain only <OWNER_NAME>
-(`<OWNER_UUID>`) at level 4 and requires
-`op-permission-level=4`.
+The owner gate requires the private `ops.json` to contain exactly one operator
+with a valid Minecraft name and UUID at level 4. The updater derives that
+identity at runtime; no owner identity is stored in the repository. The server
+also requires `op-permission-level=4`.

@@ -53,8 +53,8 @@ ADMIN; solo OWNER satisface su acceso en la política distribuida.
 
 - Mantener `online-mode=true` y `enforce-secure-profile=true`.
 - Mantener la whitelist activada mientras el servidor sea privado.
-- Conservar una sola entrada permanente en `ops.json`: Carlos. No versionar su
-  nombre de cuenta, UUID ni el contenido del archivo.
+- Conservar una sola entrada permanente en `ops.json`. No versionar su nombre
+  de cuenta, UUID ni el contenido del archivo.
 - Asignar MODERATOR y ADMIN mediante FTB Ranks, nunca mediante `/op`.
 - Mantener RCON desactivado. Si una operación futura lo requiere, habilitarlo
   temporalmente en una red restringida, usar un secreto fuera del repositorio
@@ -63,7 +63,7 @@ ADMIN; solo OWNER satisface su acceso en la política distribuida.
   necesite de forma demostrada.
 - No publicar puertos de RCON, Query, panel de hosting, SSH o consola. Exponer
   únicamente el puerto de juego necesario.
-- Restringir la consola y el panel del servidor a Carlos y a operadores de
+- Restringir la consola y el panel del servidor al responsable y a operadores de
   infraestructura expresamente autorizados; usar credenciales individuales y
   segundo factor cuando el proveedor lo permita.
 - No guardar IPs, contraseñas, tokens, claves ni copias de `ops.json` o
