@@ -3102,7 +3102,7 @@ function nexusClearClassChangeCooldown(
 
 function nexusClassChangeLogin(player) {
   player.server.scheduleInTicks(
-    1,
+    40,
     callback => {
       const key =
         nexusPlayerKey(player)

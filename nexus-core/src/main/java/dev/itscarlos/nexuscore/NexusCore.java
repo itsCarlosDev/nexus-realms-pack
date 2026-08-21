@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 public final class NexusCore {
     public static final String MOD_ID = "nexuscore";
     public static final String BUILD_ID =
-        "0.6.24";
+        "0.6.29";
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public NexusCore() {
@@ -29,7 +29,7 @@ public final class NexusCore {
         EpicFightRegistryNetwork.register();
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ProgressionClientConfig.SPEC);
         LOGGER.info(
-            "Nexus Core loaded: build={}, progressionProtocol=6, epicFightRegistryProtocol={}, bridge={}",
+            "Nexus Core loaded: build={}, progressionProtocol=7, epicFightRegistryProtocol={}, bridge={}",
             BUILD_ID,
             EpicFightRegistryNetwork.PROTOCOL,
             EpicFightRegistryNetwork.BUILD_ID

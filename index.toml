@@ -841,8 +841,24 @@ file = "journeymap/config/5.10/journeymap.webmap.config"
 hash = "2c939e2308e7d7d419af26ad342479690e8ae321c7af3ba64d8b0e897ccc8b5b"
 
 [[files]]
+file = "kubejs/assets/kubejs/models/item/nexus_crystal.mtl"
+hash = "f001504e2d0bb1edd35c9c6326ca6b5cef4e1350a770fce46c3be52e8ff29f92"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/item/nexus_crystal.obj"
+hash = "5371888ee8f79164ebb34926507b8bff5af70236e904e684039543610f668390"
+
+[[files]]
 file = "kubejs/assets/kubejs/textures/item/nexus_bronze_coin.png"
 hash = "2f99784238909054456d32d490fca1400390f3f1437a084035b88fdec6789ce0"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/item/nexus_crystal.png"
+hash = "ccc71e468b61523a1361b5c7c21be6c3daa5c976a4150947956374f3519d1257"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/item/nexus_crystal_aura.png"
+hash = "d75f5ffb98e1abf67ca32c53c8658b4608f44ce0d473be57c549097310d043eb"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/item/nexus_gold_coin.png"
@@ -1141,6 +1157,22 @@ file = "kubejs/data/irons_spellbooks/structures/pyromancer_tower/staircase.nbt"
 hash = "e41e713a19107ff82386fa19042874270cffca20a95529411499dbcf2dab1857"
 
 [[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/debug.mcfunction"
+hash = "960911ac5da7142f907af0b8ebdd941d8f17033a09bfe257a9de5e0195394bb8"
+
+[[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/move_here.mcfunction"
+hash = "ca67733c4afccdeaf3bf283a13d29993e1451da2e2a5bd1f5a49fe1de7239f11"
+
+[[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/remove.mcfunction"
+hash = "f24011b9a9021220a08f9769d1d69987e939676508a52264bf423b397c96e0cb"
+
+[[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/spawn.mcfunction"
+hash = "d1c113bc6f52ec8a8a604d53d335763ee2d0270480a5f30e918c1cb7db18919a"
+
+[[files]]
 file = "kubejs/data/starcatcher/data_maps/item/catch_modifiers.json"
 hash = "13f44bb4703476926fe248291e0732d2b55c74ff975faa4da17c217b66afc576"
 
@@ -1174,11 +1206,15 @@ hash = "fcc409061d05a62655b9a0c6d6a51637c9702f8eb3c2cf39008801e52b497b5a"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_change.js"
-hash = "249913e2afe3571654fd67d5a81be6dd24e70283358740e1892c6a0cb48b754a"
+hash = "0942e31eca736188f273a8eaf2c0017c32831275f56fb45d2395292ca8007faa"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "18eb15aefc121c53e50c8619cc9ea40838c03b7bd17180535b493badecf72b3c"
+hash = "8f146b77f5f83286f700a1e08fb5e2d0f0d1ceb2162588b8bb526f89ea0ff103"
+
+[[files]]
+file = "kubejs/server_scripts/nexus_crystal_animation.js"
+hash = "0edf27f1eca267da371a310688dd4e0a42dd79dda222157eb06c802027f92afa"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_disable_vanilla_zombies.js"
@@ -1207,6 +1243,10 @@ hash = "c0d329aefb309ad6288703355ffc83576d5e7efc4e2deccffcc91956671f937d"
 [[files]]
 file = "kubejs/startup_scripts/nexus_boss_balance.js"
 hash = "55ca4879c209f6e4b49fab42f99024019b786792661af1f5cba4923a832f4a95"
+
+[[files]]
+file = "kubejs/startup_scripts/nexus_crystal.js"
+hash = "99f3edc2346db0df503c8c08808cd475dbf4032acce354d4016f9114bcf33e08"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_economy_items.js"
@@ -1684,6 +1724,11 @@ hash = "9838290b5478dbeb84d26c11b22400fd42f7d4aff9f846540dbb2728ace291cd"
 metafile = true
 
 [[files]]
+file = "mods/epic-fight-the-mimic.pw.toml"
+hash = "2816813391a1493eda411c7b3b4e2a733820d7ffb8d88e72b58877537e13ed8e"
+metafile = true
+
+[[files]]
 file = "mods/epic-tweaks.pw.toml"
 hash = "aca1ef9f0867ccc994d811db0383fb54cc21215a302eb73d0f19eef04d42cf96"
 metafile = true
@@ -2036,6 +2081,11 @@ metafile = true
 [[files]]
 file = "mods/nexus-core-0.6.27.jar"
 hash = "3c0d1af9684ea76b0e2708bcc4a3d9b4f91f3066aa5cf9a14beeadd415eec0c1"
+
+[[files]]
+file = "mods/nightfall-invade.pw.toml"
+hash = "b396d97f9e049eac0dbf1ac0b21f25d3cde9e877ff4b14427fcee8c5af1fd9f1"
+metafile = true
 
 [[files]]
 file = "mods/not-enough-animations.pw.toml"
@@ -2594,3 +2644,7 @@ metafile = true
 file = "shaderpacks/potato-shaders.pw.toml"
 hash = "fa71274d0ebd0056fab164ee6d349508cc405ebd6a16045b7ba65dcf8323060a"
 metafile = true
+
+[[files]]
+file = "source/nexus_crystal.bbmodel"
+hash = "50c79c16c46402303cd439a929b732d3a79ec49b0e903c789d03a28a09d2394b"

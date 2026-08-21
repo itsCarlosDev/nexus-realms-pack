@@ -6,7 +6,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
 }
 
-version = '0.6.27'
+version = '0.6.29'
 group = 'dev.itscarlos'
 
 base {
@@ -102,6 +102,7 @@ dependencies {
     runtimeOnly fg.deobf('dev.latvian.mods:rhino-forge:2001.2.3-build.10')
     runtimeOnly fg.deobf('dev.latvian.mods:kubejs-forge:2001.6.5-build.26')
     compileOnly fg.deobf('curse.maven:curios-309927:6418456')
+    compileOnly fg.deobf('curse.maven:tough-as-nails-246391:5815863')
     compileOnly files('libs/epic-fight-20.14.17-mc1.20.1-forge.jar')
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
