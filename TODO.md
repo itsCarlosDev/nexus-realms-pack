@@ -1,21 +1,13 @@
+@'
 # TODO
 
-## Setup
+## Release
 
-- Install packwiz.
-- Complete or regenerate `pack.toml` with the exact Forge version used by Prism Launcher and the server.
-- Run `packwiz refresh`.
-- Run `./scripts/dev-check.sh`.
-- Create the GitHub repository named `nexus-realms-pack`.
-- Connect the local repo to GitHub.
-- Enable GitHub Pages from `main` and `/root`.
+- Validate and distribute the Nexus Core `0.6.29` artifact. The Packwiz distribution currently uses `0.6.27`.
+- Complete final gameplay validation for classes, weapons, hordes and bosses before considering `1.0.0` published.
 
-## Pack
+## Maintenance
 
-- Choose exact Forge version for Minecraft 1.20.1.
-- Add core libraries and performance mods first.
-- Add Create and construction mods.
-- Add combat, shooter, magic, boss, world, dinosaur, dragon, and quest mods in small tested batches.
-- Create initial server configs.
-- Create initial KubeJS structure for classes, progression, and recipes.
-
+- Keep Standard and Lite distributions validated through the GitHub Actions release pipeline.
+- Update this file only with confirmed project work that is still pending.
+'@ | Set-Content TODO.md -Encoding utf8
