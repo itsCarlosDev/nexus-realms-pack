@@ -49,6 +49,8 @@ FORBIDDEN_SEGMENTS = {
     "camera_images",
     "saves",
     "world",
+    "world_nether",
+    "world_the_end",
     "playerdata",
     "logs",
     "crash-reports",
@@ -77,6 +79,16 @@ SECRET_PATTERNS = {
     ),
     "local user path": re.compile(
         rb"(?:[A-Za-z]:\\[U]sers\\[^\\\r\n]+|/[U]sers/[^/\r\n]+|/[h]ome/[^/\r\n]+)"
+    ),
+    "Minecraft operator entry": re.compile(
+        rb'"uuid"\s*:\s*"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-'
+        rb'[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"'
+        rb'(?=.{0,256}"name"\s*:)(?=.{0,512}"level"\s*:\s*4)',
+        re.DOTALL,
+    ),
+    "JourneyMap administrator UUID": re.compile(
+        rb'serverAdmins\s*=\s*\[\s*"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-'
+        rb'[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"'
     ),
 }
 
@@ -131,10 +143,15 @@ def forbidden_reason(path: PurePosixPath) -> str | None:
         "config/drippyloadingscreen/options.txt",
         "config/fancymenu/options.txt",
     }
+    allowed_operational_templates = {
+        "tools/server/templates/ops.json",
+        "tools/server/templates/server.properties",
+    }
     if (
         (
             name in FORBIDDEN_FILE_NAMES
             and relative_text not in allowed_options_paths
+            and relative_text not in allowed_operational_templates
         )
         or name.startswith(".env.")
     ):

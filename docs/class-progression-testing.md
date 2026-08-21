@@ -2,7 +2,7 @@
 
 ## Test 1 - Guerrero
 
-- `/nexus_resetclass_clean <OWNER_NAME>`
+- `/nexus_resetclass_clean <TEST_PLAYER>`
 - `/nexus_select warrior`
 - confirmar kit.
 - matar 5 zombies.
@@ -11,7 +11,7 @@
 
 ## Test 2 - Mago
 
-- `/nexus_resetclass_clean <OWNER_NAME>`
+- `/nexus_resetclass_clean <TEST_PLAYER>`
 - `/nexus_select mage`
 - confirmar kit.
 - lanzar hechizo.
@@ -20,7 +20,7 @@
 
 ## Test 3 - Pistolero
 
-- `/nexus_resetclass_clean <OWNER_NAME>`
+- `/nexus_resetclass_clean <TEST_PLAYER>`
 - `/nexus_select gunslinger`
 - confirmar Glock 17.
 - `/kubejs hand` debe mostrar `GunId:"tacz:glock_17"`.

@@ -1,6 +1,6 @@
 
 [admins]
-	# The only server administrator is also the only operator.
+	# The updater derives the sole administrator from the private ops.json.
 	opAccess = true
-	# UUID is used instead of a player name to prevent impersonation.
-	serverAdmins = ["<OWNER_UUID>"]
+	# Keep the public default identity-free; runtime synchronization writes one UUID.
+	serverAdmins = []

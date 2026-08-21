@@ -13,7 +13,9 @@
 ### Técnico
 
 ### Nexus Core
-- Versión incluida actualmente: 0.6.6-camera-market-v1.
+- Fuente en `nexus-core/build.gradle`: 0.6.29.
+- Artefacto distribuido actualmente por Packwiz: 0.6.27.
+- La sincronización/build del artefacto 0.6.29 sigue pendiente de validación separada.
 
 ---
 
@@ -54,7 +56,8 @@
 - Distribución mediante GitHub Pages.
 
 ### Nexus Core
-- Nexus Core 0.6.6-camera-market-v1.
+- `pack.toml` usa `1.0.0` como versión del paquete Packwiz; esta sección sigue
+  marcada como pendiente de publicación y no representa la versión de Nexus Core.
 
 ## Pack 16.14.1 - TaCZ native class enforcement
 

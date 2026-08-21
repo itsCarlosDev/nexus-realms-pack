@@ -762,7 +762,7 @@ hash = "2838edf1d3eb899f2500b827405659625757bd815849cf13b27953e403a4b0fc"
 
 [[files]]
 file = "defaultconfigs/journeymap-server.toml"
-hash = "54b3efba9771a065d87ad20aa3d75cff7fb643bb1257490ea79774edf18447e2"
+hash = "9490d7382daaf55c185a5f22a970f2043b2b1cccdd31c7ef9ded1ad27fdee6a0"
 
 [[files]]
 file = "generated/schematics/nexus_market_spawn_nexus_realms_v4.schem"
@@ -842,7 +842,7 @@ hash = "2c939e2308e7d7d419af26ad342479690e8ae321c7af3ba64d8b0e897ccc8b5b"
 
 [[files]]
 file = "kubejs/assets/kubejs/models/item/nexus_crystal.mtl"
-hash = "f001504e2d0bb1edd35c9c6326ca6b5cef4e1350a770fce46c3be52e8ff29f92"
+hash = "01e17b1739ab25b26c1911ef7a3238119fe35fa1c2f46bd2fd54d6806c31a4a0"
 
 [[files]]
 file = "kubejs/assets/kubejs/models/item/nexus_crystal.obj"
@@ -854,7 +854,7 @@ hash = "2f99784238909054456d32d490fca1400390f3f1437a084035b88fdec6789ce0"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/item/nexus_crystal.png"
-hash = "ccc71e468b61523a1361b5c7c21be6c3daa5c976a4150947956374f3519d1257"
+hash = "2bd8a0917e26437bbc658addfa52b025f34a0b2613b889cf2152941e74978dca"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/item/nexus_crystal_aura.png"
@@ -1158,19 +1158,23 @@ hash = "e41e713a19107ff82386fa19042874270cffca20a95529411499dbcf2dab1857"
 
 [[files]]
 file = "kubejs/data/kubejs/functions/nexus_crystal/debug.mcfunction"
-hash = "960911ac5da7142f907af0b8ebdd941d8f17033a09bfe257a9de5e0195394bb8"
+hash = "6ddffe875dc132eebb0a625e3f228c6e3e2c9b7179799616c6f783a30fd43905"
 
 [[files]]
 file = "kubejs/data/kubejs/functions/nexus_crystal/move_here.mcfunction"
-hash = "ca67733c4afccdeaf3bf283a13d29993e1451da2e2a5bd1f5a49fe1de7239f11"
+hash = "86cc1d28556fcf39d0fce84caa06db1fda781b34d75e24d99e0f7f8083903d59"
+
+[[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/purge_nearby.mcfunction"
+hash = "7f2519e1f1d8fb1fe4512902d793701d6cde8ee6e8bf3324245ebcfed801bbdf"
 
 [[files]]
 file = "kubejs/data/kubejs/functions/nexus_crystal/remove.mcfunction"
-hash = "f24011b9a9021220a08f9769d1d69987e939676508a52264bf423b397c96e0cb"
+hash = "95262e22f67e9bbc194e5ff3df4c29c7a1acfb957303b9e9d14d1f3f6919920b"
 
 [[files]]
 file = "kubejs/data/kubejs/functions/nexus_crystal/spawn.mcfunction"
-hash = "d1c113bc6f52ec8a8a604d53d335763ee2d0270480a5f30e918c1cb7db18919a"
+hash = "1e4abf3c913dcc7c8bf7795cc1d1d347e44d091e38af9e313ba27b523bf8191b"
 
 [[files]]
 file = "kubejs/data/starcatcher/data_maps/item/catch_modifiers.json"
@@ -1214,7 +1218,7 @@ hash = "8f146b77f5f83286f700a1e08fb5e2d0f0d1ceb2162588b8bb526f89ea0ff103"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_crystal_animation.js"
-hash = "0edf27f1eca267da371a310688dd4e0a42dd79dda222157eb06c802027f92afa"
+hash = "03d7353ac7d05d854d6fe52b33996d056410de919c7b504a5baf67440c6ef4c0"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_disable_vanilla_zombies.js"
@@ -1242,11 +1246,11 @@ hash = "c0d329aefb309ad6288703355ffc83576d5e7efc4e2deccffcc91956671f937d"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_boss_balance.js"
-hash = "55ca4879c209f6e4b49fab42f99024019b786792661af1f5cba4923a832f4a95"
+hash = "561e8cbf3ffdc0526c4daecdd049c45c610bb7c033b1de63ba1120f89bdc50df"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_crystal.js"
-hash = "99f3edc2346db0df503c8c08808cd475dbf4032acce354d4016f9114bcf33e08"
+hash = "30358520c6f0fd2402974589fbd17b0607cd2ebb42061d579a91d803e4573616"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_economy_items.js"

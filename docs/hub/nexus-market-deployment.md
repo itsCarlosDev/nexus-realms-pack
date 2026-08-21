@@ -31,8 +31,8 @@ Auditoría local realizada el 18 de julio de 2026, sin modificar el save.
 |---|---|
 | Instancia Prism | `%APPDATA%\PrismLauncher\instances\NexusRealmsDEV-instance(1)` |
 | Directorio Minecraft | `...\NexusRealmsDEV-instance(1)\minecraft` |
-| Carpeta del mundo | `...\minecraft\saves\Mundo nuevo (5)` |
-| Nombre interno | `Mundo nuevo` |
+| Carpeta del mundo | `<LOCAL_WORLD_DIRECTORY>` |
+| Nombre interno | `<LOCAL_WORLD_NAME>` |
 | Dimensión del mercado | `minecraft:overworld` |
 | Pegado WorldEdit registrado | V6 en `(-5, 63, 20)`, 1.995.163 posiciones y 0 entidades |
 | Traslación V6 verificada contra chunks | `(-20, +63, -30)` |
@@ -255,7 +255,7 @@ contador global de todo el servidor: equipos distintos mantienen progresos
 independientes.
 
 Completar un proyecto solo registra la contribución. No ejecuta WorldEdit,
-comandos de construcción, schematics ni cambios de bloques. Carlos debe revisar
+comandos de construcción, schematics ni cambios de bloques. El mantenedor debe revisar
 los proyectos completados y aplicar manualmente cualquier cambio físico en el
 Market cuando corresponda.
 
@@ -268,7 +268,7 @@ forman parte de la V1.
 
 El Museo del Nexus registra posesión de nueve trofeos, reliquias y hallazgos sin
 consumirlos. No coloca vitrinas, pedestales, cabezas, objetos decorativos ni
-entidades. Carlos puede preparar manualmente estas representaciones físicas
+entidades. El mantenedor puede preparar manualmente estas representaciones físicas
 cuando diseñe el interior, tomando el progreso de FTB Quests como referencia.
 Las futuras secciones de Nether, Aether, Otherside, dragones y otros Realms deben
 ampliar el mismo capítulo sin automatizar la decoración.

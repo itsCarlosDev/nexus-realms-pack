@@ -45,8 +45,6 @@ $productionPackUrl =
     'https://itscarlosdev.github.io/nexus-realms-pack/pack.toml'
 $bootstrapSha256 =
     'A8FBB24DC604278E97F4688E82D3D91A318B98EFC08D5DBFCBCBCAB6443D116C'
-$ownerName = '<OWNER_NAME>'
-$ownerUuid = '<OWNER_UUID>'
 $forgeArguments =
     'libraries\net\minecraftforge\forge\1.20.1-47.4.10\win_args.txt'
 $patcherSource = Join-Path $PSScriptRoot 'NexusServerPatcher.java'
@@ -66,8 +64,12 @@ $resolvedServerRoot = [System.IO.Path]::GetFullPath($ServerRoot).TrimEnd(
 if (-not (Test-Path -LiteralPath $resolvedServerRoot -PathType Container)) {
     throw "ServerRoot does not exist: $resolvedServerRoot"
 }
-if ($resolvedServerRoot -match 'Mundo nuevo \(5\)') {
-    throw 'Mundo nuevo (5) cannot be used as server staging.'
+$serverRootSegments = $resolvedServerRoot -split '[\\/]'
+if ($serverRootSegments -contains 'saves') {
+    throw 'ServerRoot must not be inside a Minecraft client saves directory.'
+}
+if ($resolvedServerRoot -match '[\\/]PrismLauncher[\\/]instances[\\/]') {
+    throw 'ServerRoot must not be inside a Prism Launcher client instance.'
 }
 
 $repositoryRoot = [System.IO.Path]::GetFullPath(
@@ -128,7 +130,7 @@ function Get-ServerProperty {
     return ($match.Line -split '=', 2)[1]
 }
 
-function Test-OwnerOps {
+function Get-SingleOwnerOps {
     param([Parameter(Mandatory)][string]$Path)
 
     try {
@@ -138,15 +140,54 @@ function Test-OwnerOps {
         )
     }
     catch {
-        return $false
+        return $null
     }
 
-    return (
-        $entries.Count -eq 1 -and
-        [string]$entries[0].uuid -ieq $ownerUuid -and
-        [string]$entries[0].name -ceq $ownerName -and
-        [int]$entries[0].level -eq 4
+    if ($entries.Count -ne 1) {
+        return $null
+    }
+
+    $name = [string]$entries[0].name
+    $uuid = [string]$entries[0].uuid
+    $parsedUuid = [guid]::Empty
+    if (
+        $name -cnotmatch '^[A-Za-z0-9_]{3,16}$' -or
+        -not [guid]::TryParse($uuid, [ref]$parsedUuid) -or
+        [int]$entries[0].level -ne 4
+    ) {
+        return $null
+    }
+
+    return [pscustomobject]@{
+        Name = $name
+        Uuid = $parsedUuid.ToString().ToLowerInvariant()
+    }
+}
+
+function Set-JourneyMapAdmin {
+    param(
+        [Parameter(Mandatory)][string]$Path,
+        [Parameter(Mandatory)][string]$OwnerUuid
     )
+
+    $text = [System.IO.File]::ReadAllText($Path)
+    $pattern = '(?m)^[ \t]*serverAdmins[ \t]*=.*$'
+    $matches = [regex]::Matches($text, $pattern)
+    if ($matches.Count -ne 1) {
+        throw "JourneyMap config must contain one serverAdmins field: $Path"
+    }
+
+    $replacement = "`tserverAdmins = [`"$OwnerUuid`"]"
+    $updated = [regex]::Replace($text, $pattern, $replacement)
+    if ($updated -cne $text) {
+        [System.IO.File]::WriteAllText(
+            $Path,
+            $updated,
+            [System.Text.UTF8Encoding]::new($false)
+        )
+        return $true
+    }
+    return $false
 }
 
 function Get-ProtectedManifest {
@@ -258,12 +299,15 @@ function Test-PublishedIndex {
         'banned-players.json',
         'banned-ips.json',
         'usercache.json',
+        'usernamecache.json',
         'eula.txt',
         '.env',
         'secrets',
         'config/voicechat/voicechat-server.properties',
         'journeymap/server',
         'world',
+        'world_nether',
+        'world_the_end',
         'saves',
         'logs',
         'crash-reports',
@@ -276,6 +320,12 @@ function Test-PublishedIndex {
     )
     foreach ($match in $managedPaths) {
         $managed = $match.Groups[1].Value
+        if ($managed.StartsWith(
+            '.env.',
+            [System.StringComparison]::Ordinal
+        )) {
+            throw "Published Packwiz index manages protected path: $managed"
+        }
         foreach ($prefix in $protected) {
             if (
                 $managed -ceq $prefix -or
@@ -316,9 +366,11 @@ try {
         $resolvedServerRoot `
         'server.properties'
     $opsFile = Join-Path $resolvedServerRoot 'ops.json'
-    if (-not (Test-OwnerOps -Path $opsFile)) {
+    $owner = Get-SingleOwnerOps -Path $opsFile
+    if (-not $owner) {
         throw (
-            "ops.json must contain only $ownerName ($ownerUuid) at level 4."
+            'ops.json must contain exactly one operator with a valid ' +
+            'Minecraft name and UUID at level 4.'
         )
     }
     if (
@@ -370,11 +422,14 @@ try {
         'banned-players.json',
         'banned-ips.json',
         'usercache.json',
+        'usernamecache.json',
         'eula.txt',
         '.env',
         'secrets',
         'config\voicechat\voicechat-server.properties',
         'journeymap\server',
+        'world_nether',
+        'world_the_end',
         $levelName
     )
     $protectedBefore = Get-ProtectedManifest `
@@ -388,6 +443,7 @@ try {
         'banned-players.json',
         'banned-ips.json',
         'usercache.json',
+        'usernamecache.json',
         'eula.txt',
         'config\voicechat\voicechat-server.properties',
         (Join-Path $levelName 'level.dat')
@@ -401,6 +457,7 @@ try {
                 ).Hash
             }
         }
+
     }
 
     Write-NexusLog "Mode: $(if ($Apply) { 'APPLY' } else { 'DRY-RUN' })"
@@ -537,6 +594,19 @@ try {
                     "Initialized missing world config: $($config.Destination)"
                 )
             }
+        }
+
+        $journeyMapAdmin = Join-Path `
+            $worldConfig `
+            'journeymap-server.toml'
+        if (
+            Set-JourneyMapAdmin `
+                -Path $journeyMapAdmin `
+                -OwnerUuid $owner.Uuid
+        ) {
+            Write-NexusLog (
+                'Synchronized JourneyMap administrator from private ops.json.'
+            )
         }
     }
 

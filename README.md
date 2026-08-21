@@ -1,10 +1,12 @@
 # Nexus Realms
 
-Nexus Realms is a private Minecraft modpack for playing with friends.
+Nexus Realms is a Minecraft modpack for a private multiplayer server. The
+source repository is suitable for public review; live server state and player
+identities remain outside Git and Packwiz.
 
 - Target Minecraft: `1.20.1`
 - Loader: Forge
-- Forge: `47.x`, exact version pending final choice in Prism Launcher and the server
+- Forge: `47.4.10`
 - Recommended GitHub repo name: `nexus-realms-pack`
 - Stable branch: `main`
 - Test branch recommendation: `dev`
@@ -13,7 +15,7 @@ The pack mixes normal survival and Create building with soulslike warrior combat
 
 ## Version target
 
-Nexus Realms targets Minecraft `1.20.1` with Forge `47.x`.
+Nexus Realms targets Minecraft `1.20.1` with Forge `47.4.10`.
 
 This is the stable target for the pack because it keeps compatibility with the intended RPG/survival stack, including Create, TacZ, Iron's Spells, Cataclysm, Alex's Mobs, Farmer's Delight, Chef's Delight, YUNG's Better Dungeons, YUNG's Better Mineshafts, Cult of Azazel, Stellara, You Died, and similar Forge 1.20.1 mods.
 
@@ -49,28 +51,10 @@ Check that it works:
 packwiz --version
 ```
 
-## Complete the packwiz initialization
+## Refresh the existing Packwiz metadata
 
-`packwiz` was not available when this repo structure was created, so `pack.toml` is intentionally minimal.
-
-Important: Forge is targeted as `47.x`, but the exact Forge build is not pinned yet. Do not publish a playable build until `pack.toml` has the exact Forge version used by Prism Launcher and the server.
-
-Recommended next step after installing packwiz:
-
-```bash
-packwiz init
-```
-
-Use:
-
-- Pack name: `Nexus Realms`
-- Author: `Carlos`
-- Minecraft version: `1.20.1`
-- Loader: Forge
-
-If packwiz can reuse the existing files, keep the current structure. If it rewrites pack metadata, review the diff in VSCode before committing.
-
-Then run:
+The pack is already initialized and pins Minecraft `1.20.1` with Forge
+`47.4.10`. After changing indexed pack content, run:
 
 ```bash
 packwiz refresh
@@ -124,24 +108,12 @@ See [docs/mod-side-rules.md](docs/mod-side-rules.md).
 4. Test in Prism Launcher.
 5. Commit the changes.
 
-## First recommended commands
-
-`packwiz refresh` only works when packwiz is installed. If packwiz is not installed, install it first and then run the refresh step.
-
-```bash
-git checkout -b dev
-packwiz refresh
-./scripts/dev-check.sh
-git add .
-git commit -m "Initial Nexus Realms pack structure"
-```
-
 ## Commit workflow
 
 ```bash
 ./scripts/dev-check.sh
 git status
-git add .
+git add -- <reviewed-paths>
 git commit -m "Describe the pack change"
 ```
 
@@ -183,6 +155,8 @@ Use that URL in Prism Launcher and on the server.
 - Pack URL: `https://itscarlosdev.github.io/nexus-realms-pack/pack.toml`.
 - Replace any remaining `URL_DEL_PACK_TOML` examples with the final Pack URL above.
 
-## Private pack note
+## Private server note
 
-This repository is for private Nexus Realms configuration and pack metadata. It does not grant rights to redistribute third-party mods. Respect each mod's license and download terms.
+The multiplayer server is private even though the source repository may be
+public. This repository does not grant rights to redistribute third-party mods.
+Respect each mod's license and download terms.
