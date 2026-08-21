@@ -15,6 +15,21 @@ realms_persistence.json
 Iniciar_Server_local.md
 camera_images/
 
+# Server-owned operational state at the repository root. Keep deliberate
+# templates under tools/ or docs/ trackable.
+/ops.json
+/whitelist.json
+/banned-players.json
+/banned-ips.json
+/usercache.json
+/usernamecache.json
+/server.properties
+/eula.txt
+/world/
+/world_nether/
+/world_the_end/
+/journeymap/server/
+
 # Pack exports and archives
 *.mrpack
 *.zip

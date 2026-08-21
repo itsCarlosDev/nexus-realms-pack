@@ -32,12 +32,25 @@ logs/
 crash-reports/
 screenshots/
 
-# Server-owned operational state. These paths must never be managed by packwiz.
-ops.json
-server.properties
-world/
-journeymap/server/
-config/voicechat/voicechat-server.properties
+# Server-owned operational state. Root anchoring keeps deliberate fixtures or
+# templates under tools/ and docs/ available to Git while Packwiz never manages
+# the live server state.
+/ops.json
+/whitelist.json
+/banned-players.json
+/banned-ips.json
+/usercache.json
+/usernamecache.json
+/server.properties
+/eula.txt
+/.env
+/.env.*
+/secrets/
+/world/
+/world_nether/
+/world_the_end/
+/journeymap/server/
+/config/voicechat/voicechat-server.properties
 
 # FancyMenu local user settings
 

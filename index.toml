@@ -762,7 +762,7 @@ hash = "2838edf1d3eb899f2500b827405659625757bd815849cf13b27953e403a4b0fc"
 
 [[files]]
 file = "defaultconfigs/journeymap-server.toml"
-hash = "54b3efba9771a065d87ad20aa3d75cff7fb643bb1257490ea79774edf18447e2"
+hash = "9490d7382daaf55c185a5f22a970f2043b2b1cccdd31c7ef9ded1ad27fdee6a0"
 
 [[files]]
 file = "generated/schematics/nexus_market_spawn_nexus_realms_v4.schem"
@@ -841,8 +841,24 @@ file = "journeymap/config/5.10/journeymap.webmap.config"
 hash = "2c939e2308e7d7d419af26ad342479690e8ae321c7af3ba64d8b0e897ccc8b5b"
 
 [[files]]
+file = "kubejs/assets/kubejs/models/item/nexus_crystal.mtl"
+hash = "01e17b1739ab25b26c1911ef7a3238119fe35fa1c2f46bd2fd54d6806c31a4a0"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/item/nexus_crystal.obj"
+hash = "5371888ee8f79164ebb34926507b8bff5af70236e904e684039543610f668390"
+
+[[files]]
 file = "kubejs/assets/kubejs/textures/item/nexus_bronze_coin.png"
 hash = "2f99784238909054456d32d490fca1400390f3f1437a084035b88fdec6789ce0"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/item/nexus_crystal.png"
+hash = "2bd8a0917e26437bbc658addfa52b025f34a0b2613b889cf2152941e74978dca"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/item/nexus_crystal_aura.png"
+hash = "d75f5ffb98e1abf67ca32c53c8658b4608f44ce0d473be57c549097310d043eb"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/item/nexus_gold_coin.png"
@@ -1141,6 +1157,26 @@ file = "kubejs/data/irons_spellbooks/structures/pyromancer_tower/staircase.nbt"
 hash = "e41e713a19107ff82386fa19042874270cffca20a95529411499dbcf2dab1857"
 
 [[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/debug.mcfunction"
+hash = "6ddffe875dc132eebb0a625e3f228c6e3e2c9b7179799616c6f783a30fd43905"
+
+[[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/move_here.mcfunction"
+hash = "86cc1d28556fcf39d0fce84caa06db1fda781b34d75e24d99e0f7f8083903d59"
+
+[[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/purge_nearby.mcfunction"
+hash = "7f2519e1f1d8fb1fe4512902d793701d6cde8ee6e8bf3324245ebcfed801bbdf"
+
+[[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/remove.mcfunction"
+hash = "95262e22f67e9bbc194e5ff3df4c29c7a1acfb957303b9e9d14d1f3f6919920b"
+
+[[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/spawn.mcfunction"
+hash = "1e4abf3c913dcc7c8bf7795cc1d1d347e44d091e38af9e313ba27b523bf8191b"
+
+[[files]]
 file = "kubejs/data/starcatcher/data_maps/item/catch_modifiers.json"
 hash = "13f44bb4703476926fe248291e0732d2b55c74ff975faa4da17c217b66afc576"
 
@@ -1174,11 +1210,15 @@ hash = "fcc409061d05a62655b9a0c6d6a51637c9702f8eb3c2cf39008801e52b497b5a"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_change.js"
-hash = "249913e2afe3571654fd67d5a81be6dd24e70283358740e1892c6a0cb48b754a"
+hash = "0942e31eca736188f273a8eaf2c0017c32831275f56fb45d2395292ca8007faa"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "18eb15aefc121c53e50c8619cc9ea40838c03b7bd17180535b493badecf72b3c"
+hash = "8f146b77f5f83286f700a1e08fb5e2d0f0d1ceb2162588b8bb526f89ea0ff103"
+
+[[files]]
+file = "kubejs/server_scripts/nexus_crystal_animation.js"
+hash = "03d7353ac7d05d854d6fe52b33996d056410de919c7b504a5baf67440c6ef4c0"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_disable_vanilla_zombies.js"
@@ -1206,7 +1246,11 @@ hash = "c0d329aefb309ad6288703355ffc83576d5e7efc4e2deccffcc91956671f937d"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_boss_balance.js"
-hash = "55ca4879c209f6e4b49fab42f99024019b786792661af1f5cba4923a832f4a95"
+hash = "561e8cbf3ffdc0526c4daecdd049c45c610bb7c033b1de63ba1120f89bdc50df"
+
+[[files]]
+file = "kubejs/startup_scripts/nexus_crystal.js"
+hash = "30358520c6f0fd2402974589fbd17b0607cd2ebb42061d579a91d803e4573616"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_economy_items.js"
@@ -1684,6 +1728,11 @@ hash = "9838290b5478dbeb84d26c11b22400fd42f7d4aff9f846540dbb2728ace291cd"
 metafile = true
 
 [[files]]
+file = "mods/epic-fight-the-mimic.pw.toml"
+hash = "2816813391a1493eda411c7b3b4e2a733820d7ffb8d88e72b58877537e13ed8e"
+metafile = true
+
+[[files]]
 file = "mods/epic-tweaks.pw.toml"
 hash = "aca1ef9f0867ccc994d811db0383fb54cc21215a302eb73d0f19eef04d42cf96"
 metafile = true
@@ -2036,6 +2085,11 @@ metafile = true
 [[files]]
 file = "mods/nexus-core-0.6.27.jar"
 hash = "3c0d1af9684ea76b0e2708bcc4a3d9b4f91f3066aa5cf9a14beeadd415eec0c1"
+
+[[files]]
+file = "mods/nightfall-invade.pw.toml"
+hash = "b396d97f9e049eac0dbf1ac0b21f25d3cde9e877ff4b14427fcee8c5af1fd9f1"
+metafile = true
 
 [[files]]
 file = "mods/not-enough-animations.pw.toml"
@@ -2594,3 +2648,7 @@ metafile = true
 file = "shaderpacks/potato-shaders.pw.toml"
 hash = "fa71274d0ebd0056fab164ee6d349508cc405ebd6a16045b7ba65dcf8323060a"
 metafile = true
+
+[[files]]
+file = "source/nexus_crystal.bbmodel"
+hash = "50c79c16c46402303cd439a929b732d3a79ec49b0e903c789d03a28a09d2394b"

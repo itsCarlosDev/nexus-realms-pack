@@ -14,10 +14,10 @@ import net.minecraftforge.network.simple.SimpleChannel;
 public final class ProgressionNetwork {
 
     /*
-     * Protocol 6 is retained for the existing progression and class packets.
+     * Protocol 7 adds the client-only Nexus Market tremor packet.
      * The Epic Fight registry bridge uses its own isolated channel.
      */
-    private static final String PROTOCOL = "6";
+    private static final String PROTOCOL = "7";
 
     private static final SimpleChannel CHANNEL =
         NetworkRegistry.ChannelBuilder
@@ -74,6 +74,22 @@ public final class ProgressionNetwork {
             )
             .add();
 
+        CHANNEL.messageBuilder(
+                MarketTremorPacket.class,
+                2,
+                NetworkDirection.PLAY_TO_CLIENT
+            )
+            .encoder(
+                MarketTremorPacket::encode
+            )
+            .decoder(
+                MarketTremorPacket::decode
+            )
+            .consumerMainThread(
+                MarketTremorPacket::handle
+            )
+            .add();
+
         registered = true;
     }
 
@@ -105,6 +121,24 @@ public final class ProgressionNetwork {
             new ClassSyncPacket(
                 nexusClass,
                 specialization
+            )
+        );
+    }
+
+    public static void sendMarketTremor(
+        ServerPlayer player,
+        int durationTicks,
+        float intensity,
+        long seed
+    ) {
+        CHANNEL.send(
+            PacketDistributor.PLAYER.with(
+                () -> player
+            ),
+            new MarketTremorPacket(
+                durationTicks,
+                intensity,
+                seed
             )
         );
     }

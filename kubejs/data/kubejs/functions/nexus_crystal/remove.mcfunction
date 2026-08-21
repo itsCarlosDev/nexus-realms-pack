@@ -1,0 +1,11 @@
+# Limpieza segura del Nexus actual y de versiones anteriores conocidas.
+kill @e[type=minecraft:item_display,tag=nexus_crystal]
+kill @e[type=minecraft:item_display,tag=nexus_crystal_display]
+kill @e[type=minecraft:item_display,tag=nexus_crystal_core]
+kill @e[type=minecraft:item_display,tag=nexus_crystal_aura]
+kill @e[type=minecraft:item_display,nbt={item:{id:"kubejs:nexus_crystal"}}]
+kill @e[type=minecraft:item_display,nbt={item:{id:"kubejs:nexus_crystal_aura"}}]
+kill @e[type=minecraft:marker,tag=nexus_crystal_anchor]
+kill @e[type=minecraft:armor_stand,tag=nexus_anchor]
+kill @e[type=minecraft:item,nbt={Item:{id:"kubejs:nexus_crystal"}}]
+kill @e[type=minecraft:item,nbt={Item:{id:"kubejs:nexus_crystal_aura"}}]

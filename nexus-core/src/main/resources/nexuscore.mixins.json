@@ -12,7 +12,9 @@
     "CameraResizeFrameMessageMixin",
     "EpicFightNetworkManagerMixin",
     "HistoryStagesCuriosEquipLockHandlerMixin",
-    "HordeTrackPlayerGoalMixin"
+    "HordeTrackPlayerGoalMixin",
+    "LivingEntityMarketTemperatureMixin",
+    "ToughAsNailsMarketTemperatureMixin"
   ],
   "client": [
     "client.EpicFightClassModeMixin",

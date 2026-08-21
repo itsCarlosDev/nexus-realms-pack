@@ -780,12 +780,7 @@ ForgeEvents.onEvent(
       )
     } catch (ignored) {}
 
-    if (
-      !nexusBossStartupTraceIsProtected(target) &&
-      nexusBossStartupTraceName(attacker) !== '<OWNER_NAME>'
-    ) {
-      return
-    }
+    if (!nexusBossStartupTraceIsProtected(target)) return
 
     console.info(
       '[TACZ FORGE TRACE] ' +

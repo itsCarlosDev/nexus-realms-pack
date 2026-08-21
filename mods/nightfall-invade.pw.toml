@@ -1,0 +1,13 @@
+name = "NightFall : Invade"
+filename = "nightfall_invade-1.3.2.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "4b0b2a854210cc14caeaefa5f10b2da915c31eca"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 8209945
+project-id = 1362602

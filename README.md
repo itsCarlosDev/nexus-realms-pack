@@ -10,6 +10,9 @@
 
 **Nexus Realms** is a private multiplayer Minecraft project built around a heavily modified **Forge 1.20.1** environment.
 
+The source repository is suitable for public review; live server state and
+player identities remain outside Git and Packwiz.
+
 Rather than being only a collection of mods, the project manages **modpack distribution, client/server compatibility, custom gameplay systems, automated releases, class restrictions, progression, testing and deployment**.
 
 The goal is to combine different gameplay styles — RPG combat, magic, firearms, exploration, automation, bosses and progression — while keeping the resulting environment maintainable and reproducible across clients and the dedicated server.
@@ -25,7 +28,7 @@ The goal is to combine different gameplay styles — RPG combat, magic, firearms
 | Java                     | `17`                   |
 | Pack format              | `packwiz:1.1.0`        |
 | Pack metadata version    | `1.0.0`                |
-| Custom Forge mod         | `Nexus Core 0.6.27`    |
+| Custom Forge mod         | source `0.6.29`; distributed artifact `0.6.27` |
 | Stable branch            | `main`                 |
 | Development branch       | `dev`                  |
 | Alternative distribution | `lite`                 |
@@ -155,10 +158,11 @@ See [`CHANGELOG.md`](CHANGELOG.md) for the development history.
 
 `nexus-core/` contains **Nexus Core**, a custom Forge mod developed specifically for Nexus Realms.
 
-Current version:
+Current source and distributed versions:
 
 ```text
-0.6.27
+Source: 0.6.29
+Distributed artifact: 0.6.27
 ```
 
 It targets:
@@ -484,6 +488,9 @@ packwiz --version
 
 Whenever possible, mods should be managed using Packwiz metadata instead of manually committing third-party JAR files.
 
+The pack is already initialized and pins Minecraft `1.20.1` with Forge
+`47.4.10`. Run `packwiz refresh` after changing indexed pack content.
+
 ## Modrinth
 
 ```bash
@@ -547,7 +554,7 @@ git status
 After validating the change:
 
 ```bash
-git add .
+git add -- <reviewed-paths>
 git commit -m "Describe the pack change"
 ```
 
