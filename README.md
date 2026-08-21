@@ -479,7 +479,7 @@ Alternatively, download Packwiz from its official releases and add it to your `P
 Verify the installation:
 
 ```bash
-packwiz --version
+packwiz --help
 ```
 
 ---
