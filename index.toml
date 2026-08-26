@@ -110,11 +110,11 @@ hash = "712908f15d3a5267c72583034a05dde7c0f4684c2add5af1d37f674b64e71b93"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/arcane_master.npc.snbt"
-hash = "8944ad87580dd4065153182c2ebd6f19659c0b62c9a4a59041bfb9483ca7db69"
+hash = "b2040a3a056e2478a11e865d9471f7ab04f7d6d8bfd63912820031ae07adaa3b"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/chronicler.npc.snbt"
-hash = "c5f99b3def2b507d31595f16fc242fadf58ddb4dd099c692d12eb9ac8a5333a3"
+hash = "472018f601c732fcbd9a36e1901d3023cf2465be62586f494d0cf573bf9cdfcc"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/district_steward.npc.snbt"
@@ -122,7 +122,7 @@ hash = "27bfe5cf199964c7ebb298cfdf2cc5537e65794f9b5ee242211442a1d08cb8de"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/explorer.npc.snbt"
-hash = "262f4523dfbe9136aee8529b4bf7cdccc14367baa0bf6b535e1e0eba0e3ebe14"
+hash = "39ef37a4553f1dc07bc3ba2b5ebbd2e3f1d51c513cb4c0121563a61f3dbfe2f5"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/guard_captain.npc.snbt"
@@ -130,35 +130,35 @@ hash = "655793043aadbf2c7e6908298b67ce67574f7f12f4629a87e52941932d5e00c5"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/gunsmith.npc.snbt"
-hash = "8ee560c8dcd3515e67a557bba14c6d44d09a18f20908e327abf25404d123e84f"
+hash = "823b51d17ffc7a065ed4f4683f9fd8caffddb5c26fa0d62b1f6ee6e224157d2f"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/market_curator.npc.snbt"
-hash = "0f9a8b521b96f6dfe7236fba9d5fc441d7c949bf3179d69d688c851da45799d4"
+hash = "2e31fcfce3d94cf0a717d085fc78f97ff49767b591625a17fc147a48835bba6a"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/market_foreman.npc.snbt"
-hash = "cc796099271a76b13e1fcf7eddd9cecab4a946915f7ed896341a43ed0d4bfe27"
+hash = "4c054c0a16cd1c471c84e09b91f2a449b04d44c4a87e9c6cfb887204fcd0626a"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/market_surveyor.npc.snbt"
-hash = "82c80b7c239cf8890d6e336660c8d16b81d8fe2fce27bf3bd8c37102e0d4c308"
+hash = "2a2a7f283d251512ee4851d820522414d955c855fed318ceb54cc4819c64b74a"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/metallurgist_master.npc.snbt"
-hash = "426b9e545460be90cccd49916af9352a79153ab30bc1629ad4543f8523b1e552"
+hash = "9bdd3808daf3f30507448e2c42b6df9e56c834c0e097bc4d95f26bb80e5a6d8b"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nether_expeditionary.npc.snbt"
-hash = "e4b079b06a58886aeb0aad583c4403b43977e16c5c0e574ffbf01fdaa5963cc7"
+hash = "bfcc2238bf73f882a5eb7ffa40d736d83dfd75c2a763e3ee410375ceb1beef2e"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nexus_custodian.npc.snbt"
-hash = "e831406343a5800c0e7e852ad4ab950adf38cbf3a7074c97ecf815d96fff16bd"
+hash = "984471a59e8315b61b4ca17b60329665c1924af5b00bb955fd2011ffc62d3678"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nexus_fisher.npc.snbt"
-hash = "8b73ba108022e5f9981de1ddb5b22f21dd051e4550ab196fc08685ffd8a095f3"
+hash = "a96256180fe46e2c323bdb9beb571a0aa487a84e3894085f5e20f31a920955db"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nexus_liaison.npc.snbt"
@@ -166,15 +166,15 @@ hash = "f1cd557b30d37e4cfd59446d14d258c4f72153c0262f04eedbb88fdcc0fc8d61"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nexus_merchant.npc.snbt"
-hash = "7fddfc40ec6d26f14d33c6d2aca7b321905ebed01949b5082946f5e12b5dd1ee"
+hash = "9506d17d3cdc5e40e057602afe49a6a26115422bc1b9e2afe4ce9e600d9bdb37"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nexus_provider.npc.snbt"
-hash = "a5fcca13280c0efde1bc396d159b8b54ff1281ac21d09298f56795b64f56c7c4"
+hash = "bc041a6e3ef4e8781b7d651549f9da05d8f0f92eab89be84c218e7a01a497a9d"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/warrior_master.npc.snbt"
-hash = "4f7d3c2002698e8b028bdcba758e2894d40748ba89362de5c1c285cf245c8ac1"
+hash = "6726d15e3517518ca1e588218ddbf7cc02c81e3f267224ae928f34806dfa29ec"
 
 [[files]]
 file = "config/easy_npc/security.cfg"
@@ -933,6 +933,46 @@ file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_3_fade_in_fast.ogg"
 hash = "b40c7c8b5d32468756502695026d0f4412ad30a8cdec6ae07a9e37b713a31828"
 
 [[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_corner.png"
+hash = "f334b1cdcbb8cc2b1bfa922c5ef54ffc6cb0b2c843590700f2155fdee35dea25"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_corner_glow.png"
+hash = "df4a1083f729fc7e8d4da4dd12c55f3411bfb48bab79289ca37167da5c5c66b2"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_cross.png"
+hash = "1f6a8b7c6d04494c09b194ef76b31bb91a1b9c53af763f3ed7bd30468753883a"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_cross_glow.png"
+hash = "04f42c9b71783d60083780c0e04bec8397805fcafe685043150ec4cad23c0284"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_end.png"
+hash = "9bb76a84997a7adae75d0eeb13b050f6fa82be9501dcd5b819096732ad9f48b0"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_end_glow.png"
+hash = "f4f2167aa1a8a53662ed88e2efc64f504bfb9ecf18ac7a75b9f3cc24fb82f5d8"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_straight.png"
+hash = "8423ebaeb5235e85c64551e394cbbdc3a7e440c1ae6905d1cf26e36e03f4ebb4"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_straight_glow.png"
+hash = "825def435c0a5934329861e89df9a5bf27e89b44a9b7f30edaab37c7e5567274"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_t.png"
+hash = "c973bc007808155330dbd4da76ba6fd70e97c5efe79dc57190e4fbbb4d88f286"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_t_glow.png"
+hash = "757f69ec3acc1bb77f4edb49eca19f70876475274ccea752602e6e66a1661a50"
+
+[[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_scar_1.png"
 hash = "102dd5cf618e41a016d3a328299f5044cbabd5930b4c0e7430b68d6176db49d2"
 
@@ -1345,6 +1385,10 @@ file = "kubejs/data/theabyss/tags/blocks/tree_branch_replaceable.json"
 hash = "fcfc03528492489497be9c463a4d39b0f4947a544bc0d9c5d0a3d190566ff56b"
 
 [[files]]
+file = "kubejs/server_scripts/nexus/nexus_museum.js"
+hash = "aa29a6151270c46643f000323e081dea7093ac23516acfb0c8855a47941ed72c"
+
+[[files]]
 file = "kubejs/server_scripts/nexus_ambient.js"
 hash = "42f19b976ca4e20f204292a2f3a9d47991693f60c136427bed4179bf80482d4a"
 
@@ -1367,6 +1411,10 @@ hash = "0942e31eca736188f273a8eaf2c0017c32831275f56fb45d2395292ca8007faa"
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
 hash = "8f146b77f5f83286f700a1e08fb5e2d0f0d1ceb2162588b8bb526f89ea0ff103"
+
+[[files]]
+file = "kubejs/server_scripts/nexus_corruption_engine.js"
+hash = "d74afb2d11f1a1c2aa26d08e3a6f0be050821913cccaeaa4869f27cac38a5579"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_corruption_place.js"
@@ -1414,7 +1462,7 @@ hash = "561e8cbf3ffdc0526c4daecdd049c45c610bb7c033b1de63ba1120f89bdc50df"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_corruption_registry.js"
-hash = "3ff4a150c2cb6f8df7a066aba2296688c9c03451d158d877e4eb25deb2e30450"
+hash = "f699e6ba947d6a0b003cf5091fa9eeccd4eceffdc010aafb3798c78601ec093a"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_crystal.js"
@@ -1488,6 +1536,11 @@ metafile = true
 [[files]]
 file = "mods/ambientsounds.pw.toml"
 hash = "73c8f00ddae69b929cfdc313b808ce547e610b8336dbe54660b62d258c5e3a01"
+metafile = true
+
+[[files]]
+file = "mods/amendments.pw.toml"
+hash = "4327ca177fdbd9cfc0c2f442bec68899b6c8e8eb46f0e6b04548178c244b6a84"
 metafile = true
 
 [[files]]
@@ -2425,6 +2478,11 @@ hash = "07018277086bf1bdc3f795777f0c15e50a88a0f5739863fb116679f29ce6db8c"
 metafile = true
 
 [[files]]
+file = "mods/selene.pw.toml"
+hash = "2720aee58db6299559f89ea9dc8b1d573b8324f2b4af1e594c5239607585487b"
+metafile = true
+
+[[files]]
 file = "mods/servercore.pw.toml"
 hash = "874a064efc37398f5818a38666ea31263bd65ed0478b519b819f7a361bd0893e"
 metafile = true
@@ -2507,6 +2565,11 @@ metafile = true
 [[files]]
 file = "mods/supermartijn642s-core-lib.pw.toml"
 hash = "0582ea67ffb267fb5e2e130cbc1701c8461ea86391cdb80673053ba4bf54da62"
+metafile = true
+
+[[files]]
+file = "mods/supplementaries.pw.toml"
+hash = "148bc9c5989ac676d91b6f07a5e871d7b5d11c1b7b46fe30c3894c1512069a88"
 metafile = true
 
 [[files]]
