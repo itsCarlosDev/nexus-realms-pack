@@ -1,633 +1,390 @@
 // ============================================================
-// NEXUS REALMS - AMBIENTE ESPACIAL DE LAS GRIETAS
+// NEXUS REALMS - AMBIENTE ESPACIAL DINAMICO DE LAS GRIETAS
 // Forge 1.20.1 + KubeJS
 //
-// Cada grieta registrada es una FUENTE DE SONIDO REAL.
-// No existe un centro de "zona" artificial.
-//
-// - El sonido sale desde la grieta más cercana.
-// - Cuanto más te alejas del bloque, menos se oye.
-// - La detección se hace cada tick: respuesta prácticamente inmediata.
-// - Entrada con fade-in rápido (0.75 s).
-// - Loops con pequeño solape.
-// - Cambio de pista con crossfade, SIN pausa.
+// - Cada grieta registrada es una fuente de sonido real.
+// - /nexusscar registra automaticamente la nueva grieta.
+// - Al romper una grieta, nexus_scar_blocks.js la desregistra.
+// - Las fuentes se guardan en server.persistentData.
 // ============================================================
 
+(function () {
+    var BlockPos = Java.loadClass('net.minecraft.core.BlockPos')
+    var BuiltInRegistries = Java.loadClass('net.minecraft.core.registries.BuiltInRegistries')
 
-// ============================================================
-// FUENTES DE SONIDO
-// ============================================================
-//
-// Para la prueba actual conocemos esta grieta real.
-//
-// IMPORTANTE:
-// Cuando hagamos el motor de corrupción, cada vez que el sistema
-// coloque nexus_scar_1..4 añadirá automáticamente aquí / al registro
-// persistente su posición. No habrá que escribirlas a mano.
-//
-const NEXUS_SOUND_BLOCKS = [
-    {
-        dimension: 'minecraft:overworld',
-        x: -62,
-        y: 67,
-        z: 307
-    }
-]
+    var SOURCES_KEY = 'nexus_ambient_sources_v1'
+    var MAX_AUDIBLE_DISTANCE = 16
+    var LOOP_OVERLAP = 2
+    var CROSSFADE_TICKS = 60
+    var BASE_VOLUME = 0.85
+    var DEBUG = false
 
-
-// Distancia máxima en la que merece la pena mantener el audio.
-// Coincide con attenuation_distance = 16 del sounds.json.
-//
-// Esto NO es una "zona de corrupción": simplemente evita mandar
-// al cliente un sonido que ya debería ser prácticamente inaudible.
-const MAX_AUDIBLE_DISTANCE = 16
-
-
-// ============================================================
-// TRACKS
-// ============================================================
-
-const TRACKS = {
-
-    1: {
-        normal: 'kubejs:kevin_1',
-
-        // Entrada inicial rápida.
-        fadeInFast: 'kubejs:kevin_1_fade_in_fast',
-
-        // Crossfade entre pistas.
-        fadeIn: 'kubejs:kevin_1_fade_in',
-
-        fadeOut: 'kubejs:kevin_1_fade',
-
-        duration: 388,
-
-        minNormalLoops: 0,
-        maxNormalLoops: 2
-    },
-
-    2: {
-        normal: 'kubejs:kevin_2',
-        fadeInFast: 'kubejs:kevin_2_fade_in_fast',
-        fadeIn: 'kubejs:kevin_2_fade_in',
-        fadeOut: 'kubejs:kevin_2_fade',
-
-        duration: 194,
-
-        minNormalLoops: 2,
-        maxNormalLoops: 5
-    },
-
-    3: {
-        normal: 'kubejs:kevin_3',
-        fadeInFast: 'kubejs:kevin_3_fade_in_fast',
-        fadeIn: 'kubejs:kevin_3_fade_in',
-        fadeOut: 'kubejs:kevin_3_fade',
-
-        duration: 91,
-
-        minNormalLoops: 6,
-        maxNormalLoops: 12
-    }
-}
-
-
-// ~100 ms de solape entre loops del MISMO sonido.
-const LOOP_OVERLAP = 2
-
-// Los fade-in/fade-out largos duran 3 segundos.
-const CROSSFADE_TICKS = 60
-
-// Volumen base en el propio bloque.
-// La distancia hará el resto mediante la atenuación espacial.
-const BASE_VOLUME = 0.85
-
-const DEBUG = false
-
-
-
-// ============================================================
-// ESTADO
-// ============================================================
-
-let nexusGlobalTick = 0
-
-const NEXUS_STATES = {}
-
-
-
-// ============================================================
-// UTILIDADES
-// ============================================================
-
-function randomInt(min, max) {
-    return Math.floor(
-        Math.random() * (max - min + 1)
-    ) + min
-}
-
-
-function getPlayerState(player) {
-
-    const username = String(player.username)
-
-    if (!NEXUS_STATES[username]) {
-
-        NEXUS_STATES[username] = {
-
-            source: null,
-
-            currentTrack: 0,
-
-            phase: 'idle',
-
-            normalLoopsRemaining: 0,
-
-            nextSoundTick: 0
+    var TRACKS = {
+        1: {
+            normal: 'kubejs:kevin_1',
+            fadeInFast: 'kubejs:kevin_1_fade_in_fast',
+            fadeIn: 'kubejs:kevin_1_fade_in',
+            fadeOut: 'kubejs:kevin_1_fade',
+            duration: 388,
+            minNormalLoops: 0,
+            maxNormalLoops: 2
+        },
+        2: {
+            normal: 'kubejs:kevin_2',
+            fadeInFast: 'kubejs:kevin_2_fade_in_fast',
+            fadeIn: 'kubejs:kevin_2_fade_in',
+            fadeOut: 'kubejs:kevin_2_fade',
+            duration: 194,
+            minNormalLoops: 2,
+            maxNormalLoops: 5
+        },
+        3: {
+            normal: 'kubejs:kevin_3',
+            fadeInFast: 'kubejs:kevin_3_fade_in_fast',
+            fadeIn: 'kubejs:kevin_3_fade_in',
+            fadeOut: 'kubejs:kevin_3_fade',
+            duration: 91,
+            minNormalLoops: 6,
+            maxNormalLoops: 12
         }
     }
 
-    return NEXUS_STATES[username]
-}
+    var nexusAmbientTick = 0
+    var nexusAmbientStates = {}
+    var nexusAmbientSourceCache = null
 
-
-
-// ============================================================
-// BUSCAR LA GRIETA REGISTRADA MÁS CERCANA
-// ============================================================
-
-function findNearestSoundBlock(player) {
-
-    const dimension =
-        String(player.level.dimension)
-
-    const maxDistanceSq =
-        MAX_AUDIBLE_DISTANCE *
-        MAX_AUDIBLE_DISTANCE
-
-    let nearest = null
-    let nearestDistanceSq = maxDistanceSq
-
-
-    NEXUS_SOUND_BLOCKS.forEach(source => {
-
-        if (
-            source.dimension !==
-            dimension
-        ) {
-            return
-        }
-
-
-        // Centro real del bloque.
-        const sx = source.x + 0.5
-        const sy = source.y + 0.1
-        const sz = source.z + 0.5
-
-
-        const dx =
-            player.x - sx
-
-        const dy =
-            player.y - sy
-
-        const dz =
-            player.z - sz
-
-
-        const distanceSq =
-            dx * dx +
-            dy * dy +
-            dz * dz
-
-
-        if (
-            distanceSq <= nearestDistanceSq
-        ) {
-
-            nearestDistanceSq =
-                distanceSq
-
-            nearest = source
-        }
-    })
-
-
-    return nearest
-}
-
-
-
-// ============================================================
-// REPRODUCCIÓN ESPACIAL DESDE EL BLOQUE
-// ============================================================
-
-function playTrack(
-    server,
-    player,
-    source,
-    sound
-) {
-
-    const username =
-        String(player.username)
-
-
-    const x =
-        source.x + 0.5
-
-    const y =
-        source.y + 0.1
-
-    const z =
-        source.z + 0.5
-
-
-    server.runCommandSilent(
-        `playsound ${sound} ambient ${username} ` +
-        `${x} ${y} ${z} ` +
-        `${BASE_VOLUME} 1 0`
-    )
-
-
-    if (DEBUG) {
-
-        console.info(
-            `[NEXUS] ${username} -> ${sound}` +
-            ` @ ${source.x} ${source.y} ${source.z}`
-        )
+    function sourceKey(source) {
+        return String(source.dimension) + ':' +
+            Number(source.x) + ':' +
+            Number(source.y) + ':' +
+            Number(source.z)
     }
-}
 
+    function normaliseSource(dimension, x, y, z) {
+        return {
+            dimension: String(dimension),
+            x: Math.floor(Number(x)),
+            y: Math.floor(Number(y)),
+            z: Math.floor(Number(z))
+        }
+    }
 
+    function loadSources(server) {
+        if (nexusAmbientSourceCache !== null) {
+            return nexusAmbientSourceCache
+        }
 
-// ============================================================
-// PARAR AUDIO
-// ============================================================
+        nexusAmbientSourceCache = []
 
-function stopNexusSounds(
-    server,
-    player
-) {
+        try {
+            var raw = String(server.persistentData.getString(SOURCES_KEY) || '')
+            if (raw) {
+                var parsed = JSON.parse(raw)
+                if (Array.isArray(parsed)) {
+                    parsed.forEach(function (entry) {
+                        if (
+                            entry &&
+                            entry.dimension !== undefined &&
+                            entry.x !== undefined &&
+                            entry.y !== undefined &&
+                            entry.z !== undefined
+                        ) {
+                            nexusAmbientSourceCache.push(
+                                normaliseSource(entry.dimension, entry.x, entry.y, entry.z)
+                            )
+                        }
+                    })
+                }
+            }
+        } catch (error) {
+            console.error('[NEXUS AMBIENT] No se pudieron cargar las fuentes persistentes: ' + error)
+        }
 
-    const username =
-        String(player.username)
+        // Mantiene funcionando la grieta de prueba antigua.
+        // Cuando ya no la necesites puedes borrar este bloque.
+        var legacy = normaliseSource('minecraft:overworld', -62, 67, 307)
+        var legacyKey = sourceKey(legacy)
+        var foundLegacy = nexusAmbientSourceCache.some(function (source) {
+            return sourceKey(source) === legacyKey
+        })
 
+        if (!foundLegacy) {
+            nexusAmbientSourceCache.push(legacy)
+        }
 
-    const sounds = [
+        return nexusAmbientSourceCache
+    }
 
-        'kubejs:kevin_1',
-        'kubejs:kevin_1_fade_in_fast',
-        'kubejs:kevin_1_fade_in',
-        'kubejs:kevin_1_fade',
+    function saveSources(server) {
+        try {
+            server.persistentData.putString(
+                SOURCES_KEY,
+                JSON.stringify(nexusAmbientSourceCache || [])
+            )
+        } catch (error) {
+            console.error('[NEXUS AMBIENT] No se pudieron guardar las fuentes: ' + error)
+        }
+    }
 
-        'kubejs:kevin_2',
-        'kubejs:kevin_2_fade_in_fast',
-        'kubejs:kevin_2_fade_in',
-        'kubejs:kevin_2_fade',
+    global.NexusAmbient = {
+        registerSource: function (server, dimension, x, y, z) {
+            var sources = loadSources(server)
+            var source = normaliseSource(dimension, x, y, z)
+            var key = sourceKey(source)
 
-        'kubejs:kevin_3',
-        'kubejs:kevin_3_fade_in_fast',
-        'kubejs:kevin_3_fade_in',
-        'kubejs:kevin_3_fade'
-    ]
+            var exists = sources.some(function (candidate) {
+                return sourceKey(candidate) === key
+            })
 
+            if (!exists) {
+                sources.push(source)
+                saveSources(server)
 
-    sounds.forEach(sound => {
+                if (DEBUG) {
+                    console.info('[NEXUS AMBIENT] Fuente añadida: ' + key)
+                }
+            }
+
+            return true
+        },
+
+        unregisterSource: function (server, dimension, x, y, z) {
+            var sources = loadSources(server)
+            var key = sourceKey(normaliseSource(dimension, x, y, z))
+            var before = sources.length
+
+            nexusAmbientSourceCache = sources.filter(function (candidate) {
+                return sourceKey(candidate) !== key
+            })
+
+            if (nexusAmbientSourceCache.length !== before) {
+                saveSources(server)
+
+                if (DEBUG) {
+                    console.info('[NEXUS AMBIENT] Fuente eliminada: ' + key)
+                }
+            }
+
+            return true
+        }
+    }
+
+    function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min
+    }
+
+    function getPlayerState(player) {
+        var username = String(player.username)
+
+        if (!nexusAmbientStates[username]) {
+            nexusAmbientStates[username] = {
+                source: null,
+                currentTrack: 0,
+                phase: 'idle',
+                normalLoopsRemaining: 0,
+                nextSoundTick: 0
+            }
+        }
+
+        return nexusAmbientStates[username]
+    }
+
+    function isScarAt(level, source) {
+        try {
+            var pos = new BlockPos(source.x, source.y, source.z)
+            var state = level.getBlockState(pos)
+            var id = String(BuiltInRegistries.BLOCK.getKey(state.getBlock()))
+
+            return (
+                id === 'kubejs:nexus_scar_1' ||
+                id === 'kubejs:nexus_scar_2' ||
+                id === 'kubejs:nexus_scar_3' ||
+                id === 'kubejs:nexus_scar_4'
+            )
+        } catch (error) {
+            return false
+        }
+    }
+
+    function findNearestSoundBlock(player) {
+        var dimension = String(player.level.dimension)
+        var maxDistanceSq = MAX_AUDIBLE_DISTANCE * MAX_AUDIBLE_DISTANCE
+        var nearest = null
+        var nearestDistanceSq = maxDistanceSq
+        var sources = loadSources(player.server)
+
+        sources.forEach(function (source) {
+            if (source.dimension !== dimension) {
+                return
+            }
+
+            // Evita que una posición antigua siga sonando si ya no hay grieta.
+            if (!isScarAt(player.level, source)) {
+                return
+            }
+
+            var sx = source.x + 0.5
+            var sy = source.y + 0.1
+            var sz = source.z + 0.5
+
+            var dx = player.x - sx
+            var dy = player.y - sy
+            var dz = player.z - sz
+            var distanceSq = dx * dx + dy * dy + dz * dz
+
+            if (distanceSq <= nearestDistanceSq) {
+                nearestDistanceSq = distanceSq
+                nearest = source
+            }
+        })
+
+        return nearest
+    }
+
+    function playTrack(server, player, source, sound) {
+        var username = String(player.username)
+        var x = source.x + 0.5
+        var y = source.y + 0.1
+        var z = source.z + 0.5
 
         server.runCommandSilent(
-            `stopsound ${username} ambient ${sound}`
-        )
-    })
-}
-
-
-
-// ============================================================
-// TRACK ALEATORIO DISTINTO
-// ============================================================
-
-function pickDifferentTrack(previousTrack) {
-
-    let next
-
-
-    do {
-
-        next =
-            randomInt(1, 3)
-
-    } while (
-        previousTrack !== 0 &&
-        next === previousTrack
-    )
-
-
-    return next
-}
-
-
-
-// ============================================================
-// EMPEZAR TRACK
-// ============================================================
-
-function startTrack(
-    server,
-    player,
-    state,
-    previousTrack,
-    fastEntry
-) {
-
-    const nextTrack =
-        pickDifferentTrack(
-            previousTrack
+            'playsound ' + sound + ' ambient ' + username + ' ' +
+            x + ' ' + y + ' ' + z + ' ' +
+            BASE_VOLUME + ' 1 0'
         )
 
+        if (DEBUG) {
+            console.info(
+                '[NEXUS] ' + username + ' -> ' + sound +
+                ' @ ' + source.x + ' ' + source.y + ' ' + source.z
+            )
+        }
+    }
 
-    const track =
-        TRACKS[nextTrack]
+    function stopNexusSounds(server, player) {
+        var username = String(player.username)
 
+        var sounds = [
+            'kubejs:kevin_1',
+            'kubejs:kevin_1_fade_in_fast',
+            'kubejs:kevin_1_fade_in',
+            'kubejs:kevin_1_fade',
+            'kubejs:kevin_2',
+            'kubejs:kevin_2_fade_in_fast',
+            'kubejs:kevin_2_fade_in',
+            'kubejs:kevin_2_fade',
+            'kubejs:kevin_3',
+            'kubejs:kevin_3_fade_in_fast',
+            'kubejs:kevin_3_fade_in',
+            'kubejs:kevin_3_fade'
+        ]
 
-    state.currentTrack =
-        nextTrack
+        sounds.forEach(function (sound) {
+            server.runCommandSilent(
+                'stopsound ' + username + ' ambient ' + sound
+            )
+        })
+    }
 
+    function pickDifferentTrack(previousTrack) {
+        var next
 
-    state.normalLoopsRemaining =
-        randomInt(
+        do {
+            next = randomInt(1, 3)
+        } while (previousTrack !== 0 && next === previousTrack)
+
+        return next
+    }
+
+    function startTrack(server, player, state, previousTrack, fastEntry) {
+        var nextTrack = pickDifferentTrack(previousTrack)
+        var track = TRACKS[nextTrack]
+
+        state.currentTrack = nextTrack
+        state.normalLoopsRemaining = randomInt(
             track.minNormalLoops,
             track.maxNormalLoops
         )
+        state.phase = 'normal'
 
+        var sound = fastEntry ? track.fadeInFast : track.fadeIn
 
-    state.phase =
-        'normal'
+        playTrack(server, player, state.source, sound)
 
-
-    // Al acercarse por primera vez:
-    // fade-in muy corto de 0.75 s.
-    //
-    // Entre pistas:
-    // fade-in largo de 3 s para el crossfade.
-    const sound =
-        fastEntry
-            ? track.fadeInFast
-            : track.fadeIn
-
-
-    playTrack(
-        server,
-        player,
-        state.source,
-        sound
-    )
-
-
-    state.nextSoundTick =
-        nexusGlobalTick +
-        track.duration -
-        LOOP_OVERLAP
-}
-
-
-
-// ============================================================
-// CICLO DE AUDIO
-// ============================================================
-
-function processAudio(
-    server,
-    player,
-    state
-) {
-
-    if (!state.source) {
-        return
-    }
-
-
-    // Primera reproducción al acercarse a una grieta.
-    if (
-        state.phase ===
-        'idle'
-    ) {
-
-        startTrack(
-            server,
-            player,
-            state,
-            0,
-            true
-        )
-
-        return
-    }
-
-
-    const track =
-        TRACKS[state.currentTrack]
-
-
-    // ========================================================
-    // LOOPS NORMALES
-    // ========================================================
-
-    if (
-        state.phase ===
-        'normal'
-    ) {
-
-        if (
-            state.normalLoopsRemaining > 0
-        ) {
-
-            playTrack(
-                server,
-                player,
-                state.source,
-                track.normal
-            )
-
-
-            state.normalLoopsRemaining--
-
-
-            state.nextSoundTick =
-                nexusGlobalTick +
-                track.duration -
-                LOOP_OVERLAP
-
-
-            return
-        }
-
-
-        // ====================================================
-        // FADE-OUT
-        // ====================================================
-
-        playTrack(
-            server,
-            player,
-            state.source,
-            track.fadeOut
-        )
-
-
-        state.phase =
-            'crossfade'
-
-
-        // NO esperamos al final.
-        //
-        // Cuando quedan 3 segundos de este fade-out,
-        // empieza el fade-in del siguiente track.
         state.nextSoundTick =
-            nexusGlobalTick +
+            nexusAmbientTick +
             track.duration -
-            CROSSFADE_TICKS
-
-
-        return
+            LOOP_OVERLAP
     }
 
-
-    // ========================================================
-    // CROSSFADE SIN PAUSA
-    // ========================================================
-
-    if (
-        state.phase ===
-        'crossfade'
-    ) {
-
-        const previousTrack =
-            state.currentTrack
-
-
-        startTrack(
-            server,
-            player,
-            state,
-            previousTrack,
-            false
-        )
-    }
-}
-
-
-
-// ============================================================
-// SERVER TICK
-// ============================================================
-
-ServerEvents.tick(event => {
-
-    nexusGlobalTick++
-
-
-    event.server.players.forEach(player => {
-
-        const state =
-            getPlayerState(player)
-
-
-        // ====================================================
-        // FUENTE REAL MÁS CERCANA - CADA TICK
-        // ====================================================
-
-        const nearest =
-            findNearestSoundBlock(player)
-
-
-        // Acaba de acercarse a una grieta.
-        if (
-            nearest &&
-            !state.source
-        ) {
-
-            state.source =
-                nearest
-
-
-            state.currentTrack =
-                0
-
-
-            state.phase =
-                'idle'
-
-
-            state.normalLoopsRemaining =
-                0
-
-
-            // Inmediato.
-            state.nextSoundTick =
-                nexusGlobalTick
-        }
-
-
-        // Sigue cerca: actualizamos la fuente al bloque
-        // más cercano sin reiniciar el track.
-        else if (
-            nearest &&
-            state.source
-        ) {
-
-            state.source =
-                nearest
-        }
-
-
-        // Ya no queda ninguna grieta audible cerca.
-        else if (
-            !nearest &&
-            state.source
-        ) {
-
-            stopNexusSounds(
-                event.server,
-                player
-            )
-
-
-            state.source =
-                null
-
-
-            state.currentTrack =
-                0
-
-
-            state.phase =
-                'idle'
-
-
-            state.normalLoopsRemaining =
-                0
-
-
+    function processAudio(server, player, state) {
+        if (!state.source) {
             return
         }
 
-
-        // ====================================================
-        // AUDIO - CADA TICK
-        // ====================================================
-
-        if (
-            state.source &&
-            nexusGlobalTick >=
-            state.nextSoundTick
-        ) {
-
-            processAudio(
-                event.server,
-                player,
-                state
-            )
+        if (state.phase === 'idle') {
+            startTrack(server, player, state, 0, true)
+            return
         }
+
+        var track = TRACKS[state.currentTrack]
+
+        if (state.phase === 'normal') {
+            if (state.normalLoopsRemaining > 0) {
+                playTrack(server, player, state.source, track.normal)
+                state.normalLoopsRemaining--
+                state.nextSoundTick =
+                    nexusAmbientTick +
+                    track.duration -
+                    LOOP_OVERLAP
+                return
+            }
+
+            playTrack(server, player, state.source, track.fadeOut)
+            state.phase = 'crossfade'
+            state.nextSoundTick =
+                nexusAmbientTick +
+                track.duration -
+                CROSSFADE_TICKS
+            return
+        }
+
+        if (state.phase === 'crossfade') {
+            var previousTrack = state.currentTrack
+            startTrack(server, player, state, previousTrack, false)
+        }
+    }
+
+    ServerEvents.tick(function (event) {
+        nexusAmbientTick++
+
+        event.server.players.forEach(function (player) {
+            var state = getPlayerState(player)
+            var nearest = findNearestSoundBlock(player)
+
+            if (nearest && !state.source) {
+                state.source = nearest
+                state.currentTrack = 0
+                state.phase = 'idle'
+                state.normalLoopsRemaining = 0
+                state.nextSoundTick = nexusAmbientTick
+            } else if (nearest && state.source) {
+                state.source = nearest
+            } else if (!nearest && state.source) {
+                stopNexusSounds(event.server, player)
+                state.source = null
+                state.currentTrack = 0
+                state.phase = 'idle'
+                state.normalLoopsRemaining = 0
+                return
+            }
+
+            if (
+                state.source &&
+                nexusAmbientTick >= state.nextSoundTick
+            ) {
+                processAudio(event.server, player, state)
+            }
+        })
     })
-})
+})()

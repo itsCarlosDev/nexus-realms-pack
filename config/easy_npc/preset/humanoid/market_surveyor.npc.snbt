@@ -14,7 +14,7 @@
         Actions:[{Cmd:"/ftbquests open_book 4E584F4253455231",ExecAsUser:1b,PermLevel:0,Type:"COMMAND"}],
         Label:"open_observatory",Name:"Abrir Observatorio del Nexus"
       }],Label:"default",Name:"Observatorio del Nexus",
-      Texts:[{Text:"El Nexus conecta mundos distintos y aquí estudiamos sus anomalías. Nuevos descubrimientos aparecerán con las Eras, aunque varias instalaciones del Observatorio todavía siguen en construcción."}]
+      Texts:[{Text:"El Nexus conecta mundos distintos y aquí estudiamos sus anomalías. El Observatorio registra nuevas señales a medida que avanza la campaña y ayuda a interpretar qué rutas y fenómenos están realmente activos."}]
     }],Type:"STANDARD"},
     DisplayAttribute:[{Bool:1b,Type:"VISIBLE"},{Bool:1b,Type:"VISIBLE_AT_DAY"},{Bool:1b,Type:"VISIBLE_AT_NIGHT"},{Bool:1b,Type:"VISIBLE_IN_CREATIVE"},{Bool:1b,Type:"VISIBLE_IN_SPECTATOR"},{Bool:1b,Type:"VISIBLE_IN_STANDARD"},{Bool:1b,Type:"VISIBLE_TO_OWNER"},{Bool:1b,Type:"VISIBLE_TO_TEAM"},{Int:7,Type:"LIGHT_LEVEL"},{Text:"ALWAYS",Type:"NAME_VISIBILITY"}],EasyNPCVersion:3,
     EntityAttribute:{CanBeHitByProjectile:0b,CanBeLeashed:0b,CanBreatheUnderwater:0b,CanCloseDoor:0b,CanFloat:0b,CanOpenDoor:0b,CanPassDoor:0b,CanUseNetherPortal:0b,Freefall:0b,HealthRegeneration:0.0d,IsAttackableByMonsters:0b,IsAttackableByPlayers:0b,IsInvulnerable:1b,IsPushable:0b,NoGravity:0b,PushEntities:0b},

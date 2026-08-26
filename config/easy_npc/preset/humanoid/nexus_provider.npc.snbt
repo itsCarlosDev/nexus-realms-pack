@@ -34,7 +34,7 @@
         {
           Label:"default",
           Texts:[{
-            Text:"Aquí puedes gastar tus monedas en materiales de construcción y decoración del Overworld. Este puesto ofrece comodidad para levantar hogares y mejorar el Nexus, pero no vende recursos exclusivos de dimensiones todavía selladas."
+            Text:"Aquí puedes gastar tus monedas en materiales de construcción y decoración del Overworld. Tengo piedra, madera, tierra, arena, grava, cristal y bloques decorativos para construir sin perder horas reuniendo recursos básicos. Los materiales propios del Nether los gestiona el Expedicionario de los Realms."
           }],
           Buttons:[
             {
@@ -62,7 +62,7 @@
         {
           Label:"builder_stock",
           Texts:[{
-            Text:"Disponemos de piedra, madera, cristal, ladrillos, andamios, faroles y otros elementos decorativos. Los materiales del Nether, Aether, End y Otherside llegarán cuando sus rutas se desbloqueen."
+            Text:"El almacén cubre piedra y adoquín, tierra, arena, grava, troncos de los bosques del Overworld, cristal, ladrillos, andamios, faroles, lana, terracota y mobiliario básico. Para bloques propios del Nether, acude al Expedicionario de los Realms."
           }],
           Buttons:[
             {
@@ -165,7 +165,20 @@
           {maxUses:64,buyB:{id:"minecraft:air",Count:1b},buy:{id:"kubejs:nexus_bronze_coin",Count:5b},sell:{id:"minecraft:barrel",Count:4b},xp:0,uses:0,priceMultiplier:0.0f,specialPrice:0,demand:0,rewardExp:1b},
           {maxUses:64,buyB:{id:"minecraft:air",Count:1b},buy:{id:"kubejs:nexus_silver_coin",Count:1b},sell:{id:"minecraft:bookshelf",Count:4b},xp:0,uses:0,priceMultiplier:0.0f,specialPrice:0,demand:0,rewardExp:1b},
           {maxUses:64,buyB:{id:"minecraft:air",Count:1b},buy:{id:"kubejs:nexus_bronze_coin",Count:5b},sell:{id:"minecraft:stonecutter",Count:1b},xp:0,uses:0,priceMultiplier:0.0f,specialPrice:0,demand:0,rewardExp:1b},
-          {maxUses:64,buyB:{id:"minecraft:air",Count:1b},buy:{id:"kubejs:nexus_bronze_coin",Count:5b},sell:{id:"minecraft:loom",Count:1b},xp:0,uses:0,priceMultiplier:0.0f,specialPrice:0,demand:0,rewardExp:1b}
+          {maxUses:64,buyB:{id:"minecraft:air",Count:1b},buy:{id:"kubejs:nexus_bronze_coin",Count:5b},sell:{id:"minecraft:loom",Count:1b},xp:0,uses:0,priceMultiplier:0.0f,specialPrice:0,demand:0,rewardExp:1b},
+          {maxUses:64,buyB:{id:"minecraft:air",Count:1b},buy:{id:"kubejs:nexus_bronze_coin",Count:5b},sell:{id:"minecraft:cobblestone",Count:64b},xp:0,uses:0,priceMultiplier:0.0f,specialPrice:0,demand:0,rewardExp:1b},
+          {maxUses:64,buyB:{id:"minecraft:air",Count:1b},buy:{id:"kubejs:nexus_bronze_coin",Count:7b},sell:{id:"minecraft:stone",Count:64b},xp:0,uses:0,priceMultiplier:0.0f,specialPrice:0,demand:0,rewardExp:1b},
+          {maxUses:64,buyB:{id:"minecraft:air",Count:1b},buy:{id:"kubejs:nexus_bronze_coin",Count:4b},sell:{id:"minecraft:dirt",Count:64b},xp:0,uses:0,priceMultiplier:0.0f,specialPrice:0,demand:0,rewardExp:1b},
+          {maxUses:64,buyB:{id:"minecraft:air",Count:1b},buy:{id:"kubejs:nexus_bronze_coin",Count:6b},sell:{id:"minecraft:sand",Count:64b},xp:0,uses:0,priceMultiplier:0.0f,specialPrice:0,demand:0,rewardExp:1b},
+          {maxUses:64,buyB:{id:"minecraft:air",Count:1b},buy:{id:"kubejs:nexus_bronze_coin",Count:5b},sell:{id:"minecraft:gravel",Count:64b},xp:0,uses:0,priceMultiplier:0.0f,specialPrice:0,demand:0,rewardExp:1b},
+          {maxUses:64,buyB:{id:"minecraft:air",Count:1b},buy:{id:"kubejs:nexus_bronze_coin",Count:8b},sell:{id:"minecraft:oak_log",Count:32b},xp:0,uses:0,priceMultiplier:0.0f,specialPrice:0,demand:0,rewardExp:1b},
+          {maxUses:64,buyB:{id:"minecraft:air",Count:1b},buy:{id:"kubejs:nexus_bronze_coin",Count:8b},sell:{id:"minecraft:spruce_log",Count:32b},xp:0,uses:0,priceMultiplier:0.0f,specialPrice:0,demand:0,rewardExp:1b},
+          {maxUses:64,buyB:{id:"minecraft:air",Count:1b},buy:{id:"kubejs:nexus_bronze_coin",Count:8b},sell:{id:"minecraft:birch_log",Count:32b},xp:0,uses:0,priceMultiplier:0.0f,specialPrice:0,demand:0,rewardExp:1b},
+          {maxUses:64,buyB:{id:"minecraft:air",Count:1b},buy:{id:"kubejs:nexus_bronze_coin",Count:8b},sell:{id:"minecraft:jungle_log",Count:32b},xp:0,uses:0,priceMultiplier:0.0f,specialPrice:0,demand:0,rewardExp:1b},
+          {maxUses:64,buyB:{id:"minecraft:air",Count:1b},buy:{id:"kubejs:nexus_bronze_coin",Count:8b},sell:{id:"minecraft:acacia_log",Count:32b},xp:0,uses:0,priceMultiplier:0.0f,specialPrice:0,demand:0,rewardExp:1b},
+          {maxUses:64,buyB:{id:"minecraft:air",Count:1b},buy:{id:"kubejs:nexus_bronze_coin",Count:8b},sell:{id:"minecraft:dark_oak_log",Count:32b},xp:0,uses:0,priceMultiplier:0.0f,specialPrice:0,demand:0,rewardExp:1b},
+          {maxUses:64,buyB:{id:"minecraft:air",Count:1b},buy:{id:"kubejs:nexus_bronze_coin",Count:10b},sell:{id:"minecraft:mangrove_log",Count:32b},xp:0,uses:0,priceMultiplier:0.0f,specialPrice:0,demand:0,rewardExp:1b},
+          {maxUses:64,buyB:{id:"minecraft:air",Count:1b},buy:{id:"kubejs:nexus_bronze_coin",Count:10b},sell:{id:"minecraft:cherry_log",Count:32b},xp:0,uses:0,priceMultiplier:0.0f,specialPrice:0,demand:0,rewardExp:1b}
         ]
       },
       Inventory:{}

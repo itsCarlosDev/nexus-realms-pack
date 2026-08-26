@@ -16,11 +16,17 @@
     Brain:{memories:{}},CanPickUpLoot:0b,CanUpdate:1b,
     CustomName:'{"color":"#55C9D8","text":"Pescador del Nexus"}',CustomNameVisible:1b,
     DialogData:{DialogDataSet:[{
-      Buttons:[{
+      Buttons:[
+      {
         Actions:[{Cmd:"/ftbquests open_book 4E58464953483031",ExecAsUser:1b,PermLevel:0,Type:"COMMAND"}],
         Label:"open_fishing",Name:"Abrir Pesca del Nexus"
-      }],Label:"default",Name:"Aguas del Nexus",
-      Texts:[{Text:"El embarcadero aún se está acondicionando, pero la pesca ya está abierta. En Pesca del Nexus encontrarás colecciones, retos y encargos periódicos; empieza en este lago y explora otras aguas del Overworld."}]
+      },
+      {
+        Actions:[{ExecAsUser:1b,PermLevel:0,Type:"OPEN_TRADING_SCREEN"}],
+        Label:"open_fishing_trade",Name:"Comprar aparejos"
+      }
+      ],Label:"default",Name:"Aguas del Nexus",
+      Texts:[{Text:"La pesca del Nexus está abierta. Aquí encontrarás colecciones, retos y encargos periódicos; empieza en este lago, explora otras aguas del Overworld y compra aparejos básicos si necesitas reponer suministros."}]
     }],Type:"STANDARD"},
     DisplayAttribute:[
       {Bool:1b,Type:"VISIBLE"},{Bool:1b,Type:"VISIBLE_AT_DAY"},{Bool:1b,Type:"VISIBLE_AT_NIGHT"},
@@ -39,10 +45,64 @@
     Health:20.0f,Invulnerable:1b,LeftHanded:0b,
     ModelData:{DefaultPose:"STANDING",Position:{},Rotation:{},Scale:{},Visible:{}},
     ObjectiveData:{HasObjectives:1b,ObjectiveDataSet:[{Prio:9,Type:"LOOK_AT_PLAYER"},{Prio:9,Type:"LOOK_AT_RESET"}]},
-    Offers:{Inventory:{},Recipes:{Recipes:[]}},OnGround:1b,PersistenceRequired:1b,Profession:"NONE",RenderData:{},
+    Offers:{
+      Inventory:{},
+      Recipes:{
+        Recipes:[
+          {
+                      buy:{Count:5b,id:"kubejs:nexus_bronze_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:1b,id:"minecraft:fishing_rod"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    },
+          {
+                      buy:{Count:4b,id:"kubejs:nexus_bronze_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:8b,id:"minecraft:cooked_cod"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    },
+          {
+                      buy:{Count:5b,id:"kubejs:nexus_bronze_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:8b,id:"minecraft:cooked_salmon"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    },
+          {
+                      buy:{Count:4b,id:"kubejs:nexus_bronze_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:8b,id:"minecraft:lily_pad"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    }
+        ]
+      }
+    },OnGround:1b,PersistenceRequired:1b,Profession:"NONE",RenderData:{},
     SkinData:{Content:"",DisableLayers:0b,Name:"JAYJASONBO",Timestamp:1784654018052L,Type:"DEFAULT",URL:""},
     SoundData:{SoundDataSet:[{Name:"minecraft:entity.player.death",Type:"DEATH"},{Name:"minecraft:entity.player.hurt",Type:"HURT"}]},
-    Status:{finalized:1b},TradingData:{TradingDataSet:{LastReset:0L,MaxUses:0,ResetsEveryMin:0,RewardedXP:0,Type:"NONE"}},
+    Status:{finalized:1b},TradingData:{TradingDataSet:{LastReset:0L,MaxUses:64,ResetsEveryMin:5,RewardedXP:0,Type:"BASIC"}},
     VariantType:"JAYJASONBO",id:"easy_npc:humanoid"
   }
 }

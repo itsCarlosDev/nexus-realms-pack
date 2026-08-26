@@ -10,8 +10,10 @@ StartupEvents.registry('block', event => {
     scars.forEach(id => {
         event.create(id)
             .displayName('Grieta del Nexo')
+            .soundType('stone')
             .model(`kubejs:block/${id}`)
-            .renderType('cutout')
+            .renderType('translucent')
+            .hardness(0.5)
             .noCollision()
             .notSolid()
             .noDrops()

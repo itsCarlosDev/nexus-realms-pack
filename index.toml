@@ -934,35 +934,67 @@ hash = "b40c7c8b5d32468756502695026d0f4412ad30a8cdec6ae07a9e37b713a31828"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_scar_1.png"
-hash = "09131535ec0c213f01277272da88b2feeb69207d5e26310088ee91fb5a5a8c21"
+hash = "102dd5cf618e41a016d3a328299f5044cbabd5930b4c0e7430b68d6176db49d2"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_1_depth.png"
+hash = "e2ab946c20f943fadf048e74cdaed71ae88431941fae16c15527e714519b7996"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_scar_1_glow.png"
-hash = "95e919de31279cb76f8fee6fcc78c4d0b1435899de20f983b241ec452c9bc5fc"
+hash = "97fa5edc2dfe10b6cae4b47a0f9cee2cdfde12dcc366681a0542bd74f255a4eb"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_1_glow.png.mcmeta"
+hash = "66c908c3253cfb06c5314f49965e409b794e65b27df7e8306616ea94adc8461c"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_scar_2.png"
-hash = "a03235d797323649c123424170836cea4009f7e439d15508f8f644a2c9347cc0"
+hash = "6b1fb63da73034fdff9296902e01542f55d04dbef4c0d007c1e5a86749f67504"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_2_depth.png"
+hash = "8ac1b4b0c37de77a5b90bf196c923cb7f17ae1a79400d5848222a56c49600bf5"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_scar_2_glow.png"
-hash = "438f181d9330a0de2e2cf13df21f4b11f057d4802fa3ecd5e03276b4c5c3e1c7"
+hash = "ef1e485a69d61f4e9a4305e680d2e7a47d3c09cf74d7c7b15b085beecd3a9434"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_2_glow.png.mcmeta"
+hash = "66c908c3253cfb06c5314f49965e409b794e65b27df7e8306616ea94adc8461c"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_scar_3.png"
-hash = "a2ef7694208dde6136941d8edb10b1ed906888c91d9fcd78fd33ca264b0bee5f"
+hash = "5d461d73639d02bc692eced1f68e754a3585910bdc558251211a18ea6461bec4"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_3_depth.png"
+hash = "969097ffa2301eb93946f146cc5c5b6d0d3d7c00e97fc9e334062c5836f9ef92"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_scar_3_glow.png"
-hash = "cee9dfb7daf1490d0d7fe3cf72610e81414d6c306c3727691455e48fb1d54f12"
+hash = "be2003416883cb4f6bc80f89319a3246087ace1b85bf3fe03af0417310d2cfd2"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_3_glow.png.mcmeta"
+hash = "66c908c3253cfb06c5314f49965e409b794e65b27df7e8306616ea94adc8461c"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_scar_4.png"
-hash = "ba2fa11dacd7ce86482fe22498904b9e70072e253ce464cfd918bfda3ebd8353"
+hash = "a8338d405eba1ef09d94f4e576e945917e1c0041124e5573777b974958536ef3"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_4_depth.png"
+hash = "e758b6926b87b5479f5f158dc1e8b834d85135114c765ee7a64166a6a440b607"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_scar_4_glow.png"
-hash = "feb866dd819acbf3abb44dfbcbc89e347c08a8e7d9a09d09fb493a6032f7d10b"
+hash = "fae57feb7f3e7a85003f00a154e340ae679dd53ad835b924d8094add3bc64645"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_4_glow.png.mcmeta"
+hash = "66c908c3253cfb06c5314f49965e409b794e65b27df7e8306616ea94adc8461c"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/item/nexus_bronze_coin.png"
@@ -1314,7 +1346,7 @@ hash = "fcfc03528492489497be9c463a4d39b0f4947a544bc0d9c5d0a3d190566ff56b"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_ambient.js"
-hash = "dfb8270e8bede1cf68de82e435417c9c3bfb240d1c39c2cd6e158adecb3dc336"
+hash = "42f19b976ca4e20f204292a2f3a9d47991693f60c136427bed4179bf80482d4a"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_automobility_create_recipes.js"
@@ -1337,6 +1369,10 @@ file = "kubejs/server_scripts/nexus_class_selection.js"
 hash = "8f146b77f5f83286f700a1e08fb5e2d0f0d1ceb2162588b8bb526f89ea0ff103"
 
 [[files]]
+file = "kubejs/server_scripts/nexus_corruption_place.js"
+hash = "4948ad385f3cae08267e565ad3b54e6a34df1a880b6f892670c9bb8060f30949"
+
+[[files]]
 file = "kubejs/server_scripts/nexus_crystal_animation.js"
 hash = "03d7353ac7d05d854d6fe52b33996d056410de919c7b504a5baf67440c6ef4c0"
 
@@ -1357,6 +1393,14 @@ file = "kubejs/server_scripts/nexus_maintenance.js"
 hash = "c71b7bdc2346d5e18bbd42692ab3004fd98b265168f96c7a0ee39e53459be52d"
 
 [[files]]
+file = "kubejs/server_scripts/nexus_scar_blocks.js"
+hash = "c84af1bb90002941149adacd8e2213d4c6e3673bf1a6849a24207efb727ec4f7"
+
+[[files]]
+file = "kubejs/server_scripts/nexus_scar_particles.js"
+hash = "d904d3a8326524ace90be3bfae5fd3c74834615f4348ebf6ab67a365edd810a5"
+
+[[files]]
 file = "kubejs/server_scripts/nexus_tacz_restrictions.js"
 hash = "9903479f0335e19b3e43ce2830bec1d8180eb56ae52078676aeab61b1ade3d67"
 
@@ -1370,7 +1414,7 @@ hash = "561e8cbf3ffdc0526c4daecdd049c45c610bb7c033b1de63ba1120f89bdc50df"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_corruption_registry.js"
-hash = "104283f12e71642ad965cc419b98fc5f5bd5090fa16ebc951235cec06862bc2e"
+hash = "3ff4a150c2cb6f8df7a066aba2296688c9c03451d158d877e4eb25deb2e30450"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_crystal.js"
@@ -1395,10 +1439,6 @@ hash = "8d6f44095ed1fc95962abeb6d7dff7c3b1700a9a8207d4a42f056f55143e05ff"
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_reentry_guard.js"
 hash = "e444142f8463f77f7c4dbd28921664c5f6416b22e89db3cdcd1ae8005aef0e07"
-
-[[files]]
-file = "kubejs/startup_scripts/nexus_scars.js"
-hash = "289eb172c4adb40c45b55fbdecae690aaa928d5c02cf0a3f4d3c339254bb2a69"
 
 [[files]]
 file = "mods/aaa-particles-world.pw.toml"

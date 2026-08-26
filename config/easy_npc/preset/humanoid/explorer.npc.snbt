@@ -38,7 +38,7 @@
         }],
         Label:"default",
         Name:"Más allá del mercado",
-        Texts:[{Text:"El puesto aún se está acondicionando, pero ya puedo orientarte sobre rutas, estructuras, criaturas y amenazas del Overworld, incluidas las Hordas. Más adelante prepararé expediciones y contratos de mundo abierto; para Nether, Aether, End u Otherside, habla con el Expedicionario del Nexus."}]
+        Texts:[{Text:"Puedo orientarte sobre rutas, estructuras, criaturas y amenazas del Overworld, incluidas las Hordas. Para el Nether y las futuras rutas dimensionales habla con el Expedicionario de los Realms; aquí nos centramos en explorar y sobrevivir al mundo abierto."}]
       }],
       Type:"STANDARD"
     },

@@ -3,7 +3,7 @@
     author:"Nexus Realms",
     category:"Nexus Market",
     created:1784332800000L,
-description:"Maestro del Metal: consulta segura de la disciplina alomántica del Guerrero sin conceder progresión.",
+description:"Maestro del Metal: consulta segura de la disciplina alomántica del Mago sin conceder progresión.",
     entityTypeId:"easy_npc:humanoid",
     modified:1784674002131L,
     name:"metallurgist_master",
@@ -38,7 +38,7 @@ CustomName:'{"color":"#D28A52","text":"Maestro del Metal"}',
         }],
         Label:"default",
         Name:"El arte de los metales",
-        Texts:[{Text:"El taller aún completa sus medidas de seguridad. La Metalomancia es una senda avanzada del Mago y solo responde cuando tu progreso lo permite: primero dominarás los ocho metales fundamentales; los poderes avanzados llegarán después. Cuando el taller esté completo ofrecerá más servicios."}]
+        Texts:[{Text:"La Metalomancia es una senda avanzada del Mago y solo responde cuando tu progreso lo permite. Primero dominarás los ocho metales fundamentales y después llegarán técnicas más avanzadas. Consulta aquí la Senda del Metal para seguir su progresión."}]
       }],
       Type:"STANDARD"
     },

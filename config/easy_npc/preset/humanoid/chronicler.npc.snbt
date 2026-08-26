@@ -97,7 +97,7 @@
         Label:"default",
         Name:"Memoria de las Eras",
         Texts:[{
-          Text:"Soy el Cronista del Nexus. Conservo la memoria de cada Era y registro los cambios que nuestra campaña provoca en los reinos. Escoge el capítulo que quieras consultar; estos registros muestran la progresión, pero no adelantan ni activan ninguna Era."
+          Text:"Soy el Cronista del Nexus. Conservo el archivo histórico de las etapas de la campaña y registro cada cambio que provocamos en los reinos. Puedes consultar los capítulos anteriores cuando quieras; el acceso real a dimensiones y sistemas lo determinan las misiones y desbloqueos actuales."
         }]
       }],
       Type:"STANDARD"
