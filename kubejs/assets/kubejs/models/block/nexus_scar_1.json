@@ -1,13 +1,19 @@
 {
   "ambientocclusion": false,
+  "render_type": "minecraft:cutout",
   "textures": {
-    "scar": "kubejs:block/nexus_scar",
+    "scar": "kubejs:block/nexus_scar_1",
     "particle": "minecraft:block/amethyst_block"
   },
   "elements": [
     {
       "from": [0, 0.03, 0],
       "to": [16, 0.04, 16],
+      "forge_data": {
+        "block_light": 15,
+        "sky_light": 15,
+        "ambient_occlusion": false
+      },
       "faces": {
         "up": {
           "texture": "#scar"

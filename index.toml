@@ -841,8 +841,20 @@ file = "journeymap/config/5.10/journeymap.webmap.config"
 hash = "2c939e2308e7d7d419af26ad342479690e8ae321c7af3ba64d8b0e897ccc8b5b"
 
 [[files]]
-file = "kubejs/assets/kubejs/models/block/nexus_scar.json"
-hash = "e2cc5c216dd751ac14e09da068962c0d6fa4120b0d01125901b75a03d9156c2a"
+file = "kubejs/assets/kubejs/models/block/nexus_scar_1.json"
+hash = "e89b2fa08c590aa96fb574647461cf4ec1c29f9a785e9dfe57193a56a994015d"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_scar_2.json"
+hash = "0f526b606f52f0f8d1ed75f4532eee0e7264d27ee2d8b5326c5ea4e2fc943d53"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_scar_3.json"
+hash = "b3c3c7ea5f947e486a0698de41ccd752aafbabdf0ac2b5704d3786ac32e47765"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_scar_4.json"
+hash = "ef0f942cfdc1e7a966abcde11db3539b768dd55ef0df023ecc63c0de7975b3fe"
 
 [[files]]
 file = "kubejs/assets/kubejs/models/item/nexus_crystal.mtl"
@@ -853,8 +865,20 @@ file = "kubejs/assets/kubejs/models/item/nexus_crystal.obj"
 hash = "5371888ee8f79164ebb34926507b8bff5af70236e904e684039543610f668390"
 
 [[files]]
-file = "kubejs/assets/kubejs/textures/block/nexus_scar.png"
-hash = "2814e8cddf374eab4dbc6d30f3d5116d9a6e5fbb0e953701ef16799b6c0fcc75"
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_1.png"
+hash = "09131535ec0c213f01277272da88b2feeb69207d5e26310088ee91fb5a5a8c21"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_2.png"
+hash = "a03235d797323649c123424170836cea4009f7e439d15508f8f644a2c9347cc0"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_3.png"
+hash = "a2ef7694208dde6136941d8edb10b1ed906888c91d9fcd78fd33ca264b0bee5f"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_4.png"
+hash = "ba2fa11dacd7ce86482fe22498904b9e70072e253ce464cfd918bfda3ebd8353"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/item/nexus_bronze_coin.png"
@@ -1245,10 +1269,6 @@ file = "kubejs/server_scripts/nexus_maintenance.js"
 hash = "c71b7bdc2346d5e18bbd42692ab3004fd98b265168f96c7a0ee39e53459be52d"
 
 [[files]]
-file = "kubejs/server_scripts/nexus_somnium_hud.js"
-hash = "d92fc17de65821b1e66d76a5efa04d789f73abf6b2a40c4f2405e13f67946d15"
-
-[[files]]
 file = "kubejs/server_scripts/nexus_tacz_restrictions.js"
 hash = "9903479f0335e19b3e43ce2830bec1d8180eb56ae52078676aeab61b1ade3d67"
 
@@ -1262,7 +1282,7 @@ hash = "561e8cbf3ffdc0526c4daecdd049c45c610bb7c033b1de63ba1120f89bdc50df"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_corruption_registry.js"
-hash = "cca3ca9d444488c03f59196a6b05befccbe6e437f91f96df73d1d849e42f731d"
+hash = "104283f12e71642ad965cc419b98fc5f5bd5090fa16ebc951235cec06862bc2e"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_crystal.js"

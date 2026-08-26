@@ -1,58 +1,23 @@
 StartupEvents.registry('block', event => {
 
-    event.create('nexus_scar')
-        .displayName('Grieta del Nexo')
-        .model('kubejs:block/nexus_scar')
-        .renderType('cutout')
-        .noCollision()
-        .notSolid()
-        .noDrops()
-        .noItem()
-        .fullBlock(false)
-        .opaque(false)
-        .lightLevel(0.20)
+    const scars = [
+        'nexus_scar_1',
+        'nexus_scar_2',
+        'nexus_scar_3',
+        'nexus_scar_4'
+    ]
 
-    event.create('nexus_crystal_small')
-        .displayName('Cristal pequeño del Nexo')
-        .model('minecraft:block/small_amethyst_bud')
-        .renderType('cutout')
-        .noCollision()
-        .notSolid()
-        .noDrops()
-        .noItem()
-        .fullBlock(false)
-        .opaque(false)
-        .lightLevel(0.30)
-
-    event.create('nexus_crystal_medium')
-        .displayName('Cristal mediano del Nexo')
-        .model('minecraft:block/medium_amethyst_bud')
-        .renderType('cutout')
-        .noCollision()
-        .notSolid()
-        .noDrops()
-        .noItem()
-        .fullBlock(false)
-        .opaque(false)
-        .lightLevel(0.40)
-
-    event.create('nexus_crystal_large')
-        .displayName('Cristal grande del Nexo')
-        .model('minecraft:block/amethyst_cluster')
-        .renderType('cutout')
-        .noCollision()
-        .notSolid()
-        .noDrops()
-        .noItem()
-        .fullBlock(false)
-        .opaque(false)
-        .lightLevel(0.55)
-})
-
-StartupEvents.registry('item', event => {
-
-    event.create('nexus_corruption_brush')
-        .displayName('Brocha del Nexo')
-        .maxStackSize(1)
-        .glow(true)
+    scars.forEach(id => {
+        event.create(id)
+            .displayName('Grieta del Nexo')
+            .model(`kubejs:block/${id}`)
+            .renderType('cutout')
+            .noCollision()
+            .notSolid()
+            .noDrops()
+            .noItem()
+            .fullBlock(false)
+            .opaque(false)
+            .lightLevel(0.20)
+    })
 })

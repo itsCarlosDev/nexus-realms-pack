@@ -1,0 +1,28 @@
+{
+  "kevin_1": {
+    "sounds": [
+      {
+        "name": "kubejs:nexus/kevin_sound_1",
+        "stream": true
+      }
+    ]
+  },
+
+  "kevin_2": {
+    "sounds": [
+      {
+        "name": "kubejs:nexus/kevin_sound_2",
+        "stream": true
+      }
+    ]
+  },
+
+  "kevin_3": {
+    "sounds": [
+      {
+        "name": "kubejs:nexus/kevin_sound_3",
+        "stream": true
+      }
+    ]
+  }
+}
