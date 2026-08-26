@@ -30,11 +30,17 @@ final class MarketNpcPresetInspector {
 
         try {
             CompoundTag root = TagParser.parseTag(Files.readString(presetPath, StandardCharsets.UTF_8));
+            if (root.contains("PresetUUID")) {
+                return Inspection.failure(presetPath, "el preset contiene PresetUUID runtime no permitido");
+            }
             if (!root.contains("data", Tag.TAG_COMPOUND)) {
                 return Inspection.failure(presetPath, "el preset no contiene el compound data");
             }
 
             CompoundTag data = root.getCompound("data");
+            if (data.contains("PresetUUID")) {
+                return Inspection.failure(presetPath, "el preset contiene data.PresetUUID runtime no permitido");
+            }
             ResourceLocation dataEntityType = ResourceLocation.tryParse(data.getString("id"));
             if (!definition.entityType().equals(dataEntityType)) {
                 return Inspection.failure(

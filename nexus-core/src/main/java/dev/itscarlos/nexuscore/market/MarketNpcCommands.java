@@ -88,6 +88,17 @@ public final class MarketNpcCommands {
                         )
                 )
                 .then(
+                    Commands.literal("unbind")
+                        .then(
+                            Commands.argument("npc_id", StringArgumentType.word())
+                                .suggests(MarketNpcCommands::suggestNpcIds)
+                                .executes(context -> unbind(
+                                    context.getSource(),
+                                    StringArgumentType.getString(context, "npc_id")
+                                ))
+                        )
+                )
+                .then(
                     Commands.literal("reload")
                         .then(Commands.literal("all").executes(context -> reloadAll(context.getSource())))
                         .then(
@@ -199,6 +210,19 @@ public final class MarketNpcCommands {
             () -> Component.literal("UUID: " + located.entity().getUUID() + " | Dimensión: " + dimension),
             false
         );
+        return 1;
+    }
+
+    private static int unbind(CommandSourceStack source, String logicalId) {
+        if (MarketNpcRegistry.find(logicalId).isEmpty()) {
+            return failure(source, "ID desconocido: " + logicalId);
+        }
+
+        MarketNpcBindingsData data = MarketNpcBindingsData.get(source.getServer());
+        if (!data.unbind(logicalId)) {
+            return failure(source, logicalId + " — no tiene binding");
+        }
+        source.sendSuccess(() -> Component.literal(PREFIX + logicalId + " desvinculado"), false);
         return 1;
     }
 

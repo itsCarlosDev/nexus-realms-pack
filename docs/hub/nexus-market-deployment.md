@@ -9,9 +9,9 @@ presets y la economía permanecen independientes:
 ```text
 mundo con Nexus Market
         +
-Nexus Core 0.6.30 (protección por mundo, avisos, zona segura y bindings NPC)
+Nexus Core 0.6.31 (protección por mundo, avisos, zona segura y bindings NPC)
         +
-16 NPCs importados manualmente desde presets
+17 NPCs administrados desde presets
         +
 Waystone colocada como bloque real
         +
@@ -61,25 +61,25 @@ La región de Nexus Core es cilíndrica. Un radio que cubra las cuatro esquinas
 del volumen rectangular protegería demasiado terreno exterior y no es
 necesario.
 
-## Artefacto de despliegue de Nexus Core 0.6.30
+## Artefacto de despliegue de Nexus Core 0.6.31
 
 El build reproducible genera:
 
 ```text
-nexus-core/build/libs/nexus-core-0.6.30.jar
+nexus-core/build/libs/nexus-core-0.6.31.jar
 ```
 
 Antes de desplegar, sustituir el JAR mediante el flujo establecido del pack y
 confirmar que no queda cargada ninguna versión anterior de Nexus Core.
 
-El artefacto `0.6.30` no se instala en `mods/` como parte de esta tarea.
+El artefacto `0.6.31` no se instala en `mods/` como parte de esta tarea.
 
-La carga runtime de `0.6.30`, sus comandos de NPC y la recarga sobre Easy NPC
+La carga runtime de `0.6.31`, el nuevo `unbind` y la recarga sobre Easy NPC
 `7.2.0` todavía no están validados en este mundo. El mensaje esperado al
 arrancar es:
 
 ```text
-Nexus Core loaded: build=0.6.30
+Nexus Core loaded: build=0.6.31
 ```
 
 El save no contiene todavía:
@@ -103,8 +103,8 @@ configuración incompleta. Según la implementación local comprobada,
 5. Configurar Nexus Market desde el centro verificado `70,*,45` con
    `/nexus_market set_center`, `/nexus_market set_radius 120`, comprobar
    `/nexus_market status` y ejecutar `/nexus_market enable`.
-6. Importar y colocar manualmente los dieciséis NPCs, reutilizando las nueve
-   posiciones verificadas y sin inventar coordenadas para los siete nuevos.
+6. Importar y colocar manualmente solo los NPC ausentes; administrar los diecisiete
+   IDs sin sustituir la Proveedora ya colocada.
 7. Crear, equipar y fijar manualmente los ocho Guardianes del Nexus, sin
    activar patrullas globales.
 8. Colocar y verificar la Waystone real en `125,77,6`, incluido un viaje de ida
@@ -191,7 +191,7 @@ procedimiento.
 ### Estado del mundo auditado
 
 `easy_npc_index.dat` contiene tres NPCs y los tres son copias del preset
-`nexus_merchant`. No hay registros de los otros quince NPCs previstos.
+`nexus_merchant`. No hay registros de los otros dieciséis NPCs previstos.
 
 - Un Mercader está en `71.122, 74.0, 65.242`.
 - Dos registros del Mercader están persistidos en `0,0,0`.
@@ -242,6 +242,7 @@ Yaw usados: sur `0`, oeste `90`, norte `180`, este `-90`.
 | Armero | `gunsmith` | Capítulo Pistolero y orientación de armas/munición | Tienda 4 | Pistolero `4E5847554E534C31` | OPERATIVA V1; interior en construcción | `136,75,95`; oeste `90` | `/easy_npc preset import_new custom easy_npc:preset/humanoid/gunsmith.npc.snbt ~ ~ ~` |
 | Explorador | `explorer` | Overworld, estructuras, amenazas y Hordas | Tienda 5 | exploración/hordas `4E584558504C4F31` | OPERATIVA V1; interior en construcción | `126,75,18`; oeste `90` | `/easy_npc preset import_new custom easy_npc:preset/humanoid/explorer.npc.snbt ~ ~ ~` |
 | Mercader del Nexus | `nexus_merchant` | Cambio neutral y ocho ofertas de suministros básicos | Tienda 6 | ninguno; trading nativo | OPERATIVA V1; interior en construcción | `106,74,55`; oeste `90` | `/easy_npc preset import_new custom easy_npc:preset/humanoid/nexus_merchant.npc.snbt ~ ~ ~` |
+| Proveedora del Nexus | `nexus_provider` | Quince ofertas de materiales de construcción y decoración | Entidad ya colocada | ninguno; trading nativo | EXPORT REAL CAPTURADO; binding pendiente | sin verificar | No importar de nuevo; vincular la entidad existente |
 | Pescador del Nexus | `nexus_fisher` | Pesca, colecciones, retos y contratos acuáticos | Lago | Pesca del Nexus `4E58464953483031` | OPERATIVO V2; embarcadero en construcción | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/nexus_fisher.npc.snbt ~ ~ ~` |
 | Maestre de Obras | `market_foreman` | Entregas y seguimiento de proyectos comunitarios | Oficina de Proyectos del Nexus | Proyectos del Nexus `4E5850524F4A3031` | OPERATIVA V1; interior en construcción | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/market_foreman.npc.snbt ~ ~ ~` |
 | Agrimensora del Nexus | `market_surveyor` | Investigación del Nexus, dimensiones conocidas y descubrimientos | Observatorio del Nexus | Observatorio del Nexus `4E584F4253455231` | OPERATIVO V1; interior en construcción | sin verificar | `/easy_npc preset import_new custom easy_npc:preset/humanoid/market_surveyor.npc.snbt ~ ~ ~` |
@@ -348,6 +349,24 @@ Este mismo flujo permite la evolución prevista sin añadir un sistema dinámico
 En cada salto de versión se conserva la entidad vinculada. Un binding ausente,
 un NPC no cargado o un `EntityType` incompatible falla de forma segura y no
 activa la ruta de importación de Easy NPC.
+
+### Corrección del binding de la Proveedora
+
+La primera prueba de `0.6.30` vinculó la Proveedora existente como
+`nexus_merchant`, pero no ejecutó ningún reload. Tras desplegar `0.6.31` y el
+nuevo preset, corregirlo manualmente sin borrar ni modificar la entidad:
+
+```text
+/nexus_npc unbind nexus_merchant
+/nexus_npc bind_nearest nexus_provider
+/nexus_npc status
+```
+
+En una prueba controlada posterior:
+
+```text
+/nexus_npc reload nexus_provider
+```
 
 ## Guardia del Nexus
 
@@ -489,15 +508,15 @@ jugar; sus diálogos y botones sirven como guía hacia sistemas existentes.
 
 ## Matriz runtime final
 
-### Nexus Core 0.6.30
+### Nexus Core 0.6.31
 
-- [ ] El log contiene `Nexus Core loaded: build=0.6.30`.
+- [ ] El log contiene `Nexus Core loaded: build=0.6.31`.
 - [ ] No se carga ninguna versión anterior de Nexus Core.
 - [ ] `/nexus_market status` existe y empieza desactivado.
 - [ ] `/nexus_market enable` con configuración incompleta falla.
 - [ ] No aparecen excepciones `MarketProtection` ni errores al guardar
       `nexuscore_market_protection.dat`.
-- [ ] `/nexus_npc status` muestra los dieciséis IDs y el SavedData
+- [ ] `/nexus_npc status` muestra los diecisiete IDs y el SavedData
       `nexuscore_market_npc_bindings.dat` persiste tras reiniciar.
 
 ### Protección
@@ -520,11 +539,12 @@ jugar; sus diálogos y botones sirven como guía hacia sistemas existentes.
 
 ### NPCs y Mercader
 
-- [ ] `/easy_npc list` devuelve exactamente dieciséis NPCs.
+- [ ] `/easy_npc list` devuelve exactamente diecisiete NPCs cuando todos estén colocados.
 - [ ] Hay exactamente uno de cada nombre y función.
-- [ ] Los dieciséis son inmóviles, persistentes e invulnerables.
+- [ ] Los diecisiete son inmóviles, persistentes e invulnerables.
 - [ ] Los ocho NPCs de contenido abren el capítulo correcto.
 - [ ] El Mercader abre trading.
+- [ ] La Proveedora abre trading y mantiene sus quince ofertas.
 - [ ] Funcionan `10 Bronce -> 1 Plata` y `1 Plata -> 10 Bronce`.
 - [ ] Funcionan `10 Plata -> 1 Oro` y `1 Oro -> 10 Plata`.
 - [ ] Funciona al menos una compra de suministro.
@@ -540,7 +560,7 @@ jugar; sus diálogos y botones sirven como guía hacia sistemas existentes.
 ### Reinicio
 
 - [ ] La protección conserva estado, dimensión, centro y radio.
-- [ ] Persisten exactamente dieciséis NPCs y no aparecen duplicados.
+- [ ] Persisten exactamente diecisiete NPCs y no aparecen duplicados.
 - [ ] Persisten diálogos y trading.
 - [ ] Persiste la Waystone.
 - [ ] El spawn sigue siendo seguro.
@@ -566,7 +586,7 @@ Core 0.5.0. No hay errores de Easy NPC, FTB Quests o Waystones asociados a las
 operaciones comprobadas, pero existen los tres Mercaderes duplicados descritos.
 
 Cualquier excepción nueva que incluya `MarketProtection`, el comando
-`nexus_market`, el SavedData, uno de los dieciséis presets o la Waystone del mercado
+`nexus_market`, el SavedData, uno de los diecisiete presets o la Waystone del mercado
 debe tratarse como error nuevo del hub.
 
 ### Warnings y errores preexistentes ajenos

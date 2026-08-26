@@ -87,6 +87,17 @@ public final class MarketNpcBindingsData extends SavedData {
         setDirty();
     }
 
+    public boolean unbind(String logicalId) {
+        if (MarketNpcRegistry.find(logicalId).isEmpty()) {
+            throw new IllegalArgumentException("Unknown Market NPC logical ID: " + logicalId);
+        }
+        if (bindings.remove(logicalId) == null) {
+            return false;
+        }
+        setDirty();
+        return true;
+    }
+
     public record Binding(UUID uuid, ResourceLocation dimension) {
     }
 }

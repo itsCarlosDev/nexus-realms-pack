@@ -36,6 +36,21 @@ public final class MarketNpcBindingsDataCheck {
             restored.logicalIdFor(piglinUuid).orElseThrow().equals("nether_expeditionary"),
             "reverse UUID lookup failed"
         );
+
+        require(restored.unbind("market_foreman"), "existing binding was not removed");
+        require(restored.binding("market_foreman").isEmpty(), "removed binding remains present");
+        require(!restored.unbind("market_foreman"), "missing binding reported a removal");
+        require(
+            restored.binding("nether_expeditionary").orElseThrow().uuid().equals(piglinUuid),
+            "unbinding market_foreman removed another binding"
+        );
+
+        MarketNpcBindingsData afterUnbind = MarketNpcBindingsData.load(restored.save(new CompoundTag()));
+        require(afterUnbind.binding("market_foreman").isEmpty(), "removed binding returned after serialization");
+        require(
+            afterUnbind.binding("nether_expeditionary").orElseThrow().uuid().equals(piglinUuid),
+            "unrelated binding did not survive unbind serialization"
+        );
         require(restored.binding("unknown_market_npc").isEmpty(), "unknown ID unexpectedly has a binding");
 
         boolean unknownRejected = false;
@@ -45,7 +60,23 @@ public final class MarketNpcBindingsDataCheck {
             unknownRejected = true;
         }
         require(unknownRejected, "unknown logical ID was accepted by SavedData");
-        System.out.println("Market NPC SavedData checks passed: bindings persist and unknown IDs are rejected");
+
+        boolean unknownUnbindRejected = false;
+        try {
+            restored.unbind("unknown_market_npc");
+        } catch (IllegalArgumentException expected) {
+            unknownUnbindRejected = true;
+        }
+        require(unknownUnbindRejected, "unknown logical ID was accepted by unbind");
+
+        MarketNpcBindingsData dirtyState = new MarketNpcBindingsData();
+        require(!dirtyState.unbind("nexus_provider"), "missing provider binding reported a removal");
+        require(!dirtyState.isDirty(), "missing unbind marked SavedData dirty");
+        dirtyState.bind("nexus_provider", foremanUuid, overworld);
+        dirtyState.setDirty(false);
+        require(dirtyState.unbind("nexus_provider"), "provider binding was not removed");
+        require(dirtyState.isDirty(), "successful unbind did not mark SavedData dirty");
+        System.out.println("Market NPC SavedData checks passed: bind, unbind, persistence and rejection verified");
     }
 
     private static void require(boolean condition, String message) {

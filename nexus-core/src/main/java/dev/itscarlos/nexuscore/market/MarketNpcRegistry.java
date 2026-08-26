@@ -19,6 +19,7 @@ public final class MarketNpcRegistry {
         definition("gunsmith", "humanoid"),
         definition("explorer", "humanoid"),
         definition("nexus_merchant", "humanoid"),
+        definition("nexus_provider", "humanoid"),
         definition("nexus_fisher", "humanoid"),
         definition("market_foreman", "humanoid"),
         definition("market_surveyor", "humanoid"),

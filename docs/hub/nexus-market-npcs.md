@@ -7,13 +7,13 @@
 - Easy NPC Bundle `7.2.0` para Forge `1.20.1`.
 - Easy NPC Core `7.2.0`.
 - Easy NPC Config UI `7.2.0`.
-- Dieciséis presets reutilizables bajo `config/easy_npc/preset/humanoid/`: nueve existentes y siete nuevos.
+- Diecisiete presets reutilizables bajo `config/easy_npc/preset/humanoid/`: nueve existentes y ocho adicionales.
 - Nombres visibles, apariencia local, diálogo breve en español y mapping a IDs reales de FTB Quests.
 - Persistencia, invulnerabilidad, inmovilidad y ausencia de generación automática.
-- Trading desactivado salvo en el Mercader del Nexus, que conserva sus intercambios existentes.
+- Trading activo únicamente en el Mercader y la Proveedora del Nexus; ambos conservan sus intercambios existentes.
 - Integración FTB limitada a abrir capítulos. Ningún diálogo completa quests ni concede clases, especializaciones, Allomancy o progreso.
 - Distribución packwiz mediante metadata oficial de CurseForge para los tres JARs.
-- Registro cerrado de los dieciséis NPCs y bindings persistentes `ID lógico -> UUID + dimensión` en Nexus Core `0.6.30`.
+- Registro cerrado de los diecisiete NPCs y bindings persistentes `ID lógico -> UUID + dimensión` en Nexus Core `0.6.31`.
 - Recarga administrativa explícita de presets sobre entidades existentes mediante `/nexus_npc reload`.
 
 ### PENDIENTE DE COLOCACIÓN MANUAL EN EL MAPA FINAL
@@ -96,6 +96,7 @@ Los presets no incluyen `Pos`, `Owner`, UUID de entidad, `PresetUUID` ni `Naviga
 | `gunsmith` | Armero | `easy_npc:preset/humanoid/gunsmith.npc.snbt` | `SECURITY_01`, ballesta y catalejo | Pistolero |
 | `explorer` | Explorador | `easy_npc:preset/humanoid/explorer.npc.snbt` | `JAYJASONBO`, mapa y brújula | exploración y viajes |
 | `nexus_merchant` | Mercader del Nexus | `easy_npc:preset/humanoid/nexus_merchant.npc.snbt` | `JAYJASONBO`, esmeralda | cambio de moneda y suministros básicos |
+| `nexus_provider` | Proveedora del Nexus | `easy_npc:preset/humanoid/nexus_provider.npc.snbt` | `EFE`, ladrillos y farol | almacén de construcción y decoración del Overworld |
 | `nexus_fisher` | Pescador del Nexus | `easy_npc:preset/humanoid/nexus_fisher.npc.snbt` | `JAYJASONBO`, caña y prismarina | pesca del lago y acceso a `pesca_del_nexus` |
 | `market_foreman` | Maestre de Obras | `easy_npc:preset/humanoid/market_foreman.npc.snbt` | `SECURITY_01`, hacha y andamio | Oficina de Proyectos del Nexus |
 | `market_surveyor` | Agrimensora del Nexus | `easy_npc:preset/humanoid/market_surveyor.npc.snbt` | `PROFESSOR_01`, brújula y papel | Observatorio del Nexus |
@@ -118,6 +119,7 @@ El estado describe el servicio disponible: las seis tiendas son `OPERATIVA V1`, 
 | Pistolero | Armero (`gunsmith`) | Capítulo Pistolero y orientación sobre armas, munición y progresión por Eras | Interior definitivo, comercio de armas y munición, attachments y servicios especializados | `clase_pistolero` (`4E5847554E534C31`) | OPERATIVA V1 |
 | Exploración | Explorador (`explorer`) | Overworld, estructuras, criaturas, amenazas y preparación para Hordas | Expediciones y contratos del mundo abierto | `exploracion_y_hordas` (`4E584558504C4F31`) | OPERATIVA V1 |
 | Economía | Mercader del Nexus (`nexus_merchant`) | Bronce/Plata/Oro con valor 1/10/100: cuatro cambios y ocho ofertas de suministros (doce en total) | Nuevos comerciantes, sinks, servicios, contratos, cosméticos y economía avanzada | Ninguno; trading de Easy NPC | OPERATIVA V1 |
+| Construcción | Proveedora del Nexus (`nexus_provider`) | Quince ofertas de materiales de construcción y decoración del Overworld | Materiales de otras dimensiones cuando sus rutas se desbloqueen | Ninguno; trading de Easy NPC | EXPORT REAL CAPTURADO; BINDING PENDIENTE |
 
 El Explorador cubre Overworld, descubrimiento y mundo abierto. El Expedicionario del Nexus conserva por separado la guía narrativa hacia Nether, Aether, End y Otherside; ninguna tienda desbloquea dimensiones.
 
@@ -431,6 +433,23 @@ Si hay más de un candidato compatible en un radio de cuatro bloques, el comando
 
 No escribir UUIDs del mundo en el preset.
 
+Un binding erróneo se elimina sin tocar la entidad ni el preset:
+
+```text
+/nexus_npc unbind <npc_id>
+```
+
+Para corregir la vinculación detectada durante la primera prueba de `0.6.30`,
+después de desplegar `0.6.31` se ejecuta expresamente:
+
+```text
+/nexus_npc unbind nexus_merchant
+/nexus_npc bind_nearest nexus_provider
+/nexus_npc status
+```
+
+No existe migración automática y no se identifica la Proveedora por nombre.
+
 ### Mover
 
 `/easy_npc position` modifica partes del modelo, no la posición de la entidad. Para mover un NPC existente, situarse en el nuevo punto y usar el teletransporte vanilla hacia el jugador:
@@ -481,11 +500,17 @@ Resultado comprobado con `nexus_custodian`:
 - `PersistenceRequired:1b`;
 - velocidad `0.0` y ausencia de objetivos de paseo;
 - una sola entidad tras el reinicio;
-- los dieciséis SNBT aceptados por el `TagParser` real de Minecraft `1.20.1`.
+- los diecisiete SNBT aceptados por el `TagParser` real de Minecraft `1.20.1`.
+
+La primera prueba runtime de Nexus Core `0.6.30` confirmó que
+`/nexus_npc status` y `/nexus_npc bind_nearest` funcionan y persisten el
+binding. La Proveedora se vinculó por error como `nexus_merchant`; al detectarlo
+no se ejecutó ningún reload y la corrección queda en el procedimiento manual
+anterior.
 
 Pendiente de prueba manual:
 
-- binding y persistencia tras reinicio con Nexus Core `0.6.30`;
+- `/nexus_npc unbind` y persistencia tras reinicio con Nexus Core `0.6.31`;
 - recarga individual y `reload all` con Easy NPC `7.2.0`;
 - conservación runtime de UUID, posición, rotación, owner, home y NoGravity;
 - fallo seguro sin duplicados ante UUID ausente o `EntityType` incompatible;
@@ -501,6 +526,6 @@ Durante la sesión de validación se produjo un crash de cliente ajeno al preset
 - Los NPCs deben estar cargados para vincularlos o recargarlos; Nexus Core no fuerza chunks.
 - No se probó interacción simultánea con más de un cliente.
 - La apertura visual del diálogo y del chapter FTB queda pendiente de la prueba manual indicada.
-- El Mercader conserva sus ofertas nativas existentes; los otros quince presets no añaden economía.
+- El Mercader y la Proveedora conservan sus ofertas nativas existentes; los otros quince presets no añaden economía.
 - Los presets no reaccionan visualmente a etapas de progresión; no se añadió lógica paralela.
 - Una indisponibilidad de CurseForge durante una instalación requiere el fallback manual verificado por SHA-1.
