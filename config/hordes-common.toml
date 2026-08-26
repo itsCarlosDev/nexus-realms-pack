@@ -60,7 +60,7 @@
 	#Set to true to enable the horde spawning on the first day. (Game day 0)
 	spawnFirstDay = false
 	#Set to false to disable the use of beds during a horde event.
-	canSleepDuringHorde = false
+	canSleepDuringHorde = true
 	#Does a scheduled horde for an online player prevent other players sleeping?
 	hordePreventsOtherPlayersSleeping = false
 	#How much should the size of each horde scale down by when multiple players are near each other?

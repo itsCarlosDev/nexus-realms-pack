@@ -554,7 +554,7 @@ hash = "a3b9a27731c57319cd942ccf32d72db39ff4cd741e49db74fed897c41c40a44d"
 
 [[files]]
 file = "config/hordes-common.toml"
-hash = "547045ab1f807d494f22c6580cc9b04e5cdb8b2b8b5488249c54f0c6d814262f"
+hash = "15d316c750f89b8f665f9000f124e4668fcac4e07588971a653564af460e2e3f"
 
 [[files]]
 file = "config/hordes/data/hordes/horde_data/scripts/default.json"
@@ -763,6 +763,10 @@ hash = "2838edf1d3eb899f2500b827405659625757bd815849cf13b27953e403a4b0fc"
 [[files]]
 file = "defaultconfigs/journeymap-server.toml"
 hash = "9490d7382daaf55c185a5f22a970f2043b2b1cccdd31c7ef9ded1ad27fdee6a0"
+
+[[files]]
+file = "defaultconfigs/securitycraft-server.toml"
+hash = "9e209e4edcd6e19e16e6338116a23122e59188941c3ff8098ce9339bdf6cf9b3"
 
 [[files]]
 file = "generated/schematics/nexus_market_spawn_nexus_realms_v4.schem"
@@ -1231,6 +1235,10 @@ hash = "4265fd115b6a31ab203dc300f171928aa6a68ade6615d56b78c7709cdbf32d6a"
 [[files]]
 file = "kubejs/server_scripts/nexus_maintenance.js"
 hash = "c71b7bdc2346d5e18bbd42692ab3004fd98b265168f96c7a0ee39e53459be52d"
+
+[[files]]
+file = "kubejs/server_scripts/nexus_somnium_hud.js"
+hash = "d92fc17de65821b1e66d76a5efa04d789f73abf6b2a40c4f2405e13f67946d15"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_tacz_restrictions.js"
