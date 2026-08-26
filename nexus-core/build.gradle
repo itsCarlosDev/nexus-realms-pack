@@ -6,7 +6,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
 }
 
-version = '0.6.29'
+version = '0.6.30'
 group = 'dev.itscarlos'
 
 base {
@@ -170,6 +170,23 @@ tasks.register('marketSpawnPolicyCheck', JavaExec) {
     mainClass = 'dev.itscarlos.nexuscore.market.MarketSpawnPolicyCheck'
 }
 
+tasks.register('marketNpcRegistryCheck', JavaExec) {
+    group = 'verification'
+    description = 'Validates the closed Nexus Market NPC registry and versioned preset files.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'dev.itscarlos.nexuscore.market.MarketNpcRegistryCheck'
+    systemProperty 'nexus.realms.root', rootProject.projectDir.parentFile.absolutePath
+}
+
+tasks.register('marketNpcBindingsDataCheck', JavaExec) {
+    group = 'verification'
+    description = 'Validates persistence and rejection rules for Market NPC bindings.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'dev.itscarlos.nexuscore.market.MarketNpcBindingsDataCheck'
+}
+
 tasks.register('keybindProfilePolicyCheck', JavaExec) {
     group = 'verification'
     description = 'Validates neutral keybind migration and class-profile safety.'
@@ -215,6 +232,8 @@ tasks.named('check') {
     dependsOn tasks.named('automobilityMarketPolicyCheck')
     dependsOn tasks.named('cameraIntegrationPolicyCheck')
     dependsOn tasks.named('marketProtectionCheck')
+    dependsOn tasks.named('marketNpcRegistryCheck')
+    dependsOn tasks.named('marketNpcBindingsDataCheck')
     dependsOn tasks.named('marketSpawnPolicyCheck')
     dependsOn tasks.named('keybindProfilePolicyCheck')
     dependsOn tasks.named('shutdownHangDiagnosticCheck')
