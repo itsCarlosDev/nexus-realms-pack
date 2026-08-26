@@ -3,8 +3,26 @@
     "sounds": [
       {
         "name": "kubejs:nexus/kevin_sound_1",
-        "stream": true,
-        "attenuation_distance": 32
+        "stream": false,
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "kevin_1_fade_in_fast": {
+    "sounds": [
+      {
+        "name": "kubejs:nexus/kevin_sound_1_fade_in_fast",
+        "stream": false,
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "kevin_1_fade_in": {
+    "sounds": [
+      {
+        "name": "kubejs:nexus/kevin_sound_1_fade_in",
+        "stream": false,
+        "attenuation_distance": 16
       }
     ]
   },
@@ -12,8 +30,8 @@
     "sounds": [
       {
         "name": "kubejs:nexus/kevin_sound_1_fade",
-        "stream": true,
-        "attenuation_distance": 32
+        "stream": false,
+        "attenuation_distance": 16
       }
     ]
   },
@@ -21,8 +39,26 @@
     "sounds": [
       {
         "name": "kubejs:nexus/kevin_sound_2",
-        "stream": true,
-        "attenuation_distance": 32
+        "stream": false,
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "kevin_2_fade_in_fast": {
+    "sounds": [
+      {
+        "name": "kubejs:nexus/kevin_sound_2_fade_in_fast",
+        "stream": false,
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "kevin_2_fade_in": {
+    "sounds": [
+      {
+        "name": "kubejs:nexus/kevin_sound_2_fade_in",
+        "stream": false,
+        "attenuation_distance": 16
       }
     ]
   },
@@ -30,8 +66,8 @@
     "sounds": [
       {
         "name": "kubejs:nexus/kevin_sound_2_fade",
-        "stream": true,
-        "attenuation_distance": 32
+        "stream": false,
+        "attenuation_distance": 16
       }
     ]
   },
@@ -39,8 +75,26 @@
     "sounds": [
       {
         "name": "kubejs:nexus/kevin_sound_3",
-        "stream": true,
-        "attenuation_distance": 32
+        "stream": false,
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "kevin_3_fade_in_fast": {
+    "sounds": [
+      {
+        "name": "kubejs:nexus/kevin_sound_3_fade_in_fast",
+        "stream": false,
+        "attenuation_distance": 16
+      }
+    ]
+  },
+  "kevin_3_fade_in": {
+    "sounds": [
+      {
+        "name": "kubejs:nexus/kevin_sound_3_fade_in",
+        "stream": false,
+        "attenuation_distance": 16
       }
     ]
   },
@@ -48,8 +102,8 @@
     "sounds": [
       {
         "name": "kubejs:nexus/kevin_sound_3_fade",
-        "stream": true,
-        "attenuation_distance": 32
+        "stream": false,
+        "attenuation_distance": 16
       }
     ]
   }

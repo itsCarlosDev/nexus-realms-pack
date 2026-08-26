@@ -846,19 +846,19 @@ hash = "2c939e2308e7d7d419af26ad342479690e8ae321c7af3ba64d8b0e897ccc8b5b"
 
 [[files]]
 file = "kubejs/assets/kubejs/models/block/nexus_scar_1.json"
-hash = "d7e6db37af12f09b9ec2d8542f4433d3d1078a6a09651029891ad7d7ca06382f"
+hash = "1af83a4a1eb6fb0f0fb786a522b559037258521809c629646dd0f514935a04a2"
 
 [[files]]
 file = "kubejs/assets/kubejs/models/block/nexus_scar_2.json"
-hash = "0f526b606f52f0f8d1ed75f4532eee0e7264d27ee2d8b5326c5ea4e2fc943d53"
+hash = "414067d324e46f7e48e8aab62383a18d28757171cb77707ccefde58983697499"
 
 [[files]]
 file = "kubejs/assets/kubejs/models/block/nexus_scar_3.json"
-hash = "b3c3c7ea5f947e486a0698de41ccd752aafbabdf0ac2b5704d3786ac32e47765"
+hash = "da5c2698662042661556a882cc7f6b512dca31889b1a754f4768ea72f7f64ee7"
 
 [[files]]
 file = "kubejs/assets/kubejs/models/block/nexus_scar_4.json"
-hash = "ef0f942cfdc1e7a966abcde11db3539b768dd55ef0df023ecc63c0de7975b3fe"
+hash = "574c6102c9130f1c48eeb2403f83849f7034a0090998d6506ac01c380f362435"
 
 [[files]]
 file = "kubejs/assets/kubejs/models/item/nexus_crystal.mtl"
@@ -870,7 +870,7 @@ hash = "5371888ee8f79164ebb34926507b8bff5af70236e904e684039543610f668390"
 
 [[files]]
 file = "kubejs/assets/kubejs/sounds.json"
-hash = "6dcfeded0d56821bedb9daffc8c8c89cf5c497a93e84fefa0bf25ea35749ecf1"
+hash = "52a78152ba7111a64b6779251ad9506345dd54cafc4d78119b769be80060ab51"
 
 [[files]]
 file = "kubejs/assets/kubejs/sounds/kevin_sound_1.ogg"
@@ -893,12 +893,28 @@ file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_1_fade.ogg"
 hash = "27d9e0bed13394ef1f4ef2bb89fd07a044f78aded9bda1bb214b364c8841c075"
 
 [[files]]
+file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_1_fade_in.ogg"
+hash = "b5c791edecfb92882ce67b878bb846e1455b36362cf00b38063ee39390e57bf5"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_1_fade_in_fast.ogg"
+hash = "6d73e4e96f94fd74575c833579ca15cb72ab1a9d7cd940d298f5b5efe2d9575a"
+
+[[files]]
 file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_2.ogg"
 hash = "0a6b66cf7d68f6f4bcfb0d1cc02221c30983e43659a8f72fa462ad8e91ae5d30"
 
 [[files]]
 file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_2_fade.ogg"
 hash = "43d65773a7182cc9f82e2a19baf92361934397e776ba39863b0c1c147c80e631"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_2_fade_in.ogg"
+hash = "224692084e2edf5d5e04dc32e1cedcee57265ea966162870fb66a3901a4ae30c"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_2_fade_in_fast.ogg"
+hash = "17caff85170946264462cd54e2a4f9aeb4c47e21b343364997d55010f9f2c283"
 
 [[files]]
 file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_3.ogg"
@@ -909,20 +925,44 @@ file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_3_fade.ogg"
 hash = "657c01dc16b0ce90540c685bd1b81256fd7e058c7cbb838fde436fee9353d805"
 
 [[files]]
+file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_3_fade_in.ogg"
+hash = "301202acd23874ae79e9f061cc7db9bb0e35c1384c5805be3d53c7144df7a3fc"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_3_fade_in_fast.ogg"
+hash = "b40c7c8b5d32468756502695026d0f4412ad30a8cdec6ae07a9e37b713a31828"
+
+[[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_scar_1.png"
 hash = "09131535ec0c213f01277272da88b2feeb69207d5e26310088ee91fb5a5a8c21"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_1_glow.png"
+hash = "95e919de31279cb76f8fee6fcc78c4d0b1435899de20f983b241ec452c9bc5fc"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_scar_2.png"
 hash = "a03235d797323649c123424170836cea4009f7e439d15508f8f644a2c9347cc0"
 
 [[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_2_glow.png"
+hash = "438f181d9330a0de2e2cf13df21f4b11f057d4802fa3ecd5e03276b4c5c3e1c7"
+
+[[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_scar_3.png"
 hash = "a2ef7694208dde6136941d8edb10b1ed906888c91d9fcd78fd33ca264b0bee5f"
 
 [[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_3_glow.png"
+hash = "cee9dfb7daf1490d0d7fe3cf72610e81414d6c306c3727691455e48fb1d54f12"
+
+[[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_scar_4.png"
 hash = "ba2fa11dacd7ce86482fe22498904b9e70072e253ce464cfd918bfda3ebd8353"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_4_glow.png"
+hash = "feb866dd819acbf3abb44dfbcbc89e347c08a8e7d9a09d09fb493a6032f7d10b"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/item/nexus_bronze_coin.png"
@@ -1274,7 +1314,7 @@ hash = "fcfc03528492489497be9c463a4d39b0f4947a544bc0d9c5d0a3d190566ff56b"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_ambient.js"
-hash = "8d402c97d67a600913d5d10d76d593989ad431f9dd378b0a4654857005f1ae54"
+hash = "dfb8270e8bede1cf68de82e435417c9c3bfb240d1c39c2cd6e158adecb3dc336"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_automobility_create_recipes.js"
@@ -1355,6 +1395,10 @@ hash = "8d6f44095ed1fc95962abeb6d7dff7c3b1700a9a8207d4a42f056f55143e05ff"
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_reentry_guard.js"
 hash = "e444142f8463f77f7c4dbd28921664c5f6416b22e89db3cdcd1ae8005aef0e07"
+
+[[files]]
+file = "kubejs/startup_scripts/nexus_scars.js"
+hash = "289eb172c4adb40c45b55fbdecae690aaa928d5c02cf0a3f4d3c339254bb2a69"
 
 [[files]]
 file = "mods/aaa-particles-world.pw.toml"
