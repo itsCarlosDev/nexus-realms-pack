@@ -841,12 +841,20 @@ file = "journeymap/config/5.10/journeymap.webmap.config"
 hash = "2c939e2308e7d7d419af26ad342479690e8ae321c7af3ba64d8b0e897ccc8b5b"
 
 [[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_scar.json"
+hash = "e2cc5c216dd751ac14e09da068962c0d6fa4120b0d01125901b75a03d9156c2a"
+
+[[files]]
 file = "kubejs/assets/kubejs/models/item/nexus_crystal.mtl"
 hash = "01e17b1739ab25b26c1911ef7a3238119fe35fa1c2f46bd2fd54d6806c31a4a0"
 
 [[files]]
 file = "kubejs/assets/kubejs/models/item/nexus_crystal.obj"
 hash = "5371888ee8f79164ebb34926507b8bff5af70236e904e684039543610f668390"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar.png"
+hash = "2814e8cddf374eab4dbc6d30f3d5116d9a6e5fbb0e953701ef16799b6c0fcc75"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/item/nexus_bronze_coin.png"
@@ -1253,6 +1261,10 @@ file = "kubejs/startup_scripts/nexus_boss_balance.js"
 hash = "561e8cbf3ffdc0526c4daecdd049c45c610bb7c033b1de63ba1120f89bdc50df"
 
 [[files]]
+file = "kubejs/startup_scripts/nexus_corruption_registry.js"
+hash = "cca3ca9d444488c03f59196a6b05befccbe6e437f91f96df73d1d849e42f731d"
+
+[[files]]
 file = "kubejs/startup_scripts/nexus_crystal.js"
 hash = "30358520c6f0fd2402974589fbd17b0607cd2ebb42061d579a91d803e4573616"
 
@@ -1489,6 +1501,11 @@ metafile = true
 [[files]]
 file = "mods/collective.pw.toml"
 hash = "0e70a9f05b4b5cafaeed0417a3cfae2dd36bd88cce06a4b688d240d9b90ddfb2"
+metafile = true
+
+[[files]]
+file = "mods/collectors-caravan.pw.toml"
+hash = "af8fbf1e263f570b2a1372625029d4c35eedfc0a51e44fc348e5537a7762c521"
 metafile = true
 
 [[files]]

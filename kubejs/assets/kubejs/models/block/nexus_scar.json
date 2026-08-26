@@ -1,0 +1,18 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "scar": "kubejs:block/nexus_scar",
+    "particle": "minecraft:block/amethyst_block"
+  },
+  "elements": [
+    {
+      "from": [0, 0.03, 0],
+      "to": [16, 0.04, 16],
+      "faces": {
+        "up": {
+          "texture": "#scar"
+        }
+      }
+    }
+  ]
+}
