@@ -845,6 +845,26 @@ file = "journeymap/config/5.10/journeymap.webmap.config"
 hash = "2c939e2308e7d7d419af26ad342479690e8ae321c7af3ba64d8b0e897ccc8b5b"
 
 [[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_corner.json"
+hash = "82819fe7ab4dcdfe52ff95ae0a111be40157f337e57787cbad30adf02ea215b1"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_cross.json"
+hash = "e5850a83bd41024b21654e6b42dc3a7b5513999608d7fba12a7c2c8304ddb10a"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_end.json"
+hash = "7486bf50a5ab446bea79382b1633ce928fb06f94e1f31c0fd40f3d007b168533"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_straight.json"
+hash = "4697c8db0f605ff2ec455daddefc2293fcdf9ecb02ea24e0be9e246090f950f4"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_t.json"
+hash = "d7179c8da0d47810d3b05c76c6568837d392b25f1849ef67b981716e76e1cedb"
+
+[[files]]
 file = "kubejs/assets/kubejs/models/block/nexus_scar_1.json"
 hash = "1af83a4a1eb6fb0f0fb786a522b559037258521809c629646dd0f514935a04a2"
 
