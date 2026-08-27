@@ -1559,7 +1559,7 @@
         return placed
     }
 
-    function createSeedAt(server, level, x, guessY, z, kind) {
+    function createSeedAt(server, level, x, guessY, z, kind, preferredDir) {
         var surfaceY = findSurfaceY(level, x, guessY, z)
 
         if (surfaceY === null) {
@@ -1589,7 +1589,8 @@
         }
 
         var state = loadState(server)
-        var dir = randomDir()
+        var preferredDirNumber = Number(preferredDir)
+        var dir = DIRS[preferredDirNumber] ? preferredDirNumber : randomDir()
 
         corruptGroundPatch(level, x, surfaceY, z)
 
@@ -1719,37 +1720,43 @@
         return true
     }
 
-    function isNaturalAutoSeedArea(level, x, surfaceY, z) {
-        var offsets = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+    function getValidInitialDirections(level, x, surfaceY, z) {
+        var validDirections = []
 
-        for (var i = 0; i < offsets.length; i++) {
-            var nx = Number(x) + offsets[i][0]
-            var nz = Number(z) + offsets[i][1]
+        for (var i = 0; i < DIRS.length; i++) {
+            var nx = Number(x) + DIRS[i].dx
+            var nz = Number(z) + DIRS[i].dz
 
-            if (!level.hasChunkAt(new NexusBlockPos(nx, surfaceY, nz))) {
-                return false
+            if (
+                !level.hasChunkAt(new NexusBlockPos(nx, surfaceY, nz)) ||
+                isProtected(level, nx, surfaceY, nz)
+            ) {
+                continue
             }
 
             var neighbourY = findSurfaceY(level, nx, surfaceY, nz)
 
             if (
                 neighbourY === null ||
-                Math.abs(Number(neighbourY) - Number(surfaceY)) > 1
+                Number(neighbourY) !== Number(surfaceY)
             ) {
-                return false
+                continue
             }
 
             var above = level.getBlock(nx, Number(neighbourY) + 1, nz)
 
             if (
-                !isReplaceableAbove(above.id) ||
-                isProtected(level, nx, neighbourY, nz)
+                getPathMask(above.id) !== null ||
+                (!isReplaceableAbove(above.id) &&
+                    !isDecorativeScar(above.id))
             ) {
-                return false
+                continue
             }
+
+            validDirections.push(i)
         }
 
-        return true
+        return validDirections
     }
 
     function tryAutoSpawn(server) {
@@ -1864,11 +1871,26 @@
 
             if (
                 surfaceY === null ||
-                isProtected(level, blockX, surfaceY, blockZ) ||
-                !isNaturalAutoSeedArea(level, blockX, surfaceY, blockZ)
+                isProtected(level, blockX, surfaceY, blockZ)
             ) {
                 continue
             }
+
+            var validInitialDirections = getValidInitialDirections(
+                level,
+                blockX,
+                surfaceY,
+                blockZ
+            )
+
+            if (validInitialDirections.length === 0) {
+                continue
+            }
+
+            var initialDir =
+                validInitialDirections[
+                    Math.floor(Math.random() * validInitialDirections.length)
+                ]
 
             var created = createSeedAt(
                 server,
@@ -1876,7 +1898,8 @@
                 blockX,
                 surfaceY,
                 blockZ,
-                'auto'
+                'auto',
+                initialDir
             )
 
             if (created.seed) {

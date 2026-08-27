@@ -1570,7 +1570,7 @@ hash = "8f146b77f5f83286f700a1e08fb5e2d0f0d1ceb2162588b8bb526f89ea0ff103"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_corruption_engine.js"
-hash = "8664104797be97cfbb96163b265f237e7e6d1328bb8f290f20c8787428a2eff2"
+hash = "88d82776b5e4bfdae1f3bdc4ca8bbb196fa3a728ef78fa7bce1e0ad26b18fa33"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_corruption_place.js"
