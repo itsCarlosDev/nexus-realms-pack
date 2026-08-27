@@ -1,11 +1,13 @@
 // ============================================================
-// NEXUS REALMS - AMBIENTE ESPACIAL DINAMICO DE LAS GRIETAS
+// NEXUS REALMS - AMBIENTE ESPACIAL DINAMICO DE LA CORRUPCION
 // Forge 1.20.1 + KubeJS
 //
-// - Cada grieta registrada es una fuente de sonido real.
-// - /nexusscar registra automaticamente la nueva grieta.
-// - Al romper una grieta, nexus_scar_blocks.js la desregistra.
-// - Las fuentes se guardan en server.persistentData.
+// Compatible con:
+// - nexus_scar_1..4
+// - nexus_path_end / straight / corner / t / cross
+//
+// Las posiciones que deban sonar se registran mediante:
+// global.NexusAmbient.registerSource(...)
 // ============================================================
 
 (function () {
@@ -18,6 +20,19 @@
     var CROSSFADE_TICKS = 60
     var BASE_VOLUME = 0.85
     var DEBUG = false
+
+    var NEXUS_SOUND_BLOCKS = [
+        'kubejs:nexus_scar_1',
+        'kubejs:nexus_scar_2',
+        'kubejs:nexus_scar_3',
+        'kubejs:nexus_scar_4',
+
+        'kubejs:nexus_path_end',
+        'kubejs:nexus_path_straight',
+        'kubejs:nexus_path_corner',
+        'kubejs:nexus_path_t',
+        'kubejs:nexus_path_cross'
+    ]
 
     var TRACKS = {
         1: {
@@ -78,8 +93,10 @@
 
         try {
             var raw = String(server.persistentData.getString(SOURCES_KEY) || '')
+
             if (raw) {
                 var parsed = JSON.parse(raw)
+
                 if (Array.isArray(parsed)) {
                     parsed.forEach(function (entry) {
                         if (
@@ -90,20 +107,33 @@
                             entry.z !== undefined
                         ) {
                             nexusAmbientSourceCache.push(
-                                normaliseSource(entry.dimension, entry.x, entry.y, entry.z)
+                                normaliseSource(
+                                    entry.dimension,
+                                    entry.x,
+                                    entry.y,
+                                    entry.z
+                                )
                             )
                         }
                     })
                 }
             }
         } catch (error) {
-            console.error('[NEXUS AMBIENT] No se pudieron cargar las fuentes persistentes: ' + error)
+            console.error(
+                '[NEXUS AMBIENT] No se pudieron cargar las fuentes: ' + error
+            )
         }
 
-        // Mantiene funcionando la grieta de prueba antigua.
-        // Cuando ya no la necesites puedes borrar este bloque.
-        var legacy = normaliseSource('minecraft:overworld', -62, 67, 307)
+        // Compatibilidad temporal con la grieta de prueba antigua.
+        var legacy = normaliseSource(
+            'minecraft:overworld',
+            -62,
+            67,
+            307
+        )
+
         var legacyKey = sourceKey(legacy)
+
         var foundLegacy = nexusAmbientSourceCache.some(function (source) {
             return sourceKey(source) === legacyKey
         })
@@ -122,7 +152,9 @@
                 JSON.stringify(nexusAmbientSourceCache || [])
             )
         } catch (error) {
-            console.error('[NEXUS AMBIENT] No se pudieron guardar las fuentes: ' + error)
+            console.error(
+                '[NEXUS AMBIENT] No se pudieron guardar las fuentes: ' + error
+            )
         }
     }
 
@@ -150,7 +182,10 @@
 
         unregisterSource: function (server, dimension, x, y, z) {
             var sources = loadSources(server)
-            var key = sourceKey(normaliseSource(dimension, x, y, z))
+            var key = sourceKey(
+                normaliseSource(dimension, x, y, z)
+            )
+
             var before = sources.length
 
             nexusAmbientSourceCache = sources.filter(function (candidate) {
@@ -170,7 +205,9 @@
     }
 
     function randomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min
+        return Math.floor(
+            Math.random() * (max - min + 1)
+        ) + min
     }
 
     function getPlayerState(player) {
@@ -189,18 +226,24 @@
         return nexusAmbientStates[username]
     }
 
-    function isScarAt(level, source) {
+    function isNexusSoundBlockAt(level, source) {
         try {
-            var pos = new BlockPos(source.x, source.y, source.z)
-            var state = level.getBlockState(pos)
-            var id = String(BuiltInRegistries.BLOCK.getKey(state.getBlock()))
-
-            return (
-                id === 'kubejs:nexus_scar_1' ||
-                id === 'kubejs:nexus_scar_2' ||
-                id === 'kubejs:nexus_scar_3' ||
-                id === 'kubejs:nexus_scar_4'
+            var pos = new BlockPos(
+                source.x,
+                source.y,
+                source.z
             )
+
+            var state = level.getBlockState(pos)
+
+            var id = String(
+                BuiltInRegistries.BLOCK.getKey(
+                    state.getBlock()
+                )
+            )
+
+            return NEXUS_SOUND_BLOCKS.indexOf(id) >= 0
+
         } catch (error) {
             return false
         }
@@ -208,7 +251,10 @@
 
     function findNearestSoundBlock(player) {
         var dimension = String(player.level.dimension)
-        var maxDistanceSq = MAX_AUDIBLE_DISTANCE * MAX_AUDIBLE_DISTANCE
+        var maxDistanceSq =
+            MAX_AUDIBLE_DISTANCE *
+            MAX_AUDIBLE_DISTANCE
+
         var nearest = null
         var nearestDistanceSq = maxDistanceSq
         var sources = loadSources(player.server)
@@ -218,8 +264,7 @@
                 return
             }
 
-            // Evita que una posición antigua siga sonando si ya no hay grieta.
-            if (!isScarAt(player.level, source)) {
+            if (!isNexusSoundBlockAt(player.level, source)) {
                 return
             }
 
@@ -230,7 +275,11 @@
             var dx = player.x - sx
             var dy = player.y - sy
             var dz = player.z - sz
-            var distanceSq = dx * dx + dy * dy + dz * dz
+
+            var distanceSq =
+                dx * dx +
+                dy * dy +
+                dz * dz
 
             if (distanceSq <= nearestDistanceSq) {
                 nearestDistanceSq = distanceSq
@@ -243,22 +292,22 @@
 
     function playTrack(server, player, source, sound) {
         var username = String(player.username)
+
         var x = source.x + 0.5
         var y = source.y + 0.1
         var z = source.z + 0.5
 
         server.runCommandSilent(
-            'playsound ' + sound + ' ambient ' + username + ' ' +
-            x + ' ' + y + ' ' + z + ' ' +
-            BASE_VOLUME + ' 1 0'
+            'playsound ' +
+            sound +
+            ' ambient ' +
+            username + ' ' +
+            x + ' ' +
+            y + ' ' +
+            z + ' ' +
+            BASE_VOLUME +
+            ' 1 0'
         )
-
-        if (DEBUG) {
-            console.info(
-                '[NEXUS] ' + username + ' -> ' + sound +
-                ' @ ' + source.x + ' ' + source.y + ' ' + source.z
-            )
-        }
     }
 
     function stopNexusSounds(server, player) {
@@ -269,10 +318,12 @@
             'kubejs:kevin_1_fade_in_fast',
             'kubejs:kevin_1_fade_in',
             'kubejs:kevin_1_fade',
+
             'kubejs:kevin_2',
             'kubejs:kevin_2_fade_in_fast',
             'kubejs:kevin_2_fade_in',
             'kubejs:kevin_2_fade',
+
             'kubejs:kevin_3',
             'kubejs:kevin_3_fade_in_fast',
             'kubejs:kevin_3_fade_in',
@@ -281,7 +332,10 @@
 
         sounds.forEach(function (sound) {
             server.runCommandSilent(
-                'stopsound ' + username + ' ambient ' + sound
+                'stopsound ' +
+                username +
+                ' ambient ' +
+                sound
             )
         })
     }
@@ -291,25 +345,47 @@
 
         do {
             next = randomInt(1, 3)
-        } while (previousTrack !== 0 && next === previousTrack)
+        } while (
+            previousTrack !== 0 &&
+            next === previousTrack
+        )
 
         return next
     }
 
-    function startTrack(server, player, state, previousTrack, fastEntry) {
-        var nextTrack = pickDifferentTrack(previousTrack)
+    function startTrack(
+        server,
+        player,
+        state,
+        previousTrack,
+        fastEntry
+    ) {
+        var nextTrack =
+            pickDifferentTrack(previousTrack)
+
         var track = TRACKS[nextTrack]
 
         state.currentTrack = nextTrack
-        state.normalLoopsRemaining = randomInt(
-            track.minNormalLoops,
-            track.maxNormalLoops
-        )
+
+        state.normalLoopsRemaining =
+            randomInt(
+                track.minNormalLoops,
+                track.maxNormalLoops
+            )
+
         state.phase = 'normal'
 
-        var sound = fastEntry ? track.fadeInFast : track.fadeIn
+        var sound =
+            fastEntry
+                ? track.fadeInFast
+                : track.fadeIn
 
-        playTrack(server, player, state.source, sound)
+        playTrack(
+            server,
+            player,
+            state.source,
+            sound
+        )
 
         state.nextSoundTick =
             nexusAmbientTick +
@@ -323,7 +399,13 @@
         }
 
         if (state.phase === 'idle') {
-            startTrack(server, player, state, 0, true)
+            startTrack(
+                server,
+                player,
+                state,
+                0,
+                true
+            )
             return
         }
 
@@ -331,27 +413,50 @@
 
         if (state.phase === 'normal') {
             if (state.normalLoopsRemaining > 0) {
-                playTrack(server, player, state.source, track.normal)
+                playTrack(
+                    server,
+                    player,
+                    state.source,
+                    track.normal
+                )
+
                 state.normalLoopsRemaining--
+
                 state.nextSoundTick =
                     nexusAmbientTick +
                     track.duration -
                     LOOP_OVERLAP
+
                 return
             }
 
-            playTrack(server, player, state.source, track.fadeOut)
+            playTrack(
+                server,
+                player,
+                state.source,
+                track.fadeOut
+            )
+
             state.phase = 'crossfade'
+
             state.nextSoundTick =
                 nexusAmbientTick +
                 track.duration -
                 CROSSFADE_TICKS
+
             return
         }
 
         if (state.phase === 'crossfade') {
             var previousTrack = state.currentTrack
-            startTrack(server, player, state, previousTrack, false)
+
+            startTrack(
+                server,
+                player,
+                state,
+                previousTrack,
+                false
+            )
         }
     }
 
@@ -368,22 +473,34 @@
                 state.phase = 'idle'
                 state.normalLoopsRemaining = 0
                 state.nextSoundTick = nexusAmbientTick
+
             } else if (nearest && state.source) {
                 state.source = nearest
+
             } else if (!nearest && state.source) {
-                stopNexusSounds(event.server, player)
+                stopNexusSounds(
+                    event.server,
+                    player
+                )
+
                 state.source = null
                 state.currentTrack = 0
                 state.phase = 'idle'
                 state.normalLoopsRemaining = 0
+
                 return
             }
 
             if (
                 state.source &&
-                nexusAmbientTick >= state.nextSoundTick
+                nexusAmbientTick >=
+                state.nextSoundTick
             ) {
-                processAudio(event.server, player, state)
+                processAudio(
+                    event.server,
+                    player,
+                    state
+                )
             }
         })
     })

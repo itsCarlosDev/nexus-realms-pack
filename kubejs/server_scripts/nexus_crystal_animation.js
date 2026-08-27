@@ -1,60 +1,215 @@
-// Nexus Realms - Cristal del Nexo
-// V3: UNA sola entidad 3D. El aura se simula con partículas, no con otro cristal.
+// Nexus Realms - Nexus Crystal Animation V6
+//
+// Minecraft 1.20.1
+//
+// UNA sola gema visible.
+// Movimiento REAL de la entidad.
+// Rotación REAL mediante yaw.
+// Glow sigue automáticamente a la gema.
+
+console.info('[Nexus Realms] Nexus Crystal Animation V6 cargado')
 
 let nexusCrystalTick = 0
 
-function ncf(value) {
-  let n = Number(value.toFixed(6))
-  if (Math.abs(n) < 0.000001) n = 0
+function nexusNum(value) {
+  let n = Number(value.toFixed(5))
+
+  if (Math.abs(n) < 0.00001) {
+    n = 0
+  }
+
   return n.toString()
 }
 
+function nexusPulse(phase, center, width) {
+  const distance = Math.abs(phase - center)
+
+  if (distance >= width) {
+    return 0
+  }
+
+  const x = 1 - distance / width
+
+  return x * x * (3 - 2 * x)
+}
+
 ServerEvents.tick(event => {
+
   nexusCrystalTick++
 
-  // 5 actualizaciones por segundo. La interpolación del display suaviza el movimiento.
-  if (nexusCrystalTick % 4 !== 0) return
-
   const server = event.server
-  const core = '@e[type=minecraft:item_display,tag=nexus_crystal_core,limit=1]'
   const t = nexusCrystalTick
 
-  // Flotación vertical: ±0.14 bloques.
-  const bob = Math.sin(t * 0.062832) * 0.14
+  const anchor =
+    '@e[type=minecraft:marker,tag=nexus_crystal_anchor,limit=1]'
 
-  // Rotación lenta alrededor de Y.
-  const angle = t * 0.018
-  const sy = Math.sin(angle / 2)
-  const cy = Math.cos(angle / 2)
+  const crystal =
+    '@e[type=minecraft:item_display,tag=nexus_crystal_core,limit=1]'
 
-  // Pulso muy suave: sigue pareciendo un objeto único.
-  const scale = 3.00 + Math.sin(t * 0.050) * 0.035
 
-  const nbt =
-    '{start_interpolation:0,interpolation_duration:4,' +
-    'transformation:{' +
-    'translation:[0.0f,' + ncf(bob) + 'f,0.0f],' +
-    'left_rotation:[0.0f,' + ncf(sy) + 'f,0.0f,' + ncf(cy) + 'f],' +
-    'scale:[' + ncf(scale) + 'f,' + ncf(scale) + 'f,' + ncf(scale) + 'f],' +
-    'right_rotation:[0.0f,0.0f,0.0f,1.0f]}}'
+  // =========================================================
+  // MOVIMIENTO VERTICAL
+  // =========================================================
 
-  server.runCommandSilent('data merge entity ' + core + ' ' + nbt)
+  /*
+   * Posición base:
+   * 2.60 bloques encima del ancla.
+   *
+   * Movimiento:
+   * +-0.18 bloques.
+   *
+   * Ciclo completo:
+   * ~4 segundos.
+   */
 
-  // Aura visual sin segundo modelo: partículas alrededor del mismo display.
-  if (t % 12 === 0) {
+  const bob =
+    Math.sin(t * Math.PI / 40) * 0.18
+
+  const y =
+    2.60 + bob
+
+
+  // =========================================================
+  // ROTACIÓN
+  // =========================================================
+
+  /*
+   * 1.5 grados por tick
+   *
+   * 30 grados/segundo
+   * = una vuelta cada 12 segundos
+   */
+
+  const yaw =
+    (t * 1.5) % 360
+
+
+  // =========================================================
+  // MOVER REALMENTE LA GEMA
+  // =========================================================
+
+  /*
+   * Ya NO utilizamos transformation.translation.
+   *
+   * La posición REAL del item_display cambia.
+   */
+
+  server.runCommandSilent(
+    'execute at ' + anchor +
+    ' run tp ' + crystal +
+    ' ~ ~' + nexusNum(y) + ' ~ ' +
+    nexusNum(yaw) + ' 0'
+  )
+
+
+  // =========================================================
+  // LATIDO
+  // =========================================================
+
+  /*
+   * Ciclo:
+   *
+   *     PUM
+   *        PUM!
+   *
+   *        reposo
+   *
+   * 80 ticks = 4 segundos
+   */
+
+  const phase =
+    t % 80
+
+  const beat1 =
+    nexusPulse(phase, 10, 5) * 0.55
+
+  const beat2 =
+    nexusPulse(phase, 20, 6)
+
+  const power =
+    Math.min(1, beat1 + beat2)
+
+
+  // =========================================================
+  // GLOW AMBIENTAL
+  // =========================================================
+
+  // 10 actualizaciones por segundo
+  if (t % 2 !== 0) {
+    return
+  }
+
+  const intensity =
+    Math.max(0.10, power)
+
+  const spreadXZ =
+    0.24 + intensity * 0.30
+
+  const spreadY =
+    0.35 + intensity * 0.32
+
+  const amount =
+    Math.max(
+      1,
+      Math.floor(1 + intensity * 6)
+    )
+
+
+  // =========================================================
+  // AURA VIOLETA
+  // =========================================================
+
+  /*
+   * Ahora execute at crystal usa la posición
+   * REAL de la gema.
+   *
+   * Ya NO necesitamos sumar "bob" a las partículas.
+   */
+
+  server.runCommandSilent(
+    'execute at ' + crystal +
+    ' run particle minecraft:dust ' +
+    '0.72 0.12 1.0 ' +
+    nexusNum(0.8 + intensity * 0.5) +
+    ' ~ ~ ~ ' +
+    nexusNum(spreadXZ) + ' ' +
+    nexusNum(spreadY) + ' ' +
+    nexusNum(spreadXZ) + ' ' +
+    '0.005 ' +
+    amount +
+    ' force'
+  )
+
+
+  // =========================================================
+  // SEGUNDO LATIDO
+  // =========================================================
+
+  if (beat2 > 0.55 && t % 4 === 0) {
+
     server.runCommandSilent(
-      'execute at ' + core +
-      ' run particle minecraft:dust 0.72 0.18 1.0 1.0 ~ ~' + ncf(bob) +
-      ' ~ 0.34 0.52 0.34 0.01 3 force'
+      'execute at ' + crystal +
+      ' run particle minecraft:reverse_portal ' +
+      '~ ~ ~ ' +
+      '0.22 0.32 0.22 ' +
+      '0.025 3 force'
     )
   }
 
-  // Partículas de energía más espaciadas.
-  if (t % 40 === 0) {
+
+  // =========================================================
+  // DESTELLO DEL CORAZÓN
+  // =========================================================
+
+  if (power > 0.82) {
+
     server.runCommandSilent(
-      'execute at ' + core +
-      ' run particle minecraft:reverse_portal ~ ~' + ncf(bob) +
-      ' ~ 0.22 0.42 0.22 0.01 2 force'
+      'execute at ' + crystal +
+      ' run particle minecraft:dust ' +
+      '0.95 0.35 1.0 1.5 ' +
+      '~ ~ ~ ' +
+      '0.09 0.15 0.09 ' +
+      '0.002 3 force'
     )
   }
 })

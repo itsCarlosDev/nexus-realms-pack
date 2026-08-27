@@ -1,26 +1,30 @@
 // ============================================================
-// NEXUS REALMS - GRIETA LIGADA AL BLOQUE INFERIOR
+// NEXUS REALMS - CORRUPCION LIGADA AL BLOQUE INFERIOR
 //
-// - Picar la grieta rompe tambien el bloque de debajo.
-// - Picar el bloque inferior elimina la grieta.
-// - La fuente de sonido se elimina del registro.
+// Compatible con grietas antiguas + piezas de path.
 // ============================================================
 
 (function () {
     var BlockPos = Java.loadClass('net.minecraft.core.BlockPos')
 
-    var nexusBreakScars = [
+    var nexusBreakBlocks = [
         'kubejs:nexus_scar_1',
         'kubejs:nexus_scar_2',
         'kubejs:nexus_scar_3',
-        'kubejs:nexus_scar_4'
+        'kubejs:nexus_scar_4',
+
+        'kubejs:nexus_path_end',
+        'kubejs:nexus_path_straight',
+        'kubejs:nexus_path_corner',
+        'kubejs:nexus_path_t',
+        'kubejs:nexus_path_cross'
     ]
 
-    function isNexusScar(id) {
-        return nexusBreakScars.indexOf(String(id)) >= 0
+    function isNexusCorruption(id) {
+        return nexusBreakBlocks.indexOf(String(id)) >= 0
     }
 
-    function unregisterScarAudio(event, x, y, z) {
+    function unregisterAudio(event, x, y, z) {
         try {
             if (
                 global.NexusAmbient &&
@@ -36,40 +40,57 @@
             }
         } catch (error) {
             console.error(
-                '[NEXUS BREAK] Error eliminando fuente de audio: ' + error
+                '[NEXUS BREAK] Error eliminando fuente de audio: ' +
+                error
             )
         }
     }
 
-    nexusBreakScars.forEach(function (scar) {
-        BlockEvents.broken(scar, function (event) {
-            var x = event.block.x
-            var y = event.block.y
-            var z = event.block.z
+    nexusBreakBlocks.forEach(function (blockId) {
+        BlockEvents.broken(
+            blockId,
+            function (event) {
+                var x = event.block.x
+                var y = event.block.y
+                var z = event.block.z
 
-            unregisterScarAudio(event, x, y, z)
+                unregisterAudio(
+                    event,
+                    x,
+                    y,
+                    z
+                )
 
-            var belowPos = new BlockPos(x, y - 1, z)
+                var belowPos =
+                    new BlockPos(
+                        x,
+                        y - 1,
+                        z
+                    )
 
-            // Mantiene el comportamiento que ya te funcionaba:
-            // la grieta se rompe normalmente y se destruye también el suelo.
-            event.level.destroyBlock(
-                belowPos,
-                true,
-                event.player
-            )
-        })
+                event.level.destroyBlock(
+                    belowPos,
+                    true,
+                    event.player
+                )
+            }
+        )
     })
 
     BlockEvents.broken(function (event) {
-        var above = event.level.getBlock(
-            event.block.x,
-            event.block.y + 1,
-            event.block.z
-        )
+        var above =
+            event.level.getBlock(
+                event.block.x,
+                event.block.y + 1,
+                event.block.z
+            )
 
-        if (isNexusScar(above.id)) {
-            unregisterScarAudio(
+        if (
+            isNexusCorruption(
+                above.id
+            )
+        ) {
+            unregisterAudio(
                 event,
                 above.x,
                 above.y,
