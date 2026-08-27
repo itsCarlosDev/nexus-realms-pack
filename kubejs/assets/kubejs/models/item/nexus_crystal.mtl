@@ -1,5 +1,11 @@
-# Nexus Realms - Nexus Crystal / Forge 1.20.1
-newmtl m_f2448dae-3f3c-5ed6-2e2e-a45087fcc3bf
+# Nexus Realms - Nexus Crystal V5
+# Outer shell reacts to world light. Inner core stays emissive.
+newmtl nexus_core
 Ka 1.0 1.0 1.0
 Kd 1.0 1.0 1.0
-map_Kd #texture0
+map_Kd #core
+
+newmtl nexus_shell
+Ka 0.0 0.0 0.0
+Kd 0.90 0.82 1.00
+map_Kd #shell

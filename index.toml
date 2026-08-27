@@ -882,11 +882,11 @@ hash = "574c6102c9130f1c48eeb2403f83849f7034a0090998d6506ac01c380f362435"
 
 [[files]]
 file = "kubejs/assets/kubejs/models/item/nexus_crystal.mtl"
-hash = "01e17b1739ab25b26c1911ef7a3238119fe35fa1c2f46bd2fd54d6806c31a4a0"
+hash = "d10da27b278956c9f053f2cae7cf2e9375c27879100d05ae0fda462ff0b15e68"
 
 [[files]]
 file = "kubejs/assets/kubejs/models/item/nexus_crystal.obj"
-hash = "5371888ee8f79164ebb34926507b8bff5af70236e904e684039543610f668390"
+hash = "17dc3b54f1e89acf3240de067f444ce5a6a0dbb238582d40b0cf46e1db8b7e16"
 
 [[files]]
 file = "kubejs/assets/kubejs/sounds.json"
@@ -978,11 +978,11 @@ hash = "66c908c3253cfb06c5314f49965e409b794e65b27df7e8306616ea94adc8461c"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_path_end.png"
-hash = "5f738aa0313f0d0d2e5c04f4ec8b03184b90216474f606289cc937c71aa3991c"
+hash = "e69f6d09cad559435184f6bcfc4c6924e8890e15c0ed76de1e953a32f1581288"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_path_end_glow.png"
-hash = "773cab1953830968bd5f4294b499bd70a28c0dcc259436b34a22867c075f8ada"
+hash = "13af74e810c267e1880674b8e728efffdf797605b0223e76fb9639ce103f207b"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_path_end_glow.png.mcmeta"
@@ -1087,6 +1087,18 @@ hash = "2bd8a0917e26437bbc658addfa52b025f34a0b2613b889cf2152941e74978dca"
 [[files]]
 file = "kubejs/assets/kubejs/textures/item/nexus_crystal_aura.png"
 hash = "d75f5ffb98e1abf67ca32c53c8658b4608f44ce0d473be57c549097310d043eb"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/item/nexus_crystal_core.png"
+hash = "e2fe7745bb3ada89802aa9e7a0892324feee9d380c96ed2d3dd41330df1b543f"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/item/nexus_crystal_core.png.mcmeta"
+hash = "223256f14d7c3abcb0c117203f5b4b36b78dc9199350cf7f6be4d0b023ee3239"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/item/nexus_crystal_shell.png"
+hash = "f3cbe478e46a6796749a9ecc9fcf6958dce553c40c04c38c4960d06955d7b0ab"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/item/nexus_gold_coin.png"
@@ -1385,6 +1397,10 @@ file = "kubejs/data/irons_spellbooks/structures/pyromancer_tower/staircase.nbt"
 hash = "e41e713a19107ff82386fa19042874270cffca20a95529411499dbcf2dab1857"
 
 [[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/apply_v4.mcfunction"
+hash = "162d03875247fa0b5335c38debd1094f900f4eba8df1fa3aa8336745ba871d78"
+
+[[files]]
 file = "kubejs/data/kubejs/functions/nexus_crystal/debug.mcfunction"
 hash = "6ddffe875dc132eebb0a625e3f228c6e3e2c9b7179799616c6f783a30fd43905"
 
@@ -1402,7 +1418,15 @@ hash = "95262e22f67e9bbc194e5ff3df4c29c7a1acfb957303b9e9d14d1f3f6919920b"
 
 [[files]]
 file = "kubejs/data/kubejs/functions/nexus_crystal/spawn.mcfunction"
-hash = "a0ef780d1f021ebb7b797a65ea99171371a0d8b322f2989e1768a32212945341"
+hash = "b83b920de6e81a2202cd79eacc7baa94d54344d16f73822ac3cf228c1a496b23"
+
+[[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/tick.mcfunction"
+hash = "ed8ac654d28b1689ec1f1f6fb5ca46a9d70114ca73f88fc11506c3eaa837a7ac"
+
+[[files]]
+file = "kubejs/data/minecraft/tags/functions/tick.json"
+hash = "547de15edc7ec09bc906d7bb5ed98891d344035aa81908bd2401cf0cff11d3ff"
 
 [[files]]
 file = "kubejs/data/starcatcher/data_maps/item/catch_modifiers.json"
@@ -1462,7 +1486,7 @@ hash = "4948ad385f3cae08267e565ad3b54e6a34df1a880b6f892670c9bb8060f30949"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_crystal_animation.js"
-hash = "2129b3c828990256d9e46d204326a45373c49436afacfcf8da36ea21a2969d0d"
+hash = "2a61e66dd1a72adc09e882c11906894aa43a8feb30a927f8c458dcb7da2b579d"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_disable_vanilla_zombies.js"
@@ -1510,7 +1534,7 @@ hash = "f699e6ba947d6a0b003cf5091fa9eeccd4eceffdc010aafb3798c78601ec093a"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_crystal.js"
-hash = "30358520c6f0fd2402974589fbd17b0607cd2ebb42061d579a91d803e4573616"
+hash = "0f64574be3e90e3e74d1e85dc2c54699604719ac619a9399f64d7ae4363b2840"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_economy_items.js"
@@ -2931,4 +2955,4 @@ metafile = true
 
 [[files]]
 file = "source/nexus_crystal.bbmodel"
-hash = "50c79c16c46402303cd439a929b732d3a79ec49b0e903c789d03a28a09d2394b"
+hash = "b44251bbc4b1e0fa94a69a5484d87977521e82bee86fb3aae223987164926152"
