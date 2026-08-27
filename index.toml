@@ -1,6 +1,10 @@
 hash-format = "sha256"
 
 [[files]]
+file = "APPLY_NEXUS_CORRUPTED_MOBS_0.6.38.ps1"
+hash = "a0bf8b14a94053d29e53f60236a578f223d7fdc603370139750ec4a94a41e396"
+
+[[files]]
 file = "config/InventoryHUD/curios.json"
 hash = "b98027a7c3a0a1af9479cb6ebd7ba5deccccbdaf043d575f96224a61f14fb5a9"
 
@@ -853,16 +857,76 @@ file = "kubejs/assets/kubejs/models/block/nexus_path_cross.json"
 hash = "e5850a83bd41024b21654e6b42dc3a7b5513999608d7fba12a7c2c8304ddb10a"
 
 [[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_e.json"
+hash = "8d2429213cfbe7af6f4e0dd939e08d1eb48005cee97c951e67fb954711233fd8"
+
+[[files]]
 file = "kubejs/assets/kubejs/models/block/nexus_path_end.json"
 hash = "7486bf50a5ab446bea79382b1633ce928fb06f94e1f31c0fd40f3d007b168533"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_es.json"
+hash = "0487b2cf58bc9a3deafdecd1870d88bee6ed2c1cb2bdca7875fb57f0fef7db7b"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_esw.json"
+hash = "ab764d60528dd3b678a3c51d8b6a4bb6ca0ad2a90b647c4e22ccef870f7ea40f"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_ew.json"
+hash = "b22eb2d39bba90a6477e33acd52f5ca17e7d6723f2a35c4dfe051e84edea5948"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_n.json"
+hash = "7486bf50a5ab446bea79382b1633ce928fb06f94e1f31c0fd40f3d007b168533"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_ne.json"
+hash = "82819fe7ab4dcdfe52ff95ae0a111be40157f337e57787cbad30adf02ea215b1"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_nes.json"
+hash = "e63fca600777752bbeb451cba00001aa6089ea69baf3aa8c44141c187a80a173"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_nesw.json"
+hash = "e5850a83bd41024b21654e6b42dc3a7b5513999608d7fba12a7c2c8304ddb10a"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_new.json"
+hash = "d7179c8da0d47810d3b05c76c6568837d392b25f1849ef67b981716e76e1cedb"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_ns.json"
+hash = "4697c8db0f605ff2ec455daddefc2293fcdf9ecb02ea24e0be9e246090f950f4"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_nsw.json"
+hash = "8447136cc95f68294041f3beeb1e0d9a77f44f9dd1e30e74e6bb15f150748b11"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_s.json"
+hash = "5ce2a2b81da28fcfc766bd3163cb009fa9d9e4f2677ee023ca3cbb99c3cf989c"
 
 [[files]]
 file = "kubejs/assets/kubejs/models/block/nexus_path_straight.json"
 hash = "4697c8db0f605ff2ec455daddefc2293fcdf9ecb02ea24e0be9e246090f950f4"
 
 [[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_sw.json"
+hash = "8b062574b6b2317a540b3d43f0598e18b83da1a7c2e596ab1e50234182267aed"
+
+[[files]]
 file = "kubejs/assets/kubejs/models/block/nexus_path_t.json"
 hash = "d7179c8da0d47810d3b05c76c6568837d392b25f1849ef67b981716e76e1cedb"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_w.json"
+hash = "d0c84565ddd731ba0d84e077685e10c0e0284d09023984d47f8fa03bdece691c"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_wn.json"
+hash = "dee096dc42c8e5940304f7e7b280c7bb38581389eed0d7b9295658c2f255d496"
 
 [[files]]
 file = "kubejs/assets/kubejs/models/block/nexus_scar_1.json"
@@ -954,7 +1018,7 @@ hash = "b40c7c8b5d32468756502695026d0f4412ad30a8cdec6ae07a9e37b713a31828"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_path_corner.png"
-hash = "f334b1cdcbb8cc2b1bfa922c5ef54ffc6cb0b2c843590700f2155fdee35dea25"
+hash = "1ef400c9df00e28b3ec0f302299e2f06c7ba20114f5fe1395b8e072cd11dc884"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_path_corner.zip"
@@ -962,7 +1026,7 @@ hash = "8e07888aeccd20c8d5ffaf36a3a7061dbde1de0be3891d2c595f50f82fb57d82"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_path_corner_glow.png"
-hash = "e67b798d18f22f587936e2832c880b78fc3c98f296baee7f444dd94e966e26f6"
+hash = "b55bbb67bc3e40881396ab31b26d1521a82df34690e7bb05b63593547fdb2581"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_path_corner_glow.png.mcmeta"
@@ -1482,7 +1546,7 @@ hash = "aa29a6151270c46643f000323e081dea7093ac23516acfb0c8855a47941ed72c"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_ambient.js"
-hash = "369fd039f3d1ab37800f96a1a1678cbe4790b1f529965aa50c7cd8bec18304e1"
+hash = "77755a857d144fa3d8cde046023c517b321958d8bae349acc41326f6390210bd"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_automobility_create_recipes.js"
@@ -1506,7 +1570,7 @@ hash = "8f146b77f5f83286f700a1e08fb5e2d0f0d1ceb2162588b8bb526f89ea0ff103"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_corruption_engine.js"
-hash = "d74afb2d11f1a1c2aa26d08e3a6f0be050821913cccaeaa4869f27cac38a5579"
+hash = "8664104797be97cfbb96163b265f237e7e6d1328bb8f290f20c8787428a2eff2"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_corruption_place.js"
@@ -1538,7 +1602,7 @@ hash = "1e898dcb5184d33d5e98ca550a19d7bf3b453c3fec9541751dff4aefe018ebc3"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_scar_blocks.js"
-hash = "cc571e8c4ff9d886b2732a70be74e06a98cee1351fd21bc571c736c9b69d1b43"
+hash = "68e34ddadb12a066d1390f006f396ee269075bcfdd18201f6513423a079470a7"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_scar_particles.js"
@@ -1558,7 +1622,7 @@ hash = "561e8cbf3ffdc0526c4daecdd049c45c610bb7c033b1de63ba1120f89bdc50df"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_corruption_registry.js"
-hash = "f699e6ba947d6a0b003cf5091fa9eeccd4eceffdc010aafb3798c78601ec093a"
+hash = "b6065350cf9826a89e026b967ee3151f3dd555cbc1988792ca8ef65b9d4f913f"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_crystal.js"
@@ -2405,8 +2469,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.37.jar"
-hash = "6330cb89563b331c8580cdace5a51a5ff2328f6410ce845b4dba5be26c659abc"
+file = "mods/nexus-core-0.6.38.jar"
+hash = "e678de517aaf7f83a316bcad92e7bcfbc6cbc3f49cebeae8f3d927fbce54ac28"
 
 [[files]]
 file = "mods/nightfall-invade.pw.toml"

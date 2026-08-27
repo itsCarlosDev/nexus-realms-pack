@@ -1,7 +1,7 @@
 // ============================================================
 // NEXUS REALMS - CORRUPCION LIGADA AL BLOQUE INFERIOR
 //
-// Compatible con grietas antiguas + piezas de path.
+// Compatible con grietas antiguas + paths base + variantes V2.
 // ============================================================
 
 (function () {
@@ -17,7 +17,23 @@
         'kubejs:nexus_path_straight',
         'kubejs:nexus_path_corner',
         'kubejs:nexus_path_t',
-        'kubejs:nexus_path_cross'
+        'kubejs:nexus_path_cross',
+
+        'kubejs:nexus_path_n',
+        'kubejs:nexus_path_e',
+        'kubejs:nexus_path_s',
+        'kubejs:nexus_path_w',
+        'kubejs:nexus_path_ns',
+        'kubejs:nexus_path_ew',
+        'kubejs:nexus_path_ne',
+        'kubejs:nexus_path_es',
+        'kubejs:nexus_path_sw',
+        'kubejs:nexus_path_wn',
+        'kubejs:nexus_path_new',
+        'kubejs:nexus_path_nes',
+        'kubejs:nexus_path_esw',
+        'kubejs:nexus_path_nsw',
+        'kubejs:nexus_path_nesw'
     ]
 
     function isNexusCorruption(id) {

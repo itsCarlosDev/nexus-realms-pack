@@ -2,12 +2,7 @@
 // NEXUS REALMS - AMBIENTE ESPACIAL DINAMICO DE LA CORRUPCION
 // Forge 1.20.1 + KubeJS
 //
-// Compatible con:
-// - nexus_scar_1..4
-// - nexus_path_end / straight / corner / t / cross
-//
-// Las posiciones que deban sonar se registran mediante:
-// global.NexusAmbient.registerSource(...)
+// Compatible con grietas decorativas, paths base y 15 variantes V2.
 // ============================================================
 
 (function () {
@@ -31,7 +26,23 @@
         'kubejs:nexus_path_straight',
         'kubejs:nexus_path_corner',
         'kubejs:nexus_path_t',
-        'kubejs:nexus_path_cross'
+        'kubejs:nexus_path_cross',
+
+        'kubejs:nexus_path_n',
+        'kubejs:nexus_path_e',
+        'kubejs:nexus_path_s',
+        'kubejs:nexus_path_w',
+        'kubejs:nexus_path_ns',
+        'kubejs:nexus_path_ew',
+        'kubejs:nexus_path_ne',
+        'kubejs:nexus_path_es',
+        'kubejs:nexus_path_sw',
+        'kubejs:nexus_path_wn',
+        'kubejs:nexus_path_new',
+        'kubejs:nexus_path_nes',
+        'kubejs:nexus_path_esw',
+        'kubejs:nexus_path_nsw',
+        'kubejs:nexus_path_nesw'
     ]
 
     var TRACKS = {
@@ -122,24 +133,6 @@
             console.error(
                 '[NEXUS AMBIENT] No se pudieron cargar las fuentes: ' + error
             )
-        }
-
-        // Compatibilidad temporal con la grieta de prueba antigua.
-        var legacy = normaliseSource(
-            'minecraft:overworld',
-            -62,
-            67,
-            307
-        )
-
-        var legacyKey = sourceKey(legacy)
-
-        var foundLegacy = nexusAmbientSourceCache.some(function (source) {
-            return sourceKey(source) === legacyKey
-        })
-
-        if (!foundLegacy) {
-            nexusAmbientSourceCache.push(legacy)
         }
 
         return nexusAmbientSourceCache

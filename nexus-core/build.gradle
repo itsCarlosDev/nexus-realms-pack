@@ -6,7 +6,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
 }
 
-version = '0.6.37'
+version = '0.6.38'
 group = 'dev.itscarlos'
 
 base {
