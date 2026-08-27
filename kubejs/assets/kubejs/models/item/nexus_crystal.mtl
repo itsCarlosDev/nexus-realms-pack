@@ -1,11 +1,12 @@
-# Nexus Realms - Nexus Crystal V5
-# Outer shell reacts to world light. Inner core stays emissive.
-newmtl nexus_core
-Ka 1.0 1.0 1.0
-Kd 1.0 1.0 1.0
-map_Kd #core
-
+# Nexus Realms - Nexus Crystal V6
+# Shell: world-lit crystal.
 newmtl nexus_shell
 Ka 0.0 0.0 0.0
-Kd 0.90 0.82 1.00
+Kd 0.88 0.82 1.00
 map_Kd #shell
+
+# Core: emissive, but intentionally below fullbright 15.
+newmtl nexus_core
+Ka 0.75 0.75 0.75
+Kd 1.0 1.0 1.0
+map_Kd #core

@@ -1,5 +1,5 @@
-// Nexus Realms - Nexus Crystal V5
-// One display / one OBJ: clean translucent shell + smaller emissive core.
+// Nexus Realms - Nexus Crystal V6
+// Shader-safe two-layer crystal in ONE OBJ / ONE item_display.
 StartupEvents.registry('item', event => {
   event.create('nexus_crystal')
     .displayName('Cristal del Nexo')

@@ -5,22 +5,28 @@ import dev.itscarlos.nexuscore.client.ProgressionClientConfig;
 import dev.itscarlos.nexuscore.diagnostics.ShutdownHangDiagnostic;
 import dev.itscarlos.nexuscore.network.EpicFightRegistryNetwork;
 import dev.itscarlos.nexuscore.network.ProgressionNetwork;
+import dev.itscarlos.nexuscore.nexus.NexusEntities;
 import dev.itscarlos.nexuscore.progression.EraRegistry;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
 
 @Mod(NexusCore.MOD_ID)
 public final class NexusCore {
     public static final String MOD_ID = "nexuscore";
     public static final String BUILD_ID =
-        "0.6.31";
+        "0.6.33";
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public NexusCore() {
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        NexusEntities.register(modEventBus);
+
         if (FMLEnvironment.dist == Dist.DEDICATED_SERVER) {
             ShutdownHangDiagnostic.initialize();
         }

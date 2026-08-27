@@ -1,4 +1,5 @@
-# Limpieza segura del Nexus actual y de versiones anteriores conocidas.
+# V7 + limpieza de versiones anteriores.
+nexus_crystal remove
 kill @e[type=minecraft:item_display,tag=nexus_crystal]
 kill @e[type=minecraft:item_display,tag=nexus_crystal_display]
 kill @e[type=minecraft:item_display,tag=nexus_crystal_core]
