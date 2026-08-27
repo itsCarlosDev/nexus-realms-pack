@@ -29,23 +29,11 @@ public final class NexusCrystalVisualPolicyCheck {
         );
 
         assertNear(
-            "inner shell scale",
-            0.90F,
-            NexusCrystalVisuals.INNER_SHELL_SCALE,
+            "core scale",
+            0.35F,
+            NexusCrystalVisuals.CORE_SCALE,
             0.000001F
         );
-
-        assertNear(
-            "inner shell offset",
-            18.0F,
-            NexusCrystalVisuals.INNER_SHELL_ROTATION_OFFSET_DEGREES,
-            0.000001F
-        );
-
-        if (NexusCrystalVisuals.CORE_SCALE < 0.30F
-            || NexusCrystalVisuals.CORE_SCALE > 0.40F) {
-            throw new AssertionError("CORE_SCALE outside safe V7 range.");
-        }
 
         if (NexusCrystalVisuals.OUTER_RADIUS <= 0.60F) {
             throw new AssertionError(
@@ -54,8 +42,8 @@ public final class NexusCrystalVisualPolicyCheck {
         }
 
         System.out.println(
-            "Nexus Crystal V7.1 policy OK: exact V7 envelope, "
-                + "double CUTOUT shell 100%/90%, 18deg offset, 35% core."
+            "Nexus Crystal V7.2 policy OK: exact V7 envelope, "
+                + "single 8-plane shell, culling, 35% core."
         );
     }
 

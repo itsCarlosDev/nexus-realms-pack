@@ -1,4 +1,4 @@
-# Nexus Crystal V7.1 — renderer nativo de Nexus Core
+# Nexus Crystal V7.2 — renderer nativo de Nexus Core
 
 V7 abandona el OBJ translúcido y registra `nexuscore:nexus_crystal` como una sola
 entidad persistente.
@@ -20,7 +20,7 @@ por lo que el core se ve a través de ellos sin ordenar dos transparencias anida
 ## Instalación
 1. Extrae el ZIP en la raíz de `nexus-realms-pack`.
 2. Windows: `BUILD_NEXUS_CORE_V7.bat`
-3. JAR esperado: `nexus-core/build/libs/nexus-core-0.6.33.jar`
+3. JAR esperado: `nexus-core/build/libs/nexus-core-0.6.34.jar`
 4. Sustituye Nexus Core en servidor y clientes usando tu flujo habitual.
 5. Ejecuta `packwiz refresh`.
 6. Reinicia completamente servidor y cliente.

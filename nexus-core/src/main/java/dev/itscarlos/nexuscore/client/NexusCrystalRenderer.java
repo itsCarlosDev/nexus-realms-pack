@@ -15,24 +15,21 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
 /**
- * Nexus Crystal V7.1
+ * Nexus Crystal V7.2 — Plane Shell.
  *
- * The important rule is unchanged: the essential crystal never uses partial
- * alpha blending. All four passes use CUTOUT. The "glass" look comes from
- * sparse opaque facets, real holes, two nested rotating shells, lighting and
- * a full-bright energy core.
+ * V7.1's visual failure came from two closed, no-cull bipyramids. Through
+ * every cutout hole the player could see rear faces, then a second shell,
+ * creating a dense broken-rock look.
+ *
+ * V7.2 uses only eight outward-facing square-bipyramid planes and enables
+ * back-face culling for the shell. The visible crystal is therefore normally
+ * two or three sparse facets at once, not 24+ overlapping shell faces.
  */
 public final class NexusCrystalRenderer extends EntityRenderer<NexusCrystalEntity> {
-    private static final ResourceLocation OUTER_SHELL_TEXTURE =
+    private static final ResourceLocation SHELL_TEXTURE =
         new ResourceLocation(
             NexusCore.MOD_ID,
-            "textures/entity/nexus_crystal/shell_outer.png"
-        );
-
-    private static final ResourceLocation INNER_SHELL_TEXTURE =
-        new ResourceLocation(
-            NexusCore.MOD_ID,
-            "textures/entity/nexus_crystal/shell_inner.png"
+            "textures/entity/nexus_crystal/shell_planes.png"
         );
 
     private static final ResourceLocation CORE_TEXTURE =
@@ -44,31 +41,37 @@ public final class NexusCrystalRenderer extends EntityRenderer<NexusCrystalEntit
     private static final ResourceLocation HIGHLIGHT_TEXTURE =
         new ResourceLocation(
             NexusCore.MOD_ID,
-            "textures/entity/nexus_crystal/highlight.png"
+            "textures/entity/nexus_crystal/highlight_planes.png"
         );
 
-    private static final RenderType OUTER_SHELL_RENDER_TYPE =
-        RenderType.entityCutoutNoCull(OUTER_SHELL_TEXTURE);
+    /**
+     * entityCutout keeps the normal CULL state. This is intentional.
+     * Rear shell faces must not render through front-face holes.
+     */
+    private static final RenderType SHELL_RENDER_TYPE =
+        RenderType.entityCutout(SHELL_TEXTURE);
 
-    private static final RenderType INNER_SHELL_RENDER_TYPE =
-        RenderType.entityCutoutNoCull(INNER_SHELL_TEXTURE);
-
+    /**
+     * The core is an independent small energy object. No-cull is safe here
+     * because it does not form the transparent-looking outer shell.
+     */
     private static final RenderType CORE_RENDER_TYPE =
         RenderType.entityCutoutNoCull(CORE_TEXTURE);
 
     private static final RenderType HIGHLIGHT_RENDER_TYPE =
-        RenderType.entityCutoutNoCull(HIGHLIGHT_TEXTURE);
+        RenderType.entityCutout(HIGHLIGHT_TEXTURE);
 
-    /** 4 x 4 atlas; V7.1 uses cells 0..11. */
-    private static final float ATLAS_SIZE = 256.0F;
-    private static final float ATLAS_CELL_SIZE = 64.0F;
+    /** 4 x 2 used region inside a 256 x 128 atlas; one unique cell per plane. */
+    private static final float ATLAS_WIDTH = 256.0F;
+    private static final float ATLAS_HEIGHT = 128.0F;
+    private static final float CELL_SIZE = 64.0F;
 
-    private static final float[] RING_X = new float[6];
-    private static final float[] RING_Z = new float[6];
+    /** Four cardinal equator points create exactly eight shell planes. */
+    private static final float[] RING_X = new float[4];
+    private static final float[] RING_Z = new float[4];
 
     static {
-        float[] degrees =
-            new float[] {60.0F, 0.0F, -60.0F, -120.0F, -180.0F, -240.0F};
+        float[] degrees = new float[] {0.0F, 90.0F, 180.0F, 270.0F};
 
         for (int i = 0; i < degrees.length; i++) {
             double radians = Math.toRadians(degrees[i]);
@@ -96,54 +99,21 @@ public final class NexusCrystalRenderer extends EntityRenderer<NexusCrystalEntit
         float animationTime = entity.tickCount + partialTicks;
         float bob = NexusCrystalVisuals.bob(animationTime);
 
-        // PASS 1 — world-lit outer crystal facets.
+        // PASS 1 — the only outer shell.
         poseStack.pushPose();
         applyCenteredRotation(
             poseStack,
             bob,
-            animationTime * NexusCrystalVisuals.OUTER_SHELL_DEGREES_PER_TICK
+            animationTime * NexusCrystalVisuals.SHELL_DEGREES_PER_TICK
         );
-        renderAtlasBipyramid(
+        renderPlaneShell(
             poseStack,
-            bufferSource.getBuffer(OUTER_SHELL_RENDER_TYPE),
+            bufferSource.getBuffer(SHELL_RENDER_TYPE),
             packedLight
         );
         poseStack.popPose();
 
-        // PASS 2 — smaller, differently rotating inner "glass" shell.
-        // This follows the successful vanilla End Crystal idea of nested,
-        // transformed cutout shells rather than alpha-blended glass volumes.
-        poseStack.pushPose();
-        poseStack.translate(
-            0.0D,
-            bob + NexusCrystalVisuals.CENTER_Y,
-            0.0D
-        );
-        poseStack.mulPose(
-            Axis.YP.rotationDegrees(
-                NexusCrystalVisuals.INNER_SHELL_ROTATION_OFFSET_DEGREES
-                    + animationTime
-                    * NexusCrystalVisuals.INNER_SHELL_DEGREES_PER_TICK
-            )
-        );
-        poseStack.scale(
-            NexusCrystalVisuals.INNER_SHELL_SCALE,
-            NexusCrystalVisuals.INNER_SHELL_SCALE,
-            NexusCrystalVisuals.INNER_SHELL_SCALE
-        );
-        poseStack.translate(
-            0.0D,
-            -NexusCrystalVisuals.CENTER_Y,
-            0.0D
-        );
-        renderAtlasBipyramid(
-            poseStack,
-            bufferSource.getBuffer(INNER_SHELL_RENDER_TYPE),
-            packedLight
-        );
-        poseStack.popPose();
-
-        // PASS 3 — existing energy core, full-bright and independent.
+        // PASS 2 — unchanged small full-bright energy core.
         poseStack.pushPose();
         poseStack.translate(
             0.0D,
@@ -167,34 +137,32 @@ public final class NexusCrystalRenderer extends EntityRenderer<NexusCrystalEntit
             0.0D
         );
 
-        renderUniformUvBipyramid(
+        renderCoreBipyramid(
             poseStack,
             bufferSource.getBuffer(CORE_RENDER_TYPE),
             LightTexture.FULL_BRIGHT
         );
         poseStack.popPose();
 
-        // PASS 4 — only a few moving full-bright glints.
-        // Kept separate so highlights can bloom without turning the shell
-        // itself into an emissive object.
+        // PASS 3 — very sparse glints on the same culled shell planes.
         poseStack.pushPose();
         applyCenteredRotation(
             poseStack,
             bob,
-            animationTime * NexusCrystalVisuals.OUTER_SHELL_DEGREES_PER_TICK
+            animationTime * NexusCrystalVisuals.SHELL_DEGREES_PER_TICK
         );
         poseStack.translate(
             0.0D,
             NexusCrystalVisuals.CENTER_Y,
             0.0D
         );
-        poseStack.scale(1.004F, 1.004F, 1.004F);
+        poseStack.scale(1.003F, 1.003F, 1.003F);
         poseStack.translate(
             0.0D,
             -NexusCrystalVisuals.CENTER_Y,
             0.0D
         );
-        renderAtlasBipyramid(
+        renderPlaneShell(
             poseStack,
             bufferSource.getBuffer(HIGHLIGHT_RENDER_TYPE),
             LightTexture.FULL_BRIGHT
@@ -230,10 +198,18 @@ public final class NexusCrystalRenderer extends EntityRenderer<NexusCrystalEntit
     }
 
     /**
-     * Renders the 12 bipyramid faces using a unique 64x64 atlas cell per face.
-     * Cells 0..5 are upper faces, 6..11 lower faces.
+     * Eight single-sided triangular planes:
+     *
+     * 4 upper:
+     *     ring[next] -> ring[current] -> top
+     *
+     * 4 lower:
+     *     ring[current] -> ring[next] -> bottom
+     *
+     * The winding is intentionally opposite between halves so all normals
+     * point outward. With entityCutout's CULL state, rear faces disappear.
      */
-    private static void renderAtlasBipyramid(
+    private static void renderPlaneShell(
         PoseStack poseStack,
         VertexConsumer consumer,
         int packedLight
@@ -242,30 +218,30 @@ public final class NexusCrystalRenderer extends EntityRenderer<NexusCrystalEntit
         float topY = NexusCrystalVisuals.OUTER_TOP_Y;
         float bottomY = NexusCrystalVisuals.OUTER_BOTTOM_Y;
 
-        for (int i = 0; i < 6; i++) {
-            int next = (i + 1) % 6;
+        for (int i = 0; i < 4; i++) {
+            int next = (i + 1) % 4;
 
             int upperFace = i;
             triangle(
                 poseStack,
                 consumer,
                 packedLight,
-                RING_X[i], ringY, RING_Z[i],
-                    atlasU(upperFace, 4.0F), atlasV(upperFace, 60.0F),
                 RING_X[next], ringY, RING_Z[next],
                     atlasU(upperFace, 60.0F), atlasV(upperFace, 60.0F),
+                RING_X[i], ringY, RING_Z[i],
+                    atlasU(upperFace, 4.0F), atlasV(upperFace, 60.0F),
                 0.0F, topY, 0.0F,
                     atlasU(upperFace, 32.0F), atlasV(upperFace, 4.0F)
             );
 
-            int lowerFace = 6 + i;
+            int lowerFace = 4 + i;
             triangle(
                 poseStack,
                 consumer,
                 packedLight,
-                RING_X[next], ringY, RING_Z[next],
-                    atlasU(lowerFace, 4.0F), atlasV(lowerFace, 4.0F),
                 RING_X[i], ringY, RING_Z[i],
+                    atlasU(lowerFace, 4.0F), atlasV(lowerFace, 4.0F),
+                RING_X[next], ringY, RING_Z[next],
                     atlasU(lowerFace, 60.0F), atlasV(lowerFace, 4.0F),
                 0.0F, bottomY, 0.0F,
                     atlasU(lowerFace, 32.0F), atlasV(lowerFace, 60.0F)
@@ -274,26 +250,36 @@ public final class NexusCrystalRenderer extends EntityRenderer<NexusCrystalEntit
     }
 
     /**
-     * Core keeps the simple full-texture mapping from V7.
+     * The V7 core remains a six-sided bipyramid. It is deliberately separate
+     * from the shell so a bright solid energy crystal stays readable through
+     * the shell's real holes.
      */
-    private static void renderUniformUvBipyramid(
+    private static void renderCoreBipyramid(
         PoseStack poseStack,
         VertexConsumer consumer,
         int packedLight
     ) {
+        final int sides = 6;
+        float radius = NexusCrystalVisuals.OUTER_RADIUS;
         float ringY = NexusCrystalVisuals.OUTER_RING_Y;
         float topY = NexusCrystalVisuals.OUTER_TOP_Y;
         float bottomY = NexusCrystalVisuals.OUTER_BOTTOM_Y;
 
-        for (int i = 0; i < 6; i++) {
-            int next = (i + 1) % 6;
+        for (int i = 0; i < sides; i++) {
+            double angleA = Math.toRadians(60.0D - i * 60.0D);
+            double angleB = Math.toRadians(60.0D - ((i + 1) % sides) * 60.0D);
+
+            float ax = (float) (Math.cos(angleA) * radius);
+            float az = (float) (Math.sin(angleA) * radius);
+            float bx = (float) (Math.cos(angleB) * radius);
+            float bz = (float) (Math.sin(angleB) * radius);
 
             triangle(
                 poseStack,
                 consumer,
                 packedLight,
-                RING_X[i], ringY, RING_Z[i], 0.06F, 0.94F,
-                RING_X[next], ringY, RING_Z[next], 0.94F, 0.94F,
+                ax, ringY, az, 0.06F, 0.94F,
+                bx, ringY, bz, 0.94F, 0.94F,
                 0.0F, topY, 0.0F, 0.50F, 0.05F
             );
 
@@ -301,8 +287,8 @@ public final class NexusCrystalRenderer extends EntityRenderer<NexusCrystalEntit
                 poseStack,
                 consumer,
                 packedLight,
-                RING_X[next], ringY, RING_Z[next], 0.94F, 0.06F,
-                RING_X[i], ringY, RING_Z[i], 0.06F, 0.06F,
+                bx, ringY, bz, 0.94F, 0.06F,
+                ax, ringY, az, 0.06F, 0.06F,
                 0.0F, bottomY, 0.0F, 0.50F, 0.95F
             );
         }
@@ -310,12 +296,12 @@ public final class NexusCrystalRenderer extends EntityRenderer<NexusCrystalEntit
 
     private static float atlasU(int face, float localPixelX) {
         int column = face % 4;
-        return (column * ATLAS_CELL_SIZE + localPixelX) / ATLAS_SIZE;
+        return (column * CELL_SIZE + localPixelX) / ATLAS_WIDTH;
     }
 
     private static float atlasV(int face, float localPixelY) {
         int row = face / 4;
-        return (row * ATLAS_CELL_SIZE + localPixelY) / ATLAS_SIZE;
+        return (row * CELL_SIZE + localPixelY) / ATLAS_HEIGHT;
     }
 
     private static void triangle(
@@ -362,8 +348,7 @@ public final class NexusCrystalRenderer extends EntityRenderer<NexusCrystalEntit
             cx, cy, cz, cu, cv, nx, ny, nz
         );
 
-        // Entity CUTOUT uses the quad vertex mode. The duplicated last point
-        // creates a degenerate fourth corner for this triangular face.
+        // NEW_ENTITY cutout uses QUADS. Duplicate C as a degenerate 4th vertex.
         vertex(
             consumer, pose, packedLight,
             cx, cy, cz, cu, cv, nx, ny, nz
@@ -391,6 +376,6 @@ public final class NexusCrystalRenderer extends EntityRenderer<NexusCrystalEntit
     public ResourceLocation getTextureLocation(
         NexusCrystalEntity entity
     ) {
-        return OUTER_SHELL_TEXTURE;
+        return SHELL_TEXTURE;
     }
 }

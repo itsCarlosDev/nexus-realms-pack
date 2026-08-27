@@ -1,6 +1,6 @@
-# Nexus Crystal V7.1 — Double Shell Crystal
+# Nexus Crystal V7.2 — Double Shell Crystal
 
-Nexus Core: **0.6.33**
+Nexus Core: **0.6.34**
 
 ## Objetivo
 
@@ -52,8 +52,8 @@ No hace falta eliminar o recrear la gema del mundo porque se conserva
 `nexuscore:nexus_crystal`.
 
 1. Extraer sobre la raíz del repo.
-2. Compilar `nexus-core` 0.6.33.
-3. Sustituir el JAR 0.6.32 por `nexus-core-0.6.33.jar` en cliente/servidor.
+2. Compilar `nexus-core` 0.6.34.
+3. Sustituir el JAR 0.6.32 por `nexus-core-0.6.34.jar` en cliente/servidor.
 4. `packwiz refresh`.
 5. Reinicio completo.
 6. Ejecutar `/function kubejs:nexus_crystal/apply_v7_1`.

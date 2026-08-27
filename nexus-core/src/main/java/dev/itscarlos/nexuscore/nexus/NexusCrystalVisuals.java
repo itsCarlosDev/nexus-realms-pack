@@ -1,10 +1,10 @@
 package dev.itscarlos.nexuscore.nexus;
 
 /**
- * Nexus Crystal V7.1 visual constants.
+ * Nexus Crystal V7.2 visual constants.
  *
- * V7.1 keeps the exact outer envelope introduced by V7 but replaces the
- * "cage-like" shell art with two independent CUTOUT facet layers.
+ * V7.2 keeps the exact V7 world envelope and core, but replaces the two
+ * closed 12-face shells with one sparse 8-plane crystal shell.
  */
 public final class NexusCrystalVisuals {
     public static final float OUTER_RADIUS = 0.6495190528F;
@@ -13,22 +13,12 @@ public final class NexusCrystalVisuals {
     public static final float OUTER_TOP_Y = 2.4375F;
     public static final float CENTER_Y = 1.21875F;
 
-    /** Inner energy crystal size; unchanged from V7. */
     public static final float CORE_SCALE = 0.35F;
-
-    /** Vanilla-End-Crystal-inspired second glass/facet layer. */
-    public static final float INNER_SHELL_SCALE = 0.90F;
-    public static final float INNER_SHELL_ROTATION_OFFSET_DEGREES = 18.0F;
 
     public static final float BOB_AMPLITUDE = 0.14F;
     public static final float BOB_RADIANS_PER_TICK = 0.062832F;
 
-    /** Main shell keeps the existing rotation speed. */
-    public static final float OUTER_SHELL_DEGREES_PER_TICK = 1.031324F;
-
-    /** Slower relative rotation creates fake refraction/parallax. */
-    public static final float INNER_SHELL_DEGREES_PER_TICK = 0.62F;
-
+    public static final float SHELL_DEGREES_PER_TICK = 0.82F;
     public static final float CORE_DEGREES_PER_TICK = -0.55F;
     public static final float CORE_PULSE_AMPLITUDE = 0.035F;
     public static final float CORE_PULSE_RADIANS_PER_TICK = 0.11F;

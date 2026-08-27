@@ -1,14 +1,6 @@
 hash-format = "sha256"
 
 [[files]]
-file = "BUILD_NEXUS_CORE_V7.bat"
-hash = "9f68ace3b81e37ea3ebe2b9702f6965ad049e6999d1a39815d2a917a5163915d"
-
-[[files]]
-file = "BUILD_NEXUS_CORE_V7.sh"
-hash = "fba3247564b74449a49970964866cb1a772df1af90b01c2a822b59c0f601b1ef"
-
-[[files]]
 file = "config/InventoryHUD/curios.json"
 hash = "b98027a7c3a0a1af9479cb6ebd7ba5deccccbdaf043d575f96224a61f14fb5a9"
 
@@ -990,7 +982,7 @@ hash = "e15922be354bffec64d0f409a6a34d8796b90d3e4ffd8d7e483100145f9095c7"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_path_end_glow.png"
-hash = "5a12e7bdb187803c46de17ed55522d27076b4521df8f08b15618fb827edfcbe7"
+hash = "5b020f14279fdf4c464f1ce36de48af5e848ddba5a5420b69e7f4c46146541aa"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_path_end_glow.png.mcmeta"
@@ -1423,6 +1415,10 @@ hash = "1e6c7b0a682203cfd07829c2e831f06a3fd5b401fcbaf8ea4d96ce228fb68519"
 [[files]]
 file = "kubejs/data/kubejs/functions/nexus_crystal/apply_v7_1.mcfunction"
 hash = "579afa28049c5818968a052fc69a877d48b4e185cf85bf84fd86ec550970a08a"
+
+[[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/apply_v7_2.mcfunction"
+hash = "50f2c29d71fa0c11c17b05cf588a0271dcf50ea99cc40aba400c44065ed3a057"
 
 [[files]]
 file = "kubejs/data/kubejs/functions/nexus_crystal/debug.mcfunction"
@@ -2401,8 +2397,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.33.jar"
-hash = "67bb1e2f0555d6b37e9d82c51ca35eac723f1a7b63a1c31462beceb33bd3091e"
+file = "mods/nexus-core-0.6.34.jar"
+hash = "0a40050701ddf866af5bd33c73e8dc787b172443da4dc5f578cbaccf81249a0f"
 
 [[files]]
 file = "mods/nightfall-invade.pw.toml"
