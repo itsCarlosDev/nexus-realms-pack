@@ -6,7 +6,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
 }
 
-version = '0.6.34'
+version = '0.6.37'
 group = 'dev.itscarlos'
 
 base {
@@ -207,7 +207,7 @@ tasks.register('classChangePolicyCheck', JavaExec) {
 
 tasks.register('nexusCrystalVisualPolicyCheck', JavaExec) {
     group = 'verification'
-    description = 'Validates Nexus Crystal V7.2 legacy envelope and safe renderer constants.'
+    description = 'Validates Nexus Crystal V8.1 baked-model geometry and resources.'
     dependsOn tasks.named('testClasses')
     classpath = sourceSets.test.runtimeClasspath
     mainClass = 'dev.itscarlos.nexuscore.nexus.NexusCrystalVisualPolicyCheck'
