@@ -18,16 +18,26 @@
 (function () {
 
     var NexusBlockPos = Java.loadClass('net.minecraft.core.BlockPos')
+    var HeightmapTypes = Java.loadClass(
+        'net.minecraft.world.level.levelgen.Heightmap$Types'
+    )
+
     var MarketProtection = null
+    var MarketProtectionData = null
     var marketProtectionWarningLogged = false
+    var nexusAnchorWarningLogged = false
 
     try {
         MarketProtection = Java.loadClass(
             'dev.itscarlos.nexuscore.market.MarketProtection'
         )
+
+        MarketProtectionData = Java.loadClass(
+            'dev.itscarlos.nexuscore.market.MarketProtectionData'
+        )
     } catch (error) {
         console.error(
-            '[NEXUS V2] Protección del mercado no disponible: ' + error
+            '[NEXUS V2] Protección/datos del mercado no disponibles: ' + error
         )
     }
 
@@ -43,7 +53,6 @@
     var DEFAULT_MAX_RADIUS = 48
     var MAX_CELLS_PER_SEED = 160
     var MAX_ACTIVE_TIPS = 8
-    var PLAYER_ACTIVE_RADIUS = 96
 
     var SEARCH_UP = 12
     var SEARCH_DOWN = 20
@@ -78,10 +87,10 @@
     var AUTO_DELAY_MAX_MINUTES = 90
     var AUTO_RETRY_MIN_MINUTES = 5
     var AUTO_RETRY_MAX_MINUTES = 10
-    var AUTO_MIN_PLAYER_DISTANCE = 48
-    var AUTO_MAX_PLAYER_DISTANCE = 96
     var AUTO_MIN_SEED_DISTANCE = 64
     var MAX_AUTOSPAWN_ATTEMPTS = 6
+
+    var TWO_PI = 6.283185307179586
 
     var DEBUG = false
 
@@ -232,6 +241,7 @@
             autoSpawnEnabled: true,
             autoSpawnWaitCycles: randomFirstAutoSpawnWaitCycles(),
             retiredPlaced: 0,
+            totalAutoSeedsCreated: 0,
             nextSeedId: 1,
             seeds: []
         }
@@ -244,6 +254,7 @@
             autoSpawnEnabled: false,
             autoSpawnWaitCycles: randomFirstAutoSpawnWaitCycles(),
             retiredPlaced: 0,
+            totalAutoSeedsCreated: 0,
             nextSeedId: 1,
             seeds: []
         }
@@ -291,8 +302,13 @@
                         parsed.autoSpawnWaitCycles =
                             randomFirstAutoSpawnWaitCycles()
                     }
+
                     if (parsed.retiredPlaced === undefined) {
                         parsed.retiredPlaced = 0
+                    }
+
+                    if (parsed.totalAutoSeedsCreated === undefined) {
+                        parsed.totalAutoSeedsCreated = 0
                     }
                     if (parsed.nextSeedId === undefined) {
                         var highestSeedId = 0
@@ -782,22 +798,37 @@
     }
 
     function getActiveLevelForSeed(server, seed) {
-        var maxSq = PLAYER_ACTIVE_RADIUS * PLAYER_ACTIVE_RADIUS
         var players = server.players
+
+        if (!players || players.length === 0) {
+            return null
+        }
 
         for (var i = 0; i < players.length; i++) {
             var player = players[i]
 
-            if (String(player.level.dimension) !== String(seed.dimension)) {
+            if (
+                !player ||
+                !levelMatchesDimension(
+                    player.level,
+                    String(seed.dimension)
+                )
+            ) {
                 continue
             }
 
-            var dx = player.x - seed.x
-            var dy = player.y - seed.y
-            var dz = player.z - seed.z
+            var level = player.level
 
-            if (dx * dx + dy * dy + dz * dz <= maxSq) {
-                return player.level
+            if (
+                level.hasChunkAt(
+                    new NexusBlockPos(
+                        Math.floor(Number(seed.x)),
+                        Math.floor(Number(seed.y)),
+                        Math.floor(Number(seed.z))
+                    )
+                )
+            ) {
+                return level
             }
         }
 
@@ -1759,6 +1790,151 @@
         return validDirections
     }
 
+    function getNexusAnchor(server) {
+        if (!MarketProtectionData) {
+            return null
+        }
+
+        try {
+            var data = MarketProtectionData.get(server)
+
+            if (!data || !data.isConfigured()) {
+                return null
+            }
+
+            var x = Number(data.centerX())
+            var y = Number(data.centerY())
+            var z = Number(data.centerZ())
+            var radius = Number(data.radius())
+            var dimension = String(data.dimension())
+
+            if (
+                !isFiniteNumber(x) ||
+                !isFiniteNumber(y) ||
+                !isFiniteNumber(z) ||
+                !isFiniteNumber(radius)
+            ) {
+                return null
+            }
+
+            return {
+                x: x,
+                y: y,
+                z: z,
+                radius: radius,
+                dimension: dimension
+            }
+        } catch (error) {
+            if (!nexusAnchorWarningLogged) {
+                nexusAnchorWarningLogged = true
+
+                console.error(
+                    '[NEXUS V2] No se pudo leer el centro del Nexo: ' +
+                    error
+                )
+            }
+
+            return null
+        }
+    }
+
+    function levelMatchesDimension(level, dimension) {
+        if (!level) return false
+
+        try {
+            if (String(level.dimension) === String(dimension)) {
+                return true
+            }
+        } catch (error) {
+        }
+
+        try {
+            if (
+                String(level.dimension().location()) ===
+                String(dimension)
+            ) {
+                return true
+            }
+        } catch (error) {
+        }
+
+        return false
+    }
+
+    function getLoadedNexusLevel(server, dimension) {
+        var players = server.players
+
+        if (!players || players.length === 0) {
+            return null
+        }
+
+        for (var i = 0; i < players.length; i++) {
+            var player = players[i]
+
+            if (
+                player &&
+                levelMatchesDimension(player.level, dimension)
+            ) {
+                return player.level
+            }
+        }
+
+        return null
+    }
+
+    function getAutoSpawnRing(state, marketRadius) {
+        var total = Number(state.totalAutoSeedsCreated || 0)
+
+        var minOffset = 12
+        var maxOffset = 40
+        var phase = 1
+
+        if (total >= 2 && total < 5) {
+            minOffset = 35
+            maxOffset = 75
+            phase = 2
+        } else if (total >= 5 && total < 9) {
+            minOffset = 70
+            maxOffset = 120
+            phase = 3
+        } else if (total >= 9) {
+            minOffset = 110
+            maxOffset = 180
+            phase = 4
+        }
+
+        return {
+            phase: phase,
+            min: Math.floor(Number(marketRadius) + minOffset),
+            max: Math.floor(Number(marketRadius) + maxOffset)
+        }
+    }
+
+    function getAutoSpawnGuessY(level, x, z, fallbackY) {
+        try {
+            var height = Number(
+                level.getHeight(
+                    HeightmapTypes.MOTION_BLOCKING_NO_LEAVES,
+                    Math.floor(Number(x)),
+                    Math.floor(Number(z))
+                )
+            )
+
+            if (isFiniteNumber(height)) {
+                return Math.floor(height) - 1
+            }
+        } catch (error) {
+            if (DEBUG) {
+                console.warn(
+                    '[NEXUS V2] Heightmap no disponible en ' +
+                    x + ' ' + z + ': ' + error
+                )
+            }
+        }
+
+        return Math.floor(Number(fallbackY)) - 1
+    }
+
     function tryAutoSpawn(server) {
         var state = loadState(server)
 
@@ -1768,98 +1944,81 @@
             return { seed: null, reason: 'cap' }
         }
 
-        var players = server.players
+        var nexus = getNexusAnchor(server)
 
-        if (!players || players.length === 0) {
-            return { seed: null, reason: 'players' }
+        if (!nexus) {
+            return { seed: null, reason: 'nexus' }
         }
 
-        for (var attempt = 0; attempt < MAX_AUTOSPAWN_ATTEMPTS; attempt++) {
-            var player = players[randomInt(0, players.length - 1)]
-            var angle = Math.random() * Math.PI * 2
+        var level = getLoadedNexusLevel(
+            server,
+            nexus.dimension
+        )
+
+        if (!level) {
+            return { seed: null, reason: 'dimension' }
+        }
+
+        var ring = getAutoSpawnRing(
+            state,
+            nexus.radius
+        )
+
+        for (
+            var attempt = 0;
+            attempt < MAX_AUTOSPAWN_ATTEMPTS;
+            attempt++
+        ) {
+            var angle = Math.random() * TWO_PI
+
             var distance = randomInt(
-                AUTO_MIN_PLAYER_DISTANCE,
-                AUTO_MAX_PLAYER_DISTANCE
+                ring.min,
+                ring.max
             )
-            var rawX = null
-            var rawY = null
-            var rawZ = null
-            var coordinateError = ''
 
-            try {
-                rawX = player ? player.getX() : null
-                rawY = player ? player.getY() : null
-                rawZ = player ? player.getZ() : null
-            } catch (error) {
-                coordinateError = String(error)
-            }
-
-            if (
-                !isFiniteNumber(rawX) ||
-                !isFiniteNumber(rawY) ||
-                !isFiniteNumber(rawZ) ||
-                !isFiniteNumber(angle) ||
-                !isFiniteNumber(distance)
-            ) {
-                logInvalidAutoSpawnCandidate(
-                    player,
-                    rawX,
-                    rawY,
-                    rawZ,
-                    angle,
-                    distance,
-                    '<no calculado>',
-                    '<no calculado>',
-                    '<no calculado>',
-                    coordinateError
-                )
-                continue
-            }
-
-            var playerX = Number(rawX)
-            var playerY = Number(rawY)
-            var playerZ = Number(rawZ)
             var blockX = Math.floor(
-                playerX + Math.cos(angle) * Number(distance)
+                nexus.x +
+                Math.cos(angle) * Number(distance)
             )
+
             var blockZ = Math.floor(
-                playerZ + Math.sin(angle) * Number(distance)
+                nexus.z +
+                Math.sin(angle) * Number(distance)
             )
-            var blockY = Math.floor(playerY) - 1
 
             if (
                 !isFiniteNumber(blockX) ||
-                !isFiniteNumber(blockY) ||
                 !isFiniteNumber(blockZ)
             ) {
-                logInvalidAutoSpawnCandidate(
-                    player,
-                    rawX,
-                    rawY,
-                    rawZ,
-                    angle,
-                    distance,
-                    blockX,
-                    blockY,
-                    blockZ,
-                    ''
-                )
                 continue
             }
 
-            var level = player.level
-            var probe = new NexusBlockPos(blockX, blockY, blockZ)
+            var loadProbe = new NexusBlockPos(
+                blockX,
+                Math.floor(Number(nexus.y)),
+                blockZ
+            )
 
-            // hasChunkAt está verificado en LevelReader 1.20.1. Solo se
-            // inspeccionan candidatos ya cargados; nunca se pide getChunk().
-            if (!level.hasChunkAt(probe)) {
+            // Nunca se consultan ni fuerzan chunks descargados.
+            if (!level.hasChunkAt(loadProbe)) {
+                continue
+            }
+
+            var guessY = getAutoSpawnGuessY(
+                level,
+                blockX,
+                blockZ,
+                nexus.y
+            )
+
+            if (!isFiniteNumber(guessY)) {
                 continue
             }
 
             if (
                 !isFarEnoughFromSeeds(
                     state,
-                    String(level.dimension),
+                    nexus.dimension,
                     blockX,
                     blockZ
                 )
@@ -1867,21 +2026,35 @@
                 continue
             }
 
-            var surfaceY = findSurfaceY(level, blockX, blockY, blockZ)
+            var surfaceY = findSurfaceY(
+                level,
+                blockX,
+                guessY,
+                blockZ
+            )
+
+            if (surfaceY === null) {
+                continue
+            }
 
             if (
-                surfaceY === null ||
-                isProtected(level, blockX, surfaceY, blockZ)
+                isProtected(
+                    level,
+                    blockX,
+                    surfaceY,
+                    blockZ
+                )
             ) {
                 continue
             }
 
-            var validInitialDirections = getValidInitialDirections(
-                level,
-                blockX,
-                surfaceY,
-                blockZ
-            )
+            var validInitialDirections =
+                getValidInitialDirections(
+                    level,
+                    blockX,
+                    surfaceY,
+                    blockZ
+                )
 
             if (validInitialDirections.length === 0) {
                 continue
@@ -1889,7 +2062,10 @@
 
             var initialDir =
                 validInitialDirections[
-                    Math.floor(Math.random() * validInitialDirections.length)
+                    Math.floor(
+                        Math.random() *
+                        validInitialDirections.length
+                    )
                 ]
 
             var created = createSeedAt(
@@ -1903,11 +2079,25 @@
             )
 
             if (created.seed) {
-                return { seed: created.seed, reason: '' }
+                state.totalAutoSeedsCreated =
+                    Number(
+                        state.totalAutoSeedsCreated || 0
+                    ) + 1
+
+                return {
+                    seed: created.seed,
+                    reason: '',
+                    phase: ring.phase,
+                    distance: distance
+                }
             }
         }
 
-        return { seed: null, reason: 'location' }
+        return {
+            seed: null,
+            reason: 'location',
+            phase: ring.phase
+        }
     }
 
     function removeNearestSeed(server, player) {
