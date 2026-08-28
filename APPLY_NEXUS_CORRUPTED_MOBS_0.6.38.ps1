@@ -1,6 +1,10 @@
 param(
-    [string]$Repo = "C:\Users\spend\Documents\Proyectos_Github\NexusRealms_dev"
+    [string]$Repo
 )
+
+if ([string]::IsNullOrWhiteSpace($Repo)) {
+    $Repo = $PSScriptRoot
+}
 
 $ErrorActionPreference = "Stop"
 

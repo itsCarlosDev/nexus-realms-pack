@@ -2,7 +2,7 @@ hash-format = "sha256"
 
 [[files]]
 file = "APPLY_NEXUS_CORRUPTED_MOBS_0.6.38.ps1"
-hash = "a0bf8b14a94053d29e53f60236a578f223d7fdc603370139750ec4a94a41e396"
+hash = "8545bd5b81656f0a3735df29611e3d9752af55040b7a6bbd9ea435418c0681bb"
 
 [[files]]
 file = "config/InventoryHUD/curios.json"
