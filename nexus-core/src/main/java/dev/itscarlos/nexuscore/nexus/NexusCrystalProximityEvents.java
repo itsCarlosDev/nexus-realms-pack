@@ -35,7 +35,7 @@ public final class NexusCrystalProximityEvents {
     /*
      * Radio al que se activa el evento.
      */
-    private static final double ENTER_RADIUS = 12.0D;
+    private static final double ENTER_RADIUS = 30.0D;
 
     /*
      * El jugador tiene que alejarse más que esto
@@ -47,7 +47,7 @@ public final class NexusCrystalProximityEvents {
      * 12.1 bloques -> salir
      * 11.9 bloques -> activar otra vez
      */
-    private static final double EXIT_RADIUS = 18.0D;
+    private static final double EXIT_RADIUS = 40.0D;
 
     private static final double ENTER_RADIUS_SQR =
         ENTER_RADIUS * ENTER_RADIUS;
