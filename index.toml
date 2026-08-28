@@ -1046,7 +1046,7 @@ hash = "e15922be354bffec64d0f409a6a34d8796b90d3e4ffd8d7e483100145f9095c7"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_path_end_glow.png"
-hash = "859b808c798ad2fa2bd722b34f4e19a820596125ece7fb9eea17fd3824757b78"
+hash = "a01a4e38ff0d34d6e77713d6f64bbf560a3ffd9c012be261b5682a232c98e7ba"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_path_end_glow.png.mcmeta"
@@ -1566,7 +1566,7 @@ hash = "8f146b77f5f83286f700a1e08fb5e2d0f0d1ceb2162588b8bb526f89ea0ff103"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_corruption_engine.js"
-hash = "5071b2ea1184ea289a9fa23e38935e6d3d973665dadde93c16a3bf8604b3175a"
+hash = "de9cbbe4073ea28aca2b4d12041a6bf0452fe51319e95ddb0b6a94c77bda65d5"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_corruption_place.js"
@@ -2465,8 +2465,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.38.jar"
-hash = "e678de517aaf7f83a316bcad92e7bcfbc6cbc3f49cebeae8f3d927fbce54ac28"
+file = "mods/nexus-core-0.6.39.jar"
+hash = "61c1bf178ae9161721bb0115f4d48cd78e268cb216cb8a41bf5514c1329406c5"
 
 [[files]]
 file = "mods/nightfall-invade.pw.toml"
