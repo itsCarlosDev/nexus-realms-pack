@@ -1,0 +1,13 @@
+name = "Collector's Caravan"
+filename = "collectors_caravan-8.3.0-forge-1.20.1.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/AF7VX19e/versions/ITf0JfTV/collectors_caravan-8.3.0-forge-1.20.1.jar"
+hash-format = "sha512"
+hash = "404dd37433b5265560bd686062c5bc39d70f3f1f13f182c4efa0abd0327a7646ac0779ddb98ac4f29c3372369411586d427cbc375c2fd099f77bcc45529b4186"
+
+[update]
+[update.modrinth]
+mod-id = "AF7VX19e"
+version = "ITf0JfTV"

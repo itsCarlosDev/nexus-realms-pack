@@ -52,18 +52,23 @@
             {
               Actions:[{Cmd:"era_access",Type:"OPEN_NAMED_DIALOG"}],
               Label:"explain_era_access",
-              Name:"¿Cuándo se abren las rutas?"
+              Name:"Estado de las rutas y almacén"
             }
           ],
           Label:"default",
           Name:"Caminos entre Realms",
           Texts:[
-            {Text:"Nací entre bastiones y mares de lava, pero ahora sirvo al Nexus como guía de sus expediciones. Puedo mostrarte los preparativos de cada ruta, aunque consultarlos no significa que el portal ya esté abierto."},
-            {Text:"El Nexus mantiene cada dimensión sellada hasta alcanzar la Era correspondiente. Equípate, completa la progresión y no cruces un portal sin una ruta de regreso."}
+            {Text:"Nací entre bastiones y mares de lava, pero ahora sirvo al Nexus como guía de sus expediciones. La ruta del Nether ya está operativa y también mantengo un almacén con materiales de ese reino; las demás rutas siguen ligadas al avance de la campaña."},
+            {Text:"Equípate antes de cruzar y lleva siempre una ruta de regreso. Puedes consultar los capítulos de expedición sin que eso abra por sí solo una dimensión todavía bloqueada."}
           ]
         },
         {
           Buttons:[
+            {
+              Actions:[{ExecAsUser:1b,PermLevel:0,Type:"OPEN_TRADING_SCREEN"}],
+              Label:"open_nether_trade",
+              Name:"Comprar materiales del Nether"
+            },
             {
               Actions:[{Cmd:"default",Type:"OPEN_NAMED_DIALOG"}],
               Label:"back_to_default",
@@ -71,11 +76,11 @@
             }
           ],
           Label:"era_access",
-          Name:"Apertura de las rutas",
+          Name:"Estado de las rutas",
           Texts:[
-            {Text:"Era II — Nether: la primera ruta dimensional estable. Antes de esa Era, el capítulo puede consultarse, pero el acceso debe permanecer bloqueado."},
-            {Text:"Era III — Aether: el Nexus podrá sostener una expedición a las alturas cuando la progresión global alcance la tercera Era."},
-            {Text:"Era IV — End y Otherside: las rutas más peligrosas solo se abrirán durante la Era del Nexus. Abrir el libro de misiones no desbloquea por sí solo ninguna dimensión."}
+            {Text:"Nether — ABIERTO. La ruta está operativa y su almacén ofrece materiales de construcción y decoración propios de esta dimensión."},
+            {Text:"Aether — PENDIENTE. Su capítulo puede consultarse, pero la apertura real depende de la progresión global de la campaña."},
+            {Text:"End y Otherside — PENDIENTES. Son rutas de mayor riesgo y solo deben considerarse abiertas cuando la progresión del servidor las habilite de forma explícita."}
           ]
         }
       ],
@@ -130,7 +135,193 @@
         {Prio:9,Type:"LOOK_AT_RESET"}
       ]
     },
-    Offers:{Inventory:{},Recipes:{Recipes:[]}},
+    Offers:{
+      Inventory:{},
+      Recipes:{
+        Recipes:[
+          {
+                      buy:{Count:4b,id:"kubejs:nexus_bronze_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:64b,id:"minecraft:netherrack"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    },
+          {
+                      buy:{Count:8b,id:"kubejs:nexus_bronze_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:32b,id:"minecraft:blackstone"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    },
+          {
+                      buy:{Count:6b,id:"kubejs:nexus_bronze_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:32b,id:"minecraft:basalt"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    },
+          {
+                      buy:{Count:8b,id:"kubejs:nexus_bronze_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:16b,id:"minecraft:soul_sand"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    },
+          {
+                      buy:{Count:8b,id:"kubejs:nexus_bronze_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:16b,id:"minecraft:soul_soil"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    },
+          {
+                      buy:{Count:8b,id:"kubejs:nexus_bronze_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:32b,id:"minecraft:nether_bricks"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    },
+          {
+                      buy:{Count:1b,id:"kubejs:nexus_silver_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:16b,id:"minecraft:quartz"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    },
+          {
+                      buy:{Count:1b,id:"kubejs:nexus_silver_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:16b,id:"minecraft:glowstone"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    },
+          {
+                      buy:{Count:8b,id:"kubejs:nexus_bronze_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:16b,id:"minecraft:magma_block"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    },
+          {
+                      buy:{Count:1b,id:"kubejs:nexus_silver_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:16b,id:"minecraft:crimson_stem"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    },
+          {
+                      buy:{Count:1b,id:"kubejs:nexus_silver_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:16b,id:"minecraft:warped_stem"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    },
+          {
+                      buy:{Count:1b,id:"kubejs:nexus_silver_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:8b,id:"minecraft:shroomlight"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    },
+          {
+                      buy:{Count:8b,id:"kubejs:nexus_bronze_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:16b,id:"minecraft:nether_wart_block"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    },
+          {
+                      buy:{Count:8b,id:"kubejs:nexus_bronze_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:16b,id:"minecraft:warped_wart_block"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    },
+          {
+                      buy:{Count:1b,id:"kubejs:nexus_silver_coin"},
+                      buyB:{},
+                      demand:0,
+                      maxUses:64,
+                      priceMultiplier:0.0f,
+                      rewardExp:0b,
+                      sell:{Count:16b,id:"minecraft:red_nether_bricks"},
+                      specialPrice:0,
+                      uses:0,
+                      xp:0
+                    }
+        ]
+      }
+    },
     OnGround:1b,
     PersistenceRequired:1b,
     Profession:"NONE",
@@ -153,7 +344,7 @@
     },
     Status:{finalized:1b},
     TimeInOverworld:0,
-    TradingData:{TradingDataSet:{LastReset:0L,MaxUses:0,ResetsEveryMin:0,RewardedXP:0,Type:"NONE"}},
+    TradingData:{TradingDataSet:{LastReset:0L,MaxUses:64,ResetsEveryMin:5,RewardedXP:0,Type:"BASIC"}},
     VariantType:"PIGLIN_BRUTE",
     id:"easy_npc:piglin"
   }

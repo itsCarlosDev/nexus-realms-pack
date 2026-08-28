@@ -20,7 +20,8 @@
     "client.EpicFightClassModeMixin",
     "client.EpicFightWitherRendererCompatMixin",
     "client.BerserkerSkillMixin",
-    "client.GuiExperienceLevelMixin"
+    "client.GuiExperienceLevelMixin",
+    "client.AbyssSomniumBarMixin"
   ],
   "injectors": {
     "defaultRequire": 1

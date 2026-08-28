@@ -45,7 +45,7 @@
         ],
         Label:"default",
         Name:"Estudio arcano",
-        Texts:[{Text:"El estudio todavía no está preparado para lecciones completas; hasta el maná necesita un espacio estable. Mientras tanto, consulta aquí la senda del Mago o los estudios del Arcanista."}]
+        Texts:[{Text:"Aquí se estudian la senda del Mago y la especialización Arcanista. Consulta sus capítulos para revisar hechizos, objetivos y progresión sin alterar ningún desbloqueo."}]
       }],
       Type:"STANDARD"
     },

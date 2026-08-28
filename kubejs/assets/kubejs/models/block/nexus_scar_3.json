@@ -1,0 +1,35 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "scar": "kubejs:block/nexus_scar_3",
+    "glow": "kubejs:block/nexus_scar_3_glow",
+    "particle": "minecraft:block/amethyst_block"
+  },
+  "elements": [
+    {
+      "from": [0, 0.03, 0],
+      "to": [16, 0.04, 16],
+      "shade": false,
+      "faces": {
+        "up": {
+          "texture": "#scar"
+        }
+      }
+    },
+    {
+      "from": [0, 0.045, 0],
+      "to": [16, 0.05, 16],
+      "shade": false,
+      "forge_data": {
+        "block_light": 15,
+        "sky_light": 15,
+        "ambient_occlusion": false
+      },
+      "faces": {
+        "up": {
+          "texture": "#glow"
+        }
+      }
+    }
+  ]
+}

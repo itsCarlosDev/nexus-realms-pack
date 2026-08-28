@@ -1,5 +1,12 @@
-# Nexus Realms - Nexus Crystal / Forge 1.20.1
-newmtl m_f2448dae-3f3c-5ed6-2e2e-a45087fcc3bf
-Ka 1.0 1.0 1.0
+# Nexus Realms - Nexus Crystal V6
+# Shell: world-lit crystal.
+newmtl nexus_shell
+Ka 0.0 0.0 0.0
+Kd 0.88 0.82 1.00
+map_Kd #shell
+
+# Core: emissive, but intentionally below fullbright 15.
+newmtl nexus_core
+Ka 0.75 0.75 0.75
 Kd 1.0 1.0 1.0
-map_Kd #texture0
+map_Kd #core

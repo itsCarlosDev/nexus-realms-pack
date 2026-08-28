@@ -1,0 +1,53 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "path": "kubejs:block/nexus_path_corner",
+    "glow": "kubejs:block/nexus_path_corner_glow",
+    "particle": "kubejs:block/nexus_path_corner"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0.03,
+        0
+      ],
+      "to": [
+        16,
+        0.04,
+        16
+      ],
+      "shade": false,
+      "faces": {
+        "up": {
+          "texture": "#path",
+          "rotation": 90
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        0.045,
+        0
+      ],
+      "to": [
+        16,
+        0.05,
+        16
+      ],
+      "shade": false,
+      "forge_data": {
+        "block_light": 15,
+        "sky_light": 15,
+        "ambient_occlusion": false
+      },
+      "faces": {
+        "up": {
+          "texture": "#glow",
+          "rotation": 90
+        }
+      }
+    }
+  ]
+}

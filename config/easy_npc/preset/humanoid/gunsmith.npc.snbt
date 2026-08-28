@@ -38,7 +38,7 @@
         }],
         Label:"default",
         Name:"Pólvora y precisión",
-        Texts:[{Text:"El taller aún se está acondicionando, pero este capítulo ya es la guía principal del Pistolero. Armas de fuego, munición y preparación definen la senda; el equipo avanzado llegará con las Eras. La venta y los servicios especializados esperan a que el local esté completo."}]
+        Texts:[{Text:"Este taller es la referencia del Pistolero. Armas de fuego, munición y preparación definen la senda; el equipo avanzado se obtiene mediante la progresión y las misiones correspondientes, sin saltarse desbloqueos."}]
       }],
       Type:"STANDARD"
     },

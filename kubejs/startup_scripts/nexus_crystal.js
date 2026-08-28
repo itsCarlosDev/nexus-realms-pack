@@ -1,3 +1,5 @@
+// Nexus Realms - Nexus Crystal V6
+// Shader-safe two-layer crystal in ONE OBJ / ONE item_display.
 StartupEvents.registry('item', event => {
   event.create('nexus_crystal')
     .displayName('Cristal del Nexo')
@@ -7,12 +9,13 @@ StartupEvents.registry('item', event => {
       model: 'kubejs:models/item/nexus_crystal.obj',
       flip_v: true,
       automatic_culling: false,
-      shade_quads: false,
+      shade_quads: true,
       emissive_ambient: true,
       render_type: 'minecraft:translucent',
       textures: {
-        texture0: 'kubejs:item/nexus_crystal',
-        particle: 'kubejs:item/nexus_crystal'
+        shell: 'kubejs:item/nexus_crystal_shell',
+        core: 'kubejs:item/nexus_crystal_core',
+        particle: 'kubejs:item/nexus_crystal_shell'
       }
     })
 })

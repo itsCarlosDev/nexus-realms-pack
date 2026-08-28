@@ -1,6 +1,10 @@
 hash-format = "sha256"
 
 [[files]]
+file = "APPLY_NEXUS_CORRUPTED_MOBS_0.6.38.ps1"
+hash = "8545bd5b81656f0a3735df29611e3d9752af55040b7a6bbd9ea435418c0681bb"
+
+[[files]]
 file = "config/InventoryHUD/curios.json"
 hash = "b98027a7c3a0a1af9479cb6ebd7ba5deccccbdaf043d575f96224a61f14fb5a9"
 
@@ -110,11 +114,11 @@ hash = "712908f15d3a5267c72583034a05dde7c0f4684c2add5af1d37f674b64e71b93"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/arcane_master.npc.snbt"
-hash = "8944ad87580dd4065153182c2ebd6f19659c0b62c9a4a59041bfb9483ca7db69"
+hash = "b2040a3a056e2478a11e865d9471f7ab04f7d6d8bfd63912820031ae07adaa3b"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/chronicler.npc.snbt"
-hash = "c5f99b3def2b507d31595f16fc242fadf58ddb4dd099c692d12eb9ac8a5333a3"
+hash = "472018f601c732fcbd9a36e1901d3023cf2465be62586f494d0cf573bf9cdfcc"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/district_steward.npc.snbt"
@@ -122,7 +126,7 @@ hash = "27bfe5cf199964c7ebb298cfdf2cc5537e65794f9b5ee242211442a1d08cb8de"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/explorer.npc.snbt"
-hash = "262f4523dfbe9136aee8529b4bf7cdccc14367baa0bf6b535e1e0eba0e3ebe14"
+hash = "39ef37a4553f1dc07bc3ba2b5ebbd2e3f1d51c513cb4c0121563a61f3dbfe2f5"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/guard_captain.npc.snbt"
@@ -130,35 +134,35 @@ hash = "655793043aadbf2c7e6908298b67ce67574f7f12f4629a87e52941932d5e00c5"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/gunsmith.npc.snbt"
-hash = "8ee560c8dcd3515e67a557bba14c6d44d09a18f20908e327abf25404d123e84f"
+hash = "823b51d17ffc7a065ed4f4683f9fd8caffddb5c26fa0d62b1f6ee6e224157d2f"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/market_curator.npc.snbt"
-hash = "0f9a8b521b96f6dfe7236fba9d5fc441d7c949bf3179d69d688c851da45799d4"
+hash = "2e31fcfce3d94cf0a717d085fc78f97ff49767b591625a17fc147a48835bba6a"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/market_foreman.npc.snbt"
-hash = "cc796099271a76b13e1fcf7eddd9cecab4a946915f7ed896341a43ed0d4bfe27"
+hash = "4c054c0a16cd1c471c84e09b91f2a449b04d44c4a87e9c6cfb887204fcd0626a"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/market_surveyor.npc.snbt"
-hash = "82c80b7c239cf8890d6e336660c8d16b81d8fe2fce27bf3bd8c37102e0d4c308"
+hash = "2a2a7f283d251512ee4851d820522414d955c855fed318ceb54cc4819c64b74a"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/metallurgist_master.npc.snbt"
-hash = "426b9e545460be90cccd49916af9352a79153ab30bc1629ad4543f8523b1e552"
+hash = "9bdd3808daf3f30507448e2c42b6df9e56c834c0e097bc4d95f26bb80e5a6d8b"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nether_expeditionary.npc.snbt"
-hash = "e4b079b06a58886aeb0aad583c4403b43977e16c5c0e574ffbf01fdaa5963cc7"
+hash = "bfcc2238bf73f882a5eb7ffa40d736d83dfd75c2a763e3ee410375ceb1beef2e"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nexus_custodian.npc.snbt"
-hash = "e831406343a5800c0e7e852ad4ab950adf38cbf3a7074c97ecf815d96fff16bd"
+hash = "984471a59e8315b61b4ca17b60329665c1924af5b00bb955fd2011ffc62d3678"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nexus_fisher.npc.snbt"
-hash = "8b73ba108022e5f9981de1ddb5b22f21dd051e4550ab196fc08685ffd8a095f3"
+hash = "a96256180fe46e2c323bdb9beb571a0aa487a84e3894085f5e20f31a920955db"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nexus_liaison.npc.snbt"
@@ -166,11 +170,15 @@ hash = "f1cd557b30d37e4cfd59446d14d258c4f72153c0262f04eedbb88fdcc0fc8d61"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nexus_merchant.npc.snbt"
-hash = "7fddfc40ec6d26f14d33c6d2aca7b321905ebed01949b5082946f5e12b5dd1ee"
+hash = "9506d17d3cdc5e40e057602afe49a6a26115422bc1b9e2afe4ce9e600d9bdb37"
+
+[[files]]
+file = "config/easy_npc/preset/humanoid/nexus_provider.npc.snbt"
+hash = "bc041a6e3ef4e8781b7d651549f9da05d8f0f92eab89be84c218e7a01a497a9d"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/warrior_master.npc.snbt"
-hash = "4f7d3c2002698e8b028bdcba758e2894d40748ba89362de5c1c285cf245c8ac1"
+hash = "6726d15e3517518ca1e588218ddbf7cc02c81e3f267224ae928f34806dfa29ec"
 
 [[files]]
 file = "config/easy_npc/security.cfg"
@@ -554,7 +562,7 @@ hash = "9f250d129aa7e01c51f20985bdfa91d9aa71c9e414b8526ec10280e528001b52"
 
 [[files]]
 file = "config/hordes-common.toml"
-hash = "547045ab1f807d494f22c6580cc9b04e5cdb8b2b8b5488249c54f0c6d814262f"
+hash = "15d316c750f89b8f665f9000f124e4668fcac4e07588971a653564af460e2e3f"
 
 [[files]]
 file = "config/hordes/data/hordes/horde_data/scripts/default.json"
@@ -765,6 +773,10 @@ file = "defaultconfigs/journeymap-server.toml"
 hash = "9490d7382daaf55c185a5f22a970f2043b2b1cccdd31c7ef9ded1ad27fdee6a0"
 
 [[files]]
+file = "defaultconfigs/securitycraft-server.toml"
+hash = "9e209e4edcd6e19e16e6338116a23122e59188941c3ff8098ce9339bdf6cf9b3"
+
+[[files]]
 file = "generated/schematics/nexus_market_spawn_nexus_realms_v4.schem"
 hash = "adfd40b53db4a543e32248541427449f52e102ebb920e88bc1cb7d4084de2b2c"
 
@@ -837,12 +849,300 @@ file = "journeymap/config/5.10/journeymap.webmap.config"
 hash = "2c939e2308e7d7d419af26ad342479690e8ae321c7af3ba64d8b0e897ccc8b5b"
 
 [[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_corner.json"
+hash = "82819fe7ab4dcdfe52ff95ae0a111be40157f337e57787cbad30adf02ea215b1"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_cross.json"
+hash = "e5850a83bd41024b21654e6b42dc3a7b5513999608d7fba12a7c2c8304ddb10a"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_e.json"
+hash = "8d2429213cfbe7af6f4e0dd939e08d1eb48005cee97c951e67fb954711233fd8"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_end.json"
+hash = "7486bf50a5ab446bea79382b1633ce928fb06f94e1f31c0fd40f3d007b168533"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_es.json"
+hash = "0487b2cf58bc9a3deafdecd1870d88bee6ed2c1cb2bdca7875fb57f0fef7db7b"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_esw.json"
+hash = "ab764d60528dd3b678a3c51d8b6a4bb6ca0ad2a90b647c4e22ccef870f7ea40f"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_ew.json"
+hash = "b22eb2d39bba90a6477e33acd52f5ca17e7d6723f2a35c4dfe051e84edea5948"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_n.json"
+hash = "7486bf50a5ab446bea79382b1633ce928fb06f94e1f31c0fd40f3d007b168533"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_ne.json"
+hash = "82819fe7ab4dcdfe52ff95ae0a111be40157f337e57787cbad30adf02ea215b1"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_nes.json"
+hash = "e63fca600777752bbeb451cba00001aa6089ea69baf3aa8c44141c187a80a173"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_nesw.json"
+hash = "e5850a83bd41024b21654e6b42dc3a7b5513999608d7fba12a7c2c8304ddb10a"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_new.json"
+hash = "d7179c8da0d47810d3b05c76c6568837d392b25f1849ef67b981716e76e1cedb"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_ns.json"
+hash = "4697c8db0f605ff2ec455daddefc2293fcdf9ecb02ea24e0be9e246090f950f4"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_nsw.json"
+hash = "8447136cc95f68294041f3beeb1e0d9a77f44f9dd1e30e74e6bb15f150748b11"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_s.json"
+hash = "5ce2a2b81da28fcfc766bd3163cb009fa9d9e4f2677ee023ca3cbb99c3cf989c"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_straight.json"
+hash = "4697c8db0f605ff2ec455daddefc2293fcdf9ecb02ea24e0be9e246090f950f4"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_sw.json"
+hash = "8b062574b6b2317a540b3d43f0598e18b83da1a7c2e596ab1e50234182267aed"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_t.json"
+hash = "d7179c8da0d47810d3b05c76c6568837d392b25f1849ef67b981716e76e1cedb"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_w.json"
+hash = "d0c84565ddd731ba0d84e077685e10c0e0284d09023984d47f8fa03bdece691c"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_path_wn.json"
+hash = "dee096dc42c8e5940304f7e7b280c7bb38581389eed0d7b9295658c2f255d496"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_scar_1.json"
+hash = "1af83a4a1eb6fb0f0fb786a522b559037258521809c629646dd0f514935a04a2"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_scar_2.json"
+hash = "414067d324e46f7e48e8aab62383a18d28757171cb77707ccefde58983697499"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_scar_3.json"
+hash = "da5c2698662042661556a882cc7f6b512dca31889b1a754f4768ea72f7f64ee7"
+
+[[files]]
+file = "kubejs/assets/kubejs/models/block/nexus_scar_4.json"
+hash = "574c6102c9130f1c48eeb2403f83849f7034a0090998d6506ac01c380f362435"
+
+[[files]]
 file = "kubejs/assets/kubejs/models/item/nexus_crystal.mtl"
-hash = "01e17b1739ab25b26c1911ef7a3238119fe35fa1c2f46bd2fd54d6806c31a4a0"
+hash = "9e2438de4741326a59a38b1e48a9244f7ef327e12d902ac77de76a97be52b226"
 
 [[files]]
 file = "kubejs/assets/kubejs/models/item/nexus_crystal.obj"
-hash = "5371888ee8f79164ebb34926507b8bff5af70236e904e684039543610f668390"
+hash = "dcf7019fd90e45a367602cf568850a152c80f1864681604e245ee2e0fc42c0d5"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds.json"
+hash = "52a78152ba7111a64b6779251ad9506345dd54cafc4d78119b769be80060ab51"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/kevin_sound_1.ogg"
+hash = "ce49ce323829e648d1991e1263cf011bf48afd964b64993abc1ac138ff329449"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/kevin_sound_2.ogg"
+hash = "0a6b66cf7d68f6f4bcfb0d1cc02221c30983e43659a8f72fa462ad8e91ae5d30"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/kevin_sound_3.ogg"
+hash = "c68fb72c53fe46d5b3b200a14aece05cac9e095945306fc45ef76376ed0419d1"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_1.ogg"
+hash = "ce49ce323829e648d1991e1263cf011bf48afd964b64993abc1ac138ff329449"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_1_fade.ogg"
+hash = "27d9e0bed13394ef1f4ef2bb89fd07a044f78aded9bda1bb214b364c8841c075"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_1_fade_in.ogg"
+hash = "b5c791edecfb92882ce67b878bb846e1455b36362cf00b38063ee39390e57bf5"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_1_fade_in_fast.ogg"
+hash = "6d73e4e96f94fd74575c833579ca15cb72ab1a9d7cd940d298f5b5efe2d9575a"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_2.ogg"
+hash = "0a6b66cf7d68f6f4bcfb0d1cc02221c30983e43659a8f72fa462ad8e91ae5d30"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_2_fade.ogg"
+hash = "43d65773a7182cc9f82e2a19baf92361934397e776ba39863b0c1c147c80e631"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_2_fade_in.ogg"
+hash = "224692084e2edf5d5e04dc32e1cedcee57265ea966162870fb66a3901a4ae30c"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_2_fade_in_fast.ogg"
+hash = "17caff85170946264462cd54e2a4f9aeb4c47e21b343364997d55010f9f2c283"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_3.ogg"
+hash = "c68fb72c53fe46d5b3b200a14aece05cac9e095945306fc45ef76376ed0419d1"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_3_fade.ogg"
+hash = "657c01dc16b0ce90540c685bd1b81256fd7e058c7cbb838fde436fee9353d805"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_3_fade_in.ogg"
+hash = "301202acd23874ae79e9f061cc7db9bb0e35c1384c5805be3d53c7144df7a3fc"
+
+[[files]]
+file = "kubejs/assets/kubejs/sounds/nexus/kevin_sound_3_fade_in_fast.ogg"
+hash = "b40c7c8b5d32468756502695026d0f4412ad30a8cdec6ae07a9e37b713a31828"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_corner.png"
+hash = "1ef400c9df00e28b3ec0f302299e2f06c7ba20114f5fe1395b8e072cd11dc884"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_corner.zip"
+hash = "8e07888aeccd20c8d5ffaf36a3a7061dbde1de0be3891d2c595f50f82fb57d82"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_corner_glow.png"
+hash = "b55bbb67bc3e40881396ab31b26d1521a82df34690e7bb05b63593547fdb2581"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_corner_glow.png.mcmeta"
+hash = "66c908c3253cfb06c5314f49965e409b794e65b27df7e8306616ea94adc8461c"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_cross.png"
+hash = "1f6a8b7c6d04494c09b194ef76b31bb91a1b9c53af763f3ed7bd30468753883a"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_cross_glow.png"
+hash = "033ee6770147d75c5f8c702b6de901544f65bd52d90d92b67a1a251dde7c7074"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_cross_glow.png.mcmeta"
+hash = "66c908c3253cfb06c5314f49965e409b794e65b27df7e8306616ea94adc8461c"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_end.png"
+hash = "e15922be354bffec64d0f409a6a34d8796b90d3e4ffd8d7e483100145f9095c7"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_end_glow.png"
+hash = "859b808c798ad2fa2bd722b34f4e19a820596125ece7fb9eea17fd3824757b78"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_end_glow.png.mcmeta"
+hash = "66c908c3253cfb06c5314f49965e409b794e65b27df7e8306616ea94adc8461c"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_straight.png"
+hash = "8423ebaeb5235e85c64551e394cbbdc3a7e440c1ae6905d1cf26e36e03f4ebb4"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_straight_glow.png"
+hash = "d77acd71fb8f7b8edca1728d2dd7b22e3a45c0bb5cf895390c605d7ae2cfa9de"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_straight_glow.png.mcmeta"
+hash = "66c908c3253cfb06c5314f49965e409b794e65b27df7e8306616ea94adc8461c"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_t.png"
+hash = "c973bc007808155330dbd4da76ba6fd70e97c5efe79dc57190e4fbbb4d88f286"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_t_glow.png"
+hash = "3e218621283e30318632a570f77874275253c97ea84fd347397cdfad52a7ba8c"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_path_t_glow.png.mcmeta"
+hash = "66c908c3253cfb06c5314f49965e409b794e65b27df7e8306616ea94adc8461c"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_1.png"
+hash = "102dd5cf618e41a016d3a328299f5044cbabd5930b4c0e7430b68d6176db49d2"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_1_depth.png"
+hash = "e2ab946c20f943fadf048e74cdaed71ae88431941fae16c15527e714519b7996"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_1_glow.png"
+hash = "97fa5edc2dfe10b6cae4b47a0f9cee2cdfde12dcc366681a0542bd74f255a4eb"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_1_glow.png.mcmeta"
+hash = "66c908c3253cfb06c5314f49965e409b794e65b27df7e8306616ea94adc8461c"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_2.png"
+hash = "6b1fb63da73034fdff9296902e01542f55d04dbef4c0d007c1e5a86749f67504"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_2_depth.png"
+hash = "8ac1b4b0c37de77a5b90bf196c923cb7f17ae1a79400d5848222a56c49600bf5"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_2_glow.png"
+hash = "ef1e485a69d61f4e9a4305e680d2e7a47d3c09cf74d7c7b15b085beecd3a9434"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_2_glow.png.mcmeta"
+hash = "66c908c3253cfb06c5314f49965e409b794e65b27df7e8306616ea94adc8461c"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_3.png"
+hash = "5d461d73639d02bc692eced1f68e754a3585910bdc558251211a18ea6461bec4"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_3_depth.png"
+hash = "969097ffa2301eb93946f146cc5c5b6d0d3d7c00e97fc9e334062c5836f9ef92"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_3_glow.png"
+hash = "be2003416883cb4f6bc80f89319a3246087ace1b85bf3fe03af0417310d2cfd2"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_3_glow.png.mcmeta"
+hash = "66c908c3253cfb06c5314f49965e409b794e65b27df7e8306616ea94adc8461c"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_4.png"
+hash = "a8338d405eba1ef09d94f4e576e945917e1c0041124e5573777b974958536ef3"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_4_depth.png"
+hash = "e758b6926b87b5479f5f158dc1e8b834d85135114c765ee7a64166a6a440b607"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_4_glow.png"
+hash = "fae57feb7f3e7a85003f00a154e340ae679dd53ad835b924d8094add3bc64645"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/block/nexus_scar_4_glow.png.mcmeta"
+hash = "66c908c3253cfb06c5314f49965e409b794e65b27df7e8306616ea94adc8461c"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/item/nexus_bronze_coin.png"
@@ -855,6 +1155,18 @@ hash = "2bd8a0917e26437bbc658addfa52b025f34a0b2613b889cf2152941e74978dca"
 [[files]]
 file = "kubejs/assets/kubejs/textures/item/nexus_crystal_aura.png"
 hash = "d75f5ffb98e1abf67ca32c53c8658b4608f44ce0d473be57c549097310d043eb"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/item/nexus_crystal_core.png"
+hash = "2b8696fa6e3fe30c2acae64db2eaf90c66f34a816c5741ff72a375f0fb5c8d3c"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/item/nexus_crystal_core.png.mcmeta"
+hash = "8ab39951fd4a4ac93e1f8d39786ba81608275e1826d8df4ad80a771786a2f0d2"
+
+[[files]]
+file = "kubejs/assets/kubejs/textures/item/nexus_crystal_shell.png"
+hash = "25588e030e67ea1da55f1aa69f88d212f7a45f97f9d8a2bddc6df7eacb84892c"
 
 [[files]]
 file = "kubejs/assets/kubejs/textures/item/nexus_gold_coin.png"
@@ -1153,24 +1465,60 @@ file = "kubejs/data/irons_spellbooks/structures/pyromancer_tower/staircase.nbt"
 hash = "e41e713a19107ff82386fa19042874270cffca20a95529411499dbcf2dab1857"
 
 [[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/apply_v4.mcfunction"
+hash = "d558f41a5637f00a6ba59561930c43e67c3b8543ed01b0fb8dbcbbd9e51ce54f"
+
+[[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/apply_v5.mcfunction"
+hash = "ee0e81f56c1455c893d931ca00ad55425b29cad1e219df202fc6329f4a42c932"
+
+[[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/apply_v6.mcfunction"
+hash = "24bcd9084757c4b2071ee6297dce0bb11e67ceff1e764989c5d0216a25eed875"
+
+[[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/apply_v7.mcfunction"
+hash = "1e6c7b0a682203cfd07829c2e831f06a3fd5b401fcbaf8ea4d96ce228fb68519"
+
+[[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/apply_v7_1.mcfunction"
+hash = "579afa28049c5818968a052fc69a877d48b4e185cf85bf84fd86ec550970a08a"
+
+[[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/apply_v7_2.mcfunction"
+hash = "50f2c29d71fa0c11c17b05cf588a0271dcf50ea99cc40aba400c44065ed3a057"
+
+[[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/apply_v8.mcfunction"
+hash = "f42f69769b132403a1974ffa9d429e271d1ec872c0ad7ec901af4789c0f38879"
+
+[[files]]
 file = "kubejs/data/kubejs/functions/nexus_crystal/debug.mcfunction"
-hash = "6ddffe875dc132eebb0a625e3f228c6e3e2c9b7179799616c6f783a30fd43905"
+hash = "9c461259ce497c36bc6d173acf391f4ab4f7985b29222ca46e9566c67c666536"
 
 [[files]]
 file = "kubejs/data/kubejs/functions/nexus_crystal/move_here.mcfunction"
-hash = "86cc1d28556fcf39d0fce84caa06db1fda781b34d75e24d99e0f7f8083903d59"
+hash = "b3f662f76ed9dbbd142eb7d22e10b3813dd0bfd0710a8d05e21117dcbd5147a9"
 
 [[files]]
 file = "kubejs/data/kubejs/functions/nexus_crystal/purge_nearby.mcfunction"
-hash = "7f2519e1f1d8fb1fe4512902d793701d6cde8ee6e8bf3324245ebcfed801bbdf"
+hash = "4ffd20eee5b8301569ff4c27fa76d7a1dd945aaf6c69d83622ea91bd1df7d05e"
 
 [[files]]
 file = "kubejs/data/kubejs/functions/nexus_crystal/remove.mcfunction"
-hash = "95262e22f67e9bbc194e5ff3df4c29c7a1acfb957303b9e9d14d1f3f6919920b"
+hash = "c2a10ab8c716cc4d762e2d6e543be8234dc23d7b6b141b21901d800682befbdb"
 
 [[files]]
 file = "kubejs/data/kubejs/functions/nexus_crystal/spawn.mcfunction"
-hash = "1e4abf3c913dcc7c8bf7795cc1d1d347e44d091e38af9e313ba27b523bf8191b"
+hash = "f47dd60b8789a348a12652aa7400bfcf08929ed373046e53f0194a88452f0a7f"
+
+[[files]]
+file = "kubejs/data/kubejs/functions/nexus_crystal/tick.mcfunction"
+hash = "19dfcc2ab96a58cd31685e5564bde76429968e7fab5f8c7aaaf30dc5a4c0ea30"
+
+[[files]]
+file = "kubejs/data/minecraft/tags/functions/tick.json"
+hash = "547de15edc7ec09bc906d7bb5ed98891d344035aa81908bd2401cf0cff11d3ff"
 
 [[files]]
 file = "kubejs/data/starcatcher/data_maps/item/catch_modifiers.json"
@@ -1193,6 +1541,14 @@ file = "kubejs/data/theabyss/tags/blocks/tree_branch_replaceable.json"
 hash = "fcfc03528492489497be9c463a4d39b0f4947a544bc0d9c5d0a3d190566ff56b"
 
 [[files]]
+file = "kubejs/server_scripts/nexus/nexus_museum.js"
+hash = "aa29a6151270c46643f000323e081dea7093ac23516acfb0c8855a47941ed72c"
+
+[[files]]
+file = "kubejs/server_scripts/nexus_ambient.js"
+hash = "77755a857d144fa3d8cde046023c517b321958d8bae349acc41326f6390210bd"
+
+[[files]]
 file = "kubejs/server_scripts/nexus_automobility_create_recipes.js"
 hash = "a0ba113448751d06feccec90b0f502226a1d03dc28c16bc1af30da36b9c3f3b1"
 
@@ -1213,8 +1569,16 @@ file = "kubejs/server_scripts/nexus_class_selection.js"
 hash = "8f146b77f5f83286f700a1e08fb5e2d0f0d1ceb2162588b8bb526f89ea0ff103"
 
 [[files]]
+file = "kubejs/server_scripts/nexus_corruption_engine.js"
+hash = "5071b2ea1184ea289a9fa23e38935e6d3d973665dadde93c16a3bf8604b3175a"
+
+[[files]]
+file = "kubejs/server_scripts/nexus_corruption_place.js"
+hash = "4948ad385f3cae08267e565ad3b54e6a34df1a880b6f892670c9bb8060f30949"
+
+[[files]]
 file = "kubejs/server_scripts/nexus_crystal_animation.js"
-hash = "03d7353ac7d05d854d6fe52b33996d056410de919c7b504a5baf67440c6ef4c0"
+hash = "241c7c6aae1ef2afe5206b353af6c600eb82619717b62529d13e475e3b48e58d"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_disable_vanilla_zombies.js"
@@ -1233,6 +1597,18 @@ file = "kubejs/server_scripts/nexus_maintenance.js"
 hash = "c71b7bdc2346d5e18bbd42692ab3004fd98b265168f96c7a0ee39e53459be52d"
 
 [[files]]
+file = "kubejs/server_scripts/nexus_path_test.js"
+hash = "1e898dcb5184d33d5e98ca550a19d7bf3b453c3fec9541751dff4aefe018ebc3"
+
+[[files]]
+file = "kubejs/server_scripts/nexus_scar_blocks.js"
+hash = "68e34ddadb12a066d1390f006f396ee269075bcfdd18201f6513423a079470a7"
+
+[[files]]
+file = "kubejs/server_scripts/nexus_scar_particles.js"
+hash = "d904d3a8326524ace90be3bfae5fd3c74834615f4348ebf6ab67a365edd810a5"
+
+[[files]]
 file = "kubejs/server_scripts/nexus_tacz_restrictions.js"
 hash = "9903479f0335e19b3e43ce2830bec1d8180eb56ae52078676aeab61b1ade3d67"
 
@@ -1245,8 +1621,12 @@ file = "kubejs/startup_scripts/nexus_boss_balance.js"
 hash = "561e8cbf3ffdc0526c4daecdd049c45c610bb7c033b1de63ba1120f89bdc50df"
 
 [[files]]
+file = "kubejs/startup_scripts/nexus_corruption_registry.js"
+hash = "b6065350cf9826a89e026b967ee3151f3dd555cbc1988792ca8ef65b9d4f913f"
+
+[[files]]
 file = "kubejs/startup_scripts/nexus_crystal.js"
-hash = "30358520c6f0fd2402974589fbd17b0607cd2ebb42061d579a91d803e4573616"
+hash = "1e968a5b4c0dadc1723a31999b6389e8a432f54d2ac33cac5abc45b312a54acc"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_economy_items.js"
@@ -1311,6 +1691,11 @@ metafile = true
 [[files]]
 file = "mods/ambientsounds.pw.toml"
 hash = "73c8f00ddae69b929cfdc313b808ce547e610b8336dbe54660b62d258c5e3a01"
+metafile = true
+
+[[files]]
+file = "mods/amendments.pw.toml"
+hash = "4327ca177fdbd9cfc0c2f442bec68899b6c8e8eb46f0e6b04548178c244b6a84"
 metafile = true
 
 [[files]]
@@ -1476,6 +1861,11 @@ metafile = true
 [[files]]
 file = "mods/collective.pw.toml"
 hash = "0e70a9f05b4b5cafaeed0417a3cfae2dd36bd88cce06a4b688d240d9b90ddfb2"
+metafile = true
+
+[[files]]
+file = "mods/collectors-caravan.pw.toml"
+hash = "af8fbf1e263f570b2a1372625029d4c35eedfc0a51e44fc348e5537a7762c521"
 metafile = true
 
 [[files]]
@@ -2074,8 +2464,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.27.jar"
-hash = "3c0d1af9684ea76b0e2708bcc4a3d9b4f91f3066aa5cf9a14beeadd415eec0c1"
+file = "mods/nexus-core-0.6.38.jar"
+hash = "e678de517aaf7f83a316bcad92e7bcfbc6cbc3f49cebeae8f3d927fbce54ac28"
 
 [[files]]
 file = "mods/nightfall-invade.pw.toml"
@@ -2233,6 +2623,11 @@ hash = "07018277086bf1bdc3f795777f0c15e50a88a0f5739863fb116679f29ce6db8c"
 metafile = true
 
 [[files]]
+file = "mods/selene.pw.toml"
+hash = "2720aee58db6299559f89ea9dc8b1d573b8324f2b4af1e594c5239607585487b"
+metafile = true
+
+[[files]]
 file = "mods/servercore.pw.toml"
 hash = "874a064efc37398f5818a38666ea31263bd65ed0478b519b819f7a361bd0893e"
 metafile = true
@@ -2310,6 +2705,11 @@ metafile = true
 [[files]]
 file = "mods/supermartijn642s-core-lib.pw.toml"
 hash = "0582ea67ffb267fb5e2e130cbc1701c8461ea86391cdb80673053ba4bf54da62"
+metafile = true
+
+[[files]]
+file = "mods/supplementaries.pw.toml"
+hash = "148bc9c5989ac676d91b6f07a5e871d7b5d11c1b7b46fe30c3894c1512069a88"
 metafile = true
 
 [[files]]
@@ -2612,4 +3012,4 @@ metafile = true
 
 [[files]]
 file = "source/nexus_crystal.bbmodel"
-hash = "50c79c16c46402303cd439a929b732d3a79ec49b0e903c789d03a28a09d2394b"
+hash = "ff2b00ac831ebf783169df5898386a6df485b4121462e991992a25c1c6baa88d"

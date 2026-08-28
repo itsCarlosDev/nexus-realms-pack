@@ -32,6 +32,9 @@ logs/
 crash-reports/
 screenshots/
 
+# Easy NPC runtime exports used only as sources for canonical versioned presets.
+/config/easy_npc/preset/humanoid/nexus_provider.npc.nbt
+
 # Server-owned operational state. Root anchoring keeps deliberate fixtures or
 # templates under tools/ and docs/ available to Git while Packwiz never manages
 # the live server state.
