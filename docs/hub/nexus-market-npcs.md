@@ -7,17 +7,19 @@
 - Easy NPC Bundle `7.2.0` para Forge `1.20.1`.
 - Easy NPC Core `7.2.0`.
 - Easy NPC Config UI `7.2.0`.
-- Dieciséis presets reutilizables bajo `config/easy_npc/preset/humanoid/`: nueve existentes y siete nuevos.
+- Diecisiete presets reutilizables bajo `config/easy_npc/preset/humanoid/`: nueve existentes y ocho adicionales.
 - Nombres visibles, apariencia local, diálogo breve en español y mapping a IDs reales de FTB Quests.
 - Persistencia, invulnerabilidad, inmovilidad y ausencia de generación automática.
-- Trading desactivado salvo en el Mercader del Nexus, que conserva sus intercambios existentes.
+- Trading activo únicamente en el Mercader y la Proveedora del Nexus; ambos conservan sus intercambios existentes.
 - Integración FTB limitada a abrir capítulos. Ningún diálogo completa quests ni concede clases, especializaciones, Allomancy o progreso.
 - Distribución packwiz mediante metadata oficial de CurseForge para los tres JARs.
+- Registro cerrado de los diecisiete NPCs y bindings persistentes `ID lógico -> UUID + dimensión` en Nexus Core `0.6.31`.
+- Recarga administrativa explícita de presets sobre entidades existentes mediante `/nexus_npc reload`.
 
 ### PENDIENTE DE COLOCACIÓN MANUAL EN EL MAPA FINAL
 
 - Importar cada preset una sola vez en su emplazamiento definitivo.
-- Orientar cada NPC y registrar el UUID generado.
+- Orientar cada NPC y vincular su UUID una sola vez con `/nexus_npc bind_nearest <npc_id>`.
 - Abrir manualmente al menos un diálogo haciendo clic.
 - Pulsar manualmente su botón.
 - Confirmar visualmente que FTB Quests abre el capítulo indicado en este documento.
@@ -56,16 +58,17 @@ schematic sin entidades
 presets versionados en config/easy_npc/preset/humanoid
         |
         +-- importación manual una sola vez
-        +-- UUID de entidad registrado por despliegue
+        +-- binding UUID/dimensión persistido en SavedData
+        +-- recarga explícita sobre la entidad existente
         +-- diálogo ejecutado por el jugador
         `-- /ftbquests open_book <chapter_id>
 ```
 
-No existe un spawner custom, comprobación por tick ni importación al iniciar servidor. `import_new` crea una entidad nueva cada vez que se ejecuta, por lo que la prevención de duplicados es operacional: listar primero, importar una vez y conservar el UUID.
+No existe un spawner custom, comprobación por tick ni importación al iniciar servidor. `import_new` se usa únicamente para la colocación inicial. La recarga exige binding, entidad cargada, preset válido y `EntityType` idéntico antes de delegar en Easy NPC; si falla el preflight no importa, elimina ni crea entidades.
 
 ## Propiedades comunes de los presets
 
-Todos los presets usan `easy_npc:humanoid`, formato `EasyNPCVersion:3` y:
+Quince presets usan `easy_npc:humanoid`; `nether_expeditionary` usa `easy_npc:piglin`. Todos usan formato `EasyNPCVersion:3` y:
 
 - `PersistenceRequired:1b`
 - `Invulnerable:1b`
@@ -93,13 +96,14 @@ Los presets no incluyen `Pos`, `Owner`, UUID de entidad, `PresetUUID` ni `Naviga
 | `gunsmith` | Armero | `easy_npc:preset/humanoid/gunsmith.npc.snbt` | `SECURITY_01`, ballesta y catalejo | Pistolero |
 | `explorer` | Explorador | `easy_npc:preset/humanoid/explorer.npc.snbt` | `JAYJASONBO`, mapa y brújula | exploración y viajes |
 | `nexus_merchant` | Mercader del Nexus | `easy_npc:preset/humanoid/nexus_merchant.npc.snbt` | `JAYJASONBO`, esmeralda | cambio de moneda y suministros básicos |
+| `nexus_provider` | Proveedora del Nexus | `easy_npc:preset/humanoid/nexus_provider.npc.snbt` | `EFE`, ladrillos y farol | almacén de construcción y decoración del Overworld |
 | `nexus_fisher` | Pescador del Nexus | `easy_npc:preset/humanoid/nexus_fisher.npc.snbt` | `JAYJASONBO`, caña y prismarina | pesca del lago y acceso a `pesca_del_nexus` |
 | `market_foreman` | Maestre de Obras | `easy_npc:preset/humanoid/market_foreman.npc.snbt` | `SECURITY_01`, hacha y andamio | Oficina de Proyectos del Nexus |
 | `market_surveyor` | Agrimensora del Nexus | `easy_npc:preset/humanoid/market_surveyor.npc.snbt` | `PROFESSOR_01`, brújula y papel | Observatorio del Nexus |
 | `nexus_liaison` | Enlace del Nexus | `easy_npc:preset/humanoid/nexus_liaison.npc.snbt` | `JAYJASONBO`, libro y amatista | Casa de Contratos |
 | `district_steward` | Intendente del Distrito | `easy_npc:preset/humanoid/district_steward.npc.snbt` | `KNIGHT_01`, farol y papel | Intendencia del Nexus |
 | `market_curator` | Conservadora del Mercado | `easy_npc:preset/humanoid/market_curator.npc.snbt` | `PROFESSOR_01`, libro y pincel | Museo del Nexus |
-| `nether_expeditionary` | Expedicionario del Nexus | `easy_npc:preset/humanoid/nether_expeditionary.npc.snbt` | `SECURITY_01`, brújula y carga ígnea | Expediciones al Nether y Aether; guía dimensional por Eras |
+| `nether_expeditionary` | Expedicionario del Nexus | `easy_npc:preset/humanoid/nether_expeditionary.npc.snbt` | Piglin `PIGLIN_BRUTE`, brújula y carga ígnea | Expediciones al Nether y Aether; guía dimensional por Eras |
 
 Todas las apariencias proceden de modelos incluidos en Easy NPC y objetos ya presentes en Minecraft. No se descargaron skins.
 
@@ -115,6 +119,7 @@ El estado describe el servicio disponible: las seis tiendas son `OPERATIVA V1`, 
 | Pistolero | Armero (`gunsmith`) | Capítulo Pistolero y orientación sobre armas, munición y progresión por Eras | Interior definitivo, comercio de armas y munición, attachments y servicios especializados | `clase_pistolero` (`4E5847554E534C31`) | OPERATIVA V1 |
 | Exploración | Explorador (`explorer`) | Overworld, estructuras, criaturas, amenazas y preparación para Hordas | Expediciones y contratos del mundo abierto | `exploracion_y_hordas` (`4E584558504C4F31`) | OPERATIVA V1 |
 | Economía | Mercader del Nexus (`nexus_merchant`) | Bronce/Plata/Oro con valor 1/10/100: cuatro cambios y ocho ofertas de suministros (doce en total) | Nuevos comerciantes, sinks, servicios, contratos, cosméticos y economía avanzada | Ninguno; trading de Easy NPC | OPERATIVA V1 |
+| Construcción | Proveedora del Nexus (`nexus_provider`) | Quince ofertas de materiales de construcción y decoración del Overworld | Materiales de otras dimensiones cuando sus rutas se desbloqueen | Ninguno; trading de Easy NPC | EXPORT REAL CAPTURADO; BINDING PENDIENTE |
 
 El Explorador cubre Overworld, descubrimiento y mundo abierto. El Expedicionario del Nexus conserva por separado la guía narrativa hacia Nether, Aether, End y Otherside; ninguna tienda desbloquea dimensiones.
 
@@ -413,7 +418,37 @@ Después de importar:
 /easy_npc rotate <UUID> <yaw>
 ```
 
-Guardar el UUID junto al emplazamiento operativo del servidor. No escribirlo en el preset.
+Vincular el NPC colocado al registro persistente de Nexus Core:
+
+```text
+/nexus_npc bind_nearest <npc_id>
+```
+
+Si hay más de un candidato compatible en un radio de cuatro bloques, el comando falla. En ese caso se usa el UUID comprobado:
+
+```text
+/nexus_npc bind <npc_id> <UUID>
+/nexus_npc status
+```
+
+No escribir UUIDs del mundo en el preset.
+
+Un binding erróneo se elimina sin tocar la entidad ni el preset:
+
+```text
+/nexus_npc unbind <npc_id>
+```
+
+Para corregir la vinculación detectada durante la primera prueba de `0.6.30`,
+después de desplegar `0.6.31` se ejecuta expresamente:
+
+```text
+/nexus_npc unbind nexus_merchant
+/nexus_npc bind_nearest nexus_provider
+/nexus_npc status
+```
+
+No existe migración automática y no se identifica la Proveedora por nombre.
 
 ### Mover
 
@@ -425,7 +460,7 @@ Guardar el UUID junto al emplazamiento operativo del servidor. No escribirlo en 
 
 Después se aplica `/easy_npc rotate`.
 
-### Sustituir o actualizar
+### Actualizar un preset sin sustituir el NPC
 
 1. Exportar desde una copia de trabajo si se ha editado mediante Config UI:
 
@@ -433,18 +468,23 @@ Después se aplica `/easy_npc rotate`.
 /easy_npc preset export custom <UUID> <nombre>
 ```
 
-2. Validar y versionar el `.npc.snbt` resultante.
-3. En el mapa final, comprobar el UUID antiguo.
-4. Eliminarlo:
+2. Validar, versionar y desplegar el `.npc.snbt` resultante.
+3. Confirmar que el binding existe y el NPC está cargado:
 
 ```text
-/easy_npc delete <UUID>
+/nexus_npc status
 ```
 
-5. Ejecutar una sola vez `preset import_new custom ...`.
-6. Registrar el nuevo UUID y volver a orientar.
+4. Recargar uno o todo el registro:
 
-No ejecutar `import_new` como mecanismo de actualización: crea otra entidad y produciría un duplicado.
+```text
+/nexus_npc reload <npc_id>
+/nexus_npc reload all
+```
+
+5. Revisar el resumen y probar visualmente los NPC actualizados.
+
+No borrar el NPC ni ejecutar `import_new` como mecanismo de actualización. Nexus Core conserva UUID, dimensión, posición, yaw, pitch, owner, home/navigation y NoGravity. Un NPC no vinculado, no cargado o con `EntityType` incompatible se reporta y queda intacto.
 
 ## Validación local
 
@@ -460,10 +500,20 @@ Resultado comprobado con `nexus_custodian`:
 - `PersistenceRequired:1b`;
 - velocidad `0.0` y ausencia de objetivos de paseo;
 - una sola entidad tras el reinicio;
-- los dieciséis SNBT aceptados por el `TagParser` real de Minecraft `1.20.1`.
+- los diecisiete SNBT aceptados por el `TagParser` real de Minecraft `1.20.1`.
+
+La primera prueba runtime de Nexus Core `0.6.30` confirmó que
+`/nexus_npc status` y `/nexus_npc bind_nearest` funcionan y persisten el
+binding. La Proveedora se vinculó por error como `nexus_merchant`; al detectarlo
+no se ejecutó ningún reload y la corrección queda en el procedimiento manual
+anterior.
 
 Pendiente de prueba manual:
 
+- `/nexus_npc unbind` y persistencia tras reinicio con Nexus Core `0.6.31`;
+- recarga individual y `reload all` con Easy NPC `7.2.0`;
+- conservación runtime de UUID, posición, rotación, owner, home y NoGravity;
+- fallo seguro sin duplicados ante UUID ausente o `EntityType` incompatible;
 - hacer clic para abrir el diálogo;
 - pulsar un botón;
 - confirmar visualmente que se abre el chapter correcto de FTB Quests.
@@ -472,9 +522,10 @@ Durante la sesión de validación se produjo un crash de cliente ajeno al preset
 
 ## Limitaciones
 
-- La colocación final, orientación y registro de UUIDs son operaciones manuales sobre el mapa terminado.
+- La colocación final, orientación y binding inicial son operaciones manuales sobre el mapa terminado.
+- Los NPCs deben estar cargados para vincularlos o recargarlos; Nexus Core no fuerza chunks.
 - No se probó interacción simultánea con más de un cliente.
 - La apertura visual del diálogo y del chapter FTB queda pendiente de la prueba manual indicada.
-- El Mercader conserva sus ofertas nativas existentes; los otros quince presets no añaden economía.
+- El Mercader y la Proveedora conservan sus ofertas nativas existentes; los otros quince presets no añaden economía.
 - Los presets no reaccionan visualmente a etapas de progresión; no se añadió lógica paralela.
 - Una indisponibilidad de CurseForge durante una instalación requiere el fallback manual verificado por SHA-1.

@@ -38,7 +38,7 @@
         }],
         Label:"default",
         Name:"Disciplina marcial",
-        Texts:[{Text:"La armería sigue en obras, pero el entrenamiento básico ya está disponible en la senda del Guerrero. Combate cuerpo a cuerpo, resistencia y dominio de armas —con el escudo como aliado— definen la clase. Los servicios avanzados llegarán con el local completo."}]
+        Texts:[{Text:"Aquí se entrena la senda del Guerrero. Combate cuerpo a cuerpo, resistencia y dominio de armas —con el escudo como aliado— definen la clase. Consulta su capítulo para revisar objetivos, técnicas y progresión."}]
       }],
       Type:"STANDARD"
     },

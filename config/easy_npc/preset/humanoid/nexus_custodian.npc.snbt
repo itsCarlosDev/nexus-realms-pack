@@ -44,7 +44,7 @@
           ],
           Label:"default",
           Name:"El custodio",
-          Texts:[{Text:"Bienvenido a Nexus Market. El asentamiento aún está creciendo, pero el Nexus ya nos reúne. Abre conmigo la campaña; después, el Cronista te explicará las Eras y el capítulo inicial te guiará para elegir clase."}]
+          Texts:[{Text:"Bienvenido a Nexus Market. El asentamiento sigue creciendo y el Nexus ya conecta nuestras rutas. Abre conmigo la campaña; el Cronista conserva la historia del mundo y el capítulo inicial te guiará para elegir clase."}]
         }
       ],
       Type:"STANDARD"
