@@ -1021,10 +1021,6 @@ file = "kubejs/assets/kubejs/textures/block/nexus_path_corner.png"
 hash = "1ef400c9df00e28b3ec0f302299e2f06c7ba20114f5fe1395b8e072cd11dc884"
 
 [[files]]
-file = "kubejs/assets/kubejs/textures/block/nexus_path_corner.zip"
-hash = "8e07888aeccd20c8d5ffaf36a3a7061dbde1de0be3891d2c595f50f82fb57d82"
-
-[[files]]
 file = "kubejs/assets/kubejs/textures/block/nexus_path_corner_glow.png"
 hash = "b55bbb67bc3e40881396ab31b26d1521a82df34690e7bb05b63593547fdb2581"
 
@@ -2965,10 +2961,6 @@ hash = "c622e0846c68a764043dbe4e0fcecee5569fd21dc5bcb3840592016ad9027f2c"
 [[files]]
 file = "resourcepacks/NexusRealms_ES/pack.mcmeta"
 hash = "eb6a2e402661890e05ac7d0c6f0d027d1cc8bf49317b9f1f9dabff10f572401d"
-
-[[files]]
-file = "resourcepacks/Vulmoons calaclysm remake_0.5.zip"
-hash = "c146eff2d40485a04c148d44305b0d16a7413652880dc3f51348c1a05e40904b"
 
 [[files]]
 file = "resourcepacks/better-lanterns.pw.toml"
