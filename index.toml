@@ -122,7 +122,7 @@ hash = "472018f601c732fcbd9a36e1901d3023cf2465be62586f494d0cf573bf9cdfcc"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/district_steward.npc.snbt"
-hash = "27bfe5cf199964c7ebb298cfdf2cc5537e65794f9b5ee242211442a1d08cb8de"
+hash = "c495279bb7355ce00426a6627dece8bb6d5554cceb7ef3e2f8e860d1a3203f9f"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/explorer.npc.snbt"
@@ -162,7 +162,7 @@ hash = "984471a59e8315b61b4ca17b60329665c1924af5b00bb955fd2011ffc62d3678"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nexus_fisher.npc.snbt"
-hash = "a96256180fe46e2c323bdb9beb571a0aa487a84e3894085f5e20f31a920955db"
+hash = "1caff46292ea7f9c14c8119b551db658d1176e0e9f1a2be8c529a573904a6cb9"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nexus_liaison.npc.snbt"
@@ -174,7 +174,7 @@ hash = "9506d17d3cdc5e40e057602afe49a6a26115422bc1b9e2afe4ce9e600d9bdb37"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/nexus_provider.npc.snbt"
-hash = "bc041a6e3ef4e8781b7d651549f9da05d8f0f92eab89be84c218e7a01a497a9d"
+hash = "4ddb7aa880837d688051e01bba78458a3b71ea8e9d6bff2e0b79dc81bcc15b17"
 
 [[files]]
 file = "config/easy_npc/preset/humanoid/warrior_master.npc.snbt"
@@ -427,6 +427,10 @@ hash = "9c23a3855c1963bb0787ee422f0dc2cb8e401456b8368afdf9fe4c6af32a5da8"
 [[files]]
 file = "config/fancytoasts/general.json"
 hash = "d270773ee2e05e6c8fa6fb4b1ddeafc26a05d51aac45f0677b620ce45d9cc610"
+
+[[files]]
+file = "config/fossil-client.toml"
+hash = "c2209f32b6a7e76d1dc5246f06dc3662347f6fdfa990da07e065e6e577b14fbe"
 
 [[files]]
 file = "config/ftbquests/quests/chapter_groups.snbt"
@@ -2460,8 +2464,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.39.jar"
-hash = "61c1bf178ae9161721bb0115f4d48cd78e268cb216cb8a41bf5514c1329406c5"
+file = "mods/nexus-core-0.6.40.jar"
+hash = "92f2d0741ae41324cb2039b616ea3db90a067a22f1b64bebe1e1f05e0241762e"
 
 [[files]]
 file = "mods/nightfall-invade.pw.toml"

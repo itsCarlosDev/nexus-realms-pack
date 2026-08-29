@@ -32,6 +32,10 @@ public final class MarketNpcRegistryCheck {
         "nexus_liaison",
         "district_steward",
         "market_curator",
+        "nexus_farmer",
+        "nexus_blacksmith",
+        "nexus_apothecary",
+        "nexus_guardian",
         "nether_expeditionary"
     );
 
@@ -40,7 +44,7 @@ public final class MarketNpcRegistryCheck {
 
     public static void main(String[] args) throws IOException, CommandSyntaxException {
         List<MarketNpcDefinition> definitions = MarketNpcRegistry.definitions();
-        require(definitions.size() == 17, "expected exactly 17 Market NPC definitions");
+        require(definitions.size() == 21, "expected exactly 21 Market NPC definitions");
         require(
             definitions.stream().map(MarketNpcDefinition::logicalId).toList().equals(EXPECTED_IDS),
             "logical IDs or their stable order differ from the expected Market registry"
@@ -89,7 +93,7 @@ public final class MarketNpcRegistryCheck {
                 .equals(new ResourceLocation("easy_npc", "piglin")),
             "nether_expeditionary must use the Easy NPC piglin EntityType"
         );
-        System.out.println("Market NPC registry checks passed: 17 definitions and presets verified");
+        System.out.println("Market NPC registry checks passed: 21 definitions and presets verified");
     }
 
     private static void verifyProviderPreset(Path path) throws IOException, CommandSyntaxException {

@@ -26,6 +26,10 @@ public final class MarketNpcRegistry {
         definition("nexus_liaison", "humanoid"),
         definition("district_steward", "humanoid"),
         definition("market_curator", "humanoid"),
+        definition("nexus_farmer", "humanoid"),
+        definition("nexus_blacksmith", "humanoid"),
+        definition("nexus_apothecary", "humanoid"),
+        definition("nexus_guardian", "humanoid"),
         definition("nether_expeditionary", "piglin")
     );
     private static final Map<String, MarketNpcDefinition> BY_ID = createIndex(DEFINITIONS);
