@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 @Mod(NexusCore.MOD_ID)
 public final class NexusCore {
     public static final String MOD_ID = "nexuscore";
-    public static final String BUILD_ID = "0.6.39";
+    public static final String BUILD_ID = "0.6.40";
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public NexusCore() {

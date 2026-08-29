@@ -3,7 +3,7 @@
     author:"Nexus Realms",category:"Nexus Market",created:1784654018052L,
     description:"Pescador del Nexus: pesca, colecciones, retos y contratos acuáticos.",
     entityTypeId:"easy_npc:humanoid",modified:1784676311022L,name:"nexus_fisher",
-    variantType:"JAYJASONBO",version:"1.2.0"
+    variantType:"JAYJASONBO",version:"1.3.0"
   },
   data:{
     ActionData:{ActionEventSet:{ON_INTERACTION:[{Type:"OPEN_DEFAULT_DIALOG"}]},ActionPermissionLevel:4},
@@ -23,10 +23,10 @@
       },
       {
         Actions:[{ExecAsUser:1b,PermLevel:0,Type:"OPEN_TRADING_SCREEN"}],
-        Label:"open_fishing_trade",Name:"Comprar aparejos"
+        Label:"open_fishing_trade",Name:"Aparejos y reciclaje"
       }
       ],Label:"default",Name:"Aguas del Nexus",
-      Texts:[{Text:"La pesca del Nexus está abierta. Aquí encontrarás colecciones, retos y encargos periódicos; empieza en este lago, explora otras aguas del Overworld y compra aparejos básicos si necesitas reponer suministros."}]
+      Texts:[{Text:"La pesca del Nexus está abierta. Aquí encontrarás colecciones, retos y encargos periódicos; empieza en este lago, explora otras aguas del Overworld y compra aparejos de Aquaculture si necesitas reponer suministros. También recupero algas, madera a la deriva, latas y espinas que se te acumulen al pescar; no compro peces de colección ni Neptunium."}]
     }],Type:"STANDARD"},
     DisplayAttribute:[
       {Bool:1b,Type:"VISIBLE"},{Bool:1b,Type:"VISIBLE_AT_DAY"},{Bool:1b,Type:"VISIBLE_AT_NIGHT"},
@@ -49,60 +49,31 @@
       Inventory:{},
       Recipes:{
         Recipes:[
-          {
-                      buy:{Count:5b,id:"kubejs:nexus_bronze_coin"},
-                      buyB:{},
-                      demand:0,
-                      maxUses:64,
-                      priceMultiplier:0.0f,
-                      rewardExp:0b,
-                      sell:{Count:1b,id:"minecraft:fishing_rod"},
-                      specialPrice:0,
-                      uses:0,
-                      xp:0
-                    },
-          {
-                      buy:{Count:4b,id:"kubejs:nexus_bronze_coin"},
-                      buyB:{},
-                      demand:0,
-                      maxUses:64,
-                      priceMultiplier:0.0f,
-                      rewardExp:0b,
-                      sell:{Count:8b,id:"minecraft:cooked_cod"},
-                      specialPrice:0,
-                      uses:0,
-                      xp:0
-                    },
-          {
-                      buy:{Count:5b,id:"kubejs:nexus_bronze_coin"},
-                      buyB:{},
-                      demand:0,
-                      maxUses:64,
-                      priceMultiplier:0.0f,
-                      rewardExp:0b,
-                      sell:{Count:8b,id:"minecraft:cooked_salmon"},
-                      specialPrice:0,
-                      uses:0,
-                      xp:0
-                    },
-          {
-                      buy:{Count:4b,id:"kubejs:nexus_bronze_coin"},
-                      buyB:{},
-                      demand:0,
-                      maxUses:64,
-                      priceMultiplier:0.0f,
-                      rewardExp:0b,
-                      sell:{Count:8b,id:"minecraft:lily_pad"},
-                      specialPrice:0,
-                      uses:0,
-                      xp:0
-                    }
+          {buy:{Count:5b,id:"kubejs:nexus_bronze_coin"},buyB:{},demand:0,maxUses:64,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:1b,id:"minecraft:fishing_rod"},specialPrice:0,uses:0,xp:0},
+          {buy:{Count:4b,id:"kubejs:nexus_bronze_coin"},buyB:{},demand:0,maxUses:64,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:8b,id:"minecraft:cooked_cod"},specialPrice:0,uses:0,xp:0},
+          {buy:{Count:5b,id:"kubejs:nexus_bronze_coin"},buyB:{},demand:0,maxUses:64,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:8b,id:"minecraft:cooked_salmon"},specialPrice:0,uses:0,xp:0},
+          {buy:{Count:4b,id:"kubejs:nexus_bronze_coin"},buyB:{},demand:0,maxUses:64,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:8b,id:"minecraft:lily_pad"},specialPrice:0,uses:0,xp:0},
+          {buy:{Count:1b,id:"kubejs:nexus_silver_coin"},buyB:{},demand:0,maxUses:64,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:1b,id:"aquaculture:iron_fishing_rod"},specialPrice:0,uses:0,xp:0},
+          {buy:{Count:2b,id:"kubejs:nexus_silver_coin"},buyB:{},demand:0,maxUses:64,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:1b,id:"aquaculture:gold_fishing_rod"},specialPrice:0,uses:0,xp:0},
+          {buy:{Count:5b,id:"kubejs:nexus_silver_coin"},buyB:{},demand:0,maxUses:64,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:1b,id:"aquaculture:diamond_fishing_rod"},specialPrice:0,uses:0,xp:0},
+          {buy:{Count:3b,id:"kubejs:nexus_bronze_coin"},buyB:{},demand:0,maxUses:64,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:8b,id:"aquaculture:worm"},specialPrice:0,uses:0,xp:0},
+          {buy:{Count:3b,id:"kubejs:nexus_bronze_coin"},buyB:{},demand:0,maxUses:64,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:4b,id:"aquaculture:fishing_line"},specialPrice:0,uses:0,xp:0},
+          {buy:{Count:3b,id:"kubejs:nexus_bronze_coin"},buyB:{},demand:0,maxUses:64,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:4b,id:"aquaculture:bobber"},specialPrice:0,uses:0,xp:0},
+          {buy:{Count:5b,id:"kubejs:nexus_bronze_coin"},buyB:{},demand:0,maxUses:64,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:1b,id:"aquaculture:iron_hook"},specialPrice:0,uses:0,xp:0},
+          {buy:{Count:8b,id:"kubejs:nexus_bronze_coin"},buyB:{},demand:0,maxUses:64,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:1b,id:"aquaculture:gold_hook"},specialPrice:0,uses:0,xp:0},
+          {buy:{Count:8b,id:"kubejs:nexus_bronze_coin"},buyB:{},demand:0,maxUses:64,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:1b,id:"aquaculture:iron_fillet_knife"},specialPrice:0,uses:0,xp:0},
+          {buy:{Count:3b,id:"kubejs:nexus_silver_coin"},buyB:{},demand:0,maxUses:64,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:1b,id:"aquaculture:tackle_box"},specialPrice:0,uses:0,xp:0},
+          {buy:{Count:3b,id:"kubejs:nexus_silver_coin"},buyB:{},demand:0,maxUses:64,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:1b,id:"aquaculture:worm_farm"},specialPrice:0,uses:0,xp:0},
+          {buy:{Count:32b,id:"aquaculture:algae"},buyB:{},demand:0,maxUses:8,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:1b,id:"kubejs:nexus_bronze_coin"},specialPrice:0,uses:0,xp:0},
+          {buy:{Count:32b,id:"aquaculture:driftwood"},buyB:{},demand:0,maxUses:8,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:1b,id:"kubejs:nexus_bronze_coin"},specialPrice:0,uses:0,xp:0},
+          {buy:{Count:16b,id:"aquaculture:tin_can"},buyB:{},demand:0,maxUses:8,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:1b,id:"kubejs:nexus_bronze_coin"},specialPrice:0,uses:0,xp:0},
+          {buy:{Count:32b,id:"aquaculture:fish_bones"},buyB:{},demand:0,maxUses:8,priceMultiplier:0.0f,rewardExp:0b,sell:{Count:1b,id:"kubejs:nexus_bronze_coin"},specialPrice:0,uses:0,xp:0}
         ]
       }
     },OnGround:1b,PersistenceRequired:1b,Profession:"NONE",RenderData:{},
     SkinData:{Content:"",DisableLayers:0b,Name:"JAYJASONBO",Timestamp:1784654018052L,Type:"DEFAULT",URL:""},
     SoundData:{SoundDataSet:[{Name:"minecraft:entity.player.death",Type:"DEATH"},{Name:"minecraft:entity.player.hurt",Type:"HURT"}]},
-    Status:{finalized:1b},TradingData:{TradingDataSet:{LastReset:0L,MaxUses:64,ResetsEveryMin:5,RewardedXP:0,Type:"BASIC"}},
+    Status:{finalized:1b},TradingData:{TradingDataSet:{LastReset:0L,MaxUses:64,ResetsEveryMin:30,RewardedXP:0,Type:"BASIC"}},
     VariantType:"JAYJASONBO",id:"easy_npc:humanoid"
   }
 }
