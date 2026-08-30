@@ -1914,6 +1914,11 @@ hash = "ab87291892e58660835460db9f262f01ea129e457cf0c20f4932e2637965212f"
 metafile = true
 
 [[files]]
+file = "mods/create-potato-cannon-fix.pw.toml"
+hash = "f6a487d18867d144996eaceb0bba52ca189ea050b1779567e9bc78884d3837b9"
+metafile = true
+
+[[files]]
 file = "mods/create-steam-n-rails.pw.toml"
 hash = "4c091982c192238cc7b2cefbb3a6e634edc6d7a780e547d693df7f4e3e1b04be"
 metafile = true

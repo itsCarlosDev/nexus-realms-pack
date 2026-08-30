@@ -1,0 +1,13 @@
+name = "Misanthropy's Create Fix Mod"
+filename = "createfix-0.8.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "721ab4858104b5a353e4411c4f217c14c226ac35"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 8471410
+project-id = 1487097
