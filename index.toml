@@ -189,6 +189,10 @@ file = "config/efn_enhance-client.toml"
 hash = "2f62ab9108b4166ba3ea59870f891cdd1ff328327badeb9f109f4d0d3c38fe89"
 
 [[files]]
+file = "config/epicfight-client.toml"
+hash = "3db5d202042b33b0212f5dd02e448b50979bc8bde42470d6034172023a650f24"
+
+[[files]]
 file = "config/epictweaks-client.toml"
 hash = "fa8b64cb8aea24a504eadcc6856fe87437ccd7a0a142dbe6b91802ff984401bf"
 
