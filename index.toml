@@ -1578,7 +1578,7 @@ hash = "fcc409061d05a62655b9a0c6d6a51637c9702f8eb3c2cf39008801e52b497b5a"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_change.js"
-hash = "9e0724e0649d9bf219eca7cdb7a060aae459969e47e00c31cd1d2d98374efb3d"
+hash = "8c6850faaf5648d96e74aabd5a22955da38d32bba6b6dd677e8b826469508ccc"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
@@ -2482,6 +2482,11 @@ metafile = true
 [[files]]
 file = "mods/natures-compass.pw.toml"
 hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
+metafile = true
+
+[[files]]
+file = "mods/nexus-aether-gloves-compat.pw.toml"
+hash = "e309d0a2dcaa25801083048413921ae50721117a6ab696f13b2deaf97ec4cdd2"
 metafile = true
 
 [[files]]

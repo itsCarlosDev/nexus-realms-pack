@@ -1519,16 +1519,19 @@ function nexusCreateStarterKitStack(
   entry
 ) {
   try {
-    const stack =
+    const createdStarterKitStack =
       nexusSelectionApi().createKitItem(
         entry
       )
 
-    if (!stack || stack.isEmpty()) {
+    if (
+      !createdStarterKitStack ||
+      createdStarterKitStack.isEmpty()
+    ) {
       throw new Error('starter_stack_empty')
     }
 
-    return stack
+    return createdStarterKitStack
   } catch (creationError) {
     const requested =
       Number(entry.count || 1)
@@ -4010,7 +4013,7 @@ function nexusClassChangeLogin(player) {
           return
         }
 
-        const raw =
+        const loginRawClass =
           String(
             player.persistentData.getString(
               'nexus_class'
@@ -4018,7 +4021,9 @@ function nexusClassChangeLogin(player) {
           )
 
         const resolved =
-          nexusStrictClass(raw)
+          nexusStrictClass(
+            loginRawClass
+          )
 
         if (
           !nexusStateCoherent(
