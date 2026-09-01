@@ -88,6 +88,31 @@ public final class ClassChangePolicy {
             || FORWARD_PHASES.contains(phase);
     }
 
+    public static boolean requiresMagicData(
+        String currentClassId,
+        String targetClassId
+    ) {
+        return "mage".equals(currentClassId)
+            || "mage".equals(targetClassId);
+    }
+
+    public static boolean requiresGunOperator(
+        String currentClassId,
+        String targetClassId
+    ) {
+        return "gunslinger".equals(currentClassId)
+            || "gunslinger".equals(targetClassId);
+    }
+
+    public static boolean isStarterKitFailure(String error) {
+        if (error == null) {
+            return false;
+        }
+
+        return error.contains("kit_delivery_incomplete")
+            || error.contains("specialization_kit_delivery_incomplete");
+    }
+
     public record CooldownCheck(
         boolean valid,
         boolean active,

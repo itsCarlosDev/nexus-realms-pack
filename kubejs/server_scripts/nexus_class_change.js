@@ -4,8 +4,12 @@ const NEXUS_CLASS_CHANGE_COST_LEVELS = 41
 const NEXUS_CLASS_CHANGE_COOLDOWN_MS = 12 * 60 * 60 * 1000
 const NEXUS_CLASS_CHANGE_CLOCK_TOLERANCE_MS = 60 * 1000
 const NEXUS_CLASS_CHANGE_MAX_RECOVERY_ATTEMPTS = 3
+const NEXUS_CLASS_CHANGE_JOURNAL_VERSION = 2
+const NEXUS_STARTER_KIT_LEDGER_VERSION = 1
+const NEXUS_STARTER_KIT_MANIFEST_VERSION = 1
 
 const NEXUS_CLASS_CHANGE_KEYS = {
+  journalVersion: 'nexus_class_change_journal_version',
   phase: 'nexus_class_change_phase',
   txId: 'nexus_class_change_tx_id',
   oldClass: 'nexus_class_change_old_class',
@@ -29,7 +33,14 @@ const NEXUS_CLASS_CHANGE_KEYS = {
   lastTo: 'nexus_class_change_last_to'
 }
 
+const NEXUS_STARTER_KIT_KEYS = {
+  version: 'nexus_starter_kit_ledger_version',
+  base: 'nexus_starter_kit_base',
+  specialization: 'nexus_starter_kit_specialization'
+}
+
 const NEXUS_CLASS_CHANGE_JOURNAL_KEYS = [
+  NEXUS_CLASS_CHANGE_KEYS.journalVersion,
   NEXUS_CLASS_CHANGE_KEYS.phase,
   NEXUS_CLASS_CHANGE_KEYS.txId,
   NEXUS_CLASS_CHANGE_KEYS.oldClass,
@@ -73,14 +84,14 @@ function nexusLoadClassSafely(className) {
 const $NexusInventoryHelper = nexusLoadClassSafely(
   'dev.itscarlos.nexuscore.ClassChangeInventoryHelper'
 )
+const $NexusClassChangePolicy = nexusLoadClassSafely(
+  'dev.itscarlos.nexuscore.ClassChangePolicy'
+)
 const $NexusClassSyncEvents = nexusLoadClassSafely(
   'dev.itscarlos.nexuscore.ClassSyncEvents'
 )
 const $NexusComponent = nexusLoadClassSafely(
   'net.minecraft.network.chat.Component'
-)
-const $NexusItemStack = nexusLoadClassSafely(
-  'net.minecraft.world.item.ItemStack'
 )
 const $NexusTag = nexusLoadClassSafely(
   'net.minecraft.nbt.Tag'
@@ -545,88 +556,12 @@ function nexusDestinationCoherent(
   )
 }
 
-function nexusValidateItem(entry) {
-  const api = nexusSelectionApi()
-  const stack = api.createKitItem(entry)
-
-  if (!stack || stack.isEmpty()) {
-    return false
-  }
-
-  const serializedStack = stack.toNBT()
-
-  const tag =
-    serializedStack &&
-    serializedStack.contains(
-      'tag',
-      $NexusTag.TAG_COMPOUND
-    )
-      ? serializedStack.getCompound('tag')
-      : null
-
-  if (entry.special === 'gunslinger_starter_gun') {
-    return (
-      tag &&
-      String(tag.getString('GunId')) === 'tacz:glock_17' &&
-      String(tag.getString('GunFireMode')) === 'SEMI'
-    )
-  }
-
-  if (entry.id === 'tacz:ammo') {
-    return (
-      tag &&
-      String(tag.getString('AmmoId')) === 'tacz:9mm'
-    )
-  }
-
-  if (
-    entry.id ===
-    'irons_spellbooks:copper_spell_book'
-  ) {
-    return (
-      tag &&
-      tag.getBoolean('nexus_arcanist_starter') &&
-      tag.contains('irons_spellbooks:spell_container')
-    )
-  }
-
-  return true
-}
-
-function nexusValidateKitDefinitions(targetClass) {
-  const api = nexusSelectionApi()
-
-  if (!api || !api.classData[targetClass]) {
-    return false
-  }
-
-  const manifests = [
-    api.classData[targetClass].kit
-  ]
-
-  Object.keys(api.specializationData).forEach(
-    id =>
-      manifests.push(
-        api.specializationData[id].starterKit || []
-      )
-  )
-
-  return manifests.every(
-    manifest =>
-      manifest.every(
-        entry => nexusValidateItem(entry)
-      )
-  )
-}
-
 function nexusExternalState() {
   return Boolean(
     $NexusInventoryHelper &&
+    $NexusClassChangePolicy &&
     $NexusClassSyncEvents &&
-    $NexusItemStack &&
     $NexusTag &&
-    $NexusMagicData &&
-    $NexusGunOperator &&
     nexusSelectionApi()
   )
 }
@@ -640,6 +575,15 @@ function nexusPreflight(
   const api = nexusSelectionApi()
   const now = nexusNow()
   const targetClass = target.mainClass
+  const raw = String(
+    player.persistentData.getString(
+      'nexus_class'
+    ) || ''
+  )
+  const currentClass =
+    nexusStrictClass(raw)
+  let needsMagicData = false
+  let needsGunOperator = false
 
   if (!nexusExternalState()) {
     return {
@@ -648,6 +592,19 @@ function nexusPreflight(
         'Faltan API criticas del cambio de clase.'
     }
   }
+
+  needsMagicData = Boolean(
+    $NexusClassChangePolicy.requiresMagicData(
+      currentClass,
+      targetClass
+    )
+  )
+  needsGunOperator = Boolean(
+    $NexusClassChangePolicy.requiresGunOperator(
+      currentClass,
+      targetClass
+    )
+  )
 
   if (!player.isAlive()) {
     return {
@@ -702,12 +659,26 @@ function nexusPreflight(
     }
   }
 
+  if (needsMagicData && !$NexusMagicData) {
+    return {
+      ok: false,
+      error:
+        'MagicData no esta disponible para una transicion de Mago.'
+    }
+  }
+
   const magicData =
-    $NexusMagicData.getPlayerMagicData(player)
+    needsMagicData
+      ? $NexusMagicData.getPlayerMagicData(player)
+      : null
 
   if (
     player.isUsingItem() &&
-    (!magicData || !magicData.isCasting())
+    (
+      !needsMagicData ||
+      !magicData ||
+      !magicData.isCasting()
+    )
   ) {
     return {
       ok: false,
@@ -746,22 +717,24 @@ function nexusPreflight(
     }
   }
 
-  if (!$NexusGunOperator.fromLivingEntity(player)) {
+  if (needsGunOperator && !$NexusGunOperator) {
+    return {
+      ok: false,
+      error:
+        'La API TaCZ no esta disponible para una transicion de Pistolero.'
+    }
+  }
+
+  if (
+    needsGunOperator &&
+    !$NexusGunOperator.fromLivingEntity(player)
+  ) {
     return {
       ok: false,
       error:
         'TaCZ gun operator no disponible.'
     }
   }
-
-  const raw = String(
-    player.persistentData.getString(
-      'nexus_class'
-    ) || ''
-  )
-
-  const currentClass =
-    nexusStrictClass(raw)
 
   if (initial) {
     if (
@@ -860,18 +833,6 @@ function nexusPreflight(
     }
   }
 
-  if (
-    !nexusValidateKitDefinitions(
-      targetClass
-    )
-  ) {
-    return {
-      ok: false,
-      error:
-        'Un item o NBT critico del kit no es valido.'
-    }
-  }
-
   if (!api.getAllomancyData(player)) {
     return {
       ok: false,
@@ -919,6 +880,8 @@ function nexusPreflight(
     ok: true,
     now: now,
     currentClass: currentClass,
+    needsMagicData: needsMagicData,
+    needsGunOperator: needsGunOperator,
     snapshot: captured.getSnapshot(),
     snapshotBytes:
       Number(captured.getSerializedBytes())
@@ -1039,6 +1002,11 @@ function nexusPrepareJournal(
 
   nexusClearJournal(player)
 
+  data.putInt(
+    NEXUS_CLASS_CHANGE_KEYS.journalVersion,
+    NEXUS_CLASS_CHANGE_JOURNAL_VERSION
+  )
+
   data.putString(
     NEXUS_CLASS_CHANGE_KEYS.txId,
     nexusNewTransactionId()
@@ -1125,56 +1093,65 @@ function nexusPrepareJournal(
 
 function nexusSanitizeActions(
   player,
-  diagnostic
+  diagnostic,
+  requirements
 ) {
-  if (diagnostic) {
-    diagnostic.operation =
-      'sanitize_magic_data'
+  if (requirements.needsMagicData) {
+    if (diagnostic) {
+      diagnostic.operation =
+        'sanitize_magic_data'
+    }
+
+    const magicData =
+      $NexusMagicData.getPlayerMagicData(
+        player
+      )
+
+    if (!magicData) {
+      return false
+    }
+
+    if (diagnostic) {
+      diagnostic.operation =
+        'sanitize_casting_state'
+    }
+
+    if (magicData.isCasting()) {
+      magicData.resetCastingState()
+    }
+
+    if (magicData.isCasting()) {
+      return false
+    }
   }
 
-  const magicData =
-    $NexusMagicData.getPlayerMagicData(
-      player
-    )
+  if (requirements.needsGunOperator) {
+    if (diagnostic) {
+      diagnostic.operation =
+        'sanitize_tacz_state'
+    }
 
-  if (!magicData) {
-    return false
-  }
+    const gunOperator =
+      $NexusGunOperator.fromLivingEntity(
+        player
+      )
 
-  if (diagnostic) {
-    diagnostic.operation =
-      'sanitize_casting_state'
-  }
+    if (!gunOperator) {
+      return false
+    }
 
-  if (magicData.isCasting()) {
-    magicData.resetCastingState()
-  }
+    gunOperator.aim(false)
+    gunOperator.cancelReload()
 
-  if (magicData.isCasting()) {
-    return false
-  }
-
-  if (diagnostic) {
-    diagnostic.operation =
-      'sanitize_tacz_state'
-  }
-
-  const gunOperator =
-    $NexusGunOperator.fromLivingEntity(
-      player
-    )
-
-  gunOperator.aim(false)
-  gunOperator.cancelReload()
-
-  if (
-    gunOperator.getSynIsAiming() ||
-    gunOperator
-      .getSynReloadState()
-      .getStateType()
-      .isReloading()
-  ) {
-    return false
+    if (
+      gunOperator.getSynIsAiming() ||
+      gunOperator
+        .getSynReloadState()
+        .getStateType()
+        .isReloading()
+    ) {
+      return false
+    }
   }
 
   if (diagnostic) {
@@ -1284,102 +1261,607 @@ function nexusRevokeOldState(
   )
 }
 
-function nexusMatchingItemCount(
-  player,
-  desired
-) {
-  const inventory =
-    player.getInventory()
-
-  let count = 0
-
-  for (
-    let slot = 0;
-    slot < inventory.getContainerSize();
-    slot++
-  ) {
-    const current =
-      inventory.getItem(slot)
-
-    if (
-      $NexusItemStack.isSameItemSameTags(
-        current,
-        desired
-      )
-    ) {
-      count += Number(
-        current.getCount()
-      )
-    }
-  }
-
-  return count
+function nexusStarterKitRecordKey(kind) {
+  return kind === 'base'
+    ? NEXUS_STARTER_KIT_KEYS.base
+    : NEXUS_STARTER_KIT_KEYS.specialization
 }
 
-function nexusDeliverClassKit(
-  player,
-  classId
+function nexusStarterKitManifest(
+  kind,
+  targetId
 ) {
   const api = nexusSelectionApi()
+
+  if (kind === 'base') {
+    return api.classData[targetId]
+      ? api.classData[targetId].kit
+      : null
+  }
+
+  const specialization =
+    api.specializationData[targetId]
+
+  return specialization
+    ? specialization.starterKit || []
+    : null
+}
+
+function nexusStarterKitId(kind, targetId) {
+  return `${kind}:${targetId}:v` +
+    `${NEXUS_STARTER_KIT_MANIFEST_VERSION}`
+}
+
+function nexusSaveStarterKitRecord(
+  player,
+  kind,
+  record
+) {
+  const data = player.persistentData
+
+  data.putInt(
+    NEXUS_STARTER_KIT_KEYS.version,
+    NEXUS_STARTER_KIT_LEDGER_VERSION
+  )
+
+  record.putLong(
+    'UpdatedAt',
+    nexusNow()
+  )
+
+  data.put(
+    nexusStarterKitRecordKey(kind),
+    record
+  )
+}
+
+function nexusStarterKitRecord(
+  player,
+  kind
+) {
+  const data = player.persistentData
+  const key =
+    nexusStarterKitRecordKey(kind)
+
+  if (!data.contains(key, $NexusTag.TAG_COMPOUND)) {
+    return null
+  }
+
+  return data.getCompound(key)
+}
+
+function nexusInitializeStarterKitRecord(
+  player,
+  kind,
+  targetId,
+  destination,
+  txId,
+  knownIndex,
+  knownComplete
+) {
   const manifest =
-    api.classData[classId].kit
-  const data =
-    player.persistentData
+    nexusStarterKitManifest(
+      kind,
+      targetId
+    )
 
-  for (
-    let index = 0;
-    index < manifest.length;
-    index++
-  ) {
-    const desired =
-      api.createKitItem(
-        manifest[index]
+  if (!manifest) {
+    return null
+  }
+
+  const expectedKitId =
+    nexusStarterKitId(
+      kind,
+      targetId
+    )
+
+  let record =
+    nexusStarterKitRecord(
+      player,
+      kind
+    )
+
+  if (record) {
+    if (
+      Number(record.getInt('Version')) !==
+        NEXUS_STARTER_KIT_LEDGER_VERSION ||
+      String(record.getString('KitId')) !==
+        expectedKitId
+    ) {
+      record.putString(
+        'State',
+        'UNRESOLVED'
       )
 
-    const required =
-      Number(desired.getCount())
+      record.putString(
+        'LastReason',
+        'ledger_record_conflict'
+      )
 
-    const present =
-      nexusMatchingItemCount(
+      nexusSaveStarterKitRecord(
         player,
-        desired
+        kind,
+        record
       )
 
-    const deficit =
-      Math.max(
-        0,
-        required - present
-      )
-
-    if (deficit > 0) {
-      const missing =
-        desired.copy()
-
-      missing.setCount(deficit)
-
-      player
-        .getInventory()
-        .add(missing)
-
-      if (!missing.isEmpty()) {
-        return false
-      }
+      return record
     }
 
-    if (
-      nexusMatchingItemCount(
+    return record
+  }
+
+  record = player.persistentData
+    .getCompound(
+      nexusStarterKitRecordKey(kind)
+    )
+
+  const initialIndex =
+    Number(knownComplete) === 1
+      ? manifest.length
+      : Number(knownIndex || 0)
+
+  record.putInt(
+    'Version',
+    NEXUS_STARTER_KIT_LEDGER_VERSION
+  )
+
+  record.putString(
+    'KitId',
+    expectedKitId
+  )
+
+  record.putString('Kind', kind)
+  record.putString('Target', targetId)
+  record.putString(
+    'Destination',
+    destination
+  )
+  record.putString('TxId', txId)
+  record.putInt(
+    'EntryCount',
+    manifest.length
+  )
+  record.putInt(
+    'EntryConfirmed',
+    0
+  )
+  record.putInt(
+    'InFlightIndex',
+    -1
+  )
+  record.putInt(
+    'InFlightBaseline',
+    0
+  )
+  record.putInt(
+    'InFlightRequested',
+    0
+  )
+
+  if (
+    initialIndex < 0 ||
+    initialIndex > manifest.length
+  ) {
+    record.putInt('NextIndex', 0)
+    record.putString('State', 'UNRESOLVED')
+    record.putString(
+      'LastReason',
+      'legacy_progress_out_of_range'
+    )
+  } else {
+    record.putInt(
+      'NextIndex',
+      initialIndex
+    )
+    record.putString(
+      'State',
+      initialIndex >= manifest.length
+        ? 'COMPLETE'
+        : 'PENDING'
+    )
+    record.putString(
+      'LastReason',
+      initialIndex >= manifest.length
+        ? 'legacy_progress_complete'
+        : 'delivery_pending'
+    )
+  }
+
+  nexusSaveStarterKitRecord(
+    player,
+    kind,
+    record
+  )
+
+  return record
+}
+
+function nexusStarterKitEntryAudit(
+  player,
+  record,
+  index,
+  entry,
+  requested,
+  inserted,
+  remaining,
+  result,
+  reason
+) {
+  nexusAudit(
+    'starter_kit_entry',
+    player,
+    {
+      txId: String(
+        record.getString('TxId') || ''
+      ),
+      kitId: String(
+        record.getString('KitId')
+      ),
+      destination: String(
+        record.getString('Destination')
+      ),
+      entryIndex: index,
+      itemId: String(entry.id),
+      requested: requested,
+      inserted: inserted,
+      remaining: remaining,
+      result: result,
+      reason: reason
+    }
+  )
+}
+
+function nexusCreateStarterKitStack(
+  player,
+  kind,
+  record,
+  index,
+  entry
+) {
+  try {
+    const stack =
+      nexusSelectionApi().createKitItem(
+        entry
+      )
+
+    if (!stack || stack.isEmpty()) {
+      throw new Error('starter_stack_empty')
+    }
+
+    return stack
+  } catch (creationError) {
+    const requested =
+      Number(entry.count || 1)
+    const reason =
+      'kit_item_creation_failed:' +
+      String(creationError)
+
+    record.putString('State', 'UNRESOLVED')
+    record.putString('LastReason', reason)
+    nexusSaveStarterKitRecord(player, kind, record)
+
+    nexusStarterKitEntryAudit(
+      player,
+      record,
+      index,
+      entry,
+      requested,
+      0,
+      requested,
+      'UNRESOLVED',
+      reason
+    )
+
+    return null
+  }
+}
+
+function nexusReconcileInterruptedStarterEntry(
+  player,
+  kind,
+  record,
+  manifest
+) {
+  const index =
+    Number(record.getInt('InFlightIndex'))
+
+  if (index < 0) {
+    return true
+  }
+
+  if (
+    index !== Number(record.getInt('NextIndex')) ||
+    index >= manifest.length
+  ) {
+    record.putString('State', 'UNRESOLVED')
+    record.putString(
+      'LastReason',
+      'interrupted_entry_index_invalid'
+    )
+    nexusSaveStarterKitRecord(player, kind, record)
+    return false
+  }
+
+  const desired =
+    nexusCreateStarterKitStack(
+      player,
+      kind,
+      record,
+      index,
+      manifest[index]
+    )
+
+  if (!desired) {
+    return false
+  }
+
+  const baseline =
+    Number(record.getInt('InFlightBaseline'))
+  const requested =
+    Number(record.getInt('InFlightRequested'))
+  const present =
+    Number(
+      $NexusInventoryHelper
+        .countMatchingStarterStack(
+          player,
+          desired
+        )
+    )
+
+  if (
+    requested <= 0 ||
+    present < baseline + requested
+  ) {
+    record.putString('State', 'UNRESOLVED')
+    record.putString(
+      'LastReason',
+      'interrupted_delivery_ambiguous'
+    )
+    nexusSaveStarterKitRecord(player, kind, record)
+
+    nexusStarterKitEntryAudit(
+      player,
+      record,
+      index,
+      manifest[index],
+      requested,
+      0,
+      Math.max(0, requested),
+      'UNRESOLVED',
+      'interrupted_delivery_ambiguous'
+    )
+    return false
+  }
+
+  record.putInt(
+    'EntryConfirmed',
+    Number(record.getInt('EntryConfirmed')) +
+      requested
+  )
+  record.putInt('InFlightIndex', -1)
+  record.putInt('InFlightBaseline', 0)
+  record.putInt('InFlightRequested', 0)
+  record.putString('LastReason', 'interrupted_delivery_confirmed')
+  nexusSaveStarterKitRecord(player, kind, record)
+
+  nexusStarterKitEntryAudit(
+    player,
+    record,
+    index,
+    manifest[index],
+    requested,
+    0,
+    0,
+    'CONFIRMED',
+    'interrupted_delivery_confirmed'
+  )
+
+  return true
+}
+
+function nexusDeliverStarterKitRecord(
+  player,
+  kind
+) {
+  const record =
+    nexusStarterKitRecord(
+      player,
+      kind
+    )
+
+  if (!record) {
+    return true
+  }
+
+  if (
+    Number(
+      player.persistentData.getInt(
+        NEXUS_STARTER_KIT_KEYS.version
+      )
+    ) !== NEXUS_STARTER_KIT_LEDGER_VERSION ||
+    Number(record.getInt('Version')) !==
+      NEXUS_STARTER_KIT_LEDGER_VERSION
+  ) {
+    record.putString('State', 'UNRESOLVED')
+    record.putString('LastReason', 'ledger_version_unsupported')
+    nexusSaveStarterKitRecord(player, kind, record)
+    return false
+  }
+
+  const state =
+    String(record.getString('State'))
+
+  if (state === 'COMPLETE') {
+    return true
+  }
+
+  if (state === 'UNRESOLVED') {
+    return false
+  }
+
+  const targetId =
+    String(record.getString('Target'))
+  const manifest =
+    nexusStarterKitManifest(
+      kind,
+      targetId
+    )
+
+  if (
+    !manifest ||
+    manifest.length !==
+      Number(record.getInt('EntryCount'))
+  ) {
+    record.putString('State', 'UNRESOLVED')
+    record.putString('LastReason', 'manifest_changed')
+    nexusSaveStarterKitRecord(player, kind, record)
+    return false
+  }
+
+  if (
+    !nexusReconcileInterruptedStarterEntry(
+      player,
+      kind,
+      record,
+      manifest
+    )
+  ) {
+    return false
+  }
+
+  while (
+    Number(record.getInt('NextIndex')) <
+      manifest.length
+  ) {
+    const index =
+      Number(record.getInt('NextIndex'))
+    const entry = manifest[index]
+    const desired =
+      nexusCreateStarterKitStack(
         player,
-        desired
-      ) < required
-    ) {
+        kind,
+        record,
+        index,
+        entry
+      )
+
+    if (!desired) {
+      return false
+    }
+    const total =
+      Number(desired.getCount())
+    const confirmed =
+      Number(record.getInt('EntryConfirmed'))
+    const requested =
+      Math.max(0, total - confirmed)
+
+    if (requested === 0) {
+      record.putInt('NextIndex', index + 1)
+      record.putInt('EntryConfirmed', 0)
+      nexusSaveStarterKitRecord(player, kind, record)
+      continue
+    }
+
+    const baseline =
+      Number(
+        $NexusInventoryHelper
+          .countMatchingStarterStack(
+            player,
+            desired
+          )
+      )
+
+    if (baseline < 0) {
+      record.putString('State', 'PENDING')
+      record.putString('LastReason', 'native_inventory_count_unavailable')
+      nexusSaveStarterKitRecord(player, kind, record)
       return false
     }
 
-    data.putInt(
-      NEXUS_CLASS_CHANGE_KEYS.kitIndex,
-      index + 1
+    record.putInt('InFlightIndex', index)
+    record.putInt('InFlightBaseline', baseline)
+    record.putInt('InFlightRequested', requested)
+    record.putString('State', 'PENDING')
+    record.putString('LastReason', 'delivery_in_flight')
+    nexusSaveStarterKitRecord(player, kind, record)
+
+    const requestStack = desired.copy()
+    requestStack.setCount(requested)
+
+    const insertion =
+      $NexusInventoryHelper.insertStarterStack(
+        player,
+        requestStack
+      )
+
+    const inserted = Math.max(
+      0,
+      Math.min(
+        requested,
+        Number(insertion.getInsertedItems())
+      )
     )
+    const remaining = Math.max(
+      0,
+      Number(insertion.getRemainingItems())
+    )
+    const reason =
+      String(insertion.getMessage())
+
+    record.putInt('InFlightIndex', -1)
+    record.putInt('InFlightBaseline', 0)
+    record.putInt('InFlightRequested', 0)
+    record.putInt(
+      'EntryConfirmed',
+      confirmed + inserted
+    )
+    record.putString('LastReason', reason)
+
+    nexusStarterKitEntryAudit(
+      player,
+      record,
+      index,
+      entry,
+      requested,
+      inserted,
+      remaining,
+      remaining === 0
+        ? 'CONFIRMED'
+        : 'PENDING',
+      reason
+    )
+
+    if (
+      confirmed + inserted >= total &&
+      remaining === 0
+    ) {
+      record.putInt('NextIndex', index + 1)
+      record.putInt('EntryConfirmed', 0)
+      nexusSaveStarterKitRecord(player, kind, record)
+      continue
+    }
+
+    record.putString('State', 'PENDING')
+    nexusSaveStarterKitRecord(player, kind, record)
+    return false
   }
+
+  record.putString('State', 'COMPLETE')
+  record.putString('LastReason', 'complete')
+  nexusSaveStarterKitRecord(player, kind, record)
+
+  nexusAudit(
+    'starter_kit_complete',
+    player,
+    {
+      txId: String(record.getString('TxId')),
+      kitId: String(record.getString('KitId')),
+      destination: String(
+        record.getString('Destination')
+      ),
+      entries: manifest.length
+    }
+  )
 
   return true
 }
@@ -1388,87 +1870,355 @@ function nexusDeliverSpecializationKit(
   player,
   specializationId
 ) {
-  const api = nexusSelectionApi()
+  const txId = String(
+    player.persistentData.getString(
+      NEXUS_CLASS_CHANGE_KEYS.lastTxId
+    ) ||
+    `specialization-${specializationId}`
+  )
 
-  const specialization =
-    api.specializationData[
-      specializationId
-    ]
+  const record =
+    nexusInitializeStarterKitRecord(
+      player,
+      'specialization',
+      specializationId,
+      specializationId,
+      txId,
+      0,
+      false
+    )
 
-  if (!specialization) {
+  return Boolean(
+    record &&
+    nexusDeliverStarterKitRecord(
+      player,
+      'specialization'
+    )
+  )
+}
+
+function nexusRetryPendingStarterKits(player) {
+  const baseComplete =
+    nexusDeliverStarterKitRecord(
+      player,
+      'base'
+    )
+
+  const specializationComplete =
+    nexusDeliverStarterKitRecord(
+      player,
+      'specialization'
+    )
+
+  return baseComplete && specializationComplete
+}
+
+function nexusClearStarterKitLedger(
+  player,
+  kind
+) {
+  player.persistentData.remove(
+    nexusStarterKitRecordKey(kind)
+  )
+}
+
+function nexusReconcileLegacyStarterKit(
+  player,
+  kind,
+  targetId,
+  destination,
+  txId,
+  knownIndex,
+  knownComplete,
+  inspectRemaining
+) {
+  const manifest =
+    nexusStarterKitManifest(
+      kind,
+      targetId
+    )
+
+  const record =
+    nexusInitializeStarterKitRecord(
+      player,
+      kind,
+      targetId,
+      destination,
+      txId,
+      knownIndex,
+      knownComplete
+    )
+
+  if (!manifest || !record) {
     return false
   }
 
-  const manifest =
-    specialization.starterKit || []
-
-  const indexKey =
-    `nexus_specialization_` +
-    `${specializationId}_starter_kit_index`
-
-  const completedKey =
-    `nexus_specialization_` +
-    `${specializationId}_starter_kit_given`
-
-  for (
-    let index = 0;
-    index < manifest.length;
-    index++
+  if (
+    String(record.getString('State')) ===
+      'COMPLETE' ||
+    !inspectRemaining
   ) {
+    return true
+  }
+
+  while (
+    Number(record.getInt('NextIndex')) <
+      manifest.length
+  ) {
+    const index =
+      Number(record.getInt('NextIndex'))
+    const entry = manifest[index]
     const desired =
-      api.createKitItem(
-        manifest[index]
+      nexusCreateStarterKitStack(
+        player,
+        kind,
+        record,
+        index,
+        entry
       )
 
-    const required =
+    if (!desired) {
+      return false
+    }
+    const requested =
       Number(desired.getCount())
-
-    const deficit =
-      Math.max(
-        0,
-        required -
-          nexusMatchingItemCount(
+    const present =
+      Number(
+        $NexusInventoryHelper
+          .countMatchingStarterStack(
             player,
             desired
           )
       )
 
-    if (deficit > 0) {
-      const missing =
-        desired.copy()
+    if (present < requested) {
+      const reason = present < 0
+        ? 'legacy_inventory_inspection_unavailable'
+        : 'legacy_entry_delivery_ambiguous'
 
-      missing.setCount(deficit)
+      record.putString('State', 'UNRESOLVED')
+      record.putString('LastReason', reason)
+      nexusSaveStarterKitRecord(player, kind, record)
 
-      player
-        .getInventory()
-        .add(missing)
-
-      if (!missing.isEmpty()) {
-        return false
-      }
-    }
-
-    if (
-      nexusMatchingItemCount(
+      nexusStarterKitEntryAudit(
         player,
-        desired
-      ) < required
-    ) {
+        record,
+        index,
+        entry,
+        requested,
+        0,
+        Math.max(0, requested - Math.max(0, present)),
+        'UNRESOLVED',
+        reason
+      )
       return false
     }
 
-    player.persistentData.putInt(
-      indexKey,
-      index + 1
+    record.putInt('NextIndex', index + 1)
+    record.putInt('EntryConfirmed', 0)
+    record.putString('State', 'PENDING')
+    record.putString(
+      'LastReason',
+      'legacy_inventory_confirmed'
+    )
+    nexusSaveStarterKitRecord(player, kind, record)
+
+    nexusStarterKitEntryAudit(
+      player,
+      record,
+      index,
+      entry,
+      requested,
+      0,
+      0,
+      'CONFIRMED',
+      'legacy_inventory_confirmed'
     )
   }
 
-  player.persistentData.putBoolean(
-    completedKey,
-    true
+  record.putString('State', 'COMPLETE')
+  record.putString('LastReason', 'legacy_reconciliation_complete')
+  nexusSaveStarterKitRecord(player, kind, record)
+  return true
+}
+
+function nexusPrepareStarterKitsForCommit(
+  player,
+  targetClass,
+  targetSpecialization,
+  targetId
+) {
+  const data = player.persistentData
+
+  if (
+    !data.getBoolean(
+      NEXUS_CLASS_CHANGE_KEYS.initial
+    )
+  ) {
+    return
+  }
+
+  const txId = String(
+    data.getString(
+      NEXUS_CLASS_CHANGE_KEYS.txId
+    )
+  )
+  const journalVersion = Number(
+    data.getInt(
+      NEXUS_CLASS_CHANGE_KEYS.journalVersion
+    )
+  )
+  const legacy =
+    journalVersion <
+      NEXUS_CLASS_CHANGE_JOURNAL_VERSION
+
+  if (!legacy) {
+    nexusInitializeStarterKitRecord(
+      player,
+      'base',
+      targetClass,
+      targetId,
+      txId,
+      0,
+      false
+    )
+
+    if (targetSpecialization !== '') {
+      nexusInitializeStarterKitRecord(
+        player,
+        'specialization',
+        targetSpecialization,
+        targetId,
+        txId,
+        0,
+        false
+      )
+    }
+
+    return
+  }
+
+  const legacyKitIndex = Number(
+    data.getInt(
+      NEXUS_CLASS_CHANGE_KEYS.kitIndex
+    )
+  )
+  const legacyError = String(
+    data.getString(
+      NEXUS_CLASS_CHANGE_KEYS.lastError
+    ) || ''
+  )
+  const legacyKitFailure = Boolean(
+    $NexusClassChangePolicy
+      .isStarterKitFailure(legacyError)
   )
 
-  return true
+  nexusReconcileLegacyStarterKit(
+    player,
+    'base',
+    targetClass,
+    targetId,
+    txId,
+    legacyKitIndex,
+    false,
+    legacyKitFailure || legacyKitIndex > 0
+  )
+
+  if (targetSpecialization !== '') {
+    const legacyIndexKey =
+      `nexus_specialization_` +
+      `${targetSpecialization}_starter_kit_index`
+    const legacyCompleteKey =
+      `nexus_specialization_` +
+      `${targetSpecialization}_starter_kit_given`
+    const legacySpecializationIndex =
+      Number(data.getInt(legacyIndexKey))
+    const legacySpecializationComplete =
+      data.getBoolean(legacyCompleteKey) === true
+    const specializationFailure =
+      legacyError.indexOf(
+        'specialization_kit_delivery_incomplete'
+      ) >= 0
+
+    nexusReconcileLegacyStarterKit(
+      player,
+      'specialization',
+      targetSpecialization,
+      targetId,
+      txId,
+      legacySpecializationIndex,
+      legacySpecializationComplete,
+      legacyKitFailure ||
+        specializationFailure ||
+        legacySpecializationComplete ||
+        legacySpecializationIndex > 0
+    )
+
+    data.remove(legacyIndexKey)
+    data.remove(legacyCompleteKey)
+  }
+
+  nexusAudit(
+    'legacy_starter_kit_journal_migrated',
+    player,
+    {
+      txId: txId,
+      destination: targetId,
+      kitIndex: legacyKitIndex,
+      kitFailure: legacyKitFailure
+    }
+  )
+}
+
+function nexusMigrateLegacySpecializationStarterState(
+  player
+) {
+  const data = player.persistentData
+  const specializationId = 'arcanist'
+  const indexKey =
+    'nexus_specialization_arcanist_starter_kit_index'
+  const completedKey =
+    'nexus_specialization_arcanist_starter_kit_given'
+
+  if (
+    nexusStarterKitRecord(
+      player,
+      'specialization'
+    ) ||
+    (
+      !data.contains(indexKey) &&
+      !data.contains(completedKey)
+    )
+  ) {
+    return true
+  }
+
+  if (
+    nexusStrictClass(
+      data.getString('nexus_class')
+    ) !== 'mage' ||
+    String(
+      data.getString('nexus_specialization')
+    ) !== specializationId
+  ) {
+    return true
+  }
+
+  const migrated =
+    nexusReconcileLegacyStarterKit(
+      player,
+      'specialization',
+      specializationId,
+      specializationId,
+      'legacy-specialization',
+      Number(data.getInt(indexKey)),
+      data.getBoolean(completedKey) === true,
+      true
+    )
+
+  data.remove(indexKey)
+  data.remove(completedKey)
+  return migrated
 }
 
 function nexusApplySpecializationState(
@@ -1678,40 +2428,6 @@ function nexusFinalizeForward(player) {
     'NEW_STATE_APPLIED'
   )
 
-  if (
-    data.getBoolean(
-      NEXUS_CLASS_CHANGE_KEYS.initial
-    ) &&
-    !nexusDeliverClassKit(
-      player,
-      targetClass
-    )
-  ) {
-    throw new Error(
-      'kit_delivery_incomplete'
-    )
-  }
-
-  if (
-    data.getBoolean(
-      NEXUS_CLASS_CHANGE_KEYS.initial
-    ) &&
-    targetSpecialization !== '' &&
-    !nexusDeliverSpecializationKit(
-      player,
-      targetSpecialization
-    )
-  ) {
-    throw new Error(
-      'specialization_kit_delivery_incomplete'
-    )
-  }
-
-  nexusSetPhase(
-    player,
-    'KIT_APPLIED'
-  )
-
   nexusSetPhase(
     player,
     'VERIFYING'
@@ -1799,13 +2515,78 @@ function nexusFinalizeForward(player) {
     }
   )
 
-  const shouldOpenMage =
-    targetId === 'mage' &&
+  const initial =
     data.getBoolean(
       NEXUS_CLASS_CHANGE_KEYS.initial
     )
 
+  const shouldOpenMage =
+    targetId === 'mage' &&
+    initial
+
+  let kitPending = false
+
+  if (initial) {
+    try {
+      nexusPrepareStarterKitsForCommit(
+        player,
+        targetClass,
+        targetSpecialization,
+        targetId
+      )
+    } catch (kitPreparationError) {
+      kitPending = true
+
+      nexusAudit(
+        'starter_kit_prepare_failed',
+        player,
+        {
+          txId: String(
+            data.getString(
+              NEXUS_CLASS_CHANGE_KEYS.txId
+            )
+          ),
+          destination: targetId,
+          error: String(kitPreparationError)
+        }
+      )
+    }
+  }
+
   nexusClearJournal(player)
+
+  if (initial) {
+    try {
+      kitPending =
+        !nexusRetryPendingStarterKits(
+          player
+        ) || kitPending
+    } catch (kitDeliveryError) {
+      kitPending = true
+
+      nexusAudit(
+        'starter_kit_retry_failed',
+        player,
+        {
+          txId: String(
+            data.getString(
+              NEXUS_CLASS_CHANGE_KEYS.lastTxId
+            )
+          ),
+          destination: targetId,
+          error: String(kitDeliveryError)
+        }
+      )
+    }
+
+    if (kitPending) {
+      nexusPlayerFeedback(
+        player,
+        'Tu clase esta aplicada y sincronizada; ' +
+        'el starter kit queda KIT_PENDING para reintento.'
+      )
+    }
+  }
 
   if (shouldOpenMage) {
     player.server.scheduleInTicks(
@@ -2248,7 +3029,8 @@ function nexusChangeClass(
     if (
       !nexusSanitizeActions(
         player,
-        changeDiagnostic
+        changeDiagnostic,
+        changeValidation
       )
     ) {
       throw new Error(
@@ -2516,6 +3298,7 @@ function nexusRepairClass(
   var repairSpecializationStageState
   var repairCooldown
   var repairUnequipResult
+  var repairKitPending = false
 
   if (
     nexusClassChangeLocks.has(
@@ -2783,6 +3566,27 @@ function nexusRepairClass(
       player
     )
 
+    try {
+      nexusMigrateLegacySpecializationStarterState(
+        player
+      )
+
+      repairKitPending =
+        !nexusRetryPendingStarterKits(
+          player
+        )
+    } catch (repairKitError) {
+      repairKitPending = true
+
+      nexusAudit(
+        'starter_kit_repair_retry_failed',
+        player,
+        {
+          error: String(repairKitError)
+        }
+      )
+    }
+
     nexusAudit(
       'repair',
       player,
@@ -2804,7 +3608,10 @@ function nexusRepairClass(
           ),
 
         cooldownRepaired:
-          !repairCooldown.valid
+          !repairCooldown.valid,
+
+        kitPending:
+          repairKitPending
       }
     )
 
@@ -2816,7 +3623,12 @@ function nexusRepairClass(
       `equipo retirado: ` +
       `${Number(
         repairUnequipResult.getAffectedStacks()
-      )}.`
+      )}.` +
+      (
+        repairKitPending
+          ? ' Starter kit: KIT_PENDING; la identidad no requiere recovery.'
+          : ' Starter kit: completo o no aplicable.'
+      )
     )
 
     return 1
@@ -2886,6 +3698,18 @@ function nexusTellClassChangeStatus(
       nexusNow()
     )
 
+  const baseKit =
+    nexusStarterKitRecord(
+      target,
+      'base'
+    )
+
+  const specializationKit =
+    nexusStarterKitRecord(
+      target,
+      'specialization'
+    )
+
   const lines = [
     `Jugador: ${api.playerName(target)}`,
 
@@ -2933,6 +3757,32 @@ function nexusTellClassChangeStatus(
     `Journal: ` +
     `${nexusJournalPhase(target) ||
       'IDLE'}`,
+
+    `Starter base: ` +
+    `${baseKit
+      ? (
+        String(baseKit.getString('State')) +
+        ' ' +
+        Number(baseKit.getInt('NextIndex')) +
+        '/' +
+        Number(baseKit.getInt('EntryCount')) +
+        ' reason=' +
+        String(baseKit.getString('LastReason'))
+      )
+      : 'ABSENT'}`,
+
+    `Starter specialization: ` +
+    `${specializationKit
+      ? (
+        String(specializationKit.getString('State')) +
+        ' ' +
+        Number(specializationKit.getInt('NextIndex')) +
+        '/' +
+        Number(specializationKit.getInt('EntryCount')) +
+        ' reason=' +
+        String(specializationKit.getString('LastReason'))
+      )
+      : 'ABSENT'}`,
 
     `Lock memoria: ` +
     `${nexusClassChangeLocks.has(
@@ -3186,6 +4036,36 @@ function nexusClassChangeLogin(player) {
         $NexusClassSyncEvents
           .forceSync(player)
 
+        try {
+          nexusMigrateLegacySpecializationStarterState(
+            player
+          )
+
+          if (
+            !nexusRetryPendingStarterKits(
+              player
+            )
+          ) {
+            player.tell(
+              'Tu identidad de clase esta sincronizada; ' +
+              'el starter kit sigue KIT_PENDING.'
+            )
+          }
+        } catch (loginKitError) {
+          nexusAudit(
+            'starter_kit_login_retry_failed',
+            player,
+            {
+              error: String(loginKitError)
+            }
+          )
+
+          player.tell(
+            'Tu identidad de clase esta sincronizada; ' +
+            'el starter kit no pudo reintentarse y sigue pendiente.'
+          )
+        }
+
         if (resolved === 'none') {
           nexusSelectionApi()
             .openClassSelector(player)
@@ -3211,6 +4091,9 @@ global.nexusClassChangeLogin =
 
 global.nexusDeliverSpecializationKit =
   nexusDeliverSpecializationKit
+
+global.nexusClearStarterKitLedger =
+  nexusClearStarterKitLedger
 
 ServerEvents.commandRegistry(
   event => {

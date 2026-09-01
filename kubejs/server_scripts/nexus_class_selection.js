@@ -882,6 +882,22 @@ function nexusSelectSpecialization(
       return 0
     }
 
+    const existingStarterKitFailures =
+      nexusGiveSpecializationStarterKit(
+        target,
+        specializationId
+      )
+
+    if (existingStarterKitFailures > 0) {
+      nexusSpecializationFeedback(
+        viewer,
+        `${specializationData.displayName} sigue aplicado; ` +
+        'su starter kit permanece KIT_PENDING.'
+      )
+
+      return 0
+    }
+
     nexusSpecializationFeedback(
       viewer,
       `${nexusPlayerName(target)} ya sigue la senda ` +
@@ -1446,6 +1462,13 @@ function nexusClearArcanistStarterKit(target) {
   target.persistentData.remove(
     'nexus_specialization_arcanist_starter_kit_index'
   )
+
+  if (global.nexusClearStarterKitLedger) {
+    global.nexusClearStarterKitLedger(
+      target,
+      'specialization'
+    )
+  }
 }
 
 function nexusClearClassTags(player) {

@@ -189,6 +189,14 @@ file = "config/efn_enhance-client.toml"
 hash = "2f62ab9108b4166ba3ea59870f891cdd1ff328327badeb9f109f4d0d3c38fe89"
 
 [[files]]
+file = "config/entity_model_features.json"
+hash = "d6ff2922e9d2752d80821be3c02abf3bba0ba5e4efd57399553dfd87b9f9561f"
+
+[[files]]
+file = "config/entity_texture_features.json"
+hash = "d8d72a9ac49bbe45921f1ace5a22c30b65802c5e70829343cf7acfd25f79b8dc"
+
+[[files]]
 file = "config/epicfight-client.toml"
 hash = "3db5d202042b33b0212f5dd02e448b50979bc8bde42470d6034172023a650f24"
 
@@ -1566,11 +1574,11 @@ hash = "fcc409061d05a62655b9a0c6d6a51637c9702f8eb3c2cf39008801e52b497b5a"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_change.js"
-hash = "0942e31eca736188f273a8eaf2c0017c32831275f56fb45d2395292ca8007faa"
+hash = "9e0724e0649d9bf219eca7cdb7a060aae459969e47e00c31cd1d2d98374efb3d"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "8f146b77f5f83286f700a1e08fb5e2d0f0d1ceb2162588b8bb526f89ea0ff103"
+hash = "49aea42fd5676adad8678ea8bd75b2f8b6cdb1aeb88d7c0d610fe1c6815aeff4"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_corruption_engine.js"
@@ -2473,8 +2481,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.40.jar"
-hash = "92f2d0741ae41324cb2039b616ea3db90a067a22f1b64bebe1e1f05e0241762e"
+file = "mods/nexus-core-0.6.41.jar"
+hash = "f6e1d49fbc729f8e0446c04a9f6dc2b635a7e76d48ce1546ffc7334d35b424f8"
 
 [[files]]
 file = "mods/nightfall-invade.pw.toml"
