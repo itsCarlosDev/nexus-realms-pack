@@ -762,7 +762,7 @@ hash = "9d3331ee22399be554613638e5b6db87c6c054e3cbb4246ece584b54f1181e46"
 
 [[files]]
 file = "config/watut-client.toml"
-hash = "e23a9f280da8ea145087bd7d05894376f21825cae586ef12ecd732b38866cc5a"
+hash = "64fbcd12f76a2891604529d50c3cba5977b683e5d0a4c150bc57494d446400af"
 
 [[files]]
 file = "config/wom-client.toml"
@@ -3065,3 +3065,7 @@ metafile = true
 [[files]]
 file = "source/nexus_crystal.bbmodel"
 hash = "ff2b00ac831ebf783169df5898386a6df485b4121462e991992a25c1c6baa88d"
+
+[[files]]
+file = "vendor/client-mods/nexus_aether_gloves_compat-1.0.0.jar"
+hash = "7e92e1f95577eb9f2ca2c82399fe548324f431556809346f19c97bf8a10808f8"
