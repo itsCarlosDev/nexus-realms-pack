@@ -741,6 +741,10 @@ file = "config/statuseffectbars-client.toml"
 hash = "a7ed5a0f60502619a761735d23b2884474f4cdd16134e7dc2accb5debf57125f"
 
 [[files]]
+file = "config/sword_soaring-common.toml"
+hash = "c83571b4cb5928573dd460154f99c3f99486c627fbad0625f42dcb509b1fa0be"
+
+[[files]]
 file = "config/ta_theotherside.toml"
 hash = "c6215013fcb2f9b4ff8916a1e77be575997716fe1772a2fe89362b1a26d39c53"
 
