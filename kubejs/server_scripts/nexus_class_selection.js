@@ -56,6 +56,9 @@ const NEXUS_CLASS_DATA = {
 const NEXUS_CLASS_TAGS = Object.values(NEXUS_CLASS_DATA).map(classData => classData.tag)
 const NEXUS_CLASS_GUI_ID = 'nexus_class_selection'
 const NEXUS_MAGE_SPECIALIZATION_GUI_ID = 'nexus_mage_selection'
+const NEXUS_CLASS_SELECTOR_RETRY_TICKS = [10, 40, 100]
+const NEXUS_CLASS_CHANGE_PHASE_KEY = 'nexus_class_change_phase'
+const nexusClassSelectorRetryStates = new Map()
 
 const NEXUS_CLASS_STAGE_IDS = {
   warrior: 'nexus_class_warrior',
@@ -1257,8 +1260,12 @@ function nexusShowClassSelector(player) {
 
 function nexusRunServerCommand(server, command) {
   try {
-    server.runCommandSilent(command)
-    return true
+    var nexusServerCommandResult =
+      Number(
+        server.runCommandSilent(command)
+      )
+
+    return nexusServerCommandResult > 0
   } catch (error) {
     console.warn(
       `Nexus Realms: command failed: ${command}`
@@ -1268,6 +1275,160 @@ function nexusRunServerCommand(server, command) {
 
     return false
   }
+}
+
+function nexusNeedsClassSelector(player) {
+  return (
+    !nexusHasClass(player) &&
+    nexusGetPersistentClass(player) === 'none'
+  )
+}
+
+function nexusHasPendingClassChange(player) {
+  var selectorJournalPhase =
+    String(
+      player.persistentData.getString(
+        NEXUS_CLASS_CHANGE_PHASE_KEY
+      ) || ''
+    )
+
+  return (
+    selectorJournalPhase !== '' &&
+    selectorJournalPhase !== 'IDLE'
+  )
+}
+
+function nexusScheduleClassSelectorAttempt(
+  selectorRetryState
+) {
+  var selectorAttemptIndex =
+    selectorRetryState.attemptIndex
+
+  var selectorPreviousTick =
+    selectorAttemptIndex > 0
+      ? NEXUS_CLASS_SELECTOR_RETRY_TICKS[
+          selectorAttemptIndex - 1
+        ]
+      : 0
+
+  var selectorAttemptDelay =
+    NEXUS_CLASS_SELECTOR_RETRY_TICKS[
+      selectorAttemptIndex
+    ] - selectorPreviousTick
+
+  selectorRetryState.server.scheduleInTicks(
+    selectorAttemptDelay,
+    selectorRetryCallback => {
+      var activeSelectorRetry =
+        nexusClassSelectorRetryStates.get(
+          selectorRetryState.playerKey
+        )
+
+      var onlineSelectorPlayer
+      var selectorOpened
+
+      if (
+        activeSelectorRetry !==
+          selectorRetryState ||
+        selectorRetryState.finished
+      ) {
+        return
+      }
+
+      try {
+        onlineSelectorPlayer =
+          selectorRetryState.server.getPlayer(
+            selectorRetryState.playerKey
+          )
+      } catch (selectorPlayerLookupError) {
+        onlineSelectorPlayer = null
+      }
+
+      if (!onlineSelectorPlayer) {
+        nexusClassSelectorRetryStates.delete(
+          selectorRetryState.playerKey
+        )
+        return
+      }
+
+      if (
+        !nexusNeedsClassSelector(
+          onlineSelectorPlayer
+        )
+      ) {
+        selectorRetryState.finished = true
+        return
+      }
+
+      if (
+        nexusHasPendingClassChange(
+          onlineSelectorPlayer
+        )
+      ) {
+        selectorRetryState.attemptIndex++
+
+        if (
+          selectorRetryState.attemptIndex <
+          NEXUS_CLASS_SELECTOR_RETRY_TICKS.length
+        ) {
+          nexusScheduleClassSelectorAttempt(
+            selectorRetryState
+          )
+        } else {
+          selectorRetryState.finished = true
+        }
+
+        return
+      }
+
+      if (!selectorRetryState.promptSent) {
+        selectorRetryState.promptSent = true
+        onlineSelectorPlayer.tell(
+          'Elige tu camino para comenzar.'
+        )
+      }
+
+      selectorOpened =
+        nexusRunServerCommand(
+          selectorRetryState.server,
+          `openguiscreen ${NEXUS_CLASS_GUI_ID} ` +
+          `${onlineSelectorPlayer.username}`
+        )
+
+      if (selectorOpened) {
+        selectorRetryState.finished = true
+        return
+      }
+
+      selectorRetryState.attemptIndex++
+
+      if (
+        selectorRetryState.attemptIndex <
+        NEXUS_CLASS_SELECTOR_RETRY_TICKS.length
+      ) {
+        nexusScheduleClassSelectorAttempt(
+          selectorRetryState
+        )
+        return
+      }
+
+      selectorRetryState.finished = true
+
+      if (!selectorRetryState.fallbackSent) {
+        selectorRetryState.fallbackSent = true
+
+        console.warn(
+          '[Nexus Realms] Class selector could not be opened ' +
+          `after ${NEXUS_CLASS_SELECTOR_RETRY_TICKS.length} ` +
+          `attempts for ${onlineSelectorPlayer.username}.`
+        )
+
+        nexusShowClassSelector(
+          onlineSelectorPlayer
+        )
+      }
+    }
+  )
 }
 
 function nexusTellActionbar(
@@ -1289,24 +1450,50 @@ function nexusTellActionbar(
   )
 }
 
-function nexusOpenClassSelector(player) {
-  player.tell(
-    'Elige tu camino para comenzar.'
+function nexusOpenClassSelector(
+  player,
+  restartExisting
+) {
+  var selectorPlayerKey
+  var existingSelectorRetry
+  var selectorRetryState
+
+  if (!nexusNeedsClassSelector(player)) {
+    return false
+  }
+
+  selectorPlayerKey = String(player.uuid)
+  existingSelectorRetry =
+    nexusClassSelectorRetryStates.get(
+      selectorPlayerKey
+    )
+
+  if (
+    existingSelectorRetry &&
+    restartExisting !== true
+  ) {
+    return true
+  }
+
+  selectorRetryState = {
+    playerKey: selectorPlayerKey,
+    server: player.server,
+    attemptIndex: 0,
+    promptSent: false,
+    fallbackSent: false,
+    finished: false
+  }
+
+  nexusClassSelectorRetryStates.set(
+    selectorPlayerKey,
+    selectorRetryState
   )
 
-  player.server.scheduleInTicks(
-    10,
-    callback => {
-      if (nexusHasClass(player)) {
-        return
-      }
-
-      nexusRunServerCommand(
-        player.server,
-        `openguiscreen ${NEXUS_CLASS_GUI_ID} ${player.username}`
-      )
-    }
+  nexusScheduleClassSelectorAttempt(
+    selectorRetryState
   )
+
+  return true
 }
 
 function nexusCreateKitItem(entry) {
@@ -1634,12 +1821,22 @@ PlayerEvents.loggedIn(event => {
 
   if (global.nexusClassChangeLogin) {
     global.nexusClassChangeLogin(player)
+    nexusOpenClassSelector(
+      player,
+      true
+    )
     return
   }
 
   console.error(
     '[Nexus Realms] Class transaction authority unavailable at login; ' +
     'selection UI suppressed.'
+  )
+})
+
+PlayerEvents.loggedOut(event => {
+  nexusClassSelectorRetryStates.delete(
+    String(event.player.uuid)
   )
 })
 
@@ -1668,7 +1865,6 @@ ServerEvents.commandRegistry(event => {
             const initialTargetValid =
               [
                 'warrior',
-                'mage',
                 'arcanist',
                 'gunslinger'
               ].indexOf(classId) >= 0
@@ -1693,12 +1889,28 @@ ServerEvents.commandRegistry(event => {
               return 0
             }
 
-            return global.nexusChangeClass(
-              ctx.source,
-              player,
-              classId,
-              true
-            )
+            const classSelectionResult =
+              Number(
+                global.nexusChangeClass(
+                  ctx.source,
+                  player,
+                  classId,
+                  true
+                )
+              )
+
+            if (classSelectionResult > 0) {
+              nexusClassSelectorRetryStates.delete(
+                String(player.uuid)
+              )
+
+              nexusRunServerCommand(
+                player.server,
+                `closeguiscreen ${player.username}`
+              )
+            }
+
+            return classSelectionResult
           })
       )
   )
@@ -1909,7 +2121,10 @@ ServerEvents.commandRegistry(event => {
           return 0
         }
 
-        nexusOpenClassSelector(player)
+        nexusOpenClassSelector(
+          player,
+          true
+        )
 
         return 1
       })

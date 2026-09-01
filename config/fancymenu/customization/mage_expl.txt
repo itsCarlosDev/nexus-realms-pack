@@ -422,7 +422,7 @@ element {
 
 element {
   button_element_executable_block_identifier = 79427316-79b6-4e3d-b979-2d1c46bf0172-1784763498526
-  [executable_action_instance:7a5f65cb-c3be-48e7-bf56-31b5d4510465-1784763513126][action_type:opengui] = nexus_mage_selection
+  [executable_action_instance:7a5f65cb-c3be-48e7-bf56-31b5d4510465-1784763513126][action_type:opengui] = nexus_class_selection
   [executable_block:79427316-79b6-4e3d-b979-2d1c46bf0172-1784763498526][type:generic] = [executables:7a5f65cb-c3be-48e7-bf56-31b5d4510465-1784763513126;]
   underline_label_on_hover = false
   transparent_background = false

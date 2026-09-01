@@ -314,7 +314,7 @@ hash = "346a42e28fd81d50be426db1e963927128c7164477cc117c0c3bdde8f646cde3"
 
 [[files]]
 file = "config/fancymenu/custom_gui_screens.txt"
-hash = "18b3e2adf7ee72c6c4b7cc68fd7cd7b9f8f8d11755c24fb1d57f4ea4e55b7f65"
+hash = "412a3d4040fe7b13f01cfbf8b8a3c84c815c30d99efb892f3cc984b830d1f336"
 
 [[files]]
 file = "config/fancymenu/customizablemenus.txt"
@@ -342,7 +342,7 @@ hash = "f9511a1dfcb40f8b94da69f43c1d375b6475aac758a0d0fe99f3cae7c0bac20f"
 
 [[files]]
 file = "config/fancymenu/customization/mage_expl.txt"
-hash = "63d3b0dcb59775d31210868d6604ba740d17576a9e0bd70e357696c56fb453e6"
+hash = "9664841f5d58ff5f73c4fbec6b49eadf0103de1fba7c79869ffdb145390455af"
 
 [[files]]
 file = "config/fancymenu/customization/mage_expl2.txt"
@@ -358,7 +358,7 @@ hash = "7471671b0978aa1ff0489fbbe7d1ad0b2dc755ff57ee4af051123b528b0b8ceb"
 
 [[files]]
 file = "config/fancymenu/customization/nexus_class_selection_layout.txt"
-hash = "1d49bf74ad350d17f41c8a0f749a8dc2e0be10863b1ade7419d6008fc413bbaf"
+hash = "db8d30cb36abdb33d638d98636e8e33b5f50d7c9cdc671995a4ad6a0507de392"
 
 [[files]]
 file = "config/fancymenu/customization/nexus_class_selection_mage.txt"
@@ -1582,7 +1582,7 @@ hash = "8c6850faaf5648d96e74aabd5a22955da38d32bba6b6dd677e8b826469508ccc"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
-hash = "49aea42fd5676adad8678ea8bd75b2f8b6cdb1aeb88d7c0d610fe1c6815aeff4"
+hash = "14cbdaaa10cb1b205b1611e457446eaaf48047ab6c24a3415c689230c461f80d"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_corruption_engine.js"
@@ -2490,8 +2490,8 @@ hash = "e309d0a2dcaa25801083048413921ae50721117a6ab696f13b2deaf97ec4cdd2"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.41.jar"
-hash = "f6e1d49fbc729f8e0446c04a9f6dc2b635a7e76d48ce1546ffc7334d35b424f8"
+file = "mods/nexus-core-0.6.42.jar"
+hash = "15d6e944dc9067ab679ca9043419a52232427b3828448d2fcbc2dfe0d78261df"
 
 [[files]]
 file = "mods/nightfall-invade.pw.toml"
