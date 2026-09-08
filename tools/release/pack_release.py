@@ -20,6 +20,11 @@ import urllib.parse
 import urllib.request
 import zipfile
 
+from lite_rules import (
+    LITE_NAME, LITE_URL, LITE_ZIP, LiteError,
+    validate_lite, validate_lite_instance,
+)
+
 
 PRODUCTION_URL = "https://itscarlosdev.github.io/nexus-realms-pack/pack.toml"
 STANDARD_PRISM_ZIP_NAME = "NexusRealms-Prism.zip"
@@ -320,6 +325,15 @@ def validate_pack(root: Path, *, scan_repository: bool = True) -> tuple[dict, li
 
     if scan_repository:
         security_scan(root)
+    is_lite_worktree = scan_repository and git_value(root, "branch", "--show-current") == "lite"
+    if is_lite_worktree and pack.get("name") != LITE_NAME:
+        raise ReleaseError("The Lite worktree must identify its pack as Nexus Realms Lite")
+    if pack.get("name") == LITE_NAME:
+        try:
+            metrics = validate_lite(root)
+        except LiteError as error:
+            raise ReleaseError(str(error)) from error
+        print(f"Lite regression checks passed: {metrics}")
     return pack, validated
 
 
@@ -350,14 +364,22 @@ def build_site(
     bootstrap: Path,
     commit: str,
     generated_at: str,
-    pack_url: str = PRODUCTION_URL,
-    prism_zip_name: str = STANDARD_PRISM_ZIP_NAME,
-    instance_name: str = STANDARD_INSTANCE_NAME,
+    pack_url: str | None = None,
+    prism_zip_name: str | None = None,
+    instance_name: str | None = None,
 ) -> None:
     root = root.resolve()
     output = ensure_output_safe(root, output)
     bootstrap = bootstrap.resolve()
     pack, indexed = validate_pack(root)
+    lite = pack.get("name") == LITE_NAME
+    if not lite and (pack_url == LITE_URL or prism_zip_name == LITE_ZIP or instance_name == LITE_NAME):
+        raise ReleaseError("A Lite release target requires the Nexus Realms Lite pack identity")
+    pack_url = pack_url or (LITE_URL if lite else PRODUCTION_URL)
+    prism_zip_name = prism_zip_name or (LITE_ZIP if lite else STANDARD_PRISM_ZIP_NAME)
+    instance_name = instance_name or (LITE_NAME if lite else STANDARD_INSTANCE_NAME)
+    if lite and (pack_url, prism_zip_name, instance_name) != (LITE_URL, LITE_ZIP, LITE_NAME):
+        raise ReleaseError("Lite builds must use the Lite URL, ZIP and instance name")
 
     if sha256_file(bootstrap).upper() != BOOTSTRAP_SHA256:
         raise ReleaseError(
@@ -466,6 +488,11 @@ def build_site(
         target_name,
         1,
     )
+    if lite:
+        try:
+            validate_lite_instance(prism_instance)
+        except LiteError as error:
+            raise ReleaseError(str(error)) from error
 
     prism_entries = {
         "instance.cfg": (prism_instance, 0o644),
@@ -542,12 +569,16 @@ def verify_zip_names(path: Path, expected: set[str]) -> None:
 
 def verify_site(
     site: Path,
-    prism_zip_name: str = STANDARD_PRISM_ZIP_NAME,
-    expected_pack_url: str = PRODUCTION_URL,
-    expected_instance_name: str = STANDARD_INSTANCE_NAME,
+    prism_zip_name: str | None = None,
+    expected_pack_url: str | None = None,
+    expected_instance_name: str | None = None,
 ) -> None:
     site = site.resolve()
-    _, indexed = validate_pack(site, scan_repository=False)
+    pack, indexed = validate_pack(site, scan_repository=False)
+    lite = pack.get("name") == LITE_NAME
+    prism_zip_name = prism_zip_name or (LITE_ZIP if lite else STANDARD_PRISM_ZIP_NAME)
+    expected_pack_url = expected_pack_url or (LITE_URL if lite else PRODUCTION_URL)
+    expected_instance_name = expected_instance_name or (LITE_NAME if lite else STANDARD_INSTANCE_NAME)
     manifest_path = site / "manifest.json"
     try:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -584,6 +615,11 @@ def verify_site(
 
     with zipfile.ZipFile(prism_zip) as archive:
         prism_instance = archive.read("instance.cfg")
+        if lite:
+            try:
+                validate_lite_instance(prism_instance)
+            except LiteError as error:
+                raise ReleaseError(str(error)) from error
 
     expected_command = (
         b'PreLaunchCommand=\\"$INST_JAVA\\" -jar '
@@ -685,14 +721,12 @@ def main() -> int:
     build.add_argument("--bootstrap", type=Path, required=True)
     build.add_argument("--commit")
     build.add_argument("--generated-at")
-    build.add_argument("--pack-url", default=PRODUCTION_URL)
+    build.add_argument("--pack-url")
     build.add_argument(
         "--prism-zip-name",
-        default=STANDARD_PRISM_ZIP_NAME,
     )
     build.add_argument(
         "--instance-name",
-        default=STANDARD_INSTANCE_NAME,
     )
 
     verify = subparsers.add_parser("verify-site")

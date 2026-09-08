@@ -45,32 +45,7 @@ menu_background {
   show_background = false
 }
 
-menu_background {
-  instance_identifier = 9233d455-2bbd-498f-9181-c167eff69e0f-1784764992667
-  background_type = video
-  show_background = false
-  loop = false
-  volume = 1.0
-  sound_source = master
-  parallax = false
-  parallax_intensity_x = 0.02
-  parallax_intensity_y = 0.02
-  invert_parallax = false
-  play_in_editor = true
-}
 
-menu_background {
-  instance_identifier = 5bb77126-5455-4d8c-9942-8ec221b3cfb4-1784764992667
-  background_type = video_mcef
-  show_background = false
-  loop = false
-  volume = 1.0
-  sound_source = master
-  parallax = false
-  parallax_intensity_x = 0.02
-  parallax_intensity_y = 0.02
-  invert_parallax = false
-}
 
 menu_background {
   instance_identifier = 372e6f9b-60b8-4366-a6ac-b553c00b7e3b-1784764992667

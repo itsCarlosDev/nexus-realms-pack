@@ -2,6 +2,11 @@
 
 Pack 18.0 adds the visual resource-pack foundation for Nexus Realms.
 
+This visual stack and the optional ordering below describe Standard. Lite removes
+EMF/ETF and the optional external visual packs, retaining independent Entity
+Culling, NexusRealms/NexusRealms_ES and required mod-provided layers. See
+[Lite installation and validation](client-installation-prism.md#nexus-realms-lite).
+
 ## Required mods
 
 Fresh Animations and its addons need OptiFine-like entity model support. Nexus Realms does not use OptiFine, so the pack uses:

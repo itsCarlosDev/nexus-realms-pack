@@ -28,7 +28,8 @@ menu_background {
 menu_background {
   instance_identifier = 2bfd7ff4-bca4-4775-ac58-7495d252c5ca-1784756320874
   background_type = image
-  show_background = false
+  show_background = true
+  image_path = [source:local]/config/fancymenu/assets/images/background.png
   slide = false
   repeat_texture = false
   parallax = false
@@ -44,33 +45,7 @@ menu_background {
   show_background = false
 }
 
-menu_background {
-  instance_identifier = 87f7cb23-d2e1-4cac-8c36-026ebb57c208-1784756320874
-  background_type = video
-  show_background = true
-  source = [source:local]/config/fancymenu/assets/videos/choose_mage.mp4
-  loop = true
-  volume = 1.0
-  sound_source = master
-  parallax = false
-  parallax_intensity_x = 0.02
-  parallax_intensity_y = 0.02
-  invert_parallax = false
-  play_in_editor = true
-}
 
-menu_background {
-  instance_identifier = 87bc4681-2e00-4654-af04-eec48b47e479-1784756320874
-  background_type = video_mcef
-  show_background = false
-  loop = false
-  volume = 1.0
-  sound_source = master
-  parallax = false
-  parallax_intensity_x = 0.02
-  parallax_intensity_y = 0.02
-  invert_parallax = false
-}
 
 menu_background {
   instance_identifier = 5f01523e-9f8a-4219-aa48-72f78f591f4a-1784756320874

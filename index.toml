@@ -102,7 +102,7 @@ hash = "a11fdefc5a382f47475e98cf39db45c466b614d334ed25392e8d04618a243a91"
 
 [[files]]
 file = "config/defaultoptions/options.txt"
-hash = "aaffeebd776e85ba773b0932a77926a70c594ee0070c1ff0d486069dfe0dce44"
+hash = "542c1593bfa525aa9ff24cce0eba5d027ac3cae8757b5a2590635dc7f876a291"
 
 [[files]]
 file = "config/drippyloadingscreen/options.txt"
@@ -222,7 +222,7 @@ hash = "d9298bcad1afb8e4151bea3ee5f7ab836a6a6311e626913a85dfb9b4144d0f53"
 
 [[files]]
 file = "config/fancymenu/assets/images/background.png"
-hash = "01aed22da5526abcc02bf2b829f505b38efb8893ea02c54645fb6a9d9d969479"
+hash = "b623344a043c7102ab80a31cbb182a3ff3e86755a8146bb18fc221a07e0715ca"
 
 [[files]]
 file = "config/fancymenu/assets/images/channels4_profile.png"
@@ -242,27 +242,27 @@ hash = "ff65de099cea0cd13c4959982f580c3ee1fac30eb61be53384fad908316f2b9e"
 
 [[files]]
 file = "config/fancymenu/assets/images/mage_expl.png"
-hash = "45b84fd5c66c02e8947437b027ead4182ee5015fa7db2f851bc611ae71789e3b"
+hash = "f54a355147ecbf5bad581b0fd8afcb0297069d577fc02542a8ad0ee8fbaa24d3"
 
 [[files]]
 file = "config/fancymenu/assets/images/mage_expl2.png"
-hash = "867ed61347374e3235fe191b8de633b35e49c48a6af653c127b901e13e0c76a9"
+hash = "1999ffc37cc198c6e694108755af55140282a33791e927b43df7deb9d49c9d02"
 
 [[files]]
 file = "config/fancymenu/assets/images/metal_expl.png"
-hash = "63083d7d6949fff0968e91ae8e235f357ad80f2d85238d68bd6e336fb84ec0ca"
+hash = "af361a023aa99d3caa9bbcf9df19fe2544144b5077282093858fb8f2bfe765dd"
 
 [[files]]
 file = "config/fancymenu/assets/images/pistolero_expl.png"
-hash = "60f91fa573eb785e30004f70dcd1b818008a52f256f50902270be5fd9c9672e0"
+hash = "9cbde4ec79e9b8d90c4717585fa1b05fab1621c2211ba5596fb8cf6d61129ff3"
 
 [[files]]
 file = "config/fancymenu/assets/images/warrior.png"
-hash = "492ae1fd21089f7ea6f7ef6ce1b7f1b1a1e43ddece79ba7f43586fd2e6bce495"
+hash = "4d6e6b6f62cbefbaccb10946d8f3520cc09beeaaf2823d8fea75cedeb0c3f883"
 
 [[files]]
-file = "config/fancymenu/assets/logo.gif"
-hash = "06fbe6da84a497b88b5825f5314a28469a09a3fe5c6ebe6c618b97914753e0a3"
+file = "config/fancymenu/assets/logo.png"
+hash = "753c532137ddf436f160da8c6bb543d7eb3257c917bd8e5cedad12c6395782fe"
 
 [[files]]
 file = "config/fancymenu/assets/nexus/class_selection/gunslinger.png"
@@ -275,26 +275,6 @@ hash = "51a7f512a556d0d8cf063061b194ceda3d03e3e33917ebc97ff0cacefe6da795"
 [[files]]
 file = "config/fancymenu/assets/nexus/class_selection/warrior.png"
 hash = "3973f8dae8a52665d087126cbe084ae97efea402e72af2008a1895caab31a3e4"
-
-[[files]]
-file = "config/fancymenu/assets/videos/choose_clases.mp4"
-hash = "16c8080cc1ba24105ce4e9d1dc3315ee7c73fe40a03039c3ae8d640b4a61d307"
-
-[[files]]
-file = "config/fancymenu/assets/videos/choose_mage.mp4"
-hash = "8640b7255e1debea334ef8625f4b9735a6db7e775b80f58edebf07f5153b5b69"
-
-[[files]]
-file = "config/fancymenu/assets/videos/clases.mp4"
-hash = "f5d48dd1434aea669ac1defa380831e415267652e8e148cd2a10e0591b301419"
-
-[[files]]
-file = "config/fancymenu/assets/videos/magic2.mp4"
-hash = "db31bc594d68c3756263daeaaad84a527e797127f354344bae722b86220d56e7"
-
-[[files]]
-file = "config/fancymenu/assets/videos/startvideo.mp4"
-hash = "ae92d050c04fbaede9fc607d620acc2e237e2167587b21b99eec3738763d8183"
 
 [[files]]
 file = "config/fancymenu/audio_element_controller_metas.json"
@@ -310,63 +290,63 @@ hash = "68ab8d8745c06b7537f90c64514b4b599b890f9f7bd98c94d2856765ea116e6d"
 
 [[files]]
 file = "config/fancymenu/customization/controls_screen_layout.txt"
-hash = "7d9b1f29d4ba98c96f6984bdb149669b6962c17f22faa9c2c3548c0eee2ecdd6"
+hash = "b7e1c33fb4b898ea2bcfd5e37ae33af713ebc1c2e17625bd29b4191440b16a81"
 
 [[files]]
 file = "config/fancymenu/customization/disconnected_screen_layout.txt"
-hash = "23aaa6981276548a960e80bc3c978b0a4d78f27279abe487c72c88dda22b4d4e"
+hash = "6bb878c85d501944c392c83f756c01e3676dee4609e5665e6448707821abda64"
 
 [[files]]
 file = "config/fancymenu/customization/drippy_loading_overlay_layout.txt"
-hash = "9fd523d6f8fbc11f4572e77501317a4f5cb700c1c734309944a88666cd1c75f1"
+hash = "f894dcc9a12c073717b962b64ba19985a168a5c49dfa70674d65b7064a87dbc4"
 
 [[files]]
 file = "config/fancymenu/customization/gunslier_expl.txt"
-hash = "3374744ca43463e7487bd4d7f8e5a461341ccec3fff9e38afaa0e3b1240f85ed"
+hash = "804d879b1b75d854eafe995577ded6cbf1d0e89c5c7db6fae68bcd727762239f"
 
 [[files]]
 file = "config/fancymenu/customization/inventory_screen_layout.txt"
-hash = "f9511a1dfcb40f8b94da69f43c1d375b6475aac758a0d0fe99f3cae7c0bac20f"
+hash = "4b5a7b338926babd3902572e7b08b4b308ca2c65b0bb474eedc4ff4ef3531008"
 
 [[files]]
 file = "config/fancymenu/customization/mage_expl.txt"
-hash = "63d3b0dcb59775d31210868d6604ba740d17576a9e0bd70e357696c56fb453e6"
+hash = "241fdb05f556b401f85f34c284b1e7610be8389f70b0803ad7c6c85db8d242c5"
 
 [[files]]
 file = "config/fancymenu/customization/mage_expl2.txt"
-hash = "eddc18c04148c3d34056739a00cba67e30f0d24a99e63db58ff413685cbbd733"
+hash = "e99ad0e79b0c464c98fbd2592c30170e337dec676e3720ed3f09c6b07d8b7cc9"
 
 [[files]]
 file = "config/fancymenu/customization/metalurgist_expl.txt"
-hash = "f551a9afb833d8f94f420bfdc616d60a523faa465ee015dda59798421042cdc6"
+hash = "883fee2c14a6ea9ff69e61fd395413babaafc5bfe8ce5b8a9bb9e2fb8b22a937"
 
 [[files]]
 file = "config/fancymenu/customization/metalurgist_expl2.txt"
-hash = "7471671b0978aa1ff0489fbbe7d1ad0b2dc755ff57ee4af051123b528b0b8ceb"
+hash = "7e1b28d00c46ed2580d99a629497f7225a494dd255d3b08212ec5e013ccf9b29"
 
 [[files]]
 file = "config/fancymenu/customization/nexus_class_selection_layout.txt"
-hash = "1d49bf74ad350d17f41c8a0f749a8dc2e0be10863b1ade7419d6008fc413bbaf"
+hash = "15c5ae6799f81981aa55c4f57b52176ea620963841c0d800d707bb2763921c66"
 
 [[files]]
 file = "config/fancymenu/customization/nexus_class_selection_mage.txt"
-hash = "8b91231382b95307b1946fcb51133b32e94819667db7e909b142a1159fe3aef3"
+hash = "41a2b2466706d90d381105ee8b8649480ebe0849c297300b3400326c8d45a4aa"
 
 [[files]]
 file = "config/fancymenu/customization/options_screen_layout.txt"
-hash = "765a61c753de4988e889b7b680853d1db6df211c1257a60e832fbd070d0d8198"
+hash = "0293b448c1437a1928747e8c8b7d686fd0fb06ba33244af91b05b0539570a4b7"
 
 [[files]]
 file = "config/fancymenu/customization/pause_screen_layout.txt"
-hash = "c6240a45b7390384e1645c46299506cf091f1616cc93ac2484bd159609544b80"
+hash = "28d3a1ee350fdc5450a20e7e3149aeeb24fcb17a46c124b52b340ee946693237"
 
 [[files]]
 file = "config/fancymenu/customization/title_screen_layout.txt"
-hash = "688cf95a151fc9cd7a0a12331161bed8ae33f0a8f160d869e31eb168abfc9d6c"
+hash = "466ca5946be58fe1308ab99f48890e227a9d3b1ad4c22bf87e2ec554274e8c3c"
 
 [[files]]
 file = "config/fancymenu/customization/warrior_expl.txt"
-hash = "dddf9922397152f9c5d68d16b1336abf8d64483ee822a068503c419634ef1554"
+hash = "3833971fc0214b880672d30c70b7929451df07beef0a93aecdc40f49c36e942e"
 
 [[files]]
 file = "config/fancymenu/layout_editor/widgets/element_layer_control.lewidget"
@@ -422,7 +402,7 @@ hash = "3d7d4cda73d6bde134a568ccbe4e8d2e7fbe701570012b71fa45acdb2258c823"
 
 [[files]]
 file = "config/fancymenu/video_element_controller_metas.json"
-hash = "9c23a3855c1963bb0787ee422f0dc2cb8e401456b8368afdf9fe4c6af32a5da8"
+hash = "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
 
 [[files]]
 file = "config/fancytoasts/general.json"
@@ -1649,11 +1629,6 @@ file = "kubejs/startup_scripts/nexus_horde_reentry_guard.js"
 hash = "e444142f8463f77f7c4dbd28921664c5f6416b22e89db3cdcd1ae8005aef0e07"
 
 [[files]]
-file = "mods/aaa-particles-world.pw.toml"
-hash = "dfed16b9cad0110aabd4e440567e52204383696e349db99a0770dedcaef55530"
-metafile = true
-
-[[files]]
 file = "mods/aaa-particles.pw.toml"
 hash = "3c0461086c5aa1dd89f197aabcd68580161b66ce6486eb99dce4028b3540904c"
 metafile = true
@@ -1744,18 +1719,8 @@ hash = "b2f03cfde6bf4642eea41b5a23e36e97c19cdb8c9d0dde64fe25681e43edd2d2"
 metafile = true
 
 [[files]]
-file = "mods/better-advancements.pw.toml"
-hash = "8851ef68c7776585e1bfabb8f95b1f5a2ababb7264a679a9bf562b7ac0d137ec"
-metafile = true
-
-[[files]]
 file = "mods/better-village.pw.toml"
 hash = "f1bee56d1c7ec634e3df67e6244c44769d4fbc001dbd72ee9cb22697e1be926e"
-metafile = true
-
-[[files]]
-file = "mods/betterf3.pw.toml"
-hash = "28358fe53c22695b3bf1f93ac2225c46fe3525918b7b993ac36e68a7f0a16fe8"
 metafile = true
 
 [[files]]
@@ -1814,16 +1779,6 @@ hash = "70203eccb52079014b1438e6488730cebb84e52aa0daf516211b4587a49bdb1e"
 metafile = true
 
 [[files]]
-file = "mods/chat-heads.pw.toml"
-hash = "1266de6a7663cdee095f6640f972e804d9794f1d467b88a6669ecac966a6798c"
-metafile = true
-
-[[files]]
-file = "mods/chatanimation.pw.toml"
-hash = "aac40b70828c624076ca02d3c904d6ae743bbd469c88dfa20a14cd67668b4ccb"
-metafile = true
-
-[[files]]
 file = "mods/chunky.pw.toml"
 hash = "0e17f9758f6f67ef87aa6f8d5afc47901521a05904cd8470ef65063b48e69d73"
 metafile = true
@@ -1831,11 +1786,6 @@ metafile = true
 [[files]]
 file = "mods/cinematic-cataclysm.pw.toml"
 hash = "dee0bae5e1c16887b45cd72bf1c253e7152b0c9a9dfeac3ca1756c2258ba74a4"
-metafile = true
-
-[[files]]
-file = "mods/cinematiczoom-original.pw.toml"
-hash = "25b892417090a964bf120a312c0db2a3cdf170048ce4be6663c0234dd4983627"
 metafile = true
 
 [[files]]
@@ -1851,11 +1801,6 @@ metafile = true
 [[files]]
 file = "mods/clumps.pw.toml"
 hash = "903352ffbd84d4b95fed905893f4715d9c3f88ec9fff6fb06f6e359e0b839dc3"
-metafile = true
-
-[[files]]
-file = "mods/cmdcam.pw.toml"
-hash = "b1594687e49efac809d90262d5d3378c90d58c0e780f5fd164a21f541ed023c8"
 metafile = true
 
 [[files]]
@@ -2044,18 +1989,8 @@ hash = "e4c69a3551a4343fc76fb135266aecac0042863693f04d2c58a26c71b6e988d9"
 metafile = true
 
 [[files]]
-file = "mods/entity-model-features.pw.toml"
-hash = "b6bad0dc31bec26203bced18c111495357a1708404d21c4ce71ead00142aa5ad"
-metafile = true
-
-[[files]]
 file = "mods/entityculling.pw.toml"
 hash = "fbad2488da791994cbb4a0541e2dd22c536dbe6ca8f7edfdd9af12120e283fd2"
-metafile = true
-
-[[files]]
-file = "mods/entitytexturefeatures.pw.toml"
-hash = "aa2a1abbccb92ccc4ba3a5a70d24edcd1e39a035f15fb9ba49c27f270a5e74e3"
 metafile = true
 
 [[files]]
@@ -2164,11 +2099,6 @@ hash = "2070c109fedb37cb34bf9a46b425439d82b457c4cf491a4eabde34d9ad0b8d8a"
 metafile = true
 
 [[files]]
-file = "mods/fancy-toasts.pw.toml"
-hash = "25644d1e49befc15ea303fa14491d04c3e8a116c85e44184ba4a1ff0992b0bb6"
-metafile = true
-
-[[files]]
 file = "mods/fancy-trail.pw.toml"
 hash = "df0d56969ced6fd304b7e6ee1ce1e0e608f0aafa492f232d360b30f532fe01eb"
 metafile = true
@@ -2216,11 +2146,6 @@ metafile = true
 [[files]]
 file = "mods/framework.pw.toml"
 hash = "9e2175476f720e0b2d21b28e91873cecf5555648e2137310e1b7cf98f6b98ab8"
-metafile = true
-
-[[files]]
-file = "mods/freecam.pw.toml"
-hash = "5c2edd9eb7d86b2b2a34c393022cb376f2667dacd143533412f4c7c731357509"
 metafile = true
 
 [[files]]
@@ -2309,16 +2234,6 @@ hash = "0fc131b61967727753c9133231eb5ef70557af3f3f2e91ceb8498b4609177f32"
 metafile = true
 
 [[files]]
-file = "mods/immersive-ui.pw.toml"
-hash = "db67b75db18d2ce8bebe92b72f5d5a3f64de4077edfd4439e8f633517c6f53c1"
-metafile = true
-
-[[files]]
-file = "mods/inventory-hud-forge.pw.toml"
-hash = "9928c8f1f67cdc3ccdddef9fe63831a328b44dca1f6be9ebc086fc7d25747826"
-metafile = true
-
-[[files]]
 file = "mods/inventory-profiles-next.pw.toml"
 hash = "5900123bd3234db14a14722f3a70b4cb89a9405b93820a402a74f8264919a466"
 metafile = true
@@ -2331,11 +2246,6 @@ metafile = true
 [[files]]
 file = "mods/irons-spells-n-spellbooks.pw.toml"
 hash = "d0914d5a9bd79a8b11f3669f848f00d7028405d57c23f47a12ee2dc61a051856"
-metafile = true
-
-[[files]]
-file = "mods/item-borders.pw.toml"
-hash = "175953670aa8af658a60be96577eac7202cbef7b01c4d8b7689d100a46f327bc"
 metafile = true
 
 [[files]]
@@ -2386,11 +2296,6 @@ metafile = true
 [[files]]
 file = "mods/kubejs.pw.toml"
 hash = "9ec37ad87c0c174bdafe7d52fc98f96b83aaef0ad42ae59e196655d3d784f31f"
-metafile = true
-
-[[files]]
-file = "mods/legendary-tooltips.pw.toml"
-hash = "241481e9d7d3778a6c8e582413014279a9dd0f92f5ad0c963b1c1aaea94f123f"
 metafile = true
 
 [[files]]
@@ -2478,11 +2383,6 @@ hash = "b396d97f9e049eac0dbf1ac0b21f25d3cde9e877ff4b14427fcee8c5af1fd9f1"
 metafile = true
 
 [[files]]
-file = "mods/not-enough-animations.pw.toml"
-hash = "1c3d52224f1f174fbcf2c308a70e3c34a736694b626992891404db32cbd69c7e"
-metafile = true
-
-[[files]]
 file = "mods/obscure-api.pw.toml"
 hash = "3c3d256dbe9e2de78426ca571528ee3a9d43cd71d95c3abc93bd12d2f71430ec"
 metafile = true
@@ -2523,11 +2423,6 @@ hash = "2242b76f7c4ee6d7f396a2d1380bee615d78408d00bff5cca38e4df777b18dc5"
 metafile = true
 
 [[files]]
-file = "mods/perception.pw.toml"
-hash = "c289c64b7d30cc2288508fe26dca04f4e2b15c5009bb31baaa72f32bf6f2dd9c"
-metafile = true
-
-[[files]]
 file = "mods/playeranimator.pw.toml"
 hash = "765987a78e5d8c782d0da2de99998b43b5907d6c41347d3804045ad109e4a586"
 metafile = true
@@ -2560,11 +2455,6 @@ metafile = true
 [[files]]
 file = "mods/project-mmo.pw.toml"
 hash = "0b16a05fba20b95bc188dff5a428178df22ebf65a172c7a9d53cfc38ed718bde"
-metafile = true
-
-[[files]]
-file = "mods/punchy-fpa.pw.toml"
-hash = "db45d5c44ae36a39ae5a86ab9a05dc887e67a79318bc8fc06618fcea0837f8d4"
 metafile = true
 
 [[files]]
@@ -2823,16 +2713,6 @@ hash = "00bc4f7e6f47fbed1c35ba0fe70cc11c8ec1d3a135688859b7936c80766e6323"
 metafile = true
 
 [[files]]
-file = "mods/watermedia-binaries.pw.toml"
-hash = "3ef23f21b86395b4c8cf8cfbf38f23fbc859aaff99e874b5ce6c901abeee3e29"
-metafile = true
-
-[[files]]
-file = "mods/watermedia.pw.toml"
-hash = "ba187a6558343c579f0022e13f0ebec9447bf69de4cd05787ed03759b7b4315e"
-metafile = true
-
-[[files]]
 file = "mods/waystones.pw.toml"
 hash = "5ab6f2a4a50bd53506496d3da0c2c09d5a3ca363c3ebc7ca8641ecd3f7104365"
 metafile = true
@@ -2865,11 +2745,6 @@ metafile = true
 [[files]]
 file = "mods/ydms-weapon-master.pw.toml"
 hash = "c4968d2539190a1a2e2623814db027d8229fd75800f58f76b51a39f25e7ea3b2"
-metafile = true
-
-[[files]]
-file = "mods/you-died.pw.toml"
-hash = "a254c92a353dbc91edbc33208086f3fba32c8e21f1f613ea2e49c57ef70cef3b"
 metafile = true
 
 [[files]]
@@ -2945,71 +2820,6 @@ hash = "c622e0846c68a764043dbe4e0fcecee5569fd21dc5bcb3840592016ad9027f2c"
 [[files]]
 file = "resourcepacks/NexusRealms_ES/pack.mcmeta"
 hash = "eb6a2e402661890e05ac7d0c6f0d027d1cc8bf49317b9f1f9dabff10f572401d"
-
-[[files]]
-file = "resourcepacks/better-lanterns.pw.toml"
-hash = "120a936d5345b58a613ce793b0ce4bd6527aec7125eed4b6177f45d6e8602fb5"
-metafile = true
-
-[[files]]
-file = "resourcepacks/better-trident-model-trail.pw.toml"
-hash = "6d5e77232b981fc5620102f2bfcab50d0bcedab3e6fc4a1613281e864a60f327"
-metafile = true
-
-[[files]]
-file = "resourcepacks/dmc5-yamato-for-nightfall.pw.toml"
-hash = "9a5cef444f71d152ce32770d924207bd5612b4d6e12d94f095b6a80ea49f5b06"
-metafile = true
-
-[[files]]
-file = "resourcepacks/eclectic-trove.pw.toml"
-hash = "3ab69222f4097ddf804ef5fb4ecd140d344518b327e4e3f2169859074be712b1"
-metafile = true
-
-[[files]]
-file = "resourcepacks/enchant-icons-countxd.pw.toml"
-hash = "d9e7e86ddb96102cedc1173006459c1cb4338698087bf16258abb23dd7889219"
-metafile = true
-
-[[files]]
-file = "resourcepacks/epicfight-extra-sword-trail.pw.toml"
-hash = "235c607bf2f92ae79bdac997717be1f0785e1abc41f393abbc676d0105cbd391"
-metafile = true
-
-[[files]]
-file = "resourcepacks/fa-player-extension.pw.toml"
-hash = "2e1a6866e4366cebe200dcf71ab52923b7653f76dc48741b93411ee3bf77372a"
-metafile = true
-
-[[files]]
-file = "resourcepacks/fresh-animations-emissive.pw.toml"
-hash = "de81d004ae049a08aab49d57db3ed5f5b659bd28b070bce0be4c520527f51b4b"
-metafile = true
-
-[[files]]
-file = "resourcepacks/low-on-fire.pw.toml"
-hash = "0ce41000cbbb72e9c03ae3738500aae1056f1102ddc4e5a46784ec18cabf6ca7"
-metafile = true
-
-[[files]]
-file = "resourcepacks/more-power-trail.pw.toml"
-hash = "077bc0adbb22d7568a0feca818d9add6b47b58ffb0b90e031268dcfaa3080bfb"
-metafile = true
-
-[[files]]
-file = "resourcepacks/our-story-ftb-theme.pw.toml"
-hash = "4b36fbfff1c587c8f6861625fafcba5bd43d522ceb0e1dfea35f310e7361bba7"
-metafile = true
-
-[[files]]
-file = "resourcepacks/torches-reimagined.pw.toml"
-hash = "f5708ca47dbd5693b0df54f34a18fe684e52d000fec76f85899a6d9d3da3f372"
-metafile = true
-
-[[files]]
-file = "resourcepacks/true-nitwit-texture.pw.toml"
-hash = "e039605a381bcfa89833e8df07087fa43ae3b20dce7c17fb36f0be6816d7b34b"
-metafile = true
 
 [[files]]
 file = "source/nexus_crystal.bbmodel"

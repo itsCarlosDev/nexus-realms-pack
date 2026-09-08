@@ -42,7 +42,7 @@ ao:false
 prioritizeChunkUpdates:0
 biomeBlendRadius:0
 renderClouds:"false"
-resourcePacks:["fabric","builtin/crittersandcompanions","vanilla","tacz_resources","mod_resources","witherstormmod:programmer_art","mod/punchy:punchy","efn_enhance_must","generated/fragmentum_layer","hordes-config","Epic Fight Extra - Texture Pack","epicfight_legacy","file/NexusRealms","file/NexusRealms_ES"]
+resourcePacks:["fabric","builtin/crittersandcompanions","vanilla","tacz_resources","mod_resources","witherstormmod:programmer_art","efn_enhance_must","generated/fragmentum_layer","hordes-config","Epic Fight Extra - Texture Pack","epicfight_legacy","file/NexusRealms","file/NexusRealms_ES"]
 incompatibleResourcePacks:[]
 lastServer:
 lang:es_es

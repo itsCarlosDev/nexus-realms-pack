@@ -258,6 +258,11 @@ https://itscarlosdev.github.io/nexus-realms-pack/lite/downloads/NexusRealms-Lite
 
 The Lite version is maintained separately through the `lite` branch while using the same automated release infrastructure.
 
+Lite uses static FancyMenu presentation: 23 client-only mod entries and 18.75 MB
+of FancyMenu assets, with shared gameplay content retained. See the
+[Lite installation, memory policy and runtime checklist](docs/client-installation-prism.md#nexus-realms-lite).
+Local builds must be published before the Prism bootstrap can download that revision.
+
 ---
 
 # 🚀 Automated release pipeline

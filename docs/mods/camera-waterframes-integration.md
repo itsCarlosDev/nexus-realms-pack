@@ -12,6 +12,10 @@ retiró sin migrarlo a una versión estable ni sustituirlo por otro mod.
 
 ## Dependencias conservadas
 
+Esta sección describe Standard. Lite utiliza FancyMenu estático y ha retirado
+WATERMeDIA y sus binarios tras eliminar todos sus consumidores de vídeo.
+Camera y su persistencia permanecen sin cambios en Lite.
+
 - CreativeCore se conserva porque AmbientSounds `6.3.8` declara una dependencia
   obligatoria de CreativeCore `2.12.36` o superior.
 - WATERMeDIA `3.0.0.19` se conserva porque FancyMenu `3.9.6` la declara como
