@@ -14,7 +14,11 @@
 
 var nexusBossDamageTick = 0
 
-var nexusBossRuntimeBossIdsByUuid = new Map()
+// Entity-local session marks survive chunk reloads without a global UUID registry.
+var nexusBossRuntimeSession = String(Date.now()) + ':' + String(Math.random())
+var NEXUS_BOSS_STATE_CLEANUP_INTERVAL_TICKS = 200
+// Five idle minutes exceed the existing refill, volley and adaptive windows.
+var NEXUS_BOSS_STATE_IDLE_TICKS = 20 * 60 * 5
 var nexusBossSoftStates = new Map()
 var nexusBossShotgunStates = new Map()
 var nexusBossShooterGroups = new Map()
@@ -145,8 +149,11 @@ function nexusBossRuntimeBossIdForEntity(entity) {
     return ''
   }
 
-  var id = nexusBossRuntimeBossIdsByUuid.get(uuid)
-  return id ? String(id) : ''
+  var data = entity.persistentData
+  if (String(data.getString('nexus_boss_runtime_session')) !== nexusBossRuntimeSession) {
+    return ''
+  }
+  return String(data.getString('nexus_boss_runtime_id'))
 }
 
 function nexusBossLocalClassAliasForEntity(entity) {
@@ -1264,6 +1271,39 @@ function nexusBossTelemetryFlush(force) {
   })
 }
 
+function nexusBossCleanupIdleStates() {
+  // Only visit retained combat state, never world entities. Expired state has
+  // already lost its effect: full refill, ended volley or reset cadence.
+  nexusBossSoftStates.forEach((state, key) => {
+    if (nexusBossDamageTick - state.lastTick > NEXUS_BOSS_STATE_IDLE_TICKS) {
+      nexusBossSoftStates.delete(key)
+    }
+  })
+  nexusBossShotgunStates.forEach((state, key) => {
+    if (nexusBossDamageTick - state.windowStart > NEXUS_BOSS_STATE_IDLE_TICKS) {
+      nexusBossShotgunStates.delete(key)
+    }
+  })
+  nexusBossAdaptiveStates.forEach((state, key) => {
+    if (nexusBossDamageTick - state.lastSeenTick > NEXUS_BOSS_STATE_IDLE_TICKS) {
+      nexusBossAdaptiveStates.delete(key)
+    }
+  })
+
+  var config = nexusBossDamageConfig()
+  if (config && config.multiplayer) {
+    nexusBossShooterGroups.forEach((shooters, key) => {
+      nexusBossPurgeOldShooters(shooters, Number(config.multiplayer.shooterMemoryTicks))
+      if (shooters.size === 0) nexusBossShooterGroups.delete(key)
+    })
+  } else {
+    nexusBossShooterGroups.clear()
+  }
+
+  // Flush already expires enabled telemetry; also release it if disabled live.
+  if (!nexusBossTelemetryEnabled()) nexusBossTelemetryStates.clear()
+}
+
 function nexusBossTraceResolved(
   event,
   resolvedTarget,
@@ -1691,10 +1731,8 @@ function nexusBossRuntimeIndexSpawn(event, canonicalId) {
     return
   }
 
-  nexusBossRuntimeBossIdsByUuid.set(
-    uuid,
-    canonicalId
-  )
+  entity.persistentData.putString('nexus_boss_runtime_id', canonicalId)
+  entity.persistentData.putString('nexus_boss_runtime_session', nexusBossRuntimeSession)
 
   if (nexusBossTraceEnabled()) {
     console.info(
@@ -1784,6 +1822,10 @@ try {
 
 ServerEvents.tick(event => {
   nexusBossDamageTick += 1
+
+  if (nexusBossDamageTick % NEXUS_BOSS_STATE_CLEANUP_INTERVAL_TICKS === 0) {
+    nexusBossCleanupIdleStates()
+  }
 
   var config = nexusBossDamageConfig()
 

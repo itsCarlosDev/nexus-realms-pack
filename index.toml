@@ -113,6 +113,10 @@ file = "config/dynamic_resource_bars-client.json"
 hash = "712908f15d3a5267c72583034a05dde7c0f4684c2add5af1d37f674b64e71b93"
 
 [[files]]
+file = "config/dynamicwaters-common.toml"
+hash = "3da60396ce624069fac72fe66dc36a065c42422bfc482191b3e904a96005f27a"
+
+[[files]]
 file = "config/easy_npc/preset/humanoid/arcane_master.npc.snbt"
 hash = "b2040a3a056e2478a11e865d9471f7ab04f7d6d8bfd63912820031ae07adaa3b"
 
@@ -1570,11 +1574,11 @@ hash = "a0ba113448751d06feccec90b0f502226a1d03dc28c16bc1af30da36b9c3f3b1"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_boss_announcement.js"
-hash = "60d243e259e2b8803adeed8ff251bed0e3eac74b8fb923d86e9da6c541576273"
+hash = "b4432501dcf5103c0e81d128fcb80fce5d684bfaf4ffed4acf1eeb1b0b0c7c10"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_boss_damage.js"
-hash = "fcc409061d05a62655b9a0c6d6a51637c9702f8eb3c2cf39008801e52b497b5a"
+hash = "8dea3210599dadb3fc1e2b61a42e064d8d42095298ab02a06f95069909ce835c"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_change.js"
@@ -2509,8 +2513,8 @@ hash = "e309d0a2dcaa25801083048413921ae50721117a6ab696f13b2deaf97ec4cdd2"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.42.jar"
-hash = "15d6e944dc9067ab679ca9043419a52232427b3828448d2fcbc2dfe0d78261df"
+file = "mods/nexus-core-0.6.43.jar"
+hash = "b38f711ac5e83ad4a6437ba3dcc5446b983165d82355bf80918428ed5368820b"
 
 [[files]]
 file = "mods/nightfall-invade.pw.toml"

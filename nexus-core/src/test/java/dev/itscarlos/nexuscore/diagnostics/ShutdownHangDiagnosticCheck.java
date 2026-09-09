@@ -2,9 +2,11 @@ package dev.itscarlos.nexuscore.diagnostics;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.lang.reflect.Field;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Set;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +17,7 @@ public final class ShutdownHangDiagnosticCheck {
     public static void main(String[] args) throws Exception {
         checkDaemonFactory();
         checkSingleWatchdog();
+        checkHistorySamplingTransition();
         checkJfrThreadStartCorrelation();
         checkReportStructure();
         checkWriteFailureIsContained();
@@ -41,6 +44,62 @@ public final class ShutdownHangDiagnosticCheck {
         require(watchdog != null && watchdog.isDaemon(), "started watchdog must be daemon");
         require(!controller.begin(unusedLogsDirectory), "second watchdog start must be rejected");
         require(controller.watchdogThread() == watchdog, "duplicate start must preserve the first watchdog");
+    }
+
+    private static void checkHistorySamplingTransition() throws Exception {
+        ShutdownHangDiagnostic.ThreadHistoryMonitor monitor = new ShutdownHangDiagnostic.ThreadHistoryMonitor(
+            ShutdownHangDiagnostic.DISCOVERY_INTERVAL,
+            ShutdownHangDiagnostic.FOCUSED_SAMPLE_INTERVAL,
+            128, 64, 512, 96
+        );
+        CountDownLatch releaseWorker = new CountDownLatch(1);
+        Thread worker = new Thread(() -> {
+            try {
+                releaseWorker.await();
+            } catch (InterruptedException interrupted) {
+                Thread.currentThread().interrupt();
+            }
+        }, "pool-987654321-thread-1");
+        try {
+            worker.start();
+            require(monitor.start(), "history monitor must start");
+            long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(5);
+            while (historySamples(monitor, worker.getId()) < 2 && System.nanoTime() < deadline) {
+                Thread.sleep(10L);
+            }
+            long normalStart = historySamples(monitor, worker.getId());
+            require(normalStart >= 2, "normal sampling must retain useful pre-shutdown history");
+            Thread.sleep(250L);
+            require(historySamples(monitor, worker.getId()) - normalStart <= 2,
+                "normal gameplay must not sample the worker every 10 ms");
+
+            monitor.markServerStopping();
+            long shutdownStart = historySamples(monitor, worker.getId());
+            require(shutdownStart >= normalStart, "shutdown must preserve previous history");
+            Thread.sleep(250L);
+            require(historySamples(monitor, worker.getId()) - shutdownStart >= 5,
+                "shutdown must promptly wake normal sampling and keep fast sampling active");
+        } finally {
+            monitor.stopAndClear();
+            releaseWorker.countDown();
+            worker.join(5_000L);
+            require(!worker.isAlive(), "sampling check worker must terminate");
+        }
+    }
+
+    // Inspect actual samples without adding a production-only testing API.
+    private static long historySamples(ShutdownHangDiagnostic.ThreadHistoryMonitor monitor, long id)
+        throws Exception {
+        Field lockField = monitor.getClass().getDeclaredField("lock");
+        Field historiesField = monitor.getClass().getDeclaredField("histories");
+        Field samplesField = ShutdownHangDiagnostic.CandidateHistory.class.getDeclaredField("totalSamples");
+        lockField.setAccessible(true);
+        historiesField.setAccessible(true);
+        samplesField.setAccessible(true);
+        synchronized (lockField.get(monitor)) {
+            Object candidate = ((Map<?, ?>) historiesField.get(monitor)).get(id);
+            return candidate == null ? 0L : samplesField.getLong(candidate);
+        }
     }
 
     private static void checkJfrThreadStartCorrelation() throws Exception {

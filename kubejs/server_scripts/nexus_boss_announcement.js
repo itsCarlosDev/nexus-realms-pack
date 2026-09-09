@@ -18,7 +18,9 @@
 // 10 minutos = 600000 ms.
 const NEXUS_BOSS_ANNOUNCE_FAMILY_COOLDOWN_MS = 10 * 60 * 1000
 
-const nexusBossAnnounceSeenEntities = new Set()
+// One mark per entity, valid only for this script session. Unlike a global UUID
+// set it is released with the entity and survives unload/reload via entity NBT.
+const nexusBossAnnounceSession = String(Date.now()) + ':' + String(Math.random())
 const nexusBossAnnounceLastFamily = new Map()
 
 const NEXUS_BOSS_ANNOUNCE_PROFILES = {
@@ -229,13 +231,13 @@ function nexusBossAnnouncementOnSpawn(event, entityId) {
   // de este script, aunque otro evento de spawn vuelva a verla.
   if (
     uuid &&
-    nexusBossAnnounceSeenEntities.has(uuid)
+    String(entity.persistentData.getString('nexus_boss_announce_session')) === nexusBossAnnounceSession
   ) {
     return
   }
 
   if (uuid) {
-    nexusBossAnnounceSeenEntities.add(uuid)
+    entity.persistentData.putString('nexus_boss_announce_session', nexusBossAnnounceSession)
   }
 
   var server = null

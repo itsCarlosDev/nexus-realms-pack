@@ -67,7 +67,7 @@ public final class ShutdownHangDiagnostic {
     static final String WATCHDOG_THREAD_NAME = "Nexus-Shutdown-Watchdog";
     static final String HISTORY_MONITOR_THREAD_NAME = "Nexus-Thread-History-Monitor";
 
-    static final Duration DISCOVERY_INTERVAL = Duration.ofMillis(200);
+    static final Duration DISCOVERY_INTERVAL = Duration.ofMillis(1000);
     static final Duration FOCUSED_SAMPLE_INTERVAL = Duration.ofMillis(10);
     static final int MAX_CANDIDATES = 128;
     static final int MAX_SAMPLES_PER_CANDIDATE = 64;
@@ -95,7 +95,7 @@ public final class ShutdownHangDiagnostic {
     static {
         safeInfo(
             "{} Component registered for dedicated-server shutdown events; timeout={} seconds, "
-                + "threadHistoryDiscovery={} ms, focusedSampling={} ms, jfrMaxSize={} bytes",
+                + "normalSampling={} ms, shutdownFocusedSampling={} ms, jfrMaxSize={} bytes",
             LOG_PREFIX,
             REPORT_DELAY.toSeconds(),
             DISCOVERY_INTERVAL.toMillis(),
@@ -633,7 +633,7 @@ public final class ShutdownHangDiagnostic {
         line(
             report,
             "Sampling: discovery=" + snapshot.discoveryIntervalMillis()
-                + " ms, focused=" + snapshot.focusedIntervalMillis()
+                + " ms (also normal sampling), shutdownFocused=" + snapshot.focusedIntervalMillis()
                 + " ms, maxStackDepth=" + snapshot.maxStackDepth()
         );
         line(report, "");
@@ -1677,6 +1677,10 @@ public final class ShutdownHangDiagnostic {
 
         void markServerStopping() {
             shutdownStarted.set(true);
+            Thread thread = monitorThread.get();
+            if (thread != null) {
+                thread.interrupt();
+            }
             captureExplicit(SampleReason.SERVER_STOPPING_SNAPSHOT, null);
         }
 
@@ -1740,7 +1744,9 @@ public final class ShutdownHangDiagnostic {
                 }
 
                 try {
-                    Thread.sleep(focusedInterval.toMillis());
+                    // The existing atomic lifecycle flag also controls sampling cadence.
+                    // Interrupting on ServerStopping wakes the normal one-second wait.
+                    Thread.sleep((shutdownStarted.get() ? focusedInterval : discoveryInterval).toMillis());
                 } catch (InterruptedException interrupted) {
                     if (!running.get()) {
                         Thread.currentThread().interrupt();
