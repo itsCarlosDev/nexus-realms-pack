@@ -1,8 +1,8 @@
 name = "Nexus Aether Gloves Compat"
-filename = "nexus_aether_gloves_compat-1.0.1.jar"
+filename = "nexus_aether_gloves_compat-1.0.2.jar"
 side = "client"
 
 [download]
-url = "https://raw.githubusercontent.com/itsCarlosDev/nexus-realms-pack/main/vendor/client-mods/nexus_aether_gloves_compat-1.0.1.jar"
+url = "https://raw.githubusercontent.com/itsCarlosDev/nexus-realms-pack/main/vendor/client-mods/nexus_aether_gloves_compat-1.0.2.jar"
 hash-format = "sha256"
-hash = "94dde78a907277028fcf40918cb1a3207c3b800cb6e3e9060414bbf80c574c13"
+hash = "a9be51b9b2db1ad82dff2c421a82e0da8e03e260bbad435a4db7c9793f4095ab"
