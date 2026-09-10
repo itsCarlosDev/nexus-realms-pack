@@ -610,7 +610,7 @@ hash = "a6d2a2e6cba4b7e7d5e3e332d5906cae9019309f01c78297cee959a073339741"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era2_imps.json"
-hash = "a17a074bb9f62466a53e556d8ce60cc5a3ef0c841ea32ad1cf118531a3b81232"
+hash = "152427dac3c97989f1a026ba28ffe0864eaa1f7c280351743695652af81a3f0e"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era2_plague.json"
@@ -622,15 +622,15 @@ hash = "a487d391db24636b012ca371cb97a235c8782b90096b8f12fa045751ddc2e896"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era3_cult.json"
-hash = "660c786f06e11bc761de1e3089aec4d2bd10d933e4ed4a7b8729f61f3818d417"
+hash = "8763cacb3e18b980c4a640ebab6ab6bbe710a6274dfdbcd33ee33ae2fb90e8f0"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era3_demons.json"
-hash = "cb4efd920f8d36fb086ac326f8793dd5ae59e517a1e1bcf9823a673a2222e8a9"
+hash = "8094f3a0a9e0e8934019596cbbd7570ff386b94fb08c1875ff9f9ea2aeba68cb"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era4_apocalypse.json"
-hash = "c47619774dfb2d4685a218253856b356ff98d6f7078d1b3ed1c38cbef72882ac"
+hash = "9cf138193c97f96bb250bbd987c6ea56cf5c49706892053a7dbd24e5de44723e"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era4_arcane.json"
@@ -638,7 +638,7 @@ hash = "1f321e8e0fdc670a192c4326719e6270a6720afb5ced4a2ba83ac707d7cb0e44"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era4_infernal.json"
-hash = "84deabed2c5c2789f1a37e3c15336f099be9b99cfe55059dd44bce63d9287c44"
+hash = "965fdfaa4a4ceba1d8d6a99197b6a0298716c6800f587d18e8e05e323def8b57"
 
 [[files]]
 file = "config/immersivedamageindicators-client.toml"
@@ -2333,6 +2333,11 @@ hash = "1a9564ded8e9cd1f843f9de7fc87ffbf73033aab51494205458b0e58cc0ab194"
 metafile = true
 
 [[files]]
+file = "mods/immersive-ballistic.pw.toml"
+hash = "cc1e135ff7e79ef1662728e1445d877d7757b888b4a59334a40bd376de6d07c9"
+metafile = true
+
+[[files]]
 file = "mods/immersive-lanterns.pw.toml"
 hash = "ae3f14983e2a8ff5d133b6d665f667c9b23f2f124f63cb634503c6413da1cab8"
 metafile = true
@@ -2504,7 +2509,7 @@ metafile = true
 
 [[files]]
 file = "mods/nexus-aether-gloves-compat.pw.toml"
-hash = "bd2ab8ff2fbe243595ee20ff6c49577e8cd50e9dac1e1d30728538cea9c26c53"
+hash = "3c09c71a360f871bfac429f82e8971a422dc9d04f872e3a437aa36e02027f646"
 metafile = true
 
 [[files]]
@@ -2639,11 +2644,6 @@ metafile = true
 [[files]]
 file = "mods/realm-rpg-fallen-adventurers.pw.toml"
 hash = "5cbc2a1d0ba8c484dd895f33af1dc7c068eaef2329b070fc040b2c3946d18d9d"
-metafile = true
-
-[[files]]
-file = "mods/realm-rpg-imps-demons.pw.toml"
-hash = "c26f15109b1b2616adc3b6e84b105d5bda397681ce5d815a7c45f7d775a3a519"
 metafile = true
 
 [[files]]
@@ -2789,11 +2789,6 @@ metafile = true
 [[files]]
 file = "mods/tacz-ammo-query.pw.toml"
 hash = "a055bfa9442c993c5c455233090116a1a323c60fbb701dc4a4c0d13a6b2df77d"
-metafile = true
-
-[[files]]
-file = "mods/tacz-immersive-ballistic.pw.toml"
-hash = "17e6cf41dcbbc12912352950a9d35619ce0e0bebf217d599e0e7771abc450d38"
 metafile = true
 
 [[files]]
@@ -3051,11 +3046,6 @@ hash = "2e1a6866e4366cebe200dcf71ab52923b7653f76dc48741b93411ee3bf77372a"
 metafile = true
 
 [[files]]
-file = "resourcepacks/fancy-gui-overhaul-dark.pw.toml"
-hash = "42c53d2e68d9510d22406353c79aceaf6e1373e429ea7db5120eb2a90fe8969d"
-metafile = true
-
-[[files]]
 file = "resourcepacks/fresh-animations-emissive.pw.toml"
 hash = "de81d004ae049a08aab49d57db3ed5f5b659bd28b070bce0be4c520527f51b4b"
 metafile = true
@@ -3095,5 +3085,5 @@ file = "source/nexus_crystal.bbmodel"
 hash = "ff2b00ac831ebf783169df5898386a6df485b4121462e991992a25c1c6baa88d"
 
 [[files]]
-file = "vendor/client-mods/nexus_aether_gloves_compat-1.0.1.jar"
-hash = "94dde78a907277028fcf40918cb1a3207c3b800cb6e3e9060414bbf80c574c13"
+file = "vendor/client-mods/nexus_aether_gloves_compat-1.0.2.jar"
+hash = "a9be51b9b2db1ad82dff2c421a82e0da8e03e260bbad435a4db7c9793f4095ab"
