@@ -16,7 +16,7 @@
 		{
 			dependencies: ["4E58504552413031"]
 			description: [
-				"La primera era comienza en el Día 1 tras completar la preparación."
+				"La primera era comienza tras completar la preparación y reunir el quórum global, sin una Horda activa."
 				"El Nexus aún no puede mantener conexiones entre reinos: durante esta Era, el Overworld es el único destino disponible."
 			]
 			icon: { id: "minecraft:iron_sword" }
@@ -152,7 +152,7 @@
 			dependencies: ["2710000000000106", "2710000000000107", "2710000000000108"]
 			description: [
 				"Has completado la base de la Era I."
-				"La expansión continúa cuando la campaña alcance el Día 7 y el equipo complete su siguiente hito."
+				"La expansión continúa cuando se complete el siguiente hito y haya quórum suficiente, sin una Horda activa."
 			]
 			icon: { id: "minecraft:map" }
 			id: "2700000000000104"

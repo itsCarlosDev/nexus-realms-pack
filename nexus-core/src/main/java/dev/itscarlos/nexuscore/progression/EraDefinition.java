@@ -12,7 +12,6 @@ public record EraDefinition(
     ResourceLocation icon,
     int color,
     int nextEra,
-    int minimumDay,
     List<String> features
 ) {
 }

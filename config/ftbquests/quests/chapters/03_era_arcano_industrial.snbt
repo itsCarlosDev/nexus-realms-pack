@@ -18,7 +18,7 @@
 			dependencies: ["2700000000000204"]
 			description: [
 				"Solicita la Era Arcano-Industrial."
-				"Nexus esperará hasta el Día 14 si la campaña todavía no ha llegado."
+				"Nexus conserva el hito y espera al quórum suficiente y al final de cualquier Horda activa."
 				"Cuando la Era quede activa, el Nexus abrirá el camino al Aether."
 			]
 			icon: { id: "create:precision_mechanism" }
@@ -178,7 +178,7 @@
 		}
 		{
 			dependencies: ["2710000000000306", "2710000000000307", "2710000000000308"]
-			description: ["La industria, la clase y las expediciones están preparadas para el Día 21."]
+			description: ["La industria, la clase y las expediciones están preparadas para solicitar la Era IV mediante su hito y el quórum global."]
 			icon: { id: "minecraft:nether_star" }
 			id: "2700000000000304"
 			shape: "octagon"

@@ -1,14 +1,16 @@
 # Matriz de contenido por eras
 
-Las eras controlan potencia global y no sustituyen la clase ni sus futuros subhitos. Los mínimos de campaña permanecen en 1/1/7/14/21. La clasificación completa está en `full-content-progression-matrix.md`; este documento resume la dirección de diseño y no activa restricciones nuevas.
+Las eras controlan potencia global y no sustituyen la clase ni sus futuros subhitos. La progresión es permanente: cada hito solicita exactamente la siguiente Era, con quórum configurable de 3 humanos elegibles online por defecto y sin Horda global activa. La petición queda guardada mientras espera; no hay días mínimos. La clasificación completa está en `full-content-progression-matrix.md`; este documento resume la dirección de diseño y no activa restricciones nuevas.
 
-| Era | Día mínimo | Identidad | Dimensiones disponibles | Contenido relevante | Subhitos previstos |
-| --- | ---: | --- | --- | --- | --- |
-| 0 · Preparación | 1 | Introducción breve | Overworld | Recursos básicos, hierro, construcción, decoración y sistemas globales libres; sin hordas automáticas | Clase, refugio, comida y suministros |
-| I · Edad del Hierro | 1 | Primer asentamiento defendido | Overworld | Armas iniciales de clase, magia inicial, pistolas de servicio, Create básico y primeras hordas | Fundamentos marciales, iniciación arcana, arma de servicio y mecánica inicial |
-| II · Edad del Diamante | 7 | Poder intermedio | Overworld + Nether | Diamante, tiers intermedios de clase, automatización, familiares, reliquias utilitarias y primeros drops especiales | Exploración, armamento reforzado, arsenal medio y automatización intermedia |
-| III · Era Arcano-Industrial | 14 | Magia e industria avanzadas | Overworld + Nether + Aether | Runic/armas avanzadas, Allomancy básica del Guerrero, Arcanista avanzado, rifles avanzados, brass/precision, energía y bosses intermedios | Arcano avanzado, Senda del Metal, industria avanzada, arsenal avanzado, reliquias y cacería de bosses |
-| IV · Era del Nexus | 21 | Convergencia endgame | Overworld + Nether + Aether + End + Otherside | Netherite, Allomancy avanzada/Lerasium, endgame de clase, tecnología sobrecargada, reliquias mayores y bosses finales | Acceso al Nexus, endgame de clase, reliquias, bosses finales y tecnología aérea futura |
+| Era | Requisito global | Identidad | Dimensiones disponibles | Contenido relevante | Subhitos previstos |
+| --- | --- | --- | --- | --- | --- |
+| 0 · Preparación | Inicial | Introducción breve | Overworld | Recursos básicos, hierro, construcción, decoración y sistemas globales libres; sin hordas automáticas | Clase, refugio, comida y suministros |
+| I · Edad del Hierro | Hito I + quórum | Primer asentamiento defendido | Overworld | Armas iniciales de clase, magia inicial, pistolas de servicio, Create básico y primeras hordas | Fundamentos marciales, iniciación arcana, arma de servicio y mecánica inicial |
+| II · Edad del Diamante | Hito II + quórum | Poder intermedio | Overworld + Nether | Diamante, tiers intermedios de clase, automatización, familiares, reliquias utilitarias y primeros drops especiales | Exploración, armamento reforzado, arsenal medio y automatización intermedia |
+| III · Era Arcano-Industrial | Hito III + quórum | Magia e industria avanzadas | Overworld + Nether + Aether | Runic/armas avanzadas, Allomancy básica del Guerrero, Arcanista avanzado, rifles avanzados, brass/precision, energía y bosses intermedios | Arcano avanzado, Senda del Metal, industria avanzada, arsenal avanzado, reliquias y cacería de bosses |
+| IV · Era del Nexus | Hito IV + quórum | Convergencia endgame | Overworld + Nether + Aether + End + Otherside | Netherite, Allomancy avanzada/Lerasium, endgame de clase, tecnología sobrecargada, reliquias mayores y bosses finales | Acceso al Nexus, endgame de clase, reliquias, bosses finales y tecnología aérea futura |
+
+Los días de Minecraft siguen rigiendo exclusivamente el calendario de hordas, incluidos sus horarios y cooldowns.
 
 ## Progresión dimensional
 

@@ -12,13 +12,13 @@
 	]
 	order_index: 4
 	quest_links: []
-	subtitle: ["Convergencia, poder y los desafíos que cierran la campaña."]
+	subtitle: ["Convergencia, poder y los desafíos de la última Era."]
 	quests: [
 		{
 			dependencies: ["2700000000000304"]
 			description: [
 				"Solicita la Era del Nexus."
-				"El calendario global solo podrá abrirla a partir del Día 21."
+				"Se abrirá con el hito global y el quórum suficiente, cuando no haya una Horda activa. La petición queda guardada mientras espera."
 				"Cuando la Era quede activa, el Nexus abrirá los caminos al End y al Otherside."
 			]
 			icon: { id: "minecraft:netherite_ingot" }
@@ -145,7 +145,7 @@
 					type: "item"
 				}
 			]
-			tasks: [{ id: "27B0000000000404", title: "Completar la campaña principal", type: "checkmark" }]
+			tasks: [{ id: "27B0000000000404", title: "Completar la progresión principal", type: "checkmark" }]
 			title: "El Nexus despierto"
 			x: 6.0d
 			y: 0.0d

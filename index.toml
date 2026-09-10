@@ -454,23 +454,23 @@ hash = "42bfb071693c8bd82f490a5054269d631ac54d8c11bb97090bf1bc09e078cb93"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/00_comienzo.snbt"
-hash = "e2d8b60bbdc179a0e22df7172aed1d6673436546411a57eca439e30dc2ecd82f"
+hash = "f86e35566a1618ff6e24e2ac34b98c1e086a5d06ae615340780298571fbc90ee"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/01_era_supervivencia.snbt"
-hash = "b99767caf5e1c7f5022133eb9812de6ee4720121ffd6ac09e6f980ce8fa33785"
+hash = "77766051dd1dbf9be8c57e1ddb04c5bbf899cd710ca6fc8757e78d37e6de0f71"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/02_era_expansion.snbt"
-hash = "4cd8cb35e2bc0316d6c90410e216fb7f0572f84f5999f0b17282f56cc487a8c2"
+hash = "c404b2f812cd2eb86c0a7f0440deb3b95c370e4d34e437eb88b2e8eb75dc451d"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/03_era_arcano_industrial.snbt"
-hash = "91cede1903c40e9fd983a6d4a352421d03259835e76ca58c6ca595dc325bdd37"
+hash = "81a74f66b88c6a06a671df34ab41b5dd1a4f5aaa9ac875f375202a32b472b088"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/04_era_nexus.snbt"
-hash = "2d2bcf3fd8f73160558fcb4c4b65ee8857743751600188e88c79a700c4e3e0f4"
+hash = "baf96505848be6dc004e946a1991baac605ec3cabc47cfa1f3abf6a32b85e793"
 
 [[files]]
 file = "config/ftbquests/quests/chapters/clase_guerrero.snbt"
@@ -702,7 +702,7 @@ hash = "dc321748b43ed1641d686839eafa0077bed46fd4cf67c39f1cdcfbc2e16e048f"
 
 [[files]]
 file = "config/nexuscore/eras.json"
-hash = "7c85cf6c4996ba6259024dafa0d1615f3f16093204f22fa59983d97ce0a0546c"
+hash = "22a635ed7973db3a52ceb1cbcc92c8a2a13a0cb936ae8314f2b6186b53bcabbb"
 
 [[files]]
 file = "config/overflowingbars-client.toml"
@@ -1606,7 +1606,7 @@ hash = "516720a8278e3fe0048c3ec9a2f332e2b6c03687efd69ba368bda4985ef9c87b"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_era_calendar.js"
-hash = "28a420b31e6bcdbcab803afe3e947db8d9a39afcf6d64d9a697eeb1726d05499"
+hash = "c7e3bfe7ffa85dd8c5c3ec614c0e7b2bb6ced9f675b9f18605da5135dad84f3c"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_export_entity_ids.js"
@@ -2513,8 +2513,8 @@ hash = "3c09c71a360f871bfac429f82e8971a422dc9d04f872e3a437aa36e02027f646"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.43.jar"
-hash = "b38f711ac5e83ad4a6437ba3dcc5446b983165d82355bf80918428ed5368820b"
+file = "mods/nexus-core-0.6.44.jar"
+hash = "466e3f2945393c0db6519af4128c7b2b7e477a7dfb451b584b4a26fee18596d6"
 
 [[files]]
 file = "mods/nightfall-invade.pw.toml"

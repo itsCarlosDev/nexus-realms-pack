@@ -8,13 +8,14 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.common.util.FakePlayer;
 
 public final class KubeJsServerData {
     private static final String PERSISTENT_DATA_INTERFACE =
         "dev.latvian.mods.kubejs.core.WithPersistentData";
     private static final String ACCESSOR = "kjs$getPersistentData";
-    private static final long CAMPAIGN_DAY_MILLIS = 86_400_000L;
-    private static final int CAMPAIGN_LENGTH_DAYS = 30;
+    private static int requiredOnlinePlayers = 3;
     private static final Map<Class<?>, Optional<Method>> ACCESSORS = new ConcurrentHashMap<>();
     private static final Set<Class<?>> INVOCATION_WARNINGS = ConcurrentHashMap.newKeySet();
 
@@ -89,42 +90,39 @@ public final class KubeJsServerData {
         }
 
         int era = Math.max(0, Math.min(4, data.getInt("nexusEra")));
-        int worldDay = server.overworld() == null
-            ? -1
-            : (int) Math.floorDiv(server.overworld().getDayTime(), 24000L);
-        boolean campaignStarted = data.contains("nexusCampaignStarted")
-            ? data.getBoolean("nexusCampaignStarted")
-            : data.contains("nexusCampaignEpochMillis") && data.getLong("nexusCampaignEpochMillis") > 0L;
-        int campaignDay = campaignStarted ? readCampaignDay(data) : -1;
         return new ProgressionState(
             era,
-            worldDay,
-            campaignStarted,
-            campaignDay,
-            CAMPAIGN_LENGTH_DAYS,
-            data.getBoolean("nexusCampaignPaused"),
-            data.contains("nexusEraUnlockDay") ? data.getInt("nexusEraUnlockDay") : -1,
             data.contains("nexusNextHordeDay") ? data.getInt("nexusNextHordeDay") : -1,
             data.getBoolean("nexusHordeActive"),
             Math.max(0, data.getInt("nexusHordeParticipantCount")),
             data.contains("nexusPendingEra") ? data.getInt("nexusPendingEra") : -1,
-            data.contains("nexusPendingEraRequestedDay") ? data.getInt("nexusPendingEraRequestedDay") : -1,
-            Math.max(0, data.getInt("nexusEraMilestoneCompleted"))
+            Math.max(era, data.getInt("nexusEraMilestoneCompleted")),
+            countEligibleOnlinePlayers(server),
+            requiredOnlinePlayers()
         );
     }
 
-    private static int readCampaignDay(CompoundTag data) {
-        if (!data.contains("nexusCampaignEpochMillis")) {
-            return 1;
+    // Set by the canonical KubeJS eras.json loader; never persisted in world NBT.
+    public static void setRequiredOnlinePlayers(int required) {
+        if (required < 1) {
+            NexusCore.LOGGER.warn("Invalid progression quorum {}; using 3.", required);
+            requiredOnlinePlayers = 3;
+        } else {
+            requiredOnlinePlayers = required;
         }
+    }
 
-        long effectiveNow = data.getBoolean("nexusCampaignPaused")
-            ? data.getLong("nexusCampaignPausedAtMillis")
-            : System.currentTimeMillis();
-        long epoch = data.getLong("nexusCampaignEpochMillis");
-        long pausedTotal = Math.max(0L, data.getLong("nexusCampaignPausedTotalMillis"));
-        long elapsed = Math.max(0L, effectiveNow - epoch - pausedTotal);
-        long day = Math.floorDiv(elapsed, CAMPAIGN_DAY_MILLIS) + 1L;
-        return (int) Math.max(1L, Math.min(CAMPAIGN_LENGTH_DAYS, day));
+    public static int requiredOnlinePlayers() {
+        return requiredOnlinePlayers;
+    }
+
+    public static int countEligibleOnlinePlayers(MinecraftServer server) {
+        int eligible = 0;
+        for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+            if (!(player instanceof FakePlayer) && !player.isSpectator()) {
+                eligible++;
+            }
+        }
+        return eligible;
     }
 }

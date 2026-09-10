@@ -12,18 +12,13 @@ public record ProgressionSyncPacket(ProgressionState state, boolean showUnlock) 
     public static void encode(ProgressionSyncPacket packet, FriendlyByteBuf buffer) {
         ProgressionState state = packet.state();
         buffer.writeVarInt(state.era());
-        buffer.writeVarInt(state.worldDay());
-        buffer.writeBoolean(state.campaignStarted());
-        buffer.writeVarInt(state.campaignDay());
-        buffer.writeVarInt(state.campaignLength());
-        buffer.writeBoolean(state.campaignPaused());
-        buffer.writeVarInt(state.unlockDay());
         buffer.writeVarInt(state.nextHordeDay());
         buffer.writeBoolean(state.hordeActive());
         buffer.writeVarInt(state.participantCount());
         buffer.writeVarInt(state.pendingEra());
-        buffer.writeVarInt(state.pendingRequestedDay());
         buffer.writeVarInt(state.milestoneCompleted());
+        buffer.writeVarInt(state.eligibleOnlinePlayers());
+        buffer.writeVarInt(state.requiredOnlinePlayers());
         buffer.writeBoolean(packet.showUnlock());
     }
 
@@ -34,11 +29,6 @@ public record ProgressionSyncPacket(ProgressionState state, boolean showUnlock) 
                 buffer.readVarInt(),
                 buffer.readBoolean(),
                 buffer.readVarInt(),
-                buffer.readVarInt(),
-                buffer.readBoolean(),
-                buffer.readVarInt(),
-                buffer.readVarInt(),
-                buffer.readBoolean(),
                 buffer.readVarInt(),
                 buffer.readVarInt(),
                 buffer.readVarInt(),

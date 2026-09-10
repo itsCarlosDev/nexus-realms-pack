@@ -1,4 +1,7 @@
 {
+  "progression": {
+    "required_online_players": 3
+  },
   "eras": [
     {
       "id": 0,
@@ -9,7 +12,6 @@
       "icon": "minecraft:clock",
       "color": "#77777F",
       "next_era": 1,
-      "minimum_day": 1,
       "features": []
     },
     {
@@ -21,7 +23,6 @@
       "icon": "minecraft:iron_ingot",
       "color": "#B5824C",
       "next_era": 2,
-      "minimum_day": 1,
       "features": ["Hordas globales habilitadas"]
     },
     {
@@ -33,7 +34,6 @@
       "icon": "minecraft:diamond",
       "color": "#00C9E8",
       "next_era": 3,
-      "minimum_day": 7,
       "features": []
     },
     {
@@ -45,7 +45,6 @@
       "icon": "minecraft:amethyst_shard",
       "color": "#8A2BE2",
       "next_era": 4,
-      "minimum_day": 14,
       "features": []
     },
     {
@@ -57,7 +56,6 @@
       "icon": "minecraft:nether_star",
       "color": "#00E5FF",
       "next_era": -1,
-      "minimum_day": 21,
       "features": []
     }
   ]

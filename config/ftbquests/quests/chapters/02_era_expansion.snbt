@@ -17,7 +17,7 @@
 			dependencies: ["2700000000000104"]
 			description: [
 				"El equipo está listo para solicitar la Edad del Diamante."
-				"Si aún no es el Día 7, Nexus conservará el avance pendiente."
+				"Si falta quórum o hay una Horda activa, Nexus conserva el avance pendiente y lo aplica automáticamente cuando se cumplan las condiciones."
 				"Cuando la Era quede activa, el Nexus estabilizará la conexión con el Nether."
 			]
 			icon: { id: "minecraft:diamond" }
@@ -151,7 +151,7 @@
 		}
 		{
 			dependencies: ["2710000000000206", "2710000000000207", "2710000000000208"]
-			description: ["La siguiente transformación requiere el Día 14 y un mundo preparado para magia e industria."]
+			description: ["La siguiente transformación requiere su hito global y el quórum, en un mundo preparado para magia e industria."]
 			icon: { id: "minecraft:amethyst_shard" }
 			id: "2700000000000204"
 			shape: "octagon"

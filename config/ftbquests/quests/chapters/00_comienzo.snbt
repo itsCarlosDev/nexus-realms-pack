@@ -11,12 +11,12 @@
 	]
 	order_index: 0
 	quest_links: []
-	subtitle: ["El despertar de una campaña de treinta días."]
+	subtitle: ["El despertar de un mundo de progresión permanente."]
 	quests: [
 		{
 			description: [
 				"Has llegado a Nexus Market, un asentamiento en crecimiento alrededor del Nexus."
-				"La campaña cooperativa dura 30 días reales: las Eras abren contenido global y tu clase define tu estilo de combate."
+				"La progresión cooperativa es permanente: los hitos y el quórum abren Eras globales; tu clase define tu estilo de combate."
 				"En el Ayuntamiento están el Custodio, el Cronista y el Capitán; las seis tiendas reúnen a maestros, Mercader y Explorador."
 				"El lago, cinco edificios y el acceso dimensional seguirán creciendo durante la vida del servidor."
 			]
@@ -24,7 +24,7 @@
 			id: "2700000000000001"
 			shape: "circle"
 			size: 1.2d
-			tasks: [{ id: "27B0000000000001", title: "Comprender la campaña", type: "checkmark" }]
+			tasks: [{ id: "27B0000000000001", title: "Comprender la progresión global", type: "checkmark" }]
 			title: "Bienvenido a Nexus Realms"
 			x: 0.0d
 			y: 0.0d
@@ -32,13 +32,13 @@
 		{
 			dependencies: ["2700000000000001"]
 			description: [
-				"La administración inicia una sola vez el calendario global con /nexus_campaign start; cualquier jugador puede consultarlo con /nexus_campaign get."
+				"Cada hito solicita la siguiente Era. Puede completarse en solitario y queda pendiente hasta reunir el quórum: 3 humanos online por defecto, sin espectadores. Consulta /nexus_era get."
 				"Era I: Overworld. Era II: Nether. Era III: Aether. Era IV: End y Otherside."
 			]
 			icon: { id: "minecraft:clock" }
 			id: "2700000000000002"
-			tasks: [{ id: "27B0000000000002", title: "Campaña iniciada por el equipo", type: "checkmark" }]
-			title: "Treinta días"
+			tasks: [{ id: "27B0000000000002", title: "Comprender los hitos y el quórum", type: "checkmark" }]
+			title: "Un mundo permanente"
 			x: 2.0d
 			y: 0.0d
 		}
@@ -77,7 +77,7 @@
 			dependencies: ["2700000000000003"]
 			description: [
 				"Reúne comida, levanta un refugio y consigue hierro."
-				"Este hito solicita la Era I; Nexus aplicará las reglas del calendario real."
+				"Este hito solicita la Era I. Nexus conserva la petición y avanza con el quórum suficiente, cuando no haya una Horda activa."
 			]
 			icon: { id: "minecraft:iron_ingot" }
 			id: "4E58504552413031"
