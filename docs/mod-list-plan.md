@@ -486,7 +486,7 @@ Pending:
 - Jade - `both`
 - AppleSkin - `both`
 - Mouse Tweaks - `client`
-- BetterF3 - `client`
+- Show Fps on screen - `client`
 - Cloth Config API - `client`
 - Controlling - `client`
 - Searchables - `client`

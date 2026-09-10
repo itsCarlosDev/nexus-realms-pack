@@ -10,10 +10,6 @@ var NR35_SERVER_PLAYER = Java.loadClass(
   'net.minecraft.server.level.ServerPlayer'
 )
 
-var NR35_MOB_CATEGORY = Java.loadClass(
-  'net.minecraft.world.entity.MobCategory'
-)
-
 var NR35_SPELL_DAMAGE_SOURCE = Java.loadClass(
   'io.redspace.ironsspellbooks.damage.SpellDamageSource'
 )
@@ -23,13 +19,11 @@ var NR35_GUNSLINGER_COMBAT_XP = 3
 
 
 function nr35IsHostile(entity) {
-  if (!entity || !entity.getType()) {
+  if (!entity || !entity.isLiving()) {
     return false
   }
 
-  return NR35_MOB_CATEGORY.MONSTER.equals(
-    entity.getType().getCategory()
-  )
+  return entity.isMonster()
 }
 
 

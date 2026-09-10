@@ -666,7 +666,7 @@ hash = "45430c44e3b5ad549a3d1f2abec3d75001cf5ad8814df0d67abeea2263fc1831"
 
 [[files]]
 file = "config/inventoryprofilesnext/integrationHints/player-defined.json"
-hash = "973fe02109b5cca79a0e64192d871ec085b3d6f1a137fe6defbe8c0c58b2fb51"
+hash = "c7e7d8774c7ca95db49062b7452283b3822f7f5a27d11f3c36e08e61aee75048"
 
 [[files]]
 file = "config/inventoryprofilesnext/integrationHints/sophisticatedbackpacks.json"
@@ -1582,7 +1582,7 @@ hash = "8dea3210599dadb3fc1e2b61a42e064d8d42095298ab02a06f95069909ce835c"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_change.js"
-hash = "8c6850faaf5648d96e74aabd5a22955da38d32bba6b6dd677e8b826469508ccc"
+hash = "4221b34bfda61ecb10cadb6a6f9525d9993ed35a0410ad742e11194bc78f3a6a"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
@@ -1622,7 +1622,7 @@ hash = "1e898dcb5184d33d5e98ca550a19d7bf3b453c3fec9541751dff4aefe018ebc3"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_pmmo_cross_progression.js"
-hash = "80acbaea6f3901205e3bf6719b0c04825c668a7f71297fe3e84f1a862660312b"
+hash = "be6a2f3b891860457b2038669fb618937c5fc6061c83bffd89a50a104c74e037"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_scar_blocks.js"
@@ -1788,11 +1788,6 @@ hash = "f1bee56d1c7ec634e3df67e6244c44769d4fbc001dbd72ee9cb22697e1be926e"
 metafile = true
 
 [[files]]
-file = "mods/betterf3.pw.toml"
-hash = "28358fe53c22695b3bf1f93ac2225c46fe3525918b7b993ac36e68a7f0a16fe8"
-metafile = true
-
-[[files]]
 file = "mods/book-of-dragons.pw.toml"
 hash = "89e6b35145ed57304246b9d5195f5136f8c0e25464354f6abb6199ff9de9ed46"
 metafile = true
@@ -1924,7 +1919,7 @@ metafile = true
 
 [[files]]
 file = "mods/corail-tombstone.pw.toml"
-hash = "17dd1533cc14ed5b0eeca234ea6b14a6677ba6b1330c29d507d58dffbd1acb6f"
+hash = "d0e05e067406f7d27a95a539b161432cfba84bdb0785d2eaccc156530d64fe77"
 metafile = true
 
 [[files]]
@@ -1989,7 +1984,7 @@ metafile = true
 
 [[files]]
 file = "mods/decocraft.pw.toml"
-hash = "543d7760b3760917f1c82e8e55fbcb5f0bb920917634271e6d5bd9f1585106b2"
+hash = "ce8a10d34b2eaa10ba6f4a1b93751617fc16c9f22c95b98aa5479ae46c5da2f4"
 metafile = true
 
 [[files]]
@@ -2039,17 +2034,17 @@ metafile = true
 
 [[files]]
 file = "mods/easy-npc-config-ui.pw.toml"
-hash = "eb11da8004df41d931f82e5984ec1b3d05d83093a228f451388eb340775e53ea"
+hash = "d1edef8eabfe8cdfded6989a1dd6e5de2e98efa88db2550805d95b32670283df"
 metafile = true
 
 [[files]]
 file = "mods/easy-npc-core.pw.toml"
-hash = "632ea76711de2df6c2baf90482c0ea95d1888cd936f03d27b5097dd4e3b96d22"
+hash = "40a3fcacf85c76e763885a4edd9e91b14ae7c2f6194b69b0701695e6ba19f89d"
 metafile = true
 
 [[files]]
 file = "mods/easy-npc.pw.toml"
-hash = "07870ba0a61544575a5dbf65f58fa87f6afabd9e3ad20ddb0d6e9a32cf306a0e"
+hash = "ac2439dc47fd36b582af90724f8f4f671f354ebf0c82e6d25ea164fe2aa8f6eb"
 metafile = true
 
 [[files]]
@@ -2702,6 +2697,11 @@ hash = "456a859062a859ff69cffe95b2ecdc9636d389ffc92e9176fe6975a0015fd615"
 metafile = true
 
 [[files]]
+file = "mods/show-fps-on-screen.pw.toml"
+hash = "7a6f61628627751df02f620f85e524c49bf8a9a620984ca3c852c4f8d001602e"
+metafile = true
+
+[[files]]
 file = "mods/shulkerboxtooltip.pw.toml"
 hash = "3f3297e9f92ea76f921b005048281b8de80d3ac1c92f705c7ba5491bfd0524f5"
 metafile = true
@@ -2723,7 +2723,7 @@ metafile = true
 
 [[files]]
 file = "mods/simply-traps.pw.toml"
-hash = "2a632372b5101ac10a01b1c94414b4d466c0ebf60c40bf487e325dacbe9c4ac6"
+hash = "92d59e3218df173fc2aa3a7eda15cb7f27b1a97cf1bc689eec703541556260c2"
 metafile = true
 
 [[files]]
@@ -3087,7 +3087,7 @@ metafile = true
 
 [[files]]
 file = "shaderpacks/potato-shaders.pw.toml"
-hash = "fa71274d0ebd0056fab164ee6d349508cc405ebd6a16045b7ba65dcf8323060a"
+hash = "8958fff9fcdff84582c75584b9fd89fed7e2b21f28c6a752857ce1458ffbfd26"
 metafile = true
 
 [[files]]

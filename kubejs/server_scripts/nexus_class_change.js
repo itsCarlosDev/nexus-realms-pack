@@ -4013,14 +4013,14 @@ function nexusClassChangeLogin(player) {
           return
         }
 
-        const loginRawClass =
+        var loginRawClass =
           String(
             player.persistentData.getString(
               'nexus_class'
             ) || ''
           )
 
-        const resolved =
+        var resolved =
           nexusStrictClass(
             loginRawClass
           )

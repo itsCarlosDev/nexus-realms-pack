@@ -1,0 +1,13 @@
+name = "Show Fps on screen"
+filename = "fps-shower 1.20.1.jar"
+side = "client"
+
+[download]
+hash-format = "sha1"
+hash = "6bf247a4ee65cc8bd3494f2aacee85617655e764"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 4602925
+project-id = 658969

@@ -41,7 +41,7 @@ No se deben crear manualmente `config/defaultoptions/keybindings.txt`, `config/d
    - Minecraft vanilla.
    - JEI.
    - Jade.
-   - BetterF3.
+   - Show Fps on screen.
    - Controlling.
    - Xaero's Minimap.
    - Xaero's World Map.
@@ -64,7 +64,7 @@ Usa esta distribucion como punto de partida y ajustala solo si Controlling muest
 - Create goggles/toolbox/ponder/tool actions: mantener defaults salvo conflicto visible.
 - JEI: mantener defaults si no chocan.
 - Jade: mantener defaults si no chocan.
-- BetterF3: mantener `F3`.
+- Show Fps on screen: mostrar únicamente el contador de FPS; conservar `F3` vanilla para diagnóstico puntual.
 - Controlling: usarlo para buscar conflictos; no necesita una tecla critica.
 
 Si una tecla aparece en rojo o como conflicto activo, no guardes defaults todavia. Resuelve el conflicto visualmente primero.
