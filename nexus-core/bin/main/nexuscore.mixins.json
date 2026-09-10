@@ -1,0 +1,29 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.itscarlos.nexuscore.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "nexuscore.refmap.json",
+  "mixins": [
+    "AutomobilityBaseHarvesterMixin",
+    "AutomobilityBasePlowMixin",
+    "CameraImageToolsMixin",
+    "CameraPacketManagerMixin",
+    "CameraResizeFrameMessageMixin",
+    "EpicFightNetworkManagerMixin",
+    "HistoryStagesCuriosEquipLockHandlerMixin",
+    "HordeTrackPlayerGoalMixin",
+    "LivingEntityMarketTemperatureMixin",
+    "ToughAsNailsMarketTemperatureMixin"
+  ],
+  "client": [
+    "client.EpicFightClassModeMixin",
+    "client.EpicFightWitherRendererCompatMixin",
+    "client.BerserkerSkillMixin",
+    "client.GuiExperienceLevelMixin",
+    "client.AbyssSomniumBarMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
