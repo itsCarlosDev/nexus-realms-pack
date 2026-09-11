@@ -1,0 +1,13 @@
+name = "Mixin Helper"
+filename = "mixinhelper-1.1.1.jar"
+side = "server"
+
+[download]
+hash-format = "sha1"
+hash = "8cdfb3cae75b35e4a1b0ea60c2fc8a6a4666f963"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 8237710
+project-id = 1492883

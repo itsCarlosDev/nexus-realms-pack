@@ -1,0 +1,33 @@
+{
+  "enabled": true,
+  "blacklist": {
+    "mixins": [
+      "com.hm.efn.mixin.UtilMixin"
+    ],
+    "mixinConfigs": [],
+    "targetClasses": []
+  },
+  "priorities": {
+    "mixinConfigPriorities": {},
+    "mixinPriorities": {}
+  },
+  "methodRemovals": {
+    "rules": []
+  },
+  "audit": {
+    "enabled": true,
+    "outputFile": "config/mixinhelper-report.json",
+    "includeAnnotations": true
+  },
+  "debug": {
+    "verbose": false,
+    "logBlacklistActions": true,
+    "logMethodRemovals": true
+  },
+  "guardrails": {
+    "enabled": true,
+    "bypassProtectedClasses": false,
+    "additionalProtectedPatterns": [],
+    "excludeFromProtection": []
+  }
+}

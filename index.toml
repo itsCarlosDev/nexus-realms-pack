@@ -693,6 +693,10 @@ file = "config/maintenance.json"
 hash = "ec113e1d407dbfc1e13fcd4873547990aa8b473ba0e73da8dbfc1d32ea8a9751"
 
 [[files]]
+file = "config/mixinhelper.json"
+hash = "28d5fbd9befb14705a63154a6e1be0a5f038e2e952353e8a13e37b5c0bd24cd5"
+
+[[files]]
 file = "config/nexus_maintenance.json"
 hash = "a596db103ac4a9561af5b5c8a88ecce4f0d3058c19e32dd13d361124d9c35412"
 
@@ -2473,6 +2477,11 @@ hash = "8def80b33354bc9525033d543925d45cddf54c1ad8b5b943e567cc2b1749d337"
 metafile = true
 
 [[files]]
+file = "mods/mixin-helper.pw.toml"
+hash = "5370bcfe480c0a5f3f41321ad6ed3094ecda49f0c9c0671e204aba6a25b7669b"
+metafile = true
+
+[[files]]
 file = "mods/modernfix.pw.toml"
 hash = "0d2ccd5f845ceb01ff78b093d9adc8686550513cce37cb052045fab8cbc03263"
 metafile = true
@@ -2509,7 +2518,7 @@ metafile = true
 
 [[files]]
 file = "mods/nexus-aether-gloves-compat.pw.toml"
-hash = "3c09c71a360f871bfac429f82e8971a422dc9d04f872e3a437aa36e02027f646"
+hash = "4d0ccb80fdc5a4f003498f72a951b0450488581418c3fdf636e0ea549ea7d02b"
 metafile = true
 
 [[files]]
@@ -3085,5 +3094,5 @@ file = "source/nexus_crystal.bbmodel"
 hash = "ff2b00ac831ebf783169df5898386a6df485b4121462e991992a25c1c6baa88d"
 
 [[files]]
-file = "vendor/client-mods/nexus_aether_gloves_compat-1.0.2.jar"
-hash = "a9be51b9b2db1ad82dff2c421a82e0da8e03e260bbad435a4db7c9793f4095ab"
+file = "vendor/client-mods/nexus_aether_gloves_compat-1.0.4.jar"
+hash = "f3a1350fc316af70dccc793b6973bfabc0941a66b1958ce5be76a4e0bed7a784"
