@@ -630,7 +630,7 @@ hash = "45430c44e3b5ad549a3d1f2abec3d75001cf5ad8814df0d67abeea2263fc1831"
 
 [[files]]
 file = "config/inventoryprofilesnext/integrationHints/player-defined.json"
-hash = "154baa649586a32ecaa5414d8237e3d12552bd35289074b368139c25891db290"
+hash = "c7e7d8774c7ca95db49062b7452283b3822f7f5a27d11f3c36e08e61aee75048"
 
 [[files]]
 file = "config/inventoryprofilesnext/integrationHints/sophisticatedbackpacks.json"
