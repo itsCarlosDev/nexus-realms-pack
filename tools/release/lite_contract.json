@@ -16,7 +16,6 @@
     "fancytoasts",
     "freecam",
     "immersiveui",
-    "inventoryhud",
     "itemborders",
     "legendarytooltips",
     "notenoughanimations",
@@ -32,6 +31,7 @@
   "required_mods": {
     "aaa-particles.pw.toml": "both",
     "accelerated-decay.pw.toml": "both",
+    "inventory-hud-forge.pw.toml": "client",
     "aether.pw.toml": "both",
     "alexs-mobs.pw.toml": "both",
     "allomancy.pw.toml": "both",
