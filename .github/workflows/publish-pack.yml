@@ -86,52 +86,27 @@ jobs:
       # LITE
       # ============================================================
 
-      - name: Check out Lite branch
-        uses: actions/checkout@v6
-        with:
-          ref: lite
-          path: lite-source
-          fetch-depth: 0
-
-      - name: Validate Lite Packwiz
-        working-directory: lite-source
+      - name: Derive Lite from the same source revision as Standard
         shell: bash
         run: |
           set -euo pipefail
-
-          packwiz refresh
-          packwiz refresh
-          git diff --exit-code
-
-          python3 tools/release/pack_release.py --root . validate
-
-      - name: Build Lite Packwiz site
-        working-directory: lite-source
-        shell: bash
-        run: |
-          set -euo pipefail
-
           generated_at="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
-          lite_commit="$(git rev-parse HEAD)"
 
-          python3 tools/release/pack_release.py --root . build \
-            --output _site \
+          python3 tools/release/pack_release.py --root . derive-lite \
+            --source-ref "$GITHUB_SHA" \
+            --output dist/lite-release \
             --bootstrap "$RUNNER_TEMP/packwiz-installer-bootstrap.jar" \
-            --commit "$lite_commit" \
-            --generated-at "$generated_at" \
-            --pack-url "https://itscarlosdev.github.io/nexus-realms-pack/lite/pack.toml" \
-            --prism-zip-name "NexusRealms-Lite-Prism.zip" \
-            --instance-name "Nexus Realms Lite"
+            --generated-at "$generated_at"
 
-      - name: Add Lite distribution to GitHub Pages
+          NEXUS_LITE_TEST_ROOT="$GITHUB_WORKSPACE/dist/lite-release" \
+            python3 -m unittest discover -s tools/release -p test_lite_release.py -v
+
+      - name: Add derived Lite distribution to GitHub Pages
         shell: bash
         run: |
           set -euo pipefail
-
           mkdir -p _site/lite
-
-          cp -a lite-source/_site/. _site/lite/
-
+          cp -a dist/lite-release/_site/. _site/lite/
           test -f _site/lite/pack.toml
           test -f _site/lite/index.toml
           test -f _site/lite/manifest.json

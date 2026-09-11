@@ -12,6 +12,7 @@ from pathlib import Path
 import re
 import struct
 import tomllib
+import zipfile
 
 LITE_NAME = "Nexus Realms Lite"
 LITE_URL = "https://itscarlosdev.github.io/nexus-realms-pack/lite/pack.toml"
@@ -42,24 +43,68 @@ def normalized(value: str) -> str:
     return re.sub(r"[^a-z0-9]", "", value.lower())
 
 
-def validate_lite(root: Path) -> dict:
-    contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
-    indexed = {e["file"] for e in tomllib.loads((root / "index.toml").read_text("utf-8"))["files"]}
+def validate_lite(root: Path, contract: dict | None = None) -> dict:
+    if contract is None:
+        contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
+    indexed = {e["file"]: e for e in tomllib.loads((root / "index.toml").read_text("utf-8"))["files"]}
+    snapshot = contract.get("source_snapshot", {})
+    preserved = snapshot.get("retained", {}) | {
+        path: hashes["lite_sha256"] for path, hashes in snapshot.get("changed", {}).items()
+    }
+    for relative, expected in preserved.items():
+        path = root / relative
+        if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+            raise LiteError(f"Derived content differs from source contract: {relative}")
+    for relative in contract["required_indexed_files"]:
+        entry = indexed.get(relative, {})
+        if not (root / relative).is_file() or not entry:
+            raise LiteError(f"Missing required Lite content: {relative}")
+        if entry.get("side", "both") == "server" or entry.get("metafile", False):
+            raise LiteError(f"Required Lite content is not installed on clients: {relative}")
     metadata = {}
+    filenames = set()
     for path in (root / "mods").glob("*.pw.toml"):
         meta = tomllib.loads(path.read_text("utf-8"))
         metadata[path.name] = meta
         if f"mods/{path.name}" not in indexed:
             raise LiteError(f"Unindexed Lite mod: {path.name}")
+        entry = indexed[f"mods/{path.name}"]
+        if entry.get("metafile") is not True:
+            raise LiteError(f"Lite mod must be indexed as metadata: {path.name}")
+        if entry.get("side", "both") != "both":
+            raise LiteError(f"Lite mod side belongs in its metadata: {path.name}")
+        if meta["filename"].casefold() in filenames:
+            raise LiteError(f"Duplicate Lite mod download filename: {meta['filename']}")
+        filenames.add(meta["filename"].casefold())
         values = [normalized(path.name), normalized(meta["name"]), normalized(meta["filename"])]
         if any(value.startswith(prefix) for value in values for prefix in contract["forbidden_prefixes"]):
             raise LiteError(f"Forbidden Lite mod: {path.name}")
+    direct_ids = set()
     for path in (root / "mods").glob("*.jar"):
         if any(normalized(path.name).startswith(prefix) for prefix in contract["forbidden_prefixes"]):
             raise LiteError(f"Forbidden direct Lite JAR: {path.name}")
-    for name in contract["required_mods"]:
+        entry = indexed.get(f"mods/{path.name}", {})
+        if not entry or entry.get("side", "both") != "both" or entry.get("metafile", False):
+            raise LiteError(f"Direct Lite JAR must be distributed to both sides: {path.name}")
+        try:
+            with zipfile.ZipFile(path) as archive:
+                mods = tomllib.loads(archive.read("META-INF/mods.toml").decode("utf-8"))["mods"]
+        except (OSError, KeyError, ValueError, zipfile.BadZipFile) as error:
+            raise LiteError(f"Invalid direct Lite JAR: {path.name}") from error
+        for mod in mods:
+            if mod["modId"] in direct_ids:
+                raise LiteError(f"Duplicate direct Lite mod: {mod['modId']}")
+            direct_ids.add(mod["modId"])
+    for mod_id in contract["required_direct_mod_ids"]:
+        if mod_id not in direct_ids:
+            raise LiteError(f"Missing essential direct Lite mod: {mod_id}")
+    for name, side in contract["required_mods"].items():
         if name not in metadata:
             raise LiteError(f"Missing essential Lite mod: {name}")
+        if metadata[name].get("side", "both") != side:
+            raise LiteError(f"Lite mod side changed: {name} must be {side}")
+        if metadata[name].get("option", {}).get("optional", False):
+            raise LiteError(f"Essential Lite mod cannot be optional: {name}")
     for path in indexed:
         if path.startswith("mods/") and any(normalized(Path(path).name).startswith(prefix) for prefix in contract["forbidden_prefixes"]):
             raise LiteError(f"Forbidden indexed Lite mod: {path}")
@@ -118,7 +163,23 @@ def validate_lite(root: Path) -> dict:
                 offset += length + 12
 
     options = (root / "config/defaultoptions/options.txt").read_text("utf-8")
-    enabled = json.loads(next(line.split(":", 1)[1] for line in options.splitlines() if line.startswith("resourcePacks:")))
+    settings = {}
+    for line in options.splitlines():
+        if ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        if key in settings:
+            raise LiteError(f"Duplicate Lite default option: {key}")
+        settings[key] = value
+    for key, value in contract["default_options"].items():
+        if settings.get(key) != value:
+            raise LiteError(f"Lite default option {key} must be {value!r}")
+    try:
+        enabled = json.loads(settings["resourcePacks"])
+    except (KeyError, ValueError) as error:
+        raise LiteError("Invalid Lite resourcePacks default") from error
+    if enabled != contract["required_resource_packs"]:
+        raise LiteError("Required Lite resource pack order changed")
     for name in ("file/NexusRealms", "file/NexusRealms_ES"):
         if name not in enabled or not (root / "resourcepacks" / name[5:] / "pack.mcmeta").is_file():
             raise LiteError(f"Missing mandatory resource pack: {name}")

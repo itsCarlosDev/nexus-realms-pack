@@ -238,7 +238,7 @@ def security_scan(root: Path) -> None:
         )
 
 
-def validate_pack(root: Path, *, scan_repository: bool = True) -> tuple[dict, list[dict]]:
+def validate_pack(root: Path, *, scan_repository: bool = True, contract: dict | None = None) -> tuple[dict, list[dict]]:
     root = root.resolve()
     pack_path = root / "pack.toml"
     index_path = root / "index.toml"
@@ -330,7 +330,7 @@ def validate_pack(root: Path, *, scan_repository: bool = True) -> tuple[dict, li
         raise ReleaseError("The Lite worktree must identify its pack as Nexus Realms Lite")
     if pack.get("name") == LITE_NAME:
         try:
-            metrics = validate_lite(root)
+            metrics = validate_lite(root, contract)
         except LiteError as error:
             raise ReleaseError(str(error)) from error
         print(f"Lite regression checks passed: {metrics}")
@@ -358,6 +358,31 @@ def write_zip(path: Path, entries: dict[str, tuple[bytes, int]]) -> None:
             archive.writestr(info, data)
 
 
+def validate_prism_components(data: bytes, pack: dict) -> None:
+    """A valid Packwiz index must not bootstrap a different game or loader."""
+    try:
+        definition = json.loads(data)
+        components = definition["components"]
+        if definition.get("formatVersion") != 1 or not isinstance(components, list):
+            raise ValueError("Invalid Prism component format")
+        by_id = {component["uid"]: component for component in components}
+        if len(by_id) != len(components):
+            raise ValueError("Duplicate Prism components")
+        for uid, version in (("net.minecraft", pack["versions"]["minecraft"]),
+                             ("net.minecraftforge", pack["versions"]["forge"])):
+            if by_id.get(uid, {}).get("version") != version:
+                raise ValueError(f"{uid} must match pack version {version}")
+    except (KeyError, TypeError, ValueError) as error:
+        raise ReleaseError(f"Invalid Prism mmc-pack.json: {error}") from error
+
+
+def validate_prism_payload(archive: zipfile.ZipFile, pack: dict) -> None:
+    validate_prism_components(archive.read("mmc-pack.json"), pack)
+    bootstrap_hash = sha256_bytes(archive.read("minecraft/packwiz-installer-bootstrap.jar"))
+    if bootstrap_hash.upper() != BOOTSTRAP_SHA256:
+        raise ReleaseError("Prism ZIP contains an unexpected Packwiz bootstrap")
+
+
 def build_site(
     root: Path,
     output: Path,
@@ -367,11 +392,14 @@ def build_site(
     pack_url: str | None = None,
     prism_zip_name: str | None = None,
     instance_name: str | None = None,
+    *,
+    contract: dict | None = None,
+    scan_repository: bool = True,
 ) -> None:
     root = root.resolve()
     output = ensure_output_safe(root, output)
     bootstrap = bootstrap.resolve()
-    pack, indexed = validate_pack(root)
+    pack, indexed = validate_pack(root, scan_repository=scan_repository, contract=contract)
     lite = pack.get("name") == LITE_NAME
     if not lite and (pack_url == LITE_URL or prism_zip_name == LITE_ZIP or instance_name == LITE_NAME):
         raise ReleaseError("A Lite release target requires the Nexus Realms Lite pack identity")
@@ -385,6 +413,9 @@ def build_site(
         raise ReleaseError(
             f"Unexpected Packwiz bootstrap SHA-256: {sha256_file(bootstrap)}"
         )
+
+    prism_components = (root / "tools/prism/template/mmc-pack.json").read_bytes()
+    validate_prism_components(prism_components, pack)
 
     if output.exists():
         shutil.rmtree(output)
@@ -400,6 +431,10 @@ def build_site(
         shutil.copy2(source, destination)
 
     (output / ".nojekyll").write_bytes(b"")
+    if contract is not None:
+        (output / "lite-contract.json").write_text(
+            json.dumps(contract, indent=2) + "\n", encoding="utf-8", newline="\n"
+        )
 
     runtime_entries: dict[str, tuple[bytes, int]] = {}
     for destination_text, source_text in RUNTIME_FILES.items():
@@ -497,7 +532,7 @@ def build_site(
     prism_entries = {
         "instance.cfg": (prism_instance, 0o644),
         "mmc-pack.json": (
-            (root / "tools/prism/template/mmc-pack.json").read_bytes(),
+            prism_components,
             0o644,
         ),
         "minecraft/packwiz-installer-bootstrap.jar": (
@@ -552,6 +587,7 @@ def build_site(
         prism_zip_name=prism_zip_name,
         expected_pack_url=pack_url,
         expected_instance_name=instance_name,
+        contract=contract,
     )
 
 
@@ -572,9 +608,10 @@ def verify_site(
     prism_zip_name: str | None = None,
     expected_pack_url: str | None = None,
     expected_instance_name: str | None = None,
+    contract: dict | None = None,
 ) -> None:
     site = site.resolve()
-    pack, indexed = validate_pack(site, scan_repository=False)
+    pack, indexed = validate_pack(site, scan_repository=False, contract=contract)
     lite = pack.get("name") == LITE_NAME
     prism_zip_name = prism_zip_name or (LITE_ZIP if lite else STANDARD_PRISM_ZIP_NAME)
     expected_pack_url = expected_pack_url or (LITE_URL if lite else PRODUCTION_URL)
@@ -614,6 +651,7 @@ def verify_site(
     )
 
     with zipfile.ZipFile(prism_zip) as archive:
+        validate_prism_payload(archive, pack)
         prism_instance = archive.read("instance.cfg")
         if lite:
             try:
@@ -731,6 +769,13 @@ def main() -> int:
 
     verify = subparsers.add_parser("verify-site")
     verify.add_argument("--site", type=Path, default=Path("_site"))
+    verify.add_argument("--contract", type=Path)
+
+    derive = subparsers.add_parser("derive-lite")
+    derive.add_argument("--source-ref", required=True)
+    derive.add_argument("--output", type=Path, required=True)
+    derive.add_argument("--bootstrap", type=Path, required=True)
+    derive.add_argument("--generated-at", required=True)
 
     smoke = subparsers.add_parser("smoke")
     smoke.add_argument("--base-url", default=PRODUCTION_URL.rsplit("/", 1)[0] + "/")
@@ -765,11 +810,16 @@ def main() -> int:
                 instance_name=arguments.instance_name,
             )
             print(f"Built and verified isolated Pages site: {output}")
+        elif arguments.command == "derive-lite":
+            from derive_lite import derive_lite
+            derive_lite(root, arguments.source_ref, arguments.output,
+                        arguments.bootstrap, arguments.generated_at)
         elif arguments.command == "verify-site":
             site = arguments.site
             if not site.is_absolute():
                 site = root / site
-            verify_site(site)
+            contract = json.loads(arguments.contract.read_text("utf-8")) if arguments.contract else None
+            verify_site(site, contract=contract)
             print(f"Verified Pages site: {site}")
         elif arguments.command == "smoke":
             last_error: Exception | None = None
@@ -800,6 +850,8 @@ def main() -> int:
         tomllib.TOMLDecodeError,
         json.JSONDecodeError,
         urllib.error.URLError,
+        LiteError,
+        subprocess.CalledProcessError,
     ) as error:
         print(f"release validation failed: {error}", file=sys.stderr)
         return 1
@@ -807,4 +859,5 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    sys.modules["pack_release"] = sys.modules[__name__]
     raise SystemExit(main())

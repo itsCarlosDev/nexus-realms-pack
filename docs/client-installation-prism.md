@@ -156,3 +156,168 @@ only derived PNGs there. All seven generated PNGs were reproduced byte-for-byte.
 10. Compare time and stability with the old instance, keeping its files intact.
 
 Not runtime-tested. A missing OOM in static checks/build is not runtime evidence.
+
+### Lite audit and benchmark baseline (2026-09-11)
+
+This follow-up is maintained directly on `lite`, by explicit task instruction.
+It does not merge or synchronize gameplay from `dev`. At the inspected revisions
+(`dev` a3cc71d, `lite` fe3f32b), `git rev-list --left-right --count dev...lite`
+reports 18/20 exclusive commits. The release workflow checks out `lite` separately;
+this is the demonstrated maintenance divergence, not a demonstrated FPS or OOM
+cause. The two branches differ in quests, class/boss scripts, NPC versions and
+Nexus Core (Lite build.gradle: 0.6.40). Same-server compatibility with current
+`dev` is NOT VERIFIED. The implementation for deriving Lite from the same source revision as Standard
+is now included in this branch. It is not active in production until these
+release-tooling changes are promoted to the branch that runs the publishing
+workflow. The current production workflow remains unchanged until that promotion.
+
+The earlier footprint table describes the 1304073 optimization. The current
+inventory is **234 Packwiz mod manifests: 24 client, 205 both, 5 server**, plus
+the direct Nexus Core JAR. The extra client manifest is Nexus Aether Gloves
+Compat. These are manifest counts, not Forge's runtime mod count. No mods,
+versions, gameplay files or graphical values are changed by this follow-up.
+
+`tools/release/lite_contract.json` now protects every retained manifest and its
+installation side, the direct `nexuscore` mod ID, 241 existing required content
+paths, the enabled resource-pack order and the following defaults. Intentional
+removals or side changes require reviewing the contract; do not regenerate it
+blindly to silence a failure. New gameplay/content files should be added to its
+required inventory when introduced. Presence checks do not prove unchanged
+semantics, matching server versions or successful networking.
+
+| Default | Value |
+|---|---|
+| Render / simulation distance | 6 / 5 |
+| FPS cap / VSync | 60 / false |
+| Graphics / clouds / entity shadows / AO | Fast (`0`) / `"false"` / false / false |
+| Entity distance scale / particles | 0.5 / Minimal (`2`) |
+| Mipmaps / biome blend / chunk update priority | 0 / 0 / 0 |
+| Fullscreen / width and height overrides | false / 0 and 0 |
+| Menu blur | 0 |
+
+These are Default Options seed values, not a forced rewrite of a player's
+personal `options.txt`. Verify effective settings in a fresh instance; updates
+may preserve previous preferences. History (`1466aac`, `b60f95f`) establishes
+how 6/5/60 and particles=2 were selected, but contains no Acer benchmark proving
+their suitability. The 4/4/30 candidate stays a manual experiment: it reduces
+visible terrain and can hide threats/landmarks. Lower client simulation distance
+does not set a dedicated server's simulation policy. The already short entity
+distance and minimal particles require checking boss telegraphs and ranged
+combat before making them more aggressive. A 30 FPS cap alone proves no stability.
+
+#### Optimizers: keep the baseline, measure the interaction
+
+No repository override was found for the seven optimizers below. The accessible
+Prism DEV instance has generated configuration files, inspected only as evidence
+of its own settings; they are not the Acer settings or distributed defaults.
+All seven installed JARs matched their manifest hashes. ImmediatelyFast's
+filename mentions 1.20.4, but its Forge metadata supports `[1.20,1.20.4]`, including
+1.20.1. Do not replace it based on the filename alone.
+
+| Optimizer / pinned version | Function and overlap | Decision, cost and compatibility test |
+|---|---|---|
+| [Embeddium](https://github.com/FiniteReality/embeddium) 0.3.31 | Terrain renderer, chunk meshes and visibility; partly overlaps entity/render optimizations. | KEEP. Mesh workers/buffers cost CPU and memory. DEV uses automatic threads (`0`), deferred chunk updates, visible-texture animation and culling. Do not tune worker count without measuring chunk latency and iGPU memory pressure. Check translucent blocks, armors and animated geometry. |
+| [Entity Culling](https://github.com/tr7zw/EntityCulling) 1.10.5 | Line-of-sight occlusion adds to chunk/frustum visibility; also skips some client entity ticks. | KEEP / REQUIRES RUNTIME BENCHMARK. Tracing uses CPU threads and state. DEV has tick culling on; the author identifies risks for magic entities and renderers beyond their bounds. Compare on/off in the same scene; check Epic Fight, TaCZ, multipart bosses, NPCs and spells when reappearing from behind walls. Add exceptions only for demonstrated IDs. |
+| [ImmediatelyFast](https://github.com/RaphiMC/ImmediatelyFast) 1.5.5 | Batches immediate rendering for HUD, text, entities and particles; overlaps draw submission, not the entire terrain renderer. | KEEP. Buffers/atlases may trade memory for fewer draw calls. DEV enables HUD batching and fast uploads, with experimental switches off. Test inventories, weapon hands, spell overlays and resource-pack shaders. No Acer benefit is measured. |
+| [ModernFix](https://github.com/embeddedt/ModernFix) 5.27.58 | Loading, allocations, resource/model and bug fixes; partial memory overlap with FerriteCore. | KEEP. DEV has no explicit mixin overrides and dynamic resources disabled by default. Do not enable experimental resource loading to chase a heap estimate; compare startup, reloads and first use of assets. |
+| [FerriteCore](https://github.com/malte0811/FerriteCore) 6.0.1 | Deduplicates blockstate/model data; targets retained memory rather than a guaranteed FPS uplift. | KEEP. DEV has compactFastMap and the risky small threading detector off. Check models and collision/render state after reload; RAM benefit remains unmeasured in this pack. |
+| [Dynamic FPS](https://github.com/juliand665/Dynamic-FPS) 3.11.4 | Reduces background work; does not establish foreground combat performance. | KEEP. DEV's private `states.invisible.frame_rate_target=120` is not distributed and must not be copied. Check background CPU/GPU use and recovery after alt-tab separately from active-play measurements. |
+| [Particle Core](https://www.curseforge.com/minecraft/mc-mods/particle-core) 0.3.3 | Particle ticking, vertex/light caching and rendering; overlaps ImmediatelyFast's particle submission. | KEEP / REQUIRES RUNTIME BENCHMARK. DEV uses asynchronous ticking, 16384 particles per sheet, no global removal and distance multiplier 1.0. Worker overhead and mixins require spell/horde stress tests; do not add global particle suppression or assume threading improves weak CPUs. |
+
+No additional optimizer is justified by a measured bottleneck. A partial overlap
+does not establish redundancy. None is removed merely for that overlap. Existing
+TaCZ lazy asset loading remains enabled: its repository comment explicitly says
+the render thread can wait on first use before warmup completes. Measure first
+equip/first shot as well as warmed combat; a lower startup cost may move a stall
+into play. Iron's Spells already disables shield-particle collisions; its arms,
+items and contextual UI remain enabled. No custom render listeners are introduced.
+
+Dependency inspection used matching local JARs, including nested Jar-in-Jar
+metadata: Connected Glass requires Fusion, TaCZ Tweaks requires YACL and Kotlin,
+Third Person Shooting requires Shoulder Surfing, and Particle Core requires
+Kotlin and Fzzy Config. All are retained. The client scan matched 227 of the 229
+client/both manifests; Create Fix and Nexus Aether Gloves Compat were unavailable
+in that DEV instance, so a complete installed dependency/version-range check is
+NOT VERIFIED. Metadata presence is not a Forge dependency-resolution test.
+
+#### Reproducible artifact checks
+
+The existing generator still copies the indexed pack and builds a Prism bootstrap
+ZIP. It now checks Minecraft/Forge components against `pack.toml` before building
+and rechecks those components and the embedded bootstrap hash in the final ZIP.
+The contract rejects missing/optional required mods, incorrect sides, missing
+metafile flags, missing required content, changed defaults and resource-pack order.
+Existing media/exclusion/onboarding checks remain in force. The publish workflow's
+Lite build step now runs the regression suite; that workflow change takes effect
+when promoted to the branch running the workflow, not simply by editing `lite`.
+
+For two reproducible local builds use the same Python, source bytes, bootstrap,
+`--commit` and `--generated-at`. Set `$verifiedBootstrap` to the path of the
+bootstrap verified against `tools/prism/bootstrap.sha256`. Use new output
+directories to preserve old builds:
+
+```powershell
+python -m unittest discover -s tools/release -p test_lite_release.py -v
+python tools/release/pack_release.py --root . validate
+$sourceCommit = git rev-parse HEAD
+$generatedAt = [DateTime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ssZ')
+python tools/release/pack_release.py --root . build --output dist/lite-check-a/_site --bootstrap $verifiedBootstrap --commit $sourceCommit --generated-at $generatedAt
+python tools/release/pack_release.py --root . build --output dist/lite-check-b/_site --bootstrap $verifiedBootstrap --commit $sourceCommit --generated-at $generatedAt
+python tools/release/pack_release.py --root . verify-site --site dist/lite-check-a/_site
+```
+
+Compare SHA-256 for every relative file in both sites, including archives and
+manifest. A ZIP with the production URL downloads the published pack, not the
+unpublished local tree. For a local test, serve the isolated site with Python's
+HTTP server and use that URL in a separate test instance's Packwiz prelaunch
+command, preserving the original production instance. Verify that the imported
+instance actually receives this index hash before benchmarking. No local site
+is started, published, or installed automatically by these checks.
+
+#### Acer B117 N16Q9: physical benchmark protocol
+
+1. Record exact CPU/iGPU, driver, physical RAM, resolution, Java 17 build,
+   effective Prism min/max heap, pack revision/index hash and server revision.
+   The model name alone does not establish the installed RAM. Record memory
+   used by other applications and graphics; shared iGPU RAM can leave too little
+   headroom and trigger paging. Do not prescribe a fixed heap without these data.
+2. Use a fresh isolated instance and a repeatable server/test world. Record
+   startup time separately. Warm up for five minutes, then capture at least
+   three equal runs per scenario, alternating baseline/candidate order.
+3. Repeat spawn/Nexus, NPC area, exploration, existing-chunk loading, new-chunk
+   generation, normal combat, crowded combat, class ability, boss and horde.
+   Fix position, camera, route, resolution, distances, Java, heap and server state
+   for optimizer A/B comparisons. Separate generation from loading; use equivalent
+   fresh world snapshots for generation comparisons without editing live saves.
+4. Measure margin with VSync off and a high/unlimited cap, then separately test
+   sustained play capped at 30. For the 4/4/30 profile experiment change only those
+   specified variables; do not attribute its result to an optimizer A/B test.
+5. Use a frame capture tool that supports Minecraft/OpenGL on the Acer. Record
+   its name/version and raw per-frame timestamps. Capture average FPS, median,
+   p95/p99 frametime, spikes over 50/100/250 ms and their longest duration. Define
+   `1% low = 1000 / mean(slowest 1% frame times in ms)` and keep the definition
+   identical across runs. If only F3 is available, report spot observations and
+   no fabricated 1% low. Low averages do not excuse long stalls or visible errors.
+6. Record process working set/private bytes, system available/committed memory,
+   paging, GPU load/shared memory and thermal/clock behavior. Continue at least
+   15 minutes after warmup. Correlate stalls with chunk loads, first weapon/spell
+   use and GC where logs permit; do not equate a GC pause with the entire stall.
+7. Reject a candidate with disappearing bosses, NPCs, guns, spell telegraphs,
+   armor or animations, failed class/inventory actions, network/registry errors,
+   worse p99/spikes, paging or progressive slowdown. Check behind-wall reappearance
+   and fast camera turns specifically for culling. Repeat Entity Culling and
+   Particle Core toggles independently through supported controls/settings.
+8. Keep per-run results as: scenario, revision, profile, resolution, heap,
+   average FPS, 1% low, p99 ms, spike counts, peak process/system memory, visual
+   defects and session log. Archive both cold and warm results, including failures.
+
+Emergency mode is a manual candidate, not another configuration system: try a
+window near 1280x720 using the launcher/window controls, verify the actual rendered
+resolution, then test 4/4/30. 720p has about 44% of the pixels of 1080p; this does
+not promise a corresponding FPS gain. Leave `overrideWidth/Height=0` in distributed
+defaults. Particles are already Minimal and entity scaling already 0.5: reduce
+neither further unless mechanics remain readable. Restore distance or particles
+if ranged targets or boss cues disappear. UI scale may need adjustment at 720p.
+
+Not runtime-tested. NO VALIDADO EN RUNTIME.
+Rendimiento real en Acer B117 N16Q9: pendiente de benchmark físico.
