@@ -70,5 +70,100 @@
                 "top": 13
             }
         }
+    },
+    "toughasnails.client.gui.WaterPurifierScreen": {
+        "buttonHints": {
+            "MOVE_TO_CONTAINER": {
+                "horizontalOffset": -19,
+                "bottom": 10
+            },
+            "MOVE_TO_PLAYER": {
+                "horizontalOffset": -19,
+                "top": 44
+            },
+            "SORT": {
+                "horizontalOffset": -55,
+                "top": 68
+            },
+            "SORT_COLUMNS": {
+                "horizontalOffset": -43,
+                "top": 80
+            },
+            "SORT_ROWS": {
+                "horizontalOffset": -31,
+                "top": 92
+            },
+            "SHOW_EDITOR": {
+                "horizontalOffset": -5,
+                "top": 46
+            },
+            "SETTINGS": {
+                "horizontalOffset": -5,
+                "top": 43
+            }
+        }
+    },
+    "io.redspace.ironsspellbooks.gui.inscription_table.InscriptionTableScreen": {
+        "buttonHints": {
+            "MOVE_TO_CONTAINER": {
+                "horizontalOffset": -21,
+                "bottom": 18
+            },
+            "MOVE_TO_PLAYER": {
+                "horizontalOffset": -21,
+                "top": 36
+            },
+            "SORT": {
+                "horizontalOffset": -57
+            },
+            "SORT_COLUMNS": {
+                "horizontalOffset": -45,
+                "top": 12
+            },
+            "SORT_ROWS": {
+                "horizontalOffset": -33,
+                "top": 24
+            },
+            "SHOW_EDITOR": {
+                "horizontalOffset": -5,
+                "top": 41
+            },
+            "SETTINGS": {
+                "horizontalOffset": -5,
+                "top": 14
+            }
+        }
+    },
+    "io.wispforest.accessories.client.gui.AccessoriesScreen": {
+        "buttonHints": {
+            "MOVE_TO_CONTAINER": {
+                "horizontalOffset": -21,
+                "bottom": 21
+            },
+            "MOVE_TO_PLAYER": {
+                "horizontalOffset": -21,
+                "top": 33
+            },
+            "SORT": {
+                "horizontalOffset": -57,
+                "top": -3
+            },
+            "SORT_COLUMNS": {
+                "horizontalOffset": -45,
+                "top": 9
+            },
+            "SORT_ROWS": {
+                "horizontalOffset": -33,
+                "top": 21
+            },
+            "SHOW_EDITOR": {
+                "horizontalOffset": -5,
+                "top": 30
+            },
+            "SETTINGS": {
+                "horizontalOffset": -5,
+                "top": 27
+            }
+        }
     }
 }
