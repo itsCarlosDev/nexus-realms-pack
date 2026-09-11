@@ -1610,7 +1610,7 @@ hash = "516720a8278e3fe0048c3ec9a2f332e2b6c03687efd69ba368bda4985ef9c87b"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_era_calendar.js"
-hash = "c7e3bfe7ffa85dd8c5c3ec614c0e7b2bb6ced9f675b9f18605da5135dad84f3c"
+hash = "6532c056253f90960d6270016b20fab9509bb81c16e070fa31f1f6902c0cce5c"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_export_entity_ids.js"

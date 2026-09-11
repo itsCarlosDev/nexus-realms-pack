@@ -158,44 +158,90 @@ function nexusEraFallbackDefinitions() {
 }
 
 function nexusEraLoadDefinitions() {
-  const fallback = nexusEraFallbackDefinitions()
-  let required = NEXUS_PROGRESSION_DEFAULT_QUORUM
+  var nexusEraFallback = nexusEraFallbackDefinitions()
+  var nexusEraRequired = NEXUS_PROGRESSION_DEFAULT_QUORUM
   try {
-    const raw = JsonIO.read(NEXUS_ERA_CONFIG_PATH)
-    const value = raw && raw.progression
-      ? raw.progression.required_online_players
-      : undefined
-    if (typeof value === 'number' && Number.isInteger(value) &&
-        value >= 1 && value <= 2147483647) {
-      required = value
+    var nexusEraRaw = JsonIO.read(NEXUS_ERA_CONFIG_PATH)
+    var nexusEraConfiguredRequired =
+      nexusEraRaw && nexusEraRaw.progression
+        ? nexusEraRaw.progression.required_online_players
+        : undefined
+
+    if (
+      typeof nexusEraConfiguredRequired === 'number' &&
+      Number.isInteger(nexusEraConfiguredRequired) &&
+      nexusEraConfiguredRequired >= 1 &&
+      nexusEraConfiguredRequired <= 2147483647
+    ) {
+      nexusEraRequired = nexusEraConfiguredRequired
     } else {
       console.warn(
         '[Nexus Era] progression.required_online_players ausente o invalido; se usa 3.'
       )
     }
-    NexusProgressionData.setRequiredOnlinePlayers(required)
-    if (!raw || !raw.eras) throw new Error("Falta la propiedad 'eras'")
 
-    const definitions = []
-    let valid = true
-    for (let era = NEXUS_ERA_MIN; era <= NEXUS_ERA_MAX; era += 1) {
-      const entry = raw.eras[era]
-      if (!entry || Number(entry.id) !== era || !entry.short_name ||
-          !String(entry.short_name).trim()) {
-        valid = false
-        definitions[era] = fallback[era]
-        console.error(`[Nexus Era] Definicion invalida para Era ${era}; avance automatico bloqueado.`)
+    NexusProgressionData.setRequiredOnlinePlayers(
+      nexusEraRequired
+    )
+
+    if (!nexusEraRaw || !nexusEraRaw.eras) {
+      throw new Error("Falta la propiedad 'eras'")
+    }
+
+    var nexusEraDefinitions = []
+    var nexusEraValid = true
+
+    for (
+      var nexusEraDefinitionIndex = NEXUS_ERA_MIN;
+      nexusEraDefinitionIndex <= NEXUS_ERA_MAX;
+      nexusEraDefinitionIndex += 1
+    ) {
+      var nexusEraEntry =
+        nexusEraRaw.eras[nexusEraDefinitionIndex]
+
+      if (
+        !nexusEraEntry ||
+        Number(nexusEraEntry.id) !== nexusEraDefinitionIndex ||
+        !nexusEraEntry.short_name ||
+        !String(nexusEraEntry.short_name).trim()
+      ) {
+        nexusEraValid = false
+        nexusEraDefinitions[nexusEraDefinitionIndex] =
+          nexusEraFallback[nexusEraDefinitionIndex]
+
+        console.error(
+          `[Nexus Era] Definicion invalida para Era ${nexusEraDefinitionIndex}; avance automatico bloqueado.`
+        )
       } else {
-        definitions[era] = { short_name: String(entry.short_name).trim() }
+        nexusEraDefinitions[nexusEraDefinitionIndex] = {
+          short_name:
+            String(nexusEraEntry.short_name).trim()
+        }
       }
     }
-    console.info(`[Nexus Era] ${NEXUS_ERA_CONFIG_PATH}: valid=${valid}, quorum=${required}.`)
-    return { valid: valid, definitions: definitions }
-  } catch (error) {
-    NexusProgressionData.setRequiredOnlinePlayers(required)
-    console.error(`[Nexus Era] No se pudo cargar ${NEXUS_ERA_CONFIG_PATH}; avance automatico bloqueado.`)
-    console.error(error)
-    return { valid: false, definitions: fallback }
+
+    console.info(
+      `[Nexus Era] ${NEXUS_ERA_CONFIG_PATH}: valid=${nexusEraValid}, quorum=${nexusEraRequired}.`
+    )
+
+    return {
+      valid: nexusEraValid,
+      definitions: nexusEraDefinitions
+    }
+  } catch (nexusEraLoadError) {
+    NexusProgressionData.setRequiredOnlinePlayers(
+      nexusEraRequired
+    )
+
+    console.error(
+      `[Nexus Era] No se pudo cargar ${NEXUS_ERA_CONFIG_PATH}; avance automatico bloqueado.`
+    )
+    console.error(nexusEraLoadError)
+
+    return {
+      valid: false,
+      definitions: nexusEraFallback
+    }
   }
 }
 
