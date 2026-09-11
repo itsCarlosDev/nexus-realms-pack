@@ -1,30 +1,30 @@
 [
   {
-    "entity": "realmrpg_demons:demon",
+    "entity": "born_in_chaos_v1:fallen_chaos_knight",
     "weight": 8,
     "first_day": 0,
     "last_day": 0
   },
   {
-    "entity": "realmrpg_demons:chort",
+    "entity": "born_in_chaos_v1:skeleton_thrasher",
     "weight": 15,
     "first_day": 0,
     "last_day": 0
   },
   {
-    "entity": "realmrpg_demons:demon_minion",
+    "entity": "born_in_chaos_v1:zombie_bruiser",
     "weight": 25,
     "first_day": 0,
     "last_day": 0
   },
   {
-    "entity": "realmrpg_demons:imp_guard",
+    "entity": "undead_revamp2:therabidus",
     "weight": 20,
     "first_day": 0,
     "last_day": 0
   },
   {
-    "entity": "realmrpg_demons:imp",
+    "entity": "born_in_chaos_v1:dread_hound",
     "weight": 25,
     "first_day": 0,
     "last_day": 0

@@ -1,19 +1,7 @@
 [
   {
-    "entity": "realmrpg_demons:imp",
-    "weight": 35,
-    "first_day": 0,
-    "last_day": 0
-  },
-  {
     "entity": "born_in_chaos_v1:bone_imp",
-    "weight": 25,
-    "first_day": 0,
-    "last_day": 0
-  },
-  {
-    "entity": "realmrpg_demons:imp_guard",
-    "weight": 10,
+    "weight": 60,
     "first_day": 0,
     "last_day": 0
   },
@@ -25,7 +13,7 @@
   },
   {
     "entity": "undead_revamp2:therabidus",
-    "weight": 10,
+    "weight": 20,
     "first_day": 0,
     "last_day": 0
   }
