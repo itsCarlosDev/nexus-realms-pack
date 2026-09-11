@@ -167,13 +167,16 @@ function nexusEraLoadDefinitions() {
         ? nexusEraRaw.progression.required_online_players
         : undefined
 
+    var nexusEraConfiguredRequiredNumber =
+      Number(nexusEraConfiguredRequired)
+
     if (
-      typeof nexusEraConfiguredRequired === 'number' &&
-      Number.isInteger(nexusEraConfiguredRequired) &&
-      nexusEraConfiguredRequired >= 1 &&
-      nexusEraConfiguredRequired <= 2147483647
+      Number.isInteger(nexusEraConfiguredRequiredNumber) &&
+      nexusEraConfiguredRequiredNumber >= 1 &&
+      nexusEraConfiguredRequiredNumber <= 2147483647
     ) {
-      nexusEraRequired = nexusEraConfiguredRequired
+      nexusEraRequired =
+        nexusEraConfiguredRequiredNumber
     } else {
       console.warn(
         '[Nexus Era] progression.required_online_players ausente o invalido; se usa 3.'
@@ -992,25 +995,25 @@ function nexusEraClearPending(data) {
 }
 
 function syncHistoryStages(
-  server,
-  era,
-  moment
+  nexusHistoryServer,
+  nexusHistoryEra,
+  nexusHistoryMoment
 ) {
-  const result = {
+  var nexusHistoryResult = {
     ok: false,
     error: '',
-    era: Number(era),
+    era: Number(nexusHistoryEra),
     ironResult: 0,
     diamondResult: 0,
     arcaneIndustrialResult: 0,
     nexusResult: 0
   }
 
-  if (!server) {
-    result.error =
+  if (!nexusHistoryServer) {
+    nexusHistoryResult.error =
       'server_unavailable'
 
-    return result
+    return nexusHistoryResult
   }
 
   if (
@@ -1018,108 +1021,177 @@ function syncHistoryStages(
       'historystages'
     )
   ) {
-    result.error =
+    nexusHistoryResult.error =
       'mod_unavailable'
-    console.error(`[Nexus Era] History Stages no disponible; moment=${moment}.`)
 
-    return result
+    console.error(
+      `[Nexus Era] History Stages no disponible; moment=${nexusHistoryMoment}.`
+    )
+
+    return nexusHistoryResult
   }
 
   try {
-    if (!Number.isInteger(Number(era)) || era < NEXUS_ERA_MIN || era > NEXUS_ERA_MAX) {
-      throw new Error(`Era persistida invalida: ${era}; History Stages no se modifica.`)
+    var nexusHistoryEraNumber =
+      Number(nexusHistoryEra)
+
+    if (
+      !Number.isInteger(nexusHistoryEraNumber) ||
+      nexusHistoryEraNumber < NEXUS_ERA_MIN ||
+      nexusHistoryEraNumber > NEXUS_ERA_MAX
+    ) {
+      throw new Error(
+        `Era persistida invalida: ${nexusHistoryEra}; History Stages no se modifica.`
+      )
     }
-    const stageManager = Java.loadClass('net.bananemdnsa.historystages.data.StageManager')
-    const stageData = Java.loadClass('net.bananemdnsa.historystages.util.StageData')
-    const stageIds = [NEXUS_HISTORY_IRON_STAGE, NEXUS_HISTORY_DIAMOND_STAGE,
-      NEXUS_HISTORY_ARCANE_INDUSTRIAL_STAGE, NEXUS_HISTORY_NEXUS_STAGE]
-    for (let index = 0; index < stageIds.length; index += 1) {
-      if (!stageManager.getStages().containsKey(stageIds[index])) {
-        throw new Error(`Stage global no registrado: ${stageIds[index]}`)
+
+    var nexusHistoryStageManager =
+      Java.loadClass(
+        'net.bananemdnsa.historystages.data.StageManager'
+      )
+
+    var nexusHistoryStageData =
+      Java.loadClass(
+        'net.bananemdnsa.historystages.util.StageData'
+      )
+
+    var nexusHistoryStageIds = [
+      NEXUS_HISTORY_IRON_STAGE,
+      NEXUS_HISTORY_DIAMOND_STAGE,
+      NEXUS_HISTORY_ARCANE_INDUSTRIAL_STAGE,
+      NEXUS_HISTORY_NEXUS_STAGE
+    ]
+
+    var nexusHistoryRegistryIndex = 0
+
+    for (
+      nexusHistoryRegistryIndex = 0;
+      nexusHistoryRegistryIndex < nexusHistoryStageIds.length;
+      nexusHistoryRegistryIndex += 1
+    ) {
+      if (
+        !nexusHistoryStageManager
+          .getStages()
+          .containsKey(
+            nexusHistoryStageIds[nexusHistoryRegistryIndex]
+          )
+      ) {
+        throw new Error(
+          `Stage global no registrado: ${nexusHistoryStageIds[nexusHistoryRegistryIndex]}`
+        )
       }
     }
-    era = Math.max(
+
+    nexusHistoryEraNumber = Math.max(
       NEXUS_ERA_MIN,
       Math.min(
         NEXUS_ERA_MAX,
-        Number(era)
+        nexusHistoryEraNumber
       )
     )
 
-    result.era = era
+    nexusHistoryResult.era =
+      nexusHistoryEraNumber
 
-    result.ironResult =
+    nexusHistoryResult.ironResult =
       Number(
-        server.runCommandSilent(
+        nexusHistoryServer.runCommandSilent(
           `history global ${
-            era >= 1
+            nexusHistoryEraNumber >= 1
               ? 'unlock'
               : 'lock'
           } ${NEXUS_HISTORY_IRON_STAGE}`
         )
       )
 
-    result.diamondResult =
+    nexusHistoryResult.diamondResult =
       Number(
-        server.runCommandSilent(
+        nexusHistoryServer.runCommandSilent(
           `history global ${
-            era >= 2
+            nexusHistoryEraNumber >= 2
               ? 'unlock'
               : 'lock'
           } ${NEXUS_HISTORY_DIAMOND_STAGE}`
         )
       )
 
-    result.arcaneIndustrialResult =
+    nexusHistoryResult.arcaneIndustrialResult =
       Number(
-        server.runCommandSilent(
+        nexusHistoryServer.runCommandSilent(
           `history global ${
-            era >= 3
+            nexusHistoryEraNumber >= 3
               ? 'unlock'
               : 'lock'
           } ${NEXUS_HISTORY_ARCANE_INDUSTRIAL_STAGE}`
         )
       )
 
-    result.nexusResult =
+    nexusHistoryResult.nexusResult =
       Number(
-        server.runCommandSilent(
+        nexusHistoryServer.runCommandSilent(
           `history global ${
-            era >= 4
+            nexusHistoryEraNumber >= 4
               ? 'unlock'
               : 'lock'
           } ${NEXUS_HISTORY_NEXUS_STAGE}`
         )
       )
 
-    const unlocked = stageData.get(nexusEraOverworld(server)).getUnlockedStages()
-    for (let index = 0; index < stageIds.length; index += 1) {
-      if (unlocked.contains(stageIds[index]) !== (era >= index + 1)) {
-        throw new Error(`History Stages no reconcilio ${stageIds[index]} para Era ${era}`)
+    var nexusHistoryUnlockedStages =
+      nexusHistoryStageData
+        .get(
+          nexusEraOverworld(
+            nexusHistoryServer
+          )
+        )
+        .getUnlockedStages()
+
+    var nexusHistoryVerifyIndex = 0
+
+    for (
+      nexusHistoryVerifyIndex = 0;
+      nexusHistoryVerifyIndex < nexusHistoryStageIds.length;
+      nexusHistoryVerifyIndex += 1
+    ) {
+      if (
+        nexusHistoryUnlockedStages.contains(
+          nexusHistoryStageIds[nexusHistoryVerifyIndex]
+        ) !==
+        (
+          nexusHistoryEraNumber >=
+          nexusHistoryVerifyIndex + 1
+        )
+      ) {
+        throw new Error(
+          `History Stages no reconcilio ${nexusHistoryStageIds[nexusHistoryVerifyIndex]} para Era ${nexusHistoryEraNumber}`
+        )
       }
     }
-    result.ok = true
+
+    nexusHistoryResult.ok = true
 
     console.info(
       `[Nexus Era] History Stages ejecutado: ` +
-      `moment=${moment}, era=${era}, ` +
-      `iron=${result.ironResult}, ` +
-      `diamond=${result.diamondResult}, ` +
-      `arcaneIndustrial=${result.arcaneIndustrialResult}, ` +
-      `nexus=${result.nexusResult}.`
+      `moment=${nexusHistoryMoment}, era=${nexusHistoryEraNumber}, ` +
+      `iron=${nexusHistoryResult.ironResult}, ` +
+      `diamond=${nexusHistoryResult.diamondResult}, ` +
+      `arcaneIndustrial=${nexusHistoryResult.arcaneIndustrialResult}, ` +
+      `nexus=${nexusHistoryResult.nexusResult}.`
     )
-  } catch (error) {
-    result.error =
-      String(error)
+  } catch (nexusHistorySyncError) {
+    nexusHistoryResult.error =
+      String(nexusHistorySyncError)
 
     console.error(
       'Nexus Realms: fallo al sincronizar History Stages'
     )
 
-    console.error(error)
+    console.error(
+      nexusHistorySyncError
+    )
   }
 
-  return result
+  return nexusHistoryResult
 }
 
 function nexusEraSet(
