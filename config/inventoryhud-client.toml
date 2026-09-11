@@ -15,17 +15,17 @@
 	#Hide background if inventory is empty
 	hideBackground = false
 	#Show Inventory HUD when debug menu is open
-	invWithDebug = false
+	invWithDebug = true
 
 #Settings for ArmorStatus HUD
 [armorhud]
 	#Is Armor Damage HUD enabled
-	ArmorDamage = false
+	ArmorDamage = true
 	#Hide if durability is above this (in percentage):
 	#Range: 0 ~ 100
 	armAbove = 100
 	#Show/Hide armor
-	showArmor = false
+	showArmor = true
 	#Show/Hide armor
 	showMain = false
 	#Show/Hide armor
@@ -40,23 +40,23 @@
 	#Show item durability bar
 	armBars = false
 	#Move all items at once or each one
-	moveAll = false
+	moveAll = true
 	#Show/Hide empty slot icon
-	showEmpty = false
+	showEmpty = true
 	#Show overall count of items in main/off hand
 	showCount = false
 	#ArmorHUD scale in persentage from 50 to 150
 	#Range: 50 ~ 150
 	armScale = 100
 	#Show Armor HUD when debug menu is open
-	armWithDebug = false
+	armWithDebug = true
 	#Show arrows count when no weapon in your hands
-	showArrowsWithoutWeapon = false
+	showArrowsWithoutWeapon = true
 
 #Settings for Potions HUD
 [potionshud]
 	#Is Potions HUD enabled
-	Potions = false
+	Potions = true
 	#Potion HUD alpha
 	#Range: 0 ~ 100
 	potAlpha = 100
@@ -71,11 +71,11 @@
 	#Range: > 1
 	barDuration = 300
 	#Show hidden effects
-	showHiddenEffects = false
+	showHiddenEffects = true
 	#Disable icons for effects in this list
 	effectsBlackList = []
 	#Show Potion HUD when debug menu is open
-	potWithDebug = false
+	potWithDebug = true
 	#Show all levels of effects
 	potionLevels = false
 
@@ -219,4 +219,4 @@
 	#Last notified mod version
 	lastNotifiedVersion = "2001.6.5-build.26"
 	#Notify more than once
-	keepNotifying = false
+	keepNotifying = true
