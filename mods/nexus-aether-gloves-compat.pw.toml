@@ -5,4 +5,4 @@ side = "client"
 [download]
 url = "https://raw.githubusercontent.com/itsCarlosDev/nexus-realms-pack/main/vendor/client-mods/nexus_aether_gloves_compat-1.0.2.jar"
 hash-format = "sha256"
-hash = "a9be51b9b2db1ad82dff2c421a82e0da8e03e260bbad435a4db7c9793f4095ab"
+hash = "0b544b6bcfadafb20c67ef577191a6373d094e47fcde84a163dbde24c96de26a"

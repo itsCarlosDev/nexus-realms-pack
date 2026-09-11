@@ -2509,7 +2509,7 @@ metafile = true
 
 [[files]]
 file = "mods/nexus-aether-gloves-compat.pw.toml"
-hash = "7a1531478b9ccd606bbc63c2f903ede2b43ae7fa0247f8807a46062e51f482ed"
+hash = "74789b5f53293b490cd35cded26d66ab6e23679724e0b9324f8650b5f4b2bc43"
 metafile = true
 
 [[files]]
@@ -3086,4 +3086,4 @@ hash = "ff2b00ac831ebf783169df5898386a6df485b4121462e991992a25c1c6baa88d"
 
 [[files]]
 file = "vendor/client-mods/nexus_aether_gloves_compat-1.0.2.jar"
-hash = "a9be51b9b2db1ad82dff2c421a82e0da8e03e260bbad435a4db7c9793f4095ab"
+hash = "0b544b6bcfadafb20c67ef577191a6373d094e47fcde84a163dbde24c96de26a"
