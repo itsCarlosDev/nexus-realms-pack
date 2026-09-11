@@ -3,11 +3,11 @@ filename = "easy_npc_bundle-forge-1.20.1-7.2.0.jar"
 side = "both"
 
 [download]
-hash-format = "sha1"
-hash = "5ec9a2f6c1fdd5947e8534e62e88bc404559a04f"
-mode = "metadata:curseforge"
+url = "https://cdn.modrinth.com/data/CgGEe1h3/versions/f3mwgzOw/easy_npc_bundle-forge-1.20.1-7.2.0.jar"
+hash-format = "sha512"
+hash = "c9e3410cd9bff10fd5d57583e8ed06c3f26e0db54368ee64a110558fc3731669dcc0849274e68cfe90691ea8fb5428078c48b88ab956e33201eaf4cc0fcf2164"
 
 [update]
-[update.curseforge]
-file-id = 8440024
-project-id = 559312
+[update.modrinth]
+mod-id = "CgGEe1h3"
+version = "f3mwgzOw"

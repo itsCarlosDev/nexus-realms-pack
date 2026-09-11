@@ -1835,7 +1835,7 @@ metafile = true
 
 [[files]]
 file = "mods/corail-tombstone.pw.toml"
-hash = "17dd1533cc14ed5b0eeca234ea6b14a6677ba6b1330c29d507d58dffbd1acb6f"
+hash = "d0e05e067406f7d27a95a539b161432cfba84bdb0785d2eaccc156530d64fe77"
 metafile = true
 
 [[files]]
@@ -1905,7 +1905,7 @@ metafile = true
 
 [[files]]
 file = "mods/decocraft.pw.toml"
-hash = "543d7760b3760917f1c82e8e55fbcb5f0bb920917634271e6d5bd9f1585106b2"
+hash = "ce8a10d34b2eaa10ba6f4a1b93751617fc16c9f22c95b98aa5479ae46c5da2f4"
 metafile = true
 
 [[files]]
@@ -1950,17 +1950,17 @@ metafile = true
 
 [[files]]
 file = "mods/easy-npc-config-ui.pw.toml"
-hash = "eb11da8004df41d931f82e5984ec1b3d05d83093a228f451388eb340775e53ea"
+hash = "d1edef8eabfe8cdfded6989a1dd6e5de2e98efa88db2550805d95b32670283df"
 metafile = true
 
 [[files]]
 file = "mods/easy-npc-core.pw.toml"
-hash = "632ea76711de2df6c2baf90482c0ea95d1888cd936f03d27b5097dd4e3b96d22"
+hash = "40a3fcacf85c76e763885a4edd9e91b14ae7c2f6194b69b0701695e6ba19f89d"
 metafile = true
 
 [[files]]
 file = "mods/easy-npc.pw.toml"
-hash = "07870ba0a61544575a5dbf65f58fa87f6afabd9e3ad20ddb0d6e9a32cf306a0e"
+hash = "ac2439dc47fd36b582af90724f8f4f671f354ebf0c82e6d25ea164fe2aa8f6eb"
 metafile = true
 
 [[files]]
@@ -2564,7 +2564,7 @@ metafile = true
 
 [[files]]
 file = "mods/simply-traps.pw.toml"
-hash = "2a632372b5101ac10a01b1c94414b4d466c0ebf60c40bf487e325dacbe9c4ac6"
+hash = "92d59e3218df173fc2aa3a7eda15cb7f27b1a97cf1bc689eec703541556260c2"
 metafile = true
 
 [[files]]

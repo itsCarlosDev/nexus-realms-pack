@@ -3,11 +3,11 @@ filename = "simply_traps-1.7-forge-1.20.1.jar"
 side = "both"
 
 [download]
-hash-format = "sha1"
-hash = "8d549b3c83fdcfcf43c09828499eb65e2bf01a6c"
-mode = "metadata:curseforge"
+url = "https://cdn.modrinth.com/data/5ukyHy1P/versions/ZC4Q6Umk/simply_traps-1.7-forge-1.20.1.jar"
+hash-format = "sha512"
+hash = "c92eb09359a6119d6100a16ac9cd32626d48cd81508064b2a95ecac6b83af2846a1fcb807a368ba5259ea590c20b68f59ec0fb2f3f9e9d0a4b4bdb0507d5a520"
 
 [update]
-[update.curseforge]
-file-id = 6980501
-project-id = 1172014
+[update.modrinth]
+mod-id = "5ukyHy1P"
+version = "ZC4Q6Umk"
