@@ -13,6 +13,7 @@ var NexusHordeReentryIdentityHashMap =
   Java.loadClass('java.util.IdentityHashMap')
 
 var nexusHordeReentryActivePlayers = new Set()
+var nexusHordeReentryPlayerHordes = new Map()
 var nexusHordeReentryEventOwners =
   new NexusHordeReentryIdentityHashMap()
 var nexusHordeReentryLoggedErrors = new Set()
@@ -42,42 +43,14 @@ function nexusHordeReentryPlayerName(player) {
   }
 }
 
-function nexusHordeReentrySameHorde(left, right) {
-  if (!left || !right) return false
-
-  try {
-    return left.equals(right)
-  } catch (ignored) {
-    return false
-  }
-}
-
 function nexusHordeReentryOwnerForHorde(horde) {
-  var ownerId = ''
-  var ownerIterator =
-    nexusHordeReentryEventOwners
-      .entrySet()
-      .iterator()
+  var ownerId =
+    nexusHordeReentryEventOwners.get(horde)
 
-  while (ownerIterator.hasNext()) {
-    var ownerEntry = ownerIterator.next()
-    var candidateHorde =
-      ownerEntry.getKey()
-
-    if (
-      nexusHordeReentrySameHorde(
-        candidateHorde,
-        horde
-      )
-    ) {
-      ownerId = String(
-        ownerEntry.getValue()
-      )
-      break
-    }
-  }
-
-  return ownerId
+  return ownerId === null ||
+    ownerId === undefined
+    ? ''
+    : String(ownerId)
 }
 
 function nexusHordeReentryCommandText(event) {
@@ -323,53 +296,83 @@ ForgeEvents.onEvent(
       event.getHorde(),
       reentryPlayerId
     )
+
+    nexusHordeReentryPlayerHordes.set(
+      reentryPlayerId,
+      event.getHorde()
+    )
   }
 )
 
 ForgeEvents.onEvent(
   'net.smileycorp.hordes.common.event.HordeEndEvent',
   event => {
-    var reentryHorde = event.getHorde()
-    var reentryOwnerId =
-      nexusHordeReentryOwnerForHorde(
-        reentryHorde
-      )
-
-    if (!reentryOwnerId) {
-      reentryOwnerId =
-        nexusHordeReentryPlayerId(
-          event.getPlayer()
-        )
-    }
-
-    nexusHordeReentryActivePlayers.delete(
-      reentryOwnerId
-    )
-
-    var reentryFinishedIterator =
-      nexusHordeReentryEventOwners
-        .entrySet()
-        .iterator()
-
-    while (
-      reentryFinishedIterator.hasNext()
-    ) {
-      var reentryFinishedEntry =
-        reentryFinishedIterator.next()
-      var ownerId = String(
-        reentryFinishedEntry.getValue()
-      )
-      var horde =
-        reentryFinishedEntry.getKey()
-
-      if (
-        ownerId === reentryOwnerId ||
-        nexusHordeReentrySameHorde(
-          horde,
+    try {
+      var reentryHorde = event.getHorde()
+      var reentryOwnerId =
+        nexusHordeReentryOwnerForHorde(
           reentryHorde
         )
+
+      if (!reentryOwnerId) {
+        reentryOwnerId =
+          nexusHordeReentryPlayerId(
+            event.getPlayer()
+          )
+      }
+
+      nexusHordeReentryActivePlayers.delete(
+        reentryOwnerId
+      )
+
+      if (
+        nexusHordeReentryPlayerHordes.get(
+          reentryOwnerId
+        ) === reentryHorde
       ) {
-        reentryFinishedIterator.remove()
+        nexusHordeReentryPlayerHordes.delete(
+          reentryOwnerId
+        )
+      }
+
+      nexusHordeReentryEventOwners.remove(
+        reentryHorde
+      )
+    } catch (error) {
+      nexusHordeReentryLogErrorOnce(
+        `horde-end:${String(error)}`,
+        'Nexus Horde Reentry Guard: fallo auxiliar al liberar la Horda finalizada; The Hordes continuara su cleanup.',
+        error
+      )
+
+      try {
+        var reentryFallbackPlayerId =
+          nexusHordeReentryPlayerId(
+            event.getPlayer()
+          )
+        var reentryFallbackHorde =
+          nexusHordeReentryPlayerHordes.get(
+            reentryFallbackPlayerId
+          )
+
+        nexusHordeReentryActivePlayers.delete(
+          reentryFallbackPlayerId
+        )
+        nexusHordeReentryPlayerHordes.delete(
+          reentryFallbackPlayerId
+        )
+
+        if (reentryFallbackHorde) {
+          nexusHordeReentryEventOwners.remove(
+            reentryFallbackHorde
+          )
+        }
+      } catch (fallbackError) {
+        nexusHordeReentryLogErrorOnce(
+          `horde-end-fallback:${String(fallbackError)}`,
+          'Nexus Horde Reentry Guard: tambien fallo la liberacion de respaldo.',
+          fallbackError
+        )
       }
     }
   }
@@ -383,6 +386,7 @@ ForgeEvents.onEvent(
   'net.minecraftforge.event.server.ServerStoppingEvent',
   event => {
     nexusHordeReentryActivePlayers.clear()
+    nexusHordeReentryPlayerHordes.clear()
     nexusHordeReentryEventOwners.clear()
     nexusHordeReentryLoggedErrors.clear()
   }
@@ -391,35 +395,34 @@ ForgeEvents.onEvent(
 if (typeof global !== 'undefined') {
   global.NexusHordeReentryGuard = {
     releasePlayer: player => {
-      var reentryPlayerId =
-        nexusHordeReentryPlayerId(player)
+      try {
+        var reentryPlayerId =
+          nexusHordeReentryPlayerId(player)
 
-      nexusHordeReentryActivePlayers.delete(
-        reentryPlayerId
-      )
+        nexusHordeReentryActivePlayers.delete(
+          reentryPlayerId
+        )
 
-      var reentryReleasedIterator =
-        nexusHordeReentryEventOwners
-          .entrySet()
-          .iterator()
-
-      while (
-        reentryReleasedIterator.hasNext()
-      ) {
-        var reentryReleasedEntry =
-          reentryReleasedIterator.next()
-
-        var reentryReleasedOwnerId =
-          String(
-            reentryReleasedEntry.getValue()
+        var reentryPlayerHorde =
+          nexusHordeReentryPlayerHordes.get(
+            reentryPlayerId
           )
 
-        if (
-          reentryReleasedOwnerId ===
-          reentryPlayerId
-        ) {
-          reentryReleasedIterator.remove()
+        if (reentryPlayerHorde) {
+          nexusHordeReentryEventOwners.remove(
+            reentryPlayerHorde
+          )
         }
+
+        nexusHordeReentryPlayerHordes.delete(
+          reentryPlayerId
+        )
+      } catch (error) {
+        nexusHordeReentryLogErrorOnce(
+          `release-player:${String(error)}`,
+          'Nexus Horde Reentry Guard: fallo auxiliar al liberar manualmente un jugador.',
+          error
+        )
       }
     }
   }

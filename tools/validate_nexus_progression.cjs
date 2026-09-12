@@ -8,7 +8,14 @@ const root = path.resolve(__dirname, '..');
 const script = fs.readFileSync(path.join(root, 'kubejs/server_scripts/nexus_era_calendar.js'), 'utf8');
 const directorScript = fs.readFileSync(path.join(root, 'kubejs/startup_scripts/nexus_horde_director.js'), 'utf8');
 const presentationScript = fs.readFileSync(path.join(root, 'kubejs/startup_scripts/nexus_horde_presentation.js'), 'utf8');
+const reentryScript = fs.readFileSync(path.join(root, 'kubejs/startup_scripts/nexus_horde_reentry_guard.js'), 'utf8');
 const hordesConfig = fs.readFileSync(path.join(root, 'config/hordes-common.toml'), 'utf8');
+const hordeNativeBridgeSource = fs.readFileSync(path.join(root,
+  'nexus-core/src/main/java/dev/itscarlos/nexuscore/horde/HordeNativeBridge.java'), 'utf8');
+const hordeTargetingSource = fs.readFileSync(path.join(root,
+  'nexus-core/src/main/java/dev/itscarlos/nexuscore/horde/HordeTargeting.java'), 'utf8');
+const sunBurnMixinSource = fs.readFileSync(path.join(root,
+  'nexus-core/src/main/java/dev/itscarlos/nexuscore/mixin/MobSunBurnMixin.java'), 'utf8');
 const canonical = JSON.parse(fs.readFileSync(path.join(root, 'config/nexuscore/eras.json'), 'utf8'));
 
 class Data {
@@ -473,13 +480,15 @@ test('Director has one capped Nexus amount path and only completes after finishe
   assert.match(directorScript, /state\.waveAmounts/);
   assert.match(directorScript, /Math\.min\(\s*24,/);
   assert.match(directorScript, /state\.phase === 'finisher'/);
-  assert.match(directorScript, /state\.horde\.spawnWave\(\s*state\.player,\s*1/);
+  assert.match(directorScript, /nexusHordeDirectorNativeBridgeClass\.spawnFinisher\(/);
   assert.equal((directorScript.match(/stopEvent\(state\.player, false\)/g) || []).length, 1);
   assert.match(directorScript, /state\.horde\.stopEvent\(\s*state\.player,\s*true/);
   assert.match(directorScript,
     /if \(state\.phase === 'finisher'\) \{\s*nexusHordeDirectorComplete\(state\)/);
-  assert.match(directorScript, /finally \{\s*state\.horde\.setSpawntable/);
-  assert.match(directorScript, /finally \{\s*nexusHordeDirectorThreatDayField\.setInt/);
+  assert.match(hordeNativeBridgeSource,
+    /finally \{\s*invoke\(\s*setSpawnTableMethod,\s*horde,\s*previousTable/);
+  assert.match(hordeNativeBridgeSource,
+    /finally \{\s*try \{\s*dayField\.setInt\(\s*horde,\s*previousDay/);
   assert.match(directorScript, /NEXUS_HORDE_DIRECTOR_MAX_FINISHER_ATTEMPTS = 3/);
   assert.match(hordesConfig, /hordeSpawnMultiplier = 1\.0\r?$/m);
   assert.match(hordesConfig, /spawnAmount = 15/);
@@ -488,6 +497,29 @@ test('Director has one capped Nexus amount path and only completes after finishe
   assert.match(presentationScript, /'EL NEXUS RESISTE'/);
   assert.match(presentationScript, /prepareFinisher/);
   assert.match(presentationScript, /AMENAZA \$\{presentationRoman\} · DIA \$\{presentationThreatDay\}/);
+});
+
+test('Horde guard, global presentation, targeting and solar marker stay scoped', () => {
+  assert.doesNotMatch(reentryScript, /\.entrySet\(\)\s*\.iterator\(\)/);
+  assert.match(reentryScript, /nexusHordeReentryEventOwners\.get\(horde\)/);
+  assert.match(reentryScript, /HordeEndEvent'[\s\S]*?try \{[\s\S]*?catch \(error\)/);
+
+  const audienceStart = presentationScript.indexOf('function nexusHordePresentationAudience');
+  const spatialStart = presentationScript.indexOf('function nexusHordePresentationSpatialRecipients');
+  const audienceSource = presentationScript.slice(audienceStart, spatialStart);
+  assert.match(audienceSource, /state\.server\.players\.forEach/);
+  assert.doesNotMatch(audienceSource, /participantIds|dimensionId/);
+  assert.match(presentationScript, /nexusHordePresentationSpatialRecipients[\s\S]*?state\.dimensionId/);
+  assert.match(presentationScript, /'HORDA'/);
+  assert.match(presentationScript, /'MANIFESTACION'/);
+  assert.match(presentationScript, /'La grieta se cierra'/);
+
+  assert.match(hordeTargetingSource, /HORDE_MOB_KEY = "nexusHordeMob"/);
+  assert.match(hordeTargetingSource, /LivingChangeTargetEvent[\s\S]*?event\.setNewTarget\(assigned\)/);
+  assert.ok(hordeTargetingSource.indexOf('if (assigned != null)')
+    < hordeTargetingSource.indexOf('new ArrayList<>()'));
+  assert.match(sunBurnMixinSource, /method = "isSunBurnTick"/);
+  assert.match(sunBurnMixinSource, /HordeTargeting\.isNexusHordeMob\(mob\)/);
 });
 
 test('administrative reset retains active-Horde veto and ordinary set is an explicit override', () => {

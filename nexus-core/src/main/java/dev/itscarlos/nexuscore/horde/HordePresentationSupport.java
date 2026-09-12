@@ -6,7 +6,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerBossEvent;
 
-/** Updates the recipients of one shared custom bossbar from UUID data. */
+/** Updates the global audience of one shared custom bossbar from UUID data. */
 public final class HordePresentationSupport {
     private HordePresentationSupport() {
     }
@@ -14,7 +14,7 @@ public final class HordePresentationSupport {
     public static void setBossbarPlayers(
         MinecraftServer server,
         String bossbarId,
-        String participantIds
+        String audienceIds
     ) {
         if (server == null || bossbarId == null) {
             return;
@@ -32,26 +32,21 @@ public final class HordePresentationSupport {
         }
 
         bossbar.removeAllPlayers();
-        if (participantIds == null || participantIds.isBlank()) {
+        if (audienceIds == null || audienceIds.isBlank()) {
             return;
         }
 
-        for (String value : participantIds.split(",")) {
+        for (String value : audienceIds.split(",")) {
             try {
                 ServerPlayer player = server
                     .getPlayerList()
                     .getPlayer(UUID.fromString(value.trim()));
 
-                if (
-                    player != null &&
-                    player.isAlive() &&
-                    !player.isSpectator() &&
-                    player.level().dimension() == net.minecraft.world.level.Level.OVERWORLD
-                ) {
+                if (player != null) {
                     bossbar.addPlayer(player);
                 }
             } catch (IllegalArgumentException ignored) {
-                // Invalid UUIDs were already rejected by the calendar parser.
+                // Invalid audience UUIDs are ignored without affecting others.
             }
         }
     }

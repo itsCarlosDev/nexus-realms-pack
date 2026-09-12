@@ -1686,11 +1686,11 @@ hash = "03dee617c8bd5c15649c72446bf51f603e085a5104c7b5bad81abd3808c1aaaa"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_presentation.js"
-hash = "746e9cba87b9abb50530f10d17764e1c8e2fb5cf7eb467916f193abf9cf32c89"
+hash = "fbb1c3283a9ca976bf302c6d7878825b338acf10dff370f2af45a16026193764"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_reentry_guard.js"
-hash = "885c706c76abf434445f15811dcd0440cf9da760a261a09babff451bf62a8e7a"
+hash = "44c5f330bf615b05fcef7d5721140c60837b8ec22b0e3ac5b59dfe9588d669e9"
 
 [[files]]
 file = "mods/aaa-particles-world.pw.toml"
@@ -2538,8 +2538,8 @@ hash = "a72bec95393fd48173d67fac1772caeb9750e1f547c5757fbf1b3d78600cb0d2"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.45.jar"
-hash = "1fac61ad980a35882fbfed08351bcb755c6b82886ecb8a1f95d057d2d4d2c5d3"
+file = "mods/nexus-core-0.6.46.jar"
+hash = "945f5a63c2e452d7ec7e7e7f0ac6f18b4648bb88689ff5712a9b85f474f0d583"
 
 [[files]]
 file = "mods/nightfall-invade.pw.toml"

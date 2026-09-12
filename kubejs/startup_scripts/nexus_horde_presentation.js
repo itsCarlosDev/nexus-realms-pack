@@ -90,9 +90,7 @@ const NEXUS_HORDE_PRESENTATION_ERA_MESSAGES = {
 }
 
 const NEXUS_HORDE_PRESENTATION_START_MESSAGES = [
-  'LA HORDA ATRAVIESA EL NEXUS',
-  'EL VELO CEDE: LA HORDA HA LLEGADO',
-  'EL NEXUS SE ABRE. LA HORDA IRRUMPE'
+  'HORDA'
 ]
 
 const NEXUS_HORDE_PRESENTATION_WAVE_MESSAGES = {
@@ -202,43 +200,55 @@ function nexusHordePresentationSameHorde(left, right) {
   }
 }
 
-function nexusHordePresentationRecipients(state) {
-  var presentationRecipients = []
+function nexusHordePresentationAudience(state) {
+  var presentationAudience = []
 
   state.server.players.forEach(player => {
-    var presentationPlayerId =
-      nexusHordePresentationPlayerId(player)
-
-    if (
-      !state.participantIds.includes(
-        presentationPlayerId
-      )
-    ) {
-      return
-    }
-
-    try {
-      if (
-        player.isAlive() &&
-        !player.isSpectator() &&
-        String(player.level.dimension) ===
-          state.dimensionId
-      ) {
-        presentationRecipients.push(player)
-      }
-    } catch (ignored) {
-      // Un participante no disponible se reincorpora al volver a ser valido.
-    }
+    presentationAudience.push(player)
   })
+
+  return presentationAudience
+}
+
+function nexusHordePresentationSpatialRecipients(
+  state
+) {
+  var presentationRecipients = []
+
+  nexusHordePresentationAudience(state).forEach(
+    player => {
+      try {
+        if (
+          player.isAlive() &&
+          !player.isSpectator() &&
+          String(player.level.dimension) ===
+            state.dimensionId
+        ) {
+          presentationRecipients.push(player)
+        }
+      } catch (ignored) {
+        // Un jugador no disponible se reincorpora al volver a ser valido.
+      }
+    }
+  )
 
   return presentationRecipients
 }
 
-function nexusHordePresentationForEachRecipient(
+function nexusHordePresentationForEachAudience(
   state,
   action
 ) {
-  nexusHordePresentationRecipients(state).forEach(
+  nexusHordePresentationAudience(state).forEach(
+    action
+  )
+}
+
+function nexusHordePresentationForEachSpatialRecipient(
+  state,
+  action
+) {
+  nexusHordePresentationSpatialRecipients(state).forEach(
     action
   )
 }
@@ -397,7 +407,7 @@ function nexusHordePresentationActionbarForState(
   text,
   color
 ) {
-  nexusHordePresentationForEachRecipient(
+  nexusHordePresentationForEachAudience(
     state,
     player => {
       nexusHordePresentationActionbar(
@@ -415,7 +425,7 @@ function nexusHordePresentationPlaySoundAtPlayer(
   volume,
   pitch
 ) {
-  nexusHordePresentationForEachRecipient(
+  nexusHordePresentationForEachSpatialRecipient(
     state,
     player => {
       var presentationName =
@@ -437,7 +447,7 @@ function nexusHordePresentationParticleAtPlayer(
   speed,
   count
 ) {
-  nexusHordePresentationForEachRecipient(
+  nexusHordePresentationForEachSpatialRecipient(
     state,
     player => {
       var presentationName =
@@ -670,7 +680,7 @@ function nexusHordePresentationBossbarRefreshPlayers(state) {
   }
 
   var presentationRecipientIds =
-    nexusHordePresentationRecipients(state)
+    nexusHordePresentationAudience(state)
       .map(player =>
         nexusHordePresentationPlayerId(player)
       )
@@ -997,15 +1007,10 @@ function nexusHordePresentationShowStart(state) {
       NEXUS_HORDE_PRESENTATION_START_MESSAGES
     )
 
-  var presentationEraSubtitle =
-    nexusHordePresentationEraMessages(state)
-      .startSubtitle ||
-    'El pulso ha rasgado el velo.'
-
   var presentationSubtitle =
-    `${state.themeName} · ${nexusHordePresentationThreatLabel(state)} · ${presentationEraSubtitle}`
+    'El Nexus esta bajo ataque'
 
-  nexusHordePresentationForEachRecipient(
+  nexusHordePresentationForEachAudience(
     state,
     player => {
       var presentationName =
@@ -1070,7 +1075,7 @@ function nexusHordePresentationShowFinisher(
 
   state.finisherPresented = true
 
-  nexusHordePresentationForEachRecipient(
+  nexusHordePresentationForEachAudience(
     state,
     player => {
       var presentationName =
@@ -1083,12 +1088,12 @@ function nexusHordePresentationShowFinisher(
 
       nexusHordePresentationRunSilent(
         state.server,
-        `title ${presentationName} subtitle ${nexusHordePresentationComponent('Una presencia superior ha atravesado el Nexus.', 'dark_purple', false)}`
+        `title ${presentationName} subtitle ${nexusHordePresentationComponent('Enemigo final', 'dark_purple', false)}`
       )
 
       nexusHordePresentationRunSilent(
         state.server,
-        `title ${presentationName} title ${nexusHordePresentationComponent('MANIFESTACION FINAL', 'dark_red', true)}`
+        `title ${presentationName} title ${nexusHordePresentationComponent('MANIFESTACION', 'dark_red', true)}`
       )
     }
   )
@@ -1191,10 +1196,7 @@ function nexusHordePresentationShowVictory(player) {
   presentationState.victoryPresented = true
 
   var presentationSubtitle =
-    nexusHordePresentationEraMessages(
-      presentationState
-    ).victorySubtitle ||
-    'La incursion ha sido contenida.'
+    'La grieta se cierra'
 
   nexusHordePresentationBossbarSetName(
     presentationState,
@@ -1222,7 +1224,7 @@ function nexusHordePresentationShowVictory(player) {
     1
   )
 
-  nexusHordePresentationForEachRecipient(
+  nexusHordePresentationForEachAudience(
     presentationState,
     presentationRecipient => {
       var presentationName =
@@ -1798,6 +1800,10 @@ ForgeEvents.onEvent(
       presentationLoginState => {
         presentationLoginState.bossbarCache.players =
           null
+
+        nexusHordePresentationBossbarRefreshPlayers(
+          presentationLoginState
+        )
       }
     )
   }
