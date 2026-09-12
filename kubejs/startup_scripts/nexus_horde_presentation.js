@@ -798,9 +798,12 @@ function nexusHordePresentationThreatLabel(state) {
 }
 
 function nexusHordePresentationWaveLabel(state) {
+  var presentationWaveLabel =
+    `OLEADA ${state.currentWave}/${state.totalWaves}`
+
   return state.currentWave >= state.totalWaves
-    ? 'OLEADA FINAL'
-    : `OLEADA ${state.currentWave}/${state.totalWaves}`
+    ? `${presentationWaveLabel} · ULTIMO PULSO`
+    : presentationWaveLabel
 }
 
 function nexusHordePresentationBossbarWave(state) {
@@ -1008,7 +1011,7 @@ function nexusHordePresentationShowStart(state) {
     )
 
   var presentationSubtitle =
-    'El Nexus esta bajo ataque'
+    'El Nexo esta bajo ataque'
 
   nexusHordePresentationForEachAudience(
     state,
@@ -1045,7 +1048,7 @@ function nexusHordePresentationShowWaveAnnouncement(
 
   var presentationText =
     state.currentWave >= state.totalWaves
-      ? `${presentationWaveMessage} · ${state.themeName}`
+      ? `${nexusHordePresentationWaveLabel(state)} · ${state.themeName}`
       : `${nexusHordePresentationWaveLabel(state)} · ${presentationWaveMessage} · ${state.themeName}`
 
   nexusHordePresentationActionbarForState(

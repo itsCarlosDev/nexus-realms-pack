@@ -1645,6 +1645,7 @@ function nexusEraIsValidAnchor(
   try {
     return (
       player.isAlive() &&
+      !player.isCreative() &&
       !player.isSpectator() &&
       nexusEraDimensionId(
         player.level
@@ -1965,6 +1966,18 @@ function nexusEraRewardHordeParticipants(
       }
 
       try {
+        if (
+          !nexusEraIsValidAnchor(
+            participant
+          )
+        ) {
+          skipped.push(
+            `${participantId}:invalid_combat_state`
+          )
+
+          return
+        }
+
         if (
           nexusEraDimensionId(
             participant.level

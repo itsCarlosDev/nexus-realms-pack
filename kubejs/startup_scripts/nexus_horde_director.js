@@ -14,6 +14,7 @@ const NEXUS_HORDE_DIRECTOR_EMPTY_WAVE_WARNING_TICKS = 200
 const NEXUS_HORDE_DIRECTOR_MAX_LAUNCH_FAILURES = 3
 const NEXUS_HORDE_DIRECTOR_MAX_FINISHER_ATTEMPTS = 3
 const NEXUS_HORDE_DIRECTOR_FINISHER_RETRY_TICKS = 200
+const NEXUS_HORDE_DIRECTOR_TARGET_RECONCILE_TICKS = 20
 
 const nexusHordeDirectorStates = new Map()
 const nexusHordeDirectorEntityOwners = new Map()
@@ -21,6 +22,7 @@ const nexusHordeDirectorLoggedErrors = new Set()
 let nexusHordeDirectorServerTick = 0
 var nexusHordeDirectorTargetingClass = null
 var nexusHordeDirectorNativeBridgeClass = null
+var nexusHordeDirectorRegistriesClass = null
 
 try {
   nexusHordeDirectorTargetingClass = Java.loadClass(
@@ -42,6 +44,17 @@ function nexusHordeDirectorLogErrorOnce(key, message, error) {
   if (error) {
     console.error(error)
   }
+}
+
+try {
+  nexusHordeDirectorRegistriesClass = Java.loadClass(
+    'net.minecraft.core.registries.BuiltInRegistries'
+  )
+} catch (error) {
+  console.error(
+    'Nexus Horde Director: no se pudo cargar BuiltInRegistries para diagnostico.'
+  )
+  console.error(error)
 }
 
 function nexusHordeDirectorLoadNativeBridge() {
@@ -86,6 +99,93 @@ function nexusHordeDirectorEntityId(entity) {
 
 function nexusHordeDirectorSafeId(value) {
   return String(value).replace(/-/g, '')
+}
+
+function nexusHordeDirectorEntityType(entity) {
+  if (!entity || !nexusHordeDirectorRegistriesClass) {
+    return 'unknown'
+  }
+
+  try {
+    return String(
+      nexusHordeDirectorRegistriesClass.ENTITY_TYPE.getKey(
+        entity.getType()
+      )
+    )
+  } catch (ignored) {
+    return 'unknown'
+  }
+}
+
+function nexusHordeDirectorRemovalReason(entity) {
+  try {
+    var directorRemovalReason =
+      entity.getRemovalReason()
+
+    return directorRemovalReason
+      ? String(directorRemovalReason)
+      : 'none'
+  } catch (ignored) {
+    return 'unknown'
+  }
+}
+
+function nexusHordeDirectorAliveState(entity) {
+  try {
+    return String(Boolean(entity.isAlive()))
+  } catch (ignored) {
+    return 'unknown'
+  }
+}
+
+function nexusHordeDirectorDamageDetails(source) {
+  if (!source) return 'damage=unknown'
+
+  var directorDamageId = 'unknown'
+  var directorCauser = null
+
+  try {
+    directorDamageId = String(source.getMsgId())
+  } catch (ignored) {
+    // El ID compacto puede no estar disponible en una fuente modded.
+  }
+
+  try {
+    directorCauser = source.getEntity()
+  } catch (ignored) {
+    // No todas las fuentes tienen una entidad causante.
+  }
+
+  if (!directorCauser) {
+    return `damage=${directorDamageId}`
+  }
+
+  return (
+    `damage=${directorDamageId} ` +
+    `causerType=${nexusHordeDirectorEntityType(directorCauser)} ` +
+    `causerUuid=${nexusHordeDirectorEntityId(directorCauser)}`
+  )
+}
+
+function nexusHordeDirectorLifecycle(
+  state,
+  record,
+  eventName,
+  details
+) {
+  if (!state || !record) return
+
+  var directorPhase = record.phase || state.phase
+  var directorWave = directorPhase === 'wave'
+    ? record.wave
+    : '-'
+
+  console.info(
+    `[Nexus Horde Lifecycle] event=${eventName} ` +
+    `phase=${directorPhase} wave=${directorWave} ` +
+    `type=${record.entityType} uuid=${record.entityId}` +
+    (details ? ` ${details}` : '')
+  )
 }
 
 function nexusHordeDirectorPresentationApi() {
@@ -165,6 +265,7 @@ function nexusHordeDirectorIsValidParticipant(
   try {
     return (
       player.isAlive() &&
+      !player.isCreative() &&
       !player.isSpectator() &&
       String(player.level.dimension) ===
         state.dimensionId
@@ -366,7 +467,52 @@ function nexusHordeDirectorForgetEntity(
   return true
 }
 
-function nexusHordeDirectorRemoveTrackedEntity(entity) {
+function nexusHordeDirectorMaintainTrackedMobs(state) {
+  if (!nexusHordeDirectorTargetingClass) return
+
+  var directorLoadedRecords = []
+
+  state.alive.forEach(directorRecord => {
+    if (directorRecord.unloadedAt >= 0) return
+
+    try {
+      if (directorRecord.entity.isAlive()) {
+        directorLoadedRecords.push(directorRecord)
+      }
+    } catch (ignored) {
+      // RefreshTrackedState conserva la semantica existente de descarga.
+    }
+  })
+
+  var directorLocatorVisible =
+    directorLoadedRecords.length >= 1 &&
+    directorLoadedRecords.length <= 3
+
+  directorLoadedRecords.forEach(directorRecord => {
+    try {
+      nexusHordeDirectorTargetingClass.reconcileTarget(
+        directorRecord.entity
+      )
+
+      nexusHordeDirectorTargetingClass.setLocatorGlowing(
+        directorRecord.entity,
+        directorLocatorVisible
+      )
+    } catch (error) {
+      nexusHordeDirectorLogErrorOnce(
+        `mob-maintenance:${directorRecord.entityId}:${String(error)}`,
+        `Nexus Horde Director: fallo al reconciliar ${directorRecord.entityId}`,
+        error
+      )
+    }
+  })
+}
+
+function nexusHordeDirectorRemoveTrackedEntity(
+  entity,
+  eventName,
+  details
+) {
   var directorEntityId = nexusHordeDirectorEntityId(entity)
 
   var directorOwnerId =
@@ -381,6 +527,13 @@ function nexusHordeDirectorRemoveTrackedEntity(entity) {
     nexusHordeDirectorEntityOwners.delete(directorEntityId)
     return
   }
+
+  nexusHordeDirectorLifecycle(
+    directorState,
+    directorState.alive.get(directorEntityId),
+    eventName,
+    details
+  )
 
   nexusHordeDirectorForgetEntity(
     directorState,
@@ -397,6 +550,13 @@ function nexusHordeDirectorCleanupState(state) {
   })
 
   directorEntityIds.forEach(directorEntityId => {
+    nexusHordeDirectorLifecycle(
+      state,
+      state.alive.get(directorEntityId),
+      'tracking_end',
+      'reason=horde_cleanup'
+    )
+
     nexusHordeDirectorForgetEntity(
       state,
       directorEntityId,
@@ -638,6 +798,13 @@ function nexusHordeDirectorPruneUnjoinedFinisher(
 
   directorUnjoinedIds.forEach(
     directorEntityId => {
+      nexusHordeDirectorLifecycle(
+        state,
+        state.alive.get(directorEntityId),
+        'spawn_not_added',
+        'reason=not_added_to_level'
+      )
+
       nexusHordeDirectorForgetEntity(
         state,
         directorEntityId,
@@ -833,6 +1000,16 @@ function nexusHordeDirectorRefreshTrackedState(state) {
             directorRecord.unloadedAt >=
           NEXUS_HORDE_DIRECTOR_UNLOADED_TIMEOUT_TICKS
         ) {
+          if (!directorRecord.unloadTimeoutLogged) {
+            directorRecord.unloadTimeoutLogged = true
+            nexusHordeDirectorLifecycle(
+              state,
+              directorRecord,
+              'tracking_expired',
+              `reason=unloaded_timeout ticks=${NEXUS_HORDE_DIRECTOR_UNLOADED_TIMEOUT_TICKS}`
+            )
+          }
+
           directorAbortReason =
             `manifestacion ${directorEntityId} descargada durante ` +
             `${NEXUS_HORDE_DIRECTOR_UNLOADED_TIMEOUT_TICKS} ticks`
@@ -854,6 +1031,13 @@ function nexusHordeDirectorRefreshTrackedState(state) {
 
     try {
       if (!directorRecord.entity.isAlive()) {
+        nexusHordeDirectorLifecycle(
+          state,
+          directorRecord,
+          'not_alive_observed',
+          'damage=unknown'
+        )
+
         if (state.phase === 'finisher') {
           directorRecord.unloadedAt =
             nexusHordeDirectorServerTick
@@ -874,6 +1058,15 @@ function nexusHordeDirectorRefreshTrackedState(state) {
     var directorWasUnloaded =
       directorRecord &&
       directorRecord.unloadedAt >= 0
+
+    if (directorWasUnloaded) {
+      nexusHordeDirectorLifecycle(
+        state,
+        directorRecord,
+        'tracking_expired',
+        `reason=unloaded_timeout ticks=${NEXUS_HORDE_DIRECTOR_UNLOADED_TIMEOUT_TICKS}`
+      )
+    }
 
     nexusHordeDirectorForgetEntity(
       state,
@@ -901,6 +1094,14 @@ function nexusHordeDirectorRefreshTrackedState(state) {
 }
 
 function nexusHordeDirectorTickState(state) {
+  if (
+    nexusHordeDirectorServerTick %
+      NEXUS_HORDE_DIRECTOR_TARGET_RECONCILE_TICKS ===
+    0
+  ) {
+    nexusHordeDirectorMaintainTrackedMobs(state)
+  }
+
   if (
     state.completing ||
     state.phase === 'aborting' ||
@@ -1132,20 +1333,38 @@ ForgeEvents.onEvent(
       )
     }
 
+    var directorSpawnRecord = {
+      entity: directorSpawnEntity,
+      entityId: directorSpawnEntityId,
+      entityType:
+        nexusHordeDirectorEntityType(
+          directorSpawnEntity
+        ),
+      phase: directorSpawnState.phase,
+      wave: directorSpawnState.currentWave,
+      unloadedAt: -1,
+      unloadTimeoutLogged: false,
+      addedToLevel: false,
+      joined:
+        directorSpawnState.phase !==
+        'finisher'
+    }
+
     directorSpawnState.alive.set(
       directorSpawnEntityId,
-      {
-        entity: directorSpawnEntity,
-        unloadedAt: -1,
-        joined:
-          directorSpawnState.phase !==
-          'finisher'
-      }
+      directorSpawnRecord
     )
 
     nexusHordeDirectorEntityOwners.set(
       directorSpawnEntityId,
       directorSpawnState.playerId
+    )
+
+    nexusHordeDirectorLifecycle(
+      directorSpawnState,
+      directorSpawnRecord,
+      'spawn_requested',
+      ''
     )
 
     if (
@@ -1162,7 +1381,11 @@ ForgeEvents.onEvent(
   'net.minecraftforge.event.entity.living.LivingDeathEvent',
   event => {
     nexusHordeDirectorRemoveTrackedEntity(
-      event.getEntity()
+      event.getEntity(),
+      'death',
+      nexusHordeDirectorDamageDetails(
+        event.getSource()
+      )
     )
   }
 )
@@ -1204,6 +1427,25 @@ ForgeEvents.onEvent(
       )
 
     if (!directorLeavingRecord) return
+
+    nexusHordeDirectorLifecycle(
+      directorLeavingState,
+      directorLeavingRecord,
+      'level_leave',
+      `alive=${nexusHordeDirectorAliveState(directorLeavingEntity)} ` +
+      `removal=${nexusHordeDirectorRemovalReason(directorLeavingEntity)}`
+    )
+
+    try {
+      if (nexusHordeDirectorTargetingClass) {
+        nexusHordeDirectorTargetingClass.setLocatorGlowing(
+          directorLeavingEntity,
+          false
+        )
+      }
+    } catch (ignored) {
+      // ForgetEntity repetira el cleanup si la entidad no vuelve a cargarse.
+    }
 
     try {
       if (!directorLeavingEntity.isAlive()) {
@@ -1274,10 +1516,24 @@ ForgeEvents.onEvent(
     directorJoiningRecord.entity =
       directorJoiningEntity
 
+    var directorJoinEvent =
+      directorJoiningRecord.addedToLevel
+        ? 'level_rejoined'
+        : 'level_added'
+
+    directorJoiningRecord.addedToLevel = true
     directorJoiningRecord.joined = true
     directorJoiningRecord.unloadedAt = -1
+    directorJoiningRecord.unloadTimeoutLogged = false
     directorJoiningState.waveHadMob = true
     directorJoiningState.zeroSince = -1
+
+    nexusHordeDirectorLifecycle(
+      directorJoiningState,
+      directorJoiningRecord,
+      directorJoinEvent,
+      ''
+    )
   }
 )
 

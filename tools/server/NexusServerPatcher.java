@@ -63,6 +63,7 @@ public final class NexusServerPatcher {
         REMOVE_ENTRY,
         ROOT_MIXIN_TO_CLIENT,
         TXNI_BUNDLE,
+        ACCESSORIES_BUNDLE,
         FRAGMENTUM_BUNDLE,
         JSON_MAP_KEY_REMOVE
     }
@@ -113,6 +114,17 @@ public final class NexusServerPatcher {
             ),
             Kind.TXNI_BUNDLE,
             ""
+        ),
+        patch(
+            "Accessories Fabric Object Builder server compatibility",
+            "accessories-neoforge-1.0.0-beta.48+1.20.1.jar",
+            "1DA10E840CBBF08338A1690C3045D21A6B7C46681FA69EF3054698C97CB98E0D",
+            Set.of(
+                "CD4274D8171FF55B8F98B0EAF69C56EFEC8E4FA1C51AF87AAD059B2D71C45DF2"
+            ),
+            Kind.ACCESSORIES_BUNDLE,
+            "fabric-object-builder-v1.mixins.json",
+            "TradeOffersTypeAwareBuyForOneEmeraldFactoryMixin"
         ),
         patch(
             "Sword Soaring OBB renderer",
@@ -640,6 +652,14 @@ public final class NexusServerPatcher {
                 root -> moveMixinsToClient(root, patch.names())
             );
             case TXNI_BUNDLE -> patchTxni(archive);
+            case ACCESSORIES_BUNDLE -> updateJson(
+                archive,
+                List.of(
+                    "META-INF/jars/fabric-object-builder-api-v1-*.jar"
+                ),
+                patch.config(),
+                root -> removeMixins(root, patch.names())
+            );
             case FRAGMENTUM_BUNDLE -> patchFragmentum(
                 archive,
                 patch.config(),
@@ -663,6 +683,16 @@ public final class NexusServerPatcher {
                 patch.names()
             );
             case TXNI_BUNDLE -> verifyTxni(archive);
+            case ACCESSORIES_BUNDLE -> verifyMixinsRemoved(
+                readJson(
+                    archive,
+                    List.of(
+                        "META-INF/jars/fabric-object-builder-api-v1-*.jar"
+                    ),
+                    patch.config()
+                ),
+                patch.names()
+            );
             case FRAGMENTUM_BUNDLE -> verifyFragmentum(
                 archive,
                 patch.config(),

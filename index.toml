@@ -1565,6 +1565,10 @@ file = "kubejs/data/starcatcher/data_maps/item/catch_modifiers.json"
 hash = "13f44bb4703476926fe248291e0732d2b55c74ff975faa4da17c217b66afc576"
 
 [[files]]
+file = "kubejs/data/tacztweaks/tags/blocks/air.json"
+hash = "b67f32f0e20e4907added48a4e69786815eabf75e6518d22368650382bd9951a"
+
+[[files]]
 file = "kubejs/data/theabyss/loot_tables/entities/end_spider.json"
 hash = "cdb985008d0fb6bc247ea3cce2a432a03eacf75955b26dd2302fbb58bb0598b5"
 
@@ -1626,7 +1630,7 @@ hash = "516720a8278e3fe0048c3ec9a2f332e2b6c03687efd69ba368bda4985ef9c87b"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_era_calendar.js"
-hash = "2a1e7799023029fa5d25dc4688e960efac12baa1b413264f147e66479664ba10"
+hash = "e15a0475bc6ac7b106a64d644e8ea5bd44bcee09aa201ebad55e3b7632091bd6"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_export_entity_ids.js"
@@ -1682,11 +1686,11 @@ hash = "211da8a3f317447b2104b2dde04146414470fb9750acd22ef218a32c1f092761"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_director.js"
-hash = "03dee617c8bd5c15649c72446bf51f603e085a5104c7b5bad81abd3808c1aaaa"
+hash = "c7a8e69668138475616d79c4fb01c65c59bfdcc58dac78b7a040142d8ce5722a"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_presentation.js"
-hash = "fbb1c3283a9ca976bf302c6d7878825b338acf10dff370f2af45a16026193764"
+hash = "1e1de5cdc544b58c366f0f84283dc1cd9fec0a92c3d7f21a1bbdfe7b86e42352"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_reentry_guard.js"
@@ -2538,8 +2542,8 @@ hash = "a72bec95393fd48173d67fac1772caeb9750e1f547c5757fbf1b3d78600cb0d2"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.46.jar"
-hash = "945f5a63c2e452d7ec7e7e7f0ac6f18b4648bb88689ff5712a9b85f474f0d583"
+file = "mods/nexus-core-0.6.47.jar"
+hash = "0526b6146d2cf789b08475e45c13b8eba2a6157bfa01203fdfc5d9ff68eed3ce"
 
 [[files]]
 file = "mods/nightfall-invade.pw.toml"

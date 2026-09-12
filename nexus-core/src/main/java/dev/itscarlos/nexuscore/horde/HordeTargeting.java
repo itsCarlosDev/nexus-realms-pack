@@ -28,6 +28,8 @@ public final class HordeTargeting {
         "nexusHordeParticipantUUIDs";
     public static final String ASSIGNED_TARGET_KEY =
         "nexusHordeAssignedTargetUUID";
+    private static final String LOCATOR_GLOW_KEY =
+        "nexusHordeLocatorGlow";
 
     private HordeTargeting() {
     }
@@ -121,18 +123,81 @@ public final class HordeTargeting {
         LivingChangeTargetEvent event
     ) {
         if (
-            event.getTargetType() !=
-                LivingChangeTargetEvent.LivingTargetType.MOB_TARGET
-            || !(event.getEntity() instanceof Mob mob)
-            || !(event.getNewTarget() instanceof ServerPlayer)
+            !(event.getEntity() instanceof Mob mob)
             || !isNexusHordeMob(mob)
         ) {
             return;
         }
 
+        // Let native AI clear its combat target. A null Mob target is what
+        // allows The Hordes' own tracking goal to guide the entity again.
+        if (event.getNewTarget() == null) {
+            return;
+        }
+
         ServerPlayer assigned = resolveAssignedTarget(mob);
-        if (event.getNewTarget() != assigned) {
-            event.setNewTarget(assigned);
+        if (assigned != null) {
+            if (event.getNewTarget() != assigned) {
+                event.setNewTarget(assigned);
+            }
+            return;
+        }
+
+        if (
+            event.getTargetType() ==
+                LivingChangeTargetEvent.LivingTargetType.MOB_TARGET
+        ) {
+            // Mob#setTarget safely accepts null and will clear an old external
+            // target instead of preserving it through cancellation.
+            event.setNewTarget(null);
+        } else {
+            // StartAttacking writes the event target into Brain memory. Its
+            // setter expects a real value, so cancel rather than supplying
+            // null when no original Nexus participant is currently valid.
+            event.setCanceled(true);
+        }
+    }
+
+    /**
+     * Repairs only a non-null combat target that escaped the Forge event path.
+     * Null is deliberately preserved for The Hordes' native tracking goal.
+     */
+    public static boolean reconcileTarget(Mob mob) {
+        if (!isNexusHordeMob(mob) || mob.getTarget() == null) {
+            return false;
+        }
+
+        ServerPlayer assigned = resolveAssignedTarget(mob);
+        if (mob.getTarget() != assigned) {
+            mob.setTarget(assigned);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Applies the last-enemy locator without clearing glow that predated Nexus.
+     */
+    public static void setLocatorGlowing(Mob mob, boolean visible) {
+        if (!isNexusHordeMob(mob)) {
+            return;
+        }
+
+        if (visible) {
+            if (
+                !mob.getPersistentData().getBoolean(LOCATOR_GLOW_KEY)
+                && !mob.hasGlowingTag()
+            ) {
+                mob.setGlowingTag(true);
+                mob.getPersistentData().putBoolean(LOCATOR_GLOW_KEY, true);
+            }
+            return;
+        }
+
+        if (mob.getPersistentData().getBoolean(LOCATOR_GLOW_KEY)) {
+            mob.setGlowingTag(false);
+            mob.getPersistentData().remove(LOCATOR_GLOW_KEY);
         }
     }
 
@@ -187,6 +252,7 @@ public final class HordeTargeting {
 
             return player != null
                 && player.isAlive()
+                && !player.isCreative()
                 && !player.isSpectator()
                 && player.level() == mob.level()
                 ? player
@@ -201,6 +267,7 @@ public final class HordeTargeting {
             return;
         }
 
+        setLocatorGlowing(mob, false);
         mob.getPersistentData().remove(HORDE_MOB_KEY);
         mob.getPersistentData().remove(PARTICIPANTS_KEY);
         mob.getPersistentData().remove(ASSIGNED_TARGET_KEY);

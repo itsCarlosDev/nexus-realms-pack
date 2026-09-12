@@ -272,6 +272,25 @@ test('Horde calendar uses world ticks and still schedules with inert campaign fl
   assert.equal(f.server.commands.length, 0); // Outside the existing midnight window.
 });
 
+test('Horde combat eligibility accepts survival/adventure and rejects creative/spectator', () => {
+  const f = fixture();
+  let creative = false;
+  let spectator = false;
+  const player = {
+    level: f.level,
+    isAlive: () => true,
+    isCreative: () => creative,
+    isSpectator: () => spectator,
+  };
+  f.context.testCombatPlayer = player;
+  assert.equal(f.run('nexusEraIsValidAnchor(testCombatPlayer)'), true);
+  creative = true;
+  assert.equal(f.run('nexusEraIsValidAnchor(testCombatPlayer)'), false);
+  creative = false;
+  spectator = true;
+  assert.equal(f.run('nexusEraIsValidAnchor(testCombatPlayer)'), false);
+});
+
 test('threat formula matches the specification and remains bounded through day 2000', () => {
   const f = fixture();
   const days = [0, 15, 29, 30, 59, 60, 89, 90, 119, 120, 159, 160, 219, 220, 500, 1000, 2000];
@@ -363,6 +382,9 @@ test('completion, replacement-player end and command cancellation preserve rewar
     level: completed.level,
     getServer: () => completed.server,
     getGameProfile: () => ({ getName: () => name }),
+    isAlive: () => true,
+    isCreative: () => false,
+    isSpectator: () => false,
     distanceToSqr: () => 0,
     tell: () => {},
   });
@@ -477,6 +499,7 @@ test('all Nexus Horde tables are cumulative, nonempty and day-zero safe', () => 
 });
 
 test('Director has one capped Nexus amount path and only completes after finisher', () => {
+  assert.match(directorScript, /NEXUS_HORDE_DIRECTOR_TOTAL_WAVES = 4/);
   assert.match(directorScript, /state\.waveAmounts/);
   assert.match(directorScript, /Math\.min\(\s*24,/);
   assert.match(directorScript, /state\.phase === 'finisher'/);
@@ -496,6 +519,9 @@ test('Director has one capped Nexus amount path and only completes after finishe
   assert.doesNotMatch(presentationScript, /La Horda ha sido derrotada\./);
   assert.match(presentationScript, /'EL NEXUS RESISTE'/);
   assert.match(presentationScript, /prepareFinisher/);
+  assert.match(presentationScript,
+    /OLEADA \$\{state\.currentWave\}\/\$\{state\.totalWaves\}/);
+  assert.match(presentationScript, /ULTIMO PULSO/);
   assert.match(presentationScript, /AMENAZA \$\{presentationRoman\} · DIA \$\{presentationThreatDay\}/);
 });
 
@@ -515,11 +541,38 @@ test('Horde guard, global presentation, targeting and solar marker stay scoped',
   assert.match(presentationScript, /'La grieta se cierra'/);
 
   assert.match(hordeTargetingSource, /HORDE_MOB_KEY = "nexusHordeMob"/);
-  assert.match(hordeTargetingSource, /LivingChangeTargetEvent[\s\S]*?event\.setNewTarget\(assigned\)/);
+  assert.match(hordeTargetingSource,
+    /LivingChangeTargetEvent[\s\S]*?event\.setNewTarget\(assigned\)/);
+  assert.doesNotMatch(hordeTargetingSource,
+    /event\.getNewTarget\(\) instanceof ServerPlayer/);
+  assert.match(hordeTargetingSource, /LivingTargetType\.MOB_TARGET/);
+  assert.match(hordeTargetingSource, /event\.setCanceled\(true\)/);
+  assert.match(hordeTargetingSource, /public static boolean reconcileTarget/);
+  assert.match(hordeTargetingSource, /mob\.getTarget\(\) == null/);
+  assert.match(hordeTargetingSource, /!player\.isCreative\(\)/);
+  assert.match(hordeTargetingSource, /!player\.isSpectator\(\)/);
+  assert.match(hordeTargetingSource, /public static void setLocatorGlowing/);
+  assert.match(hordeTargetingSource, /!mob\.hasGlowingTag\(\)/);
+  assert.match(hordeTargetingSource, /setLocatorGlowing\(mob, false\)/);
   assert.ok(hordeTargetingSource.indexOf('if (assigned != null)')
     < hordeTargetingSource.indexOf('new ArrayList<>()'));
+  assert.match(directorScript,
+    /NEXUS_HORDE_DIRECTOR_TARGET_RECONCILE_TICKS = 20/);
+  assert.match(directorScript,
+    /state\.alive\.forEach[\s\S]*?reconcileTarget/);
+  assert.match(directorScript,
+    /directorLoadedRecords\.length >= 1[\s\S]*?directorLoadedRecords\.length <= 3/);
+  assert.match(directorScript, /\[Nexus Horde Lifecycle\]/);
+  assert.match(directorScript, /'spawn_requested'/);
+  assert.match(directorScript, /'level_added'/);
+  assert.match(directorScript, /'death'/);
+  assert.match(directorScript, /'level_leave'/);
+  assert.match(script, /!player\.isCreative\(\)/);
+  assert.match(script, /!player\.isSpectator\(\)/);
   assert.match(sunBurnMixinSource, /method = "isSunBurnTick"/);
   assert.match(sunBurnMixinSource, /HordeTargeting\.isNexusHordeMob\(mob\)/);
+  assert.doesNotMatch(sunBurnMixinSource,
+    /FireResistance|setInvulnerable|ON_FIRE/);
 });
 
 test('administrative reset retains active-Horde veto and ordinary set is an explicit override', () => {
