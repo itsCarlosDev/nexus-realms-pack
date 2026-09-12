@@ -61,6 +61,7 @@ public final class NexusServerPatcher {
 
     private enum Kind {
         REMOVE_ENTRY,
+        ROOT_MIXIN_REMOVE,
         ROOT_MIXIN_TO_CLIENT,
         TXNI_BUNDLE,
         ACCESSORIES_BUNDLE,
@@ -102,6 +103,17 @@ public final class NexusServerPatcher {
             ),
             Kind.REMOVE_ENTRY,
             "kubejs.plugins.txt"
+        ),
+        patch(
+            "EpicFight Nightfall UtilMixin",
+            "EpicFight Nightfall-3.3.9-fix1.jar",
+            "A8B8B76CEF60BBBD86B6814EE24C6194F23055504160E65D309615E56078C98E",
+            Set.of(
+                "539F33FC7507D0DC8CA7AD8BEC442BEDDF3945624D1C812FFC93506A7772A464"
+            ),
+            Kind.ROOT_MIXIN_REMOVE,
+            "efn.mixins.json",
+            "UtilMixin"
         ),
         patch(
             "TxniLib Fabric API server compatibility + lifecycle chunk-cache workaround",
@@ -645,6 +657,12 @@ public final class NexusServerPatcher {
         throws Exception {
         return switch (patch.kind()) {
             case REMOVE_ENTRY -> removeEntry(archive, patch.config());
+            case ROOT_MIXIN_REMOVE -> updateJson(
+                archive,
+                List.of(),
+                patch.config(),
+                root -> removeMixins(root, patch.names())
+            );
             case ROOT_MIXIN_TO_CLIENT -> updateJson(
                 archive,
                 List.of(),
@@ -678,6 +696,10 @@ public final class NexusServerPatcher {
         byte[] archive = Files.readAllBytes(jar);
         return switch (patch.kind()) {
             case REMOVE_ENTRY -> !containsEntry(archive, patch.config());
+            case ROOT_MIXIN_REMOVE -> verifyMixinsRemoved(
+                readJson(archive, List.of(), patch.config()),
+                patch.names()
+            );
             case ROOT_MIXIN_TO_CLIENT -> verifyMixinMove(
                 readJson(archive, List.of(), patch.config()),
                 patch.names()
