@@ -2,31 +2,31 @@
   {
     "entity": "undead_revamp2:theheavy",
     "weight": 3,
-    "first_day": 0,
+    "first_day": 220,
     "last_day": 0
   },
   {
     "entity": "born_in_chaos_v1:fallen_chaos_knight",
     "weight": 24,
-    "first_day": 0,
+    "first_day": 120,
     "last_day": 0
   },
   {
     "entity": "born_in_chaos_v1:zombie_bruiser",
     "weight": 15,
-    "first_day": 0,
+    "first_day": 90,
     "last_day": 0
   },
   {
     "entity": "born_in_chaos_v1:skeleton_thrasher",
     "weight": 20,
-    "first_day": 0,
+    "first_day": 30,
     "last_day": 0
   },
   {
     "entity": "irons_spellbooks:magehunter_vindicator",
     "weight": 8,
-    "first_day": 0,
+    "first_day": 160,
     "last_day": 0
   },
   {

@@ -6,6 +6,9 @@ const path = require('node:path');
 const vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
 const script = fs.readFileSync(path.join(root, 'kubejs/server_scripts/nexus_era_calendar.js'), 'utf8');
+const directorScript = fs.readFileSync(path.join(root, 'kubejs/startup_scripts/nexus_horde_director.js'), 'utf8');
+const presentationScript = fs.readFileSync(path.join(root, 'kubejs/startup_scripts/nexus_horde_presentation.js'), 'utf8');
+const hordesConfig = fs.readFileSync(path.join(root, 'config/hordes-common.toml'), 'utf8');
 const canonical = JSON.parse(fs.readFileSync(path.join(root, 'config/nexuscore/eras.json'), 'utf8'));
 
 class Data {
@@ -74,7 +77,7 @@ function fixture(values = {}, required, configure = () => {}) {
   });
   vm.runInContext(script, context);
   const run = expression => vm.runInContext(expression, context);
-  return { data, events, server, config, context, logs, run };
+  return { data, events, server, level, config, context, logs, run };
 }
 
 let checks = 0;
@@ -260,6 +263,231 @@ test('Horde calendar uses world ticks and still schedules with inert campaign fl
   f.run('nexusEraTryStartScheduledHorde(server)');
   assert.equal(f.data.getInt('nexusNextHordeDay'), 102);
   assert.equal(f.server.commands.length, 0); // Outside the existing midnight window.
+});
+
+test('threat formula matches the specification and remains bounded through day 2000', () => {
+  const f = fixture();
+  const days = [0, 15, 29, 30, 59, 60, 89, 90, 119, 120, 159, 160, 219, 220, 500, 1000, 2000];
+  const participants = [1, 2, 3, 10];
+  let previousByParticipants = new Map();
+
+  for (const day of days) {
+    for (const participantCount of participants) {
+      const amounts = JSON.parse(f.run(
+        `JSON.stringify(nexusEraHordeWaveAmounts(${day}, ${participantCount}))`
+      ));
+      assert.equal(amounts.length, 4);
+      assert.ok(amounts.every(amount => amount > 0 && amount <= 24));
+      assert.ok(amounts[3] >= amounts[0]);
+      const previous = previousByParticipants.get(participantCount);
+      if (previous) {
+        assert.ok(amounts.every((amount, index) => amount >= previous[index]));
+      }
+      previousByParticipants.set(participantCount, amounts);
+    }
+    const three = f.run(`nexusEraHordeWaveAmounts(${day}, 3).join(',')`);
+    const ten = f.run(`nexusEraHordeWaveAmounts(${day}, 10).join(',')`);
+    assert.equal(ten, three, `participant bonus exceeded its cap on day ${day}`);
+  }
+
+  const expected = new Map([
+    [15, [10, 12, 13, 14]], [30, [12, 14, 15, 16]],
+    [60, [14, 16, 17, 18]], [90, [16, 18, 19, 20]],
+    [120, [18, 20, 21, 22]], [160, [19, 21, 22, 23]],
+    [220, [20, 22, 23, 24]],
+  ]);
+  for (const [day, amounts] of expected) {
+    assert.deepEqual(JSON.parse(f.run(
+      `JSON.stringify(nexusEraHordeWaveAmounts(${day}, 1))`
+    )), amounts);
+  }
+  assert.deepEqual(JSON.parse(f.run(
+    'JSON.stringify(nexusEraHordeWaveAmounts(220, 3))'
+  )), [22, 24, 24, 24]);
+  assert.deepEqual(JSON.parse(f.run(
+    'JSON.stringify(nexusEraHordeWaveAmounts(2000, 10))'
+  )), [22, 24, 24, 24]);
+});
+
+test('threat day is frozen, survives time rollback and resets only in production reset', () => {
+  const f = fixture({ nexusEra: 3 });
+  f.run('nexusEraData(server)');
+  assert.equal(f.data.getInt('nexusHordeThreatDay'), -1);
+  assert.equal(f.data.getInt('nexusMaxHordeThreatDay'), -1);
+
+  const anchor = {
+    uuid: '123e4567-e89b-12d3-a456-426614174000',
+    getGameProfile: () => ({ getName: () => 'Anchor' }),
+  };
+  const second = { uuid: '123e4567-e89b-12d3-a456-426614174001' };
+  f.context.anchor = anchor;
+  f.context.second = second;
+  f.run(`nexusEraClaimGlobalHorde(data, anchor, 137, [anchor, second],
+    { table: 'nexus:era3_chaos', name: 'Caos' })`);
+  assert.equal(f.data.getInt('nexusHordeThreatDay'), 137);
+  assert.equal(f.data.getInt('nexusMaxHordeThreatDay'), 137);
+  assert.deepEqual(JSON.parse(f.run(
+    'JSON.stringify(nexusEraHordeContext(server).waveAmounts)'
+  )), [19, 21, 22, 23]);
+  assert.equal(f.run('nexusEraHordeContext(server).participantCount'), 2);
+  assert.equal(f.run('nexusEraHordeContext(server).maxThreatDay'), 137);
+  assert.equal(f.run('nexusEraHordeContext(server).finisherTable'), 'nexus:era3_finisher');
+
+  const restart = fixture(JSON.parse(JSON.stringify(f.data.values)));
+  assert.equal(restart.run('nexusEraHordeContext(server).threatDay'), 137);
+  assert.equal(restart.run('nexusEraHordeContext(server).maxThreatDay'), 137);
+
+  f.run('nexusEraClearGlobalHorde(data)');
+  assert.equal(f.data.getInt('nexusHordeThreatDay'), -1);
+  assert.equal(f.data.getInt('nexusMaxHordeThreatDay'), 137);
+  f.run(`nexusEraClaimGlobalHorde(data, anchor, 20, [anchor],
+    { table: 'nexus:era3_chaos', name: 'Caos' })`);
+  assert.equal(f.data.getInt('nexusHordeThreatDay'), 137);
+  assert.equal(f.data.getInt('nexusMaxHordeThreatDay'), 137);
+  f.run('nexusEraClearGlobalHorde(data)');
+  assert.equal(f.run('nexusEraResetProduction(server).status'), 'reset');
+  assert.equal(f.data.getInt('nexusMaxHordeThreatDay'), -1);
+});
+
+test('completion, replacement-player end and command cancellation preserve reward semantics', () => {
+  const completed = fixture({ nexusEra: 3 });
+  const makePlayer = (uuid, name) => ({
+    uuid,
+    level: completed.level,
+    getServer: () => completed.server,
+    getGameProfile: () => ({ getName: () => name }),
+    distanceToSqr: () => 0,
+    tell: () => {},
+  });
+  const anchor = makePlayer('123e4567-e89b-12d3-a456-426614174010', 'Anchor');
+  const replacement = makePlayer('123e4567-e89b-12d3-a456-426614174011', 'Replacement');
+  const horde = { equals: other => other === horde };
+  completed.server.players = [anchor, replacement];
+  Object.assign(completed.context, { anchor, replacement, horde });
+  completed.run(`nexusEraClaimGlobalHorde(data, anchor, 100, [anchor, replacement],
+    { table: 'nexus:era3_chaos', name: 'Caos' })`);
+  completed.run(`nexusEraBridgeOnHordeStart({
+    getPlayer: () => anchor, getHorde: () => horde
+  })`);
+  completed.run(`nexusEraBridgeOnHordeEnd({
+    getPlayer: () => replacement, getHorde: () => horde, wasCommand: () => false
+  })`);
+  assert.equal(completed.data.getBoolean('nexusHordeActive'), false);
+  assert.equal(completed.data.getInt('nexusHordeThreatDay'), -1);
+  assert.equal(completed.data.getInt('nexusMaxHordeThreatDay'), 100);
+  assert.equal(completed.data.getInt('nexusLastHordeRewardedCount'), 2);
+  const rewardCommands = completed.server.commands.filter(command => command.startsWith('give '));
+  assert.equal(rewardCommands.length, 2);
+  completed.run(`nexusEraBridgeOnHordeEnd({
+    getPlayer: () => replacement, getHorde: () => horde, wasCommand: () => false
+  })`);
+  assert.equal(completed.server.commands.filter(command => command.startsWith('give ')).length,
+    rewardCommands.length, 'duplicate HordeEnd rewarded twice');
+
+  const cancelled = fixture({ nexusEra: 3 });
+  const cancelledAnchor = {
+    uuid: '123e4567-e89b-12d3-a456-426614174020',
+    level: cancelled.level,
+    getServer: () => cancelled.server,
+    getGameProfile: () => ({ getName: () => 'Cancelled' }),
+    distanceToSqr: () => 0,
+    tell: () => {},
+  };
+  const cancelledHorde = { equals: other => other === cancelledHorde };
+  cancelled.server.players = [cancelledAnchor];
+  Object.assign(cancelled.context, { cancelledAnchor, cancelledHorde });
+  cancelled.run(`nexusEraClaimGlobalHorde(data, cancelledAnchor, 100, [cancelledAnchor],
+    { table: 'nexus:era3_chaos', name: 'Caos' })`);
+  cancelled.run(`nexusEraBridgeOnHordeStart({
+    getPlayer: () => cancelledAnchor, getHorde: () => cancelledHorde
+  })`);
+  cancelled.run(`nexusEraBridgeOnHordeEnd({
+    getPlayer: () => cancelledAnchor, getHorde: () => cancelledHorde, wasCommand: () => true
+  })`);
+  assert.equal(cancelled.data.getBoolean('nexusHordeActive'), false);
+  assert.equal(cancelled.data.getInt('nexusHordeThreatDay'), -1);
+  assert.equal(cancelled.data.getInt('nexusMaxHordeThreatDay'), 100);
+  assert.equal(cancelled.data.getInt('nexusLastHordeRewardedCount'), 0);
+  assert.equal(cancelled.server.commands.some(command => command.startsWith('give ')), false);
+});
+
+test('scheduler and diagnosis remain valid at an arbitrary high world day', () => {
+  const f = fixture({ nexusEra: 3 });
+  f.level.getDayTime = () => 24000 * 2000 + 6000;
+  assert.equal(f.run('nexusEraWorldDay(server)'), 2000);
+  f.run('nexusEraTryStartScheduledHorde(server)');
+  assert.equal(f.data.getInt('nexusNextHordeDay'), 2002);
+  const diagnosis = JSON.parse(f.run('JSON.stringify(nexusEraDescribe(server))'));
+  assert.ok(diagnosis.some(line => line.includes('dia 2000, base 22')));
+  assert.ok(diagnosis.some(line => line.includes('20, 22, 23, 24')));
+});
+
+test('all Nexus Horde tables are cumulative, nonempty and day-zero safe', () => {
+  const tableDir = path.join(root, 'config/hordes/data/nexus/horde_data/tables');
+  const files = fs.readdirSync(tableDir).filter(file => file.endsWith('.json')).sort();
+  const targetDays = [0, 15, 29, 30, 59, 60, 89, 90, 119, 120, 159, 160, 219, 220, 500, 2000];
+  const parsed = new Map();
+  for (const file of files) {
+    const entries = JSON.parse(fs.readFileSync(path.join(tableDir, file), 'utf8'));
+    parsed.set(file, entries);
+    assert.ok(Array.isArray(entries) && entries.length > 0, `${file} is empty`);
+    assert.ok(entries.some(entry => entry.first_day === 0), `${file} lacks day-zero fallback`);
+    for (const entry of entries) {
+      assert.equal(typeof entry.entity, 'string', `${file} entity`);
+      assert.ok(entry.entity.includes(':'), `${file} entity id`);
+      assert.ok(Number.isFinite(entry.weight) && entry.weight > 0, `${file} weight`);
+      assert.ok(Number.isInteger(entry.first_day) && entry.first_day >= 0, `${file} first_day`);
+      assert.equal(entry.last_day, 0, `${file} last_day`);
+      assert.ok(!Object.hasOwn(entry, 'min_spawns') && !Object.hasOwn(entry, 'max_spawns'),
+        `${file} can expand the Director count beyond its cap`);
+    }
+    for (const day of targetDays) {
+      assert.ok(entries.some(entry => entry.first_day <= day), `${file} empty on day ${day}`);
+    }
+  }
+
+  const calendarTables = JSON.parse(fixture().run(
+    'JSON.stringify(Object.values(NEXUS_ERA_HORDE_THEMES).flat().map(theme => theme.table))'
+  ));
+  for (const id of calendarTables) {
+    assert.ok(parsed.has(`${id.split(':')[1]}.json`), `missing calendar table ${id}`);
+  }
+  for (let era = 1; era <= 4; era++) {
+    const finisher = parsed.get(`era${era}_finisher.json`);
+    assert.ok(finisher && finisher.some(entry => entry.first_day === 0));
+    assert.ok(finisher.every(entry =>
+      !Object.hasOwn(entry, 'min_spawns') &&
+      !Object.hasOwn(entry, 'max_spawns')
+    ), `era${era} finisher can expand a count=1 spawn`);
+    const eraEntities = new Set(
+      [...parsed.entries()]
+        .filter(([file]) => file.startsWith(`era${era}_`) && !file.endsWith('_finisher.json'))
+        .flatMap(([, entries]) => entries.map(entry => entry.entity))
+    );
+    assert.ok(finisher.every(entry => eraEntities.has(entry.entity)),
+      `era${era} finisher introduced an unverified or cross-era entity`);
+  }
+});
+
+test('Director has one capped Nexus amount path and only completes after finisher', () => {
+  assert.match(directorScript, /state\.waveAmounts/);
+  assert.match(directorScript, /Math\.min\(\s*24,/);
+  assert.match(directorScript, /state\.phase === 'finisher'/);
+  assert.match(directorScript, /state\.horde\.spawnWave\(\s*state\.player,\s*1/);
+  assert.equal((directorScript.match(/stopEvent\(state\.player, false\)/g) || []).length, 1);
+  assert.match(directorScript, /state\.horde\.stopEvent\(\s*state\.player,\s*true/);
+  assert.match(directorScript,
+    /if \(state\.phase === 'finisher'\) \{\s*nexusHordeDirectorComplete\(state\)/);
+  assert.match(directorScript, /finally \{\s*state\.horde\.setSpawntable/);
+  assert.match(directorScript, /finally \{\s*nexusHordeDirectorThreatDayField\.setInt/);
+  assert.match(directorScript, /NEXUS_HORDE_DIRECTOR_MAX_FINISHER_ATTEMPTS = 3/);
+  assert.match(hordesConfig, /hordeSpawnMultiplier = 1\.0\r?$/m);
+  assert.match(hordesConfig, /spawnAmount = 15/);
+  assert.match(hordesConfig, /hordeSpawnMax = 80/);
+  assert.doesNotMatch(presentationScript, /La Horda ha sido derrotada\./);
+  assert.match(presentationScript, /'EL NEXUS RESISTE'/);
+  assert.match(presentationScript, /prepareFinisher/);
+  assert.match(presentationScript, /AMENAZA \$\{presentationRoman\} · DIA \$\{presentationThreatDay\}/);
 });
 
 test('administrative reset retains active-Horde veto and ordinary set is an explicit override', () => {

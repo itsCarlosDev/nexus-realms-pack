@@ -37,8 +37,8 @@
 	#Amount of mobs to spawn per wave.
 	spawnAmount = 15
 	#Multiplier by which the spawn amount increases by each time the event naturally spawns. (Set to 1 to disable scaling.)
-	hordeSpawnMultiplier = 1.08
-	#Native timer kept above any practical server lifetime. Nexus Horde Director ends the event after wave 4 is cleared.
+	hordeSpawnMultiplier = 1.0
+	#Native timer kept above any practical server lifetime. Nexus Horde Director ends the event after the final manifestation dies.
 	hordeSpawnDuration = 2147483646
 	#Greater than the native duration so The Hordes never advances waves by time. The Director invokes native spawnWave.
 	hordeSpawnInterval = 2147483647

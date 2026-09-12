@@ -99,7 +99,7 @@ const NEXUS_HORDE_PRESENTATION_WAVE_MESSAGES = {
   1: 'PRIMER PULSO',
   2: 'LA GRIETA SE ENSANCHA',
   3: 'LA CONTENCION CEDE',
-  4: 'MANIFESTACION FINAL'
+  4: 'ULTIMO PULSO'
 }
 
 const nexusHordePresentationStates = new Map()
@@ -727,8 +727,8 @@ function nexusHordePresentationBossbarCountdown(
 
   var presentationText =
     presentationTicksLeft <= 0
-      ? `☠ ${state.themeName} · EL NEXUS SE ESTA ABRIENDO`
-      : `☠ ${state.themeName} · EL NEXUS SE ABRE EN ${presentationSecondsLeft} s`
+      ? `☠ ${state.themeName} · ${nexusHordePresentationThreatLabel(state)} · EL NEXUS SE ESTA ABRIENDO`
+      : `☠ ${state.themeName} · ${nexusHordePresentationThreatLabel(state)} · EL NEXUS SE ABRE EN ${presentationSecondsLeft} s`
 
   nexusHordePresentationBossbarSetName(
     state,
@@ -760,6 +760,33 @@ function nexusHordePresentationBossbarCountdown(
   )
 }
 
+function nexusHordePresentationThreatLabel(state) {
+  var presentationTier = Math.max(
+    1,
+    Math.min(
+      7,
+      Math.floor(Number(state.threatTier) || 1)
+    )
+  )
+
+  var presentationRoman = [
+    'I',
+    'II',
+    'III',
+    'IV',
+    'V',
+    'VI',
+    'VII'
+  ][presentationTier - 1]
+
+  var presentationThreatDay = Math.max(
+    0,
+    Math.floor(Number(state.threatDay) || 0)
+  )
+
+  return `AMENAZA ${presentationRoman} · DIA ${presentationThreatDay}`
+}
+
 function nexusHordePresentationWaveLabel(state) {
   return state.currentWave >= state.totalWaves
     ? 'OLEADA FINAL'
@@ -779,7 +806,16 @@ function nexusHordePresentationBossbarWave(state) {
   var presentationMaximum
   var presentationValue
 
-  if (!state.spawningComplete) {
+  if (state.finisherActive) {
+    presentationMaximum = 1
+    presentationValue = state.alive.size > 0
+      ? 1
+      : 0
+
+    presentationText = !state.spawningComplete
+      ? 'MANIFESTACION FINAL · IRRUPCION'
+      : `MANIFESTACION FINAL · ${presentationAlive} RESTANTE`
+  } else if (!state.spawningComplete) {
     presentationMaximum = Math.max(
       1,
       state.expectedWaveSize,
@@ -792,7 +828,7 @@ function nexusHordePresentationBossbarWave(state) {
     )
 
     presentationText =
-      `☠ ${presentationWaveLabel} · ${state.themeName} · IRRUPCION ${state.spawnedCount}/${presentationMaximum}`
+      `☠ ${presentationWaveLabel} · ${nexusHordePresentationThreatLabel(state)} · IRRUPCION ${state.spawnedCount}/${presentationMaximum}`
   } else {
     presentationMaximum = Math.max(
       1,
@@ -807,7 +843,7 @@ function nexusHordePresentationBossbarWave(state) {
     )
 
     presentationText =
-      `☠ ${presentationWaveLabel} · ${state.themeName} · ${presentationAlive} RESTANTES`
+      `☠ ${presentationWaveLabel} · ${nexusHordePresentationThreatLabel(state)} · ${presentationAlive} RESTANTES`
   }
 
   nexusHordePresentationBossbarSetName(
@@ -967,7 +1003,7 @@ function nexusHordePresentationShowStart(state) {
     'El pulso ha rasgado el velo.'
 
   var presentationSubtitle =
-    `${state.themeName} · ${presentationEraSubtitle}`
+    `${state.themeName} · ${nexusHordePresentationThreatLabel(state)} · ${presentationEraSubtitle}`
 
   nexusHordePresentationForEachRecipient(
     state,
@@ -1025,6 +1061,62 @@ function nexusHordePresentationShowWaveAnnouncement(
       0.8
     )
   }
+}
+
+function nexusHordePresentationShowFinisher(
+  state
+) {
+  if (state.finisherPresented) return
+
+  state.finisherPresented = true
+
+  nexusHordePresentationForEachRecipient(
+    state,
+    player => {
+      var presentationName =
+        nexusHordePresentationPlayerName(player)
+
+      nexusHordePresentationRunSilent(
+        state.server,
+        `title ${presentationName} times 10 60 15`
+      )
+
+      nexusHordePresentationRunSilent(
+        state.server,
+        `title ${presentationName} subtitle ${nexusHordePresentationComponent('Una presencia superior ha atravesado el Nexus.', 'dark_purple', false)}`
+      )
+
+      nexusHordePresentationRunSilent(
+        state.server,
+        `title ${presentationName} title ${nexusHordePresentationComponent('MANIFESTACION FINAL', 'dark_red', true)}`
+      )
+    }
+  )
+
+  nexusHordePresentationPlaySoundAtPlayer(
+    state,
+    'minecraft:entity.warden.roar',
+    1,
+    0.7
+  )
+}
+
+function nexusHordePresentationPrepareFinisher(
+  player
+) {
+  var presentationState =
+    nexusHordePresentationFindStateForPlayer(
+      player
+    )
+
+  if (!presentationState) return false
+
+  presentationState.finisherPrepared = true
+  presentationState.finisherActive = false
+  presentationState.waveClearPresented = false
+  presentationState.bossbarDirty = true
+
+  return true
 }
 
 function nexusHordePresentationMarkWaveCleared(
@@ -1106,7 +1198,7 @@ function nexusHordePresentationShowVictory(player) {
 
   nexusHordePresentationBossbarSetName(
     presentationState,
-    '☠ EL NEXUS RESISTE',
+    'EL NEXUS RESISTE',
     'green'
   )
 
@@ -1151,12 +1243,6 @@ function nexusHordePresentationShowVictory(player) {
       nexusHordePresentationRunSilent(
         presentationState.server,
         `title ${presentationName} title ${nexusHordePresentationComponent('EL NEXUS RESISTE', 'gold', true)}`
-      )
-
-      nexusHordePresentationActionbar(
-        presentationRecipient,
-        'La Horda ha sido derrotada.',
-        'green'
       )
     }
   )
@@ -1209,9 +1295,22 @@ function nexusHordePresentationCreateState(
       nexusHordePresentationServerTick,
 
     era:
-      nexusHordePresentationCurrentEra(
-        player.getServer()
-      ),
+      presentationContext &&
+      Number(presentationContext.era) >= 1
+        ? Number(presentationContext.era)
+        : nexusHordePresentationCurrentEra(
+            player.getServer()
+          ),
+
+    threatDay:
+      presentationContext
+        ? Number(presentationContext.threatDay) || 0
+        : 0,
+
+    threatTier:
+      presentationContext
+        ? Number(presentationContext.threatTier) || 1
+        : 1,
 
     themeName:
       nexusHordePresentationCurrentTheme(
@@ -1244,7 +1343,11 @@ function nexusHordePresentationCreateState(
     lastSpawnAt: -1,
 
     waveClearPresented: false,
+    finisherPrepared: false,
+    finisherActive: false,
+    finisherPresented: false,
     victoryPresented: false,
+    cleanupAt: -1,
 
     alive: new Map()
   }
@@ -1369,6 +1472,20 @@ function nexusHordePresentationRefreshSpawnPhase(
 
 function nexusHordePresentationTickState(state) {
   try {
+    if (state.cleanupAt >= 0) {
+      if (
+        nexusHordePresentationServerTick >=
+        state.cleanupAt
+      ) {
+        nexusHordePresentationCleanup(
+          state,
+          state.server
+        )
+      }
+
+      return
+    }
+
     nexusHordePresentationBossbarRefreshPlayers(
       state
     )
@@ -1511,11 +1628,20 @@ ForgeEvents.onEvent(
     presentationWaveState.waveClearPresented = false
     presentationWaveState.bossbarDirty = true
 
-    presentationWaveState.currentWave =
-      Math.min(
-        presentationWaveState.totalWaves,
-        presentationWaveState.currentWave + 1
-      )
+    var presentationIsFinisher =
+      presentationWaveState.finisherPrepared
+
+    presentationWaveState.finisherPrepared = false
+    presentationWaveState.finisherActive =
+      presentationIsFinisher
+
+    if (!presentationIsFinisher) {
+      presentationWaveState.currentWave =
+        Math.min(
+          presentationWaveState.totalWaves,
+          presentationWaveState.currentWave + 1
+        )
+    }
 
     presentationWaveState.expectedWaveSize =
       Math.max(
@@ -1531,7 +1657,11 @@ ForgeEvents.onEvent(
 
     presentationWaveState.lastSpawnAt = -1
 
-    if (
+    if (presentationIsFinisher) {
+      nexusHordePresentationShowFinisher(
+        presentationWaveState
+      )
+    } else if (
       presentationWaveState.currentWave === 1
     ) {
       nexusHordePresentationShowStart(
@@ -1539,9 +1669,11 @@ ForgeEvents.onEvent(
       )
     }
 
-    nexusHordePresentationShowWaveAnnouncement(
-      presentationWaveState
-    )
+    if (!presentationIsFinisher) {
+      nexusHordePresentationShowWaveAnnouncement(
+        presentationWaveState
+      )
+    }
 
     nexusHordePresentationBossbarWave(
       presentationWaveState
@@ -1632,10 +1764,17 @@ ForgeEvents.onEvent(
       )
 
     if (presentationEndState) {
-      nexusHordePresentationCleanup(
-        presentationEndState,
-        presentationEndState.server
-      )
+      if (presentationEndState.victoryPresented) {
+        presentationEndState.alive.clear()
+        presentationEndState.bossbarDirty = false
+        presentationEndState.cleanupAt =
+          nexusHordePresentationServerTick + 90
+      } else {
+        nexusHordePresentationCleanup(
+          presentationEndState,
+          presentationEndState.server
+        )
+      }
     }
   }
 )
@@ -1726,6 +1865,9 @@ if (typeof global !== 'undefined') {
 
     showVictory:
       nexusHordePresentationShowVictory,
+
+    prepareFinisher:
+      nexusHordePresentationPrepareFinisher,
 
     cancel:
       nexusHordePresentationCancel

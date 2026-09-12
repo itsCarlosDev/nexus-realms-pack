@@ -9,8 +9,12 @@
 // Cualquier intento posterior se cancela por completo para evitar eventos
 // paralelos o una ejecucion parcial mediante selectores.
 
+var NexusHordeReentryIdentityHashMap =
+  Java.loadClass('java.util.IdentityHashMap')
+
 var nexusHordeReentryActivePlayers = new Set()
-var nexusHordeReentryEventOwners = new Map()
+var nexusHordeReentryEventOwners =
+  new NexusHordeReentryIdentityHashMap()
 var nexusHordeReentryLoggedErrors = new Set()
 
 function nexusHordeReentryLogErrorOnce(key, message, error) {
@@ -39,7 +43,6 @@ function nexusHordeReentryPlayerName(player) {
 }
 
 function nexusHordeReentrySameHorde(left, right) {
-  if (left === right) return true
   if (!left || !right) return false
 
   try {
@@ -50,24 +53,29 @@ function nexusHordeReentrySameHorde(left, right) {
 }
 
 function nexusHordeReentryOwnerForHorde(horde) {
-  var ownerId =
-    nexusHordeReentryEventOwners.get(horde)
+  var ownerId = ''
+  var ownerIterator =
+    nexusHordeReentryEventOwners
+      .entrySet()
+      .iterator()
 
-  if (ownerId) return ownerId
+  while (ownerIterator.hasNext()) {
+    var ownerEntry = ownerIterator.next()
+    var candidateHorde =
+      ownerEntry.getKey()
 
-  nexusHordeReentryEventOwners.forEach(
-    (candidateOwnerId, candidateHorde) => {
-      if (
-        !ownerId &&
-        nexusHordeReentrySameHorde(
-          candidateHorde,
-          horde
-        )
-      ) {
-        ownerId = candidateOwnerId
-      }
+    if (
+      nexusHordeReentrySameHorde(
+        candidateHorde,
+        horde
+      )
+    ) {
+      ownerId = String(
+        ownerEntry.getValue()
+      )
+      break
     }
-  )
+  }
 
   return ownerId
 }
@@ -311,7 +319,7 @@ ForgeEvents.onEvent(
       reentryPlayerId
     )
 
-    nexusHordeReentryEventOwners.set(
+    nexusHordeReentryEventOwners.put(
       event.getHorde(),
       reentryPlayerId
     )
@@ -338,25 +346,32 @@ ForgeEvents.onEvent(
       reentryOwnerId
     )
 
-    var reentryFinishedEvents = []
+    var reentryFinishedIterator =
+      nexusHordeReentryEventOwners
+        .entrySet()
+        .iterator()
 
-    nexusHordeReentryEventOwners.forEach(
-      (ownerId, horde) => {
-        if (
-          ownerId === reentryOwnerId ||
-          nexusHordeReentrySameHorde(
-            horde,
-            reentryHorde
-          )
-        ) {
-          reentryFinishedEvents.push(horde)
-        }
+    while (
+      reentryFinishedIterator.hasNext()
+    ) {
+      var reentryFinishedEntry =
+        reentryFinishedIterator.next()
+      var ownerId = String(
+        reentryFinishedEntry.getValue()
+      )
+      var horde =
+        reentryFinishedEntry.getKey()
+
+      if (
+        ownerId === reentryOwnerId ||
+        nexusHordeReentrySameHorde(
+          horde,
+          reentryHorde
+        )
+      ) {
+        reentryFinishedIterator.remove()
       }
-    )
-
-    reentryFinishedEvents.forEach(horde => {
-      nexusHordeReentryEventOwners.delete(horde)
-    })
+    }
   }
 )
 
@@ -383,19 +398,29 @@ if (typeof global !== 'undefined') {
         reentryPlayerId
       )
 
-      var reentryReleasedEvents = []
+      var reentryReleasedIterator =
+        nexusHordeReentryEventOwners
+          .entrySet()
+          .iterator()
 
-      nexusHordeReentryEventOwners.forEach(
-        (ownerId, horde) => {
-          if (ownerId === reentryPlayerId) {
-            reentryReleasedEvents.push(horde)
-          }
+      while (
+        reentryReleasedIterator.hasNext()
+      ) {
+        var reentryReleasedEntry =
+          reentryReleasedIterator.next()
+
+        var reentryReleasedOwnerId =
+          String(
+            reentryReleasedEntry.getValue()
+          )
+
+        if (
+          reentryReleasedOwnerId ===
+          reentryPlayerId
+        ) {
+          reentryReleasedIterator.remove()
         }
-      )
-
-      reentryReleasedEvents.forEach(horde => {
-        nexusHordeReentryEventOwners.delete(horde)
-      })
+      }
     }
   }
 }

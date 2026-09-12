@@ -18,6 +18,15 @@ const NEXUS_ERA_HORDE_CONFIRM_TIMEOUT_TICKS = 100
 const NEXUS_ERA_RECOVERY_DELAY_TICKS = 100
 const NEXUS_ERA_CONFIG_PATH = 'config/nexuscore/eras.json'
 
+const NEXUS_ERA_MAX_THREAT_DAY = 2147483647
+const NEXUS_ERA_HORDE_WAVE_OFFSETS = [-2, 0, 1, 2]
+const NEXUS_ERA_HORDE_WAVE_HARD_CAP = 24
+const NEXUS_ERA_FINISHER_TABLES = {
+  1: 'nexus:era1_finisher',
+  2: 'nexus:era2_finisher',
+  3: 'nexus:era3_finisher',
+  4: 'nexus:era4_finisher'
+}
 const NEXUS_ERA_HORDE_THEMES = {
   1: [
     {
@@ -171,6 +180,7 @@ function nexusEraLoadDefinitions() {
       Number(nexusEraConfiguredRequired)
 
     if (
+      typeof nexusEraConfiguredRequired === 'number' &&
       Number.isInteger(nexusEraConfiguredRequiredNumber) &&
       nexusEraConfiguredRequiredNumber >= 1 &&
       nexusEraConfiguredRequiredNumber <= 2147483647
@@ -407,6 +417,100 @@ function nexusEraTimeOfDay(server) {
   ) % NEXUS_ERA_DAY_LENGTH
 }
 
+function nexusEraNormalizeThreatDay(value) {
+  const numeric = Number(value)
+
+  if (!Number.isFinite(numeric)) return 0
+
+  return Math.max(
+    0,
+    Math.min(
+      NEXUS_ERA_MAX_THREAT_DAY,
+      Math.floor(numeric)
+    )
+  )
+}
+
+function nexusEraThreatProfile(day) {
+  const threatDay =
+    nexusEraNormalizeThreatDay(day)
+
+  if (threatDay < 30) {
+    return { day: threatDay, tier: 1, label: 'I', base: 12 }
+  }
+
+  if (threatDay < 60) {
+    return { day: threatDay, tier: 2, label: 'II', base: 14 }
+  }
+
+  if (threatDay < 90) {
+    return { day: threatDay, tier: 3, label: 'III', base: 16 }
+  }
+
+  if (threatDay < 120) {
+    return { day: threatDay, tier: 4, label: 'IV', base: 18 }
+  }
+
+  if (threatDay < 160) {
+    return { day: threatDay, tier: 5, label: 'V', base: 20 }
+  }
+
+  if (threatDay < 220) {
+    return { day: threatDay, tier: 6, label: 'VI', base: 21 }
+  }
+
+  return { day: threatDay, tier: 7, label: 'VII', base: 22 }
+}
+
+function nexusEraHordeWaveAmount(
+  threatDay,
+  participantCount,
+  wave
+) {
+  const profile =
+    nexusEraThreatProfile(threatDay)
+
+  const participants = Math.max(
+    0,
+    Math.floor(Number(participantCount) || 0)
+  )
+
+  const participantBonus = Math.min(
+    2,
+    Math.max(0, participants - 1)
+  )
+
+  const waveIndex = Math.max(
+    0,
+    Math.min(
+      NEXUS_ERA_HORDE_WAVE_OFFSETS.length - 1,
+      Math.floor(Number(wave) || 1) - 1
+    )
+  )
+
+  return Math.max(
+    1,
+    Math.min(
+      NEXUS_ERA_HORDE_WAVE_HARD_CAP,
+      profile.base +
+        participantBonus +
+        NEXUS_ERA_HORDE_WAVE_OFFSETS[waveIndex]
+    )
+  )
+}
+
+function nexusEraHordeWaveAmounts(
+  threatDay,
+  participantCount
+) {
+  return [1, 2, 3, 4].map(wave =>
+    nexusEraHordeWaveAmount(
+      threatDay,
+      participantCount,
+      wave
+    )
+  )
+}
 function nexusEraNormalizeProgression(data) {
   // Schema 1: conserva la Era y los hitos; el NBT temporal antiguo queda inerte.
   const era = data.getInt('nexusEra')
@@ -527,6 +631,65 @@ function nexusEraData(server) {
     )
   }
 
+  if (!data.contains('nexusHordeThreatDay')) {
+    data.putInt(
+      'nexusHordeThreatDay',
+      -1
+    )
+  }
+
+  if (!data.contains('nexusMaxHordeThreatDay')) {
+    data.putInt(
+      'nexusMaxHordeThreatDay',
+      -1
+    )
+  }
+
+  if (
+    data.getBoolean(
+      'nexusHordeActive'
+    )
+  ) {
+    const storedThreatDay =
+      data.getInt(
+        'nexusHordeThreatDay'
+      )
+
+    const storedMaxThreatDay =
+      data.getInt(
+        'nexusMaxHordeThreatDay'
+      )
+
+    const recoveredThreatDay = Math.max(
+      nexusEraNormalizeThreatDay(
+        storedThreatDay >= 0
+          ? storedThreatDay
+          : data.getInt(
+              'nexusHordeScheduledDay'
+            )
+      ),
+      storedMaxThreatDay >= 0
+        ? nexusEraNormalizeThreatDay(
+            storedMaxThreatDay
+          )
+        : 0
+    )
+
+    if (storedThreatDay !== recoveredThreatDay) {
+      data.putInt(
+        'nexusHordeThreatDay',
+        recoveredThreatDay
+      )
+    }
+
+    if (storedMaxThreatDay !== recoveredThreatDay) {
+      data.putInt(
+        'nexusMaxHordeThreatDay',
+        recoveredThreatDay
+      )
+    }
+  }
+
   if (!data.contains('nexusLastHordeTable')) {
     data.putString(
       'nexusLastHordeTable',
@@ -633,6 +796,10 @@ function nexusEraClearGlobalHorde(data) {
     0
   )
 
+  data.putInt(
+    'nexusHordeThreatDay',
+    -1
+  )
   data.putBoolean(
     'nexusHordeStartConfirmed',
     false
@@ -738,6 +905,10 @@ function nexusEraResetProduction(
     ''
   )
 
+  data.putInt(
+    'nexusMaxHordeThreatDay',
+    -1
+  )
   const history =
     syncHistoryStages(
       server,
@@ -885,6 +1056,70 @@ function nexusEraDescribe(server) {
       ? era + 1
       : -1
 
+  const eligibleOnline =
+    NexusProgressionData
+      .countEligibleOnlinePlayers(server)
+
+  const hordeActive =
+    data.getBoolean(
+      'nexusHordeActive'
+    )
+
+  const activeThreatDay =
+    data.getInt(
+      'nexusHordeThreatDay'
+    )
+
+  const maxThreatDay =
+    data.getInt(
+      'nexusMaxHordeThreatDay'
+    )
+
+  const diagnosticThreatDay =
+    hordeActive && activeThreatDay >= 0
+      ? activeThreatDay
+      : Math.max(
+          currentDay === null
+            ? 0
+            : nexusEraNormalizeThreatDay(
+                currentDay
+              ),
+          nexusEraNormalizeThreatDay(
+            maxThreatDay
+          )
+        )
+
+  const diagnosticThreat =
+    nexusEraThreatProfile(
+      diagnosticThreatDay
+    )
+
+  const diagnosticParticipants =
+    Math.max(
+      1,
+      hordeActive
+        ? data.getInt(
+            'nexusHordeParticipantCount'
+          )
+        : eligibleOnline
+    )
+
+  const diagnosticEra = Math.max(
+    NEXUS_ERA_MIN,
+    Math.min(
+      NEXUS_ERA_MAX,
+      hordeActive
+        ? data.getInt('nexusHordeEra')
+        : era
+    )
+  )
+
+  const diagnosticWaveAmounts =
+    nexusEraHordeWaveAmounts(
+      diagnosticThreat.day,
+      diagnosticParticipants
+    )
+
   return [
     `Era global: ${era} (${nexusEraName(era)})`,
 
@@ -892,7 +1127,7 @@ function nexusEraDescribe(server) {
 
     'Progresion global permanente',
 
-    `Jugadores elegibles: ${NexusProgressionData.countEligibleOnlinePlayers(server)} / ${NexusProgressionData.requiredOnlinePlayers()}`,
+    `Jugadores elegibles: ${eligibleOnline} / ${NexusProgressionData.requiredOnlinePlayers()}`,
 
     `Dia del mundo: ${
       currentDay === null
@@ -918,11 +1153,7 @@ function nexusEraDescribe(server) {
       )
     }`,
 
-    `Horda global activa: ${
-      data.getBoolean(
-        'nexusHordeActive'
-      )
-    }`,
+    `Horda global activa: ${hordeActive}`,
 
     `Tema activo: ${
       data.getString(
@@ -953,6 +1184,16 @@ function nexusEraDescribe(server) {
         'nexusHordeParticipantCount'
       )
     }`,
+
+    `Amenaza efectiva: nivel ${diagnosticThreat.label} (dia ${diagnosticThreat.day}, base ${diagnosticThreat.base})`,
+
+    `Dia de amenaza activo: ${nexusEraDayLabel(activeThreatDay, 'ninguno')}`,
+
+    `Maximo historico de amenaza: ${nexusEraDayLabel(maxThreatDay, 'ninguno')}`,
+
+    `Oleadas previstas (${diagnosticParticipants} participante(s)): ${diagnosticWaveAmounts.join(', ')}`,
+
+    `Manifestacion final: ${NEXUS_ERA_FINISHER_TABLES[diagnosticEra] || 'bloqueada hasta Era 1'}`,
 
     `Ultima recompensa: ${
       data.getString(
@@ -985,7 +1226,6 @@ function nexusEraDescribe(server) {
     `Siguiente era: ${nextEra < 0 ? 'completado' : nexusEraName(nextEra)}`
   ]
 }
-
 function nexusEraClearPending(data) {
   data.putInt(
     'nexusPendingEra',
@@ -1891,6 +2131,17 @@ function nexusEraClaimGlobalHorde(
   participants,
   theme
 ) {
+  const effectiveThreatDay = Math.max(
+    nexusEraNormalizeThreatDay(
+      currentDay
+    ),
+    nexusEraNormalizeThreatDay(
+      data.getInt(
+        'nexusMaxHordeThreatDay'
+      )
+    )
+  )
+
   data.putBoolean(
     'nexusHordeActive',
     true
@@ -1951,6 +2202,16 @@ function nexusEraClaimGlobalHorde(
     )
   )
 
+  data.putInt(
+    'nexusHordeThreatDay',
+    effectiveThreatDay
+  )
+
+  data.putInt(
+    'nexusMaxHordeThreatDay',
+    effectiveThreatDay
+  )
+
   data.putBoolean(
     'nexusHordeStartConfirmed',
     false
@@ -1961,7 +2222,6 @@ function nexusEraClaimGlobalHorde(
     ''
   )
 }
-
 function nexusEraStartFailed(
   server,
   data,
@@ -2648,15 +2908,63 @@ function nexusEraHordeContext(server) {
     return null
   }
 
+  const participantIds =
+    nexusEraParticipantIds(data)
+
+  const participantCount = Math.max(
+    1,
+    participantIds.length
+  )
+
+  const era = Math.max(
+    NEXUS_ERA_MIN,
+    Math.min(
+      NEXUS_ERA_MAX,
+      data.getInt('nexusHordeEra')
+    )
+  )
+
+  const threat =
+    nexusEraThreatProfile(
+      data.getInt(
+        'nexusHordeThreatDay'
+      )
+    )
+
   return {
     anchorId: data.getString(
       'nexusHordeAnchorUUID'
     ),
-    participantIds:
-      nexusEraParticipantIds(data)
+    participantIds: participantIds,
+    participantCount: participantCount,
+    era: era,
+    scheduledDay: data.getInt(
+      'nexusHordeScheduledDay'
+    ),
+    threatDay: threat.day,
+    maxThreatDay: nexusEraNormalizeThreatDay(
+      data.getInt(
+        'nexusMaxHordeThreatDay'
+      )
+    ),
+    threatTier: threat.tier,
+    threatLabel: threat.label,
+    baseWaveAmount: threat.base,
+    waveAmounts:
+      nexusEraHordeWaveAmounts(
+        threat.day,
+        participantCount
+      ),
+    table: data.getString(
+      'nexusHordeTable'
+    ),
+    theme: data.getString(
+      'nexusHordeTheme'
+    ),
+    finisherTable:
+      NEXUS_ERA_FINISHER_TABLES[era]
   }
 }
-
 // API llamada desde:
 // kubejs/startup_scripts/nexus_era_calendar_forge_bridge.js
 
@@ -2668,9 +2976,14 @@ global.NexusEraCalendar = {
     nexusEraBridgeOnHordeEnd,
 
   getHordeContext:
-    nexusEraHordeContext
-}
+    nexusEraHordeContext,
 
+  getThreatProfile:
+    nexusEraThreatProfile,
+
+  getWaveAmount:
+    nexusEraHordeWaveAmount
+}
 ServerEvents.commandRegistry(
   event => {
     const {

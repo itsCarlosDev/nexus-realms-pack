@@ -582,7 +582,7 @@ hash = "a3b9a27731c57319cd942ccf32d72db39ff4cd741e49db74fed897c41c40a44d"
 
 [[files]]
 file = "config/hordes-common.toml"
-hash = "15d316c750f89b8f665f9000f124e4668fcac4e07588971a653564af460e2e3f"
+hash = "34126ce88cbdd3260b3a5b9f104972ea51d40dd5744b24a278cd0355b923fd3f"
 
 [[files]]
 file = "config/hordes/data/hordes/horde_data/scripts/default.json"
@@ -590,55 +590,71 @@ hash = "582c4023dc321133bc0f4a7093042e939aa8f79f48b5c4485c7dfadcf8b58b99"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/biohazard_undead.json"
-hash = "2973e8c321d831b927a6a84c291dfdb6e018cb49ad94936bfd4324f8b3ec312b"
+hash = "7daeaa6deaece02356cee9084d9e506bb82489e74571d0fbdedfeaa13014eb21"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era1_bones.json"
-hash = "a6d090b27a76ac4d448450da5742cda48dd85c6957920c7312ca5b5afd4d5bae"
+hash = "6bc145b999aef3926b0439859181ad709467c474f3f61a91e21d042c93ab3820"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era1_decay.json"
-hash = "3dbafe23057a0ecb152a5175a3908bff7aad42b9a96eba3197a7b0a0eabd9360"
+hash = "a575f998ae798633daf7faf257a9718dcdd4d572c85090ea311183cb8626ace6"
+
+[[files]]
+file = "config/hordes/data/nexus/horde_data/tables/era1_finisher.json"
+hash = "979c62373eaa83bc3720e8d3015a11dfa0572ddc3d61ac0b4df304525acbb0c1"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era1_scavengers.json"
-hash = "4cc4f4a3158b5485d7c4c0935a2b23265da76d47f60f3bc2a311c6b08340e7b4"
+hash = "42f47ebee4398f3b561444025ecb01485330bd524715c1a8f17006b5d11f83ba"
+
+[[files]]
+file = "config/hordes/data/nexus/horde_data/tables/era2_finisher.json"
+hash = "21e442dd65f14a43473b785e5c8dbc20966e54f412474941b2ae1bf9ceeac5ea"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era2_hunt.json"
-hash = "a6d2a2e6cba4b7e7d5e3e332d5906cae9019309f01c78297cee959a073339741"
+hash = "7b220d562992957646809532b9d9b919926c920640a0dda9f1cc3db766c5791b"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era2_imps.json"
-hash = "152427dac3c97989f1a026ba28ffe0864eaa1f7c280351743695652af81a3f0e"
+hash = "b08c4a45ba0fc4693fab448938845b82f5ec7a37529e9564b92c426b11ee7d33"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era2_plague.json"
-hash = "b7489f83503e349170afb92faaa32894d13970f192717fd8f7144c583085dad2"
+hash = "c28efda68ad4e068ca61f45ad9ba60955f87e5f68a56e66ef48777a2e7184bb0"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era3_chaos.json"
-hash = "a487d391db24636b012ca371cb97a235c8782b90096b8f12fa045751ddc2e896"
+hash = "7fa656da5e9018375ad6f4ba6bfeacbf71b33ec3917cf4b653ea3dfbd5662432"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era3_cult.json"
-hash = "8763cacb3e18b980c4a640ebab6ab6bbe710a6274dfdbcd33ee33ae2fb90e8f0"
+hash = "b1c68d5ef48c406e3c0890ba57dcc5d77148dff5aef9ca7bf5310efbcdecc4d4"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era3_demons.json"
-hash = "8094f3a0a9e0e8934019596cbbd7570ff386b94fb08c1875ff9f9ea2aeba68cb"
+hash = "191d9152e66e1c216c9d4759cdf2a3f94f1a782a2db70f422a47b23355f0e248"
+
+[[files]]
+file = "config/hordes/data/nexus/horde_data/tables/era3_finisher.json"
+hash = "ea8f6dff7ffa19d0ac22adcc36174bf92ea2ebc8fabbf7e30c5c3633ffe81a58"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era4_apocalypse.json"
-hash = "9cf138193c97f96bb250bbd987c6ea56cf5c49706892053a7dbd24e5de44723e"
+hash = "216cc872453f7d50ba0c7dd5da660d536efe6d4d4e6ce334a7f70b0ad723523a"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era4_arcane.json"
-hash = "1f321e8e0fdc670a192c4326719e6270a6720afb5ced4a2ba83ac707d7cb0e44"
+hash = "9b9eccfc4f4d5ba9ab19d6579723311177740d432c8d0d65f75bb8577a347821"
+
+[[files]]
+file = "config/hordes/data/nexus/horde_data/tables/era4_finisher.json"
+hash = "6409900fcea0d3896da586aeb35f431ae2f34d6fa8fd6cee5b66b4f8d468f148"
 
 [[files]]
 file = "config/hordes/data/nexus/horde_data/tables/era4_infernal.json"
-hash = "965fdfaa4a4ceba1d8d6a99197b6a0298716c6800f587d18e8e05e323def8b57"
+hash = "cc006756018817f7a0812cacd9a8fe3f6a034baa3b93584d3bdcadb0bb9520cf"
 
 [[files]]
 file = "config/immersivedamageindicators-client.toml"
@@ -1610,7 +1626,7 @@ hash = "516720a8278e3fe0048c3ec9a2f332e2b6c03687efd69ba368bda4985ef9c87b"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_era_calendar.js"
-hash = "a7fe66e79abd33cc87f8e0a655f15f89b1393b13b8a9e72986e0c6a1d914e53b"
+hash = "2a1e7799023029fa5d25dc4688e960efac12baa1b413264f147e66479664ba10"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_export_entity_ids.js"
@@ -1666,15 +1682,15 @@ hash = "211da8a3f317447b2104b2dde04146414470fb9750acd22ef218a32c1f092761"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_director.js"
-hash = "ba7c344605dfb0dd085ff8317ab5eab09bc82fe22492d3fca927ce86a1c5aacb"
+hash = "03dee617c8bd5c15649c72446bf51f603e085a5104c7b5bad81abd3808c1aaaa"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_presentation.js"
-hash = "8d6f44095ed1fc95962abeb6d7dff7c3b1700a9a8207d4a42f056f55143e05ff"
+hash = "746e9cba87b9abb50530f10d17764e1c8e2fb5cf7eb467916f193abf9cf32c89"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_reentry_guard.js"
-hash = "e444142f8463f77f7c4dbd28921664c5f6416b22e89db3cdcd1ae8005aef0e07"
+hash = "885c706c76abf434445f15811dcd0440cf9da760a261a09babff451bf62a8e7a"
 
 [[files]]
 file = "mods/aaa-particles-world.pw.toml"
@@ -2522,8 +2538,8 @@ hash = "a72bec95393fd48173d67fac1772caeb9750e1f547c5757fbf1b3d78600cb0d2"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.44.jar"
-hash = "466e3f2945393c0db6519af4128c7b2b7e477a7dfb451b584b4a26fee18596d6"
+file = "mods/nexus-core-0.6.45.jar"
+hash = "1fac61ad980a35882fbfed08351bcb755c6b82886ecb8a1f95d057d2d4d2c5d3"
 
 [[files]]
 file = "mods/nightfall-invade.pw.toml"

@@ -2,25 +2,25 @@
   {
     "entity": "irons_spellbooks:cultist",
     "weight": 20,
-    "first_day": 0,
+    "first_day": 90,
     "last_day": 0
   },
   {
     "entity": "irons_spellbooks:magehunter_vindicator",
     "weight": 8,
-    "first_day": 0,
+    "first_day": 160,
     "last_day": 0
   },
   {
     "entity": "irons_spellbooks:catacombs_zombie",
     "weight": 30,
-    "first_day": 0,
+    "first_day": 30,
     "last_day": 0
   },
   {
     "entity": "undead_revamp2:thespitter",
     "weight": 5,
-    "first_day": 0,
+    "first_day": 120,
     "last_day": 0
   },
   {
@@ -32,7 +32,7 @@
   {
     "entity": "born_in_chaos_v1:bone_imp",
     "weight": 15,
-    "first_day": 0,
+    "first_day": 60,
     "last_day": 0
   }
 ]

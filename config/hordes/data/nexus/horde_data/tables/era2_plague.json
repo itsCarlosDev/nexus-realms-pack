@@ -2,13 +2,13 @@
   {
     "entity": "undead_revamp2:therabidus",
     "weight": 35,
-    "first_day": 0,
+    "first_day": 90,
     "last_day": 0
   },
   {
     "entity": "undead_revamp2:thespitter",
     "weight": 6,
-    "first_day": 0,
+    "first_day": 120,
     "last_day": 0
   },
   {
@@ -20,13 +20,13 @@
   {
     "entity": "born_in_chaos_v1:zombie_clown",
     "weight": 14,
-    "first_day": 0,
+    "first_day": 60,
     "last_day": 0
   },
   {
     "entity": "irons_spellbooks:catacombs_zombie",
     "weight": 20,
-    "first_day": 0,
+    "first_day": 30,
     "last_day": 0
   }
 ]

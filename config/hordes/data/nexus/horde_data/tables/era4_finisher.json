@@ -1,0 +1,32 @@
+[
+  {
+    "entity": "born_in_chaos_v1:fallen_chaos_knight",
+    "weight": 50,
+    "first_day": 0,
+    "last_day": 0
+  },
+  {
+    "entity": "irons_spellbooks:magehunter_vindicator",
+    "weight": 25,
+    "first_day": 60,
+    "last_day": 0
+  },
+  {
+    "entity": "irons_spellbooks:pyromancer",
+    "weight": 15,
+    "first_day": 90,
+    "last_day": 0
+  },
+  {
+    "entity": "irons_spellbooks:archevoker",
+    "weight": 8,
+    "first_day": 160,
+    "last_day": 0
+  },
+  {
+    "entity": "undead_revamp2:theheavy",
+    "weight": 2,
+    "first_day": 220,
+    "last_day": 0
+  }
+]
