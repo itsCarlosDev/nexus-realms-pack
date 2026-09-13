@@ -1630,7 +1630,7 @@ hash = "516720a8278e3fe0048c3ec9a2f332e2b6c03687efd69ba368bda4985ef9c87b"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_era_calendar.js"
-hash = "e15a0475bc6ac7b106a64d644e8ea5bd44bcee09aa201ebad55e3b7632091bd6"
+hash = "39d73838b486741fac4c42ec61a3673f7deaa998be5957f499414c2f85a8c6f4"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_export_entity_ids.js"
@@ -1682,15 +1682,15 @@ hash = "6bd40dde3f1bd0d3e06fe4dd057a83d90b4732587f18bbb4281f98d1ede6a203"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_era_calendar_forge_bridge.js"
-hash = "211da8a3f317447b2104b2dde04146414470fb9750acd22ef218a32c1f092761"
+hash = "c1dc4741de61284839cdbd8b38bde7f0566a1a7e9a9a0218918c7768d284cffc"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_director.js"
-hash = "c7a8e69668138475616d79c4fb01c65c59bfdcc58dac78b7a040142d8ce5722a"
+hash = "12edee55629bb4c1a0ff83e537589fb7a66bc36ed8870bb8f960c399c4262780"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_presentation.js"
-hash = "1e1de5cdc544b58c366f0f84283dc1cd9fec0a92c3d7f21a1bbdfe7b86e42352"
+hash = "9ffb965e3679a22cbba215667beb237107c291d313187e216ae0d7029b7f263a"
 
 [[files]]
 file = "kubejs/startup_scripts/nexus_horde_reentry_guard.js"
@@ -2542,8 +2542,8 @@ hash = "a72bec95393fd48173d67fac1772caeb9750e1f547c5757fbf1b3d78600cb0d2"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.47.jar"
-hash = "0526b6146d2cf789b08475e45c13b8eba2a6157bfa01203fdfc5d9ff68eed3ce"
+file = "mods/nexus-core-0.6.48.jar"
+hash = "ebeea83315c1943963dbd9e186ccc6a0e45d7cda36b79bf39e2cae1819c3393c"
 
 [[files]]
 file = "mods/nightfall-invade.pw.toml"

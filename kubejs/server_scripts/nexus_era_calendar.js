@@ -16,6 +16,7 @@ const NEXUS_ERA_CHECK_INTERVAL = 20
 const NEXUS_ERA_PARTICIPANT_RADIUS_SQR = 128 * 128
 const NEXUS_ERA_HORDE_CONFIRM_TIMEOUT_TICKS = 100
 const NEXUS_ERA_RECOVERY_DELAY_TICKS = 100
+const NEXUS_ERA_RECOVERY_TIMEOUT_TICKS = 600
 const NEXUS_ERA_CONFIG_PATH = 'config/nexuscore/eras.json'
 
 const NEXUS_ERA_MAX_THREAT_DAY = 2147483647
@@ -141,6 +142,8 @@ let nexusEraLoggedStartFailureDay = -1
 let nexusEraPendingStart = null
 let nexusEraRecoveryPending = false
 let nexusEraRecoveryAtTick = -1
+let nexusEraRecoveryDeadlineTick = -1
+let nexusEraAuthorizedCompletionSession = ''
 
 const nexusEraObservedNativeHordes = new Map()
 const nexusEraLoggedErrors = new Set()
@@ -751,6 +754,7 @@ function nexusEraData(server) {
 }
 
 function nexusEraClearGlobalHorde(data) {
+  nexusEraAuthorizedCompletionSession = ''
   data.putBoolean(
     'nexusHordeActive',
     false
@@ -804,6 +808,12 @@ function nexusEraClearGlobalHorde(data) {
     'nexusHordeStartConfirmed',
     false
   )
+
+  data.putString('nexusHordeSessionId', '')
+  data.putString('nexusHordeBattleDimension', '')
+  data.putString('nexusHordeBattleX', '')
+  data.putString('nexusHordeBattleY', '')
+  data.putString('nexusHordeBattleZ', '')
 }
 
 function nexusEraResetProduction(
@@ -834,6 +844,8 @@ function nexusEraResetProduction(
   nexusEraPendingStart = null
   nexusEraRecoveryPending = false
   nexusEraRecoveryAtTick = -1
+  nexusEraRecoveryDeadlineTick = -1
+  nexusEraAuthorizedCompletionSession = ''
   nexusEraLoggedStartFailureDay = -1
   nexusEraHistoryStagesLoadSyncAtTick = -1
 
@@ -904,6 +916,9 @@ function nexusEraResetProduction(
     'nexusHordeLastFailureReason',
     ''
   )
+
+  data.putString('nexusHordeRewardCommittedSession', '')
+  data.putString('nexusHordeQuarantinedOwnerUUIDs', '[]')
 
   data.putInt(
     'nexusMaxHordeThreatDay',
@@ -1925,6 +1940,12 @@ function nexusEraRewardHordeParticipants(
   data,
   anchor
 ) {
+  const battleDimension = data.getString(
+    'nexusHordeBattleDimension'
+  )
+  const battleX = Number(data.getString('nexusHordeBattleX'))
+  const battleY = Number(data.getString('nexusHordeBattleY'))
+  const battleZ = Number(data.getString('nexusHordeBattleZ'))
   const era =
     Math.max(
       1,
@@ -1978,17 +1999,13 @@ function nexusEraRewardHordeParticipants(
           return
         }
 
+        const dx = Number(participant.getX()) - battleX
+        const dy = Number(participant.getY()) - battleY
+        const dz = Number(participant.getZ()) - battleZ
+
         if (
-          nexusEraDimensionId(
-            participant.level
-          ) !==
-          nexusEraDimensionId(
-            anchor.level
-          ) ||
-          anchor.distanceToSqr(
-            participant
-          ) >
-          NEXUS_ERA_PARTICIPANT_RADIUS_SQR
+          nexusEraDimensionId(participant.level) !== battleDimension ||
+          dx * dx + dy * dy + dz * dz > NEXUS_ERA_PARTICIPANT_RADIUS_SQR
         ) {
           skipped.push(
             `${participantId}:far`
@@ -2137,6 +2154,40 @@ function nexusEraCleanupAuxiliaryState(
   }
 }
 
+function nexusEraHordeBossbarRemove(server, playerId) {
+  if (!server || !playerId) return
+  try {
+    const safeId = String(playerId).replace(/-/g, '')
+    server.runCommandSilent(`bossbar remove nexus:horde_${safeId}`)
+  } catch (ignored) {
+    // A missing bossbar is already clean.
+  }
+}
+
+function nexusEraQuarantinedOwners(data) {
+  try {
+    const parsed = JSON.parse(data.getString('nexusHordeQuarantinedOwnerUUIDs') || '[]')
+    return Array.isArray(parsed) ? parsed.map(String) : []
+  } catch (ignored) {
+    return []
+  }
+}
+
+function nexusEraQuarantineOwner(data, playerId) {
+  const owners = nexusEraQuarantinedOwners(data)
+  const id = String(playerId || '')
+  if (id && !owners.includes(id)) owners.push(id)
+  data.putString('nexusHordeQuarantinedOwnerUUIDs', JSON.stringify(owners))
+}
+
+function nexusEraReleaseQuarantinedOwner(data, playerId) {
+  const id = String(playerId || '')
+  data.putString(
+    'nexusHordeQuarantinedOwnerUUIDs',
+    JSON.stringify(nexusEraQuarantinedOwners(data).filter(ownerId => ownerId !== id))
+  )
+}
+
 function nexusEraClaimGlobalHorde(
   data,
   anchor,
@@ -2144,6 +2195,9 @@ function nexusEraClaimGlobalHorde(
   participants,
   theme
 ) {
+  const sessionId =
+    `${currentDay}-${nexusEraServerTicks}-${String(anchor.uuid)}`
+
   const effectiveThreatDay = Math.max(
     nexusEraNormalizeThreatDay(
       currentDay
@@ -2159,6 +2213,15 @@ function nexusEraClaimGlobalHorde(
     'nexusHordeActive',
     true
   )
+
+  data.putString('nexusHordeSessionId', sessionId)
+  data.putString(
+    'nexusHordeBattleDimension',
+    nexusEraDimensionId(anchor.level)
+  )
+  data.putString('nexusHordeBattleX', String(Number(anchor.getX())))
+  data.putString('nexusHordeBattleY', String(Number(anchor.getY())))
+  data.putString('nexusHordeBattleZ', String(Number(anchor.getZ())))
 
   data.putString(
     'nexusHordeAnchorUUID',
@@ -2445,7 +2508,8 @@ function nexusEraValidatePendingStart(
 
 function nexusEraCompleteHorde(
   player,
-  expectedAnchorId
+  expectedAnchorId,
+  expectedSessionId
 ) {
   if (!player) return false
 
@@ -2458,7 +2522,10 @@ function nexusEraCompleteHorde(
   const playerId = String(player.uuid)
   const anchorId = expectedAnchorId
     ? String(expectedAnchorId)
-    : playerId
+    : data.getString('nexusHordeAnchorUUID')
+  const sessionId = expectedSessionId
+    ? String(expectedSessionId)
+    : nexusEraAuthorizedCompletionSession
 
   if (
     !data.getBoolean(
@@ -2471,7 +2538,17 @@ function nexusEraCompleteHorde(
   if (
     data.getString(
       'nexusHordeAnchorUUID'
-    ) !== anchorId
+    ) !== anchorId ||
+    playerId !== anchorId
+  ) {
+    return false
+  }
+
+  if (
+    !sessionId ||
+    data.getString('nexusHordeSessionId') !== sessionId ||
+    data.getString('nexusHordeRewardCommittedSession') === sessionId ||
+    nexusEraAuthorizedCompletionSession !== sessionId
   ) {
     return false
   }
@@ -2500,21 +2577,34 @@ function nexusEraCompleteHorde(
     anchorId
   )
 
-  const rewardResult =
-    nexusEraRewardHordeParticipants(
-      server,
-      data,
-      player
-    )
+  // Commit before issuing give commands: a repeated callback can never pay twice.
+  data.putString('nexusHordeRewardCommittedSession', sessionId)
+  nexusEraAuthorizedCompletionSession = ''
 
   const completedTheme =
     data.getString(
       'nexusHordeTheme'
     )
 
-  nexusEraClearGlobalHorde(
-    data
-  )
+  let rewardResult = { rewarded: [], skipped: [] }
+  try {
+    rewardResult = nexusEraRewardHordeParticipants(
+      server,
+      data,
+      player
+    )
+  } catch (error) {
+    data.putString('nexusHordeLastFailureReason', 'reward_delivery_error')
+    nexusEraLogErrorOnce(
+      `reward:${sessionId}:${String(error)}`,
+      `[Nexus Horde] La sesión ${sessionId.slice(0, 12)} cerró con un fallo no reintentable al entregar recompensas.`,
+      error
+    )
+  } finally {
+    // The session was already committed. Always release the global calendar
+    // lock; retrying commands here could duplicate a partially paid reward.
+    nexusEraClearGlobalHorde(data)
+  }
 
   console.info(
     `[Nexus Horde] Evento completado en el dia ${completedDay}; ` +
@@ -2734,40 +2824,23 @@ function nexusEraReconcilePersistedHorde(
   ) {
     nexusEraRecoveryPending = false
     nexusEraRecoveryAtTick = -1
+    nexusEraRecoveryDeadlineTick = -1
     return
   }
 
-  const player =
-    nexusEraFindOnlinePlayer(
-      server,
-      data.getString(
-        'nexusHordeAnchorUUID'
-      )
-    )
+  const anchorId = data.getString('nexusHordeAnchorUUID')
+  const player = nexusEraFindOnlinePlayer(server, anchorId)
 
-  if (!player) {
-    return
-  }
-
-  const playerName =
-    String(
-      player
-        .getGameProfile()
-        .getName()
-    )
+  if (!player && nexusEraServerTicks < nexusEraRecoveryDeadlineTick) return
 
   let commandResult = 0
 
-  if (
-    data.getBoolean(
-      'nexusHordeStartConfirmed'
-    )
-  ) {
+  if (player && data.getBoolean('nexusHordeStartConfirmed')) {
     try {
       commandResult =
         Number(
           server.runCommandSilent(
-            `hordes stop ${playerName}`
+            `hordes stop ${String(player.getGameProfile().getName())}`
           )
         )
     } catch (error) {
@@ -2779,32 +2852,29 @@ function nexusEraReconcilePersistedHorde(
     }
   }
 
-  if (
-    data.getBoolean(
-      'nexusHordeActive'
-    )
-  ) {
-    nexusEraCleanupAuxiliaryState(
-      player
-    )
-
-    nexusEraReprogramNextMidnight(
-      server,
-      data
-    )
+  if (!player && data.getBoolean('nexusHordeStartConfirmed')) {
+    nexusEraQuarantineOwner(data, anchorId)
   }
 
+  if (player) nexusEraCleanupAuxiliaryState(player)
+
+  nexusEraReprogramNextMidnight(server, data)
+
+  nexusEraHordeBossbarRemove(server, anchorId)
+
   nexusEraObservedNativeHordes.delete(
-    String(player.uuid)
+    anchorId
   )
 
   nexusEraPendingStart = null
   nexusEraRecoveryPending = false
   nexusEraRecoveryAtTick = -1
+  nexusEraRecoveryDeadlineTick = -1
+  nexusEraAuthorizedCompletionSession = ''
 
   console.warn(
     `[Nexus Horde] Horda persistida cancelada y reprogramada tras reinicio; ` +
-    `commandResult=${commandResult}.`
+    `ownerOnline=${Boolean(player)} commandResult=${commandResult}.`
   )
 }
 
@@ -2820,16 +2890,28 @@ function nexusEraBridgeOnHordeStart(
   const horde =
     event.getHorde()
 
-  nexusEraObservedNativeHordes.set(
-    playerId,
-    horde
-  )
+  let nativeTable = ''
+  try {
+    nativeTable = String(horde.getSpawnTable().getName())
+  } catch (error) {
+    nexusEraLogErrorOnce(
+      `start-table:${playerId}:${String(error)}`,
+      '[Nexus Horde] No se pudo correlacionar la tabla del evento nativo.',
+      error
+    )
+  }
 
   if (
     nexusEraPendingStart &&
     nexusEraPendingStart.playerId ===
-    playerId
+    playerId &&
+    nativeTable === nexusEraData(player.getServer()).getString('nexusHordeTable')
   ) {
+    nexusEraObservedNativeHordes.set(
+      playerId,
+      horde
+    )
+
     nexusEraPendingStart.eventObserved =
       true
 
@@ -2871,11 +2953,8 @@ function nexusEraBridgeOnHordeEnd(
     )
 
   if (
-    anchorId !== playerId &&
-    !nexusEraSameNativeHorde(
-      observedHorde,
-      event.getHorde()
-    )
+    anchorId !== playerId ||
+    !nexusEraSameNativeHorde(observedHorde, event.getHorde())
   ) {
     return
   }
@@ -2901,10 +2980,90 @@ function nexusEraBridgeOnHordeEnd(
       'no cuenta como completada.'
     )
   } else {
-    nexusEraCompleteHorde(
+    const sessionId = data.getString('nexusHordeSessionId')
+    if (!nexusEraCompleteHorde(
       player,
-      anchorId
+      anchorId,
+      sessionId
+    )) {
+      // Any native end that was not explicitly authorized by the Director is
+      // an abort, never a victory, and must not leave the calendar deadlocked.
+      nexusEraAbortSession(
+        server,
+        sessionId,
+        anchorId,
+        'unauthorized_native_end'
+      )
+    }
+  }
+}
+
+function nexusEraOwnsHorde(horde, player) {
+  if (!horde || !player) return false
+  const observed = nexusEraObservedNativeHordes.get(String(player.uuid))
+  return nexusEraSameNativeHorde(observed, horde)
+}
+
+function nexusEraAuthorizeCompletion(horde, player, sessionId) {
+  if (!nexusEraOwnsHorde(horde, player)) return false
+  const data = nexusEraData(player.getServer())
+  const expected = data.getString('nexusHordeSessionId')
+  if (!data.getBoolean('nexusHordeActive')
+      || data.getString('nexusHordeAnchorUUID') !== String(player.uuid)
+      || !expected
+      || expected !== String(sessionId)
+      || data.getString('nexusHordeRewardCommittedSession') === expected) return false
+  nexusEraAuthorizedCompletionSession = expected
+  return true
+}
+
+function nexusEraRevokeCompletion(sessionId) {
+  if (nexusEraAuthorizedCompletionSession === String(sessionId)) {
+    nexusEraAuthorizedCompletionSession = ''
+  }
+}
+
+function nexusEraAbortSession(server, sessionId, ownerId, reason) {
+  if (!server) return false
+  const data = nexusEraData(server)
+  if (!data.getBoolean('nexusHordeActive')
+      || data.getString('nexusHordeSessionId') !== String(sessionId)
+      || data.getString('nexusHordeAnchorUUID') !== String(ownerId)) return false
+  nexusEraAuthorizedCompletionSession = ''
+  nexusEraObservedNativeHordes.delete(String(ownerId))
+  data.putString('nexusHordeLastFailureReason', String(reason || 'director_abort'))
+  const owner = nexusEraFindOnlinePlayer(server, String(ownerId))
+  if (owner) nexusEraCleanupAuxiliaryState(owner)
+  else if (data.getBoolean('nexusHordeStartConfirmed')) {
+    nexusEraQuarantineOwner(data, ownerId)
+  }
+  nexusEraHordeBossbarRemove(server, ownerId)
+  nexusEraPendingStart = null
+  nexusEraReprogramNextMidnight(server, data)
+  console.warn(
+    `[Nexus Horde] session=${String(sessionId).slice(0, 12)} abortada sin recompensa; reason=${reason}.`
+  )
+  return true
+}
+
+function nexusEraOnPlayerLogin(player) {
+  if (!player) return false
+  const data = nexusEraData(player.getServer())
+  const playerId = String(player.uuid)
+  if (!nexusEraQuarantinedOwners(data).includes(playerId)) return false
+  try {
+    const bridge = Java.loadClass('dev.itscarlos.nexuscore.horde.HordeNativeBridge')
+    const stopped = Boolean(bridge.stopActiveEvent(player))
+    nexusEraReleaseQuarantinedOwner(data, playerId)
+    console.warn(`[Nexus Horde] owner en cuarentena saneado ${playerId}; nativeStopped=${stopped}.`)
+    return true
+  } catch (error) {
+    nexusEraLogErrorOnce(
+      `quarantine:${playerId}:${String(error)}`,
+      `[Nexus Horde] No se pudo sanear el owner en cuarentena ${playerId}.`,
+      error
     )
+    return false
   }
 }
 
@@ -2945,9 +3104,16 @@ function nexusEraHordeContext(server) {
     )
 
   return {
+    sessionId: data.getString('nexusHordeSessionId'),
     anchorId: data.getString(
       'nexusHordeAnchorUUID'
     ),
+    battleCenter: {
+      dimensionId: data.getString('nexusHordeBattleDimension'),
+      x: Number(data.getString('nexusHordeBattleX')),
+      y: Number(data.getString('nexusHordeBattleY')),
+      z: Number(data.getString('nexusHordeBattleZ'))
+    },
     participantIds: participantIds,
     participantCount: participantCount,
     era: era,
@@ -2978,6 +3144,10 @@ function nexusEraHordeContext(server) {
       NEXUS_ERA_FINISHER_TABLES[era]
   }
 }
+
+function nexusEraHordeIsActive(server) {
+  return Boolean(server && nexusEraData(server).getBoolean('nexusHordeActive'))
+}
 // API llamada desde:
 // kubejs/startup_scripts/nexus_era_calendar_forge_bridge.js
 
@@ -2990,6 +3160,24 @@ global.NexusEraCalendar = {
 
   getHordeContext:
     nexusEraHordeContext,
+
+  isHordeActive:
+    nexusEraHordeIsActive,
+
+  ownsHorde:
+    nexusEraOwnsHorde,
+
+  authorizeCompletion:
+    nexusEraAuthorizeCompletion,
+
+  revokeCompletion:
+    nexusEraRevokeCompletion,
+
+  abortSession:
+    nexusEraAbortSession,
+
+  onPlayerLogin:
+    nexusEraOnPlayerLogin,
 
   getThreatProfile:
     nexusEraThreatProfile,
@@ -3336,9 +3524,13 @@ ServerEvents.loaded(event => {
       nexusEraServerTicks +
       NEXUS_ERA_RECOVERY_DELAY_TICKS
 
+    nexusEraRecoveryDeadlineTick =
+      nexusEraServerTicks +
+      NEXUS_ERA_RECOVERY_TIMEOUT_TICKS
+
     console.warn(
       '[Nexus Horde] Horda persistida detectada; ' +
-      'se cancelara y reprogramara cuando el anchor este conectado.'
+      'se cancelara y reprogramara con recuperacion finita.'
     )
   }
 })

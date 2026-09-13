@@ -1,20 +1,17 @@
-// Nexus Realms - director kill-gated sobre el evento base de The Hordes.
-// The Hordes conserva el spawning (spawnWave), el HordeEndEvent y sus comandos finales.
-// El director decide cuando lanzar las cuatro oleadas, genera una manifestacion
-// final por el pipeline nativo y solo finaliza tras confirmar su muerte.
-
+// Nexus owns progression; The Hordes remains the native spawning/pathfinding engine.
 const NEXUS_HORDE_DIRECTOR_TOTAL_WAVES = 4
 const NEXUS_HORDE_DIRECTOR_PREPARATION_TICKS = 200
-const NEXUS_HORDE_DIRECTOR_SPAWN_SETTLE_TICKS = 20
-const NEXUS_HORDE_DIRECTOR_ZERO_CONFIRM_TICKS = 10
 const NEXUS_HORDE_DIRECTOR_INTERMISSION_TICKS = 60
 const NEXUS_HORDE_DIRECTOR_UPDATE_INTERVAL = 5
-const NEXUS_HORDE_DIRECTOR_UNLOADED_TIMEOUT_TICKS = 2400
-const NEXUS_HORDE_DIRECTOR_EMPTY_WAVE_WARNING_TICKS = 200
-const NEXUS_HORDE_DIRECTOR_MAX_LAUNCH_FAILURES = 3
-const NEXUS_HORDE_DIRECTOR_MAX_FINISHER_ATTEMPTS = 3
-const NEXUS_HORDE_DIRECTOR_FINISHER_RETRY_TICKS = 200
 const NEXUS_HORDE_DIRECTOR_TARGET_RECONCILE_TICKS = 20
+const NEXUS_HORDE_DIRECTOR_UNLOADED_TIMEOUT_TICKS = 2400
+const NEXUS_HORDE_DIRECTOR_ABANDON_TICKS = 6000
+const NEXUS_HORDE_DIRECTOR_JOIN_GRACE_TICKS = 5
+const NEXUS_HORDE_DIRECTOR_REMOVAL_GRACE_TICKS = 10
+const NEXUS_HORDE_DIRECTOR_MAX_RECOVERY_ATTEMPTS = 12
+const NEXUS_HORDE_DIRECTOR_MAX_FINISHER_ATTEMPTS = 3
+const NEXUS_HORDE_DIRECTOR_RECOVERY_RETRY_TICKS = 100
+const NEXUS_HORDE_DIRECTOR_BATTLE_RADIUS_SQR = 16384
 
 const nexusHordeDirectorStates = new Map()
 const nexusHordeDirectorEntityOwners = new Map()
@@ -22,72 +19,37 @@ const nexusHordeDirectorLoggedErrors = new Set()
 let nexusHordeDirectorServerTick = 0
 var nexusHordeDirectorTargetingClass = null
 var nexusHordeDirectorNativeBridgeClass = null
-var nexusHordeDirectorRegistriesClass = null
+var nexusHordeDirectorBlockPosClass = null
+
+function nexusHordeDirectorLogErrorOnce(key, message, error) {
+  if (nexusHordeDirectorLoggedErrors.has(key)) return
+  nexusHordeDirectorLoggedErrors.add(key)
+  console.error(message)
+  if (error) console.error(error)
+}
 
 try {
   nexusHordeDirectorTargetingClass = Java.loadClass(
     'dev.itscarlos.nexuscore.horde.HordeTargeting'
   )
-} catch (error) {
-  console.error(
-    'Nexus Horde Director: Nexus Core no expone HordeTargeting.'
+  nexusHordeDirectorNativeBridgeClass = Java.loadClass(
+    'dev.itscarlos.nexuscore.horde.HordeNativeBridge'
   )
-  console.error(error)
-}
-
-function nexusHordeDirectorLogErrorOnce(key, message, error) {
-  if (nexusHordeDirectorLoggedErrors.has(key)) return
-
-  nexusHordeDirectorLoggedErrors.add(key)
-  console.error(message)
-
-  if (error) {
-    console.error(error)
+  nexusHordeDirectorBlockPosClass = Java.loadClass(
+    'net.minecraft.core.BlockPos'
+  )
+  if (!nexusHordeDirectorNativeBridgeClass.isAvailable()) {
+    throw new Error(String(nexusHordeDirectorNativeBridgeClass.getInitializationError()))
   }
-}
-
-try {
-  nexusHordeDirectorRegistriesClass = Java.loadClass(
-    'net.minecraft.core.registries.BuiltInRegistries'
-  )
 } catch (error) {
-  console.error(
-    'Nexus Horde Director: no se pudo cargar BuiltInRegistries para diagnostico.'
+  nexusHordeDirectorTargetingClass = null
+  nexusHordeDirectorNativeBridgeClass = null
+  nexusHordeDirectorLogErrorOnce(
+    `bootstrap:${String(error)}`,
+    'Nexus Horde Director: helpers de Nexus Core no disponibles.',
+    error
   )
-  console.error(error)
 }
-
-function nexusHordeDirectorLoadNativeBridge() {
-  try {
-    var directorBridgeClass =
-      Java.loadClass(
-        'dev.itscarlos.nexuscore.horde.HordeNativeBridge'
-      )
-
-    if (!directorBridgeClass.isAvailable()) {
-      throw new Error(
-        'HordeNativeBridge no disponible: ' +
-        String(
-          directorBridgeClass
-            .getInitializationError()
-        )
-      )
-    }
-
-    nexusHordeDirectorNativeBridgeClass =
-      directorBridgeClass
-  } catch (error) {
-    nexusHordeDirectorNativeBridgeClass = null
-
-    nexusHordeDirectorLogErrorOnce(
-      `native-bridge:${String(error)}`,
-      'Nexus Horde Director: Nexus Core no expone un HordeNativeBridge valido.',
-      error
-    )
-  }
-}
-
-nexusHordeDirectorLoadNativeBridge()
 
 function nexusHordeDirectorPlayerId(player) {
   return String(player.uuid)
@@ -97,1573 +59,791 @@ function nexusHordeDirectorEntityId(entity) {
   return String(entity.uuid)
 }
 
-function nexusHordeDirectorSafeId(value) {
-  return String(value).replace(/-/g, '')
-}
-
-function nexusHordeDirectorEntityType(entity) {
-  if (!entity || !nexusHordeDirectorRegistriesClass) {
-    return 'unknown'
-  }
-
+function nexusHordeDirectorDimensionId(level) {
+  if (!level) return ''
+  var value = ''
   try {
-    return String(
-      nexusHordeDirectorRegistriesClass.ENTITY_TYPE.getKey(
-        entity.getType()
-      )
-    )
-  } catch (ignored) {
-    return 'unknown'
-  }
-}
-
-function nexusHordeDirectorRemovalReason(entity) {
-  try {
-    var directorRemovalReason =
-      entity.getRemovalReason()
-
-    return directorRemovalReason
-      ? String(directorRemovalReason)
-      : 'none'
-  } catch (ignored) {
-    return 'unknown'
-  }
-}
-
-function nexusHordeDirectorAliveState(entity) {
-  try {
-    return String(Boolean(entity.isAlive()))
-  } catch (ignored) {
-    return 'unknown'
-  }
-}
-
-function nexusHordeDirectorDamageDetails(source) {
-  if (!source) return 'damage=unknown'
-
-  var directorDamageId = 'unknown'
-  var directorCauser = null
-
-  try {
-    directorDamageId = String(source.getMsgId())
-  } catch (ignored) {
-    // El ID compacto puede no estar disponible en una fuente modded.
-  }
-
-  try {
-    directorCauser = source.getEntity()
-  } catch (ignored) {
-    // No todas las fuentes tienen una entidad causante.
-  }
-
-  if (!directorCauser) {
-    return `damage=${directorDamageId}`
-  }
-
-  return (
-    `damage=${directorDamageId} ` +
-    `causerType=${nexusHordeDirectorEntityType(directorCauser)} ` +
-    `causerUuid=${nexusHordeDirectorEntityId(directorCauser)}`
-  )
-}
-
-function nexusHordeDirectorLifecycle(
-  state,
-  record,
-  eventName,
-  details
-) {
-  if (!state || !record) return
-
-  var directorPhase = record.phase || state.phase
-  var directorWave = directorPhase === 'wave'
-    ? record.wave
-    : '-'
-
-  console.info(
-    `[Nexus Horde Lifecycle] event=${eventName} ` +
-    `phase=${directorPhase} wave=${directorWave} ` +
-    `type=${record.entityType} uuid=${record.entityId}` +
-    (details ? ` ${details}` : '')
-  )
-}
-
-function nexusHordeDirectorPresentationApi() {
-  if (typeof global === 'undefined') return null
-
-  return global.NexusHordePresentation || null
-}
-
-function nexusHordeDirectorContext(server) {
-  try {
-    if (
-      global.NexusEraCalendar &&
-      typeof global.NexusEraCalendar.getHordeContext ===
-        'function'
-    ) {
-      return global.NexusEraCalendar.getHordeContext(
-        server
-      )
+    var dimension = typeof level.dimension === 'function'
+      ? level.dimension()
+      : level.dimension
+    if (dimension && typeof dimension.location === 'function') {
+      return String(dimension.location())
     }
-  } catch (error) {
-    nexusHordeDirectorLogErrorOnce(
-      `context:${String(error)}`,
-      'Nexus Horde Director: no se pudo leer el contexto global.',
-      error
-    )
+    value = String(dimension)
+  } catch (ignored) {
+    try { value = String(level.dimension) } catch (ignoredAgain) { return '' }
   }
-
-  return null
+  var separator = value.lastIndexOf(' / ')
+  if (separator < 0) return value
+  var parsed = value.substring(separator + 3)
+  return parsed.endsWith(']') ? parsed.substring(0, parsed.length - 1) : parsed
 }
 
 function nexusHordeDirectorSameHorde(left, right) {
   if (left === right) return true
   if (!left || !right) return false
+  try { return Boolean(left.equals(right)) } catch (ignored) { return false }
+}
 
-  try {
-    return left.equals(right)
-  } catch (ignored) {
-    return false
-  }
+function nexusHordeDirectorCalendar() {
+  return typeof global !== 'undefined' ? global.NexusEraCalendar || null : null
+}
+
+function nexusHordeDirectorPresentation() {
+  return typeof global !== 'undefined' ? global.NexusHordePresentation || null : null
+}
+
+function nexusHordeDirectorContextFor(event) {
+  var player = event.getPlayer()
+  var calendar = nexusHordeDirectorCalendar()
+  if (!calendar || typeof calendar.getHordeContext !== 'function'
+      || typeof calendar.ownsHorde !== 'function') return null
+  // Make correlation independent of Forge listener registration order.
+  if (typeof calendar.onHordeStart === 'function') calendar.onHordeStart(event)
+  var context = calendar.getHordeContext(player.getServer())
+  if (!context || !calendar.ownsHorde(event.getHorde(), player)) return null
+  if (String(context.anchorId) !== nexusHordeDirectorPlayerId(player)) return null
+  if (!context.sessionId || !context.battleCenter) return null
+  return context
 }
 
 function nexusHordeDirectorFindStateByHorde(horde) {
-  var directorFoundState = null
-
-  nexusHordeDirectorStates.forEach(directorState => {
-    if (
-      !directorFoundState &&
-      nexusHordeDirectorSameHorde(
-        directorState.horde,
-        horde
-      )
-    ) {
-      directorFoundState = directorState
-    }
+  var found = null
+  nexusHordeDirectorStates.forEach(state => {
+    if (!found && nexusHordeDirectorSameHorde(state.horde, horde)) found = state
   })
-
-  return directorFoundState
+  return found
 }
 
-function nexusHordeDirectorIsValidParticipant(
-  state,
-  player
-) {
-  if (!player) return false
-
-  var directorPlayerId =
-    nexusHordeDirectorPlayerId(player)
-
-  if (
-    !state.participantIds.includes(
-      directorPlayerId
-    )
-  ) {
-    return false
-  }
-
-  try {
-    return (
-      player.isAlive() &&
-      !player.isCreative() &&
-      !player.isSpectator() &&
-      String(player.level.dimension) ===
-        state.dimensionId
-    )
-  } catch (ignored) {
-    return false
-  }
+function nexusHordeDirectorFindOwner(server, ownerId) {
+  var result = null
+  server.players.forEach(player => {
+    if (nexusHordeDirectorPlayerId(player) === ownerId) result = player
+  })
+  return result
 }
 
-function nexusHordeDirectorEnsureTechnicalPlayer(state) {
-  var directorPreferredPlayer = null
-
+function nexusHordeDirectorValidParticipants(state) {
+  var valid = []
   state.server.players.forEach(player => {
-    if (
-      nexusHordeDirectorPlayerId(player) ===
-        state.playerId &&
-      nexusHordeDirectorIsValidParticipant(
-        state,
-        player
-      )
-    ) {
-      directorPreferredPlayer = player
+    if (!state.participantIds.includes(nexusHordeDirectorPlayerId(player))) return
+    try {
+      if (!player.isAlive() || player.isCreative() || player.isSpectator()) return
+      if (nexusHordeDirectorTargetingClass
+          && nexusHordeDirectorTargetingClass.isPlayerReviveDowned(player)) return
+      if (nexusHordeDirectorDimensionId(player.level) !== state.battleCenter.dimensionId) return
+      var dx = Number(player.getX()) - state.battleCenter.x
+      var dy = Number(player.getY()) - state.battleCenter.y
+      var dz = Number(player.getZ()) - state.battleCenter.z
+      if (dx * dx + dy * dy + dz * dz > NEXUS_HORDE_DIRECTOR_BATTLE_RADIUS_SQR) return
+      valid.push(player)
+    } catch (ignored) {
+      // Concurrent logout is simply not a valid participant this pass.
     }
   })
-
-  if (directorPreferredPlayer) {
-    state.player = directorPreferredPlayer
-    state.paused = false
-    return true
-  }
-
-  if (
-    nexusHordeDirectorIsValidParticipant(
-      state,
-      state.player
-    )
-  ) {
-    state.paused = false
-    return true
-  }
-
-  var directorReplacement = null
-
-  state.server.players.forEach(player => {
-    if (
-      !directorReplacement &&
-      nexusHordeDirectorIsValidParticipant(
-        state,
-        player
-      )
-    ) {
-      directorReplacement = player
-    }
-  })
-
-  if (!directorReplacement) {
-    state.paused = true
-    return false
-  }
-
-  state.player = directorReplacement
-  state.paused = false
-  return true
+  return valid
 }
 
-function nexusHordeDirectorCreateState(player, horde) {
-  var directorPlayerId = nexusHordeDirectorPlayerId(player)
-  var directorServer = player.getServer()
-  var directorContext =
-    nexusHordeDirectorContext(directorServer)
-  var directorHasCalendarContext =
-    directorContext &&
-    String(directorContext.anchorId) ===
-      directorPlayerId
+function nexusHordeDirectorRemaining(state) {
+  return Math.max(0, state.requiredKills - state.confirmedKills)
+}
 
-  var directorParticipantIds =
-    directorHasCalendarContext &&
-    Array.isArray(directorContext.participantIds)
-      ? directorContext.participantIds.slice()
-      : [directorPlayerId]
-
-  var directorWaveAmounts =
-    directorHasCalendarContext &&
-    Array.isArray(directorContext.waveAmounts) &&
-    directorContext.waveAmounts.length ===
-      NEXUS_HORDE_DIRECTOR_TOTAL_WAVES
-      ? directorContext.waveAmounts.map(amount =>
-          Math.max(
-            1,
-            Math.min(
-              24,
-              Math.floor(Number(amount) || 1)
-            )
-          )
-        )
-      : null
-
+function nexusHordeDirectorSnapshot(state) {
   return {
-    player: player,
-    playerId: directorPlayerId,
-    server: directorServer,
-    participantIds: directorParticipantIds,
-    participantCsv: directorParticipantIds.join(','),
-    dimensionId: String(player.level.dimension),
-    horde: horde,
-    useThreatOverride: Boolean(
-      directorHasCalendarContext
-    ),
-    threatDay: directorHasCalendarContext
-      ? Math.max(
-          0,
-          Math.min(
-            2147483647,
-            Math.floor(
-              Number(directorContext.threatDay) || 0
-            )
-          )
-        )
-      : 0,
-    threatTier: directorHasCalendarContext
-      ? Number(directorContext.threatTier) || 1
-      : 1,
-    waveAmounts: directorWaveAmounts,
-    finisherTable:
-      directorHasCalendarContext &&
-      directorContext.finisherTable
-        ? String(directorContext.finisherTable)
-        : '',
-    tag: `nexus_horde_${nexusHordeDirectorSafeId(directorPlayerId)}`,
-
-    currentWave: 0,
-    alive: new Map(),
-
-    firstWaveAt:
-      nexusHordeDirectorServerTick +
-      NEXUS_HORDE_DIRECTOR_PREPARATION_TICKS,
-
-    settleAt: -1,
-    zeroSince: -1,
-    nextWaveAt: -1,
-
-    phase: 'preparing',
-    launchingWave: false,
-    waveHadMob: false,
-    waveClearCommitted: false,
-    waveLaunchFailures: 0,
-    finisherStarted: false,
-    launchingFinisher: false,
-    finisherAttempts: 0,
-    aborting: false,
-    blockedReason: '',
-    completing: false,
-    victoryPresented: false,
-    paused: false
+    sessionId: state.sessionId,
+    nativeOwnerId: state.nativeOwnerId,
+    participantIds: state.participantIds.slice(),
+    phase: state.phase,
+    currentWave: state.currentWave,
+    totalWaves: NEXUS_HORDE_DIRECTOR_TOTAL_WAVES,
+    requiredKills: state.requiredKills,
+    confirmedKills: state.confirmedKills,
+    remaining: nexusHordeDirectorRemaining(state),
+    activeLoaded: nexusHordeDirectorCountRecords(state, 'loaded'),
+    activeUnloaded: nexusHordeDirectorCountRecords(state, 'unloaded'),
+    pendingSpawns: nexusHordeDirectorCountRecords(state, 'pending'),
+    replacementsPending: state.replacementsPending,
+    paused: state.paused,
+    pauseReason: state.pauseReason,
+    battleCenter: state.battleCenter,
+    threatDay: state.threatDay,
+    threatTier: state.threatTier
   }
 }
 
-function nexusHordeDirectorForgetEntity(
-  state,
-  entityId,
-  removeFromNativeTracking
-) {
-  var directorRecord = state.alive.get(entityId)
-
-  if (!directorRecord) return false
-
-  state.alive.delete(entityId)
-  nexusHordeDirectorEntityOwners.delete(entityId)
-
+function nexusHordeDirectorPublish(state, moment) {
+  var presentation = nexusHordeDirectorPresentation()
+  if (!presentation) return
   try {
-    directorRecord.entity.removeTag(state.tag)
-  } catch (ignored) {
-    // Una entidad eliminada o descargada puede no aceptar ya cambios de tag.
+    if (moment === 'start' && typeof presentation.start === 'function') {
+      presentation.start(state.nativeOwner, state.horde, state.context, nexusHordeDirectorSnapshot(state))
+    } else if (typeof presentation.update === 'function') {
+      presentation.update(state.nativeOwnerId, nexusHordeDirectorSnapshot(state), moment)
+    }
+  } catch (error) {
+    nexusHordeDirectorLogErrorOnce(
+      `presentation:${state.sessionId}:${moment}:${String(error)}`,
+      `[Nexus Horde Director] session=${state.shortSession} presentation failure moment=${moment}.`,
+      error
+    )
   }
+}
 
+function nexusHordeDirectorCountRecords(state, kind) {
+  var count = 0
+  state.records.forEach(record => {
+    if (kind === 'pending' && !record.joined) count += 1
+    if (kind === 'loaded' && record.joined && record.unloadedAt < 0 && record.removalAt < 0) count += 1
+    if (kind === 'unloaded' && record.joined && record.unloadedAt >= 0) count += 1
+  })
+  return count
+}
+
+function nexusHordeDirectorEntityType(entity) {
+  try {
+    return nexusHordeDirectorTargetingClass
+      ? String(nexusHordeDirectorTargetingClass.entityTypeId(entity))
+      : 'unknown'
+  } catch (ignored) { return 'unknown' }
+}
+
+function nexusHordeDirectorDamageDetails(source) {
+  try {
+    return nexusHordeDirectorTargetingClass
+      ? String(nexusHordeDirectorTargetingClass.damageDetails(source))
+      : 'damage=unknown'
+  } catch (ignored) { return 'damage=unknown' }
+}
+
+function nexusHordeDirectorLifecycle(state, record, eventName, details) {
+  if (!state) return
+  console.info(
+    `[Nexus Horde Lifecycle] session=${state.shortSession} event=${eventName} ` +
+    `phase=${record ? record.phase : state.phase} wave=${record ? record.wave : state.currentWave} ` +
+    `type=${record ? record.entityType : '-'} uuid=${record ? record.entityId : '-'} ` +
+    `kills=${state.confirmedKills}/${state.requiredKills}` + (details ? ` ${details}` : '')
+  )
+}
+
+function nexusHordeDirectorCreateState(player, horde, context) {
+  var amounts = context.waveAmounts.map(amount =>
+    Math.max(1, Math.min(24, Math.floor(Number(amount) || 1)))
+  )
+  var center = context.battleCenter
+  var state = {
+    context: context,
+    sessionId: String(context.sessionId),
+    shortSession: String(context.sessionId).slice(0, 12),
+    nativeOwner: player,
+    nativeOwnerId: nexusHordeDirectorPlayerId(player),
+    server: player.getServer(),
+    horde: horde,
+    participantIds: context.participantIds.slice(),
+    participantCsv: context.participantIds.join(','),
+    battleCenter: {
+      dimensionId: String(center.dimensionId),
+      x: Number(center.x), y: Number(center.y), z: Number(center.z)
+    },
+    waveAmounts: amounts,
+    threatDay: Math.max(0, Math.min(2147483647, Math.floor(Number(context.threatDay) || 0))),
+    threatTier: Number(context.threatTier) || 1,
+    finisherTable: String(context.finisherTable || ''),
+    tag: `nexus_horde_${String(context.sessionId).replace(/[^a-zA-Z0-9_]/g, '')}`,
+    phase: 'preparing',
+    currentWave: 0,
+    requiredKills: 0,
+    confirmedKills: 0,
+    creditedDeaths: new Set(),
+    records: new Map(),
+    assignmentCounter: 0,
+    replacementsPending: 0,
+    recoveryAttempts: 0,
+    nextRecoveryAt: -1,
+    firstWaveAt: nexusHordeDirectorServerTick + NEXUS_HORDE_DIRECTOR_PREPARATION_TICKS,
+    nextPhaseAt: -1,
+    paused: false,
+    pauseSince: -1,
+    pauseReason: '',
+    launching: false,
+    completing: false,
+    aborting: false
+  }
+  nexusHordeDirectorTargetingClass.registerSession(state.sessionId)
+  return state
+}
+
+function nexusHordeDirectorForgetRecord(state, record, cleanupNative) {
+  if (!record || !state.records.has(record.entityId)) return
+  state.records.delete(record.entityId)
+  nexusHordeDirectorEntityOwners.delete(record.entityId)
+  try { record.entity.removeTag(state.tag) } catch (ignored) {}
+  try {
+    if (cleanupNative && nexusHordeDirectorNativeBridgeClass) {
+      nexusHordeDirectorNativeBridgeClass.cleanupNativeMob(record.entity, state.sessionId)
+    }
+  } catch (error) {
+    nexusHordeDirectorLogErrorOnce(
+      `native-clean:${record.entityId}:${String(error)}`,
+      `[Nexus Horde Director] session=${state.shortSession} native cleanup failed ${record.entityId}.`, error
+    )
+  }
+  try { nexusHordeDirectorTargetingClass.clear(record.entity) } catch (ignored) {}
+  try { state.horde.removeEntity(record.entity) } catch (ignored) {}
+}
+
+function nexusHordeDirectorCleanupState(state, reason) {
+  if (!state || !nexusHordeDirectorStates.has(state.nativeOwnerId)) return
+  var records = []
+  state.records.forEach(record => records.push(record))
+  records.forEach(record => {
+    nexusHordeDirectorLifecycle(state, record, 'tracking_cleanup', `reason=${reason}`)
+    nexusHordeDirectorForgetRecord(state, record, true)
+  })
   try {
     if (nexusHordeDirectorTargetingClass) {
-      nexusHordeDirectorTargetingClass.clear(
-        directorRecord.entity
-      )
+      nexusHordeDirectorTargetingClass.unregisterSession(state.sessionId)
     }
-  } catch (ignored) {
-    // La entidad puede haberse descargado o eliminado.
-  }
-
-  if (removeFromNativeTracking) {
-    try {
-      state.horde.removeEntity(directorRecord.entity)
-    } catch (error) {
-      nexusHordeDirectorLogErrorOnce(
-        `native-remove:${entityId}:${String(error)}`,
-        `Nexus Horde Director: no se pudo liberar el tracking nativo de ${entityId}`,
-        error
-      )
+  } catch (ignored) {}
+  nexusHordeDirectorStates.delete(state.nativeOwnerId)
+  var presentation = nexusHordeDirectorPresentation()
+  try {
+    if (presentation && typeof presentation.finish === 'function') {
+      presentation.finish(state.nativeOwnerId, reason)
     }
-
-  }
-
-  return true
-}
-
-function nexusHordeDirectorMaintainTrackedMobs(state) {
-  if (!nexusHordeDirectorTargetingClass) return
-
-  var directorLoadedRecords = []
-
-  state.alive.forEach(directorRecord => {
-    if (directorRecord.unloadedAt >= 0) return
-
-    try {
-      if (directorRecord.entity.isAlive()) {
-        directorLoadedRecords.push(directorRecord)
-      }
-    } catch (ignored) {
-      // RefreshTrackedState conserva la semantica existente de descarga.
-    }
-  })
-
-  var directorLocatorVisible =
-    directorLoadedRecords.length >= 1 &&
-    directorLoadedRecords.length <= 3
-
-  directorLoadedRecords.forEach(directorRecord => {
-    try {
-      nexusHordeDirectorTargetingClass.reconcileTarget(
-        directorRecord.entity
-      )
-
-      nexusHordeDirectorTargetingClass.setLocatorGlowing(
-        directorRecord.entity,
-        directorLocatorVisible
-      )
-    } catch (error) {
-      nexusHordeDirectorLogErrorOnce(
-        `mob-maintenance:${directorRecord.entityId}:${String(error)}`,
-        `Nexus Horde Director: fallo al reconciliar ${directorRecord.entityId}`,
-        error
-      )
-    }
-  })
-}
-
-function nexusHordeDirectorRemoveTrackedEntity(
-  entity,
-  eventName,
-  details
-) {
-  var directorEntityId = nexusHordeDirectorEntityId(entity)
-
-  var directorOwnerId =
-    nexusHordeDirectorEntityOwners.get(directorEntityId)
-
-  if (!directorOwnerId) return
-
-  var directorState =
-    nexusHordeDirectorStates.get(directorOwnerId)
-
-  if (!directorState) {
-    nexusHordeDirectorEntityOwners.delete(directorEntityId)
-    return
-  }
-
-  nexusHordeDirectorLifecycle(
-    directorState,
-    directorState.alive.get(directorEntityId),
-    eventName,
-    details
-  )
-
-  nexusHordeDirectorForgetEntity(
-    directorState,
-    directorEntityId,
-    false
-  )
-}
-
-function nexusHordeDirectorCleanupState(state) {
-  var directorEntityIds = []
-
-  state.alive.forEach((directorRecord, directorEntityId) => {
-    directorEntityIds.push(directorEntityId)
-  })
-
-  directorEntityIds.forEach(directorEntityId => {
-    nexusHordeDirectorLifecycle(
-      state,
-      state.alive.get(directorEntityId),
-      'tracking_end',
-      'reason=horde_cleanup'
-    )
-
-    nexusHordeDirectorForgetEntity(
-      state,
-      directorEntityId,
-      false
-    )
-  })
-
-  state.alive.clear()
-  nexusHordeDirectorStates.delete(state.playerId)
+  } catch (ignored) {}
 }
 
 function nexusHordeDirectorCancelForPlayer(player) {
   if (!player) return false
-
-  var directorState =
-    nexusHordeDirectorStates.get(
-      nexusHordeDirectorPlayerId(
-        player
-      )
-    )
-
-  if (!directorState) return false
-
-  nexusHordeDirectorCleanupState(
-    directorState
-  )
-
+  var state = nexusHordeDirectorStates.get(nexusHordeDirectorPlayerId(player))
+  if (!state) return false
+  nexusHordeDirectorCleanupState(state, 'calendar_cleanup')
   return true
 }
 
-function nexusHordeDirectorWaveAmount(state) {
-  if (
-    state.waveAmounts &&
-    state.currentWave >= 1 &&
-    state.currentWave <= state.waveAmounts.length
-  ) {
-    return state.waveAmounts[
-      state.currentWave - 1
-    ]
-  }
-
-  try {
-    var directorSpawnData = state.horde.getSpawnData()
-
-    if (directorSpawnData) {
-      return Math.max(
-        1,
-        Math.min(
-          24,
-          Math.floor(
-            Number(directorSpawnData.getSpawnAmount()) || 1
-          )
-        )
-      )
-    }
-  } catch (error) {
-    nexusHordeDirectorLogErrorOnce(
-      `wave-amount:${state.playerId}:${String(error)}`,
-      'Nexus Horde Director: no se pudo leer spawnAmount de The Hordes',
-      error
-    )
-  }
-
-  return 15
+function nexusHordeDirectorOwnerForNativeOperation(state) {
+  var owner = nexusHordeDirectorFindOwner(state.server, state.nativeOwnerId)
+  if (owner) state.nativeOwner = owner
+  return owner
 }
 
-function nexusHordeDirectorSpawnWaveNative(
-  state,
-  amount
-) {
-  if (!state.useThreatOverride) {
-    state.horde.spawnWave(
-      state.player,
-      amount
-    )
-
-    return
-  }
-
-  if (!nexusHordeDirectorNativeBridgeClass) {
-    throw new Error(
-      'HordeNativeBridge no disponible para aplicar threatDay.'
-    )
-  }
-
-  nexusHordeDirectorNativeBridgeClass.spawnWave(
-    state.horde,
-    state.player,
-    amount,
-    state.threatDay,
-    true
-  )
-}
-
-function nexusHordeDirectorAbort(
-  state,
-  reason
-) {
-  if (
-    state.completing ||
-    state.aborting ||
-    !nexusHordeDirectorStates.has(
-      state.playerId
-    )
-  ) {
-    return
-  }
-
-  state.aborting = true
-  state.phase = 'aborting'
-  state.blockedReason = String(reason)
-
-  console.error(
-    `[Nexus Horde Director] Horda de ${state.playerId} cancelada sin victoria: ${state.blockedReason}`
-  )
-
+function nexusHordeDirectorSpawnNative(state, count, finisher) {
+  var owner = nexusHordeDirectorOwnerForNativeOperation(state)
+  if (!owner) return false
+  state.launching = true
   try {
-    // true mantiene la semantica de parada por comando: el calendario
-    // reprograma y no concede victoria ni recompensas.
-    state.horde.stopEvent(
-      state.player,
-      true
-    )
-  } catch (error) {
-    nexusHordeDirectorLogErrorOnce(
-      `abort:${state.playerId}:${String(error)}`,
-      `Nexus Horde Director: no se pudo cancelar de forma segura la Horda de ${state.playerId}`,
-      error
-    )
-
-    if (
-      nexusHordeDirectorStates.has(
-        state.playerId
+    if (finisher) {
+      nexusHordeDirectorNativeBridgeClass.spawnFinisher(
+        state.horde, owner, state.finisherTable, state.threatDay, true
       )
-    ) {
-      state.phase = 'blocked'
+    } else {
+      nexusHordeDirectorNativeBridgeClass.spawnWave(
+        state.horde, owner, count, state.threatDay, true
+      )
     }
   } finally {
-    state.aborting = false
+    state.launching = false
   }
+  nexusHordeDirectorFinalizeUnjoined(state)
+  return true
 }
 
-function nexusHordeDirectorLaunchWave(state) {
-  if (
-    state.completing ||
-    state.launchingWave ||
-    state.currentWave >= NEXUS_HORDE_DIRECTOR_TOTAL_WAVES
-  ) {
-    return
-  }
+function nexusHordeDirectorFinalizeUnjoined(state) {
+  var stale = []
+  state.records.forEach(record => {
+    if (!record.joined
+        && nexusHordeDirectorServerTick - record.requestedAt >= 0) stale.push(record)
+  })
+  stale.forEach(record => {
+    nexusHordeDirectorLifecycle(state, record, 'spawn_not_added', 'reason=not_added_to_level')
+    nexusHordeDirectorForgetRecord(state, record, false)
+  })
+  nexusHordeDirectorRecalculateReplacementNeed(state)
+}
 
+function nexusHordeDirectorRecalculateReplacementNeed(state) {
+  if (state.phase !== 'wave' && state.phase !== 'finisher') return
+  var slotsRepresented = state.confirmedKills
+    + nexusHordeDirectorCountRecords(state, 'loaded')
+    + nexusHordeDirectorCountRecords(state, 'unloaded')
+    + nexusHordeDirectorCountRecords(state, 'pending')
+  state.replacementsPending = Math.max(0, state.requiredKills - slotsRepresented)
+}
+
+function nexusHordeDirectorStartWave(state) {
+  if (state.launching || state.currentWave >= NEXUS_HORDE_DIRECTOR_TOTAL_WAVES) return
   state.currentWave += 1
   state.phase = 'wave'
-  state.launchingWave = true
-  state.waveHadMob = false
-  state.waveClearCommitted = false
-  state.zeroSince = -1
-  state.nextWaveAt = -1
-
-  state.settleAt =
-    nexusHordeDirectorServerTick +
-    NEXUS_HORDE_DIRECTOR_SPAWN_SETTLE_TICKS
-
-  try {
-    nexusHordeDirectorSpawnWaveNative(
-      state,
-      nexusHordeDirectorWaveAmount(state)
-    )
-    state.waveLaunchFailures = 0
-  } catch (error) {
-    state.currentWave -= 1
-    state.waveLaunchFailures += 1
-
-    if (
-      state.waveLaunchFailures >=
-      NEXUS_HORDE_DIRECTOR_MAX_LAUNCH_FAILURES
-    ) {
-      nexusHordeDirectorAbort(
-        state,
-        'fallo repetido al aplicar threatDay o lanzar una oleada'
-      )
-    } else {
-      state.phase = 'transition'
-
-      state.nextWaveAt =
-        nexusHordeDirectorServerTick +
-        NEXUS_HORDE_DIRECTOR_INTERMISSION_TICKS
-    }
-
-    nexusHordeDirectorLogErrorOnce(
-      `spawn-wave:${state.playerId}:${state.waveLaunchFailures}:${String(error)}`,
-      `Nexus Horde Director: fallo al lanzar la oleada para ${state.playerId}`,
-      error
-    )
-  } finally {
-    state.launchingWave = false
-  }
+  state.requiredKills = state.waveAmounts[state.currentWave - 1]
+  state.confirmedKills = 0
+  state.creditedDeaths.clear()
+  state.recoveryAttempts = 0
+  state.replacementsPending = state.requiredKills
+  state.nextRecoveryAt = nexusHordeDirectorServerTick
+  nexusHordeDirectorPublish(state, 'wave_start')
+  nexusHordeDirectorRecoverMissing(state, true)
 }
 
-function nexusHordeDirectorPrepareFinisherPresentation(
-  state
-) {
-  try {
-    var directorPresentationApi =
-      nexusHordeDirectorPresentationApi()
-
-    if (
-      directorPresentationApi &&
-      typeof directorPresentationApi.prepareFinisher ===
-        'function'
-    ) {
-      directorPresentationApi.prepareFinisher(
-        state.player
-      )
-    }
-  } catch (error) {
-    nexusHordeDirectorLogErrorOnce(
-      `presentation-finisher:${state.playerId}:${String(error)}`,
-      'Nexus Horde Director: fallo al preparar la manifestacion final.',
-      error
-    )
-  }
-}
-
-function nexusHordeDirectorPruneUnjoinedFinisher(
-  state
-) {
-  var directorUnjoinedIds = []
-
-  state.alive.forEach(
-    (directorRecord, directorEntityId) => {
-      if (!directorRecord.joined) {
-        directorUnjoinedIds.push(
-          directorEntityId
-        )
-      }
-    }
-  )
-
-  directorUnjoinedIds.forEach(
-    directorEntityId => {
-      nexusHordeDirectorLifecycle(
-        state,
-        state.alive.get(directorEntityId),
-        'spawn_not_added',
-        'reason=not_added_to_level'
-      )
-
-      nexusHordeDirectorForgetEntity(
-        state,
-        directorEntityId,
-        false
-      )
-    }
-  )
-}
-
-function nexusHordeDirectorLaunchFinisher(state) {
-  if (
-    state.completing ||
-    state.launchingFinisher ||
-    state.finisherStarted
-  ) {
-    return
-  }
-
-  if (!state.finisherTable) {
-    nexusHordeDirectorAbort(
-      state,
-      'contexto Nexus sin tabla de manifestacion final'
-    )
-    return
-  }
-
+function nexusHordeDirectorStartFinisher(state) {
   state.phase = 'finisher'
-  state.launchingFinisher = true
-  state.finisherStarted = true
-  state.finisherAttempts += 1
-  state.waveHadMob = false
-  state.waveClearCommitted = false
-  state.zeroSince = -1
-  state.nextWaveAt = -1
-  state.settleAt =
-    nexusHordeDirectorServerTick +
-    NEXUS_HORDE_DIRECTOR_SPAWN_SETTLE_TICKS
+  state.requiredKills = 1
+  state.confirmedKills = 0
+  state.creditedDeaths.clear()
+  state.recoveryAttempts = 0
+  state.replacementsPending = 1
+  state.nextRecoveryAt = nexusHordeDirectorServerTick
+  nexusHordeDirectorPublish(state, 'finisher_start')
+  nexusHordeDirectorRecoverMissing(state, true)
+}
 
+function nexusHordeDirectorRecoverMissing(state, initial) {
+  nexusHordeDirectorRecalculateReplacementNeed(state)
+  if (state.replacementsPending <= 0) return
+  if (nexusHordeDirectorServerTick < state.nextRecoveryAt) return
+  var maxAttempts = state.phase === 'finisher'
+    ? NEXUS_HORDE_DIRECTOR_MAX_FINISHER_ATTEMPTS
+    : NEXUS_HORDE_DIRECTOR_MAX_RECOVERY_ATTEMPTS
+  if (state.recoveryAttempts >= maxAttempts) {
+    nexusHordeDirectorAbort(state, 'replacement_attempts_exhausted')
+    return
+  }
+  var owner = nexusHordeDirectorOwnerForNativeOperation(state)
+  if (!owner) {
+    nexusHordeDirectorSetPaused(state, 'native_owner_offline')
+    return
+  }
+  var requestCount = state.phase === 'finisher' ? 1 : state.replacementsPending
+  state.recoveryAttempts += 1
+  nexusHordeDirectorLifecycle(
+    state, null, initial ? 'spawn_requested' : 'replacement_requested',
+    `count=${requestCount} attempt=${state.recoveryAttempts}/${maxAttempts}`
+  )
   try {
-    if (!nexusHordeDirectorNativeBridgeClass) {
-      throw new Error(
-        'HordeNativeBridge no disponible para lanzar la manifestacion final.'
-      )
-    }
-
-    nexusHordeDirectorPrepareFinisherPresentation(
-      state
-    )
-
-    nexusHordeDirectorNativeBridgeClass.spawnFinisher(
-      state.horde,
-      state.player,
-      state.finisherTable,
-      state.threatDay,
-      Boolean(state.useThreatOverride)
-    )
-
-    // HordeSpawnEntityEvent se publica antes de insertar la entidad en el
-    // nivel. EntityJoinLevelEvent confirma de forma sincrona las inserciones
-    // reales; cualquier candidato rechazado no puede bloquear la fase.
-    nexusHordeDirectorPruneUnjoinedFinisher(
-      state
-    )
+    nexusHordeDirectorSpawnNative(state, requestCount, state.phase === 'finisher')
   } catch (error) {
-    state.finisherStarted = false
-
-    if (
-      state.finisherAttempts >=
-      NEXUS_HORDE_DIRECTOR_MAX_FINISHER_ATTEMPTS
-    ) {
-      nexusHordeDirectorAbort(
-        state,
-        'fallo repetido al lanzar la manifestacion final'
-      )
-    } else {
-      state.phase = 'transition'
-      state.nextWaveAt =
-        nexusHordeDirectorServerTick +
-        NEXUS_HORDE_DIRECTOR_FINISHER_RETRY_TICKS
-    }
-
     nexusHordeDirectorLogErrorOnce(
-      `spawn-finisher:${state.playerId}:${state.finisherAttempts}:${String(error)}`,
-      `Nexus Horde Director: fallo al lanzar la manifestacion final para ${state.playerId}`,
-      error
+      `spawn:${state.sessionId}:${state.phase}:${state.recoveryAttempts}:${String(error)}`,
+      `[Nexus Horde Director] session=${state.shortSession} native spawn failure.`, error
     )
+  }
+  nexusHordeDirectorRecalculateReplacementNeed(state)
+  if (state.replacementsPending > 0) {
+    nexusHordeDirectorLifecycle(
+      state, null, 'replacement_failed', `missing=${state.replacementsPending}`
+    )
+    state.nextRecoveryAt = nexusHordeDirectorServerTick + NEXUS_HORDE_DIRECTOR_RECOVERY_RETRY_TICKS
+  }
+}
+
+function nexusHordeDirectorSetPaused(state, reason) {
+  if (!state.paused) {
+    state.paused = true
+    state.pauseSince = nexusHordeDirectorServerTick
+    state.pauseReason = reason
+    nexusHordeDirectorLifecycle(state, null, 'pause', `reason=${reason}`)
+    nexusHordeDirectorPublish(state, 'pause')
+  } else if (state.pauseReason !== reason) {
+    state.pauseReason = reason
+    nexusHordeDirectorPublish(state, 'pause')
+  }
+}
+
+function nexusHordeDirectorResume(state) {
+  if (!state.paused) return
+  var duration = nexusHordeDirectorServerTick - state.pauseSince
+  state.paused = false
+  state.pauseSince = -1
+  state.pauseReason = ''
+  nexusHordeDirectorLifecycle(state, null, 'resume', `pausedTicks=${duration}`)
+  nexusHordeDirectorPublish(state, 'resume')
+}
+
+function nexusHordeDirectorAbort(state, reason) {
+  if (state.aborting || state.completing || !nexusHordeDirectorStates.has(state.nativeOwnerId)) return
+  state.aborting = true
+  state.phase = 'aborting'
+  nexusHordeDirectorLifecycle(state, null, 'abort', `reason=${reason}`)
+  var owner = nexusHordeDirectorOwnerForNativeOperation(state)
+  if (owner) {
+    try {
+      state.horde.stopEvent(owner, true)
+      var stoppedCalendar = nexusHordeDirectorCalendar()
+      if (stoppedCalendar && typeof stoppedCalendar.abortSession === 'function') {
+        stoppedCalendar.abortSession(state.server, state.sessionId, state.nativeOwnerId, reason)
+      }
+      if (nexusHordeDirectorStates.has(state.nativeOwnerId)) {
+        nexusHordeDirectorCleanupState(state, 'abort')
+      }
+      return
+    } catch (error) {
+      nexusHordeDirectorLogErrorOnce(
+        `abort:${state.sessionId}:${String(error)}`,
+        `[Nexus Horde Director] session=${state.shortSession} native abort failed.`, error
+      )
+    }
+  }
+  var calendar = nexusHordeDirectorCalendar()
+  try {
+    if (calendar && typeof calendar.abortSession === 'function') {
+      calendar.abortSession(state.server, state.sessionId, state.nativeOwnerId, reason)
+    }
   } finally {
-    state.launchingFinisher = false
-  }
-}
-
-function nexusHordeDirectorPresentWaveCleared(state) {
-  try {
-    var directorPresentationApi =
-      nexusHordeDirectorPresentationApi()
-
-    if (
-      directorPresentationApi &&
-      typeof directorPresentationApi.markWaveCleared === 'function'
-    ) {
-      directorPresentationApi.markWaveCleared(state.player)
-      return
-    }
-
-    // Compatibilidad con una version anterior de presentation.js.
-    if (
-      typeof nexusHordePresentationMarkWaveCleared === 'function'
-    ) {
-      nexusHordePresentationMarkWaveCleared(state.player)
-    }
-  } catch (error) {
-    nexusHordeDirectorLogErrorOnce(
-      `presentation-wave-clear:${state.playerId}:${String(error)}`,
-      'Nexus Horde Director: fallo al notificar la superacion de una oleada',
-      error
-    )
-  }
-}
-
-function nexusHordeDirectorPresentVictory(state) {
-  try {
-    var directorPresentationApi =
-      nexusHordeDirectorPresentationApi()
-
-    if (
-      directorPresentationApi &&
-      typeof directorPresentationApi.showVictory === 'function'
-    ) {
-      directorPresentationApi.showVictory(state.player)
-      return
-    }
-
-    // Compatibilidad con una version anterior de presentation.js.
-    if (
-      typeof nexusHordePresentationShowVictory === 'function'
-    ) {
-      nexusHordePresentationShowVictory(state.player)
-    }
-  } catch (error) {
-    nexusHordeDirectorLogErrorOnce(
-      `presentation-victory:${state.playerId}:${String(error)}`,
-      `Nexus Horde Director: fallo al presentar la victoria de ${state.playerId}`,
-      error
-    )
+    nexusHordeDirectorCleanupState(state, 'abort_without_owner')
   }
 }
 
 function nexusHordeDirectorComplete(state) {
-  if (state.completing) return
-
+  if (state.completing || state.confirmedKills < state.requiredKills) return
+  var owner = nexusHordeDirectorOwnerForNativeOperation(state)
+  if (!owner) {
+    nexusHordeDirectorSetPaused(state, 'native_owner_offline_for_completion')
+    return
+  }
   state.completing = true
   state.phase = 'completing'
-
-  // La presentacion nunca debe bloquear la finalizacion funcional.
-  if (!state.victoryPresented) {
-    state.victoryPresented = true
-    nexusHordeDirectorPresentVictory(state)
-  }
-
   try {
-    // false conserva la finalizacion funcional nativa y ejecuta
-    // una sola vez HordeEndEvent, comandos y recompensas.
-    state.horde.stopEvent(state.player, false)
-  } catch (error) {
-    nexusHordeDirectorLogErrorOnce(
-      `complete:${state.playerId}:${String(error)}`,
-      `Nexus Horde Director: fallo al completar la Horda de ${state.playerId}`,
-      error
-    )
-
-    // Permite reintentar la finalizacion si HordeEndEvent no limpio
-    // ya el estado de este jugador.
-    if (nexusHordeDirectorStates.has(state.playerId)) {
-      state.completing = false
-      state.phase = state.finisherStarted
-        ? 'finisher'
-        : 'transition'
-      state.zeroSince =
-        nexusHordeDirectorServerTick
+    var calendar = nexusHordeDirectorCalendar()
+    if (!calendar || typeof calendar.authorizeCompletion !== 'function'
+        || !calendar.authorizeCompletion(state.horde, owner, state.sessionId)) {
+      throw new Error('calendar_completion_not_authorized')
     }
+    nexusHordeDirectorPublish(state, 'victory')
+    state.horde.stopEvent(owner, false)
+    if (nexusHordeDirectorStates.has(state.nativeOwnerId)) {
+      if (typeof calendar.isHordeActive === 'function'
+          && !calendar.isHordeActive(state.server)) {
+        nexusHordeDirectorCleanupState(state, 'complete')
+      } else {
+        throw new Error('native_completion_did_not_close_session')
+      }
+    }
+  } catch (error) {
+    var failedCalendar = null
+    try {
+      failedCalendar = nexusHordeDirectorCalendar()
+      if (failedCalendar && typeof failedCalendar.revokeCompletion === 'function') {
+        failedCalendar.revokeCompletion(state.sessionId)
+      }
+    } catch (ignored) {}
+    // stopEvent can complete its command/end callbacks and only then throw.
+    // If Calendar already consumed this exact session, do not reopen the finisher.
+    try {
+      if (failedCalendar && typeof failedCalendar.isHordeActive === 'function'
+          && !failedCalendar.isHordeActive(state.server)) {
+        nexusHordeDirectorCleanupState(state, 'complete')
+        return
+      }
+    } catch (ignored) {}
+    state.completing = false
+    state.phase = 'finisher'
+    nexusHordeDirectorPublish(state, 'completion_failed')
+    nexusHordeDirectorLogErrorOnce(
+      `complete:${state.sessionId}:${String(error)}`,
+      `[Nexus Horde Director] session=${state.shortSession} completion failed.`, error
+    )
   }
 }
 
-function nexusHordeDirectorRefreshTrackedState(state) {
-  var directorExpiredIds = []
-  var directorAbortReason = ''
-
-  state.alive.forEach((directorRecord, directorEntityId) => {
-    if (directorRecord.unloadedAt >= 0) {
-      if (state.phase === 'finisher') {
-        if (
-          nexusHordeDirectorServerTick -
-            directorRecord.unloadedAt >=
-          NEXUS_HORDE_DIRECTOR_UNLOADED_TIMEOUT_TICKS
-        ) {
-          if (!directorRecord.unloadTimeoutLogged) {
-            directorRecord.unloadTimeoutLogged = true
-            nexusHordeDirectorLifecycle(
-              state,
-              directorRecord,
-              'tracking_expired',
-              `reason=unloaded_timeout ticks=${NEXUS_HORDE_DIRECTOR_UNLOADED_TIMEOUT_TICKS}`
-            )
-          }
-
-          directorAbortReason =
-            `manifestacion ${directorEntityId} descargada durante ` +
-            `${NEXUS_HORDE_DIRECTOR_UNLOADED_TIMEOUT_TICKS} ticks`
-        }
-
-        return
-      }
-
-      if (
-        nexusHordeDirectorServerTick -
-          directorRecord.unloadedAt >=
-        NEXUS_HORDE_DIRECTOR_UNLOADED_TIMEOUT_TICKS
-      ) {
-        directorExpiredIds.push(directorEntityId)
-      }
-
-      return
-    }
-
-    try {
-      if (!directorRecord.entity.isAlive()) {
-        nexusHordeDirectorLifecycle(
-          state,
-          directorRecord,
-          'not_alive_observed',
-          'damage=unknown'
-        )
-
-        if (state.phase === 'finisher') {
-          directorRecord.unloadedAt =
-            nexusHordeDirectorServerTick
-        } else {
-          directorExpiredIds.push(directorEntityId)
-        }
-      }
-    } catch (ignored) {
-      directorRecord.unloadedAt =
-        nexusHordeDirectorServerTick
-    }
-  })
-
-  directorExpiredIds.forEach(directorEntityId => {
-    var directorRecord =
-      state.alive.get(directorEntityId)
-
-    var directorWasUnloaded =
-      directorRecord &&
-      directorRecord.unloadedAt >= 0
-
-    if (directorWasUnloaded) {
-      nexusHordeDirectorLifecycle(
-        state,
-        directorRecord,
-        'tracking_expired',
-        `reason=unloaded_timeout ticks=${NEXUS_HORDE_DIRECTOR_UNLOADED_TIMEOUT_TICKS}`
-      )
-    }
-
-    nexusHordeDirectorForgetEntity(
-      state,
-      directorEntityId,
-      directorWasUnloaded
+function nexusHordeDirectorHandleConfirmedDeath(entity, source) {
+  var entityId = nexusHordeDirectorEntityId(entity)
+  var ownerId = nexusHordeDirectorEntityOwners.get(entityId)
+  if (!ownerId) return
+  var state = nexusHordeDirectorStates.get(ownerId)
+  var record = state ? state.records.get(entityId) : null
+  if (!state || !record || !record.joined || state.creditedDeaths.has(entityId)) return
+  if (record.phase !== state.phase || record.wave !== state.currentWave) return
+  if (state.paused || nexusHordeDirectorValidParticipants(state).length === 0) {
+    nexusHordeDirectorLifecycle(
+      state, record, 'death_without_credit',
+      `reason=no_valid_participants ${nexusHordeDirectorDamageDetails(source)}`
     )
-
-    if (directorWasUnloaded) {
-      console.warn(
-        `[Nexus Horde Director] Entidad ${directorEntityId} liberada tras ` +
-        `${NEXUS_HORDE_DIRECTOR_UNLOADED_TIMEOUT_TICKS} ticks descargada.`
-      )
-    }
-  })
-
-  if (directorAbortReason) {
-    nexusHordeDirectorAbort(
-      state,
-      directorAbortReason
-    )
-    return false
+    nexusHordeDirectorForgetRecord(state, record, true)
+    nexusHordeDirectorRecalculateReplacementNeed(state)
+    nexusHordeDirectorPublish(state, 'anomaly')
+    return
   }
+  state.creditedDeaths.add(entityId)
+  state.confirmedKills = Math.min(state.requiredKills, state.confirmedKills + 1)
+  nexusHordeDirectorLifecycle(state, record, 'death', nexusHordeDirectorDamageDetails(source))
+  nexusHordeDirectorForgetRecord(state, record, false)
+  nexusHordeDirectorRecalculateReplacementNeed(state)
+  nexusHordeDirectorPublish(state, 'death')
+  if (state.confirmedKills < state.requiredKills) return
+  if (state.phase === 'finisher') {
+    nexusHordeDirectorComplete(state)
+  } else {
+    nexusHordeDirectorPublish(state, 'wave_clear')
+    state.phase = 'transition'
+    state.nextPhaseAt = nexusHordeDirectorServerTick + NEXUS_HORDE_DIRECTOR_INTERMISSION_TICKS
+  }
+}
 
-  return true
+function nexusHordeDirectorUnexpectedRemoval(state, record, reason) {
+  if (!state.records.has(record.entityId)) return
+  nexusHordeDirectorLifecycle(state, record, 'removed_non_kill', `removal=${reason}`)
+  nexusHordeDirectorForgetRecord(state, record, true)
+  nexusHordeDirectorRecalculateReplacementNeed(state)
+  state.nextRecoveryAt = Math.min(
+    state.nextRecoveryAt < 0 ? nexusHordeDirectorServerTick : state.nextRecoveryAt,
+    nexusHordeDirectorServerTick + NEXUS_HORDE_DIRECTOR_RECOVERY_RETRY_TICKS
+  )
+  nexusHordeDirectorPublish(state, 'anomaly')
+}
+
+function nexusHordeDirectorRefreshRecords(state) {
+  var expired = []
+  state.records.forEach(record => {
+    if (record.removalAt >= 0
+        && nexusHordeDirectorServerTick >= record.removalAt + NEXUS_HORDE_DIRECTOR_REMOVAL_GRACE_TICKS) {
+      expired.push({ record: record, reason: record.removalReason })
+    } else if (record.unloadedAt >= 0
+        && nexusHordeDirectorServerTick >= record.unloadedAt + NEXUS_HORDE_DIRECTOR_UNLOADED_TIMEOUT_TICKS) {
+      expired.push({ record: record, reason: 'unloaded_timeout' })
+    } else if (!record.joined
+        && nexusHordeDirectorServerTick >= record.requestedAt + NEXUS_HORDE_DIRECTOR_JOIN_GRACE_TICKS) {
+      expired.push({ record: record, reason: 'join_timeout' })
+    }
+  })
+  expired.forEach(entry => nexusHordeDirectorUnexpectedRemoval(state, entry.record, entry.reason))
+}
+
+function nexusHordeDirectorMaintainMobs(state) {
+  var visible = nexusHordeDirectorRemaining(state) >= 1
+    && nexusHordeDirectorRemaining(state) <= 3
+  state.records.forEach(record => {
+    if (!record.joined || record.unloadedAt >= 0 || record.removalAt >= 0) return
+    try {
+      nexusHordeDirectorTargetingClass.reconcileTarget(record.entity)
+      nexusHordeDirectorTargetingClass.setLocatorGlowing(record.entity, visible)
+    } catch (ignored) {}
+  })
 }
 
 function nexusHordeDirectorTickState(state) {
-  if (
-    nexusHordeDirectorServerTick %
-      NEXUS_HORDE_DIRECTOR_TARGET_RECONCILE_TICKS ===
-    0
-  ) {
-    nexusHordeDirectorMaintainTrackedMobs(state)
-  }
-
-  if (
-    state.completing ||
-    state.phase === 'aborting' ||
-    state.phase === 'blocked'
-  ) return
-
-  if (
-    !nexusHordeDirectorEnsureTechnicalPlayer(
-      state
-    )
-  ) {
-    return
-  }
-
-  if (state.phase === 'preparing') {
-    if (
-      nexusHordeDirectorServerTick >=
-      state.firstWaveAt
-    ) {
-      nexusHordeDirectorLaunchWave(state)
+  if (!nexusHordeDirectorStates.has(state.nativeOwnerId) || state.aborting) return
+  if (state.phase === 'completing') return
+  var validParticipants = nexusHordeDirectorValidParticipants(state)
+  if (validParticipants.length === 0) {
+    nexusHordeDirectorSetPaused(state, 'no_valid_participants')
+  } else if (state.paused) {
+    if (!state.pauseReason.startsWith('native_owner_')
+        || nexusHordeDirectorOwnerForNativeOperation(state)) {
+      nexusHordeDirectorResume(state)
     }
-
+  }
+  if (state.paused) {
+    if (nexusHordeDirectorServerTick - state.pauseSince >= NEXUS_HORDE_DIRECTOR_ABANDON_TICKS) {
+      nexusHordeDirectorAbort(state, `abandoned_${state.pauseReason}`)
+    }
     return
   }
-
+  if (nexusHordeDirectorServerTick % NEXUS_HORDE_DIRECTOR_TARGET_RECONCILE_TICKS === 0) {
+    nexusHordeDirectorMaintainMobs(state)
+  }
+  if (state.phase === 'preparing') {
+    if (nexusHordeDirectorServerTick >= state.firstWaveAt) nexusHordeDirectorStartWave(state)
+    return
+  }
   if (state.phase === 'transition') {
-    if (
-      nexusHordeDirectorServerTick <
-      state.nextWaveAt
-    ) {
+    if (nexusHordeDirectorServerTick < state.nextPhaseAt) return
+    if (!nexusHordeDirectorOwnerForNativeOperation(state)) {
+      nexusHordeDirectorSetPaused(state, 'native_owner_offline_for_spawn')
       return
     }
-
-    if (
-      state.currentWave >=
-      NEXUS_HORDE_DIRECTOR_TOTAL_WAVES
-    ) {
-      nexusHordeDirectorLaunchFinisher(state)
-    } else {
-      nexusHordeDirectorLaunchWave(state)
-    }
-
+    if (state.currentWave >= NEXUS_HORDE_DIRECTOR_TOTAL_WAVES) nexusHordeDirectorStartFinisher(state)
+    else nexusHordeDirectorStartWave(state)
     return
   }
-
-  if (
-    state.phase !== 'wave' &&
-    state.phase !== 'finisher'
-  ) {
+  if (state.phase !== 'wave' && state.phase !== 'finisher') return
+  nexusHordeDirectorRefreshRecords(state)
+  if (!nexusHordeDirectorStates.has(state.nativeOwnerId)) return
+  if (state.confirmedKills >= state.requiredKills) {
+    if (state.phase === 'finisher') nexusHordeDirectorComplete(state)
     return
   }
-
-  if (
-    !nexusHordeDirectorRefreshTrackedState(
-      state
-    )
-  ) {
-    return
-  }
-
-  // Una oleada que no ha generado ninguna entidad no puede contarse
-  // como superada. Esto evita avanzar silenciosamente por tablas vacias
-  // o por un fallo de spawning que no lance excepcion.
-  if (!state.waveHadMob) {
-    state.zeroSince = -1
-
-    if (
-      nexusHordeDirectorServerTick >=
-      state.settleAt +
-        NEXUS_HORDE_DIRECTOR_EMPTY_WAVE_WARNING_TICKS
-    ) {
-      if (state.phase === 'finisher') {
-        if (
-          state.finisherAttempts <
-          NEXUS_HORDE_DIRECTOR_MAX_FINISHER_ATTEMPTS
-        ) {
-          console.warn(
-            `[Nexus Horde Director] Manifestacion final sin entidad para ${state.playerId}; ` +
-            `reintento ${state.finisherAttempts + 1}/${NEXUS_HORDE_DIRECTOR_MAX_FINISHER_ATTEMPTS} en ` +
-            `${NEXUS_HORDE_DIRECTOR_FINISHER_RETRY_TICKS} ticks.`
-          )
-
-          state.phase = 'transition'
-          state.finisherStarted = false
-          state.nextWaveAt =
-            nexusHordeDirectorServerTick +
-            NEXUS_HORDE_DIRECTOR_FINISHER_RETRY_TICKS
-        } else {
-          nexusHordeDirectorAbort(
-            state,
-            'la manifestacion final no genero ninguna entidad tras tres intentos'
-          )
-        }
-      } else {
-        nexusHordeDirectorLogErrorOnce(
-          `empty-wave:${state.playerId}:${state.currentWave}`,
-          `Nexus Horde Director: la oleada ${state.currentWave} de ${state.playerId} no ha generado ninguna entidad.`,
-          null
-        )
-      }
-    }
-
-    return
-  }
-
-  if (
-    nexusHordeDirectorServerTick <
-      state.settleAt ||
-    state.alive.size > 0
-  ) {
-    state.zeroSince = -1
-    return
-  }
-
-  if (state.zeroSince < 0) {
-    state.zeroSince =
-      nexusHordeDirectorServerTick
-
-    return
-  }
-
-  if (
-    nexusHordeDirectorServerTick -
-      state.zeroSince <
-    NEXUS_HORDE_DIRECTOR_ZERO_CONFIRM_TICKS
-  ) {
-    return
-  }
-
-  if (state.phase === 'finisher') {
-    nexusHordeDirectorComplete(state)
-    return
-  }
-
-  if (!state.waveClearCommitted) {
-    state.waveClearCommitted = true
-    nexusHordeDirectorPresentWaveCleared(state)
-  }
-
-  state.phase = 'transition'
-
-  state.nextWaveAt =
-    nexusHordeDirectorServerTick +
-    NEXUS_HORDE_DIRECTOR_INTERMISSION_TICKS
+  nexusHordeDirectorRecoverMissing(state, false)
 }
 
-ForgeEvents.onEvent(
-  'net.smileycorp.hordes.common.event.HordeStartEvent',
-  event => {
-    var directorStartPlayer =
-      event.getPlayer()
-
-    var directorStartPlayerId =
-      nexusHordeDirectorPlayerId(
-        directorStartPlayer
-      )
-
-    var directorPreviousState =
-      nexusHordeDirectorStates.get(
-        directorStartPlayerId
-      )
-
-    if (directorPreviousState) {
-      nexusHordeDirectorCleanupState(
-        directorPreviousState
-      )
+ForgeEvents.onEvent('net.smileycorp.hordes.common.event.HordeStartEvent', event => {
+  var context = nexusHordeDirectorContextFor(event)
+  if (!context) return // A manual native Horde is not a Nexus incursion.
+  var player = event.getPlayer()
+  var playerId = nexusHordeDirectorPlayerId(player)
+  if (!nexusHordeDirectorTargetingClass || !nexusHordeDirectorNativeBridgeClass) {
+    var calendar = nexusHordeDirectorCalendar()
+    if (calendar && typeof calendar.abortSession === 'function') {
+      calendar.abortSession(player.getServer(), context.sessionId, playerId, 'director_helpers_unavailable')
     }
-
-    nexusHordeDirectorStates.set(
-      directorStartPlayerId,
-      nexusHordeDirectorCreateState(
-        directorStartPlayer,
-        event.getHorde()
-      )
-    )
-  }
-)
-
-ForgeEvents.onEvent(
-  'net.smileycorp.hordes.common.event.HordeSpawnEntityEvent',
-  event => {
-    var directorSpawnState =
-      nexusHordeDirectorFindStateByHorde(
-        event.getHorde()
-      )
-
-    if (
-      !directorSpawnState ||
-      (
-        directorSpawnState.phase !== 'wave' &&
-        directorSpawnState.phase !== 'finisher'
-      )
-    ) {
-      return
-    }
-
-    var directorSpawnEntity =
-      event.getEntity()
-
-    var directorSpawnEntityId =
-      nexusHordeDirectorEntityId(
-        directorSpawnEntity
-      )
-
-    try {
-      directorSpawnEntity.addTag(
-        directorSpawnState.tag
-      )
-    } catch (error) {
+    try { event.getHorde().stopEvent(player, true) } catch (error) {
       nexusHordeDirectorLogErrorOnce(
-        `tag:${directorSpawnEntityId}:${String(error)}`,
-        `Nexus Horde Director: no se pudo etiquetar ${directorSpawnEntityId}`,
+        `bootstrap-abort:${context.sessionId}:${String(error)}`,
+        `[Nexus Horde Director] session=${String(context.sessionId).slice(0, 12)} native bootstrap abort failed.`,
         error
       )
     }
+    return
+  }
+  var previous = nexusHordeDirectorStates.get(playerId)
+  if (previous
+      && previous.sessionId === String(context.sessionId)
+      && nexusHordeDirectorSameHorde(previous.horde, event.getHorde())) return
+  if (previous) nexusHordeDirectorCleanupState(previous, 'replaced_session')
+  try {
+    var state = nexusHordeDirectorCreateState(player, event.getHorde(), context)
+    nexusHordeDirectorStates.set(playerId, state)
+    nexusHordeDirectorPublish(state, 'start')
+  } catch (error) {
+    var failedCalendar = nexusHordeDirectorCalendar()
+    if (failedCalendar && typeof failedCalendar.abortSession === 'function') {
+      failedCalendar.abortSession(player.getServer(), context.sessionId, playerId, 'director_state_init_failed')
+    }
+    try { event.getHorde().stopEvent(player, true) } catch (ignored) {}
+    nexusHordeDirectorLogErrorOnce(
+      `state-init:${context.sessionId}:${String(error)}`,
+      `[Nexus Horde Director] session=${String(context.sessionId).slice(0, 12)} state initialization failed.`,
+      error
+    )
+  }
+})
 
+ForgeEvents.onEvent('net.smileycorp.hordes.common.event.HordeFindSpawnPosEvent', event => {
+  var state = nexusHordeDirectorFindStateByHorde(event.getHorde())
+  if (!state || !nexusHordeDirectorBlockPosClass) return
+  event.setPos(nexusHordeDirectorBlockPosClass.containing(
+    state.battleCenter.x, state.battleCenter.y, state.battleCenter.z
+  ))
+})
+
+ForgeEvents.onEvent('net.smileycorp.hordes.common.event.HordeSpawnEntityEvent', event => {
+  var state = nexusHordeDirectorFindStateByHorde(event.getHorde())
+  if (!state || (state.phase !== 'wave' && state.phase !== 'finisher')) return
+  var entity = event.getEntity()
+  var entityId = nexusHordeDirectorEntityId(entity)
+  var record = {
+    entity: entity, entityId: entityId, entityType: nexusHordeDirectorEntityType(entity),
+    phase: state.phase, wave: state.currentWave, requestedAt: nexusHordeDirectorServerTick,
+    joined: false, unloadedAt: -1, removalAt: -1, removalReason: 'none'
+  }
+  state.records.set(entityId, record)
+  nexusHordeDirectorEntityOwners.set(entityId, state.nativeOwnerId)
+  try { entity.addTag(state.tag) } catch (ignored) {}
+  nexusHordeDirectorTargetingClass.configure(
+    entity, state.sessionId, state.participantCsv, state.battleCenter.dimensionId,
+    state.battleCenter.x, state.battleCenter.y, state.battleCenter.z,
+    NEXUS_HORDE_DIRECTOR_BATTLE_RADIUS_SQR, state.assignmentCounter++
+  )
+  nexusHordeDirectorLifecycle(state, record, 'spawn_requested', '')
+})
+
+ForgeEvents.onEvent('net.minecraftforge.event.entity.EntityJoinLevelEvent', event => {
+  var entity = event.getEntity()
+  var entityId = nexusHordeDirectorEntityId(entity)
+  var ownerId = nexusHordeDirectorEntityOwners.get(entityId)
+  if (ownerId) {
+    var state = nexusHordeDirectorStates.get(ownerId)
+    var record = state ? state.records.get(entityId) : null
+    if (state && record) {
+      record.entity = entity
+      var rejoin = record.joined
+      record.joined = true
+      record.unloadedAt = -1
+      record.removalAt = -1
+      nexusHordeDirectorLifecycle(state, record, rejoin ? 'level_rejoined' : 'level_added', '')
+      nexusHordeDirectorRecalculateReplacementNeed(state)
+      nexusHordeDirectorPublish(state, rejoin ? 'rejoin' : 'spawn_added')
+      return
+    }
+    nexusHordeDirectorEntityOwners.delete(entityId)
+  }
+  // An entity from an already replaced slot may rejoin while the session is active.
+  nexusHordeDirectorStates.forEach(state => {
     try {
-      if (nexusHordeDirectorTargetingClass) {
-        nexusHordeDirectorTargetingClass.configure(
-          directorSpawnEntity,
-          directorSpawnState.participantCsv
-        )
+      var data = entity.getPersistentData()
+      if (String(data.getString('nexusHordeSession')) === state.sessionId) {
+        try { entity.removeTag(state.tag) } catch (ignored) {}
+        nexusHordeDirectorNativeBridgeClass.cleanupNativeMob(entity, state.sessionId)
+        nexusHordeDirectorTargetingClass.clear(entity)
+        nexusHordeDirectorLifecycle(state, null, 'tracking_cleanup', `reason=orphan_rejoin uuid=${entityId}`)
       }
-    } catch (error) {
+    } catch (ignored) {}
+  })
+  try {
+    var staleSession = String(entity.getPersistentData().getString('nexusHordeSession'))
+    if (staleSession && !nexusHordeDirectorTargetingClass.isSessionActive(staleSession)) {
+      nexusHordeDirectorNativeBridgeClass.cleanupNativeMob(entity, staleSession)
+      nexusHordeDirectorTargetingClass.clear(entity)
+    }
+  } catch (ignored) {}
+})
+
+ForgeEvents.onEvent('net.minecraftforge.event.entity.living.LivingDeathEvent', event => {
+  nexusHordeDirectorHandleConfirmedDeath(event.getEntity(), event.getSource())
+})
+
+ForgeEvents.onEvent('net.minecraftforge.event.entity.EntityLeaveLevelEvent', event => {
+  var entity = event.getEntity()
+  var entityId = nexusHordeDirectorEntityId(entity)
+  var ownerId = nexusHordeDirectorEntityOwners.get(entityId)
+  var state = ownerId ? nexusHordeDirectorStates.get(ownerId) : null
+  var record = state ? state.records.get(entityId) : null
+  if (!record) return
+  var alive = true
+  var reason = 'unknown'
+  try { alive = Boolean(entity.isAlive()) } catch (ignored) {}
+  try { reason = entity.getRemovalReason() ? String(entity.getRemovalReason()) : 'none' } catch (ignored) {}
+  nexusHordeDirectorLifecycle(state, record, 'level_leave', `alive=${alive} removal=${reason}`)
+  try { nexusHordeDirectorTargetingClass.setLocatorGlowing(entity, false) } catch (ignored) {}
+  if (alive && reason === 'none') {
+    record.unloadedAt = nexusHordeDirectorServerTick
+  } else if (reason === 'KILLED') {
+    record.removalAt = nexusHordeDirectorServerTick
+    record.removalReason = reason
+  } else {
+    nexusHordeDirectorUnexpectedRemoval(state, record, reason)
+  }
+})
+
+ForgeEvents.onEvent('net.smileycorp.hordes.common.event.HordeEndEvent', event => {
+  var state = nexusHordeDirectorFindStateByHorde(event.getHorde())
+  if (state) {
+    var validCompletion = !event.wasCommand()
+      && state.completing
+      && state.confirmedKills >= state.requiredKills
+    nexusHordeDirectorCleanupState(state, validCompletion ? 'complete' : 'native_end')
+  }
+})
+
+ForgeEvents.onEvent('net.minecraftforge.event.server.ServerStoppingEvent', event => {
+  var states = []
+  nexusHordeDirectorStates.forEach(state => states.push(state))
+  states.forEach(state => nexusHordeDirectorCleanupState(state, 'server_stopping'))
+  nexusHordeDirectorEntityOwners.clear()
+})
+
+ForgeEvents.onEvent('net.minecraftforge.event.TickEvent$ServerTickEvent', event => {
+  if (String(event.phase) !== 'END') return
+  nexusHordeDirectorServerTick += 1
+  if (nexusHordeDirectorServerTick % NEXUS_HORDE_DIRECTOR_UPDATE_INTERVAL !== 0) return
+  var states = []
+  nexusHordeDirectorStates.forEach(state => states.push(state))
+  states.forEach(state => {
+    try { nexusHordeDirectorTickState(state) }
+    catch (error) {
       nexusHordeDirectorLogErrorOnce(
-        `targeting:${directorSpawnEntityId}:${String(error)}`,
-        `Nexus Horde Director: no se pudo distribuir el tracking de ${directorSpawnEntityId}`,
-        error
+        `tick:${state.sessionId}:${String(error)}`,
+        `[Nexus Horde Director] session=${state.shortSession} tick failure.`, error
       )
+      nexusHordeDirectorAbort(state, 'director_tick_failure')
     }
-
-    var directorSpawnRecord = {
-      entity: directorSpawnEntity,
-      entityId: directorSpawnEntityId,
-      entityType:
-        nexusHordeDirectorEntityType(
-          directorSpawnEntity
-        ),
-      phase: directorSpawnState.phase,
-      wave: directorSpawnState.currentWave,
-      unloadedAt: -1,
-      unloadTimeoutLogged: false,
-      addedToLevel: false,
-      joined:
-        directorSpawnState.phase !==
-        'finisher'
-    }
-
-    directorSpawnState.alive.set(
-      directorSpawnEntityId,
-      directorSpawnRecord
-    )
-
-    nexusHordeDirectorEntityOwners.set(
-      directorSpawnEntityId,
-      directorSpawnState.playerId
-    )
-
-    nexusHordeDirectorLifecycle(
-      directorSpawnState,
-      directorSpawnRecord,
-      'spawn_requested',
-      ''
-    )
-
-    if (
-      directorSpawnState.phase !==
-      'finisher'
-    ) {
-      directorSpawnState.waveHadMob = true
-    }
-    directorSpawnState.zeroSince = -1
-  }
-)
-
-ForgeEvents.onEvent(
-  'net.minecraftforge.event.entity.living.LivingDeathEvent',
-  event => {
-    nexusHordeDirectorRemoveTrackedEntity(
-      event.getEntity(),
-      'death',
-      nexusHordeDirectorDamageDetails(
-        event.getSource()
-      )
-    )
-  }
-)
-
-ForgeEvents.onEvent(
-  'net.minecraftforge.event.entity.EntityLeaveLevelEvent',
-  event => {
-    var directorLeavingEntity =
-      event.getEntity()
-
-    var directorLeavingEntityId =
-      nexusHordeDirectorEntityId(
-        directorLeavingEntity
-      )
-
-    var directorOwnerId =
-      nexusHordeDirectorEntityOwners.get(
-        directorLeavingEntityId
-      )
-
-    if (!directorOwnerId) return
-
-    var directorLeavingState =
-      nexusHordeDirectorStates.get(
-        directorOwnerId
-      )
-
-    if (!directorLeavingState) {
-      nexusHordeDirectorEntityOwners.delete(
-        directorLeavingEntityId
-      )
-
-      return
-    }
-
-    var directorLeavingRecord =
-      directorLeavingState.alive.get(
-        directorLeavingEntityId
-      )
-
-    if (!directorLeavingRecord) return
-
-    nexusHordeDirectorLifecycle(
-      directorLeavingState,
-      directorLeavingRecord,
-      'level_leave',
-      `alive=${nexusHordeDirectorAliveState(directorLeavingEntity)} ` +
-      `removal=${nexusHordeDirectorRemovalReason(directorLeavingEntity)}`
-    )
-
-    try {
-      if (nexusHordeDirectorTargetingClass) {
-        nexusHordeDirectorTargetingClass.setLocatorGlowing(
-          directorLeavingEntity,
-          false
-        )
-      }
-    } catch (ignored) {
-      // ForgetEntity repetira el cleanup si la entidad no vuelve a cargarse.
-    }
-
-    try {
-      if (!directorLeavingEntity.isAlive()) {
-        if (
-          directorLeavingState.phase ===
-          'finisher'
-        ) {
-          directorLeavingRecord.unloadedAt =
-            nexusHordeDirectorServerTick
-        } else {
-          nexusHordeDirectorForgetEntity(
-            directorLeavingState,
-            directorLeavingEntityId,
-            false
-          )
-        }
-
-        return
-      }
-    } catch (ignored) {
-      // Si no puede consultarse, se trata como descarga
-      // hasta que expire el fallback.
-    }
-
-    directorLeavingRecord.unloadedAt =
-      nexusHordeDirectorServerTick
-  }
-)
-
-ForgeEvents.onEvent(
-  'net.minecraftforge.event.entity.EntityJoinLevelEvent',
-  event => {
-    var directorJoiningEntity =
-      event.getEntity()
-
-    var directorJoiningEntityId =
-      nexusHordeDirectorEntityId(
-        directorJoiningEntity
-      )
-
-    var directorOwnerId =
-      nexusHordeDirectorEntityOwners.get(
-        directorJoiningEntityId
-      )
-
-    if (!directorOwnerId) return
-
-    var directorJoiningState =
-      nexusHordeDirectorStates.get(
-        directorOwnerId
-      )
-
-    if (!directorJoiningState) {
-      nexusHordeDirectorEntityOwners.delete(
-        directorJoiningEntityId
-      )
-
-      return
-    }
-
-    var directorJoiningRecord =
-      directorJoiningState.alive.get(
-        directorJoiningEntityId
-      )
-
-    if (!directorJoiningRecord) return
-
-    directorJoiningRecord.entity =
-      directorJoiningEntity
-
-    var directorJoinEvent =
-      directorJoiningRecord.addedToLevel
-        ? 'level_rejoined'
-        : 'level_added'
-
-    directorJoiningRecord.addedToLevel = true
-    directorJoiningRecord.joined = true
-    directorJoiningRecord.unloadedAt = -1
-    directorJoiningRecord.unloadTimeoutLogged = false
-    directorJoiningState.waveHadMob = true
-    directorJoiningState.zeroSince = -1
-
-    nexusHordeDirectorLifecycle(
-      directorJoiningState,
-      directorJoiningRecord,
-      directorJoinEvent,
-      ''
-    )
-  }
-)
-
-ForgeEvents.onEvent(
-  'net.smileycorp.hordes.common.event.HordeEndEvent',
-  event => {
-    var directorEndState =
-      nexusHordeDirectorFindStateByHorde(
-        event.getHorde()
-      )
-
-    if (directorEndState) {
-      nexusHordeDirectorCleanupState(
-        directorEndState
-      )
-    }
-  }
-)
-
-ForgeEvents.onEvent(
-  'net.minecraftforge.event.entity.player.PlayerEvent$PlayerLoggedOutEvent',
-  event => {
-    var directorLogoutId =
-      nexusHordeDirectorPlayerId(
-        event.getEntity()
-      )
-
-    nexusHordeDirectorStates.forEach(
-      directorLogoutState => {
-        if (
-          nexusHordeDirectorPlayerId(
-            directorLogoutState.player
-          ) === directorLogoutId
-        ) {
-          directorLogoutState.paused = true
-        }
-      }
-    )
-  }
-)
-
-ForgeEvents.onEvent(
-  'net.minecraftforge.event.entity.player.PlayerEvent$PlayerLoggedInEvent',
-  event => {
-    var directorLoginPlayer =
-      event.getEntity()
-
-    var directorLoginId =
-      nexusHordeDirectorPlayerId(
-        directorLoginPlayer
-      )
-
-    nexusHordeDirectorStates.forEach(
-      directorLoginState => {
-        if (
-          directorLoginState.participantIds.includes(
-            directorLoginId
-          )
-        ) {
-          nexusHordeDirectorEnsureTechnicalPlayer(
-            directorLoginState
-          )
-        }
-      }
-    )
-  }
-)
-
-ForgeEvents.onEvent(
-  'net.minecraftforge.event.server.ServerStoppingEvent',
-  event => {
-    var directorStoppingStates = []
-
-    nexusHordeDirectorStates.forEach(
-      directorState => {
-        directorStoppingStates.push(
-          directorState
-        )
-      }
-    )
-
-    directorStoppingStates.forEach(
-      directorState => {
-        nexusHordeDirectorCleanupState(
-          directorState
-        )
-      }
-    )
-
-    nexusHordeDirectorStates.clear()
-    nexusHordeDirectorEntityOwners.clear()
-  }
-)
-
-ForgeEvents.onEvent(
-  'net.minecraftforge.event.TickEvent$ServerTickEvent',
-  event => {
-    if (String(event.phase) !== 'END') return
-
-    nexusHordeDirectorServerTick += 1
-
-    if (
-      nexusHordeDirectorServerTick %
-        NEXUS_HORDE_DIRECTOR_UPDATE_INTERVAL !==
-      0
-    ) {
-      return
-    }
-
-    nexusHordeDirectorStates.forEach(
-      directorState => {
-        try {
-          nexusHordeDirectorTickState(
-            directorState
-          )
-        } catch (error) {
-          nexusHordeDirectorLogErrorOnce(
-            `tick:${directorState.playerId}:${String(error)}`,
-            `Nexus Horde Director: fallo al actualizar ${directorState.playerId}`,
-            error
-          )
-        }
-      }
-    )
-  }
-)
+  })
+})
 
 if (typeof global !== 'undefined') {
   global.NexusHordeDirector = {
-    cancelForPlayer:
-      nexusHordeDirectorCancelForPlayer
+    cancelForPlayer: nexusHordeDirectorCancelForPlayer,
+    snapshotForPlayer: player => {
+      var state = player ? nexusHordeDirectorStates.get(nexusHordeDirectorPlayerId(player)) : null
+      return state ? nexusHordeDirectorSnapshot(state) : null
+    }
   }
 }

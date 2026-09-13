@@ -8,6 +8,8 @@ const root = path.resolve(__dirname, '..');
 const script = fs.readFileSync(path.join(root, 'kubejs/server_scripts/nexus_era_calendar.js'), 'utf8');
 const directorScript = fs.readFileSync(path.join(root, 'kubejs/startup_scripts/nexus_horde_director.js'), 'utf8');
 const presentationScript = fs.readFileSync(path.join(root, 'kubejs/startup_scripts/nexus_horde_presentation.js'), 'utf8');
+const calendarBridgeScript = fs.readFileSync(path.join(root,
+  'kubejs/startup_scripts/nexus_era_calendar_forge_bridge.js'), 'utf8');
 const reentryScript = fs.readFileSync(path.join(root, 'kubejs/startup_scripts/nexus_horde_reentry_guard.js'), 'utf8');
 const hordesConfig = fs.readFileSync(path.join(root, 'config/hordes-common.toml'), 'utf8');
 const hordeNativeBridgeSource = fs.readFileSync(path.join(root,
@@ -343,6 +345,8 @@ test('threat day is frozen, survives time rollback and resets only in production
 
   const anchor = {
     uuid: '123e4567-e89b-12d3-a456-426614174000',
+    level: f.level,
+    getX: () => 0, getY: () => 64, getZ: () => 0,
     getGameProfile: () => ({ getName: () => 'Anchor' }),
   };
   const second = { uuid: '123e4567-e89b-12d3-a456-426614174001' };
@@ -375,7 +379,7 @@ test('threat day is frozen, survives time rollback and resets only in production
   assert.equal(f.data.getInt('nexusMaxHordeThreatDay'), -1);
 });
 
-test('completion, replacement-player end and command cancellation preserve reward semantics', () => {
+test('completion requires exact owner, exact Horde and an authorized session', () => {
   const completed = fixture({ nexusEra: 3 });
   const makePlayer = (uuid, name) => ({
     uuid,
@@ -385,21 +389,41 @@ test('completion, replacement-player end and command cancellation preserve rewar
     isAlive: () => true,
     isCreative: () => false,
     isSpectator: () => false,
+    getX: () => 0, getY: () => 64, getZ: () => 0,
     distanceToSqr: () => 0,
     tell: () => {},
   });
   const anchor = makePlayer('123e4567-e89b-12d3-a456-426614174010', 'Anchor');
   const replacement = makePlayer('123e4567-e89b-12d3-a456-426614174011', 'Replacement');
-  const horde = { equals: other => other === horde };
+  const horde = {
+    equals: other => other === horde,
+    getSpawnTable: () => ({ getName: () => 'nexus:era3_chaos' }),
+  };
   completed.server.players = [anchor, replacement];
   Object.assign(completed.context, { anchor, replacement, horde });
   completed.run(`nexusEraClaimGlobalHorde(data, anchor, 100, [anchor, replacement],
     { table: 'nexus:era3_chaos', name: 'Caos' })`);
+  completed.run(`nexusEraPendingStart = {
+    playerId: String(anchor.uuid), player: anchor, horde: null,
+    eventObserved: false, currentDay: 100, deadlineAtTick: 100
+  }`);
   completed.run(`nexusEraBridgeOnHordeStart({
     getPlayer: () => anchor, getHorde: () => horde
   })`);
   completed.run(`nexusEraBridgeOnHordeEnd({
     getPlayer: () => replacement, getHorde: () => horde, wasCommand: () => false
+  })`);
+  assert.equal(completed.data.getBoolean('nexusHordeActive'), true,
+    'replacement player completed the native owner session');
+  assert.equal(completed.run('nexusEraCompleteHorde(anchor)'), false,
+    'unguarded completion command bypassed Director victory');
+  assert.equal(completed.run(`nexusEraAuthorizeCompletion(
+    horde, anchor, data.getString('nexusHordeSessionId'))`), true);
+  assert.equal(completed.run(`nexusEraCompleteHorde(
+    replacement, String(anchor.uuid), data.getString('nexusHordeSessionId'))`), false,
+  'non-owner consumed an authorized completion session');
+  completed.run(`nexusEraBridgeOnHordeEnd({
+    getPlayer: () => anchor, getHorde: () => horde, wasCommand: () => false
   })`);
   assert.equal(completed.data.getBoolean('nexusHordeActive'), false);
   assert.equal(completed.data.getInt('nexusHordeThreatDay'), -1);
@@ -413,20 +437,99 @@ test('completion, replacement-player end and command cancellation preserve rewar
   assert.equal(completed.server.commands.filter(command => command.startsWith('give ')).length,
     rewardCommands.length, 'duplicate HordeEnd rewarded twice');
 
+  const unauthorized = fixture({ nexusEra: 3 });
+  const unauthorizedAnchor = {
+    uuid: '123e4567-e89b-12d3-a456-426614174019',
+    level: unauthorized.level,
+    getServer: () => unauthorized.server,
+    getGameProfile: () => ({ getName: () => 'Unauthorized' }),
+    getX: () => 0, getY: () => 64, getZ: () => 0,
+    distanceToSqr: () => 0,
+    tell: () => {},
+  };
+  const unauthorizedHorde = {
+    equals: other => other === unauthorizedHorde,
+    getSpawnTable: () => ({ getName: () => 'nexus:era3_chaos' }),
+  };
+  unauthorized.server.players = [unauthorizedAnchor];
+  Object.assign(unauthorized.context, { unauthorizedAnchor, unauthorizedHorde });
+  unauthorized.run(`nexusEraClaimGlobalHorde(data, unauthorizedAnchor, 100, [unauthorizedAnchor],
+    { table: 'nexus:era3_chaos', name: 'Caos' })`);
+  unauthorized.run(`nexusEraPendingStart = {
+    playerId: String(unauthorizedAnchor.uuid), player: unauthorizedAnchor, horde: null,
+    eventObserved: false, currentDay: 100, deadlineAtTick: 100
+  }`);
+  unauthorized.run(`nexusEraBridgeOnHordeStart({
+    getPlayer: () => unauthorizedAnchor, getHorde: () => unauthorizedHorde
+  })`);
+  unauthorized.run(`nexusEraBridgeOnHordeEnd({
+    getPlayer: () => unauthorizedAnchor, getHorde: () => unauthorizedHorde,
+    wasCommand: () => false
+  })`);
+  assert.equal(unauthorized.data.getBoolean('nexusHordeActive'), false,
+    'unauthorized native end left the calendar active');
+  assert.equal(unauthorized.data.getInt('nexusLastHordeRewardedCount'), 0);
+  assert.equal(unauthorized.server.commands.some(command => command.startsWith('give ')), false);
+
+  const rewardFailure = fixture({ nexusEra: 3 });
+  const rewardFailureAnchor = {
+    uuid: '123e4567-e89b-12d3-a456-426614174018',
+    level: rewardFailure.level,
+    getServer: () => rewardFailure.server,
+    getGameProfile: () => ({ getName: () => 'RewardFailure' }),
+    getX: () => 0, getY: () => 64, getZ: () => 0,
+    distanceToSqr: () => 0,
+    tell: () => {},
+  };
+  const rewardFailureHorde = {
+    equals: other => other === rewardFailureHorde,
+    getSpawnTable: () => ({ getName: () => 'nexus:era3_chaos' }),
+  };
+  rewardFailure.server.players = [rewardFailureAnchor];
+  Object.assign(rewardFailure.context, { rewardFailureAnchor, rewardFailureHorde });
+  rewardFailure.run(`nexusEraClaimGlobalHorde(data, rewardFailureAnchor, 100, [rewardFailureAnchor],
+    { table: 'nexus:era3_chaos', name: 'Caos' })`);
+  rewardFailure.run(`nexusEraPendingStart = {
+    playerId: String(rewardFailureAnchor.uuid), player: rewardFailureAnchor, horde: null,
+    eventObserved: false, currentDay: 100, deadlineAtTick: 100
+  }`);
+  rewardFailure.run(`nexusEraBridgeOnHordeStart({
+    getPlayer: () => rewardFailureAnchor, getHorde: () => rewardFailureHorde
+  })`);
+  rewardFailure.run(`nexusEraAuthorizeCompletion(
+    rewardFailureHorde, rewardFailureAnchor, data.getString('nexusHordeSessionId'))`);
+  rewardFailure.server.runCommandSilent = command => {
+    if (command.startsWith('give ')) throw new Error('simulated reward failure');
+    return 1;
+  };
+  assert.equal(rewardFailure.run(`nexusEraCompleteHorde(
+    rewardFailureAnchor, String(rewardFailureAnchor.uuid), data.getString('nexusHordeSessionId'))`), true);
+  assert.equal(rewardFailure.data.getBoolean('nexusHordeActive'), false,
+    'reward delivery exception left the calendar active');
+  assert.notEqual(rewardFailure.data.getString('nexusHordeRewardCommittedSession'), '');
+
   const cancelled = fixture({ nexusEra: 3 });
   const cancelledAnchor = {
     uuid: '123e4567-e89b-12d3-a456-426614174020',
     level: cancelled.level,
     getServer: () => cancelled.server,
     getGameProfile: () => ({ getName: () => 'Cancelled' }),
+    getX: () => 0, getY: () => 64, getZ: () => 0,
     distanceToSqr: () => 0,
     tell: () => {},
   };
-  const cancelledHorde = { equals: other => other === cancelledHorde };
+  const cancelledHorde = {
+    equals: other => other === cancelledHorde,
+    getSpawnTable: () => ({ getName: () => 'nexus:era3_chaos' }),
+  };
   cancelled.server.players = [cancelledAnchor];
   Object.assign(cancelled.context, { cancelledAnchor, cancelledHorde });
   cancelled.run(`nexusEraClaimGlobalHorde(data, cancelledAnchor, 100, [cancelledAnchor],
     { table: 'nexus:era3_chaos', name: 'Caos' })`);
+  cancelled.run(`nexusEraPendingStart = {
+    playerId: String(cancelledAnchor.uuid), player: cancelledAnchor, horde: null,
+    eventObserved: false, currentDay: 100, deadlineAtTick: 100
+  }`);
   cancelled.run(`nexusEraBridgeOnHordeStart({
     getPlayer: () => cancelledAnchor, getHorde: () => cancelledHorde
   })`);
@@ -438,6 +541,39 @@ test('completion, replacement-player end and command cancellation preserve rewar
   assert.equal(cancelled.data.getInt('nexusMaxHordeThreatDay'), 100);
   assert.equal(cancelled.data.getInt('nexusLastHordeRewardedCount'), 0);
   assert.equal(cancelled.server.commands.some(command => command.startsWith('give ')), false);
+});
+
+test('manual native Horde is never correlated as a Nexus session', () => {
+  const f = fixture({ nexusEra: 3 });
+  const player = {
+    uuid: '123e4567-e89b-12d3-a456-426614174030',
+    level: f.level,
+    getServer: () => f.server,
+    getGameProfile: () => ({ getName: () => 'Manual' }),
+    getX: () => 0, getY: () => 64, getZ: () => 0,
+  };
+  const manual = {
+    equals: other => other === manual,
+    getSpawnTable: () => ({ getName: () => 'hordes:default' }),
+  };
+  Object.assign(f.context, { player, manual });
+  f.run(`nexusEraBridgeOnHordeStart({
+    getPlayer: () => player, getHorde: () => manual
+  })`);
+  assert.equal(f.run('nexusEraOwnsHorde(manual, player)'), false);
+  assert.equal(f.data.getBoolean('nexusHordeActive'), false);
+
+  f.run(`nexusEraClaimGlobalHorde(data, player, 100, [player],
+    { table: 'nexus:era3_chaos', name: 'Caos' })`);
+  f.run(`nexusEraPendingStart = {
+    playerId: String(player.uuid), player: player, horde: null,
+    eventObserved: false, currentDay: 100, deadlineAtTick: 100
+  }`);
+  f.run(`nexusEraBridgeOnHordeStart({
+    getPlayer: () => player, getHorde: () => manual
+  })`);
+  assert.equal(f.run('nexusEraOwnsHorde(manual, player)'), false,
+    'wrong native table was appropriated during a Nexus pending window');
 });
 
 test('scheduler and diagnosis remain valid at an arbitrary high world day', () => {
@@ -498,16 +634,30 @@ test('all Nexus Horde tables are cumulative, nonempty and day-zero safe', () => 
   }
 });
 
-test('Director has one capped Nexus amount path and only completes after finisher', () => {
+test('Director uses explicit kill quota, bounded recovery and owner-safe completion', () => {
   assert.match(directorScript, /NEXUS_HORDE_DIRECTOR_TOTAL_WAVES = 4/);
   assert.match(directorScript, /state\.waveAmounts/);
   assert.match(directorScript, /Math\.min\(\s*24,/);
   assert.match(directorScript, /state\.phase === 'finisher'/);
   assert.match(directorScript, /nexusHordeDirectorNativeBridgeClass\.spawnFinisher\(/);
-  assert.equal((directorScript.match(/stopEvent\(state\.player, false\)/g) || []).length, 1);
-  assert.match(directorScript, /state\.horde\.stopEvent\(\s*state\.player,\s*true/);
-  assert.match(directorScript,
-    /if \(state\.phase === 'finisher'\) \{\s*nexusHordeDirectorComplete\(state\)/);
+  assert.match(directorScript, /requiredKills: 0/);
+  assert.match(directorScript, /confirmedKills: 0/);
+  assert.match(directorScript, /state\.confirmedKills = Math\.min\(state\.requiredKills/);
+  assert.equal([...directorScript.matchAll(/state\.confirmedKills = Math\.min/g)].length, 1,
+    'confirmedKills has more than one credit path');
+  assert.match(directorScript, /state\.creditedDeaths\.has\(entityId\)/);
+  assert.match(directorScript, /state\.confirmedKills < state\.requiredKills/);
+  assert.match(directorScript, /death_without_credit/);
+  assert.match(directorScript, /state\.paused \|\| nexusHordeDirectorValidParticipants/);
+  assert.doesNotMatch(directorScript, /alive\.size/);
+  assert.match(directorScript, /NEXUS_HORDE_DIRECTOR_MAX_RECOVERY_ATTEMPTS = 12/);
+  assert.match(directorScript, /replacement_attempts_exhausted/);
+  assert.match(directorScript, /spawn_not_added/);
+  assert.match(directorScript, /removed_non_kill/);
+  assert.match(directorScript, /unloaded_timeout/);
+  assert.match(directorScript, /state\.horde\.stopEvent\(owner, false\)/);
+  assert.match(directorScript, /state\.horde\.stopEvent\(owner, true\)/);
+  assert.match(directorScript, /authorizeCompletion\(state\.horde, owner, state\.sessionId\)/);
   assert.match(hordeNativeBridgeSource,
     /finally \{\s*invoke\(\s*setSpawnTableMethod,\s*horde,\s*previousTable/);
   assert.match(hordeNativeBridgeSource,
@@ -518,11 +668,12 @@ test('Director has one capped Nexus amount path and only completes after finishe
   assert.match(hordesConfig, /hordeSpawnMax = 80/);
   assert.doesNotMatch(presentationScript, /La Horda ha sido derrotada\./);
   assert.match(presentationScript, /'EL NEXUS RESISTE'/);
-  assert.match(presentationScript, /prepareFinisher/);
-  assert.match(presentationScript,
-    /OLEADA \$\{state\.currentWave\}\/\$\{state\.totalWaves\}/);
+  assert.match(presentationScript, /snapshot\.remaining/);
+  assert.doesNotMatch(presentationScript, /HordeSpawnEntityEvent|LivingDeathEvent|EntityLeaveLevelEvent/);
+  assert.doesNotMatch(presentationScript, /\.alive/);
+  assert.match(presentationScript, /OLEADA \$\{snapshot\.currentWave\}/);
   assert.match(presentationScript, /ULTIMO PULSO/);
-  assert.match(presentationScript, /AMENAZA \$\{presentationRoman\} · DIA \$\{presentationThreatDay\}/);
+  assert.match(presentationScript, /EN PAUSA · ESPERANDO PARTICIPANTES/);
 });
 
 test('Horde guard, global presentation, targeting and solar marker stay scoped', () => {
@@ -530,13 +681,8 @@ test('Horde guard, global presentation, targeting and solar marker stay scoped',
   assert.match(reentryScript, /nexusHordeReentryEventOwners\.get\(horde\)/);
   assert.match(reentryScript, /HordeEndEvent'[\s\S]*?try \{[\s\S]*?catch \(error\)/);
 
-  const audienceStart = presentationScript.indexOf('function nexusHordePresentationAudience');
-  const spatialStart = presentationScript.indexOf('function nexusHordePresentationSpatialRecipients');
-  const audienceSource = presentationScript.slice(audienceStart, spatialStart);
-  assert.match(audienceSource, /state\.server\.players\.forEach/);
-  assert.doesNotMatch(audienceSource, /participantIds|dimensionId/);
-  assert.match(presentationScript, /nexusHordePresentationSpatialRecipients[\s\S]*?state\.dimensionId/);
-  assert.match(presentationScript, /'HORDA'/);
+  assert.match(presentationScript,
+    /function nexusHordePresentationForEachAudience[\s\S]*?state\.server\.players\.forEach/);
   assert.match(presentationScript, /'MANIFESTACION'/);
   assert.match(presentationScript, /'La grieta se cierra'/);
 
@@ -549,8 +695,17 @@ test('Horde guard, global presentation, targeting and solar marker stay scoped',
   assert.match(hordeTargetingSource, /event\.setCanceled\(true\)/);
   assert.match(hordeTargetingSource, /public static boolean reconcileTarget/);
   assert.match(hordeTargetingSource, /mob\.getTarget\(\) == null/);
-  assert.match(hordeTargetingSource, /!player\.isCreative\(\)/);
-  assert.match(hordeTargetingSource, /!player\.isSpectator\(\)/);
+  assert.match(hordeTargetingSource, /player\.isCreative\(\)/);
+  assert.match(hordeTargetingSource, /player\.isSpectator\(\)/);
+  assert.match(hordeTargetingSource, /isPlayerReviveDowned\(player\)/);
+  assert.match(hordeTargetingSource, /CENTER_DIMENSION_KEY/);
+  assert.match(hordeTargetingSource, /RADIUS_SQR_KEY/);
+  assert.match(hordeTargetingSource, /ACTIVE_SESSIONS/);
+  assert.match(hordeTargetingSource, /onEntityJoin\(EntityJoinLevelEvent event\)/);
+  assert.match(hordeTargetingSource, /HordeNativeBridge\.cleanupNativeMob\(mob, session\)/);
+  assert.match(hordeNativeBridgeSource, /session\.equals\([\s\S]*?HordeTargeting\.SESSION_KEY/);
+  assert.match(hordeNativeBridgeSource, /HORDE_TRACK_GOAL_CLASS\.equals/);
+  assert.match(hordeNativeBridgeSource, /removeModifier\(FOLLOW_RANGE_MODIFIER\)/);
   assert.match(hordeTargetingSource, /public static void setLocatorGlowing/);
   assert.match(hordeTargetingSource, /!mob\.hasGlowingTag\(\)/);
   assert.match(hordeTargetingSource, /setLocatorGlowing\(mob, false\)/);
@@ -558,15 +713,25 @@ test('Horde guard, global presentation, targeting and solar marker stay scoped',
     < hordeTargetingSource.indexOf('new ArrayList<>()'));
   assert.match(directorScript,
     /NEXUS_HORDE_DIRECTOR_TARGET_RECONCILE_TICKS = 20/);
-  assert.match(directorScript,
-    /state\.alive\.forEach[\s\S]*?reconcileTarget/);
-  assert.match(directorScript,
-    /directorLoadedRecords\.length >= 1[\s\S]*?directorLoadedRecords\.length <= 3/);
+  assert.match(directorScript, /state\.records\.forEach[\s\S]*?reconcileTarget/);
+  assert.match(directorScript, /nexusHordeDirectorRemaining\(state\) >= 1[\s\S]*?<= 3/);
+  assert.match(directorScript, /NEXUS_HORDE_DIRECTOR_BATTLE_RADIUS_SQR = 16384/);
+  assert.match(directorScript, /NEXUS_HORDE_DIRECTOR_ABANDON_TICKS = 6000/);
+  assert.match(directorScript, /calendar\.ownsHorde\(event\.getHorde\(\), player\)/);
   assert.match(directorScript, /\[Nexus Horde Lifecycle\]/);
   assert.match(directorScript, /'spawn_requested'/);
   assert.match(directorScript, /'level_added'/);
   assert.match(directorScript, /'death'/);
   assert.match(directorScript, /'level_leave'/);
+  assert.match(directorScript, /'level_rejoined'/);
+  assert.match(directorScript, /'replacement_requested'/);
+  assert.match(script, /nexusHordeSessionId/);
+  assert.match(script, /nexusHordeBattleDimension/);
+  assert.match(script, /nexusEraAuthorizedCompletionSession/);
+  assert.match(script, /NEXUS_ERA_RECOVERY_TIMEOUT_TICKS = 600/);
+  assert.match(calendarBridgeScript, /PlayerSleepInBedEvent/);
+  assert.match(calendarBridgeScript, /OTHER_PROBLEM/);
+  assert.match(calendarBridgeScript, /isHordeActive/);
   assert.match(script, /!player\.isCreative\(\)/);
   assert.match(script, /!player\.isSpectator\(\)/);
   assert.match(sunBurnMixinSource, /method = "isSunBurnTick"/);

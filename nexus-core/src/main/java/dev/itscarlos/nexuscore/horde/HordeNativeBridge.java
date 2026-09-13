@@ -2,11 +2,21 @@ package dev.itscarlos.nexuscore.horde;
 
 import dev.itscarlos.nexuscore.NexusCore;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.GoalSelector;
+import net.minecraft.world.entity.ai.goal.WrappedGoal;
+import net.minecraftforge.common.capabilities.Capability;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Native compatibility bridge between Nexus Horde Director and
@@ -29,16 +39,38 @@ public final class HordeNativeBridge {
     private static final String HORDE_TABLE_LOADER_CLASS =
         "net.smileycorp.hordes.hordeevent.data.HordeTableLoader";
 
+    private static final String HORDE_SAVED_DATA_CLASS =
+        "net.smileycorp.hordes.hordeevent.capability.HordeSavedData";
+
+    private static final String HORDES_CAPABILITIES_CLASS =
+        "net.smileycorp.hordes.common.capability.HordesCapabilities";
+
+    private static final String HORDE_SPAWN_CLASS =
+        "net.smileycorp.hordes.hordeevent.capability.HordeSpawn";
+
+    private static final String HORDE_TRACK_GOAL_CLASS =
+        "net.smileycorp.hordes.common.ai.HordeTrackPlayerGoal";
+
+    private static final UUID FOLLOW_RANGE_MODIFIER = UUID.fromString(
+        "51cfe045-4248-409e-be37-556d67de4b97"
+    );
+
     private static Class<?> hordeEventClass;
     private static Field dayField;
 
     private static Method spawnWaveMethod;
     private static Method getSpawnTableMethod;
     private static Method setSpawnTableMethod;
+    private static Method isActiveMethod;
+    private static Method stopEventMethod;
 
     private static Object tableLoader;
     private static Method getTableMethod;
     private static Method tableGetNameMethod;
+    private static Method savedDataGetDataMethod;
+    private static Method savedDataGetEventMethod;
+    private static Field hordeSpawnCapabilityField;
+    private static Method hordeSpawnSetPlayerUuidMethod;
 
     private static Throwable initializationError;
     private static boolean initialized;
@@ -92,6 +124,19 @@ public final class HordeNativeBridge {
                     hordeTableClass
                 );
 
+            isActiveMethod =
+                hordeEventClass.getMethod(
+                    "isActive",
+                    ServerPlayer.class
+                );
+
+            stopEventMethod =
+                hordeEventClass.getMethod(
+                    "stopEvent",
+                    ServerPlayer.class,
+                    boolean.class
+                );
+
             tableLoader =
                 hordeTableLoaderClass
                     .getField("INSTANCE")
@@ -106,6 +151,36 @@ public final class HordeNativeBridge {
             tableGetNameMethod =
                 hordeTableClass.getMethod(
                     "getName"
+                );
+
+            Class<?> savedDataClass =
+                Class.forName(HORDE_SAVED_DATA_CLASS);
+
+            savedDataGetDataMethod =
+                savedDataClass.getMethod(
+                    "getData",
+                    ServerLevel.class
+                );
+
+            savedDataGetEventMethod =
+                savedDataClass.getMethod(
+                    "getEvent",
+                    ServerPlayer.class
+                );
+
+            Class<?> capabilitiesClass =
+                Class.forName(HORDES_CAPABILITIES_CLASS);
+
+            hordeSpawnCapabilityField =
+                capabilitiesClass.getField("HORDESPAWN");
+
+            Class<?> hordeSpawnClass =
+                Class.forName(HORDE_SPAWN_CLASS);
+
+            hordeSpawnSetPlayerUuidMethod =
+                hordeSpawnClass.getMethod(
+                    "setPlayerUUID",
+                    String.class
                 );
 
             NexusCore.LOGGER.info(
@@ -264,6 +339,167 @@ public final class HordeNativeBridge {
                 }
             }
         );
+    }
+
+    /**
+     * Stops the native event owned by this exact player after restart.
+     * The Hordes stores its saved data in the Overworld.
+     */
+    public static boolean stopActiveEvent(
+        ServerPlayer player
+    ) {
+        requireAvailable();
+
+        if (player == null || player.getServer() == null) {
+            return false;
+        }
+
+        Object savedData = invoke(
+            savedDataGetDataMethod,
+            null,
+            player.getServer().overworld()
+        );
+
+        Object horde = invoke(
+            savedDataGetEventMethod,
+            savedData,
+            player
+        );
+
+        if (horde == null) {
+            return false;
+        }
+
+        Object active = invoke(
+            isActiveMethod,
+            horde,
+            player
+        );
+
+        if (!(active instanceof Boolean) || !((Boolean) active)) {
+            return false;
+        }
+
+        invoke(
+            stopEventMethod,
+            horde,
+            player,
+            true
+        );
+
+        return true;
+    }
+
+    /**
+     * Compensates for The Hordes 1.6.3f stopEvent clearing its entity set
+     * before its native cleanup loop. Only call for a marked Nexus mob.
+     */
+    public static void cleanupNativeMob(
+        Mob mob,
+        String expectedSession
+    ) {
+        requireAvailable();
+
+        String session = expectedSession == null
+            ? ""
+            : expectedSession.trim();
+
+        if (
+            mob == null
+            || session.isEmpty()
+            || !HordeTargeting.isNexusHordeMob(mob)
+            || !session.equals(
+                mob.getPersistentData().getString(
+                    HordeTargeting.SESSION_KEY
+                )
+            )
+        ) {
+            return;
+        }
+
+        try {
+            removeHordeTrackGoals(mob);
+        } catch (RuntimeException error) {
+            NexusCore.LOGGER.error(
+                "Unable to remove native Horde goals from Nexus mob {} (session={}).",
+                mob.getUUID(),
+                session,
+                error
+            );
+        }
+
+        try {
+            Object capabilityObject =
+                hordeSpawnCapabilityField.get(null);
+
+            if (capabilityObject instanceof Capability<?> capability) {
+                mob.getCapability(capability).ifPresent(
+                    hordeSpawn -> invoke(
+                        hordeSpawnSetPlayerUuidMethod,
+                        hordeSpawn,
+                        ""
+                    )
+                );
+            }
+        } catch (IllegalAccessException | RuntimeException error) {
+            NexusCore.LOGGER.error(
+                "Unable to clear HordeSpawn ownership from Nexus mob {} (session={}).",
+                mob.getUUID(),
+                session,
+                error
+            );
+        }
+
+        AttributeInstance followRange =
+            mob.getAttribute(Attributes.FOLLOW_RANGE);
+
+        if (followRange != null) {
+            followRange.removeModifier(FOLLOW_RANGE_MODIFIER);
+        }
+    }
+
+    private static void removeHordeTrackGoals(Mob mob) {
+        List<Field> selectorFields = new ArrayList<>();
+
+        for (Field field : Mob.class.getDeclaredFields()) {
+            if (GoalSelector.class.isAssignableFrom(field.getType())) {
+                field.setAccessible(true);
+                selectorFields.add(field);
+            }
+        }
+
+        for (Field field : selectorFields) {
+            final GoalSelector selector;
+
+            try {
+                selector = (GoalSelector) field.get(mob);
+            } catch (IllegalAccessException error) {
+                throw new IllegalStateException(
+                    "Unable to inspect Horde mob goals.",
+                    error
+                );
+            }
+
+            if (selector == null) {
+                continue;
+            }
+
+            WrappedGoal[] goals = selector
+                .getAvailableGoals()
+                .toArray(WrappedGoal[]::new);
+
+            for (WrappedGoal wrapped : goals) {
+                if (
+                    wrapped != null
+                    && wrapped.getGoal() != null
+                    && HORDE_TRACK_GOAL_CLASS.equals(
+                        wrapped.getGoal().getClass().getName()
+                    )
+                ) {
+                    selector.removeGoal(wrapped.getGoal());
+                }
+            }
+        }
     }
 
     private static void withThreatDay(
