@@ -1646,7 +1646,7 @@ hash = "1e898dcb5184d33d5e98ca550a19d7bf3b453c3fec9541751dff4aefe018ebc3"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_pmmo_cross_progression.js"
-hash = "be6a2f3b891860457b2038669fb618937c5fc6061c83bffd89a50a104c74e037"
+hash = "333f4aa253273fc7f9808b79557cd5ba753498966dbd56f0696741fcf182f3b8"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_scar_blocks.js"

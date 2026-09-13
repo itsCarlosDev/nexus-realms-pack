@@ -101,7 +101,7 @@ EntityEvents.death(event => {
     return
   }
 
-  var nr35Caster = nr35Source.getEntity()
+  var nr35Caster = nr35Source.actual
 
   if (!nr35IsArcanist(nr35Caster)) {
     return
