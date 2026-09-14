@@ -27,7 +27,6 @@ public final class EraRegistry {
         new ResourceLocation("minecraft", "clock"),
         0x8A8A8A,
         1,
-        0,
         List.of()
     );
 
@@ -67,7 +66,6 @@ public final class EraRegistry {
                     new ResourceLocation(json.get("icon").getAsString()),
                     parseColor(json.get("color").getAsString()),
                     json.get("next_era").getAsInt(),
-                    json.get("minimum_day").getAsInt(),
                     Collections.unmodifiableList(features)
                 ));
             }

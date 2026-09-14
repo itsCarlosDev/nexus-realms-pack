@@ -1542,7 +1542,7 @@ hash = "fcc409061d05a62655b9a0c6d6a51637c9702f8eb3c2cf39008801e52b497b5a"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_change.js"
-hash = "0942e31eca736188f273a8eaf2c0017c32831275f56fb45d2395292ca8007faa"
+hash = "4221b34bfda61ecb10cadb6a6f9525d9993ed35a0410ad742e11194bc78f3a6a"
 
 [[files]]
 file = "kubejs/server_scripts/nexus_class_selection.js"
@@ -2389,8 +2389,8 @@ hash = "937c7ae4c8274ee0717546a2ca736099b1640a178b8f06027f62ca310517e413"
 metafile = true
 
 [[files]]
-file = "mods/nexus-core-0.6.40.jar"
-hash = "92f2d0741ae41324cb2039b616ea3db90a067a22f1b64bebe1e1f05e0241762e"
+file = "mods/nexus-core-0.6.48.jar"
+hash = "ebeea83315c1943963dbd9e186ccc6a0e45d7cda36b79bf39e2cae1819c3393c"
 
 [[files]]
 file = "mods/nightfall-invade.pw.toml"

@@ -488,6 +488,104 @@ public final class ClassChangeInventoryHelper {
     }
 
     /**
+     * Inserts a starter-kit stack into the vanilla main inventory and reports
+     * the native mutation result without exposing Rhino to ItemStack remainder
+     * semantics. KubeJS remains responsible for the persistent delivery ledger.
+     */
+    public static OperationResult insertStarterStack(
+        ServerPlayer player,
+        ItemStack requestedStack
+    ) {
+        OperationResult threadCheck = requireServerThread(player);
+        if (!threadCheck.isOk()) {
+            return OperationResult.starterInsertionFailure(
+                threadCheck.getMessage(),
+                requestedStack == null ? 0 : requestedStack.getCount()
+            );
+        }
+
+        if (requestedStack == null || requestedStack.isEmpty()) {
+            return OperationResult.starterInsertionFailure(
+                "starter_stack_invalid",
+                0
+            );
+        }
+
+        int requested = requestedStack.getCount();
+        if (requested <= 0) {
+            return OperationResult.starterInsertionFailure(
+                "starter_stack_count_invalid",
+                Math.max(0, requested)
+            );
+        }
+
+        if (hasExternalMenu(player)) {
+            return OperationResult.starterInsertionFailure(
+                "external_menu_open",
+                requested
+            );
+        }
+
+        ItemStack remainingStack = requestedStack.copy();
+        String reason;
+        try {
+            player.getInventory().add(remainingStack);
+            reason = remainingStack.isEmpty()
+                ? "inserted"
+                : "insufficient_main_inventory_space";
+        } catch (RuntimeException exception) {
+            NexusCore.LOGGER.error(
+                "Unable to insert starter-kit stack for {}",
+                player.getGameProfile().getName(),
+                exception
+            );
+            reason = "starter_inventory_insert_exception";
+        }
+
+        int remaining = Math.max(0, remainingStack.getCount());
+        int inserted = Math.max(0, requested - remaining);
+        if (inserted > 0) {
+            markChanged(player);
+        }
+
+        return OperationResult.starterInsertion(
+            remaining == 0,
+            reason,
+            requested,
+            inserted,
+            remaining
+        );
+    }
+
+    /**
+     * Native exact-stack count used only for one-shot legacy/in-flight ledger
+     * reconciliation. A negative result means the inspection was unavailable.
+     */
+    public static int countMatchingStarterStack(
+        ServerPlayer player,
+        ItemStack desired
+    ) {
+        OperationResult threadCheck = requireServerThread(player);
+        if (
+            !threadCheck.isOk()
+            || desired == null
+            || desired.isEmpty()
+        ) {
+            return -1;
+        }
+
+        int count = 0;
+        Inventory inventory = player.getInventory();
+        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+            ItemStack current = inventory.getItem(slot);
+            if (ItemStack.isSameItemSameTags(current, desired)) {
+                count += current.getCount();
+            }
+        }
+        return count;
+    }
+
+    /**
      * Moves only equipped items that are incompatible with the target class
      * into the vanilla main inventory. The complete move is capacity-
      * checked first; no item is dropped or deleted.
@@ -1281,19 +1379,28 @@ public final class ClassChangeInventoryHelper {
         private final CompoundTag snapshot;
         private final int serializedBytes;
         private final int affectedStacks;
+        private final int requestedItems;
+        private final int insertedItems;
+        private final int remainingItems;
 
         private OperationResult(
             boolean ok,
             String message,
             CompoundTag snapshot,
             int serializedBytes,
-            int affectedStacks
+            int affectedStacks,
+            int requestedItems,
+            int insertedItems,
+            int remainingItems
         ) {
             this.ok = ok;
             this.message = message;
             this.snapshot = snapshot;
             this.serializedBytes = serializedBytes;
             this.affectedStacks = affectedStacks;
+            this.requestedItems = requestedItems;
+            this.insertedItems = insertedItems;
+            this.remainingItems = remainingItems;
         }
 
         public static OperationResult success(
@@ -1313,12 +1420,56 @@ public final class ClassChangeInventoryHelper {
                 "ok",
                 snapshot == null ? null : snapshot.copy(),
                 serializedBytes,
-                affectedStacks
+                affectedStacks,
+                0,
+                0,
+                0
             );
         }
 
         public static OperationResult failure(String message) {
-            return new OperationResult(false, message, null, 0, 0);
+            return new OperationResult(
+                false,
+                message,
+                null,
+                0,
+                0,
+                0,
+                0,
+                0
+            );
+        }
+
+        public static OperationResult starterInsertion(
+            boolean ok,
+            String message,
+            int requestedItems,
+            int insertedItems,
+            int remainingItems
+        ) {
+            return new OperationResult(
+                ok,
+                message,
+                null,
+                0,
+                0,
+                requestedItems,
+                insertedItems,
+                remainingItems
+            );
+        }
+
+        public static OperationResult starterInsertionFailure(
+            String message,
+            int requestedItems
+        ) {
+            return starterInsertion(
+                false,
+                message,
+                requestedItems,
+                0,
+                requestedItems
+            );
         }
 
         public boolean isOk() {
@@ -1339,6 +1490,18 @@ public final class ClassChangeInventoryHelper {
 
         public int getAffectedStacks() {
             return affectedStacks;
+        }
+
+        public int getRequestedItems() {
+            return requestedItems;
+        }
+
+        public int getInsertedItems() {
+            return insertedItems;
+        }
+
+        public int getRemainingItems() {
+            return remainingItems;
         }
     }
 

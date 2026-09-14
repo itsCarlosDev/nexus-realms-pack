@@ -183,44 +183,35 @@ public final class InventoryProgressionPanel {
         drawTwoLineName(graphics, font, era.name(), x + 8, y + 28, innerWidth, FROST_WHITE);
         graphics.fill(x + 8, y + 52, x + width - 8, y + 53, 0xFFB5824C);
 
-        drawLine(
-            graphics,
-            font,
-            state.campaignStarted()
-                ? "Campa\u00F1a: D\u00EDa " + state.campaignDay() + "/" + state.campaignLength()
-                : "Campa\u00F1a: no iniciada",
-            x + 8,
-            y + 60,
-            FROST_WHITE
-        );
-        drawLine(graphics, font, milestoneLabel(state, next), x + 8, y + 73, statusColor(state, next));
-        drawLine(graphics, font, hordeLabel(state), x + 8, y + 86, state.hordeActive() ? 0xFFD91A2A : MUTED_TEXT);
-        graphics.fill(x + 8, y + 100, x + width - 8, y + 101, 0xFF5A4735);
+        drawFittedLine(graphics, font, "Progresión global", x + 8, y + 60, innerWidth, FROST_WHITE);
+        drawFittedLine(graphics, font, milestoneLabel(state, next), x + 8, y + 73, innerWidth, statusColor(state, next));
+        drawFittedLine(graphics, font,
+            "Jugadores: " + state.eligibleOnlinePlayers() + " / " + state.requiredOnlinePlayers(),
+            x + 8, y + 85, innerWidth, FROST_WHITE);
+        drawFittedLine(graphics, font, progressionStatus(state, next), x + 8, y + 97, innerWidth, statusColor(state, next));
+        graphics.fill(x + 8, y + 110, x + width - 8, y + 111, 0xFF5A4735);
 
-        drawLine(graphics, font, "Siguiente:", x + 8, y + 108, MUTED_TEXT);
-        drawTwoLineName(graphics, font, next == null ? "Era completada" : next.name(), x + 8, y + 120, innerWidth, FROST_WHITE);
-        if (next != null) {
-            drawLine(graphics, font, "D\u00EDa m\u00EDnimo: " + next.minimumDay(), x + 8, y + 147, MUTED_TEXT);
-        }
+        drawLine(graphics, font, "Siguiente:", x + 8, y + 118, MUTED_TEXT);
+        drawFittedLine(graphics, font,
+            next == null ? "Era completada" : "Era " + next.roman() + " - " + next.shortName(),
+            x + 8, y + 130, innerWidth, FROST_WHITE);
+        drawFittedLine(graphics, font, hordeLabel(state), x + 8, y + 147,
+            innerWidth - QUEST_SIZE - 4, state.hordeActive() ? 0xFFD91A2A : MUTED_TEXT);
         graphics.disableScissor();
     }
 
     static String progressionStatus(ProgressionState state, EraDefinition next) {
-        if (next == null) return "Progresi\u00F3n global completada";
-        if (state.milestoneCompleted() < next.id()) return "Hito global pendiente de completar";
-        if (!state.campaignStarted()) return "Hito completado \u00B7 espera inicio";
-        if (state.campaignDay() < next.minimumDay()) return "Hito completado \u00B7 espera d\u00EDa " + next.minimumDay();
+        if (next == null) return "Progresión completada";
+        if (state.milestoneCompleted() < next.id()) return "Completa el hito global";
+        if (state.hordeActive()) return "Esperando fin de Horda";
+        if (state.eligibleOnlinePlayers() < state.requiredOnlinePlayers()) return "Esperando jugadores";
         return "Preparado para avanzar";
     }
 
     private static String milestoneLabel(ProgressionState state, EraDefinition next) {
-        if (next == null) return "Hito: completado";
-        if (state.milestoneCompleted() < next.id()) {
-            return state.era() == 0 && next.id() == 1 ? "Hito inicial pendiente" : "Hito: pendiente";
-        }
-        if (!state.campaignStarted()) return "Hito: espera inicio";
-        if (state.campaignDay() < next.minimumDay()) return "Hito: espera d\u00EDa " + next.minimumDay();
-        return "Hito: listo";
+        if (next == null) return "Hitos: completados";
+        return "Hito " + next.roman() + ": "
+            + (state.milestoneCompleted() < next.id() ? "pendiente" : "completado");
     }
 
     private static String hordeLabel(ProgressionState state) {
@@ -231,8 +222,19 @@ public final class InventoryProgressionPanel {
     private static int statusColor(ProgressionState state, EraDefinition next) {
         if (next == null) return 0xFF7EDC91;
         if (state.milestoneCompleted() < next.id()) return MUTED_TEXT;
-        if (!state.campaignStarted()) return 0xFFFFBF00;
-        return state.campaignDay() < next.minimumDay() ? 0xFFFFBF00 : 0xFF7EDC91;
+        return state.hordeActive() || state.eligibleOnlinePlayers() < state.requiredOnlinePlayers()
+            ? 0xFFFFBF00 : 0xFF7EDC91;
+    }
+
+    private static void drawFittedLine(
+        GuiGraphics graphics, Font font, String text, int x, int y, int width, int color
+    ) {
+        float scale = Math.min(1.0F, width / (float) Math.max(1, font.width(text)));
+        graphics.pose().pushPose();
+        graphics.pose().translate(x, y, 0);
+        graphics.pose().scale(scale, scale, 1.0F);
+        drawLine(graphics, font, text, 0, 0, color);
+        graphics.pose().popPose();
     }
 
     private static void drawLine(GuiGraphics graphics, Font font, String text, int x, int y, int color) {

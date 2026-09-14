@@ -1,11 +1,6 @@
 package dev.itscarlos.nexuscore.mixin;
 
 import dev.itscarlos.nexuscore.horde.HordeTargeting;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
@@ -58,72 +53,14 @@ public abstract class HordeTrackPlayerGoalMixin {
     }
 
     private boolean nexuscore$refreshTarget() {
-        String rawIds = entity.getPersistentData().getString(
-            HordeTargeting.PARTICIPANTS_KEY
-        );
-        if (rawIds.isBlank()) {
-            return target != null;
-        }
-
-        MinecraftServer server = entity.getServer();
-        if (server == null) {
-            return target != null;
-        }
-
-        List<ServerPlayer> candidates = new ArrayList<>();
-        for (String value : rawIds.split(",")) {
-            try {
-                ServerPlayer player = server
-                    .getPlayerList()
-                    .getPlayer(UUID.fromString(value.trim()));
-
-                if (
-                    player != null &&
-                    player.isAlive() &&
-                    !player.isSpectator() &&
-                    player.level() == entity.level()
-                ) {
-                    candidates.add(player);
-                }
-            } catch (IllegalArgumentException ignored) {
-                // The calendar parser is authoritative and already filters IDs.
-            }
-        }
-
-        if (candidates.isEmpty()) {
+        ServerPlayer assigned =
+            HordeTargeting.resolveAssignedTarget(entity);
+        if (assigned == null) {
             target = null;
-            entity.getPersistentData().remove(
-                HordeTargeting.ASSIGNED_TARGET_KEY
-            );
             return false;
         }
 
-        candidates.sort(
-            Comparator.comparing(player -> player.getUUID().toString())
-        );
-
-        String assignedId = entity.getPersistentData().getString(
-            HordeTargeting.ASSIGNED_TARGET_KEY
-        );
-
-        for (ServerPlayer candidate : candidates) {
-            if (
-                candidate.getUUID().toString().equals(assignedId) &&
-                target == candidate
-            ) {
-                return true;
-            }
-        }
-
-        ServerPlayer selected = candidates.get(
-            Math.floorMod(entity.getUUID().hashCode(), candidates.size())
-        );
-
-        target = selected;
-        entity.getPersistentData().putString(
-            HordeTargeting.ASSIGNED_TARGET_KEY,
-            selected.getUUID().toString()
-        );
+        target = assigned;
         return true;
     }
 }

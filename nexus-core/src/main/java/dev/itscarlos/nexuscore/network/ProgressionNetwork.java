@@ -14,10 +14,11 @@ import net.minecraftforge.network.simple.SimpleChannel;
 public final class ProgressionNetwork {
 
     /*
-     * Protocol 7 adds the client-only Nexus Market tremor packet.
+     * Protocol 8 replaces campaign fields with the live progression quorum.
+     * Both endpoints must use this wire format; protocol 7 is incompatible.
      * The Epic Fight registry bridge uses its own isolated channel.
      */
-    private static final String PROTOCOL = "7";
+    private static final String PROTOCOL = "8";
 
     private static final SimpleChannel CHANNEL =
         NetworkRegistry.ChannelBuilder
