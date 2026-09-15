@@ -2458,11 +2458,6 @@ hash = "cc335b14ea69222d7aa291f5faf4eeb8d27d1246c22c305a73c7a01f31e98d67"
 metafile = true
 
 [[files]]
-file = "mods/pretty-rain.pw.toml"
-hash = "d9618b2a5b8cfaf6dcaada84e41f68a8774337bab06ef2c0a5032b73e7b0aa8e"
-metafile = true
-
-[[files]]
 file = "mods/prism-lib.pw.toml"
 hash = "2b0772879a1d43e6fc0d892dca4a85d360e813d5cd3907fc2ab42f345b146362"
 metafile = true
