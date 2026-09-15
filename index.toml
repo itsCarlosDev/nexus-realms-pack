@@ -2072,6 +2072,11 @@ hash = "ac2439dc47fd36b582af90724f8f4f671f354ebf0c82e6d25ea164fe2aa8f6eb"
 metafile = true
 
 [[files]]
+file = "mods/eating-animations.pw.toml"
+hash = "d2af3fb86a7107c1ecbf0f0421520b54427aae06227756b9cde5d81a7db63f5c"
+metafile = true
+
+[[files]]
 file = "mods/efn-enhance.pw.toml"
 hash = "aed1841ac5363daef545cf0395698fbb7fd9a8d97627ae1f2fdd41389bb99c82"
 metafile = true
@@ -2094,6 +2099,11 @@ metafile = true
 [[files]]
 file = "mods/enchantment-descriptions.pw.toml"
 hash = "e4c69a3551a4343fc76fb135266aecac0042863693f04d2c58a26c71b6e988d9"
+metafile = true
+
+[[files]]
+file = "mods/enhancedvisuals.pw.toml"
+hash = "940b4cd006ceb9bd136446a15feeeeb4326624c65e246b14c4d095683017cf09"
 metafile = true
 
 [[files]]
@@ -2324,6 +2334,11 @@ metafile = true
 [[files]]
 file = "mods/glitchcore.pw.toml"
 hash = "c46659c3e873e0ca121f5215991ae8bc989132a3fea0c2da9eed0f22a947b2b9"
+metafile = true
+
+[[files]]
+file = "mods/gml.pw.toml"
+hash = "3230a700b8083d1999523c5e77f7c9b14ed106059a8683ca780a06ab801231fb"
 metafile = true
 
 [[files]]
