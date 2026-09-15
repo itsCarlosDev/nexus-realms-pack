@@ -1,0 +1,13 @@
+name = "Entity Player Compat"
+filename = "EPC-2.2.1-1.20.1-forge.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "ac370ea15be82dc332d247a9cd2cda58075748cd"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 8812118
+project-id = 1497436

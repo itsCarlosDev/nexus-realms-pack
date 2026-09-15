@@ -2098,17 +2098,22 @@ metafile = true
 
 [[files]]
 file = "mods/entity-model-features.pw.toml"
-hash = "b6bad0dc31bec26203bced18c111495357a1708404d21c4ce71ead00142aa5ad"
+hash = "b65cd3a633636c10ed9aac657b333b69d83372c9898916363a08382287d22861"
+metafile = true
+
+[[files]]
+file = "mods/entity-player-compat.pw.toml"
+hash = "dddc3bd36f5009b2cf639e5433007f8ba01f3d1830200c01561811e37fc25435"
+metafile = true
+
+[[files]]
+file = "mods/entity-texture-features-fabric.pw.toml"
+hash = "2979e9fc8ec29babca5e9bcfb36bd25288aae98fbc531f273290ff77fdcb4a76"
 metafile = true
 
 [[files]]
 file = "mods/entityculling.pw.toml"
 hash = "fbad2488da791994cbb4a0541e2dd22c536dbe6ca8f7edfdd9af12120e283fd2"
-metafile = true
-
-[[files]]
-file = "mods/entitytexturefeatures.pw.toml"
-hash = "aa2a1abbccb92ccc4ba3a5a70d24edcd1e39a035f15fb9ba49c27f270a5e74e3"
 metafile = true
 
 [[files]]
