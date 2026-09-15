@@ -2347,6 +2347,11 @@ hash = "bb7ab3b1e92dfbf3ecc7e352a8b41f1fc71043e6579a8187915befbfe5c5621f"
 metafile = true
 
 [[files]]
+file = "mods/hud-compass.pw.toml"
+hash = "d64f4dd642fd15b6dc737935e399ff80e9493b1c8aa649145b08a6a95678b9a8"
+metafile = true
+
+[[files]]
 file = "mods/iceberg.pw.toml"
 hash = "5851bef35e786bfcdb837dfc380c4bd22c857434b2997235a551b3a0cf72d158"
 metafile = true
@@ -2756,6 +2761,11 @@ hash = "f49c7302f7a044aae67740fac3a7558ca2f26b3a89a69a3940d516a40e3b75b7"
 metafile = true
 
 [[files]]
+file = "mods/smooth-swapping.pw.toml"
+hash = "2113b5d045fc42100633c0fa4484d2ebf936d547b4c888e15cab92a92e4f8744"
+metafile = true
+
+[[files]]
 file = "mods/sodium-options-api.pw.toml"
 hash = "5240c62752415b5d66d4beffec4fe98c253eba8ebcbb2a5c1097fc3ad3de0b00"
 metafile = true
@@ -3072,6 +3082,11 @@ metafile = true
 [[files]]
 file = "resourcepacks/fresh-animations-emissive.pw.toml"
 hash = "de81d004ae049a08aab49d57db3ed5f5b659bd28b070bce0be4c520527f51b4b"
+metafile = true
+
+[[files]]
+file = "resourcepacks/fresh-animations.pw.toml"
+hash = "6a1556a0e4fcb411b33efafc3382b4abd9a6e671f140dc0d42e9aad2808e24f3"
 metafile = true
 
 [[files]]
